@@ -47,8 +47,11 @@ Usage: npx tsx scripts/storytime/make-word-bank.ts --level <n> --week <n> [--pra
 --dry-run    List each key and its TTS text, print the characters of one take of each key, and write nothing.
 
 The WAV and the mp3 of a key go into content/storytime/words/. The row goes into the manifest of that
-folder. A key that has a row is never made again. A run stops with exit 2 when the faster-whisper venv
-is absent, before the first mmx call.`;
+folder. A key that has a row is never made again. Each mmx call prints a call line before the call. A
+real run ends with "sent: <s>", or with "sent: <s> (run failed)" before the error (Phase 13 decision M6).
+A run stops with exit 2 when the faster-whisper venv is absent, before the first mmx call.
+The flag --kind belongs to make-sentence-clips.ts: this script takes the words of every book, and a
+run with --kind stops with exit 2.`;
 
 /** The mmx model, the voice, and the speed of the bank (K7). */
 const MODEL = 'speech-2.8-hd';
@@ -92,6 +95,8 @@ export interface MakeWordBankOptions {
     practice?: boolean;
     /** Lists each key and its text, and writes nothing. */
     dryRun?: boolean;
+    /** Receives each line of the run at the time that the line is added to `lines` (Phase 13 decision M6). */
+    log?: (line: string) => void;
     /** The voice of one take. The default runs mmx (K7). */
     synthesize?: (text: string, wavFile: string) => void;
     /** The recognized words of each WAV file. The default runs `word-times.py` (K9). */
@@ -321,35 +326,28 @@ interface AcceptedTake {
  * Makes the takes of one key and keeps the take that the heard check passes (K8, K9).
  * @param key The word key.
  * @param text The first text of the key.
- * @param spentBefore The characters that the earlier keys sent.
- * @param options The options of the run.
  * @param synthesize The voice of one take.
  * @param recognize The heard words of one WAV file.
  * @param bankFolder The bank folder, for the take files.
- * @returns The accepted take, and the characters that the takes sent.
- * @throws Error When a call would take the run above the character limit.
+ * @param beforeCall Counts and logs one call before the call is made (Phase 13 decision M6). It
+ * throws when the call would take the run above the character limit.
+ * @returns The accepted take.
  */
 function makeTakes(
     key: string,
     text: string,
-    spentBefore: number,
-    options: MakeWordBankOptions,
     synthesize: (text: string, wavFile: string) => void,
     recognize: (wavFiles: readonly string[]) => string[][],
     bankFolder: string,
-): { accepted: AcceptedTake; spent: number } {
+    beforeCall: (take: number, text: string) => void,
+): AcceptedTake {
     const stem = wordClipStem(key);
-    const maxChars = options.maxChars ?? DEFAULT_MAX_CHARS;
-    let spent = 0;
     let takeText = text;
     let last: AcceptedTake | undefined;
     for (let take = 1; take <= TAKES; take += 1) {
-        if (spentBefore + spent + takeText.length > maxChars) {
-            throw new Error(`word bank: the run would send more than ${maxChars} characters`);
-        }
         const wavFile = path.join(bankFolder, `wa-${stem}.take${take}.wav`);
+        beforeCall(take, takeText);
         synthesize(takeText, wavFile);
-        spent += takeText.length;
         const pcm = parseWav(fs.readFileSync(wavFile));
         const words = recognize([wavFile])[0] ?? [];
         const heard = heardText(words);
@@ -364,11 +362,11 @@ function makeTakes(
             rate: pcm.rate,
         };
         fs.rmSync(wavFile, { force: true });
-        if (verdict.pass && pause <= MAX_PAUSE_S) return { accepted: last, spent };
+        if (verdict.pass && pause <= MAX_PAUSE_S) return last;
         if (key === 'i' && NUMBER_WORDS.has(heard)) takeText = 'eye';
     }
     if (!last) throw new Error(`word bank: no take of ${key}`);
-    return { accepted: { ...last, note: `heard '${last.heard}' in 3 takes` }, spent };
+    return { ...last, note: `heard '${last.heard}' in 3 takes` };
 }
 
 /**
@@ -396,74 +394,100 @@ export async function makeWordBank(options: MakeWordBankOptions): Promise<MakeWo
         wordClipText(key, firstFormOf(week, key) ?? practiceFirstForm(week, key) ?? key),
     ]));
     const oneTake = missing.reduce((sum, key) => sum + (texts.get(key)?.length ?? 0), 0);
-    const lines = missing.map((key) => `${key}\t${texts.get(key) ?? ''}`);
-    lines.push(`chars: ${oneTake}`);
+    const lines: string[] = [];
+    const add = (line: string): void => {
+        lines.push(line);
+        options.log?.(line);
+    };
+    for (const key of missing) add(`${key}\t${texts.get(key) ?? ''}`);
+    add(`chars: ${oneTake}`);
     if (options.dryRun) return { made: [], chars: oneTake, lines };
 
-    const maxChars = options.maxChars ?? DEFAULT_MAX_CHARS;
-    if (oneTake > maxChars) throw new Error(`word bank: the run would send more than ${maxChars} characters`);
-    const python = options.whisperPython ?? process.env.WHISPER_PYTHON ?? DEFAULT_PYTHON;
-    const recognize = options.recognize ?? whisperRecognize(
-        expandHome(python),
-        path.join(path.dirname(fileURLToPath(import.meta.url)), 'word-times.py'),
-    );
-    if (!options.recognize) checkVenv(expandHome(python));
-
-    const practiceMissing = missing.filter((key) => practiceSet.has(key));
-    const bookMissing = missing.filter((key) => !practiceSet.has(key));
-    const weeks = new Map([
-        ...weeksOfKeys(options.contentRoot, options.level, bookMissing),
-        ...practiceWeeksOfKeys(options.contentRoot, options.level, practiceMissing),
-    ]);
-    const synthesize = options.synthesize ?? mmxSynthesize;
-    const made: string[] = [];
+    let calls = 0;
     let chars = 0;
-    let nextN = manifest.items.reduce((top, row) => Math.max(top, row.n), 0) + 1;
-    for (const key of missing) {
-        const text = texts.get(key) ?? key;
-        const { accepted, spent } = makeTakes(key, text, chars, options, synthesize, recognize, options.bankFolder);
-        chars += spent;
-        const stem = wordClipStem(key);
-        const wavFile = path.join(options.bankFolder, `wa-${stem}.wav`);
-        const mp3File = path.join(options.bankFolder, `wa-${stem}.mp3`);
-        const samples = normalizeWordClip(accepted.samples, accepted.rate);
-        fs.writeFileSync(wavFile, writeWav({ rate: accepted.rate, samples }));
-        encodeMp3(wavFile, mp3File);
-        const row: WordBankRow = {
-            n: nextN,
-            id: `wa-${stem}`,
-            word: key,
-            file: `wa-${stem}.wav`,
-            mp3: `wa-${stem}.mp3`,
-            sources: practiceSet.has(key) ? practiceSourcesOf(week, key) : 'book',
-            weeks: weeks.get(key) ?? '',
-            take: accepted.take,
-            len_s: Math.round((samples.length / accepted.rate) * 1000) / 1000,
-            peak_dbfs: PEAK_DBFS,
-            recognized: accepted.heard,
-            note: accepted.note,
-            sha256: fileHash(wavFile),
-        };
-        if (accepted.text !== key) row.text = accepted.text;
-        row.added = options.date;
-        nextN += 1;
-        manifestText = appendBankRows(manifestText, [row]);
-        fs.writeFileSync(manifestFile, manifestText);
-        made.push(row.id);
-        lines.push(`made ${row.id} take ${row.take}${row.note ? ` (${row.note})` : ''}${row.text ? ` text "${row.text}"` : ''}`);
+    try {
+        const maxChars = options.maxChars ?? DEFAULT_MAX_CHARS;
+        if (oneTake > maxChars) throw new Error(`word bank: the run would send more than ${maxChars} characters`);
+        const python = options.whisperPython ?? process.env.WHISPER_PYTHON ?? DEFAULT_PYTHON;
+        const recognize = options.recognize ?? whisperRecognize(
+            expandHome(python),
+            path.join(path.dirname(fileURLToPath(import.meta.url)), 'word-times.py'),
+        );
+        if (!options.recognize) checkVenv(expandHome(python));
+
+        const practiceMissing = missing.filter((key) => practiceSet.has(key));
+        const bookMissing = missing.filter((key) => !practiceSet.has(key));
+        const weeks = new Map([
+            ...weeksOfKeys(options.contentRoot, options.level, bookMissing),
+            ...practiceWeeksOfKeys(options.contentRoot, options.level, practiceMissing),
+        ]);
+        const synthesize = options.synthesize ?? mmxSynthesize;
+        const made: string[] = [];
+        let nextN = manifest.items.reduce((top, row) => Math.max(top, row.n), 0) + 1;
+        for (const key of missing) {
+            const text = texts.get(key) ?? key;
+            const beforeCall = (take: number, takeText: string): void => {
+                if (chars + takeText.length > maxChars) {
+                    throw new Error(`word bank: the run would send more than ${maxChars} characters`);
+                }
+                calls += 1;
+                chars += takeText.length;
+                add(`call ${calls}\t${key}\ttake ${take}\tchars ${takeText.length}\tsent ${chars}`);
+            };
+            const accepted = makeTakes(key, text, synthesize, recognize, options.bankFolder, beforeCall);
+            const stem = wordClipStem(key);
+            const wavFile = path.join(options.bankFolder, `wa-${stem}.wav`);
+            const mp3File = path.join(options.bankFolder, `wa-${stem}.mp3`);
+            const samples = normalizeWordClip(accepted.samples, accepted.rate);
+            fs.writeFileSync(wavFile, writeWav({ rate: accepted.rate, samples }));
+            encodeMp3(wavFile, mp3File);
+            const row: WordBankRow = {
+                n: nextN,
+                id: `wa-${stem}`,
+                word: key,
+                file: `wa-${stem}.wav`,
+                mp3: `wa-${stem}.mp3`,
+                sources: practiceSet.has(key) ? practiceSourcesOf(week, key) : 'book',
+                weeks: weeks.get(key) ?? '',
+                take: accepted.take,
+                len_s: Math.round((samples.length / accepted.rate) * 1000) / 1000,
+                peak_dbfs: PEAK_DBFS,
+                recognized: accepted.heard,
+                note: accepted.note,
+                sha256: fileHash(wavFile),
+            };
+            if (accepted.text !== key) row.text = accepted.text;
+            row.added = options.date;
+            nextN += 1;
+            manifestText = appendBankRows(manifestText, [row]);
+            fs.writeFileSync(manifestFile, manifestText);
+            made.push(row.id);
+            add(`made ${row.id} take ${row.take}${row.note ? ` (${row.note})` : ''}${row.text ? ` text "${row.text}"` : ''}`);
+        }
+        add(`sent: ${chars}`);
+        return { made, chars, lines };
+    } catch (error) {
+        add(`sent: ${chars} (run failed)`);
+        throw error;
     }
-    return { made, chars, lines };
 }
 
 /**
  * Runs the script with the arguments of the command line.
  * @param argv The arguments after the file name.
+ * @param overrides Options that replace the options of the flags, for the tests (the fakes).
  * @returns The exit code: 0 for success, 1 for a data error, 2 for a usage error or an absent venv.
  */
-export async function main(argv: string[]): Promise<number> {
+export async function main(argv: string[], overrides: Partial<MakeWordBankOptions> = {}): Promise<number> {
     if (argv.includes('--help') || argv.includes('-h')) {
         console.log(USAGE);
         return 0;
+    }
+    // The flag --kind belongs to the sentence maker (Phase 13 decision M3): the bank takes the words
+    // of every book, so a run with --kind stops before any read.
+    if (argv.includes('--kind')) {
+        console.error(USAGE);
+        return 2;
     }
     const value = (flag: string): string | undefined => {
         const at = argv.indexOf(flag);
@@ -493,8 +517,9 @@ export async function main(argv: string[]): Promise<number> {
             maxChars,
             dryRun,
             practice,
+            log: console.log,
+            ...overrides,
         });
-        for (const line of result.lines) console.log(line);
         if (!dryRun) console.log(`made: ${result.made.length}`);
         return 0;
     } catch (error) {

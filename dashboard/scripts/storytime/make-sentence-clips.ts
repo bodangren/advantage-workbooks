@@ -12,11 +12,13 @@ import {
     sentenceHeardPasses,
     sentenceLengthBounds,
     type PlannedSentence,
+    type SentenceKind,
 } from '../../lib/storytime/sentence-clips';
 
 /**
- * The sentence clip maker of the Storytime app (Phase 12, spec FR 5, decisions L7, L8, and L11).
- * A run makes one whole-sentence clip for each sentence of each decodable book of one week: one
+ * The sentence clip maker of the Storytime app (Phase 12, spec FR 5, decisions L7, L8, and L11;
+ * Phase 13 adds the kinds, the merge, the skip rule, and the log, decisions M3 to M6). A run makes
+ * one whole-sentence clip for each sentence of each book of the selected kinds of one week: one
  * mmx call for each take, the voice of the book, the speed 1, the heard check, the length check,
  * and the pause check of K7 and L8. A clip is never a cut of a book mp3 and never a read of the
  * clip cache: this script does not open the book audio file. It writes the mp3 clips and the
@@ -27,17 +29,22 @@ import {
  */
 
 /** The usage text of the script. */
-const USAGE = `Makes the sentence clips of one Storytime week (Phase 12, spec FR 5).
+const USAGE = `Makes the sentence clips of one Storytime week (Phase 12, spec FR 5; Phase 13 adds --kind).
 
-Usage: npx tsx scripts/storytime/make-sentence-clips.ts --level <n> --week <n> [--max-chars <n>] [--dry-run]
+Usage: npx tsx scripts/storytime/make-sentence-clips.ts --level <n> --week <n> [--kind <decodable|readalong|all>] [--max-chars <n>] [--dry-run]
 
 --level      The level of the week.
 --week       The week.
+--kind       The book kind of the run: decodable (default), readalong, or all (both kinds).
 --max-chars  The character limit of the run, all takes included (default 2400).
---dry-run    List each sentence, print the characters of one take of each sentence, and write nothing.
+--dry-run    List each sentence that is not done, print the characters of one take of each, and write nothing.
 
-One mp3 clip per sentence of each decodable book goes into
+One mp3 clip per sentence of each book of the kind goes into
 content/storytime/l2/media/w<nn>/sentences/, with the provenance file manifest.json of that folder.
+The run merges its items into the provenance file after each clip. A sentence whose item has the
+same file and text, and whose mp3 has the SHA-256 of the item, is done: the run prints
+"kept<TAB><file>" and makes no call for it. Each mmx call prints a call line before the call. A
+real run ends with "sent: <s>", or with "sent: <s> (run failed)" before the error.
 A run stops with exit 2 when the faster-whisper venv is absent, before the first mmx call.`;
 
 /** The mmx model of the clips (L8). */
@@ -87,6 +94,25 @@ export interface SentenceClipItem {
     sha256: string;
 }
 
+/** The provenance file of the sentence clips of one week (L8, M4). */
+interface SentenceProvenance {
+    /** The voice of the clips. */
+    voice: string;
+    /** The speed of the clips. */
+    speed: number;
+    /** The mmx model of the clips. */
+    model: string;
+    /** The items, sorted by book, then by sentence index. */
+    items: SentenceClipItem[];
+}
+
+/** The book kinds of the flag `--kind` (M3). */
+const KIND_FLAG: Readonly<Record<string, readonly SentenceKind[]>> = {
+    decodable: ['decodable'],
+    readalong: ['readalong'],
+    all: ['decodable', 'readalong'],
+};
+
 /** The options of one run (spec FR 5). */
 export interface MakeSentenceClipsOptions {
     /** The level of the week. */
@@ -95,6 +121,10 @@ export interface MakeSentenceClipsOptions {
     week: number;
     /** The content root that holds the week files. */
     contentRoot: string;
+    /** The book kinds of the run (M3). The default is `['decodable']`, the Phase 12 behavior. */
+    kinds?: readonly SentenceKind[];
+    /** Receives each line of the run at the time that the line is added to `lines` (M6). */
+    log?: (line: string) => void;
     /** The character limit of the run. The default is 2400. */
     maxChars?: number;
     /** Lists each sentence and writes nothing. */
@@ -240,34 +270,28 @@ interface AcceptedSentenceTake {
  * check, and the pause check (L8).
  * @param item The planned sentence.
  * @param voice The voice of the book.
- * @param spentBefore The characters that the earlier sentences sent.
- * @param maxChars The character limit of the run.
  * @param folder The folder of the take files.
  * @param synthesize The voice of one take.
  * @param recognize The heard words of one WAV file.
- * @returns The accepted take and the characters that the takes sent.
- * @throws Error When a call would take the run above the character limit.
+ * @param beforeCall Counts and logs one call before the call is made (M6). It throws when the call
+ * would take the run above the character limit.
+ * @returns The accepted take.
  */
 function makeSentenceTakes(
     item: PlannedSentence,
     voice: string,
-    spentBefore: number,
-    maxChars: number,
     folder: string,
     synthesize: (text: string, wavFile: string, voice: string, speed: number) => void,
     recognize: (wavFiles: readonly string[]) => string[][],
-): { accepted: AcceptedSentenceTake; spent: number } {
+    beforeCall: (take: number) => void,
+): AcceptedSentenceTake {
     const stem = path.basename(item.file, '.mp3');
     const bounds = sentenceLengthBounds(item.text);
-    let spent = 0;
     let last: AcceptedSentenceTake | undefined;
     for (let take = 1; take <= TAKES; take += 1) {
-        if (spentBefore + spent + item.text.length > maxChars) {
-            throw new Error(`sentence clips: the run would send more than ${maxChars} characters`);
-        }
         const wavFile = path.join(folder, `${stem}.take${take}.wav`);
+        beforeCall(take);
         synthesize(item.text, wavFile, voice, SPEED);
-        spent += item.text.length;
         const pcm = parseWav(fs.readFileSync(wavFile));
         const samples = normalizeClip(pcm.samples);
         const lenS = samples.length / RATE;
@@ -279,86 +303,146 @@ function makeSentenceTakes(
         else if (lenS < bounds.min || lenS > bounds.max) note = `length ${lenS.toFixed(3)}s outside ${bounds.min}s..${bounds.max}s`;
         else if (pause > MAX_PAUSE_S) note = `pause ${pause.toFixed(3)}s over ${MAX_PAUSE_S}s`;
         last = { take, heard, note, samples };
-        if (!note) return { accepted: last, spent };
+        if (!note) return last;
     }
     if (!last) throw new Error(`sentence clips: no take of ${item.text}`);
-    return { accepted: { ...last, note: `${last.note} in 3 takes` }, spent };
+    return { ...last, note: `${last.note} in 3 takes` };
 }
 
 /**
- * Makes the sentence clips of one week (spec FR 5, L7, L8, and L11).
- * @param options The level, the week, the content root, and the flags.
+ * Makes the sentence clips of one week (spec FR 5, L7, L8, and L11; Phase 13 decisions M3 to M6).
+ * The run reads the provenance file once and keeps each item that it does not make. A done sentence
+ * (M5) gets the kept line and no call. A real run counts each call before the call, writes the
+ * provenance file after each finished clip, and ends with the line `sent: <s>`. A real run that
+ * throws adds `sent: <s> (run failed)` and throws the same error.
+ * @param options The level, the week, the content root, the kinds, the log, and the flags.
  * @returns The clip paths, the characters sent, and the printed lines.
- * @throws Error When the week is absent, the character limit is too small, or the venv is absent.
+ * @throws Error When the week is absent, the character limit is too small, the provenance header
+ * differs, the venv is absent, or a call or a write fails.
  */
 export async function makeSentenceClips(options: MakeSentenceClipsOptions): Promise<MakeSentenceClipsResult> {
+    const lines: string[] = [];
+    const add = (line: string): void => {
+        lines.push(line);
+        options.log?.(line);
+    };
     const weekFile = path.join(options.contentRoot, `l${options.level}/w${weekDigits(options.week)}.json`);
     const week = JSON.parse(fs.readFileSync(weekFile, 'utf8')) as {
         books?: { kind?: string; audio?: { voice?: string; sentences?: { sentence?: string }[] } }[];
     };
-    const plan = planSentenceClips({ level: options.level, week: options.week, books: week.books ?? [] });
-    const oneTake = plan.reduce((sum, item) => sum + item.text.length, 0);
-    const lines = plan.map((item) => `${item.file}\t${item.text}`);
-    lines.push(`chars: ${oneTake}`);
-    if (options.dryRun) return { made: [], chars: oneTake, lines };
-
-    const maxChars = options.maxChars ?? DEFAULT_MAX_CHARS;
-    if (oneTake > maxChars) throw new Error(`sentence clips: the run would send more than ${maxChars} characters`);
-    const python = options.whisperPython ?? process.env.WHISPER_PYTHON ?? DEFAULT_PYTHON;
-    const recognize = options.recognize ?? whisperRecognize(
-        expandHome(python),
-        path.join(path.dirname(fileURLToPath(import.meta.url)), 'word-times.py'),
-    );
-    if (!options.recognize) checkVenv(expandHome(python));
-
-    const voices = new Map<number, string>();
-    (week.books ?? []).forEach((book, index) => {
-        if (book?.kind === 'decodable') voices.set(index, book.audio?.voice ?? VOICES.female);
-    });
+    const books = week.books ?? [];
+    const plan = planSentenceClips({ level: options.level, week: options.week, books, kinds: options.kinds });
     const folder = path.join(options.contentRoot, `l${options.level}/media/w${weekDigits(options.week)}/sentences`);
-    fs.mkdirSync(folder, { recursive: true });
-    const synthesize = options.synthesize ?? mmxSynthesize;
-    const items: SentenceClipItem[] = [];
-    const made: string[] = [];
-    let chars = 0;
+    const provenanceFile = path.join(folder, 'manifest.json');
+    // The one read of the provenance file (M3, M4): the items of the other kind stay as parsed.
+    const existing = fs.existsSync(provenanceFile)
+        ? JSON.parse(fs.readFileSync(provenanceFile, 'utf8')) as SentenceProvenance
+        : undefined;
+    const byFile = new Map((existing?.items ?? []).map((row) => [row.file, row]));
+    const isDone = (item: PlannedSentence): boolean => {
+        const row = byFile.get(item.file);
+        if (!row || row.text !== item.text) return false;
+        const clip = path.join(options.contentRoot, item.file);
+        return fs.existsSync(clip) && fileHash(clip) === row.sha256;
+    };
+    const todo: PlannedSentence[] = [];
     for (const item of plan) {
-        const voice = voices.get(item.book) ?? VOICES.female;
-        const { accepted, spent } = makeSentenceTakes(item, voice, chars, maxChars, folder, synthesize, recognize);
-        chars += spent;
-        const wavFile = path.join(folder, `${path.basename(item.file, '.mp3')}.wav`);
-        const mp3File = path.join(folder, path.basename(item.file));
-        fs.writeFileSync(wavFile, writeWav({ rate: RATE, samples: accepted.samples }));
-        encodeMp3(wavFile, mp3File);
-        fs.rmSync(wavFile, { force: true });
-        items.push({
-            book: item.book,
-            n: item.n,
-            text: item.text,
-            file: item.file,
-            take: accepted.take,
-            len_s: Math.round((accepted.samples.length / RATE) * 1000) / 1000,
-            peak_dbfs: PEAK_DBFS,
-            recognized: accepted.heard.join(' '),
-            note: accepted.note,
-            sha256: fileHash(mp3File),
-        });
-        made.push(item.file);
-        lines.push(`made ${item.file} take ${accepted.take}${accepted.note ? ` (${accepted.note})` : ''}`);
+        if (isDone(item)) {
+            add(`kept\t${item.file}\n`);
+            continue;
+        }
+        todo.push(item);
+        if (options.dryRun) add(`${item.file}\t${item.text}`);
     }
-    if (items.length) {
-        const voice = voices.get(items[0].book) ?? VOICES.female;
-        const provenance = { voice, speed: SPEED, model: MODEL, items };
-        fs.writeFileSync(path.join(folder, 'manifest.json'), `${JSON.stringify(provenance, null, 1)}\n`);
+    const oneTake = todo.reduce((sum, item) => sum + item.text.length, 0);
+    if (options.dryRun) {
+        add(`chars: ${oneTake}`);
+        return { made: [], chars: oneTake, lines };
     }
-    return { made, chars, lines };
+
+    let calls = 0;
+    let sent = 0;
+    try {
+        const maxChars = options.maxChars ?? DEFAULT_MAX_CHARS;
+        if (oneTake > maxChars) throw new Error(`sentence clips: the run would send more than ${maxChars} characters`);
+        const voiceOf = (book: number): string => books[book]?.audio?.voice ?? VOICES.female;
+        const header = existing
+            ? { voice: existing.voice, speed: existing.speed, model: existing.model }
+            : { voice: plan.length ? voiceOf(plan[0].book) : VOICES.female, speed: SPEED, model: MODEL };
+        if (header.speed !== SPEED || header.model !== MODEL || plan.some((item) => voiceOf(item.book) !== header.voice)) {
+            throw new Error('sentence clips: the provenance file has another voice, speed, or model');
+        }
+        const python = options.whisperPython ?? process.env.WHISPER_PYTHON ?? DEFAULT_PYTHON;
+        const recognize = options.recognize ?? whisperRecognize(
+            expandHome(python),
+            path.join(path.dirname(fileURLToPath(import.meta.url)), 'word-times.py'),
+        );
+        if (!options.recognize) checkVenv(expandHome(python));
+
+        fs.mkdirSync(folder, { recursive: true });
+        const synthesize = options.synthesize ?? mmxSynthesize;
+        let items: SentenceClipItem[] = [...(existing?.items ?? [])];
+        const made: string[] = [];
+        for (const item of todo) {
+            const beforeCall = (take: number): void => {
+                if (sent + item.text.length > maxChars) {
+                    throw new Error(`sentence clips: the run would send more than ${maxChars} characters`);
+                }
+                calls += 1;
+                sent += item.text.length;
+                add(`call ${calls}\t${item.file}\ttake ${take}\tchars ${item.text.length}\tsent ${sent}`);
+            };
+            const accepted = makeSentenceTakes(item, voiceOf(item.book), folder, synthesize, recognize, beforeCall);
+            const wavFile = path.join(folder, `${path.basename(item.file, '.mp3')}.wav`);
+            const mp3File = path.join(folder, path.basename(item.file));
+            fs.writeFileSync(wavFile, writeWav({ rate: RATE, samples: accepted.samples }));
+            encodeMp3(wavFile, mp3File);
+            fs.rmSync(wavFile, { force: true });
+            const row: SentenceClipItem = {
+                book: item.book,
+                n: item.n,
+                text: item.text,
+                file: item.file,
+                take: accepted.take,
+                len_s: Math.round((accepted.samples.length / RATE) * 1000) / 1000,
+                peak_dbfs: PEAK_DBFS,
+                recognized: accepted.heard.join(' '),
+                note: accepted.note,
+                sha256: fileHash(mp3File),
+            };
+            // The merge (M4): a new item replaces the item with the same book and n, and the file is
+            // written after each finished clip.
+            items = [...items.filter((old) => old.book !== row.book || old.n !== row.n), row]
+                .sort((left, right) => left.book - right.book || left.n - right.n);
+            const provenance = { ...(existing ?? header), items };
+            fs.writeFileSync(provenanceFile, `${JSON.stringify(provenance, null, 1)}\n`);
+            made.push(item.file);
+        }
+        add(`sent: ${sent}`);
+        return { made, chars: sent, lines };
+    } catch (error) {
+        add(`sent: ${sent} (run failed)`);
+        throw error;
+    }
+}
+
+/**
+ * The book kinds of a value of the flag `--kind` (M3).
+ * @param value The value, or undefined when the flag is absent.
+ * @returns The kinds, or undefined for a bad value.
+ */
+function kindsOfFlag(value: string | undefined): readonly SentenceKind[] | undefined {
+    const key = value ?? 'decodable';
+    return Object.keys(KIND_FLAG).includes(key) ? KIND_FLAG[key] : undefined;
 }
 
 /**
  * Runs the script with the arguments of the command line.
  * @param argv The arguments after the file name.
+ * @param overrides Options that replace the options of the flags, for the tests (the fakes).
  * @returns The exit code: 0 for success, 1 for a data error, 2 for a usage error or an absent venv.
  */
-export async function main(argv: string[]): Promise<number> {
+export async function main(argv: string[], overrides: Partial<MakeSentenceClipsOptions> = {}): Promise<number> {
     if (argv.includes('--help') || argv.includes('-h')) {
         console.log(USAGE);
         return 0;
@@ -371,10 +455,12 @@ export async function main(argv: string[]): Promise<number> {
     const week = Number(value('--week'));
     const maxCharsText = value('--max-chars');
     const maxChars = maxCharsText === undefined ? DEFAULT_MAX_CHARS : Number(maxCharsText);
+    const kinds = kindsOfFlag(argv.includes('--kind') ? value('--kind') ?? '' : undefined);
     if (
         !Number.isInteger(level) || level < 1 || level > 4
         || !Number.isInteger(week) || week < 1 || week > 99
         || !Number.isInteger(maxChars) || maxChars < 1
+        || !kinds
     ) {
         console.error(USAGE);
         return 2;
@@ -385,10 +471,12 @@ export async function main(argv: string[]): Promise<number> {
             level,
             week,
             contentRoot: STORYTIME_ROOT,
+            kinds,
             maxChars,
             dryRun,
+            log: console.log,
+            ...overrides,
         });
-        for (const line of result.lines) console.log(line);
         if (!dryRun) console.log(`made: ${result.made.length}`);
         return 0;
     } catch (error) {

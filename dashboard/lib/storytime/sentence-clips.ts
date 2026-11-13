@@ -1,10 +1,10 @@
 import { heardMatches, type WordTime } from './book-audio';
 
 /**
- * The sentence clips of the Storytime decodable books (Phase 12, spec FR 2, decisions L7 and L8):
- * the clip path of one sentence, the clip plan of the decodable books of one week, the heard rule
- * and the length rule of one take, and the cut guard that proves a clip is no slice of a longer
- * audio.
+ * The sentence clips of the Storytime books (Phase 12, spec FR 2, decisions L7 and L8; Phase 13
+ * adds the read-along books by opt-in, decisions M2 and M3): the clip path of one sentence, the clip
+ * plan of the books of the selected kinds of one week, the heard rule and the length rule of one
+ * take, and the cut guard that proves a clip is no slice of a longer audio.
  *
  * The module is pure: it reads no file, starts no process, and uses no network. The scripts
  * `scripts/storytime/make-sentence-clips.ts` and `set-sentence-clips.ts` read and write the clip
@@ -14,6 +14,12 @@ import { heardMatches, type WordTime } from './book-audio';
 /** The normalised cross-correlation that marks a cut: 0.98 or more (L8). */
 const CUT_CORRELATION = 0.98;
 
+/** The kind of a book that can hold sentence clips (Phase 13 decision M3). */
+export type SentenceKind = 'decodable' | 'readalong';
+
+/** The kinds of a plan with no `kinds` field: the Phase 12 behavior (M3). */
+const DEFAULT_KINDS: readonly SentenceKind[] = ['decodable'];
+
 /** One sentence of a book as `planSentenceClips` reads it. */
 export interface SentenceLine {
     /** The sentence text. */
@@ -22,7 +28,10 @@ export interface SentenceLine {
 
 /** One book as `planSentenceClips` reads it. */
 export interface SentenceBook {
-    /** `decodable` books get sentence clips; the read-along books get none (L7). */
+    /**
+     * The book kind. A plan holds the books whose kind is in its `kinds`: `decodable` by default
+     * (L7), and `readalong` only by opt-in (Phase 13 decision M3).
+     */
     kind?: string;
     audio?: {
         /** The sentences of the book, in order. */
@@ -61,19 +70,22 @@ export function sentenceClipPath(level: number, week: number, book: number, n: n
 }
 
 /**
- * The clip plan of the decodable books of one week, in the order of the books (L7). The read-along
- * books give nothing.
- * @param input The level, the week, and the books of the week.
- * @returns One entry for each sentence of each decodable book.
+ * The clip plan of the books of the selected kinds of one week, in the order of the books (L7, M3).
+ * With no `kinds`, the plan holds the decodable books only, as in Phase 12. The read-along books
+ * join the plan only by the opt-in `kinds: ['readalong']` or by both kinds.
+ * @param input The level, the week, the books of the week, and the optional book kinds.
+ * @returns One entry for each sentence of each book of a selected kind.
  */
 export function planSentenceClips(input: {
     level: number;
     week: number;
     books: readonly SentenceBook[];
+    kinds?: readonly SentenceKind[];
 }): PlannedSentence[] {
+    const kinds: readonly string[] = input.kinds ?? DEFAULT_KINDS;
     const plan: PlannedSentence[] = [];
     input.books.forEach((book, index) => {
-        if (book?.kind !== 'decodable') return;
+        if (typeof book?.kind !== 'string' || !kinds.includes(book.kind)) return;
         const sentences = book.audio?.sentences ?? [];
         sentences.forEach((line, at) => {
             const text = typeof line?.sentence === 'string' ? line.sentence : '';

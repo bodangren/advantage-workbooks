@@ -6,7 +6,7 @@ import { formatPackageReports } from '../../lib/lesson-package/report';
 import { checkStorytimeWeek, taughtTo } from '../../lib/storytime/checks';
 import { PHONICS_GRAPH_FILE, readLevelWeeks, readPhonemeBank, readPhonicsGraph, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { phonemeAudioFields, phonemeAudioProblems } from '../../lib/storytime/phonemes';
-import { sentenceClipPath } from '../../lib/storytime/sentence-clips';
+import { sentenceClipPath, type SentenceKind } from '../../lib/storytime/sentence-clips';
 import { bookWordKey, practiceWordKeys, wordClipPath, type BookWords } from '../../lib/storytime/word-clips';
 
 const USAGE = `Checks the Storytime week files of a level (track storytime_week_package_20261022).
@@ -23,6 +23,9 @@ const PRACTICE_CLIPS_LABEL = 'The practice word clips named in the package exist
 
 /** The exact label of the `sentence-clips` row (Phase 12 decision L9). */
 const SENTENCE_CLIPS_LABEL = 'The sentence clips named in the package exist and follow the book sentences';
+
+/** The exact label of the `readalong-sentence-clips` row (Phase 13 decision M7). */
+const READALONG_SENTENCE_CLIPS_LABEL = 'The read-along sentence clips named in the package exist and follow the book sentences';
 
 /** The exact label of the `song-lead-in` row (Phase 11 decision K14). */
 const SONG_LEAD_IN_LABEL = 'The song video lead-in is set for each song video';
@@ -275,19 +278,21 @@ export function checkPracticeClips(week: any, contentRoot = STORYTIME_ROOT): { i
 }
 
 /**
- * Checks the sentence clips named by a Storytime week against the book sentences (Phase 12
- * decision L9, spec FR 7). The field `books[i].audio.sentenceClips` of a decodable book must hold
- * one item per sentence, in order, each with the sentence text and the L7 path. A fault is a fail,
- * in this order: `count differs`, `text differs`, `missing`, `bad path`. A decodable book with no
- * field is a warn. A fail wins over a warn. A week with no decodable book gets no row.
+ * The sentence clip rows of one book kind (Phase 12 decision L9; Phase 13 decision M7). The field
+ * `books[i].audio.sentenceClips` of a book of the kind must hold one item per sentence, in order,
+ * each with the sentence text and the L7 path. A fault is a fail, in this order: `count differs`,
+ * `text differs`, `missing`, `bad path`. A book of the kind with no field is a warn. A fail wins
+ * over a warn. The row never reads a book of another kind.
  * @param week The parsed week data.
  * @param contentRoot The root for the paths named by the week.
- * @returns The check row, or undefined when the week has no decodable book.
+ * @param kind The book kind of the row.
+ * @param head The id and the label of the row.
+ * @returns The check row, or undefined when the week has no book of the kind or no meta.
  */
-export function checkSentenceClips(week: any, contentRoot = STORYTIME_ROOT): { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string } | undefined {
+function sentenceClipsRow(week: any, contentRoot: string, kind: SentenceKind, head: { id: string; label: string }): { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string } | undefined {
     const level = Number(week?.meta?.level);
     const weekNumber = Number(week?.meta?.week);
-    const books = (week?.books ?? []).filter((book: any) => book?.kind === 'decodable');
+    const books = (week?.books ?? []).filter((book: any) => book?.kind === kind);
     if (!books.length) return undefined;
     if (!Number.isInteger(level) || !Number.isInteger(weekNumber)) return undefined;
     const countDiffers: string[] = [];
@@ -296,7 +301,7 @@ export function checkSentenceClips(week: any, contentRoot = STORYTIME_ROOT): { i
     const badPath: string[] = [];
     let noClips = false;
     (week?.books ?? []).forEach((book: any, index: number) => {
-        if (book?.kind !== 'decodable') return;
+        if (book?.kind !== kind) return;
         const sentences: { sentence?: string }[] = book?.audio?.sentences ?? [];
         const clips: { sentence?: string; file?: string }[] | undefined = book?.audio?.sentenceClips;
         if (!clips) {
@@ -322,7 +327,6 @@ export function checkSentenceClips(week: any, contentRoot = STORYTIME_ROOT): { i
             if (!fs.existsSync(path.join(contentRoot, expected))) missing.push(expected);
         });
     });
-    const head = { id: 'sentence-clips', label: SENTENCE_CLIPS_LABEL };
     const failParts: string[] = [];
     if (countDiffers.length) failParts.push(`count differs: ${countDiffers.join(', ')}`);
     if (textDiffers.length) failParts.push(`text differs: ${textDiffers.join(', ')}`);
@@ -331,6 +335,30 @@ export function checkSentenceClips(week: any, contentRoot = STORYTIME_ROOT): { i
     if (failParts.length) return { ...head, status: 'fail', detail: failParts.join('; ') };
     if (noClips) return { ...head, status: 'warn', detail: 'no clips' };
     return { ...head, status: 'pass' };
+}
+
+/**
+ * Checks the sentence clips of the decodable books of a Storytime week against the book sentences
+ * (Phase 12 decision L9, spec FR 7). The row reads the decodable books only, so a `sentenceClips`
+ * field on a read-along book is no fault of this row (Phase 13 decision M7, Review A F7).
+ * @param week The parsed week data.
+ * @param contentRoot The root for the paths named by the week.
+ * @returns The check row, or undefined when the week has no decodable book or no meta.
+ */
+export function checkSentenceClips(week: any, contentRoot = STORYTIME_ROOT): { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string } | undefined {
+    return sentenceClipsRow(week, contentRoot, 'decodable', { id: 'sentence-clips', label: SENTENCE_CLIPS_LABEL });
+}
+
+/**
+ * Checks the sentence clips of the read-along books of a Storytime week against the book sentences
+ * (Phase 13 decision M7). The rules, the detail parts, and the statuses are the rules of
+ * `checkSentenceClips`. The row reads the read-along books only.
+ * @param week The parsed week data.
+ * @param contentRoot The root for the paths named by the week.
+ * @returns The check row, or undefined when the week has no read-along book or no meta.
+ */
+export function checkReadAlongSentenceClips(week: any, contentRoot = STORYTIME_ROOT): { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string } | undefined {
+    return sentenceClipsRow(week, contentRoot, 'readalong', { id: 'readalong-sentence-clips', label: READALONG_SENTENCE_CLIPS_LABEL });
 }
 
 /**
@@ -401,6 +429,8 @@ function main(argv: string[]): number {
         if (practiceClips) report.checks.push(practiceClips);
         const sentenceClips = w.week ? checkSentenceClips(w.week) : undefined;
         if (sentenceClips) report.checks.push(sentenceClips);
+        const readAlongSentenceClips = w.week ? checkReadAlongSentenceClips(w.week) : undefined;
+        if (readAlongSentenceClips) report.checks.push(readAlongSentenceClips);
         const songLeadIn = w.week ? checkSongLeadIn(w.week) : undefined;
         if (songLeadIn) report.checks.push(songLeadIn);
         // Daniel's recordings (S22) for every sound of the package; the QR page copy step reads them too.

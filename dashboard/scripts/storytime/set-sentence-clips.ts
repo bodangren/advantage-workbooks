@@ -4,30 +4,40 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { STORYTIME_ROOT } from '../../lib/storytime/files';
 import { StorytimeWeekSchema } from '../../lib/storytime/schema';
-import { planSentenceClips } from '../../lib/storytime/sentence-clips';
+import { planSentenceClips, type SentenceKind } from '../../lib/storytime/sentence-clips';
 
 /**
- * The sentence clip mapper of the Storytime app (Phase 12, spec FR 6, decisions L7 and L17). A run
- * writes the `sentenceClips` array of each decodable book of one week into the week file by a text
- * edit: the array holds one `{ sentence, file }` item per sentence, in the order of
- * `audio.sentences`. Before the first write, the run checks each clip file against the provenance
- * file `sentences/manifest.json` of the week: the file must exist, and its SHA-256 must equal the
- * provenance row. This script never makes audio.
+ * The sentence clip mapper of the Storytime app (Phase 12, spec FR 6, decisions L7 and L17; Phase 13
+ * adds the kinds, decision M3). A run writes the `sentenceClips` array of each book of the selected
+ * kinds of one week into the week file by a text edit: the array holds one `{ sentence, file }` item
+ * per sentence, in the order of `audio.sentences`. Before the first write, the run checks each clip
+ * file of the selected kinds against the provenance file `sentences/manifest.json` of the week: the
+ * file must exist, and its SHA-256 must equal the provenance row. A book of another kind keeps its
+ * block, and the run reads none of its clips. This script never makes audio.
  */
 
 /** The usage text of the script. */
-const USAGE = `Sets the sentence clips of one Storytime week (Phase 12, spec FR 6).
+const USAGE = `Sets the sentence clips of one Storytime week (Phase 12, spec FR 6; Phase 13 adds --kind).
 
-Usage: npx tsx scripts/storytime/set-sentence-clips.ts --level <n> --week <n> [--check]
+Usage: npx tsx scripts/storytime/set-sentence-clips.ts --level <n> --week <n> [--kind <decodable|readalong|all>] [--check]
 
 --level  The level of the week.
 --week   The week.
+--kind   The book kind of the run: decodable (default), readalong, or all (both kinds).
 --check  Prints one line for each sentence clip and writes no file. The exit code is 1 when a
          line is not ok.
 
 A run reads the provenance file content/storytime/l2/media/w<nn>/sentences/manifest.json, checks
-each clip file against its row, and writes the sentenceClips arrays by a text edit. It parses the
-new week text before the first write. A missing file or a differing hash stops the run.`;
+each clip file of the kind against its row, and writes the sentenceClips arrays of the books of the
+kind by a text edit. It parses the new week text before the first write. A missing file or a
+differing hash stops the run.`;
+
+/** The book kinds of the flag `--kind` (Phase 13 decision M3). */
+const KIND_FLAG: Readonly<Record<string, readonly SentenceKind[]>> = {
+    decodable: ['decodable'],
+    readalong: ['readalong'],
+    all: ['decodable', 'readalong'],
+};
 
 /** The options of a run (spec FR 6). */
 export interface SetSentenceClipsOptions {
@@ -35,6 +45,8 @@ export interface SetSentenceClipsOptions {
     weekFile: string;
     /** The content root. */
     contentRoot: string;
+    /** The book kinds of the run (Phase 13 decision M3). The default is `['decodable']`. */
+    kinds?: readonly SentenceKind[];
     /** Prints one line for each clip and writes no file. */
     check?: boolean;
 }
@@ -183,8 +195,10 @@ function parseWeekText(text: string): void {
 }
 
 /**
- * Sets the sentence clips of one week (spec FR 6, L7, L17).
- * @param options The week file, the content root, and the check flag.
+ * Sets the sentence clips of the books of the selected kinds of one week (spec FR 6, L7, L17; Phase
+ * 13 decision M3). A clip of a kind that the run did not select is not read, so a bad clip of that
+ * kind does not stop the run.
+ * @param options The week file, the content root, the book kinds, and the check flag.
  * @returns The printed lines of the run.
  * @throws Error When a clip file is absent or its SHA-256 differs from the provenance row.
  */
@@ -199,7 +213,7 @@ export function setSentenceClips(options: SetSentenceClipsOptions): { lines: str
     if (!Number.isInteger(level) || !Number.isInteger(weekNumber)) {
         throw new Error('sentence clips: the week file has no meta level and week');
     }
-    const plan = planSentenceClips({ level, week: weekNumber, books: week.books ?? [] });
+    const plan = planSentenceClips({ level, week: weekNumber, books: week.books ?? [], kinds: options.kinds });
     const provenanceFile = path.join(
         options.contentRoot,
         `l${level}/media/w${weekDigits(weekNumber)}/sentences/manifest.json`,
@@ -233,7 +247,9 @@ export function setSentenceClips(options: SetSentenceClipsOptions): { lines: str
     // of the week structure leaves the week file byte equal.
     const linesOfText = weekText.split('\n');
     const blocks = audioBlocks(linesOfText);
-    const decodable = (week.books ?? []).map((book, index) => ({ book, index })).filter(({ book }) => book?.kind === 'decodable');
+    const kinds: readonly string[] = options.kinds ?? KIND_FLAG.decodable;
+    const selected = (week.books ?? []).map((book, index) => ({ book, index }))
+        .filter(({ book }) => typeof book?.kind === 'string' && kinds.includes(book.kind));
     if (blocks.length !== (week.books ?? []).length) {
         throw new Error(`sentence clips: the week file has ${blocks.length} audio objects; expected ${(week.books ?? []).length}`);
     }
@@ -244,8 +260,8 @@ export function setSentenceClips(options: SetSentenceClipsOptions): { lines: str
         byBook.set(item.book, list);
     }
     let edited = [...linesOfText];
-    for (let at = decodable.length - 1; at >= 0; at -= 1) {
-        const { index } = decodable[at];
+    for (let at = selected.length - 1; at >= 0; at -= 1) {
+        const { index } = selected[at];
         const block = blocks[index];
         const items = byBook.get(index) ?? [];
         const body = editAudioBlock(edited, block, items);
@@ -273,7 +289,9 @@ export function main(argv: string[]): number {
     };
     const level = Number(value('--level'));
     const week = Number(value('--week'));
-    if (!Number.isInteger(level) || level < 1 || level > 4 || !Number.isInteger(week) || week < 1 || week > 99) {
+    const kindValue = argv.includes('--kind') ? value('--kind') ?? '' : 'decodable';
+    const kinds = Object.keys(KIND_FLAG).includes(kindValue) ? KIND_FLAG[kindValue] : undefined;
+    if (!Number.isInteger(level) || level < 1 || level > 4 || !Number.isInteger(week) || week < 1 || week > 99 || !kinds) {
         console.error(USAGE);
         return 2;
     }
@@ -282,6 +300,7 @@ export function main(argv: string[]): number {
         const result = setSentenceClips({
             weekFile: path.join(STORYTIME_ROOT, `l${level}/w${weekDigits(week)}.json`),
             contentRoot: STORYTIME_ROOT,
+            kinds,
             check,
         });
         for (const line of result.lines) console.log(line);

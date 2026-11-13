@@ -173,8 +173,8 @@ export const BookAudioSchema = z.object({
     /**
      * The whole-sentence clip of each sentence of a decodable book, in the order of `sentences`
      * (Phase 12 decision L7). Each item holds the sentence text and the media path relative to the
-     * content root. The read-along books get no field. The field is optional, so a week before
-     * Phase 12 parses as before.
+     * content root. Every book of kind decodable or readalong can hold the field (Phase 13 decision M2).
+     * The field is optional, so a week before Phase 12 parses as before.
      */
     sentenceClips: z.array(z.object({ sentence: z.string().min(1), file: z.string().min(1) })).optional(),
 });
