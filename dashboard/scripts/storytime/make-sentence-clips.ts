@@ -316,6 +316,7 @@ export async function makeSentenceClips(options: MakeSentenceClipsOptions): Prom
         if (book?.kind === 'decodable') voices.set(index, book.audio?.voice ?? VOICES.female);
     });
     const folder = path.join(options.contentRoot, `l${options.level}/media/w${weekDigits(options.week)}/sentences`);
+    fs.mkdirSync(folder, { recursive: true });
     const synthesize = options.synthesize ?? mmxSynthesize;
     const items: SentenceClipItem[] = [];
     const made: string[] = [];
@@ -324,7 +325,6 @@ export async function makeSentenceClips(options: MakeSentenceClipsOptions): Prom
         const voice = voices.get(item.book) ?? VOICES.female;
         const { accepted, spent } = makeSentenceTakes(item, voice, chars, maxChars, folder, synthesize, recognize);
         chars += spent;
-        fs.mkdirSync(folder, { recursive: true });
         const wavFile = path.join(folder, `${path.basename(item.file, '.mp3')}.wav`);
         const mp3File = path.join(folder, path.basename(item.file));
         fs.writeFileSync(wavFile, writeWav({ rate: RATE, samples: accepted.samples }));
@@ -348,7 +348,6 @@ export async function makeSentenceClips(options: MakeSentenceClipsOptions): Prom
     if (items.length) {
         const voice = voices.get(items[0].book) ?? VOICES.female;
         const provenance = { voice, speed: SPEED, model: MODEL, items };
-        fs.mkdirSync(folder, { recursive: true });
         fs.writeFileSync(path.join(folder, 'manifest.json'), `${JSON.stringify(provenance, null, 1)}\n`);
     }
     return { made, chars, lines };
