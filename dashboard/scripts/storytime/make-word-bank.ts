@@ -13,6 +13,8 @@ import {
     heardPasses,
     heardText,
     normalizeWordClip,
+    openingForms,
+    practiceWordKeys,
     wordClipStem,
     wordClipText,
     type BookWords,
@@ -20,23 +22,27 @@ import {
 } from '../../lib/storytime/word-clips';
 
 /**
- * The word bank maker of the Storytime app (Phase 11, spec FR 3, decisions K5 to K11). A run lists
- * each key of the books of one week that has no bank row. For each such key it makes the takes with
- * mmx, keeps the take that the heard check passes, writes the WAV and the mp3 into the bank, and adds
- * the row to the manifest. The manifest is the single source of every clip: this script never writes
- * a week file and never copies a clip into a week.
+ * The word bank maker of the Storytime app (Phase 11, spec FR 3, decisions K5 to K11; Phase 12
+ * adds the flag `--practice`, decision L6). A run lists each key of the books of one week that has
+ * no bank row. With `--practice`, the keys of a run are the book keys and the practice keys of the
+ * week: the words of the opening game, the family words, and the tricky words. For each such key
+ * it makes the takes with mmx, keeps the take that the heard check passes, writes the WAV and the
+ * mp3 into the bank, and adds the row to the manifest. The manifest is the single source of every
+ * clip: this script never writes a week file and never copies a clip into a week.
  *
  * A run without `--dry-run` starts Chrome no, but it makes paid mmx calls. Each run of the script in
  * a track task goes inside one heavy-run job.
  */
 
 /** The usage text of the script. */
-const USAGE = `Makes the word bank clips of one Storytime week (Phase 11, spec FR 3).
+const USAGE = `Makes the word bank clips of one Storytime week (Phase 11, spec FR 3; Phase 12 adds --practice).
 
-Usage: npx tsx scripts/storytime/make-word-bank.ts --level <n> --week <n> [--max-chars <n>] [--dry-run]
+Usage: npx tsx scripts/storytime/make-word-bank.ts --level <n> --week <n> [--practice] [--max-chars <n>] [--dry-run]
 
 --level      The level of the week.
 --week       The week.
+--practice   Add the practice keys of the week: the opening game words, the family words, and the
+             tricky words (Phase 12 decision L6).
 --max-chars  The character limit of the run, all takes included (default 300).
 --dry-run    List each key and its TTS text, print the characters of one take of each key, and write nothing.
 
@@ -82,6 +88,8 @@ export interface MakeWordBankOptions {
     date: string;
     /** The character limit of the run. The default is 300. */
     maxChars?: number;
+    /** Adds the practice keys of the week: the opening game words, the family words, and the tricky words (L6). */
+    practice?: boolean;
     /** Lists each key and its text, and writes nothing. */
     dryRun?: boolean;
     /** The voice of one take. The default runs mmx (K7). */
@@ -165,6 +173,68 @@ function weeksOfKeys(contentRoot: string, level: number, keys: readonly string[]
         const data = JSON.parse(fs.readFileSync(file, 'utf8')) as { books?: { audio?: BookWords }[] };
         const held = new Set((data.books ?? []).flatMap((book) => bookWordKeys(book.audio ?? {})));
         for (const key of keys) if (held.has(key)) weeks.get(key)?.push(String(week));
+    }
+    return new Map([...weeks].map(([key, list]) => [key, list.join(';')]));
+}
+
+/** The week fields that the practice key rule reads (L6). */
+interface PracticeWeekData {
+    opening?: { pa?: { en: string }[] };
+    focus?: { trickyWords?: string[]; family?: { words?: { word?: string }[] } };
+}
+
+/**
+ * The first written form of a key in the practice lists of a week (L6). The order is the opening
+ * game, the family words, and the tricky words.
+ * @param week The week data.
+ * @param key The word key.
+ * @returns The first written form, or undefined when no practice list of the week gives the key.
+ */
+function practiceFirstForm(week: PracticeWeekData, key: string): string | undefined {
+    for (const form of openingForms(week.opening?.pa ?? [])) {
+        if (bookWordKey(form) === key) return form;
+    }
+    for (const item of week.focus?.family?.words ?? []) {
+        if (typeof item?.word === 'string' && bookWordKey(item.word) === key) return item.word;
+    }
+    for (const word of week.focus?.trickyWords ?? []) {
+        if (typeof word === 'string' && bookWordKey(word) === key) return word;
+    }
+    return undefined;
+}
+
+/**
+ * The practice lists of one week that hold a key (L6): `opening`, `family`, and `tricky`, in this
+ * order.
+ * @param week The week data.
+ * @param key The word key.
+ * @returns The source names, joined by `;`.
+ */
+function practiceSourcesOf(week: PracticeWeekData, key: string): string {
+    const keys = practiceWordKeys(week);
+    const sources: string[] = [];
+    if (keys.opening.includes(key)) sources.push('opening');
+    if (keys.family.includes(key)) sources.push('family');
+    if (keys.tricky.includes(key)) sources.push('tricky');
+    return sources.join(';');
+}
+
+/**
+ * The weeks of one level that hold a key in a practice list (L6).
+ * @param contentRoot The content root.
+ * @param level The level.
+ * @param keys The new practice keys of the run.
+ * @returns The `weeks` value of each key, joined by `;`.
+ */
+function practiceWeeksOfKeys(contentRoot: string, level: number, keys: readonly string[]): Map<string, string> {
+    const weeks = new Map<string, string[]>(keys.map((key) => [key, []]));
+    for (let week = 1; week <= 99; week += 1) {
+        const file = path.join(contentRoot, `l${level}/w${weekDigits(week)}.json`);
+        if (!fs.existsSync(file)) break;
+        const data = JSON.parse(fs.readFileSync(file, 'utf8')) as PracticeWeekData;
+        const held = practiceWordKeys(data);
+        const all = new Set([...held.opening, ...held.family, ...held.tricky]);
+        for (const key of keys) if (all.has(key)) weeks.get(key)?.push(String(week));
     }
     return new Map([...weeks].map(([key, list]) => [key, list.join(';')]));
 }
@@ -302,16 +372,20 @@ function makeTakes(
 }
 
 /**
- * Makes the missing word bank clips of one week (spec FR 3, K5 to K11).
+ * Makes the missing word bank clips of one week (spec FR 3, K5 to K11; Phase 12 adds the practice
+ * keys with the flag `--practice`, decision L6).
  * @param options The level, the week, the bank folder, the date, and the flags.
  * @returns The new row ids, the characters sent, and the printed lines.
  * @throws Error When the week is absent, the character limit is too small, or the venv is absent.
  */
 export async function makeWordBank(options: MakeWordBankOptions): Promise<MakeWordBankResult> {
     const weekFile = path.join(options.contentRoot, `l${options.level}/w${weekDigits(options.week)}.json`);
-    const week = JSON.parse(fs.readFileSync(weekFile, 'utf8')) as { books?: { audio?: BookWords }[] };
+    const week = JSON.parse(fs.readFileSync(weekFile, 'utf8')) as PracticeWeekData & { books?: { audio?: BookWords }[] };
     const audios = (week.books ?? []).map((book) => book.audio ?? {});
-    const keys = [...new Set(audios.flatMap((audio) => bookWordKeys(audio)))].sort();
+    const bookKeys = [...new Set(audios.flatMap((audio) => bookWordKeys(audio)))];
+    const practiceKeys = options.practice ? practiceWordKeys(week) : { opening: [], family: [], tricky: [] };
+    const practiceSet = new Set([...practiceKeys.opening, ...practiceKeys.family, ...practiceKeys.tricky]);
+    const keys = [...new Set([...bookKeys, ...practiceSet])].sort();
     const manifestFile = path.join(options.bankFolder, 'manifest.json');
     let manifestText = fs.readFileSync(manifestFile, 'utf8');
     const manifest = JSON.parse(manifestText) as { items: { n: number; word: string }[] };
@@ -319,7 +393,7 @@ export async function makeWordBank(options: MakeWordBankOptions): Promise<MakeWo
     const missing = keys.filter((key) => !present.has(key));
     const texts = new Map(missing.map((key) => [
         key,
-        wordClipText(key, firstFormOf(week, key) ?? key),
+        wordClipText(key, firstFormOf(week, key) ?? practiceFirstForm(week, key) ?? key),
     ]));
     const oneTake = missing.reduce((sum, key) => sum + (texts.get(key)?.length ?? 0), 0);
     const lines = missing.map((key) => `${key}\t${texts.get(key) ?? ''}`);
@@ -335,7 +409,12 @@ export async function makeWordBank(options: MakeWordBankOptions): Promise<MakeWo
     );
     if (!options.recognize) checkVenv(expandHome(python));
 
-    const weeks = weeksOfKeys(options.contentRoot, options.level, missing);
+    const practiceMissing = missing.filter((key) => practiceSet.has(key));
+    const bookMissing = missing.filter((key) => !practiceSet.has(key));
+    const weeks = new Map([
+        ...weeksOfKeys(options.contentRoot, options.level, bookMissing),
+        ...practiceWeeksOfKeys(options.contentRoot, options.level, practiceMissing),
+    ]);
     const synthesize = options.synthesize ?? mmxSynthesize;
     const made: string[] = [];
     let chars = 0;
@@ -356,7 +435,7 @@ export async function makeWordBank(options: MakeWordBankOptions): Promise<MakeWo
             word: key,
             file: `wa-${stem}.wav`,
             mp3: `wa-${stem}.mp3`,
-            sources: 'book',
+            sources: practiceSet.has(key) ? practiceSourcesOf(week, key) : 'book',
             weeks: weeks.get(key) ?? '',
             take: accepted.take,
             len_s: Math.round((samples.length / accepted.rate) * 1000) / 1000,
@@ -403,6 +482,7 @@ export async function main(argv: string[]): Promise<number> {
         return 2;
     }
     const dryRun = argv.includes('--dry-run');
+    const practice = argv.includes('--practice');
     try {
         const result = await makeWordBank({
             level,
@@ -412,6 +492,7 @@ export async function main(argv: string[]): Promise<number> {
             date: new Date().toISOString().slice(0, 10),
             maxChars,
             dryRun,
+            practice,
         });
         for (const line of result.lines) console.log(line);
         if (!dryRun) console.log(`made: ${result.made.length}`);

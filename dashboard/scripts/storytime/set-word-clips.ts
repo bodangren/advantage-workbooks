@@ -5,31 +5,35 @@ import { createHash } from 'node:crypto';
 import { STORYTIME_ROOT } from '../../lib/storytime/files';
 import { StorytimeWeekSchema } from '../../lib/storytime/schema';
 import {
+    planPracticeClips,
     planWordClips,
     wordClipStem,
     type BookWords,
+    type PracticeWeek,
 } from '../../lib/storytime/word-clips';
 
 /**
- * The word clip mapper of the Storytime app (Phase 11, spec FR 4, decisions K2 to K5). A run plans
- * the clip map of each book of one week, checks each key against the word bank, copies each bank mp3
- * into the media folder of the week, removes a stale clip, and writes the two maps of the week file
- * by a text edit. The bank is the single source: this script never makes audio.
+ * The word clip mapper of the Storytime app (Phase 11, spec FR 4, decisions K2 to K5; Phase 12
+ * adds the three practice maps, decisions L3 to L5 and L17). A run plans the clip map of each book
+ * of one week and the clip map of each practice word list: the opening game, the family words,
+ * and the tricky words. It checks each key against the word bank, copies the union of the bank
+ * mp3 files into the media folder of the week, removes a stale clip, and writes the five maps of
+ * the week file by a text edit. The bank is the single source: this script never makes audio.
  */
 
 /** The usage text of the script. */
-const USAGE = `Sets the word clips of one Storytime week (Phase 11, spec FR 4).
+const USAGE = `Sets the word clips of one Storytime week (Phase 11, spec FR 4; Phase 12 adds the practice maps).
 
 Usage: npx tsx scripts/storytime/set-word-clips.ts --level <n> --week <n> [--check]
 
 --level  The level of the week.
 --week   The week.
---check  Prints one line for each key of each book and writes no file. The exit code is 1 when a
+--check  Prints one line for each key of each map and writes no file. The exit code is 1 when a
          line is not ok.
 
 A run copies each bank mp3 of content/storytime/words/ into the media folder of the week, byte for
-byte. It removes each words/wa-*.mp3 file of the week that no key names. It writes the maps by a text
-edit and parses the new week before the first write. A key with no bank row stops the run.`;
+byte. It removes each words/wa-*.mp3 file of the week that no key names. It writes the five maps by
+a text edit and parses the new week before the first write. A key with no bank row stops the run.`;
 
 /** The row of the word bank that this script reads (K6). */
 interface BankRow {
@@ -196,6 +200,78 @@ function editAudioBlock(lines: readonly string[], block: AudioBlock, map: Record
     return [lines[block.start], ...body, ...blockLines, lines[block.end]];
 }
 
+/** The range of one `"name": {` object of the week text. */
+interface ObjectBlock {
+    /** The index of the line that opens the object. */
+    start: number;
+    /** The index of the line that closes the object. */
+    end: number;
+    /** The indent of the opening line. */
+    indent: string;
+}
+
+/**
+ * The range of one object of the week text. The first line of the form `"<name>": {` opens the
+ * object; the first line at the same indent that closes a brace ends it.
+ * @param lines The lines of the week file.
+ * @param name The key of the object.
+ * @returns The range of the object, or undefined when the week text has no such key.
+ */
+function objectBlock(lines: readonly string[], name: string): ObjectBlock | undefined {
+    const openPattern = new RegExp(`^(\\s*)"${name}":\\s*\\{\\s*$`);
+    const start = lines.findIndex((line) => openPattern.test(line));
+    if (start < 0) return undefined;
+    const indent = /^(\s*)/.exec(lines[start])?.[1] ?? '';
+    const close = new RegExp(`^${escapeRegExp(indent)}\\},?$`);
+    let end = start + 1;
+    while (end < lines.length && !close.test(lines[end])) end += 1;
+    if (end >= lines.length) throw new Error(`word clip: the ${name} object has no closing line`);
+    return { start, end, indent };
+}
+
+/**
+ * Writes one practice map into its parent object of the week text (L17). An existing block with
+ * the same key is replaced. Else the block goes after the last key of the object, and the line of
+ * that key gains a comma when it needs one. An empty map leaves the object as it is.
+ * @param lines The lines of the week file.
+ * @param block The range of the parent object.
+ * @param name The key of the block: `wordClips` or `trickyWordClips`.
+ * @param map The clip map, sorted by key.
+ * @returns The lines of the parent object, with the block.
+ */
+function upsertPracticeBlock(lines: readonly string[], block: ObjectBlock, name: string, map: Record<string, string>): string[] {
+    const keyIndent = `${block.indent}  `;
+    const keys = Object.keys(map);
+    if (!keys.length) return [...lines.slice(block.start, block.end + 1)];
+    const body = [...lines.slice(block.start + 1, block.end)];
+    const blockLines = [
+        `${keyIndent}"${name}": {`,
+        ...keys.map((key, index) => `${keyIndent}  ${JSON.stringify(key)}: ${JSON.stringify(map[key])}${index < keys.length - 1 ? ',' : ''}`),
+        `${keyIndent}}`,
+    ];
+    const openPattern = new RegExp(`^${escapeRegExp(keyIndent)}"${name}":\\s*\\{\\s*$`);
+    const open = body.findIndex((line) => openPattern.test(line));
+    if (open >= 0) {
+        const close = body.findIndex((line, index) => index > open && line.trimEnd().startsWith(`${keyIndent}}`));
+        if (close < 0) throw new Error(`word clip: the ${name} block has no closing line`);
+        const comma = body[close].trimEnd().endsWith(',') ? ',' : '';
+        const last = blockLines.length - 1;
+        return [
+            lines[block.start],
+            ...body.slice(0, open),
+            ...blockLines.slice(0, last),
+            `${blockLines[last]}${comma}`,
+            ...body.slice(close + 1),
+            lines[block.end],
+        ];
+    }
+    // The last key of the object ends on the line before the closing brace.
+    const lastValue = body.length - 1;
+    if (lastValue < 0) throw new Error(`word clip: the ${name} object is empty`);
+    if (!body[lastValue].trimEnd().endsWith(',')) body[lastValue] = `${body[lastValue]},`;
+    return [lines[block.start], ...body, ...blockLines, lines[block.end]];
+}
+
 /**
  * Parses a new week text before the first write (FR 4).
  * @param text The new text.
@@ -212,14 +288,15 @@ function parseWeekText(text: string): void {
 }
 
 /**
- * Sets the word clips of one week (spec FR 4, K3 to K5).
+ * Sets the word clips of one week (spec FR 4, K3 to K5; Phase 12 adds the three practice maps,
+ * decisions L3 to L5 and L17).
  * @param options The week file, the content root, the bank folder, and the check flag.
  * @returns The key slots, the distinct files, the removed clips, and the printed lines.
  * @throws Error When a key has no bank row or bank file, or a bank WAV differs from its row.
  */
 export function setWordClips(options: SetWordClipsOptions): SetWordClipsResult {
     const weekText = fs.readFileSync(options.weekFile, 'utf8');
-    const week = JSON.parse(weekText) as {
+    const week = JSON.parse(weekText) as PracticeWeek & {
         meta?: { level?: number; week?: number };
         books?: { audio?: BookWords }[];
     };
@@ -230,27 +307,50 @@ export function setWordClips(options: SetWordClipsOptions): SetWordClipsResult {
     }
     const books = (week.books ?? []).map((book) => book.audio ?? {});
     const plan = planWordClips({ level, week: weekNumber, books: books.map((audio) => ({ audio })) });
+    const practice = planPracticeClips({ level, week: weekNumber, opening: week.opening, focus: week.focus });
     const manifest = JSON.parse(fs.readFileSync(path.join(options.bankFolder, 'manifest.json'), 'utf8')) as { items: BankRow[] };
     const rows = new Map(manifest.items.map((row) => [row.word, row]));
 
+    // Two distinct keys of the week never give one file (K3, L5).
+    const stems = new Map<string, string>();
+    for (const key of [
+        ...plan.maps.flatMap((map) => Object.keys(map)),
+        ...Object.keys(practice.opening),
+        ...Object.keys(practice.family),
+        ...Object.keys(practice.tricky),
+    ]) {
+        const stem = wordClipStem(key);
+        const other = stems.get(stem);
+        if (other !== undefined && other !== key) {
+            throw new Error(`word clip: two keys, one file: ${other}, ${key}`);
+        }
+        stems.set(stem, key);
+    }
+
     // Every key slot is checked before the first write (FR 4).
-    const slots = plan.maps.flatMap((map, book) => Object.keys(map).map((key) => ({ book, key })));
+    const slots = [
+        ...plan.maps.flatMap((map, book) => Object.keys(map).map((key) => ({ where: String(book), key }))),
+        ...Object.keys(practice.opening).map((key) => ({ where: 'opening', key })),
+        ...Object.keys(practice.family).map((key) => ({ where: 'family', key })),
+        ...Object.keys(practice.tricky).map((key) => ({ where: 'tricky', key })),
+    ];
+    const files = [...new Set([...plan.files, ...practice.files])].sort();
     const lines: string[] = [];
     if (options.check) {
         for (const slot of slots) {
             const fault = bankFaultOf(slot.key, rows, options.bankFolder);
-            lines.push([String(slot.book), slot.key, rows.get(slot.key)?.id ?? `wa-${wordClipStem(slot.key)}`, fault].join('\t'));
+            lines.push([slot.where, slot.key, rows.get(slot.key)?.id ?? `wa-${wordClipStem(slot.key)}`, fault].join('\t'));
         }
-        return { keys: slots.length, files: plan.files.length, removed: [], lines };
+        return { keys: slots.length, files: files.length, removed: [], lines };
     }
     for (const slot of slots) {
         const fault = bankFaultOf(slot.key, rows, options.bankFolder);
         if (fault !== 'ok') throw new Error(`word clip: ${slot.key}: ${fault}`);
     }
 
-    // The audio blocks and the dry-edited week text are checked before the first copy, removal, or
-    // write (K4, K5, FR 4, review A F1). A fault of the week structure leaves the media folder and
-    // the week file byte equal.
+    // The object blocks and the dry-edited week text are checked before the first copy, removal,
+    // or write (K4, K5, FR 4, review A F1). A fault of the week structure leaves the media folder
+    // and the week file byte equal.
     const linesOfText = weekText.split('\n');
     const blocks = audioBlocks(linesOfText);
     if (blocks.length !== plan.maps.length) {
@@ -262,12 +362,25 @@ export function setWordClips(options: SetWordClipsOptions): SetWordClipsResult {
         const body = editAudioBlock(edited, block, plan.maps[index]);
         edited = [...edited.slice(0, block.start), ...body.slice(0, -1), ...edited.slice(block.end)];
     }
+    // The three practice maps follow the same rule (L17): each map goes after the last key of its
+    // parent object. The ranges come from the original text: each edit lands below the previous
+    // one, so the positions above stay valid.
+    const practiceBlocks = [
+        { block: objectBlock(linesOfText, 'opening'), name: 'wordClips', map: practice.opening },
+        { block: objectBlock(linesOfText, 'focus'), name: 'trickyWordClips', map: practice.tricky },
+        { block: objectBlock(linesOfText, 'family'), name: 'wordClips', map: practice.family },
+    ].filter((entry) => entry.block !== undefined) as { block: ObjectBlock; name: string; map: Record<string, string> }[];
+    for (const { block, name, map } of practiceBlocks) {
+        if (!Object.keys(map).length) continue;
+        const body = upsertPracticeBlock(edited, block, name, map);
+        edited = [...edited.slice(0, block.start), ...body.slice(0, -1), ...edited.slice(block.end)];
+    }
     const updatedText = edited.join('\n');
     parseWeekText(updatedText);
 
     const wordsFolder = path.join(options.contentRoot, `l${level}/media/w${weekDigits(weekNumber)}/words`);
     const removed: string[] = [];
-    for (const file of plan.files) {
+    for (const file of files) {
         const target = path.join(options.contentRoot, file);
         const bankMp3 = path.join(options.bankFolder, path.basename(file));
         if (fs.existsSync(target) && fileHash(target) === fileHash(bankMp3)) continue;
@@ -278,7 +391,7 @@ export function setWordClips(options: SetWordClipsOptions): SetWordClipsResult {
         for (const name of fs.readdirSync(wordsFolder).sort()) {
             if (!/^wa-.*\.mp3$/.test(name)) continue;
             const relative = `l${level}/media/w${weekDigits(weekNumber)}/words/${name}`;
-            if (plan.files.includes(relative)) continue;
+            if (files.includes(relative)) continue;
             fs.rmSync(path.join(wordsFolder, name), { force: true });
             removed.push(relative);
         }
@@ -287,8 +400,8 @@ export function setWordClips(options: SetWordClipsOptions): SetWordClipsResult {
     // The maps go in by the text edit that passed the parse above (K4, FR 4).
     if (updatedText !== weekText) fs.writeFileSync(options.weekFile, updatedText);
     for (const file of removed) lines.push(`removed ${file}`);
-    lines.push(`keys: ${slots.length}`, `files: ${plan.files.length}`);
-    return { keys: slots.length, files: plan.files.length, removed, lines };
+    lines.push(`keys: ${slots.length}`, `files: ${files.length}`);
+    return { keys: slots.length, files: files.length, removed, lines };
 }
 
 /**

@@ -6,7 +6,8 @@ import { formatPackageReports } from '../../lib/lesson-package/report';
 import { checkStorytimeWeek, taughtTo } from '../../lib/storytime/checks';
 import { PHONICS_GRAPH_FILE, readLevelWeeks, readPhonemeBank, readPhonicsGraph, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { phonemeAudioFields, phonemeAudioProblems } from '../../lib/storytime/phonemes';
-import { bookWordKey, wordClipPath, type BookWords } from '../../lib/storytime/word-clips';
+import { sentenceClipPath } from '../../lib/storytime/sentence-clips';
+import { bookWordKey, practiceWordKeys, wordClipPath, type BookWords } from '../../lib/storytime/word-clips';
 
 const USAGE = `Checks the Storytime week files of a level (track storytime_week_package_20261022).
 
@@ -16,6 +17,12 @@ Exit code 1 when a week fails a check.`;
 
 /** The exact label of the `word-clips` row (Phase 11 decision K12). */
 const WORD_CLIPS_LABEL = 'The book word clips named in the package exist and match the word bank';
+
+/** The exact label of the `practice-clips` row (Phase 12 decision L9). */
+const PRACTICE_CLIPS_LABEL = 'The practice word clips named in the package exist and match the word bank';
+
+/** The exact label of the `sentence-clips` row (Phase 12 decision L9). */
+const SENTENCE_CLIPS_LABEL = 'The sentence clips named in the package exist and follow the book sentences';
 
 /** The exact label of the `song-lead-in` row (Phase 11 decision K14). */
 const SONG_LEAD_IN_LABEL = 'The song video lead-in is set for each song video';
@@ -172,6 +179,160 @@ export function checkWordClips(week: any, contentRoot = STORYTIME_ROOT): { id: s
     return { ...head, status: 'pass' };
 }
 
+/** The bank rows that the clip checks read, by word. */
+function bankRowsByWord(contentRoot: string): Map<string, { word: string; mp3: string }> {
+    const manifestFile = path.join(contentRoot, 'words/manifest.json');
+    const rows: { word: string; mp3: string }[] = fs.existsSync(manifestFile)
+        ? (JSON.parse(fs.readFileSync(manifestFile, 'utf8')) as { items?: { word: string; mp3: string }[] }).items ?? []
+        : [];
+    return new Map(rows.map((row) => [row.word, row]));
+}
+
+/**
+ * Checks the practice word clips named by a Storytime week against the word bank (Phase 12
+ * decision L9, spec FR 7). The three maps are `opening.wordClips`, `focus.family.wordClips`, and
+ * `focus.trickyWordClips`. A fault is a fail, in this order: `missing`, `differs from bank`,
+ * `no bank file`, `no bank row`, `not a practice word`, `bad path`. A practice word with no key
+ * in its map, and a list with no map, are a warn. A fail wins over a warn. A week with no book
+ * and a week with no meta get no row.
+ * @param week The parsed week data.
+ * @param contentRoot The root for the paths named by the week, and for the word bank.
+ * @returns The check row, or undefined when the week has no book or no meta.
+ */
+export function checkPracticeClips(week: any, contentRoot = STORYTIME_ROOT): { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string } | undefined {
+    const books = week?.books ?? [];
+    if (!books.length) return undefined;
+    const level = Number(week?.meta?.level);
+    const weekNumber = Number(week?.meta?.week);
+    if (!Number.isInteger(level) || !Number.isInteger(weekNumber)) return undefined;
+    const byWord = bankRowsByWord(contentRoot);
+    const keys = practiceWordKeys(week);
+    const practiceKeys = new Set([...keys.opening, ...keys.family, ...keys.tricky]);
+    const lists: { key: string; words: string[]; map: Record<string, string> | undefined }[] = [
+        { key: 'opening', words: keys.opening, map: week?.opening?.wordClips },
+        { key: 'family', words: keys.family, map: week?.focus?.family?.wordClips },
+        { key: 'tricky', words: keys.tricky, map: week?.focus?.trickyWordClips },
+    ];
+    const missing: string[] = [];
+    const differs: string[] = [];
+    const noBankFile: string[] = [];
+    const noBank: string[] = [];
+    const notPractice: string[] = [];
+    const badPath: string[] = [];
+    const noClip: string[] = [];
+    for (const list of lists) {
+        for (const word of list.words) {
+            if (!list.map || typeof list.map[word] !== 'string' || !list.map[word]) {
+                noClip.push(word);
+            }
+        }
+        const map = list.map ?? {};
+        for (const word of Object.keys(map)) {
+            const value = map[word];
+            let expected: string | undefined;
+            try {
+                expected = wordClipPath(level, weekNumber, word);
+            } catch {
+                expected = undefined;
+            }
+            if (expected === undefined || value !== expected) {
+                badPath.push(value);
+                continue;
+            }
+            if (!practiceKeys.has(word)) {
+                notPractice.push(word);
+                continue;
+            }
+            const clip = path.join(contentRoot, value);
+            if (!fs.existsSync(clip)) {
+                missing.push(value);
+                continue;
+            }
+            const row = byWord.get(word);
+            if (!row) {
+                noBank.push(word);
+                continue;
+            }
+            const bank = path.join(contentRoot, 'words', String(row.mp3));
+            if (!fs.existsSync(bank)) {
+                noBankFile.push(word);
+                continue;
+            }
+            if (sha256File(bank) !== sha256File(clip)) differs.push(value);
+        }
+    }
+    const head = { id: 'practice-clips', label: PRACTICE_CLIPS_LABEL };
+    const failParts: string[] = [];
+    if (missing.length) failParts.push(`missing: ${missing.join(', ')}`);
+    if (differs.length) failParts.push(`differs from bank: ${differs.join(', ')}`);
+    if (noBankFile.length) failParts.push(`no bank file: ${noBankFile.join(', ')}`);
+    if (noBank.length) failParts.push(`no bank row: ${noBank.join(', ')}`);
+    if (notPractice.length) failParts.push(`not a practice word: ${notPractice.join(', ')}`);
+    if (badPath.length) failParts.push(`bad path: ${badPath.join(', ')}`);
+    if (failParts.length) return { ...head, status: 'fail', detail: failParts.join('; ') };
+    if (noClip.length) return { ...head, status: 'warn', detail: `no clip: ${noClip.join(', ')}` };
+    return { ...head, status: 'pass' };
+}
+
+/**
+ * Checks the sentence clips named by a Storytime week against the book sentences (Phase 12
+ * decision L9, spec FR 7). The field `books[i].audio.sentenceClips` of a decodable book must hold
+ * one item per sentence, in order, each with the sentence text and the L7 path. A fault is a fail,
+ * in this order: `count differs`, `text differs`, `missing`, `bad path`. A decodable book with no
+ * field is a warn. A fail wins over a warn. A week with no decodable book gets no row.
+ * @param week The parsed week data.
+ * @param contentRoot The root for the paths named by the week.
+ * @returns The check row, or undefined when the week has no decodable book.
+ */
+export function checkSentenceClips(week: any, contentRoot = STORYTIME_ROOT): { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string } | undefined {
+    const level = Number(week?.meta?.level);
+    const weekNumber = Number(week?.meta?.week);
+    const books = (week?.books ?? []).filter((book: any) => book?.kind === 'decodable');
+    if (!books.length) return undefined;
+    if (!Number.isInteger(level) || !Number.isInteger(weekNumber)) return undefined;
+    const countDiffers: string[] = [];
+    const textDiffers: string[] = [];
+    const missing: string[] = [];
+    const badPath: string[] = [];
+    let noClips = false;
+    (week?.books ?? []).forEach((book: any, index: number) => {
+        if (book?.kind !== 'decodable') return;
+        const sentences: { sentence?: string }[] = book?.audio?.sentences ?? [];
+        const clips: { sentence?: string; file?: string }[] | undefined = book?.audio?.sentenceClips;
+        if (!clips) {
+            noClips = true;
+            return;
+        }
+        if (clips.length !== sentences.length) countDiffers.push(String(index));
+        clips.forEach((clip, at) => {
+            let expected: string | undefined;
+            try {
+                expected = sentenceClipPath(level, weekNumber, index, at + 1);
+            } catch {
+                expected = undefined;
+            }
+            if (expected === undefined || clip?.file !== expected) {
+                badPath.push(String(clip?.file ?? ''));
+                return;
+            }
+            if (typeof clip?.sentence !== 'string' || clip.sentence !== sentences[at]?.sentence) {
+                textDiffers.push(expected);
+                return;
+            }
+            if (!fs.existsSync(path.join(contentRoot, expected))) missing.push(expected);
+        });
+    });
+    const head = { id: 'sentence-clips', label: SENTENCE_CLIPS_LABEL };
+    const failParts: string[] = [];
+    if (countDiffers.length) failParts.push(`count differs: ${countDiffers.join(', ')}`);
+    if (textDiffers.length) failParts.push(`text differs: ${textDiffers.join(', ')}`);
+    if (missing.length) failParts.push(`missing: ${missing.join(', ')}`);
+    if (badPath.length) failParts.push(`bad path: ${badPath.join(', ')}`);
+    if (failParts.length) return { ...head, status: 'fail', detail: failParts.join('; ') };
+    if (noClips) return { ...head, status: 'warn', detail: 'no clips' };
+    return { ...head, status: 'pass' };
+}
+
 /**
  * Checks the song video lead-in field of a week (Phase 11 decision K14, spec FR 6). The check does
  * not decode a video: the measure script owns the value.
@@ -236,6 +397,10 @@ function main(argv: string[]): number {
         if (familyPictures) report.checks.push(familyPictures);
         const wordClips = w.week ? checkWordClips(w.week) : undefined;
         if (wordClips) report.checks.push(wordClips);
+        const practiceClips = w.week ? checkPracticeClips(w.week) : undefined;
+        if (practiceClips) report.checks.push(practiceClips);
+        const sentenceClips = w.week ? checkSentenceClips(w.week) : undefined;
+        if (sentenceClips) report.checks.push(sentenceClips);
         const songLeadIn = w.week ? checkSongLeadIn(w.week) : undefined;
         if (songLeadIn) report.checks.push(songLeadIn);
         // Daniel's recordings (S22) for every sound of the package; the QR page copy step reads them too.

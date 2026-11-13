@@ -106,6 +106,12 @@ export const FocusSchema = z.object({
     paSkill: BiTextSchema,
     /** The new tricky words of the week (design §6.1: 3 or fewer). */
     trickyWords: z.array(z.string().min(1)).default([]),
+    /**
+     * The clip of each tricky word, keyed by the K2 key of the word (Phase 12 decision L3). The
+     * value is the media path relative to the content root. The field is optional, so a week
+     * before Phase 12 parses as before.
+     */
+    trickyWordClips: z.record(z.string().regex(/^[a-z]+('[a-z]+)*$/), z.string().min(1)).optional(),
     /** The sentence frame with `___` for the family word, e.g. `I can see a ___.` */
     frame: z.string().min(1),
     /** The vocabulary family of the week: its name and its 6 to `max` picture words. */
@@ -114,6 +120,12 @@ export const FocusSchema = z.object({
         words: z.array(FamilyWordSchema).default([]),
         /** The most picture words (Storytime, 2026-10-22: 8, or up to 10 for a family such as the numbers to ten). */
         max: z.number().int().min(8).max(10).default(8),
+        /**
+         * The clip of each family word, keyed by the K2 key of the word (Phase 12 decision L3).
+         * The value is the media path relative to the content root. The field is optional, so a
+         * week before Phase 12 parses as before.
+         */
+        wordClips: z.record(z.string().regex(/^[a-z]+('[a-z]+)*$/), z.string().min(1)).optional(),
     }),
     /** The decodable words taught to date (design §5.6), for the word wall card. */
     wordWall: z.array(z.string().min(1)).default([]),
@@ -158,6 +170,13 @@ export const BookAudioSchema = z.object({
      * target. The field is optional, so a week before Phase 11 parses as before.
      */
     wordClips: z.record(z.string().regex(/^[a-z]+('[a-z]+)*$/), z.string().min(1)).optional(),
+    /**
+     * The whole-sentence clip of each sentence of a decodable book, in the order of `sentences`
+     * (Phase 12 decision L7). Each item holds the sentence text and the media path relative to the
+     * content root. The read-along books get no field. The field is optional, so a week before
+     * Phase 12 parses as before.
+     */
+    sentenceClips: z.array(z.object({ sentence: z.string().min(1), file: z.string().min(1) })).optional(),
 });
 
 /**
@@ -722,6 +741,12 @@ export const StorytimeWeekSchema = z.object({
             pa: z.array(BiTextSchema).length(5),
             /** For each day, Daniel's recordings (S22) of the sounds that the teacher says, in the order of the line. */
             audio: z.array(z.array(z.string().min(1))).length(5).optional(),
+            /**
+             * The clip of each practice word of the opening game, keyed by the K2 key of the word
+             * (Phase 12 decisions L3 and L4). The value is the media path relative to the content
+             * root. The field is optional, so a week before Phase 12 parses as before.
+             */
+            wordClips: z.record(z.string().regex(/^[a-z]+('[a-z]+)*$/), z.string().min(1)).optional(),
         })
         .optional(),
     /**

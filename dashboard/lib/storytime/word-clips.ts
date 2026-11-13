@@ -348,3 +348,162 @@ export function videoLeadIn(audioOnsets: readonly number[], videoOnsets: readonl
     }
     return Math.round(leadIn * 1000) / 1000;
 }
+
+/** One line of the opening game as `openingWordKeys` reads it: the English text is read, never the Thai. */
+export interface OpeningLine {
+    /** The English text of the line. */
+    en: string;
+}
+
+/** The opening game of one week as `practiceWordKeys` reads it. */
+export interface PracticeOpening {
+    /** The five daily lines. */
+    pa?: readonly OpeningLine[];
+}
+
+/** One family word as `practiceWordKeys` reads it. */
+export interface PracticeFamilyWord {
+    /** The written form of the word. */
+    word?: string;
+}
+
+/** The family word list of one week as `practiceWordKeys` reads it. */
+export interface PracticeFamily {
+    /** The picture words. */
+    words?: readonly PracticeFamilyWord[];
+}
+
+/** The focus block of one week as `practiceWordKeys` reads it. */
+export interface PracticeFocus {
+    /** The tricky words. */
+    trickyWords?: readonly string[];
+    /** The family word list. */
+    family?: PracticeFamily;
+}
+
+/** The week fields that the practice clip plan reads (L3, L5). */
+export interface PracticeWeek {
+    /** The opening game. */
+    opening?: PracticeOpening;
+    /** The focus block. */
+    focus?: PracticeFocus;
+}
+
+/** The matches of the opening word rule, in line order (L4): `Listen: <word>.` and `What is the word? <word>!`. */
+const OPENING_WORD_FORM = /(?:Listen: |What is the word\? )([A-Za-z]+)[.!]/g;
+
+/**
+ * The written word forms of the opening game, in line order (L4). The rule reads only the `en`
+ * text of each line and never the Thai.
+ * @param pa The five daily lines.
+ * @returns Each matched form, in line order.
+ */
+export function openingForms(pa: readonly OpeningLine[]): string[] {
+    const forms: string[] = [];
+    for (const line of pa) {
+        if (typeof line?.en !== 'string') continue;
+        for (const match of line.en.matchAll(OPENING_WORD_FORM)) forms.push(match[1]);
+    }
+    return forms;
+}
+
+/**
+ * The distinct keys of the opening game, sorted by code point (L4). The key is the K2 form of each
+ * matched word.
+ * @param pa The five daily lines.
+ * @returns The distinct keys, sorted.
+ * @throws Error `opening: no word form in line <i>` when a line holds no word form. The index
+ * starts at 0.
+ */
+export function openingWordKeys(pa: readonly OpeningLine[]): string[] {
+    const keys = new Set<string>();
+    pa.forEach((line, index) => {
+        if (typeof line?.en !== 'string') throw new Error(`opening: no word form in line ${index}`);
+        let found = false;
+        for (const match of line.en.matchAll(OPENING_WORD_FORM)) {
+            found = true;
+            const key = bookWordKey(match[1]);
+            if (key !== undefined) keys.add(key);
+        }
+        if (!found) throw new Error(`opening: no word form in line ${index}`);
+    });
+    return [...keys].sort();
+}
+
+/**
+ * The distinct keys of each practice word list of one week, sorted by code point (L3): the opening
+ * game, the family words, and the tricky words. A list that the week does not hold gives an empty
+ * array.
+ * @param week The week fields: the opening game and the focus block.
+ * @returns The three key lists.
+ */
+export function practiceWordKeys(week: PracticeWeek): { opening: string[]; family: string[]; tricky: string[] } {
+    const add = (set: Set<string>, word: string): void => {
+        if (typeof word !== 'string') return;
+        const key = bookWordKey(word);
+        if (key !== undefined) set.add(key);
+    };
+    const opening = new Set<string>();
+    if (Array.isArray(week?.opening?.pa)) {
+        for (const key of openingWordKeys(week.opening.pa)) opening.add(key);
+    }
+    const family = new Set<string>();
+    for (const item of week?.focus?.family?.words ?? []) add(family, item?.word ?? '');
+    const tricky = new Set<string>();
+    for (const word of week?.focus?.trickyWords ?? []) add(tricky, word);
+    return { opening: [...opening].sort(), family: [...family].sort(), tricky: [...tricky].sort() };
+}
+
+/** The input of the practice clip plan (L3, L5). */
+export interface PracticeClipsInput {
+    /** The level of the week. */
+    level: number;
+    /** The week, from 1 to 99. */
+    week: number;
+    /** The opening game. An absent or empty list gives an empty map. */
+    opening?: PracticeOpening;
+    /** The focus block. An absent or empty list gives an empty map. */
+    focus?: PracticeFocus;
+}
+
+/** The practice clip plan of one week (L3, L5). */
+export interface PracticeClipsPlan {
+    /** The clip map of the opening game, keyed by the K2 key. */
+    opening: Record<string, string>;
+    /** The clip map of the family words, keyed by the K2 key. */
+    family: Record<string, string>;
+    /** The clip map of the tricky words, keyed by the K2 key. */
+    tricky: Record<string, string>;
+    /** The sorted distinct clip files of the three maps. */
+    files: string[];
+}
+
+/**
+ * The clip map of each practice word list of one week, and the sorted distinct clip files (L3, L5).
+ * Each key goes to its K3 path. One file serves each map that names its key.
+ * @param input The level, the week, the opening game, and the focus block.
+ * @returns The three maps and the sorted distinct files.
+ * @throws Error When two keys of the maps give one file (the K3 rule).
+ */
+export function planPracticeClips(input: PracticeClipsInput): PracticeClipsPlan {
+    const keys = practiceWordKeys({ opening: input.opening, focus: input.focus });
+    const maps: Record<string, Record<string, string>> = {};
+    for (const list of ['opening', 'family', 'tricky'] as const) {
+        const map: Record<string, string> = {};
+        for (const key of keys[list]) map[key] = wordClipPath(input.level, input.week, key);
+        maps[list] = map;
+    }
+    const stems = new Map<string, string>();
+    for (const list of ['opening', 'family', 'tricky'] as const) {
+        for (const key of Object.keys(maps[list])) {
+            const stem = wordClipStem(key);
+            const other = stems.get(stem);
+            if (other !== undefined && other !== key) {
+                throw new Error(`word clip: two keys, one file: ${other}, ${key}`);
+            }
+            stems.set(stem, key);
+        }
+    }
+    const files = [...new Set(['opening', 'family', 'tricky'].flatMap((list) => Object.values(maps[list])))].sort();
+    return { opening: maps.opening, family: maps.family, tricky: maps.tricky, files };
+}
