@@ -3,7 +3,7 @@
 The orchestrator (claude-code/claude-opus-5-5[1m]) checked the 32 pages on 2026-11-13, at HEAD a975d755.
 The source is `~/Desktop/print-ready/storytime/covers-quest-v1/`. Its `MANIFEST.txt` has the SHA-256 8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87.
 The method is `test-strategy.md` section 4.11. The native tiles are in `/tmp/opencode/look/` (`pNN-tK.png`, at most 1600 px on each side).
-The tiles were cut at 08:06 ICT. No file in the output folder changed after that time. The last change was at 00:59 ICT.
+The tiles were cut at 08:06 ICT. No file in the output folder changed after that time. The last change was `MANIFEST.txt` at 07:35 ICT on 2026-11-13 (corrected 2026-11-13 by the F9 spec round; `find -printf` of the folder).
 The orchestrator opened each tile with the read tool. Pages 1 and 3 also have the native crops `x1` and `x2` (page 1 only).
 The contact sign of pages 2 and 4 holds the approved Thai lines. This look does not judge Thai. Daniel checks Thai.
 Faults: none.
