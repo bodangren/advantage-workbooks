@@ -46,6 +46,11 @@
  *   G6 (the standing rules follow F2): `quest-cover-standing-rules.test.ts` holds the changed S1 and
  *       the page 12 scope of S2, S4, and S5. This file guards the source of that change only.
  *
+ * The F10 change of 2026-11-13 (the r6 book covers):
+ *   (1) G3 changes for the 2 book fronts. The part set of each front adds "front-title", and the r3
+ *       tile box rule skips that part, because the title plate stands in the tile box. Every other
+ *       part still stays out of the tile box, and the 28 reader fronts keep their part set.
+ *
  * The method notes:
  *   - G2 and G5 share one Chrome page and one document for each output and week (14 documents).
  *     The documents use final mode, so each picture frame holds its `img`. The test replaces the
@@ -751,7 +756,13 @@ describe('quest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)'
             if (tiles !== 0) problems.push(`${spec.id}: the front holds ${tiles} logo-tile parts (the pin is 0).`);
             const removed = spec.kind === 'reader-leaf' ? ['logo-tile', 'double-line-frame'] : ['logo-tile'];
             // changed 2026-11-11 (F4, PM look): the hlogo leaf cover adds the white footer strip part.
-            const added = spec.kind === 'reader-leaf' ? ['footer-strip'] : [];
+            // changed 2026-11-13 (F10): the 2 book fronts add the front-title part; the readers keep their part set.
+            const added =
+                spec.kind === 'reader-leaf'
+                    ? ['footer-strip']
+                    : spec.kind === 'student-front' || spec.kind === 'teacher-front'
+                      ? ['front-title']
+                      : [];
             const wanted = [...R3_PARTS[spec.kind].filter((name) => !removed.includes(name)), ...added].sort();
             const found = partSet(spec.html);
             if (JSON.stringify(found) !== JSON.stringify(wanted)) {
@@ -768,6 +779,8 @@ describe('quest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)'
             // quest-cover-f3f6.test.ts governs the place, so the r3 tile box rule reads the other covers only.
             if (F3_MOVED_COVERS.includes(spec.id)) continue;
             for (const part of raw.parts) {
+                // changed 2026-11-13 (F10): the title plate stands in the r3 tile box, so the rule skips it.
+                if (part.name === 'front-title') continue;
                 if (overlaps(part.box, tileBox)) {
                     problems.push(
                         `${spec.id}: the part ${part.name} (${part.box.left.toFixed(1)} to ${part.box.right.toFixed(1)} mm by ` +

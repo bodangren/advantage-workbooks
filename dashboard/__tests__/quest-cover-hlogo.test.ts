@@ -85,6 +85,11 @@
  *       logo tile element cut out, must keep its SHA-256. The cut method is the open tag
  *       `<div data-part="logo-tile"` up to the first `</div>` after it.
  *
+ * The F10 change of 2026-11-13 (the r6 book covers):
+ *   (1) A3 changes for the 2 fronts. The 2 fronts hold the series name in the part "front-title" only:
+ *       the 2 text nodes of the series name sit in that part, and they read "Storytime" and
+ *       "Advantage". The 2 backs keep the count of 0 outside the contact lines.
+ *
  * The 2 backs render the 5 contact lines, which hold Thai. The file prints no text of a back: it
  * prints millimetre values, counts, colors, hashes, and part names only.
  */
@@ -473,12 +478,13 @@ function renderKind(kind: Kind, opts: TopOptions): string {
 /**
  * Finds the text nodes of the body that hold the series name outside the contact lines.
  * @param doc The parsed document.
- * @returns The part mark of each node, or the tag name when no part holds it.
+ * @returns The part mark and the text of each node. The part mark is the tag name when no part holds
+ * the node.
  */
-function seriesNameNodes(doc: Document): string[] {
+function seriesNameNodes(doc: Document): { part: string; text: string }[] {
     const body = doc.body;
     if (!body) return [];
-    const found: string[] = [];
+    const found: { part: string; text: string }[] = [];
     const walker = doc.createTreeWalker(body, NodeFilter.SHOW_TEXT);
     while (walker.nextNode()) {
         const node = walker.currentNode as Text;
@@ -488,7 +494,10 @@ function seriesNameNodes(doc: Document): string[] {
         if (parent.closest('[data-part="contact-line"]')) continue;
         if (!/\b(?:Storytime|Advantage)\b/.test(node.nodeValue ?? '')) continue;
         const part = parent.closest('[data-part]');
-        found.push(part?.getAttribute('data-part') ?? parent.tagName.toLowerCase());
+        found.push({
+            part: part?.getAttribute('data-part') ?? parent.tagName.toLowerCase(),
+            text: (node.nodeValue ?? '').trim(),
+        });
     }
     return found;
 }
@@ -634,10 +643,27 @@ describe('quest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal
                 ).toBe(SHA_HORIZONTAL_LOGO);
             }
             const names = seriesNameNodes(doc);
-            expect(
-                names.length,
-                `no text node of the ${kind} body holds the series name: ${summarise(names)}`,
-            ).toBe(0);
+            // changed 2026-11-13 (F10): the 2 fronts hold the series name in the front-title part only.
+            if (kind === 'student-front' || kind === 'teacher-front') {
+                const parts = names.map((entry) => entry.part);
+                expect(
+                    names.length,
+                    `the ${kind} front holds ${names.length} text nodes of the series name (the pin is 2): ${summarise(parts)}`,
+                ).toBe(2);
+                expect(
+                    parts.every((part) => part === 'front-title'),
+                    `the series name of the ${kind} front sits in the front-title part: ${summarise(parts)}`,
+                ).toBe(true);
+                expect(
+                    names.map((entry) => entry.text).sort().join(' '),
+                    `the series name of the ${kind} front reads "Storytime" and "Advantage".`,
+                ).toBe('Advantage Storytime');
+            } else {
+                expect(
+                    names.length,
+                    `no text node of the ${kind} body holds the series name: ${summarise(names.map((entry) => entry.part))}`,
+                ).toBe(0);
+            }
             if (kind === 'student-back' || kind === 'teacher-back') {
                 expect(
                     doc.querySelectorAll('[data-part="contact-line"]').length,

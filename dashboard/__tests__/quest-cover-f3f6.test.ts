@@ -58,9 +58,10 @@
  *       leaves of the student book.
  *   D7 (F6): page 12 holds no "Storytime Advantage" text and no `.reader-series` line. It keeps the
  *       heading "Words in this book", the word row, one logo tile with one image, and the footer.
- *   D8 (keep): the default (banner) renders keep their bytes (SHA-256 at the role base), and the 2
- *       hlogo fronts keep their bytes when their default place is free. G4 of
- *       `quest-cover-f1f2.test.ts` pins the 2 hlogo book backs.
+ *   D8 (keep): the default (banner) renders keep their bytes (SHA-256 at the role base). Changed
+ *   2026-11-13 (F10, D-F10-10b): the 2 hlogo fronts leave the byte pin, because D-F10-2 changes them
+ *   by design. The 32 default renders stay pinned. G4 of
+ *   `quest-cover-f1f2.test.ts` pins the 2 hlogo book backs.
  *
  * Q1 (the default of this file, the PM can overrule it): on w01 Nan Can Nod A3 no art position
  * shows the Nan head box (art rows 60 to 1680) and the dog-body box (rows 1530 to 2990) together,
@@ -1544,7 +1545,8 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
         expect(problems, problems.join('\n')).toEqual([]);
     }, 120_000);
 
-    it('D8: the default renders keep their bytes, and the 2 hlogo fronts keep their bytes when their default place is free', () => {
+    // changed 2026-11-13 (F10, D-F10-10b): the 2 hlogo fronts leave the byte pin.
+    it('D8: the 32 default renders keep their bytes, and the 2 hlogo fronts leave the byte pin', () => {
         const book = bookRow();
         const renders: [string, string][] = [];
         for (const kind of ['student-front', 'teacher-front', 'student-back', 'teacher-back'] as const) {
@@ -1564,7 +1566,8 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
                     defaultKeys(spec, keys).every((key) => overlap(grow(key.box, CLEARANCE_MM), { left: value[0], top: value[1], right: value[2], bottom: value[3] }) === null),
                 );
             console.log(`D8 ${spec.id}: the default place is ${free ? 'free' : 'not free'}.`);
-            if (free) renders.push([`hlogo ${spec.id}`, spec.html]);
+            // changed 2026-11-13 (F10, D-F10-10b): the 2 hlogo fronts leave the byte pin, because
+            // D-F10-2 changes them by design. The 32 default renders stay pinned, byte for byte.
         }
         const problems: string[] = [];
         for (const [id, html] of renders) {
@@ -1572,7 +1575,7 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
             console.log(`D8_SHA ${id} | ${hash}`);
             if (KEEP_SHA[id] !== hash) problems.push(`${id}: the SHA-256 is ${hash} (the pin is ${KEEP_SHA[id] ?? 'missing'}).`);
         }
-        expect(renders.length, 'the 32 default renders and the free hlogo fronts.').toBeGreaterThanOrEqual(32);
+        expect(renders.length, 'the 32 default renders.').toBeGreaterThanOrEqual(32);
         expect(problems, problems.join('\n')).toEqual([]);
     });
 });
