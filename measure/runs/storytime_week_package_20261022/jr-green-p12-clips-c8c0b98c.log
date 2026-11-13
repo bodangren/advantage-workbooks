@@ -1,0 +1,36 @@
+Green Jr log, Phase 12 Clips (storytime_week_package), role_base c8c0b98c, model route kimi-code-plan-cn/kimi-for-coding#high.
+
+Route substitution (recorded): volcengine-agent-plan/glm-5.3-flash#high in WAIT; ra-quota pick gave only Codex (needs Daniel); nvidia DeepSeek route failed 10:40; Kimi weekly 81.2 % at 12:09. Orchestrator accepted Kimi for this script-heavy role.
+
+Step 0 Thai filter: /tmp/opencode/p12-clips/thai_filter.py ran first; THAI_CHARS_IN_OUTPUT: 0 for w01..w08 copies and plan.md/spec.md copies. All reads used the copies; every run went through light_capture_2_9g.py.
+
+Quota: p12-quota-before.txt (mmx quota show) and the live endpoint before each maker run. Values stayed weekly 86, 5h 39..45; below the stop lines (97/95).
+
+Step 1 (p12-words.txt): slots 128, gap slots 55, unique gap words 47, with bank row 32, without 15 (arm cap dress fan from ham hen hop hot jam mop put sad sit up). Matches the spec Facts.
+
+Step 2 (p12-bank-dry.txt): dry-run chars per week 6, 3, 3, 12, 11, 3, 15; sum 53. Confirms the orchestrator correction: the dry-run sum is 53, not 47 (a dry run adds no row, so fan of w02 and mop of w07 count again). The seven real runs sum to 47 checked words and make 15.
+
+Step 3 (p12-bank-w01.txt .. p12-bank-w07.txt): real runs with --max-chars 150, 144, 144, 141, 129, 118, 115. Made 15 words, all take 1: w01 fan hen; w02 none; w03 cap; w04 arm ham jam mop; w05 dress sad sit; w06 put; w07 from hop hot up. Chars 6+0+3+12+11+3+12 = 47.
+
+Step 4 (p12-bank-form.txt): rows 152; n 1..152 no gap; K6 Python form True; 15/15 sha256 equals WAV; 15/15 WAV 32000/1/16 peak 23197; 15/15 mp3 32000/1/128000; max take 1.
+
+Bank commit: 8f404869 (31 files, content/storytime/words only, no week file, rule F9).
+
+Step 5 w01 (p12-map-w01.txt, p12-map-w01-repeat.txt): set-word-clips ran two times; the union count 30 files is in the capture; repeat gave diff lines: 0. w01.json and the w01 words clips are modified and NOT committed (no whole week completed).
+
+Step 6 w01: FAILED. make-sentence-clips.ts --level 2 --week 1 --max-chars 210 exits 1:
+  sentence clips: mmx failed for "A nest.": [Model: speech-2.8-hd] {"error":{"code":1,"message":"File system error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/l2/media/w01/sentences/b1-s01.take1.wav'"}}
+Cause (code read, no edit): make-sentence-clips.ts calls mmxSynthesize with wavFile inside content/storytime/l2/media/w01/sentences/, but fs.mkdirSync(folder, { recursive: true }) runs only after the take loop (lines 327 and 351), before writing the accepted WAV and the manifest. On a fresh week whose sentences/ folder does not exist, the first mmx call cannot write its WAV and the run stops. The Red tests fake synthesize, so the live path was never exercised. This is the second failure of w01, so I stop per the brief.
+
+Status: blocked. Exact failing step: step 6 of week w01 (make-sentence-clips). Remediation I request: a Mid Green code fix that moves fs.mkdirSync(folder, { recursive: true }) before the first synthesize call in make-sentence-clips.ts, pinned by a Red test whose fake synthesize asserts the folder exists at call time (or the equivalent). I did not edit code or tests. After the fix, resume at step 6 of w01 with --max-chars 210; steps 1..5 of w01 and the bank are done (bank commit 8f404869).
+
+BEGIN_MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+phase_base_sha: 32a9739e
+role_base_sha: c8c0b98c
+green_head: <uncommitted after 8f404869>
+tasks: []
+tasks_deferred: []
+handoff: "Blocked on a script bug, second failure of w01. make-sentence-clips.ts writes take WAVs through mmx into content/storytime/l2/media/w01/sentences/ but creates the folder only after the take loop (mkdirSync at lines 327/351, synthesize at line 268), so the first live run fails with ENOENT on b1-s01.take1.wav. Exact error in capture p12-sentences-w01.txt. No code or test file edited. Request: Mid Green fix moving mkdirSync before the first synthesize call, pinned by a Red test; then resume at step 6 of w01 (--max-chars 210). Done and safe: Thai filter (0 Thai chars), steps 1..4 with captures, bank commit 8f404869 (15 words, all take 1, 47 chars), w01 step 5 both runs (diff lines 0, uncommitted). Quota was weekly 86 / 5h 45, below the stop lines. The step 2 dry-run sum is 53 (orchestrator correction confirmed)."
+END_MEASURE_AGENT_RESULT
