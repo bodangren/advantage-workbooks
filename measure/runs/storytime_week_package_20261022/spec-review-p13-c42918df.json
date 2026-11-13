@@ -1,0 +1,64 @@
+{
+  "role": "spec-review",
+  "phase": "track setup",
+  "track": "storytime_week_package_20261022",
+  "review": "Amendment: Phase 13 (2026-11-14), read-along sentence clips",
+  "audited_head_sha": "c42918df73238ab027f673865f4bf91c477d1934",
+  "head_matches": true,
+  "schema_version": 1,
+  "summary": "The Phase 13 addendum and plan pass the spec review with no open Blocker; four findings (three Major, one Nit) need a FIX or an accepted reason.",
+  "commands": [
+    "python3 -I -B thai_filter.py (the Thai filter of step 0; wrote filtered copies of spec.md, plan.md, spec-review.md, and w01.json to w07.json; printed THAI_CHARS_IN_OUTPUT: 0 for all 10)",
+    "git -C /home/daniebo/Desktop/Workbooks rev-parse HEAD",
+    "grep -n Addendum /tmp/opencode/p13-specrev/spec.md and grep -n Phase 13 /tmp/opencode/p13-specrev/plan.md (the section locations)",
+    "grep -cP Thai-count on the 8 named code files and on plan.md line 103 and on dashboard/__tests__/storytime-package-practice-clips.test.ts (counts only, no Thai printed)",
+    "python3 -I -B counts of the filtered week files (sentences, characters, kinds, audio key order, one-word and repeated texts, voices)",
+    "find content/storytime/l2/media -path patterns for b0-* and b*-s*.mp3 counts, and the manifest header and item counts",
+    "git cat-file -t fa47ca23bef49008be2494ea948e8aebb9b638d4",
+    "grep -n decodable, chars:, made:, check, and the exports in the 6 named code files and the makers",
+    "grep -rlnE the Red 1 grep of spec FR 8 over dashboard/__tests__ (the 10 named files)",
+    "python3 -I -B the one-take and sent sums of the book-1 items of the manifests at commit fa47ca23 (779, 873, 887, 934)",
+    "read of the spec-review standard at /home/daniebo/.agents/skills/measure/references/spec-review.md"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_week_package_20261022/spec-review-p13-c42918df.json",
+    "measure/runs/storytime_week_package_20261022/spec-review-p13-c42918df.log"
+  ],
+  "confidence": "high",
+  "reviewer_model": "coding-plan/glm-5.3-flash#high",
+  "author_model": "claude-code/claude-sonnet-5-5#high",
+  "route_note": "The plan names deepseek/deepseek-flash#high as the default route; that route is pay per token and in WAIT (balance under 15), so the orchestrator chose coding-plan/glm-5.3-flash#high. GLM is not the Anthropic family, so decision M1 and rule L15 hold for this role.",
+  "status": "pass",
+  "retry_recommendation": "none",
+  "paraphrase": {
+    "proposes": "Phase 13 gives each sentence of the 7 read-along books of weeks 1 to 7 its own mp3 clip: 72 clips, 927 characters for one take of each, at most 2,800 characters sent. It writes the array books[].audio.sentenceClips into the 7 week files and builds the next hand-off folders (r6 for w01, r5 for w02 to w07). It also closes four Review A findings of Phase 12: F1, the makers log each call before the call, a sent sum, and a failed-run line; F2, the character script reads the Phase 12 provenance files and prints 779, 887, and 934; F6, the README text is pinned in full with the three faults fixed; F7, a second check row owns the read-along field. The F1 code change runs as a Red and Green pair before the first paid mmx run, which waits for the MiniMax reset on 2026-11-15 23:00 ICT.",
+    "current_system": "Per the spec, Phase 12 shipped 56 sentence clips for the decodable books (book index 1) of w01 to w07, with a provenance manifest of 8 items per week and the header voice English_captivating_female1, speed 1, model speech-2.8-hd. The plan and the makers select decodable books only (sentence-clips.ts:76, make-sentence-clips.ts:316, set-sentence-clips.ts:236, check-weeks.ts:290 and :299), the schema JSDoc says the read-along books get no field (schema.ts:176), and the sentence-clips check row reads decodable books only. The makers print their list and their chars line only after the run ends, so a failed call loses its characters (F1). The character script reads its takes from the listen capture and prints 875 and 922 (F2). Contract L14 puts sentenceClips on decodable books only, and the Phase 12 README holds the three F6 faults."
+  },
+  "zoom_out": "The phase fits the track goal (one storytime week in one file, its checks, its packages) and follows the PM order of 2026-11-13. It changes a shipped contract: L14 gave sentenceClips to decodable books only, and M2 extends it to every book of w01 to w07. The plan says so in its receiver-contract paragraph, decision M13 names the PM line and the 72 mediaOf paths of Monorepo, and README M12 carries the same change to the receiver. Monorepo work itself stays out of scope. No speculative feature and no premature optimization: the makers, the builder, and the cut probe extend Phase 12 code.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] spec.md:849 (decision M3): A run with kinds that excludes a kind never reads, writes, or removes a clip, a provenance item, or an audio block of that kind. The word reads contradicts M4 (spec.md:850 to 854): the merge, the sort, and the header guard need the run to parse the whole provenance file, with the items of the other kind. Fix: replace never reads, writes, or removes with never changes or removes, and name the one read that M4 needs (the parse of the provenance file). Rationale: Green must not read M3 as a ban on the parse that M4 and N2 need.",
+    "F2 [Major] spec.md:862 (decision M6): The exact bytes of the kept line are not pinned. The list line that it replaces separates the file and the text with a tab, and the call line names each tab, but the kept line names no separator between kept and the file. Red, N3, N5, AC13-7, and the Green 1 live proof all pin this line. Fix: state the exact form, for example kept, a tab, the file path. Rationale: the separator is a design choice that the Red role would have to make.",
+    "F3 [Major] plan.md:542 (Thai rule; spec L15 and M16): The Thai rule covers week files and the track files, but dashboard/__tests__/storytime-package-practice-clips.test.ts line 1533 holds 10 Thai characters in a fixture string (verified by count; no Thai printed). Phase 13 runs this file in GREEN_TEST_COMMAND and PROJECT_TESTS, and Review A reads the test files and their captures. A non-Claude Review A or acceptance role that reads a failing diff of this file sees Thai text. Fix: name this file and line in the plan Thai rule, and require a filtered or masked read for any non-Claude role that reads the file or its failure captures. Rationale: the PM rule of 2026-11-09 is absolute for non-Claude models.",
+    "F4 [Nit] plan.md:523 (Spend): The paragraph says the Green role reads the quota before the dry run and before each real run, but the real runs of this phase belong to the Clips task, not Green 1. The Clips task steps 1 and 3 pin their own quota reads, so no decision is left. Fix: write the role that runs the command (Green 1 for its dry runs, the Clips task for the real runs). Rationale: wording only."
+  ],
+  "evidence": [
+    "Step 0: the Thai filter ran first and proved THAI_CHARS_IN_OUTPUT: 0 for spec.md, plan.md, spec-review.md, and w01.json to w07.json. The filter dropped 1 line of plan.md; M16 names it: plan.md line 103 holds the only Thai text (verified by count, not printed). spec.md holds none.",
+    "HEAD is c42918df73238ab027f673865f4bf91c477d1934 and equals the commit under review; the plan section starts at plan.md line 515.",
+    "Facts recomputed from the filtered week files: sentences 8, 16, 8, 8, 8, 8, 16 (72 in all); one-take characters 137, 166, 93, 142, 130, 132, 127 (927 in all); book 0 is readalong and book 1 is decodable in each week; the audio key order is voice, file, sentences, slowFile, slowSentences, wordClips; 15 one-word sentences, 7 repeated texts, longest text 25 characters, all ASCII; w08 holds 0 books.",
+    "M6 example verified: the first w01 read-along sentence is 16 characters, so the example call line chars 16 sent 16 is correct.",
+    "M9 limits verified: 3 times the one-take values give 411, 498, 279, 426, 390, 396, 381, sum 2,781, at or below the phase limit 2,800.",
+    "Repository state verified: 0 files b0-*, 56 clips b1-*, 7 manifests with 8 book-1 items each and the claimed header keys; all 14 book voices equal English_captivating_female1, so the M4 header guard passes on the real data.",
+    "M8 and AC13-12 recomputed from the manifests of commit fa47ca23 (the commit exists): one-take 779, sent with takes 873, plus the named failed calls 14 gives 887, total 934 with the 47 word characters. The current script reads its takes from p12-listen.txt (lines 11 to 15), so the F2 premise holds.",
+    "Code claims verified at the named lines: sentence-clips.ts:76, make-sentence-clips.ts:302 and :316, make-word-bank.ts:400, set-sentence-clips.ts:236, check-weeks.ts:290 and :299, schema.ts:176. Exit codes 0, 1, 2; main prints the lines after the run (the F1 premise); set-sentence-clips has --check; sentenceHeardPasses and looksLikeCut are exported from sentence-clips.ts.",
+    "The Red 1 grep prints exactly the 10 named files. The Phase 12 pins exist at the named lines of storytime-package-practice-clips.test.ts (2209, 2560, 2626, 2702). The new test name matches the globs of PROJECT_TESTS, GREEN_TEST_COMMAND, and PROJECT_LINT.",
+    "M11 arithmetic verified: payload 90+8=98, 99+16=115, 86+8=94, 86+8=94, 95+8=103, 85+8=93, 92+16=108; changed paths are the clips plus the manifest plus the week file (10, 18, 10, 10, 10, 10, 18); sentences lines 16, 24, 16, 16, 16, 16, 24 equal 56 existing plus 72 new (128). AC13-8 equals the L17 form: 4 lines per item plus 2 array lines plus 1 comma line, so 35/1 and 67/1. The M4 merge and skip rules, the M7 row, the M12 README text, the gates, and the allowed paths of each task pin every choice I checked."
+  ],
+  "open_questions": {
+    "Q1": "Safe. The default 2026-11-16 14:00 ICT carries the PM confirmation, and M17 gives the fallback revision folder if Review A lands late.",
+    "Q2": "Safe. The default decodable keeps each Phase 12 pin true (D8 at practice-clips line 2209), and every Clips command names --kind readalong, so no run changes a shipped clip by chance.",
+    "Q3": "Safe. The package task already builds a folder only for a week with a content commit and names each other week with its stop cause; the PM decides the wait.",
+    "Q4": "Safe. The heard check runs on every clip; the listen list keeps its note, take 3, and heard differs rules, so a one-word clip gets no free pass.",
+    "Q5": "Safe. The receiver plays by index (L14), so a shared clip would break the mapping; the saving is 33 characters, under the 2,800 limit."
+  }
+}

@@ -1,0 +1,30 @@
+Spec review, Phase 13 amendment (2026-11-14), track storytime_week_package_20261022
+Reviewer: measure-spec-review, coding-plan/glm-5.3-flash#high. Author model: claude-code/claude-sonnet-5-5#high.
+Commit under review: c42918df73238ab027f673865f4bf91c477d1934 (equals HEAD).
+Step 0: the Thai filter ran first; THAI_CHARS_IN_OUTPUT: 0 for all 10 outputs; scratch folder removed at the end (scratch removed).
+Route note: the plan names deepseek/deepseek-flash#high as the default; that route is pay per token and in WAIT (balance under 15), so the orchestrator chose this route. GLM is not Anthropic, so M1 and L15 hold.
+
+Status: pass (no open Blocker). retry_recommendation: none.
+
+Findings:
+- F1 [Major] spec.md:849 (M3): the ban "never reads ... a provenance item" contradicts the M4 merge and header guard. Fix: write "never changes or removes" and name the one parse that M4 needs.
+- F2 [Major] spec.md:862 (M6): the kept line names no separator between kept and the file. Fix: state the exact bytes, for example kept, a tab, the file path.
+- F3 [Major] plan.md:542 (Thai rule; L15, M16): dashboard/__tests__/storytime-package-practice-clips.test.ts line 1533 holds 10 Thai characters; Phase 13 runs the file in the gates and Review A reads it. Fix: name the file and line in the plan Thai rule and require a filtered or masked read for any non-Claude role that reads it or its failure captures.
+- F4 [Nit] plan.md:523 (Spend): the quota read is given to the Green role, but the real runs belong to the Clips task. Fix: name the role that runs the command.
+
+Q1 to Q5: every default is safe (Q1 PM confirms the date; Q2 the decodable default keeps the Phase 12 pins true; Q3 only weeks with a content commit get a folder; Q4 the heard check still runs on every clip; Q5 no shared clip, the receiver plays by index).
+
+Verified, among other checks: the Facts (72 sentences, 927 characters, book order, key order, repeats), the M9 limits (sum 2,781), the M8 and AC13-12 values against commit fa47ca23 (779, 873, 887, 934), the code claims at the named lines, the Red 1 grep (10 files), the Phase 12 pins, the M11 and AC13-8 arithmetic, and the M12 README text.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+phase: track setup
+track: storytime_week_package_20261022
+audited_head_sha: c42918df73238ab027f673865f4bf91c477d1934
+status: pass
+retry_recommendation: none
+blocking_findings: none
+nonblocking_findings: F1, F2, F3 (Major), F4 (Nit)
+result: measure/runs/storytime_week_package_20261022/spec-review-p13-c42918df.json
+scratch removed
+END_MEASURE_AGENT_RESULT
