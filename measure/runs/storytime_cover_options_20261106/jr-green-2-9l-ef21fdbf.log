@@ -1,0 +1,181 @@
+# Jr Green log: Task 2.9 part 12, the A3 rebuild after F7b and F8
+
+Track: storytime_cover_options_20261106
+Phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+Task: 2.9 part 12
+Role: measure-jr-green
+Session: Green · P2 T2.9 · storytime_cover_options · r12
+Model: claude-code/claude-sonnet-5-5#high (no coder). Recorded substitution: the role table names volcengine-agent-plan/glm-5.3-flash#high; `ra-quota pick green --not-family minimax` gave this route.
+role_base_sha: ef21fdbf
+phase_base_sha: e6e2156a
+Green F7b and F8 code: 12f7aa75 (inside e6e2156a..HEAD)
+Red model of F7b and F8: opencode/minimax-m3.1-flash-free#high (MiniMax family)
+Commit 1: 007b7636
+Status: done
+
+## Narrative
+
+This is a build task. It changes no code, no test, no file under `content/`, and it runs no vitest
+file. HEAD was `ef21fdbf` (the role base) at the start. Every heavy job went through
+`heavy_capture_2_9j.py` (p2, Thai filter, foreground, alone). Every light step went through
+`light_capture_2_9g.py`. Each capture printed `THAI_LINES_DROPPED 0`. Before commit 1, one Python
+check read the 43 committed files and found 0 characters from U+0E00 to U+0E7F.
+
+The scripts: each part 11 script has a part 12 partner (`_2_9l`, `-2-9l`, scratch root
+`/tmp/opencode/c29l`). The numstat of each pair is in `numstat-2-9l.txt`. `edge_cols_diag_2_9l.py` is
+a copy that part 12 did not run. New with no partner: `filled_check_2_9l.py` and
+`stripe_check_2_9l.py`. Reused without a change: `heavy_capture_2_9j.py` and `light_capture_2_9g.py`.
+
+Heavy jobs (each exit 0 on the first attempt; the wall time is the clock window, ICT):
+- Build (limit 1800 s): 07:20 to 07:28, includes the wrapper start.
+- Reader back A3 into `_scratch-c29l/reader-back` (limit 1800 s): about 07:30 to 07:31.
+- Contact sheets (limit 600 s): about 07:33 to 07:34.
+- Final check log (limit 1200 s): about 07:36 to 07:38.
+
+STEP 1 (the pictures). `link_pictures_2_9l.py`: `LINKS 29`, `SHA_PAIRS_EQUAL 29`,
+`INODE_PAIRS_EQUAL 29`, student front `9087de28...` (`STUDENT_FRONT_SHA_EXPECTED true`).
+`fix-back-edge-2_9l.py`: back `881e93b2...`, `DIFFERING_PIXELS_OUTSIDE_STRIP 0`, `EDGE_FILL_OK True`.
+`prep-teacher-front-2-9l.mjs`: teacher front `09014118...`, `RAW_EQUAL true`, `PREP_OK true`. All 3
+values equal part 11.
+
+STEP 2 (the build). Exit 0, `Covers of Level 2 Unit 1 set 1: 32 pages, 44 files`, 4 lines `All checks
+pass.`. `filled_check_2_9l.py`: the copy `/tmp/storytime-art-edge-fill/99ee1b8d1fe0e9ad-l2-w01-cover-hello-v1.png`
+has the mtime 1794529222 (build start 1794529203, `MTIME_AFTER_BUILD_START True`), 10243179 bytes,
+SHA-256 `e05f9db1f187e6a9ea883a634ca3739e18407d6f9c294898821f0fcdac7a84c5` (part 11 copy
+`e0b8dc48...`, `SHA_DIFFERS_FROM_PART11 True`). D-F7b-1: output rows 0 to 167 equal source row 335 - r;
+output rows 2831 to 2999 equal source row 5661 - r; every other row equals the source;
+`FILLED_COPY_OK True`. Note: a copy of the same SHA-256 existed before the build (written at 07:15 by
+an earlier role); the build rewrote the file (mtime 07:20:22), as the code always does.
+
+STEP 3 (the edge and stripe check).
+(a) The part 11 hand-off w01-1 A3 cover `6b42938e...`: white edge rows 0, raw white edge columns 3
+(`edge-before-2-9l.txt`). The new cover `d3d4e65e...`: white edge rows 0 (no pixel ignored), raw
+columns 3 (information, D-P11-1), and with the outermost 3 px ignored: rows 0 and columns 0
+(`edge-after-2-9l.txt`, `edge-after-ign3-2-9l.txt`).
+(b) `stripe_check_2_9l.py` (rule D-F7b-2; the row mean over the columns 3 to 4957; the bands y 60 to 140
+and y 3368 to 3448; rows 2 away; threshold 15). The part 11 file: top 2 stripes (y 100: mean 194.33
+against 161.30 and 167.35; y 101: 190.37 against 171.75 and 161.68) and bottom 1 stripe (y 3408: mean
+159.51 against 119.17 and 117.79). The new file: 0 and 0 (band mean ranges: top 86.18 to 166.11,
+bottom 94.05 to 130.00). The rule worked with rows 2 away, so rows 3 away and a narrower window were
+not needed. I also cropped the top band (x 1500 to 2500, y 60 to 160) of both files and looked at it:
+the part 11 file shows a thin pale line across the brown beam at y 100; the new file shows none. The
+pale plank strip at the same height is art and is the same in both files.
+(c) `compare_2_9l.py`: `A3_OTHER_EQUAL 13 of 13`, `LEAF_EQUAL 14 of 14`, `BOOK_EQUAL 4 of 4`,
+`HELLO_A3_DIFFERS true`, `COMPARE_OK true`. No other PNG differs, so step 4 ran.
+
+STEP 4 (the reader files). Backup of every file that part 12 replaces: 41 files in
+`/tmp/opencode/c29l/old/` (34 reader files, 2 A3 PDFs, the hello page 12 PNG, 3 sheets, the MANIFEST).
+`copy_readers_2_9l.py`: `REPLACED 34`, `PAIR_EQUAL 34`, `COPY_OK true`; each old SHA-256 matched its
+MANIFEST line (`288d8478...`, `MANIFEST_SHA_EXPECTED true`). No book file was copied.
+
+STEP 5 (the reader back A3). Build: `make-readers-pdf.ts --level 2 --weeks 1 --final --a3-color
+--version 1 --out ~/Desktop/print-ready/storytime/_scratch-c29l/reader-back`, exit 0. `_scratch-c29k/`
+stays as it is. I copied the 2 PDFs to `/tmp/opencode/c29l/reader-back/`. The K-only workbook file
+was not rebuilt.
+Whole page 1 at 100 ppi with 2 px ignored (`edge_white_2_9l.py --pdf`): the part 11 hello file holds 583
+white edge rows and 873 white edge columns; both new files hold 0 and 0 (F8 closed).
+Order deviation, recorded: I chained `page12_2_9l.py` and `copy_back_2_9l.py` in one command. The first
+exit 1 (`ROOT_MISSING`: I had not made the check folder `/tmp/opencode/c29l/reader-back-check`), and the
+second ran anyway and replaced the 2 A3 PDFs. I then made the check folder (the 2 new A3 files and a
+byte copy of the unchanged workbook file) and ran `page12_2_9l.py` again: `PAGE12_OK true`, hello page 12
+PNG 4963x3508 `15e56a3f...`, nan-can-nod page 12 PNG 2479x3508 `303012dc...`, `A3_PAGE12
+words_in_this_book=1 storytime_advantage=0 sprout=0`. The replace used the old-SHA guard, so the early
+copy broke no rule. `copy_back_2_9l.py`: `REPLACED_PDFS 2`, `PAIR_EQUAL_PDFS 2`
+(`b11aba0a...` -> `88732877...`, `3019e183...` -> `f450e3ac...`), the page 12 render of the hello file is
+byte-equal to `15e56a3f...` (`RENDER_EQUALS_OLD_PNG true`), and page 1 of each file at 300 ppi is a new
+name in `reader-back-r5/` (D-P12-1): `l2-w01-hello-a3-page1.png` 4963x3508 `7b3bea2a...`,
+`l2-w01-nan-can-nod-a3-page1.png` 4963x3508 `5d545cbf...`; `COPY_BACK_OK true`.
+My 3 picture lines (read tool; the viewer shows a downscaled copy):
+- Hello page 1 (`reader-back-r5/l2-w01-hello-a3-page1.png`): all 4 edges hold art (beams and wall at the
+  top, wood floor at the bottom, wall and floor at the sides); no white at any edge; the title plaque
+  "Hello!" with "Listen and read." shows in full; no hairline near the top or the bottom edge.
+- Nan Can Nod page 1 (`reader-back-r5/l2-w01-nan-can-nod-a3-page1.png`): all 4 edges hold art (leaves and
+  sky at the top, grass at the bottom, bushes and tree at the sides); no white at any edge; the plaque
+  "Nan Can Nod" with "Listen and read." shows in full; no hairline near the top or the bottom edge.
+- New w01-1 A3 cover (`readers-a3/l2-w01-hello-a3-cover.png`): the same picture as the Hello page 1;
+  all 4 edges hold art; the plaque shows in full; no hairline near the top or the bottom edge (a
+  full-size crop of the top band confirms it).
+
+STEP 6 (the sheets). `contact-2-9l.py` (heavy, 600 s): `CONTACT_OK true`, `REPLACED 3`, `CREATED 0`.
+`readers-a3.png` f1b72ac5 -> 7fbd40d6; `all.png` 74d63e8b -> 084c4708; `readers-leaf.png` c2076b5e stays
+byte-equal.
+
+STEP 7 (the MANIFEST). `manifest_check_2_9l.py`: `MANIFEST_OK true`. Old SHA-256 `288d8478...` (131
+lines); new SHA-256 `8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87` (15706
+bytes), 133 lines, 2 new names (the 2 page 1 PNGs), 0 removed names, 120 byte-equal lines, 11 changed
+lines. `sha256sum -c`: 133 OK, 0 FAILED. MUST_CHANGE (5 names) all changed. `CHANGED_OUTSIDE_PLANNED 0`.
+MUST_EQUAL (the 13 other A3 PNGs, the 14 leaf PNGs, `student/`, `teacher/`, `teacher-candidate/`,
+`reader-back-r4/`, the workbook PDF/X file, the 2 page 12 PNGs, the other sheets): `MUST_EQUAL_NOT_EQUAL
+0`. The 11 changed names: 2 sheets; the 2 A3 PDFs of `reader-back-r5/`; in `readers-a3/` the w01-1
+cover PNG, the PDF/X file, `build-report.json`, and the combined PDF; in `readers-leaf/` the PDF/X
+file, `build-report.json`, and the combined PDF.
+
+STEP 8 (the final check log). `print_gate_final_2_9l.py` (numstat 69 insertions, 31 deletions).
+`gate-functions-2-9l.py`: `HELPER_BYTE_EQUAL true` (254 lines), `CHECK_1_TO_12_BYTE_EQUAL true` (331
+lines), `CHECK_FUNCTIONS_BYTE_EQUAL true`. Fix to the proof script: the end marker of the old file is now
+`    # CHECK_13`, because the part 11 file holds CHECK_13. Result: `PASS_LINES=45`, `FAIL_LINES=0`,
+`MANIFEST_SHA256_START` equal to `MANIFEST_SHA256_END` (`8f1901a3...`).
+CHECK_13_EDGE_WHITE: PASS. The 14 A3 PNGs hold 0 white edge rows and 0 white edge columns (3 px
+ignored; raw columns 42 = 3 on each of 14 files, information); page 1 cover box of the 2 files holds 0
+and 0; w01-1 A3 cover stripes top=0 bottom=0; `png_rows_rule=PASS png_cols_rule=PASS page1_box_rule=PASS
+stripe_rule=PASS`.
+CHECK_14_READER_PAGE1_FILL: `whole page 1 of the 2 A3 files of reader-back-r5 at 100 ppi with 2 px
+ignored on each side white_edge_rows=0 white_edge_cols=0 (hello top=0 bottom=0 left=0 right=0;
+nan-can-nod top=0 bottom=0 left=0 right=0), rule: whole page 1 holds 0 white edge rows and 0 white
+edge columns, PASS`.
+INFO_14_PAGE1_VS_COVER_PNG: `l2-w01-hello page1 1655x1170 vs l2-w01-hello-a3-cover.png resized
+mean_abs_diff R=2.02 G=2.13 B=1.99; l2-w01-nan-can-nod page1 1655x1170 vs l2-w01-nan-can-nod-a3-cover.png
+resized mean_abs_diff R=1.14 G=1.27 B=1.11` (information only; page 1 holds the title plaque and
+the Week 1 tag that the PNG lacks).
+
+STEP 9 (the proofs). `readers-w01-final/` keeps `aff26065...`, `d94d0d42...`, `4773521a...`.
+`content/storytime/l2/print/pictures/l2-w01-cover-hello-v1.png` keeps
+`99ee1b8d1fe0e9ad632e951c089ab7a4b1dce35de73bcd7dfce0bba63a8ed90f`. `git status --porcelain --
+dashboard content pnpm-lock.yaml` prints only `?? dashboard/raw.json`. `pnpm-lock.yaml` has no change.
+The hand-off folder holds 134 files (133 MANIFEST lines plus `MANIFEST.txt`).
+Note: the first run of the proofs capture exited 1 because the last `grep -c` printed 0; I ran the
+capture again with the count lines in `echo` and it exited 0.
+
+STEP 10 (the plan). `plan_insert_2_9l.py` inserts 2 lines directly after the Part 11 replacement table
+sub-line (plan line 242) and before Task 2.10: `INSERTED 2`, 248 to 250 lines, `git diff --numstat` `2 0`,
+the Thai count 0. The script asserts the 16 captures, the check log (PASS 45, FAIL 0, CHECK_13 and
+CHECK_14 PASS, INFO_14), the MANIFEST values, and the 11 table pairs before the write. Task 2.9 stays
+`[~]`.
+
+STEP 11 (the pages for the PM). The 10 pages and the 5 sheets are in the plan line and in the handoff
+below, each with the pixel size and the SHA-256.
+
+## Replacement table (old -> new SHA-256)
+
+See plan.md, the Part 12 replacement table line (11 changed names and the 2 new names).
+
+## The gates
+
+- Build: exit 0, 32 pages, 44 files, 4 lines `All checks pass.`.
+- Filled copy: mtime after build start; SHA e05f9db1 (not e0b8dc48); D-F7b-1 rows true.
+- Edge: new cover 0 white edge rows and 0 columns (3 px ignored). Stripes: part 11 top 2, bottom 1; new 0 and 0.
+- Compare: 13 + 14 + 4 PNGs byte-equal; the w01-1 A3 PNG differs.
+- Reader files: `REPLACED 34`, `PAIR_EQUAL 34`; A3 PDFs: 2 replaced, pairs equal; page 12 render byte-equal; page 1 PNGs: 2 new names.
+- Sheets: `CONTACT_OK true`, 3 replaced, `readers-leaf.png` equal.
+- MANIFEST: `MANIFEST_OK true`, 133 lines, 2 new, 0 removed, 120 equal, 11 changed, 133 OK 0 FAILED.
+- Check log: `PASS_LINES=45`, `FAIL_LINES=0`, `CHECK_FUNCTIONS_BYTE_EQUAL true`.
+- Proofs: `readers-w01-final/` unchanged; the source art unchanged; `pnpm-lock.yaml` unchanged.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: done
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+task: Task 2.9 (Print build), part 12, the A3 rebuild after F7b and F8
+role_base_sha: ef21fdbf
+phase_base_sha: e6e2156a
+green_code: 12f7aa75 (F7b and F8, inside e6e2156a..HEAD)
+commits: 007b7636 (43 files: the part 12 scripts and captures, the rewritten print-gate.txt, and the 2 plan lines), and COMMIT_2 (this log alone)
+tests_run: no vitest file (build task); build exit 0 (1 attempt, 32 pages 44 files, 4 lines All checks pass.); reader back A3 build exit 0 (1 attempt); contact sheets exit 0 (1 attempt); final check log exit 0 (1 attempt, PASS_LINES=45 FAIL_LINES=0)
+checks: pictures 29 links, front 9087de28, back 881e93b2, teacher front 09014118; filled copy e05f9db1 (mtime after build start, not e0b8dc48, D-F7b-1 rows true); w01-1 A3 cover d3d4e65e 0 white edge rows and 0 columns (3 px ignored), stripes part 11 file top 2 bottom 1 and new file 0 and 0; compare 13/14/4 equal and w01-1 differs; copy_readers REPLACED 34 PAIR_EQUAL 34; A3 PDFs 2 replaced, page 12 render byte-equal 15e56a3f; whole page 1 at 100 ppi part 11 583 rows 873 columns, new 0 and 0 on both files; CONTACT_OK true; MANIFEST_OK true (133 lines, 2 new, 0 removed, 120 equal, 11 changed, 133 OK 0 FAILED, old 288d8478, new 8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87); check log PASS_LINES=45 FAIL_LINES=0 with MANIFEST_SHA256_START = END, CHECK_13 PASS (stripes 0 and 0), CHECK_14 PASS, CHECK_FUNCTIONS_BYTE_EQUAL true (254 and 331 lines); readers-w01-final unchanged; git status scope only ?? dashboard/raw.json; pnpm-lock.yaml unchanged; plan Thai count 0
+files_changed: 43 files in commit 007b7636 (41 new in measure/runs/storytime_cover_options_20261106/: scripts and captures with 2_9l and 2-9l names, plus filled_check_2_9l.py and stripe_check_2_9l.py; print-gate.txt rewritten; plan.md 2 lines), this log; hand-off folder covers-quest-v1: 34 reader files, 2 A3 PDFs of reader-back-r5, hello page 12 PNG (byte-equal rewrite), 2 new page 1 PNGs, 3 sheets, MANIFEST.txt
+plan_updates: 2 lines inserted directly after the Part 11 replacement table sub-line and before Task 2.10: the Part 12 evidence line and the Part 12 replacement table with 11 old and new SHA-256 values and the 2 new names. Task 2.9 stays [~].
+known_failures: none. Recorded deviations: the reader back A3 build wrote into _scratch-c29l/reader-back (make-readers-pdf.ts accepts only an output folder inside ~/Desktop/print-ready/storytime/), and the folder stays in place together with _scratch-c29k/; page12_2_9l.py first ran with a missing check folder (exit 1) after a chained command had already run copy_back_2_9l.py, and ran again after I made the folder (PAGE12_OK true).
+dispositions: none
+handoff: The hand-off folder ~/Desktop/print-ready/storytime/covers-quest-v1/ holds the A3 covers after F7b and F8. The w01-1 A3 cover PNG has no hairline (stripe rule D-F7b-2: part 11 file top 2 and bottom 1 stripes, new file 0 and 0) and no white edge row or column. Whole page 1 of both new A3 reader files has 0 white edge rows and 0 white edge columns (part 11: 583 and 873), so F8 is closed. The folder holds 133 MANIFEST lines (SHA-256 8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87). phase_base_sha e6e2156a; Green HEAD after commit 1 is 007b7636. Backup of the replaced files: /tmp/opencode/c29l/old/. Scratch folders ~/Desktop/print-ready/storytime/_scratch-c29k/ and _scratch-c29l/ (each holds reader-back/ with the 2 A3 PDFs) stay in place. The 10 pages: student/front-alt-hlogo-r5.png 2480x3508 6750339526f85e6fbcddb3de8ad93d9b43258b4b943cea4092528babb437d795; student/back-alt-hlogo-r5.png 2480x3508 9f5b588fa6f6b968b55c1f7c33abdff03f90cf513cd823ea940a645a829b20b3; teacher/teacher-front-alt-hlogo-r5.png 2480x3508 6a0d5227a074b9af9ca8822cc62afa3cdfe4d52d8819df43dfdb5fc5e2fe5f3b; teacher/teacher-back-alt-hlogo-r5.png 2480x3508 ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4; readers-a3/l2-w01-hello-a3-cover.png 4961x3508 d3d4e65e9418b35782e37152ac37a3e182ffd00923d6dd90e436be91d85abe8d (new); reader-back-r5/l2-w01-hello-a3-page12.png 4963x3508 15e56a3fec114c19fc4189c3222850a045aab29c38637ee49fd6a412cacce667; readers-leaf/l2-w01-nan-can-nod-leaf-cover.png 2339x1754 b7a27a2eeb1d9f578654666c7efeba9adc0ae54f6f56c515bdb97ea13d2d3c26; reader-back-r5/l2-w01-nan-can-nod-leaf-page12.png 2479x3508 303012dcdcd96be157576b83ba90423b4aa2ec84e667ab3a2793dceb44f68be4; reader-back-r5/l2-w01-hello-a3-page1.png 4963x3508 7b3bea2a59f7e88e67cffa3c914d68c8434154d682e95c054025efa5b5fbfdc1 (new); reader-back-r5/l2-w01-nan-can-nod-a3-page1.png 4963x3508 5d545cbfa0c89f66e8594948fca0c8766a09b78c063927baabdf1cad50cf7ce1 (new). The 5 sheets: contact-sheets/readers-a3.png 7154x1658 7fbd40d6b3002b2cfc1e1e2db1e0f5ddb07428da4a669c4153b25ad27e43fc55 (new); contact-sheets/readers-leaf.png 6755x1658 c2076b5e359a4ac7098c3c14d6146855c7108fda5d75dd4c2ad96aa8ee695960 (equal); contact-sheets/all.png 3648x5698 084c47086649546fafa5a83d4c9c18a3398bc65038a42a4b65ad8c5e3222d41f (new); contact-sheets/student-alt-hlogo-r5.png 2064x1496 861c2e902f1f0d64952b31edeb184d5bf6ff6fd51c2b77cdf0cc3d1bc5aab553 (equal); contact-sheets/teacher-alt-hlogo-r5.png 2064x1496 b57a7ed586bc7f43e2d43a5723375bde546017e686730b7f5c44af8d55250c01 (equal). Task 2.9 stays [~]; the orchestrator decides its close.
+END_MEASURE_AGENT_RESULT
