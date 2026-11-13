@@ -1,0 +1,93 @@
+Step log of Task 2.8 (Green · P2 T2.8 · storytime_cover_options)
+
+Role: measure-jr-green. Model: opencode/minimax-m3.1-flash-free#high. Coder: none; the
+work ran in this role. role_base_sha c0bbe164 (the HEAD at the start), phase_base_sha
+e6e2156a. The task had no Red window, so no Red test was written, read, or edited.
+
+- Thai filter (the first command): the script read the 9 named files, dropped every line with a
+  character from U+0E00 to U+0E7F, and wrote the copies into /tmp/opencode/t28/. The proof line
+  reads THAI_CHARS_IN_OUTPUT: 0. Every command ran through
+  `python3 -I -B measure/runs/storytime_cover_options_20261106/light_capture_2_9g.py`, which
+  filtered the Thai lines of every capture. No .json file under content/ was opened.
+
+- Step 1, the preparation script: `prep-teacher-front-2-8.mjs` is a copy of
+  `prep-teacher-front-2-9k.mjs` with only the header comment and the TARGET changed. The TARGET is
+  the absolute path `content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1-300ppi.png`.
+  The create-only guard and the raw-pixel proof stay. The run exits 0
+  (`prep-teacher-front-2-8.txt`): SOURCE_SHA_EXPECTED true, SOURCE_SIZE_OK true,
+  SOURCE_CHANNELS_OK true, OUTPUT_SIZE 2480 x 3508, OUTPUT_CHANNELS 3, OUTPUT_HAS_ALPHA false,
+  OUTPUT_DENSITY 300, RAW_EQUAL true, PREP_OK true. The output SHA-256 is
+  0901411875407c09bd69e779f5aad31b36147d84d0e742feee6316712bf96283. The proof capture
+  `prep-teacher-front-2-8-proof.txt` gives the same SHA-256 for the part 12 file in
+  /tmp/opencode/c29l/pictures/, SHA_EQUAL true, RAW_EQUAL true with the raw SHA-256
+  8fc2be064dc2f81c91f2debf7808582839db8881ee073bf31901157f76de4b24 on both sides, and BYTE_EQUAL
+  true. The numstat of the pair is empty, and cmp exits 0.
+
+- Step 2, D-T28-2 (the orchestrator decision): the D-A8 source name
+  `content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1.png` is a hard link of
+  the Forge file. The proof capture `hardlink-2-8-teacher.txt` gives the inode 14332129 for the
+  link and for the Forge file, the link count 3 for both, and the same SHA-256
+  c91719903d3803bc02498f8e097528c9a64ddae263102ebf28d06d8d37f11a53. The extension is .png, because
+  the Forge source is a PNG at print size and a JPEG would change the pixels.
+
+- Step 3, the upscale check: the run with the real flags gives 8 of 8 checks and exits 0
+  (`upscale-check-2-8-teacher.txt`): size 2480 x 3508, format png, no alpha, 3 channels, mean
+  difference 0.000, the name of spec D-A8, the print pictures folder, and git check-ignore exit 0.
+  The 2 mutants run on the copies in /tmp/opencode/t28/, without the real flag. M1, the copy at
+  2480 x 3507 px, gives FAIL size and exits 1. M2, the teacher front checked against the back art
+  as the source, gives FAIL mean difference at most 3 of 255 with a mean of 72.862, and exits 1.
+
+- Step 4, D-T28-1 (the orchestrator decision): `~/Desktop/print-ready/storytime/covers-quest-v1/spend-log.md`
+  stays unchanged. The spend check gives 8 of 8 checks and exits 0 (`spend-check-2-8-r2.txt`):
+  six_fields_ok with 7 rows, phase2_equals_row_sum with 245 units, phase2_at_most_9335,
+  track_equals_665_plus_phase2 with 910 units, track_at_most_10000, at_least_2_rows,
+  attempts_1_to_3, id_ok with the 1 recorded exception of row 4, and saved_files_exist. The
+  MANIFEST line of the spend log holds the SHA-256
+  ca5cbc85975a14c7a709fcbcd9bd5da6bef5dec524753337a92e83d1cf367028, and the MANIFEST
+  8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87 gives 133 of 133 files OK.
+  The Forge spend goes into the plan evidence: 6 muse calls, 0.06 USD of the 0.10 USD stop, from
+  the table of the Forge README. Task 2.11 adds the note line to the spend log when it writes the
+  11-16 MANIFEST.
+
+- Step 5, `options/selection-final.json`: the entry `Q-teacher` alone changed. The file is
+  `content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1-300ppi.png`. The new
+  `forge_source` holds the try m6, the Forge path, the SHA-256
+  c91719903d3803bc02498f8e097528c9a64ddae263102ebf28d06d8d37f11a53, and the size. The attempts
+  a1, a2, and a3 stay unchanged, and the attempt `forge-m6` holds the orchestrator's look word for
+  word. The faults are `[]`, the fallback reads "not used (the Forge try m6 passed)", the
+  `local_fix` stays as history, and the result reads "pass (Forge route, try m6; orchestrator look
+  2026-11-13)". The check capture `selection-check-2-8.txt` gives JSON_PARSES true,
+  PICTURES_COUNT 3, ENTRY_BYTE_EQUAL true for Q-front and back, A1_A2_A3_UNCHANGED true,
+  LOCAL_FIX_UNCHANGED true, LOOK_TEXT_WORD_FOR_WORD true, and THAI_CHARS 0.
+
+- Step 6, `plan.md`: line 106 changed from [~] to [x] and ends with commit d398b2b. One evidence
+  sub-line sits at line 109, directly after the PM receipt sub-line of line 108. It holds the route,
+  the Forge source and its SHA-256, the prepared file SHA-256 and the raw-pixel proof, D-T28-2 and
+  the inode proof, the upscale check of 8 of 8 with the 2 mutants caught, the spend check result
+  and D-T28-1, the Forge spend, the orchestrator's look, and one labelled result for each
+  done-when item (DW1 to DW5). The check capture `plan-check-2-8.txt` gives THAI_TOTAL 0,
+  TASK_28_LINE_IS_X true, TASK_28_LINE_ENDS_WITH_SHA true, and the 2 hunks of the diff.
+
+- The scope: no code file and no test file changed. The only change under content/ is the 2 new
+  git-ignored pictures. The 2 new pictures pass `git check-ignore`. The files of commit 1 hold 0
+  Thai characters (`thai-check-2-8-commit1.txt`: TOTAL_THAI_CHARS 0), and the plan holds 0 Thai
+  characters. No vitest file ran, no heavy job ran, and no pnpm command ran. Commit 2 holds
+  plan.md and its check capture; the capture is the proof of the plan change.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: pass
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+task: Task 2.8 (Final art, paid)
+role_base_sha: c0bbe164
+phase_base_sha: e6e2156a
+commits: d398b2bc (the script, the captures, and selection-final.json), cfd21e65 (plan.md and its check capture), and this log commit (its SHA comes in the final reply of the role)
+tests_run: none (Task 2.8 opens no Red window; no vitest file ran and no heavy job ran)
+checks: the preparation script exits 0 and the raw pixels hold; the D-T28-2 hard link holds the inode of the Forge file; the upscale check of the teacher front gives 8 of 8 and exits 0, and the 2 mutants exit 1; the spend check gives 8 of 8 and exits 0, and the MANIFEST gives 133 of 133 OK; selection-final.json parses with 3 entries and 0 Thai characters; plan.md holds 0 Thai characters
+files_changed: measure/runs/storytime_cover_options_20261106/prep-teacher-front-2-8.mjs (new), the 8 new captures of this track, measure/tracks/storytime_cover_options_20261106/options/selection-final.json, measure/tracks/storytime_cover_options_20261106/plan.md, this log, and the 2 git-ignored pictures content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1-300ppi.png and content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1.png
+plan_updates: plan.md line 106 changed from [~] to [x] and ends with commit d398b2b; one evidence sub-line added at line 109, after the PM receipt sub-line of line 108
+known_failures: none
+dispositions: none
+handoff: the review roles scope the audit to commit d398b2bc (the new script, the 8 captures, and selection-final.json), commit cfd21e65 (plan.md and the plan check capture), and the log commit. The new files are the 8 captures of measure/runs/storytime_cover_options_20261106/ (prep-teacher-front-2-8.txt, prep-teacher-front-2-8-proof.txt, hardlink-2-8-teacher.txt, upscale-check-2-8-teacher.txt, spend-check-2-8-r2.txt, selection-check-2-8.txt, thai-check-2-8-commit1.txt, plan-check-2-8.txt) and prep-teacher-front-2-8.mjs. The 2 pictures are git-ignored and stay out of git. No file under content/ changed except the 2 new pictures. No code and no test file changed. The spend log of ~/Desktop/print-ready/storytime/covers-quest-v1/ stays unchanged, so Task 2.11 adds its note line when it writes the 11-16 MANIFEST.
+END_MEASURE_AGENT_RESULT
