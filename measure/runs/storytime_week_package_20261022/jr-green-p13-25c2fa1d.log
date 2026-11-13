@@ -1,0 +1,35 @@
+Role: measure-jr-green, Phase 13, Task (Green 1), track storytime_week_package_20261022
+Model: claude-code/claude-opus-5-5[1m]#high (family Anthropic). Red model: coding-plan/glm-5.3-flash#high (family GLM).
+role_base_sha: 25c2fa1d2a7528738697579cdc46341bf67707ad
+phase_base_sha: c42918df
+Date: 2026-11-14, about 00:40 to 01:09 ICT
+
+Steps
+1. Read plan.md Phase 13 and spec.md "Addendum 2026-11-14, Phase 13" through a Python filter that drops Thai lines. Read the Red file and the 6 code files.
+2. Checked: 1e2f0573 and d9a1e363 are inside c42918df..HEAD. `git status --porcelain dashboard/lib/storytime/schema.ts` printed nothing before the edit.
+3. Wrote the code of FR 1 to FR 6 in the 6 files (no commit).
+4. RED_TEST_COMMAND in one heavy-run wrapper: Tests 18 failed | 33 passed (51). No capture file was written (the output went to the tool only).
+5. Traced each of the 18 failures to 6 defects of the Red test file (D1 to D6).
+6. Copied the test file to the scratch file dashboard/__tests__/zz-scratch-p13-green1-probe.test.ts and applied the 6 fixes there. One heavy-run wrapper: Tests 51 passed (51). Then deleted the scratch file. No committed test file changed.
+7. Saved the code with `git diff --output=...` as p13-green1-wip.patch (6 files; `git apply --check -R` passed). Wrote p13-green1-red-defects.txt. Commit c3f66555.
+8. Restored the 6 code files with `git checkout -- <6 paths>`. `git status --porcelain` on the 6 paths and pnpm-lock.yaml printed nothing.
+9. plan.md: one Blocked sub-line under Task (Green 1); the task stays [~]. Commit 8ac25b20.
+10. No mmx call, no paid call, no content file change. The four gates, the mutants, the live proofs, and the F2 script fix did not run.
+11. Scratch: no /tmp folder of this role remains (the test temp folders are removed by the test afterAll).
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: storytime_week_package_20261022
+phase: 13
+task: Task (Green 1)
+role_base_sha: 25c2fa1d2a7528738697579cdc46341bf67707ad
+phase_base_sha: c42918df
+commits: c3f66555 (p13-green1-wip.patch, p13-green1-red-defects.txt); 8ac25b20 (plan.md Blocked sub-line); this log commit
+tests_run: RED_TEST_COMMAND at the Green code: 18 failed | 33 passed (51), exit 1; a scratch copy with the 6 fixes: 51 passed (51), exit 0
+checks: none of the four gates ran; no mutants; no live proofs
+files_changed: measure/runs/storytime_week_package_20261022/p13-green1-wip.patch, p13-green1-red-defects.txt, jr-green-p13-25c2fa1d.log, measure/tracks/storytime_week_package_20261022/plan.md; the 6 code files are back at HEAD
+plan_updates: Task (Green 1) stays [~], with one Blocked sub-line
+known_failures: D1 line 772 (the fake take is 0.66 s, a read-along sentence needs 0.8 s or more by L8, so 3 takes; 13 cases); D2 lines 1350 to 1358 (the limit 63 is below the one-take sum 137, and M6 plus the Phase 12 case at practice-clips line 2425 stop the run before call 1); D3 line 1378 (a kept line for the remade b0-s03, against M5 and M6); D4 lines 1399 and 1400 (the made line of fan sits at index 4, M6 keeps the made lines); D5 lines 1412 and 1413 (the failed call for Hen is call 2, M6 counts a failed call); D6 line 1633 (the shared N8 tree already holds the array of the earlier cases)
+handoff: Mid Red retry of the test file only, with the 6 hunks of p13-green1-red-defects.txt. Red must show that the fixed file still fails at HEAD without the Green code (each failure from a missing export, option, flag, row, or behavior). Then Green 1 runs again: `git apply measure/runs/storytime_week_package_20261022/p13-green1-wip.patch`, the four gates, the 15 mutants, the live proofs, and the F2 fix of p12-chars-compute.py. Open decision with a default: the word maker refuses --kind with any value (exit 2), and its usage names --kind as a flag of make-sentence-clips.ts (spec M3 and FR 3 give it no --kind; N7 needs the usage and the exit 2).
+END_MEASURE_AGENT_RESULT
