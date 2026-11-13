@@ -7,7 +7,9 @@ Language: English only. This text holds no Thai.
 
 ## 1. Owner approval
 
-Daniel approved the option A covers on 2026-11-13 (Google Tasks LW5mMW9WbFJvNTR1OUNKVQ, 11:41, PM relay, verbatim): "They all look fine at 12:40. Teacher gave is not cut." The PM cancelled the F9 fix round. The precondition of the receiving task is met (Task 2.14 of the cover track is `[x]`).
+Daniel approved the 14 A3 and 14 leaf reader covers on 2026-11-13 (Google Tasks LW5mMW9WbFJvNTR1OUNKVQ, 11:41, PM relay, verbatim): "They all look fine at 12:40. Teacher gave is not cut." These words cover the reader covers only. The PM cancelled the F9 fix round. The precondition of the receiving task is met for the reader covers (Task 2.14 of the cover track is `[x]`).
+
+PM correction (2026-11-13, about 14:20): the student and teacher book covers (alt-hlogo r5) were not in the sheets that Daniel passed. His last word on the book covers is "R2" (2026-11-11). The PM sent him the r5 sheets (Tasks look item, due 2026-11-15). Task 2.14b of the cover track holds his answer. The r5 book covers are not approved.
 
 ## 2. The accepted folder
 
@@ -20,19 +22,23 @@ Daniel approved the option A covers on 2026-11-13 (Google Tasks LW5mMW9WbFJvNTR1
 
 The values below are the SHA-256 and the size of the MANIFEST lines. No file was hashed again for this text.
 
-The 4 print files of the release set (Task 2.9 close, 2026-11-13):
+The release files below are the 2 reader cover files (approved by Daniel on 2026-11-13) and the 2 r2 book cover files (Daniel's last word on the book covers, "R2", 2026-11-11):
 
 | File | SHA-256 | Size (bytes) | Pages |
 |---|---|---|---|
 | `readers-a3/Storytime-Advantage-L2-U1-Reader-Covers-A3-v1_PDFX-1a.pdf` | `b944470339b19e42b77f8151815ab1907be5f354127c163109b2fa1ba0ddea58` | 44986000 | 14 |
 | `readers-leaf/Storytime-Advantage-L2-U1-Reader-Leaf-Covers-v1_PDFX-1a.pdf` | `3f131660a61313c7910be03fa49388bc773fe76d0b47d6121367b4a8147949b7` | 3328600 | 14 |
-| `student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r5_PDFX-1a.pdf` | `e0f09b7f1949ba2c28d15ff2ccd5f79fb22896ba24e27672d65c85a1424de2c7` | 6289779 | 2 |
-| `teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r5_PDFX-1a.pdf` | `850ed03f69164af9bf41179c33cb7bb15e4725a8b2b2257ee0dc5bae9a0625fd` | 7017934 | 2 |
+| `student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r2_PDFX-1a.pdf` | `bc00778ebcc91787b708a5dec353f75aa4559218404e598bcc596ec07daf6663` | 6300245 | 2 |
+| `teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r2_PDFX-1a.pdf` | `6a50cdb2767c3afe734d96d1d38657d11f48e11289b008753d89c9a955cdeefd` | 7029461 | 2 |
 
-The cover v4 (student book) and the cover v2 (teacher book) are the last 2 rows. The folder also holds older variants of both books (no suffix, `alt-hlogo`, `r2`, `r3`, `r4`) for the record (`print-gate.txt`, D-3). The release files are the `r5` files. The `r2` files that Daniel picked on 2026-11-11 stay in the folder:
+The cover v4 (student book) and the cover v2 (teacher book) are the last 2 rows. The release book cover files are these r2 files until Task 2.14b of the cover track closes. The folder also holds older variants of both books (no suffix, `alt-hlogo`, `r3`, `r4`) for the record (`print-gate.txt`, D-3).
 
-- `student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r2_PDFX-1a.pdf`, `bc00778ebcc91787b708a5dec353f75aa4559218404e598bcc596ec07daf6663`, 6300245 bytes.
-- `teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r2_PDFX-1a.pdf`, `6a50cdb2767c3afe734d96d1d38657d11f48e11289b008753d89c9a955cdeefd`, 7029461 bytes.
+The r5 book cover files are pending Daniel's answer (Task 2.14b, due 2026-11-15). They are not release files yet:
+
+- `student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r5_PDFX-1a.pdf`, `e0f09b7f1949ba2c28d15ff2ccd5f79fb22896ba24e27672d65c85a1424de2c7`, 6289779 bytes.
+- `teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r5_PDFX-1a.pdf`, `850ed03f69164af9bf41179c33cb7bb15e4725a8b2b2257ee0dc5bae9a0625fd`, 7017934 bytes.
+
+When Daniel says ok on r5, the orchestrator sends a one-line update to the print track.
 
 The page PNG files at 300 ppi are in the same folders: `readers-a3/` (17 manifest lines, 14 PNG files), `readers-leaf/` (17 lines, 14 PNG files), `student/`, and `teacher/`. The contact sheets are in `contact-sheets/` (`all.png`, `readers-a3.png`, `readers-leaf.png`, `student-alt-hlogo-r5.png`, `teacher-alt-hlogo-r5.png`).
 
