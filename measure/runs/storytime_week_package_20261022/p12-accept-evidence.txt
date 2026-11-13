@@ -1,0 +1,109 @@
+CAPTURE of AC12-9 to 12 evidence
+COMMAND: python3 -I -B measure/runs/storytime_week_package_20261022/p12-accept-evidence-grep.py
+
+--- STDOUT ---
+===== p12-red1.txt
+TAIL 
+TAIL 
+TAIL exit: 1
+HIT  [2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+HIT  [2m      Tests [22m [1m[31m84 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (88)[39m
+HIT  [31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 84 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+HIT  exit: 1
+===== p12-green1-green.txt
+MISSING FILE
+===== p12-green1-project.txt
+MISSING FILE
+===== p12-green1-lint.txt
+TAIL 
+TAIL THAI_LINES_DROPPED=0
+TAIL EXIT=0
+===== p12-green1-checks.txt
+TAIL 
+TAIL THAI_LINES_DROPPED=0
+TAIL EXIT=0
+HIT  check-weeks exit: 0
+HIT  FAIL rows other than published: 0
+HIT  tsc exit: 0
+===== p12-clips-green.txt
+TAIL 
+TAIL THAI_LINES_DROPPED=0
+TAIL EXIT=0
+HIT  [2m Test Files [22m [1m[32m7 passed[39m[22m[90m (7)[39m
+HIT  [2m      Tests [22m [1m[32m454 passed[39m[22m[90m (454)[39m
+===== p12-clips-checks-fa47ca23.txt
+TAIL THAI_LINES_DROPPED=0
+TAIL EXIT=0
+TAIL FAIL rows other than published: 0
+HIT  FAIL rows other than published: 0
+===== p12-clips-checks-ade618a5.txt
+TAIL THAI_LINES_DROPPED=0
+TAIL EXIT=0
+TAIL FAIL rows other than published: 0
+HIT  FAIL rows other than published: 0
+===== p12-review-a-mutants.txt
+TAIL scratch removed: True
+TAIL mutants: 13, caught: 13
+TAIL restore cmp: all equal
+HIT  COMMAND per mutant: save bytes, apply, `cd dashboard && CI=true npx vitest run __tests__/storytime-package-practice-clips.test.ts --maxWorkers=1`, restore bytes, cmp
+HIT  M1 the opening rule drops the 'What is the word?' form (D2) | file dashboard/lib/storytime/word-clips.ts | exit 1 | Tests  39 failed | 50 passed (89) | CAUGHT | restore cmp equal
+HIT  M2 practiceWordKeys skips the tricky list (D3) | file dashboard/lib/storytime/word-clips.ts | exit 1 | Tests  26 failed | 63 passed (89) | CAUGHT | restore cmp equal
+HIT  M3 the mapper copies only the gap words (D5) | file dashboard/scripts/storytime/set-word-clips.ts | exit 1 | Tests  1 failed | 88 passed (89) | CAUGHT | restore cmp equal
+HIT  M4 the mapper removes a practice clip as stale (D5) | file dashboard/scripts/storytime/set-word-clips.ts | exit 1 | Tests  3 failed | 86 passed (89) | CAUGHT | restore cmp equal
+HIT  M5 the mapper copies a clip before its bank check (D6) | file dashboard/scripts/storytime/set-word-clips.ts | exit 1 | Tests  4 failed | 85 passed (89) | CAUGHT | restore cmp equal
+HIT  M6 checkPracticeClips skips the SHA-256 compare (D7) | file dashboard/scripts/storytime/check-weeks.ts | exit 1 | Tests  2 failed | 87 passed (89) | CAUGHT | restore cmp equal
+HIT  M7 the sentence maker cuts a window of the book mp3 (D9 and D11) | file dashboard/scripts/storytime/make-sentence-clips.ts | exit 1 | Tests  12 failed | 77 passed (89) | CAUGHT | restore cmp equal
+HIT  M8 sentenceHeardPasses passes every text (D10) | file dashboard/lib/storytime/sentence-clips.ts | exit 1 | Tests  5 failed | 84 passed (89) | CAUGHT | restore cmp equal
+HIT  M9 the peak target is 32767 (D10) | file dashboard/scripts/storytime/make-sentence-clips.ts | exit 1 | Tests  1 failed | 88 passed (89) | CAUGHT | restore cmp equal
+HIT  M10 checkSentenceClips skips the text compare (D12) | file dashboard/scripts/storytime/check-weeks.ts | exit 1 | Tests  2 failed | 87 passed (89) | CAUGHT | restore cmp equal
+HIT  M11 planSentenceClips includes the read-along books (D8) | file dashboard/lib/storytime/sentence-clips.ts | exit 1 | Tests  15 failed | 74 passed (89) | CAUGHT | restore cmp equal
+HIT  M12 looksLikeCut always gives false (D11) | file dashboard/lib/storytime/sentence-clips.ts | exit 1 | Tests  2 failed | 87 passed (89) | CAUGHT | restore cmp equal
+HIT  M13 the sentence maker ignores --max-chars (D10) | file dashboard/scripts/storytime/make-sentence-clips.ts | exit 1 | Tests  2 failed | 87 passed (89) | CAUGHT | restore cmp equal
+HIT  NOTE: the Red F10 role of track storytime_cover_options works in dashboard/__tests__/quest-cover-*; a difference there comes from that role, not from a mutant. The restore is judged by cmp and by the porcelain of the 5 Phase 12 code files below.
+HIT  mutants: 13, caught: 13
+HIT  restore cmp: all equal
+===== p12-review-a-cutprobe.txt
+TAIL positive controls: 7, true: 7
+TAIL scratch removed: true
+TAIL exit: 0
+HIT  clips: 56, cuts: 0, highest max-ncc: 0.325
+HIT  positive controls: 7, true: 7
+===== p12-handoff.txt
+TAIL 
+TAIL THAI_LINES_DROPPED=0
+TAIL EXIT=0
+HIT  CAPTURE of P12 nine checks on 7 folders
+HIT  RESULT PASS (9 checks on w01-storytime-app-package-r5: 9 passed, 0 failed)
+HIT  RESULT PASS (9 checks on w02-storytime-app-package-r4: 9 passed, 0 failed)
+HIT  RESULT PASS (9 checks on w03-storytime-app-package-r4: 9 passed, 0 failed)
+HIT  RESULT PASS (9 checks on w04-storytime-app-package-r4: 9 passed, 0 failed)
+HIT  RESULT PASS (9 checks on w05-storytime-app-package-r4: 9 passed, 0 failed)
+HIT  RESULT PASS (9 checks on w06-storytime-app-package-r4: 9 passed, 0 failed)
+HIT  RESULT PASS (9 checks on w07-storytime-app-package-r4: 9 passed, 0 failed)
+HIT  === literal shell checks ===
+HIT  RESULT PASS (9 checks on 7 folders, 0 failures)
+===== p12-handoff-tree-after.txt
+TAIL 
+TAIL THAI_LINES_DROPPED=0
+TAIL EXIT=0
+HIT  folders: 29
+===== p12-chars.txt
+TAIL 
+TAIL THAI_LINES_DROPPED=0
+TAIL EXIT=0
+HIT  CAPTURE of P12 character totals: word run 47; sentence one-take 779; sent 887 (873 takes + 14 failed w01 calls); total 934
+HIT  w01: one-take 70 sent 70
+HIT  w02: one-take 62 sent 78
+HIT  w03: one-take 130 sent 130
+HIT  w04: one-take 116 sent 160
+HIT  w05: one-take 127 sent 127
+HIT  w06: one-take 132 sent 166
+HIT  w07: one-take 142 sent 142
+HIT  sentence one-take sum: 779
+HIT  sentence sent sum (with failed calls 14): 887
+HIT  total chars: 934
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

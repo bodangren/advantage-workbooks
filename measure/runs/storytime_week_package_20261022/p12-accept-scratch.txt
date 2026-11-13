@@ -1,0 +1,12 @@
+CAPTURE of scratch removal
+COMMAND: python3 -c "import shutil,os;shutil.rmtree('/tmp/opencode/p12-accept');print('exists:',os.path.exists('/tmp/opencode/p12-accept'))" && echo scratch removed: True && git rev-parse HEAD
+
+--- STDOUT ---
+exists: False
+scratch removed: True
+852a8dbaa0dfb29295898e6884a9e987e0fed155
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

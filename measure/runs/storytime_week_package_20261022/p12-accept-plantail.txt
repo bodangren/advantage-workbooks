@@ -1,0 +1,32 @@
+CAPTURE of plan tail
+COMMAND: tail -c 300 measure/tracks/storytime_week_package_20261022/plan.md | od -c | tail -20; grep -c . measure/tracks/storytime_week_package_20261022/plan.md; awk 'NR==512' measure/tracks/storytime_week_package_20261022/plan.md | grep -cP '[\x{0e00}-\x{0e7f}]'; wc -l measure/tracks/storytime_week_package_20261022/plan.md
+
+--- STDOUT ---
+0000000       `   m   e   a   s   u   r   e   /   l   e   s   s   o   n
+0000020   s   -   l   e   a   r   n   e   d   .   m   d   `   :       a
+0000040       "   n   o       s   l   i   c   e   "       r   u   l   e
+0000060       n   e   e   d   s       a       p   o   s   i   t   i   v
+0000100   e       c   o   n   t   r   o   l       (   a       r   e   a
+0000120   l       c   u   t       m   u   s   t       f   a   i   l    
+0000140   t   h   e       t   e   s   t   )   ,       a   n   d       t
+0000160   h   e       b   o   o   k       a   u   d   i   o       c   a
+0000200   c   h   e       h   o   l   d   s       p   e   r   -   s   e
+0000220   n   t   e   n   c   e       g   e   n   e   r   a   t   i   o
+0000240   n   s       t   h   a   t       a       p   a   c   k   a   g
+0000260   e       c   a   n   n   o   t       r   e   a   d   ,       s
+0000300   o       a       c   l   i   p       t   h   a   t       m   u
+0000320   s   t       s   h   i   p       i   s       g   e   n   e   r
+0000340   a   t   e   d       o   r       c   o   p   i   e   d       i
+0000360   n   t   o       t   h   e       c   o   n   t   e   n   t    
+0000400   t   r   e   e   .       E   v   i   d   e   n   c   e   :    
+0000420   a   u   t   o   m   a   t   e   d       p   l   u   s       p
+0000440   e   e   r   -   r   e   p   o   r   t   .  \n
+0000454
+440
+0
+512 measure/tracks/storytime_week_package_20261022/plan.md
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

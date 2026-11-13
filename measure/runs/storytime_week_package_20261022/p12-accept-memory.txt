@@ -1,0 +1,17 @@
+CAPTURE of memory edits
+COMMAND: python3 -I -B measure/runs/storytime_week_package_20261022/p12-accept-memory.py && wc -l measure/tech-debt.md measure/lessons-learned.md measure/tracks/storytime_week_package_20261022/plan.md && git status --porcelain pnpm-lock.yaml && echo LOCK_CLEAN
+
+--- STDOUT ---
+tech-debt.md: merged 3 Phase 8 rows into 1, appended 1 Phase 12 row, 49 lines
+lessons-learned.md: inserted 2 lessons after the Task 2.8 bullet, 52 lines
+plan.md: acceptance task line marked [x], evidence sub-line appended
+    49 measure/tech-debt.md
+    52 measure/lessons-learned.md
+   513 measure/tracks/storytime_week_package_20261022/plan.md
+   614 total
+LOCK_CLEAN
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

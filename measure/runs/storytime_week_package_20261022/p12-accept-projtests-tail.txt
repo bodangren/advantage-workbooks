@@ -1,0 +1,12 @@
+CAPTURE of project tests tail
+COMMAND: grep -a -e 'Test Files' -e 'Tests  ' -e 'EXIT=' -e 'THAI_LINES_DROPPED' -e 'HEAVY_EXIT' -e 'Time  ' measure/runs/storytime_week_package_20261022/p12-accept-tests.txt | tail -12
+
+--- STDOUT ---
+[2m Test Files [22m [1m[32m67 passed[39m[22m[90m (67)[39m
+THAI_LINES_DROPPED=5
+EXIT=0
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

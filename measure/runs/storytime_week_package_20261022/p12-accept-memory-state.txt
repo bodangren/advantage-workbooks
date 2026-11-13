@@ -1,0 +1,17 @@
+CAPTURE of memory state
+COMMAND: wc -l measure/tech-debt.md measure/lessons-learned.md && grep -c faster-whisper measure/tech-debt.md; grep -c 'made again' measure/tech-debt.md; grep -c 'no unit test' measure/tech-debt.md; grep -c 'positive control' measure/lessons-learned.md; grep -c 'audio cache' measure/lessons-learned.md; grep -n faster-whisper measure/tech-debt.md; grep -n 'made again' measure/tech-debt.md; grep -n 'no unit test' measure/tech-debt.md; grep -n 'positive control' measure/lessons-learned.md; grep -n 'audio cache' measure/lessons-learned.md
+
+--- STDOUT ---
+   50 measure/tech-debt.md
+   50 measure/lessons-learned.md
+  100 total
+0
+0
+0
+0
+0
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=1

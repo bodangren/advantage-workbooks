@@ -1,0 +1,12 @@
+CAPTURE of finalize
+COMMAND: python3 -c "import json;json.load(open('measure/runs/storytime_week_package_20261022/phase-acceptance-p12-852a8dba.json'));print('JSON_VALID')" && python3 -c "import shutil;src='measure/runs/storytime_week_package_20261022/phase-acceptance-p12-852a8dba.json';dst='measure/runs/storytime_week_package_20261022/phase-acceptance-p12-852a8dba.log';body=open(src,encoding='utf-8').read();open(dst,'w',encoding='utf-8').write('MEASURE_AGENT_RESULT\n'+body+'END_MEASURE_AGENT_RESULT\n');print('LOG_WRITTEN')" && git status --porcelain pnpm-lock.yaml && echo LOCK_CLEAN
+
+--- STDOUT ---
+JSON_VALID
+LOG_WRITTEN
+LOCK_CLEAN
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

@@ -1,0 +1,21 @@
+CAPTURE of p12-testmap
+COMMAND: python3 -I -B measure/runs/storytime_week_package_20261022/p12-accept-testmap.py && git rev-parse HEAD && git status --porcelain pnpm-lock.yaml && echo LOCK_CLEAN
+
+--- STDOUT ---
+dashboard/lib/storytime/word-clips.ts -> storytime-package-clips.test.ts, storytime-package-practice-clips.test.ts
+dashboard/lib/storytime/sentence-clips.ts -> storytime-package-practice-clips.test.ts
+dashboard/lib/storytime/schema.ts -> storytime-loops-audio.test.ts, storytime-loops-checks.test.ts, storytime-loops-content.test.ts, storytime-loops-schema.test.ts, storytime-loops-share-content.test.ts, storytime-package-clips.test.ts, storytime-package-practice-clips.test.ts, storytime-week.test.ts
+dashboard/scripts/storytime/make-word-bank.ts -> storytime-package-clips.test.ts, storytime-package-practice-clips.test.ts
+dashboard/scripts/storytime/set-word-clips.ts -> storytime-package-clips.test.ts, storytime-package-practice-clips.test.ts
+dashboard/scripts/storytime/make-sentence-clips.ts -> storytime-package-clips.test.ts, storytime-package-practice-clips.test.ts
+dashboard/scripts/storytime/set-sentence-clips.ts -> storytime-package-practice-clips.test.ts
+dashboard/scripts/storytime/check-weeks.ts -> storytime-loops-audio.test.ts, storytime-loops-content.test.ts, storytime-package-clips.test.ts, storytime-package-practice-clips.test.ts
+findings: 0
+
+852a8dbaa0dfb29295898e6884a9e987e0fed155
+LOCK_CLEAN
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

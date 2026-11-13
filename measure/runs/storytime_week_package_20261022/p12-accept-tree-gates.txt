@@ -1,0 +1,37 @@
+CAPTURE of green1 gates and tree diff
+COMMAND: python3 -I -B measure/runs/storytime_week_package_20261022/p12-accept-tree-gates.py
+
+--- STDOUT ---
+===== p12-green1.txt head
+CAPTURE of Phase 12 Green 1: GREEN_TEST_COMMAND
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-package-*.test.ts __tests__/storytime-week.test.ts __tests__/storytime-loops-content.test.ts __tests__/storytime-loops-share-content.test.ts --maxWorkers=1'
+
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+===== p12-green1.txt decisive
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+[2m Test Files [22m [1m[32m7 passed[39m[22m[90m (7)[39m
+[2m      Tests [22m [1m[32m453 passed[39m[22m[90m (453)[39m
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+===== tree compare
+before folders: 23, after folders: 30, common: 23
+hash differences on common folders: 0
+only in after: 02abe59271be5bcce1a2f309ca865391eec1f4c601befc18b1c822b864c5cc1b 
+only in after: 2105c20ad6c3a179f9413e439c1172678e0ba0f58ddd1416ac45864096c113bb 
+only in after: 29c471134b7219bf2767bd32bbd7172ea98f0e92f80187f8d0d76ec39c1ec08e 
+only in after: be7137fc80e231811e22eb1c8980c3197b9424c2299e3e584914029c5dcf5ee5 
+only in after: e8fd45eb307ef9f2ed9f3917e15cc63d0aa9c5123284fd659f91044c3eaa91b8 
+only in after: ebd74cf66fcc3c3625f810994b349eeb7bd8685eb3734bd79be77e8f824f53d2 
+only in after: eed2397f146b601cba7e8f3b6c6b239cc567c042fc85083b44baa2f61159019e 
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

@@ -1,0 +1,22 @@
+CAPTURE of AC12 in spec
+COMMAND: grep -n AC12 measure/tracks/storytime_week_package_20261022/spec.md | head -40
+
+--- STDOUT ---
+746:  - The numstat of AC12-8 is the L17 count plus 4 for each week (61/4, 65/4, 62/4, 62/4, 61/4, 62/4, 63/4), because git counts each of the 4 closing lines that gain a comma as 1 deletion and 1 insertion (Review A F5, 2026-11-13).
+778:- AC12-1: in the repository root, this command prints `128/128 no key: 0`: `node -e 'const fs=require("fs"),c=require("crypto");const h=p=>c.createHash("sha256").update(fs.readFileSync(p)).digest("hex");const by=new Map(JSON.parse(fs.readFileSync("content/storytime/words/manifest.json","utf8")).items.map(r=>[r.word,r]));const key=x=>x.normalize("NFC").replace(/[‘’]/g,"\x27").toLowerCase().replace(/^[^a-z\x27]+|[^a-z\x27]+$/g,"");let t=0,ok=0,miss=0;for(let n=1;n<=7;n++){const w=JSON.parse(fs.readFileSync("content/storytime/l2/w0"+n+".json","utf8"));const op=new Set();for(const p of w.opening.pa)for(const m of p.en.matchAll(/(?:Listen: |What is the word\? )([A-Za-z]+)[.!]/g))op.add(key(m[1]));const lists=[[op,w.opening.wordClips],[new Set(w.focus.family.words.map(f=>key(f.word))),w.focus.family.wordClips],[new Set(w.focus.trickyWords.map(key)),w.focus.trickyWordClips]];for(const [ks,m] of lists)for(const k of ks){t++;const f=(m||{})[k];if(!f){miss++;continue}const r=by.get(k);if(r&&fs.existsSync("content/storytime/"+f)&&h("content/storytime/"+f)===h("content/storytime/words/"+r.mp3))ok++}}console.log(ok+"/"+t+" no key: "+miss)'`.
+779:- AC12-2: `find content/storytime/l2/media -path '*/words/wa-*.mp3' | wc -l` prints 218. For each week, the file count equals the union value of the Facts section.
+780:- AC12-3: the bank has 152 rows, with `n` from 1 to 152 and no gap. Each row with `added` has a WAV of 32 kHz, mono, 16-bit, with the peak 23197, and an mp3 of 32 kHz, mono, 128 kb/s. Its `sha256` equals its WAV. The K6 Python form test prints `True`.
+781:- AC12-4: `find content/storytime/l2/media -path '*/sentences/b*-s*.mp3' | wc -l` prints 56. Each decodable book has `sentenceClips` with 8 items, and each item `sentence` equals the book sentence of the same index. Each mp3 is 32 kHz, mono, 128 kb/s, with a peak of -3 dBFS, and each `sha256` of the week provenance file equals its mp3.
+782:- AC12-5: no sentence clip is a cut of its book mp3. The live proof `looksLikeCut` gives false for each of the 56 clips against the decoded book mp3 (the capture lists the correlation of each clip). The heard check passes for each clip, or the clip is on the listen list with its note.
+783:- AC12-6: `cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2` shows `practice-clips` with `pass` and `sentence-clips` with `pass` for st2/1 to st2/7, and no such row for st2/8. The `word-clips` row stays `pass` for st2/1 to st2/7.
+784:- AC12-7: a second run of each mapper on each week changes no byte. This applies to the week file and to each clip.
+785:- AC12-8: the content commits of a week change its week file by the insertions and the 4 deletions of L17, or the task line gives the measured values and the cause of each difference. Each changed line is a closing line that gains a comma.
+786:- AC12-9: `RED_TEST_COMMAND` fails only on the new assertions of the Red 1 file. The four gates pass after Green 1, after the first content commit, and after the last content commit. After each other content commit, `GREEN_TEST_COMMAND` and `PROJECT_CHECKS` pass.
+787:- AC12-10: each mutant of the Green 1 task is caught.
+788:- AC12-11: each revision folder passes the nine checks of the Phase 11 package task, with the L13 counts or the measured counts, and holds `README.txt` with the contract change and the character total. The tree hash of each existing folder is the same before and after the build.
+789:- AC12-12: the characters of the mmx runs are logged, and the total is at most 150 for the words and 2,400 for the sentences. No credit is used. The PM has one status line (peer-report).
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

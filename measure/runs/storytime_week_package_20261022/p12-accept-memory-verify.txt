@@ -1,0 +1,17 @@
+CAPTURE of memory verify
+COMMAND: grep -c 'Phase 8 review rows, merged on 2026-11-13' measure/tech-debt.md; grep -c 'Phase 8 review findings' measure/tech-debt.md; grep -c 'Three Phase 12 rows' measure/tech-debt.md; grep -c 'no slice" rule needs a positive control' measure/lessons-learned.md; grep -c 'book audio cache holds per-sentence generations' measure/lessons-learned.md; tail -c 120 measure/tracks/storytime_week_package_20261022/plan.md; grep -c 'x] Task: Phase acceptance' measure/tracks/storytime_week_package_20261022/plan.md; python3 -c "import re;s=open('measure/tech-debt.md',encoding='utf-8').read();print('THAI_TECHDEBT:',len(re.findall('[\\u0e00-\\u0e7f]',s)))"
+
+--- STDOUT ---
+1
+0
+1
+1
+1
+d at 22:09 on the free limit; the orchestrator moved the role to `coding-plan/glm-5.3-flash#high`, the same GLM family.
+1
+THAI_TECHDEBT: 0
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
