@@ -27,7 +27,9 @@ FONT = os.path.join(REPO, 'dashboard', 'assets', 'print-fonts', 'andika-bold.ttf
 OUT = '/home/daniebo/Desktop/print-ready/storytime/covers-quest-v1-books-r6'
 TARGET = os.path.join(OUT, 'contact-sheets', 'books-r6.png')
 GAP = 28
-HEAD = 70
+# 100, not the 70 of contact-2-9j.py: with 70 the tiles cut the foot of the 56 px heading (look of
+# the first books-r6.png, 2026-11-13).
+HEAD = 100
 LABEL_H = 52
 ROW_H = 1400
 MAX_MEAN_DIFF = 3.0
