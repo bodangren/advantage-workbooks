@@ -1,0 +1,18 @@
+CAPTURE of Task 2.10 fast gates
+COMMAND: bash measure/runs/storytime_cover_options_20261106/look-phase2-gates.sh
+
+--- STDOUT ---
+GATE_1 (must print 32):
+32
+GATE_2 (must print 0; grep exits 1 for a count of 0):
+0
+GATE_2_GREP_EXIT=1
+GATE_3 (must print 32):
+32
+MANIFEST_SHA256 (must begin 8f1901a39d9decc6):
+8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87  /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

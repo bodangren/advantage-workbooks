@@ -1,0 +1,24 @@
+CAPTURE of Task 2.9 named-file check
+COMMAND: bash measure/runs/storytime_cover_options_20261106/fast-gate-2-9-named.sh
+
+--- STDOUT ---
+NAMED_FILES (ls -l):
+-rw-rw-r-- 1 daniebo daniebo 6289779 Nov 13 00:59 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r5_PDFX-1a.pdf
+-rw-rw-r-- 1 daniebo daniebo 7017934 Nov 13 00:59 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r5_PDFX-1a.pdf
+-rw-rw-r-- 1 daniebo daniebo 44986000 Nov 13 07:29 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/readers-a3/Storytime-Advantage-L2-U1-Reader-Covers-A3-v1_PDFX-1a.pdf
+-rw-rw-r-- 1 daniebo daniebo 3328600 Nov 13 07:30 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/readers-leaf/Storytime-Advantage-L2-U1-Reader-Leaf-Covers-v1_PDFX-1a.pdf
+-rw-rw-r-- 1 daniebo daniebo 12217592 Nov 13 07:34 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/contact-sheets/all.png
+-rw-rw-r-- 1 daniebo daniebo 9527281 Nov 13 07:34 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/contact-sheets/readers-a3.png
+-rw-rw-r-- 1 daniebo daniebo 2977870 Nov 13 07:34 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/contact-sheets/readers-leaf.png
+-rw-rw-r-- 1 daniebo daniebo 2930527 Nov 13 01:11 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/contact-sheets/student-alt-hlogo-r5.png
+-rw-rw-r-- 1 daniebo daniebo 3809952 Nov 13 01:11 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/contact-sheets/teacher-alt-hlogo-r5.png
+NAMED_FILES_EXIST=9 of 9
+RAW_COUNT_PRINT_FILES (plan fast gate, information for D-3; the plan expects 4):
+14
+RAW_COUNT_CONTACT_SHEETS (plan fast gate, information for D-3; the plan expects 5):
+21
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
