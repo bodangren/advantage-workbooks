@@ -1,0 +1,239 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-print-covers-16books-adversarial.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 77667[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-CLI: a bad level, a bad unit, and an unknown option exit 2 before any write [33m 10801[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-OUT: a version 3 --print build without --out leaves the approved proof-v3 mock folder unchanged (C-P2-01) [33m 14817[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-D12: with week 1 back to draft and weeks 2 to 8 approved, a print build stops on the story field and writes nothing [33m 1782[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-D12: with only week 3 back to draft, the printed back page carries no word that only week 3 supplies [33m 14742[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-GATE: PRINT_GATE fails a Chrome-like PDF, also under the print file name, and a missing file exits 2 [33m 779[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only [33m 14978[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged [33m 14328[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-GUARD: a --print build with an explicit --out inside the proof folder of another version exits 2 before any write [33m 4876[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m46 tests[22m[2m)[22m[33m 73802[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs [33m 9720[2mms[22m[39m
+     [33m[2m✓[22m[39m R23: all backs show five fields; empty fields show mock-only missing copy and no Thai [33m 553[2mms[22m[39m
+     [33m[2m✓[22m[39m R22 M21 and M22: print source and version output path remain bounded [33m 1767[2mms[22m[39m
+     [33m[2m✓[22m[39m R29 CLI: a version 3 build into proof exits 2 before a write and keeps the seed file [33m 1674[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 8012[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 1525[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 1641[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails [33m 2091[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2: all three shipped compositions meet the fill threshold on their tinted ground [33m 3546[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2 mutation: a centred 75 percent L4U4 image passes corners and fails by fill [33m 1230[2mms[22m[39m
+     [33m[2m✓[22m[39m R19 v2: each shipped figure box keeps its trimmed cut-out ratio, including a copied 6 percent stretch mutant [33m 576[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 15058[2mms[22m[39m
+     [33m[2m✓[22m[39m R26: six panel mutation copies, each in a temp folder, each fails one panel check (M16 to M20, replaces R16 M6) [33m 422[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 15542[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture [33m 2088[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge [33m 4400[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 top band: no figure pixel is in the top 8 mm band of a composed cover picture [33m 2111[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers-adversarial.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 44016[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symbolic link --out into an occupied print-ready folder and writes no file [33m 1702[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a print-ready folder that holds any file [33m 1691[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the gates for a new folder and for an empty folder in print-ready [33m 3278[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves a folder outside print-ready with its own rules [33m 1725[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --out at the end and writes no folder [33m 1682[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --band at the end after a full --out and writes no folder [33m 1659[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --out followed by another flag and writes no folder [33m 1669[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --version followed by --print and writes no folder [33m 1715[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --front followed by another flag and writes no folder [33m 1674[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a fully transparent front art file and writes nothing [33m 6205[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 and writes no file in --out when Ghostscript fails [33m 14313[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the reader cover check for the real covers and writes the print file [33m 6622[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-reader-ink.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 8728[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6a: the 12 reader sides of the student book have a dashed fold line only, solid frames, tick-only tear-outs with the scissors label, and fold labels; the 2 home sides keep the dashed cut line [33m 3130[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6b: the 12 reader sides of the readers workbook build keep the same rules [33m 1172[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6c: the picture frames are solid 0.3 mm lines in the student book and the workbook, and print 0.3 mm in the A3 reader (CSS 0.15 mm at scale 2.0) [33m 1235[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6d: a dashed picture frame and a full-height perforation line are each caught (mutants on a copy) [33m 3186[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-practice-rule.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 5550[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F4: each line of each practice text has one rule across the full width of the practice text box (Chrome, Andika loaded) [33m 5547[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-d4-prompt.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 4212[2mms[22m[39m
+     [33m[2m✓[22m[39m D4P-page: week 5 prints l2-w05-d4-prompt-face above the trace row with the label Draw. and one draw box [33m 2149[2mms[22m[39m
+     [33m[2m✓[22m[39m D4P-page: week 7 prints l2-w07-d4-prompt-ball above the trace row with the label Color. and one draw box [33m 1828[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-h1-classes.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 3682[2mms[22m[39m
+     [33m[2m✓[22m[39m H1-script: classify-text-gate exits 1 on a report line that does not parse, and 2 on an output that exists or is outside the print-ready folder [33m 1675[2mms[22m[39m
+     [33m[2m✓[22m[39m H1-build: the teacher-book build has the h1 list in its output list, and a link at that path stops the build before it writes outside [33m 1823[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-reader-howto.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 1292[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 1423[2mms[22m[39m
+     [33m[2m✓[22m[39m checks each shipped week 1 reader cover for no band word and catches a copied cover mutation [33m 469[2mms[22m[39m
+     [33m[2m✓[22m[39m composes each teacher-book side as an opaque 300 ppi image at the specified trim [33m 913[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-r3.test.ts [2m([22m[2m43 tests[22m[2m)[22m[33m 947[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m25 tests[22m[2m)[22m[33m 596[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract.test.ts [2m([22m[2m47 tests[22m[2m)[22m[33m 700[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-pictures.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 882[2mms[22m[39m
+     [33m[2m✓[22m[39m CP-11: a delivered card row wins over the case (a) row and over the case (b) story page [33m 586[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-dictation-case.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-e4-back-list.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m15 passed[39m[22m[90m (15)[39m
+[2m      Tests [22m [1m[32m283 passed[39m[22m[90m (283)[39m
+[2m   Start at [22m 03:37:07
+[2m   Duration [22m 240.02s[2m (transform 2.14s, setup 1.21s, import 5.44s, tests 223.56s, environment 6.36s)[22m
+
+heavy-run: lock wait over 600 s — priority p2 — holder PID 2836382: flock -w 1800 -E 201 /home/daniebo/Desktop/primary-parity-progress/heavy.lock /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh --locked -c node /home/daniebo/Desktop/reading-advantage-monorepo/measure/runs/storytime_app_rebuild_20261025/browser-check-7172f704/scripts/decodable.cjs 390 844 3 
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh: line 583: /proc/2836382/cmdline: No such file or directory
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--unit must be a unit of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Unknown argument: --bogus
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "story" has no data from the approved sources (D12); the print build stops.
+The output folder "/tmp/opencode/storytime-covers-adv-4Pxzqz/Desktop/print-ready/storytime/proof-v3/l2u1" is inside "proof-v3" (version 3). A version 4 build writes to "/tmp/opencode/storytime-covers-adv-4Pxzqz/Desktop/print-ready/storytime/proof-v4" or to another folder.
+The output folder "/tmp/opencode/storytime-covers-adv-4Pxzqz/Desktop/print-ready/storytime/proof-v2/l2u1" is inside "proof-v2" (version 2). A version 3 build writes to "/tmp/opencode/storytime-covers-adv-4Pxzqz/Desktop/print-ready/storytime/proof-v3" or to another folder.
+The output folder "/tmp/opencode/storytime-covers-adv-4Pxzqz/Desktop/print-ready/storytime/proof/l2u1" is inside "proof" (version 1). A version 3 build writes to "/tmp/opencode/storytime-covers-adv-4Pxzqz/Desktop/print-ready/storytime/proof-v3" or to another folder.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+The output folder "/tmp/opencode/storytime-covers-66eGLj/Desktop/print-ready/storytime/proof/l2u1" is inside "proof" (version 1). A version 3 build writes to "/tmp/opencode/storytime-covers-66eGLj/Desktop/print-ready/storytime/proof-v3" or to another folder.
+Storytime Advantage, Level 1, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+Storytime Advantage, Level 2, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+
+exit: 0
