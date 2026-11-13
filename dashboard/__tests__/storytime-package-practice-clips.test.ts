@@ -2273,6 +2273,25 @@ describe('D9 the sentence maker on a copy of w01 that has no book mp3 (L8, FR 5)
         expect(fs.existsSync(path.join(sentencesFolder(run.tree), 'b1-s08.mp3'))).toBe(true);
     }, 120_000);
 
+    it('creates the sentences folder before the first synthesize call (R1)', async () => {
+        const tree = sentenceTree();
+        const folder = sentencesFolder(tree);
+        expect(fs.existsSync(folder), 'the tree has no sentences folder').toBe(false);
+        const voice = fakeVoice({ span: SENTENCE_SPAN });
+        const folderAtCall: boolean[] = [];
+        const synthesize = (text: string, wavFile: string, voiceName?: string, speed?: number): void => {
+            // The real mmx cannot write its output file into a folder that does not exist.
+            folderAtCall.push(fs.existsSync(path.dirname(wavFile)));
+            voice.synthesize(text, wavFile, voiceName, speed);
+        };
+        const run = await runSentenceMaker(tree, voice, { synthesize });
+        expect(run.error?.message, 'the run ends without an error').toBeUndefined();
+        expect(folderAtCall.length, 'one call for each sentence').toBe(8);
+        expect(folderAtCall, 'the folder of each take file exists at call time').toEqual(new Array<boolean>(8).fill(true));
+        expect(run.value?.made, 'the clips are written').toEqual(W01_SENTENCE_PATHS);
+        for (const file of W01_SENTENCE_PATHS) expect(fs.existsSync(path.join(tree.contentRoot, file)), file).toBe(true);
+    }, 120_000);
+
     it('exports main, which prints the usage for --help and exits 2 for a missing option', async () => {
         const main = await sentenceMaker('main');
         const help = await captureOutput(() => main(['--help']));
