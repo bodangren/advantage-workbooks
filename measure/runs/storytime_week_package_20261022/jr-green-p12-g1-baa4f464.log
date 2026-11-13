@@ -1,0 +1,47 @@
+Green log, Phase 12 Green 1, track storytime_week_package_20261022
+date: 2026-11-13
+phase_base_sha: 32a9739e1abf46d0126a07a30812f85c291c3aa
+role_base_sha: baa4f4647596a444c8b4f49b70a731992de9ecc6
+
+Route (model substitution, recorded):
+- The role table named `volcengine-agent-plan/glm-5.3-flash#high` (Ark agent plan in WAIT, 85.2 % of the month).
+- `ra-quota pick green` gave `nvidia/deepseek-ai/deepseek-v4.1-flash#high`; that route failed at 10:40 (raw DSML text in place of tool calls, no code change, session ses_e2d26a394ffekyInwBti60mXom). This was Green round 1 (r1).
+- The orchestrator chose Kimi (weekly window 78.7 %, under the 80 % line; 5 h window 0 %). This round is r2.
+
+Round 2 steps:
+1. Ran the Thai filter first (spec L15): dropped each `th` key and each Thai-holding string of `content/storytime/l2/w01.json` to `w08.json`, dropped each Thai line of `plan.md` and `spec.md`, wrote filtered copies to `/tmp/opencode/p12-g1r2/`. Each output prints `THAI_CHARS_IN_OUTPUT: 0`. Read only the copies.
+2. Read the Phase 12 plan task (Green 1), the spec addendum (L1 to L18, FR 1 to FR 8), the Red log, and the test contract (`storytime-package-practice-clips.test.ts` PIN header, cases D1 to D13; `storytime-package-clips.test.ts` cases C6 and C8). Confirmed the Red commits 612b00e4 and 0a610432 lie inside `phase_base_sha..HEAD`. Confirmed the 8 allowed paths were clean before the edit.
+3. Implemented the 8 files: `schema.ts` (the 4 optional fields), `word-clips.ts` (`openingForms`, `openingWordKeys`, `practiceWordKeys`, `planPracticeClips`), `sentence-clips.ts` (new: `sentenceClipPath`, `planSentenceClips`, `sentenceHeardPasses`, `sentenceLengthBounds`, `looksLikeCut` with an FFT normalised cross-correlation), `make-word-bank.ts` (`--practice`), `set-word-clips.ts` (the three maps, the union copy, the L17 text edits), `make-sentence-clips.ts` (new), `set-sentence-clips.ts` (new), `check-weeks.ts` (the rows `practice-clips` and `sentence-clips`).
+4. `npx tsc --noEmit` exits 0 after one type fix in `make-word-bank.ts`.
+5. Ran `storytime-package-practice-clips.test.ts` alone through the light capture script (`p12-green1-practice.txt`): first run 87 passed, 1 failed (the 3-take note of D10 lost its reason). Fixed `makeSentenceTakes` to keep the failure reason in the accepted take. Rerun: 88 passed, exit 0.
+6. Recorded deviation: the single-file runs before 11:33 went through the light capture script, not the heavy wrapper, because the monorepo p1 browser gate and an accounting build held the heavy lock. The orchestrator confirmed this read at 11:41 and set the wrapper timeout to 1800 s for the remaining gates.
+7. Ran `storytime-package-clips.test.ts` alone in the heavy wrapper (`p12-green1-clips.txt`): 93 passed, exit 0. C6 and C8 pass.
+8. ESLint on the 8 files exits 0 (`p12-green1-lint.txt`). `tsc --noEmit` exits 0 (`p12-green1-tsc.txt`).
+9. Commit 1 (code): `0c664ccf6320373e7a7ee9413e97789b469985f1`, the 8 files. `git status --porcelain pnpm-lock.yaml` prints nothing.
+10. GREEN_TEST_COMMAND in the heavy wrapper (`p12-green1.txt`): exit 0, `Test Files 7 passed (7)`, `Tests 453 passed (453)`.
+11. PROJECT_CHECKS in the heavy wrapper (`p12-green1-checks.txt`): exit 0. `check-weeks.ts --level 2` gives 0 FAIL rows; `tsc --noEmit` exits 0. The two new rows are `warn` on st2/1 to st2/7 (`practice-clips` `no clip: ...`, `sentence-clips` `no clips`) and no such row on st2/8, by the L9/F9 design, because the maps and clips come in the Clips task.
+12. Scope guard (`p12-green1-scope.txt`): `files: 8`, `outside: 0`.
+13. Commit 2 (captures): `1a730524`.
+14. Plan: Task (Green 1) marked `[x]` with the evidence sub-line (code commit, GREEN result line, ESLint 0, tsc 0, the check rows, the route substitution, and Deviation D-P12-G1 in the exact words). The task line ends with the code commit short SHA. The Thai line count of `plan.md` is still 1 (proved with a script that prints only the count). Commit 3: `ffd7fbca` (plan.md only).
+15. No test file was edited. No content file was changed. No mmx or network call was made.
+
+Deviation D-P12-G1 (orchestrator, 11:41): the 13 mutants, PROJECT_TESTS, and the live proofs move to after the 14:00 hand-off. Review A runs the mutants; the Clips task runs the live dry runs; phase acceptance runs PROJECT_TESTS.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: done
+track: storytime_week_package_20261022
+phase: Phase 12: Own word clips for the practice words and sentence clips (2026-11-13)
+task: Green 1 (r2)
+role_base_sha: baa4f4647596a444c8b4f49b70a731992de9ecc6
+phase_base_sha: 32a9739e1abf46d0126a07a30812f85c291c3aa
+baseline_sha: baa4f4647596a444c8b4f49b70a731992de9ecc6
+commits: 0c664ccf6320373e7a7ee9413e97789b469985f1 (code, 8 files); 1a730524 (captures); ffd7fbca (plan); this log is the last commit
+tests_run: storytime-package-practice-clips.test.ts alone 88 passed (p12-green1-practice.txt); storytime-package-clips.test.ts alone 93 passed (p12-green1-clips.txt); GREEN_TEST_COMMAND 7 files passed, 453 tests passed, exit 0 (p12-green1.txt)
+checks: ESLint on the 8 files exit 0 (p12-green1-lint.txt); tsc --noEmit exit 0 (p12-green1-tsc.txt); PROJECT_CHECKS exit 0, 0 FAIL rows, the new rows warn by design (p12-green1-checks.txt); scope guard files 8, outside 0 (p12-green1-scope.txt); git status --porcelain pnpm-lock.yaml clean; Thai line count of plan.md still 1
+files_changed: dashboard/lib/storytime/word-clips.ts; dashboard/lib/storytime/sentence-clips.ts (new); dashboard/lib/storytime/schema.ts; dashboard/scripts/storytime/make-word-bank.ts; dashboard/scripts/storytime/set-word-clips.ts; dashboard/scripts/storytime/make-sentence-clips.ts (new); dashboard/scripts/storytime/set-sentence-clips.ts (new); dashboard/scripts/storytime/check-weeks.ts; measure/runs/storytime_week_package_20261022/p12-green1*.txt; measure/tracks/storytime_week_package_20261022/plan.md; this log
+plan_updates: Task (Green 1) marked [x] with the evidence sub-line and the code commit short SHA 0c664ccf; no other task changed
+known_failures: none. The new check rows practice-clips and sentence-clips give WARN (no clip / no clips) on st2/1 to st2/7, not FAIL, by the L9/F9 design; the Clips task adds the maps and clips
+dispositions: none
+handoff: Clips task next (it runs mmx, so it runs `mmx quota show` first, spec L11). Review A runs the 13 mutants and the checks against spec FR 8 after the content commits; phase acceptance runs PROJECT_TESTS. Rule R1: the Phase 12 Red window closes when PROJECT_TESTS passes (phase acceptance). The scratch folders /tmp/opencode/p12-g1r2/ and /tmp/opencode/p12-g1/ are removed after this log is committed.
+END_MEASURE_AGENT_RESULT
