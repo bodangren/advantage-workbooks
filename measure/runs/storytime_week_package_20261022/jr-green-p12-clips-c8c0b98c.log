@@ -18,13 +18,20 @@ Plan (commit 8bbda30c): Task (Clips) marked [x] with the evidence sub-line, the 
 
 Commits of this role, in order: bank 8f404869; R1 fix 6e272b28; weeks ade618a5, 7f9cad2e, f6e04e75, 1f066d7c, abcecab7, bade0e96, fa47ca23; captures fb2e208f; plan 8bbda30c; this log. pnpm-lock.yaml untouched (git status --porcelain pnpm-lock.yaml prints nothing after each gate).
 
-BEGIN_MEASURE_AGENT_RESULT
-role: measure-jr-green
+MEASURE_AGENT_RESULT
+role: jr-green
 status: done
-phase_base_sha: 32a9739e
-role_base_sha: c8c0b98c
-green_head: <this log commit>
-tasks: ["Task (Clips) [x] — fa47ca23 (plan 8bbda30c)", "Task (Packages and the PM line) [x] — ca7c51a (PM receipt sub-line, plan 8bbda30c)", "Phase 12 Red 1 task line: appended — 612b00e (measure-guard rule)", "Task (Green 1): added the Green R1 6e272b28 sub-line"]
-tasks_deferred: []
-handoff: "The Clips task is complete. Content: bank 8f404869 (15 words, take 1, 47 chars), R1 fix 6e272b28 (the folder-before-synthesize defect, Red pin 8629702e; 89 passed, ESLint 0, tsc 0), weeks w01-w07 ade618a5/7f9cad2e/f6e04e75/1f066d7c/abcecab7/bade0e96/fa47ca23, each scope outside: 0 and F9 FAIL rows other than published: 0. Proof: cuts 0 (56 library looksLikeCut decisions, no correlation value exposed); heard check passes for 55 clips, w05 b1-s08 on the listen list with its note (re-heard failure on the shipped mp3); take-3 clips w02 b1-s01, w04 b1-s08 (with note), w06 b1-s01. Gates (D-P12-C1): GREEN_TEST_COMMAND 454 passed exit 0 (p12-clips-green.txt); PROJECT_CHECKS exit 0 with practice-clips and sentence-clips PASS for st2/1-st2/7 (p12-clips-checks.txt). AC12-1 128/128 no key: 0; AC12-2 218; AC12-3..AC12-8 hold (p12-clips-ac12.txt). Characters: 47 words, 779 one-take sentences, 887 sent, 934 total, MiniMax plan only. Plan committed at 8bbda30c (Thai line count 1); captures at fb2e208f. Next: Review A and phase acceptance run on this HEAD."
+track: storytime_week_package_20261022
+phase: Phase 12: Own word clips for the practice words and sentence clips (2026-11-13)
+task: Clips (with the R1 code fix of the sentences-folder defect)
+role_base_sha: c8c0b98c2aaf0b8558e1201fed00742290c88479
+phase_base_sha: 32a9739e1abf46d0126a07a30812f85c291c3aa
+commits: 8f404869 (bank, 15 words); 6e272b28 (R1 fix, dashboard/scripts/storytime/make-sentence-clips.ts); ade618a5, 7f9cad2e, f6e04e75, 1f066d7c, abcecab7, bade0e96, fa47ca23 (weeks w01 to w07); fb2e208f (captures); 8bbda30c (plan); this log is the last commit
+tests_run: storytime-package-practice-clips.test.ts 89 passed, ESLint 0, tsc 0 (p12-green-r1.txt); GREEN_TEST_COMMAND 7 files, 454 passed, exit 0 (p12-clips-green.txt)
+checks: PROJECT_CHECKS exit 0, practice-clips and sentence-clips PASS for st2/1 to st2/7 (p12-clips-checks.txt); scope guard outside: 0 for each of the 9 content commits; F9 check-weeks FAIL rows other than published: 0 after each content commit; AC12-1 to AC12-8 hold (p12-clips-ac12.txt); cuts: 0 (p12-cut-proof.txt); Thai line count of plan.md still 1; git status --porcelain pnpm-lock.yaml clean
+files_changed: content/storytime/words/ (15 WAV, 15 mp3, manifest.json); content/storytime/l2/w01.json to w07.json; content/storytime/l2/media/w01..w07/words/ and sentences/; dashboard/scripts/storytime/make-sentence-clips.ts (R1 fix); measure/runs/storytime_week_package_20261022/p12-*.txt; measure/tracks/storytime_week_package_20261022/plan.md; this log
+plan_updates: Task (Clips) marked [x], the task line ends — fa47ca23, with the evidence sub-line; Task (Packages and the PM line) marked [x] with the PM receipt sub-line, the task line ends — ca7c51a; the Phase 12 Red 1 task line gained — 612b00e (moved from a sub-line onto the task line by this commit); Task (Green 1) gained the Green R1 sub-line; no other task changed
+known_failures: none. The heard check passes for 55 of 56 clips; w05 b1-s08 sits on the listen list with its note (the re-heard check on the shipped mp3 failed, heard 'Knap' for 'nap'). The take-3 clips w02 b1-s01, w04 b1-s08 (with note), and w06 b1-s01 are on the listen list for Daniel
+dispositions: none
+handoff: Review A and phase acceptance run on this HEAD. Review A covers the R1 fix and the live proofs; phase acceptance runs PROJECT_TESTS and the AC12 criteria. The packages are in ~/Desktop/handoff (w01 r5, w02-w07 r4, source fa47ca23) and the PM confirmed receipt at about 15:10 ICT. Characters: words 47, sentences 779 one-take (887 sent, incl. the 2 failed w01 calls, 14), total 934 on the MiniMax plan, no credits. The scratch folder /tmp/opencode/p12-clips/ is removed after this log is committed.
 END_MEASURE_AGENT_RESULT
