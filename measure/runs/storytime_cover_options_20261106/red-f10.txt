@@ -1,0 +1,193 @@
+CAPTURE of F10 Red: the RED run of the 3 files
+COMMAND: HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/quest-cover-f10.test.ts __tests__/quest-cover-hlogo.test.ts __tests__/quest-cover-f1f2.test.ts --maxWorkers=1'
+
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG1: the hlogo leaf cover holds no frame element, and the art layer still covers the page
+[22m[39mG1 leaf covers 14, problems 0
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG2: every framed picture of the reader pages holds one image at most and clips it inside its frame
+[22m[39mFRAMED_PAGES_CHECKED=224 FRAMED_PAGES_FAILED=0 FRAMED_PICTURES=224
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box
+[22m[39mG3 fronts 30, problems 2
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG4: the 2 hlogo book backs keep their logo tile and every r3 part (SHA-256 pins of the role base)
+[22m[39mG4 student-back: sha256 5a17085f221416481873bb0dea129711727bf4e399ddf26c8f5e31fe92093fbc, logo tiles 1
+G4 teacher-back: sha256 f7666628f955c41d946ce50df11b1ffa366693e2542f7e962ccec165a1f43fab, logo tiles 1
+
+[90mstdout[2m | __tests__/quest-cover-f1f2.test.ts[2m > [22m[2mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22m[2mG5: page 12 of each reader holds the logo tile in free space, by the 5 cover rules, and no band word
+[22m[39mG5 page 12 checked 28, problems 0
+
+ [31m❯[39m __tests__/quest-cover-f1f2.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 51986[2mms[22m[39m
+     [33m[2m✓[22m[39m G1: the hlogo leaf cover holds no frame element, and the art layer still covers the page [33m 304[2mms[22m[39m
+     [32m✓[39m G2: every framed picture of the reader pages holds one image at most and clips it inside its frame[32m 1[2mms[22m[39m
+[31m     [31m×[31m G3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box[39m[33m 979[2mms[22m[39m
+     [33m[2m✓[22m[39m G4: the 2 hlogo book backs keep their logo tile and every r3 part (SHA-256 pins of the role base) [33m 401[2mms[22m[39m
+     [32m✓[39m G5: page 12 of each reader holds the logo tile in free space, by the 5 cover rules, and no band word[32m 7[2mms[22m[39m
+     [32m✓[39m G6: the standing rules file holds the changed S1 and the page 12 scope of S2, S4, and S5[32m 4[2mms[22m[39m
+[90mstdout[2m | __tests__/quest-cover-f10.test.ts[2m > [22m[2mquest-cover-f10: T1 to T9 (Red, the r6 book covers with a title on the front)[2m > [22m[2mT7: the 2 backs keep the r5 bytes, one logo tile, and no front title
+[22m[39mT7 student-back: sha256 5a17085f221416481873bb0dea129711727bf4e399ddf26c8f5e31fe92093fbc
+T7 teacher-back: sha256 f7666628f955c41d946ce50df11b1ffa366693e2542f7e962ccec165a1f43fab
+
+ [31m❯[39m __tests__/quest-cover-f10.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 5969[2mms[22m[39m
+[31m     [31m×[31m T1: each of the 2 book fronts holds one front-title part with the text "Storytime Advantage"[39m[32m 113[2mms[22m[39m
+     [33m[2m✓[22m[39m T2: each of the 28 reader fronts holds its own title in its title-plaque part [33m 1356[2mms[22m[39m
+[31m     [31m×[31m T3: the plate takes the logo colours, and every colour of the part is in the token table[39m[33m 373[2mms[22m[39m
+[31m     [31m×[31m T4: the plate is centred, the ink fills 75 % to 85 % of the band, and the lines stay inside[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m T5: the painted plate meets no key box of the art and lies 5 mm inside the trim[39m[32m 2[2mms[22m[39m
+     [32m✓[39m T6: the level plate keeps its text, its box, and its bytes of the role base[32m 63[2mms[22m[39m
+     [32m✓[39m T7: the 2 backs keep the r5 bytes, one logo tile, and no front title[32m 266[2mms[22m[39m
+     [32m✓[39m T8: the default style holds no front title on the 2 fronts[32m 98[2mms[22m[39m
+     [32m✓[39m T9: each front holds no logo mark and no game bar, and its only image is the art[32m 69[2mms[22m[39m
+ [31m❯[39m __tests__/quest-cover-hlogo.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 4685[2mms[22m[39m
+     [32m✓[39m A1: the horizontal logo file sits in the logo folder with the approved hash[32m 4[2mms[22m[39m
+     [32m✓[39m A2: the default render of each kind is byte equal to the r5 pin[32m 236[2mms[22m[39m
+[31m     [31m×[31m A3: with the top style hlogo, the fronts hold no logo tile and the backs hold one logo tile[39m[32m 145[2mms[22m[39m
+     [32m✓[39m A4: the box table holds the tile of the 4 kinds and the kept boxes do not change[32m 5[2mms[22m[39m
+     [33m[2m✓[22m[39m A5: the kept parts hold the same HTML in the hlogo render and in the default render [33m 593[2mms[22m[39m
+     [33m[2m✓[22m[39m A6: the logo sits centered in its tile and the tile takes the amber and the brown [33m 1820[2mms[22m[39m
+     [33m[2m✓[22m[39m A7: the PDF of the student front and of the student back holds no Type 3 font [33m 1380[2mms[22m[39m
+     [32m✓[39m A8: the build takes the flag --top[32m 4[2mms[22m[39m
+     [32m✓[39m A9: the hlogo render of each kind keeps every part outside the logo tile[32m 6[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m3 failed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m18 passed[39m[22m[90m (24)[39m
+[2m   Start at [22m 15:20:44
+[2m   Duration [22m 78.60s[2m (transform 1.19s, setup 1.05s, import 5.18s, tests 62.64s, environment 8.44s)[22m
+
+--- STDERR ---
+heavy-run: load hold — load 6.08 over 6
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 6 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f10.test.ts[2m > [22mquest-cover-f10: T1 to T9 (Red, the r6 book covers with a title on the front)[2m > [22mT1: each of the 2 book fronts holds one front-title part with the text "Storytime Advantage"
+[31m[1mAssertionError[22m: the student-front front: the page holds 0 front-title parts (the pin is 1).: expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "the page holds 0 front-title parts (the pin is 1).",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f10.test.ts:[2m920:75[22m[39m
+    [90m918| [39m            [35mconst[39m html [33m=[39m [34mrenderFront[39m(kind[33m,[39m [33mHLOGO_OPTIONS[39m)[33m;[39m
+    [90m919| [39m            [35mconst[39m problems [33m=[39m [34mfrontTitleProblems[39m([34mparseHtml[39m(html))[33m;[39m
+    [90m920| [39m            expect(problems, `the ${kind} front: ${problems.join('; ')…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m921| [39m            const control = replacePart(html, 'front-title', plateHtml…
+    [90m922| [39m            const controlProblems = frontTitleProblems(parseHtml(contr…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f10.test.ts[2m > [22mquest-cover-f10: T1 to T9 (Red, the r6 book covers with a title on the front)[2m > [22mT3: the plate takes the logo colours, and every colour of the part is in the token table
+[31m[1mAssertionError[22m: the student-front plate: the page holds no front-title part.: expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "the page holds no front-title part.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f10.test.ts:[2m953:75[22m[39m
+    [90m951| [39m            [35mconst[39m measure [33m=[39m [35mawait[39m [34mmeasureRealFront[39m(kind)[33m;[39m
+    [90m952| [39m            [35mconst[39m problems [33m=[39m [34mcolourProblems[39m(measure)[33m;[39m
+    [90m953| [39m            expect(problems, `the ${kind} plate: ${problems.join('; ')…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m954| [39m            [35mconst[39m control [33m=[39m [34mreplacePart[39m(
+    [90m955| [39m                [34mrenderFront[39m(kind[33m,[39m [33mHLOGO_OPTIONS[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f10.test.ts[2m > [22mquest-cover-f10: T1 to T9 (Red, the r6 book covers with a title on the front)[2m > [22mT4: the plate is centred, the ink fills 75 % to 85 % of the band, and the lines stay inside
+[31m[1mAssertionError[22m: the student-front plate: the page holds no front-title part.: expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "the page holds no front-title part.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f10.test.ts:[2m968:75[22m[39m
+    [90m966| [39m            [35mconst[39m measure [33m=[39m [35mawait[39m [34mmeasureRealFront[39m(kind)[33m;[39m
+    [90m967| [39m            [35mconst[39m problems [33m=[39m [34mgeometryProblems[39m(measure)[33m;[39m
+    [90m968| [39m            expect(problems, `the ${kind} plate: ${problems.join('; ')…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m969| [39m            [35mconst[39m control [33m=[39m [34mreplacePart[39m(
+    [90m970| [39m                [34mrenderFront[39m(kind[33m,[39m [33mHLOGO_OPTIONS[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f10.test.ts[2m > [22mquest-cover-f10: T1 to T9 (Red, the r6 book covers with a title on the front)[2m > [22mT5: the painted plate meets no key box of the art and lies 5 mm inside the trim
+[31m[1mAssertionError[22m: the student-front plate: the page holds no front-title part.: expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "the page holds no front-title part.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f10.test.ts:[2m983:75[22m[39m
+    [90m981| [39m            [35mconst[39m measure [33m=[39m [35mawait[39m [34mmeasureRealFront[39m(kind)[33m;[39m
+    [90m982| [39m            [35mconst[39m problems [33m=[39m [34mplaceProblems[39m(measure[33m,[39m kind)[33m;[39m
+    [90m983| [39m            expect(problems, `the ${kind} plate: ${problems.join('; ')…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m984| [39m            [35mconst[39m control [33m=[39m [34mreplacePart[39m(
+    [90m985| [39m                [34mrenderFront[39m(kind[33m,[39m [33mHLOGO_OPTIONS[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f1f2.test.ts[2m > [22mquest-cover-f1f2: G1 to G6 (Red, F1 and F2 of the look of 2026-11-11)[2m > [22mG3: the 30 hlogo fronts hold no logo tile, and no other part takes the tile box
+[31m[1mAssertionError[22m: student-front: the part set is art, book-line, level-line, plaque-sep, title-plaque (the pin is art, book-line, front-title, level-line, plaque-sep, title-plaque).
+teacher-front: the part set is art, book-line, level-line, plaque-sep, title-plaque (the pin is art, book-line, front-title, level-line, plaque-sep, title-plaque).: expected [ …(2) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "student-front: the part set is art, book-line, level-line, plaque-sep, title-plaque (the pin is art, book-line, front-title, level-line, plaque-sep, title-plaque).",[39m
+[31m+   "teacher-front: the part set is art, book-line, level-line, plaque-sep, title-plaque (the pin is art, book-line, front-title, level-line, plaque-sep, title-plaque).",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f1f2.test.ts:[2m793:47[22m[39m
+    [90m791| [39m        }
+    [90m792| [39m        console.log(`G3 fronts ${covers.length}, problems ${problems.l…
+    [90m793| [39m        [34mexpect[39m(problems[33m,[39m problems[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m794| [39m    })[33m;[39m
+    [90m795| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-hlogo.test.ts[2m > [22mquest-cover-hlogo: A1 to A9 (Red, the alternate A2 with the horizontal logo)[2m > [22mA3: with the top style hlogo, the fronts hold no logo tile and the backs hold one logo tile
+[31m[1mAssertionError[22m: the student-front front holds 0 text nodes of the series name (the pin is 2): : expected +0 to be 2 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 2[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/quest-cover-hlogo.test.ts:[2m652:19[22m[39m
+    [90m650| [39m                    names[33m.[39mlength[33m,[39m
+    [90m651| [39m                    `the ${kind} front holds ${names.length} text node…
+    [90m652| [39m                )[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m   | [39m                  [31m^[39m
+    [90m653| [39m                [34mexpect[39m(
+    [90m654| [39m                    parts[33m.[39m[34mevery[39m((part) [33m=>[39m part [33m===[39m [32m'front-title'[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯[22m[39m
+
+THAI_LINES_DROPPED=0
+EXIT=1
