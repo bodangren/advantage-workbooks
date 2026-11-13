@@ -1,0 +1,28 @@
+Task (Green, F10), track storytime_cover_options_20261106, Phase 2. Model claude-opus-5-5 (Anthropic).
+
+Step log (2026-11-13, ICT)
+- 20:00 Read the task line, the spec section F10, and the Red evidence. git status: no change in an allowed path.
+- 20:01 Marked the task [~] (3d3fe891, plan.md only).
+- 20:04 Step 1: repeated M-F10-1 to M-F10-13 (measure-f10-green.sh, capture green-f10.txt, commit c005fea2). Every value equals the spec value. One path differs from the brief: quest.json is content/storytime/covers/quest.json. The folder covers-quest-v1-books-r6 is absent. The accepted MANIFEST.txt gives 8f1901a3... with 133 lines.
+- 20:05 Step 2: wrote frontTitlePlate (the box of series-banner, the amber plaque with the diamond ends, "Storytime" at 17.5 mm and "Advantage" at 10.5 mm on 2 centred lines) and one call in frontBody for hlogo.
+- 20:06 Debug run 1 on quest-cover-f10.test.ts (heavy-run, green-f10-debug-1.txt): Tests 1 failed | 8 passed (9). T4 fails with "the ink centre is 99.07 mm and the plate centre is 105.00 mm". T4 reports no other problem: the ink share and the lines inside the band pass.
+- 20:08 Cause: inkBlock (quest-cover-f10.test.ts line 737) returns left = line 1 left and right = line 2 right. The 2 centred lines have the widths 75.0 mm and 51.3 mm (advance table), so the box centre is 105 + (51.3 - 75.0) / 4 = 99.07 mm. The real ink block is centred. T4 contradicts D-F10-2. Stopped. Saved the draft as green-f10-wip.patch and restored cover-quest.ts (git status clean for the file). Commit 55c32708.
+- 20:09 Recorded the PM answers to Q13 and Q14 in spec.md and the block note in plan.md (a043b039).
+- No gate A, no gate B, no build, no output folder. pnpm-lock.yaml unchanged. Scratch /tmp/opencode/p2f10/ kept for the retry.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: storytime_cover_options_20261106
+phase: Phase 2 (fix round F10)
+task: Task (Green, F10)
+role_base_sha: b17ac1037259b4654f4e4c3d9394a64e7684a5f2
+phase_base_sha: e6e2156a
+commits: 3d3fe891 (plan [~]); c005fea2 (step 1 measures); 55c32708 (debug run 1 and the draft patch); a043b039 (plan block note, spec Q13 and Q14 answers); this log
+tests_run: debug run 1, cd dashboard && CI=true npx vitest run __tests__/quest-cover-f10.test.ts --maxWorkers=1 (heavy-run), exit 1, Tests 1 failed | 8 passed (9), failing T4 only
+checks: none run (Gate A, Gate B, PROJECT_LINT, PROJECT_CHECKS, and the print gates wait for the retry)
+files_changed: measure/runs/storytime_cover_options_20261106/{green-f10.txt, measure-f10-green.sh, green-f10-debug-1.txt, green-f10-wip.patch, jr-green-f10-b17ac103.log}; measure/tracks/storytime_cover_options_20261106/{plan.md, spec.md}. cover-quest.ts unchanged at HEAD.
+plan_updates: Task (Green, F10) stays [~] with a "Blocked" sub-line; spec.md Q13 and Q14 closed with the PM answers of 2026-11-13 about 15:10
+known_failures: T4 of quest-cover-f10.test.ts fails on the plate of D-F10-2, because of the ink box formula of line 737
+handoff: Mid Red retry asked. Exact line: dashboard/__tests__/quest-cover-f10.test.ts line 737, `return { left: first.left, top, right: last.right, bottom };`. Cause: on the 2 centred lines of D-F10-2 the box takes the left edge of the wider line 1 and the right edge of the narrower line 2, so T4 reads 99.07 mm against the plate centre 105.00 mm, while the real ink block is centred (the first front measures 104.7 mm, M-F10-6). Proposed fix: left = the least left and right = the largest right of all line boxes, with the comment "changed 2026-11-13 (F10)". The T4 control (6 mm and 4 mm lines) still fails on the ink share, so the control stays valid. Default if the orchestrator does not want a Red retry: none taken. The alternatives change the look of D-F10-2 (a right-aligned "Advantage", or equal-width lines at about 15 mm and 13.2 mm, or letter spacing on "Advantage", which can split the PDF text into letters), so they need an orchestrator or PM decision. After the retry, the Green role applies green-f10-wip.patch (git apply) and goes on at step 2 (debug run). The time is 20:09 ICT; the due time is 2026-11-14 10:00 ICT.
+END_MEASURE_AGENT_RESULT
