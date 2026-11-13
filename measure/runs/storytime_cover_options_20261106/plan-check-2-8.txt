@@ -1,0 +1,36 @@
+CAPTURE of Task 2.8, the check of the plan update
+COMMAND: python3 -I /tmp/opencode/t28/check-plan.py ; echo "PLAN_CHECK_EXIT=$?"
+
+--- STDOUT ---
+LINE_COUNT 252
+LINE 106 START - [x] Task 2.8 (Final art, paid): the student front and the teacher fr
+LINE 106 END -log.md` finds the log. Evidence: automated (log and sizes) plus person-checked (the orchestrator's look) commit d398b2b
+LINE 106 THAI 0
+LINE 107 START   - Evidence (2026-11-09): the guard proof of sub-step 2.8a holds the 
+LINE 107 END llback is a1 with the local fix of the made-up marks only (FR-8.5). The task stays [~] until the teacher front is final.
+LINE 107 THAI 0
+LINE 108 START   - PM receipt (relayed to the orchestrator 2026-11-09): PM receipt 20
+LINE 108 END ver teacher front brief received (MANIFEST fbd0a3c5..., 9 of 9 files OK); it goes to Forge after 11-10 15:22, due 11-13.
+LINE 108 THAI 0
+LINE 109 START   - Task 2.8 evidence (2026-11-13, jr-green role, model opencode/minim
+LINE 109 END e source, and the look. Evidence: automated (the captures) plus person-checked (the orchestrator's look). commit d398b2b
+LINE 109 THAI 0
+LINE 110 START - [x] Task (Review A and Review B limited) after Green 2, before Task 
+LINE 110 END er. Fast gate: `ls measure/runs/storytime_cover_options_20261106/review-ab-*.json`. Evidence: peer-report commit c3edec8
+LINE 110 THAI 0
+THAI_TOTAL 0
+TASK_28_LINE_IS_X True
+TASK_28_LINE_ENDS_WITH_SHA True
+NEW_SUBLINE_INDEX [109]
+PM_RECEIPT_INDEX [108]
+NUMSTAT 2	1	measure/tracks/storytime_cover_options_20261106/plan.md
+DIFF --- a/measure/tracks/storytime_cover_options_20261106/plan.md
+DIFF +++ b/measure/tracks/storytime_cover_options_20261106/plan.md
+DIFF @@ -106 +106 @@ A difference without a cause stops the gate. A new baseline run is necessary onl
+DIFF @@ -108,0 +109 @@ A difference without a cause stops the gate. A new baseline run is necessary onl
+PLAN_CHECK_EXIT=0
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
