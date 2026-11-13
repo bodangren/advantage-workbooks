@@ -35,12 +35,14 @@ The release files below are the 2 reader cover files (approved by Daniel on 2026
 
 The cover v4 (student book) and the cover v2 (teacher book) are the last 2 rows. The release book cover files are these r2 files until Task 2.14b of the cover track closes. The folder also holds older variants of both books (no suffix, `alt-hlogo`, `r3`, `r4`) for the record (`print-gate.txt`, D-3).
 
-The r5 book cover files are pending Daniel's answer (Task 2.14b, due 2026-11-15). They are not release files yet:
+The r5 book cover files failed Daniel's look on 2026-11-13; not release files:
 
 - `student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r5_PDFX-1a.pdf`, `e0f09b7f1949ba2c28d15ff2ccd5f79fb22896ba24e27672d65c85a1424de2c7`, 6289779 bytes.
 - `teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r5_PDFX-1a.pdf`, `850ed03f69164af9bf41179c33cb7bb15e4725a8b2b2257ee0dc5bae9a0625fd`, 7017934 bytes.
 
-When Daniel says ok on r5, the orchestrator sends a one-line update to the print track.
+The r6 book cover files (fix round F10) are in `~/Desktop/print-ready/storytime/covers-quest-v1-books-r6/`. The SHA-256 of its `MANIFEST.txt` is `a7f9b91c1bed3dace547437d9c75fe822134e4859e392f2df3496bea8aba025f`. Status: pending Daniel's answer (Task 2.14b).
+
+When Daniel says ok on r6, the orchestrator sends a one-line update to the print track.
 
 The page PNG files at 300 ppi are in the same folders: `readers-a3/` (17 manifest lines, 14 PNG files), `readers-leaf/` (17 lines, 14 PNG files), `student/`, and `teacher/`. The contact sheets are in `contact-sheets/` (`all.png`, `readers-a3.png`, `readers-leaf.png`, `student-alt-hlogo-r5.png`, `teacher-alt-hlogo-r5.png`).
 
