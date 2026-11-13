@@ -1,0 +1,13 @@
+CAPTURE of P9 R1 Green, PRINT_GATE on the v17 student book
+COMMAND: HEAVY_PRIORITY=p2 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/print/make-pdfx.ts /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/student-book/Storytime-Advantage-L2-U1-Student-Book-v17_PDFX-1a.pdf --check'
+
+--- STDOUT ---
+../../print-ready/storytime/_check-p9-reader-covers/student-book/Storytime-Advantage-L2-U1-Student-Book-v17_PDFX-1a.pdf: 136 pages, 20.9 MB, PDF 1.3, PDF/X-1a:2001, 5 font(s)
+All checks pass.
+
+--- STDERR ---
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh: line 1190: warning: command substitution: ignored null byte in input
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh: line 1190: warning: command substitution: ignored null byte in input
+
+THAI_LINES_DROPPED=0
+EXIT=0
