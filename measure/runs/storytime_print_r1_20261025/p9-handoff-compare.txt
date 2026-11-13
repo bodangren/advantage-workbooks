@@ -1,0 +1,40 @@
+CAPTURE of P9 hand-off, the 28 page compares
+COMMAND: HEAVY_PRIORITY=p2 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'python3 -I -B measure/runs/storytime_print_r1_20261025/p9_compare.py /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers /tmp/opencode/p9/work'
+
+--- STDOUT ---
+A3 compare: 14 files
+A3 w01 hello          png_mean=1.106 png_share64=0.00173 src_page= 1 src_maxdiff=1 title_text=yes PASS
+A3 w01 nan-can-nod    png_mean=0.859 png_share64=0.00172 src_page= 2 src_maxdiff=1 title_text=yes PASS
+A3 w02 can-i          png_mean=0.663 png_share64=0.00145 src_page= 4 src_maxdiff=1 title_text=yes PASS
+A3 w02 how-many       png_mean=1.011 png_share64=0.00214 src_page= 3 src_maxdiff=1 title_text=yes PASS
+A3 w03 paint          png_mean=1.034 png_share64=0.00170 src_page= 5 src_maxdiff=17 title_text=yes FAIL
+A3 w03 the-pan        png_mean=0.739 png_share64=0.00150 src_page= 6 src_maxdiff=15 title_text=yes FAIL
+A3 w04 my-family      png_mean=0.829 png_share64=0.00213 src_page= 7 src_maxdiff=17 title_text=yes FAIL
+A3 w04 pam            png_mean=0.715 png_share64=0.00147 src_page= 8 src_maxdiff=17 title_text=yes FAIL
+A3 w05 i-have-two     png_mean=0.611 png_share64=0.00191 src_page= 9 src_maxdiff=15 title_text=yes FAIL
+A3 w05 sam-and-pam    png_mean=0.784 png_share64=0.00219 src_page=10 src_maxdiff=17 title_text=yes FAIL
+A3 w06 i-can-see      png_mean=0.647 png_share64=0.00209 src_page=11 src_maxdiff=16 title_text=yes FAIL
+A3 w06 tap-tap        png_mean=1.100 png_share64=0.00189 src_page=12 src_maxdiff=17 title_text=yes FAIL
+A3 w07 is-it-a-ball   png_mean=0.936 png_share64=0.00081 src_page=13 src_maxdiff=17 title_text=yes FAIL
+A3 w07 the-top        png_mean=0.688 png_share64=0.00047 src_page=14 src_maxdiff=16 title_text=yes FAIL
+Leaf compare: 14 readers
+Leaf w01 hello          student_page=  9 offset=(0,6) mean=4.823 max=146 share48=0.03504 control_mean=54.131 mark_and_title_text=yes FAIL
+Leaf w01 nan-can-nod    student_page= 15 offset=(0,6) mean=3.014 max=255 share48=0.02261 control_mean=54.578 mark_and_title_text=yes FAIL
+Leaf w02 how-many       student_page= 27 offset=(0,5) mean=4.263 max=255 share48=0.02382 control_mean=47.727 mark_and_title_text=yes FAIL
+Leaf w02 can-i          student_page= 33 offset=(0,6) mean=3.293 max=223 share48=0.02439 control_mean=50.063 mark_and_title_text=yes FAIL
+Leaf w03 paint          student_page= 45 offset=(0,6) mean=5.545 max=255 share48=0.04144 control_mean=54.929 mark_and_title_text=yes FAIL
+Leaf w03 the-pan        student_page= 51 offset=(0,5) mean=3.492 max=255 share48=0.02284 control_mean=50.664 mark_and_title_text=yes FAIL
+Leaf w04 my-family      student_page= 63 offset=(0,6) mean=4.872 max=255 share48=0.03844 control_mean=43.146 mark_and_title_text=yes FAIL
+Leaf w04 pam            student_page= 69 offset=(0,6) mean=2.857 max=142 share48=0.02115 control_mean=34.847 mark_and_title_text=yes FAIL
+Leaf w05 i-have-two     student_page= 81 offset=(0,6) mean=2.475 max=146 share48=0.01878 control_mean=31.742 mark_and_title_text=yes FAIL
+Leaf w05 sam-and-pam    student_page= 87 offset=(0,6) mean=2.734 max=149 share48=0.02052 control_mean=34.547 mark_and_title_text=yes FAIL
+Leaf w06 i-can-see      student_page= 99 offset=(0,6) mean=2.860 max=255 share48=0.02206 control_mean=33.363 mark_and_title_text=yes FAIL
+Leaf w06 tap-tap        student_page=105 offset=(0,6) mean=3.693 max=132 share48=0.02888 control_mean=49.769 mark_and_title_text=yes FAIL
+Leaf w07 is-it-a-ball   student_page=117 offset=(0,6) mean=13.159 max=255 share48=0.07164 control_mean=38.924 mark_and_title_text=yes FAIL
+Leaf w07 the-top        student_page=123 offset=(0,6) mean=12.102 max=255 share48=0.06497 control_mean=43.422 mark_and_title_text=yes FAIL
+SUMMARY a3_fail=10 leaf_fail=14 of 28 compares
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=1
