@@ -53,3 +53,30 @@ Both PM requests are met: the clip takes the K3 path with the K2 key rule and a 
 Status: pass
 
 Transcribed 2026-11-07 by the plan author session from spec-review-p11-5d80aae7.json, because the review role cannot write track files (orchestrator deviation).
+
+## Amendment: Phase 13 (2026-11-14)
+
+Author model: claude-code/claude-sonnet-5-5#high
+
+Reviewer model: coding-plan/glm-5.3-flash#high (family GLM, not Anthropic)
+
+Scope: the section "Addendum 2026-11-14, Phase 13: read-along sentence clips (2026-11-14)" of [spec.md](./spec.md) and the section "Phase 13: Read-along sentence clips and the log of the makers (2026-11-14 to 2026-11-16)" of [plan.md](./plan.md), at the audited head c42918df.
+
+Route note: the plan default route deepseek/deepseek-flash#high is pay per token and in WAIT, so the orchestrator chose coding-plan/glm-5.3-flash#high. GLM is not the Anthropic family, so decision M1 and rule L15 hold for this role.
+
+### What this track proposes
+
+Phase 13 gives each sentence of the 7 read-along books of w01 to w07 its own clip: 72 clips, 927 characters for one take of each, and 2,800 characters sent at most. It writes `books[].audio.sentenceClips` into the 7 week files and builds the folders r6 (w01) and r5 (w02 to w07). It also closes the Phase 12 Review A findings F1, F2, F6, and F7. The first paid run waits for the MiniMax reset on 2026-11-15 23:00 ICT.
+
+### Findings
+
+- F1 [Major] spec M3 (line 849): the text said a run with `kinds` "never reads" a provenance item of the other kind, and M4 merges the whole provenance file. FIX: M3 now says "never changes or removes" an item of the other kind. It names the one read that M4 needs: the parse of the whole `sentences/manifest.json`, with the items of the other kind, which stay unchanged.
+- F2 [Major] spec M6 (the kept line): the line named no separator. FIX: M6 pins the exact bytes: the word `kept`, one tab character, the relative file path, and a newline (the tab rule of the call line). The same form is now in Red N3, Red N5 (new bullet), AC13-7 (both dry runs), and the plan Green 1 live proof (`--kind decodable` dry run).
+- F3 [Major] plan Thai rule: `dashboard/__tests__/storytime-package-practice-clips.test.ts` line 1533 holds 10 Thai characters in a fixture string. FIX: the plan Thai rule and spec M16 name the file and the line. A non-Claude role reads this file, and any failure capture of it, only through a filter that masks Thai. A direct read is not allowed.
+- F4 [Nit] plan Spend paragraph: the quota read was given to "the Green role". FIX: the text now says "the role that runs the command", because the Clips task runs the real mmx runs.
+
+Status: pass (0 Blockers; the gate PASS at 23:48 on the audited head c42918df; answers in the commit that holds this section)
+
+Result file: `measure/runs/storytime_week_package_20261022/spec-review-p13-c42918df.json` (the log: `spec-review-p13-c42918df.log`).
+
+Transcribed 2026-11-14 by the orchestrator build session, because the review role cannot write track files.
