@@ -1,0 +1,9 @@
+CAPTURE of P9 R1 Green, PROJECT_LINT
+COMMAND: HEAVY_PRIORITY=p2 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts'
+
+--- STDOUT ---
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
