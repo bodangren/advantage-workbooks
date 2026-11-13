@@ -769,7 +769,8 @@ function fakeVoice(options: {
         synthesize: (text, wavFile, voice, speed) => {
             const take = (takesOf.get(text) ?? 0) + 1;
             takesOf.set(text, take);
-            const span = 16000 + (options.spanOffset ?? 0) + 16 * calls.length;
+            // changed 2026-11-14 (Red retry R1, D1)
+            const span = 48000 + (options.spanOffset ?? 0) + 16 * calls.length;
             // The maker trims the quiet edges before recognition, so the marked extent is the loud part only.
             calls.push({ text, take, extent: span, voice, speed });
             if (options.throwsWhen?.(text, take)) throw new Error(`fake mmx: the take ${take} of "${text}" fails`);
@@ -1347,15 +1348,18 @@ describe('N5 the log of the sentence maker (M6)', () => {
     it('the character limit stops the run before a call, and the failed sent line follows', async () => {
         const tree = freshSentenceTree();
         const lens = readAlongSentences(1).map((text) => text.length);
-        const limit = lens[0] + lens[1] + lens[2] + lens[3] - 1;
-        const voice = fakeVoice();
+        // changed 2026-11-14 (Red retry R1, D2)
+        const limit = 137;
+        const first = readAlongSentences(1)[0];
+        const voice = fakeVoice({ heard: (text, take) => (take === 1 && text === first ? ['no'] : text.split(' ')) });
         const run = await runSentenceMaker(tree, voice, { kinds: ['readalong'], maxChars: limit });
         expect(run.error, 'the maker throws').toBeInstanceOf(Error);
         expect(run.error?.message).toMatch(/char/i);
-        expect(voice.calls.map((call) => call.text), 'the 3 sentences before the limit are made').toEqual(readAlongSentences(1).slice(0, 3));
-        expect(run.log.filter((line) => line.startsWith('call ')), 'the 3 call lines').toHaveLength(3);
+        // changed 2026-11-14 (Red retry R1, D2)
+        expect(voice.calls.map((call) => call.text), 'the calls before the limit').toEqual([first, ...readAlongSentences(1).slice(0, 7)]);
+        expect(run.log.filter((line) => line.startsWith('call ')), 'the 8 call lines').toHaveLength(8);
         expect(run.log[run.log.length - 1], 'the failed sent line holds the characters of the earlier calls')
-            .toBe(`sent: ${lens[0] + lens[1] + lens[2]} (run failed)`);
+            .toBe(`sent: ${lens[0] * 2 + lens.slice(1, 7).reduce((a, b) => a + b, 0)} (run failed)`);
     }, 120_000);
 
     it('a dry run gives no call line and no sent: line, and log receives the list lines', async () => {
@@ -1375,7 +1379,9 @@ describe('N5 the log of the sentence maker (M6)', () => {
         const run = await runSentenceMaker(tree, voice, { kinds: ['readalong'] });
         expect(run.error?.message, 'the run ends without an error').toBeUndefined();
         const kept = readAlongSentences(1).map((_, index) => `kept\t${readAlongPath(1, index + 1)}\n`);
-        for (const line of kept) expect(run.log, `the exact bytes of ${JSON.stringify(line)}`).toContain(line);
+        // changed 2026-11-14 (Red retry R1, D3)
+        for (const line of kept.filter((_, index) => index !== 2)) expect(run.log, `the exact bytes of ${JSON.stringify(line)}`).toContain(line);
+        expect(run.log, 'no kept line for the remade sentence').not.toContain(kept[2]);
         expect(run.log.filter((line) => line.startsWith('call ')), 'the one call line of the changed sentence').toHaveLength(1);
         expect(run.log[run.log.length - 1], 'the sent line is the last line').toBe(`sent: ${readAlongSentences(1)[2].length}`);
     }, 120_000);
@@ -1396,8 +1402,9 @@ describe('N6 the log of the word maker (M6)', () => {
         expect(run.value?.lines[1], 'the list line of hen').toBe('hen\tHen');
         expect(run.value?.lines[2], 'the chars line').toBe('chars: 6');
         expect(run.value?.lines[3], 'the call line of fan').toBe('call 1\tfan\ttake 1\tchars 3\tsent 3');
-        expect(run.value?.lines[4], 'the call line of hen').toBe('call 2\then\ttake 1\tchars 3\tsent 6');
-        expect(run.value?.lines[5], 'the sent line').toBe('sent: 6');
+        // changed 2026-11-14 (Red retry R1, D4)
+        expect(run.value?.lines[5], 'the call line of hen').toBe('call 2\then\ttake 1\tchars 3\tsent 6');
+        expect(run.value?.lines[7], 'the sent line').toBe('sent: 6');
         expect(run.value?.chars, 'the sent sum equals the chars field').toBe(6);
         expect(run.value?.lines.some((line) => line.startsWith('made wa-fan take 1')), 'the made line of fan').toBe(true);
         expect(run.value?.lines.some((line) => line.startsWith('made wa-hen take 1')), 'the made line of hen').toBe(true);
@@ -1409,8 +1416,9 @@ describe('N6 the log of the word maker (M6)', () => {
         const voice = fakeVoice({ throwsWhen: (text) => text === 'Hen' });
         const run = await runWordMaker(tree, voice);
         expect(run.error?.message, 'the same error').toBe('fake mmx: the take 1 of "Hen" fails');
-        expect(run.log.filter((line) => line.startsWith('call ')), 'the call line of fan').toEqual(['call 1\tfan\ttake 1\tchars 3\tsent 3']);
-        expect(run.log[run.log.length - 1], 'the failed sent line is the last line').toBe('sent: 3 (run failed)');
+        // changed 2026-11-14 (Red retry R1, D5)
+        expect(run.log.filter((line) => line.startsWith('call ')), 'the call lines of fan and hen').toEqual(['call 1\tfan\ttake 1\tchars 3\tsent 3', 'call 2\then\ttake 1\tchars 3\tsent 6']);
+        expect(run.log[run.log.length - 1], 'the failed sent line is the last line').toBe('sent: 6 (run failed)');
     }, 120_000);
 });
 
@@ -1623,6 +1631,9 @@ describe('N8 set-sentence-clips.ts with kinds (M3, FR 4)', () => {
         const setSentenceClips = await sentenceMapper('setSentenceClips');
         const { tree, before } = await n8Tree();
         fs.rmSync(path.join(tree.contentRoot, readAlongPath(1, 2)));
+        // changed 2026-11-14 (Red retry R1, D6)
+        const current = fs.readFileSync(tree.weekFile, 'utf8');
+        expect(current, 'the cached tree already holds the array of the earlier cases').not.toBe(before);
         const listing = entryListing(tree.folder);
         const hashes = treeHashes(tree.folder);
         const run = await attempt(() => setSentenceClips({ weekFile: tree.weekFile, contentRoot: tree.contentRoot, kinds: ['readalong'] }));
@@ -1630,7 +1641,8 @@ describe('N8 set-sentence-clips.ts with kinds (M3, FR 4)', () => {
         expect(run.error?.message).toContain('b0-s02');
         expect(entryListing(tree.folder), 'no file appears').toEqual(listing);
         expect(treeHashes(tree.folder), 'no file changes, and the week file is byte-equal').toEqual(hashes);
-        expect(fs.readFileSync(tree.weekFile, 'utf8')).toBe(before);
+        // changed 2026-11-14 (Red retry R1, D6)
+        expect(fs.readFileSync(tree.weekFile, 'utf8')).toBe(current);
     }, 60_000);
 });
 
