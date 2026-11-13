@@ -11,6 +11,8 @@ Daniel approved the 14 A3 and 14 leaf reader covers on 2026-11-13 (Google Tasks 
 
 PM correction (2026-11-13, about 14:20): the student and teacher book covers (alt-hlogo r5) were not in the sheets that Daniel passed. His last word on the book covers is "R2" (2026-11-11). The PM sent him the r5 sheets (Tasks look item, due 2026-11-15). Task 2.14b of the cover track holds his answer. The r5 book covers are not approved.
 
+Update (2026-11-13, about 14:50): r5 failed Daniel's look on 2026-11-13 (no title on the front). The r6 book covers follow (fix round F10, due 2026-11-14 10:00). The release keeps r2 until Daniel passes r6. The r5 files below are not release files.
+
 ## 2. The accepted folder
 
 - Folder: `~/Desktop/print-ready/storytime/covers-quest-v1/`

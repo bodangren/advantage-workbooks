@@ -2,7 +2,7 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
-- [~] **Track: Storytime cover options in the RPG-theme style of the Primary and Reading Advantage covers: 3 options of stylized art and frame for the Level 2 Unit 1 student, teacher, and reader covers, for Daniel's pick; the series template after the pick.** *(Created: 2026-11-06; Daniel approved the reader covers 2026-11-13; r5 book covers wait for his answer (due 11-15); print hand-off next)*
+- [~] **Track: Storytime cover options in the RPG-theme style of the Primary and Reading Advantage covers: 3 options of stylized art and frame for the Level 2 Unit 1 student, teacher, and reader covers, for Daniel's pick; the series template after the pick.** *(Created: 2026-11-06; Reader covers approved 2026-11-13; book covers r6 fix round F10 (due 11-14 10:00); release keeps r2 until Daniel passes r6)*
   *Link: [./tracks/storytime_cover_options_20261106/](./tracks/storytime_cover_options_20261106/)*
 
 - [ ] **Track: Storytime Advantage Level 2 Unit 2 (weeks 9 to 16): the week texts, the picture list for Forge, the Thai parts for Daniel's check, the unit scope change of the makers, the print build with the unit 1 makers, and the hand-offs; unit 1 first; print-ready 2026-12-08 (internal). Series plan: `measure/storytime-series-plan.md`.** *(Created: 2026-11-06)*
