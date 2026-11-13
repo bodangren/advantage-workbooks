@@ -1,0 +1,22 @@
+BUILD CAPTURE of Green F8 readers-adversarial and r2
+
+HEAVY_RUN_TIMEOUT_S 1200
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd dashboard && CI=true npx vitest run __tests__/storytime-print-readers-adversarial.test.ts __tests__/storytime-print-readers-adversarial-r2.test.ts --maxWorkers=1
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-print-readers-adversarial.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 5205[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-CONTROL a row with a folder prefix passes (the control for every negative case below) [33m 753[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-CLI-NO-MANIFEST exits 2 on a batch folder without manifest.json, on an unknown flag, and writes no file [33m 1709[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-A3-PREFLIGHT the final color A3 build stops on a missing color file, and no output folder is made [33m 2235[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers-adversarial-r2.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 753[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-R2-GITIGNORE-LEVELS the picture folder of level 1, 3, 4, 9, and 10 is ignored at any depth; the picture list and week files of those levels are not [33m 414[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m22 passed[39m[22m[90m (22)[39m
+[2m   Start at [22m 05:50:18
+[2m   Duration [22m 9.68s[2m (transform 911ms, setup 225ms, import 1.07s, tests 5.96s, environment 1.77s)[22m
+--- STDERR ---

@@ -1,0 +1,91 @@
+BUILD CAPTURE of Green F8 mutant M1 (F8 CSS undone)
+
+HEAVY_RUN_TIMEOUT_S 1200
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-f8.test.ts --maxWorkers=1
+HEAVY_EXIT: 1
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-1: the page 1 of the a3-color reader fills the A3 sheet, with no white edge row and no white edge column
+[22m[39mF8-1 Hello!: the page 1 holds 1588 x 1123 px, the A3 sheet at 96 ppi holds 1587 x 1123 px
+F8-1 Hello!: white edge rows top 0, bottom 561, white edge columns left 0, right 839
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-1: the page 1 of the a3-color reader fills the A3 sheet, with no white edge row and no white edge column
+[22m[39mF8-1 Nan Can Nod: the page 1 holds 1588 x 1123 px, the A3 sheet at 96 ppi holds 1587 x 1123 px
+F8-1 Nan Can Nod: white edge rows top 0, bottom 561, white edge columns left 0, right 839
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-1: the page 1 of the a3-color reader fills the A3 sheet, with no white edge row and no white edge column
+[22m[39mF8-1 pages checked 2, failures 2
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-2: the page 1 of the a3-color reader is close to the A3 reader cover at trim size
+[22m[39mF8-2 Hello!: the mean absolute difference is R 66.91, G 91.19, B 126.99; the built page holds 1588 x 1123 px, the cover holds 1588 x 1123 px
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-2: the page 1 of the a3-color reader is close to the A3 reader cover at trim size
+[22m[39mF8-2 Nan Can Nod: the mean absolute difference is R 82.63, G 90.54, B 134.24; the built page holds 1588 x 1123 px, the cover holds 1588 x 1123 px
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-2: the page 1 of the a3-color reader is close to the A3 reader cover at trim size
+[22m[39mF8-2 covers checked 2, failures 2
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-3: the workbook page 1 keeps the leaf size and the line art source
+[22m[39mF8-3 the workbook page 1 of "Hello!": the quest cover picture holds 198.03 x 148.53 mm
+
+ [31m❯[39m __tests__/quest-cover-f8.test.ts [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 27477[2mms[22m[39m
+[31m     [31m×[31m F8-1: the page 1 of the a3-color reader fills the A3 sheet, with no white edge row and no white edge column[39m[33m 9974[2mms[22m[39m
+[31m     [31m×[31m F8-2: the page 1 of the a3-color reader is close to the A3 reader cover at trim size[39m[33m 12121[2mms[22m[39m
+     [33m[2m✓[22m[39m F8-3: the workbook page 1 keeps the leaf size and the line art source [33m 2460[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 07:10:22
+[2m   Duration [22m 30.70s[2m (transform 971ms, setup 131ms, import 1.20s, tests 27.48s, environment 920ms)[22m
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f8.test.ts[2m > [22mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22mF8-1: the page 1 of the a3-color reader fills the A3 sheet, with no white edge row and no white edge column
+[31m[1mAssertionError[22m: "Hello!": 0 white edge row(s) at the top, 561 at the bottom, 0 white edge column(s) at the left, 839 at the right.
+"Nan Can Nod": 0 white edge row(s) at the top, 561 at the bottom, 0 white edge column(s) at the left, 839 at the right.: expected [ …(2) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "\"Hello!\": 0 white edge row(s) at the top, 561 at the bottom, 0 white edge column(s) at the left, 839 at the right.",[39m
+[31m+   "\"Nan Can Nod\": 0 white edge row(s) at the top, 561 at the bottom, 0 white edge column(s) at the left, 839 at the right.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f8.test.ts:[2m363:47[22m[39m
+    [90m361| [39m        }
+    [90m362| [39m        console.log(`F8-1 pages checked ${rows.length}, failures ${fai…
+    [90m363| [39m        [34mexpect[39m(failures[33m,[39m failures[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m364| [39m    }[33m,[39m [34m900_000[39m)[33m;[39m
+    [90m365| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f8.test.ts[2m > [22mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22mF8-2: the page 1 of the a3-color reader is close to the A3 reader cover at trim size
+[31m[1mAssertionError[22m: "Hello!": the mean absolute difference is 126.99; it must be 4 or less.
+"Nan Can Nod": the mean absolute difference is 134.24; it must be 4 or less.: expected [ …(2) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "\"Hello!\": the mean absolute difference is 126.99; it must be 4 or less.",[39m
+[31m+   "\"Nan Can Nod\": the mean absolute difference is 134.24; it must be 4 or less.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f8.test.ts:[2m399:47[22m[39m
+    [90m397| [39m        }
+    [90m398| [39m        console.log(`F8-2 covers checked ${rows.length}, failures ${fa…
+    [90m399| [39m        [34mexpect[39m(failures[33m,[39m failures[33m.[39m[34mjoin[39m([32m'\n'[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                              [31m^[39m
+    [90m400| [39m    }[33m,[39m [34m900_000[39m)[33m;[39m
+    [90m401| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m

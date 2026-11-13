@@ -1,0 +1,18 @@
+BUILD CAPTURE of Green F8 Gate A-build part 2
+
+HEAVY_RUN_TIMEOUT_S 1800
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-build.test.ts --maxWorkers=1 -t 'a failed PDF/X step leaves no print file'
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m | [22m[33m74 skipped[39m[2m)[22m[33m 252391[2mms[22m[39m
+     [33m[2m✓[22m[39m a failed PDF/X step leaves no print file with a final name (review B F3) [33m 251790[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[2m | [22m[33m74 skipped[39m[90m (75)[39m
+[2m   Start at [22m 06:22:21
+[2m   Duration [22m 253.94s[2m (transform 565ms, setup 122ms, import 863ms, tests 252.39s, environment 0ms)[22m
+--- STDERR ---

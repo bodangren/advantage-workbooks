@@ -1,0 +1,14 @@
+CAPTURE of Green F8 eslint
+COMMAND: cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts
+
+--- STDOUT ---
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1709:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

@@ -1,0 +1,18 @@
+BUILD CAPTURE of Green F8 Gate A-build part 4
+
+HEAVY_RUN_TIMEOUT_S 1800
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-build.test.ts --maxWorkers=1 -t 'a copy that fails after the first print files'
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/quest-cover-build.test.ts [2m([22m[2m75 tests[22m[2m | [22m[33m74 skipped[39m[2m)[22m[33m 402905[2mms[22m[39m
+     [33m[2m✓[22m[39m a copy that fails after the first print files were copied leaves none of the 4 at a final name and keeps a file that the build did not write [33m 402220[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[2m | [22m[33m74 skipped[39m[90m (75)[39m
+[2m   Start at [22m 06:33:35
+[2m   Duration [22m 406.06s[2m (transform 1.21s, setup 499ms, import 1.78s, tests 402.91s, environment 0ms)[22m
+--- STDERR ---

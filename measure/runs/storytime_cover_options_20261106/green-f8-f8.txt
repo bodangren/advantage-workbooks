@@ -1,0 +1,43 @@
+BUILD CAPTURE of Green F8 quest-cover-f8
+
+HEAVY_RUN_TIMEOUT_S 1200
+=== ATTEMPT 1 ===
+INNER_COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-f8.test.ts --maxWorkers=1
+HEAVY_EXIT: 0
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-1: the page 1 of the a3-color reader fills the A3 sheet, with no white edge row and no white edge column
+[22m[39mF8-1 Hello!: the page 1 holds 1588 x 1123 px, the A3 sheet at 96 ppi holds 1587 x 1123 px
+F8-1 Hello!: white edge rows top 0, bottom 0, white edge columns left 0, right 0
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-1: the page 1 of the a3-color reader fills the A3 sheet, with no white edge row and no white edge column
+[22m[39mF8-1 Nan Can Nod: the page 1 holds 1588 x 1123 px, the A3 sheet at 96 ppi holds 1587 x 1123 px
+F8-1 Nan Can Nod: white edge rows top 0, bottom 0, white edge columns left 0, right 0
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-1: the page 1 of the a3-color reader fills the A3 sheet, with no white edge row and no white edge column
+[22m[39mF8-1 pages checked 2, failures 0
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-2: the page 1 of the a3-color reader is close to the A3 reader cover at trim size
+[22m[39mF8-2 Hello!: the mean absolute difference is R 0.00, G 0.00, B 0.00; the built page holds 1588 x 1123 px, the cover holds 1588 x 1123 px
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-2: the page 1 of the a3-color reader is close to the A3 reader cover at trim size
+[22m[39mF8-2 Nan Can Nod: the mean absolute difference is R 0.00, G 0.00, B 0.00; the built page holds 1588 x 1123 px, the cover holds 1588 x 1123 px
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-2: the page 1 of the a3-color reader is close to the A3 reader cover at trim size
+[22m[39mF8-2 covers checked 2, failures 0
+
+[90mstdout[2m | __tests__/quest-cover-f8.test.ts[2m > [22m[2mquest-cover-f8: the page 1 of the A3 colour reader (Red, F8 of the PM look of 2026-11-13)[2m > [22m[2mF8-3: the workbook page 1 keeps the leaf size and the line art source
+[22m[39mF8-3 the workbook page 1 of "Hello!": the quest cover picture holds 198.03 x 148.53 mm
+
+ [32m✓[39m __tests__/quest-cover-f8.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 49485[2mms[22m[39m
+     [33m[2m✓[22m[39m F8-1: the page 1 of the a3-color reader fills the A3 sheet, with no white edge row and no white edge column [33m 18663[2mms[22m[39m
+     [33m[2m✓[22m[39m F8-2: the page 1 of the a3-color reader is close to the A3 reader cover at trim size [33m 17970[2mms[22m[39m
+     [33m[2m✓[22m[39m F8-3: the workbook page 1 keeps the leaf size and the line art source [33m 4595[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 05:31:00
+[2m   Duration [22m 56.02s[2m (transform 1.47s, setup 260ms, import 2.75s, tests 49.48s, environment 2.97s)[22m
+--- STDERR ---
