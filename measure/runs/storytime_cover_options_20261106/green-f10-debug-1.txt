@@ -1,0 +1,54 @@
+CAPTURE of F10 Green debug run 1, the spec plate (2 centred lines)
+COMMAND: HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/quest-cover-f10.test.ts --maxWorkers=1'
+
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-f10.test.ts[2m > [22m[2mquest-cover-f10: T1 to T9 (Red, the r6 book covers with a title on the front)[2m > [22m[2mT7: the 2 backs keep the r5 bytes, one logo tile, and no front title
+[22m[39mT7 student-back: sha256 5a17085f221416481873bb0dea129711727bf4e399ddf26c8f5e31fe92093fbc
+T7 teacher-back: sha256 f7666628f955c41d946ce50df11b1ffa366693e2542f7e962ccec165a1f43fab
+
+ [31m❯[39m __tests__/quest-cover-f10.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 7846[2mms[22m[39m
+     [32m✓[39m T1: each of the 2 book fronts holds one front-title part with the text "Storytime Advantage"[32m 233[2mms[22m[39m
+     [33m[2m✓[22m[39m T2: each of the 28 reader fronts holds its own title in its title-plaque part [33m 1227[2mms[22m[39m
+     [33m[2m✓[22m[39m T3: the plate takes the logo colours, and every colour of the part is in the token table [33m 1281[2mms[22m[39m
+[31m     [31m×[31m T4: the plate is centred, the ink fills 75 % to 85 % of the band, and the lines stay inside[39m[32m 13[2mms[22m[39m
+     [33m[2m✓[22m[39m T5: the painted plate meets no key box of the art and lies 5 mm inside the trim [33m 727[2mms[22m[39m
+     [32m✓[39m T6: the level plate keeps its text, its box, and its bytes of the role base[32m 89[2mms[22m[39m
+     [33m[2m✓[22m[39m T7: the 2 backs keep the r5 bytes, one logo tile, and no front title [33m 315[2mms[22m[39m
+     [32m✓[39m T8: the default style holds no front title on the 2 fronts[32m 99[2mms[22m[39m
+     [32m✓[39m T9: each front holds no logo mark and no game bar, and its only image is the art[32m 80[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m 20:08:11
+[2m   Duration [22m 13.52s[2m (transform 684ms, setup 512ms, import 1.11s, tests 7.85s, environment 3.61s)[22m
+
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-f10.test.ts[2m > [22mquest-cover-f10: T1 to T9 (Red, the r6 book covers with a title on the front)[2m > [22mT4: the plate is centred, the ink fills 75 % to 85 % of the band, and the lines stay inside
+[31m[1mAssertionError[22m: the student-front plate: the ink centre is 99.07 mm and the plate centre is 105.00 mm.: expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "the ink centre is 99.07 mm and the plate centre is 105.00 mm.",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-f10.test.ts:[2m968:75[22m[39m
+    [90m966| [39m            [35mconst[39m measure [33m=[39m [35mawait[39m [34mmeasureRealFront[39m(kind)[33m;[39m
+    [90m967| [39m            [35mconst[39m problems [33m=[39m [34mgeometryProblems[39m(measure)[33m;[39m
+    [90m968| [39m            expect(problems, `the ${kind} plate: ${problems.join('; ')…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m969| [39m            [35mconst[39m control [33m=[39m [34mreplacePart[39m(
+    [90m970| [39m                [34mrenderFront[39m(kind[33m,[39m [33mHLOGO_OPTIONS[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+THAI_LINES_DROPPED=0
+EXIT=1
