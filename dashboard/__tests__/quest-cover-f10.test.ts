@@ -723,6 +723,8 @@ function inkBlock(measure: FrontMeasure): MmBox | null {
     if (measure.lines.length === 0) return null;
     let top = Number.POSITIVE_INFINITY;
     let bottom = Number.NEGATIVE_INFINITY;
+    let left = Number.POSITIVE_INFINITY;
+    let right = Number.NEGATIVE_INFINITY;
     for (const [index, line] of measure.lines.entries()) {
         const fontMm = measure.lineFonts[index] ?? 0;
         const halfLeading = (line.bottom - line.top - (FONT_ASCENT + FONT_DESCENT) * fontMm) / 2;
@@ -730,11 +732,12 @@ function inkBlock(measure: FrontMeasure): MmBox | null {
         const inkBottom = line.top + halfLeading + (FONT_ASCENT + FONT_DESCENT) * fontMm;
         top = Math.min(top, inkTop);
         bottom = Math.max(bottom, inkBottom);
+        left = Math.min(left, line.left);
+        right = Math.max(right, line.right);
     }
-    const first = measure.lines[0];
-    const last = measure.lines[measure.lines.length - 1];
-    if (!first || !last) return null;
-    return { left: first.left, top, right: last.right, bottom };
+    if (!Number.isFinite(left) || !Number.isFinite(right)) return null;
+    // changed 2026-11-13 (F10): the ink box spans the widest line (Red retry R1)
+    return { left, top, right, bottom };
 }
 
 /**
