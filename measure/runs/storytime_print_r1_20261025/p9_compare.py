@@ -18,7 +18,8 @@ Method (the same for the A3 files and the leaves):
 - A negative control compares each leaf strip with the cover of the next reader. The control
   must differ by a large margin.
 
-Usage: python3 -I -B p9_compare.py <check folder> <scratch folder>
+Usage: python3 -I -B p9_compare.py <check folder> <scratch folder> [<student book file>]
+The student book file defaults to the v16 file of the check folder.
 """
 
 import json
@@ -159,7 +160,7 @@ def main(argv):
     check, scratch = argv[0], argv[1]
     os.makedirs(scratch, exist_ok=True)
     a3_fails = a3_checks(check, scratch, page_order(os.path.join(ACCEPTED, 'readers-a3/build-report.json')))
-    student = os.path.join(check, 'student-book/Storytime-Advantage-L2-U1-Student-Book-v16_PDFX-1a.pdf')
+    student = argv[2] if len(argv) > 2 else os.path.join(check, 'student-book/Storytime-Advantage-L2-U1-Student-Book-v16_PDFX-1a.pdf')
     leaf_fails = leaf_checks(check, scratch, page_order(os.path.join(ACCEPTED, 'readers-leaf/build-report.json')), student)
     print('SUMMARY a3_fail=%d leaf_fail=%d of 28 compares' % (a3_fails, leaf_fails))
     return 0 if a3_fails + leaf_fails == 0 else 1
