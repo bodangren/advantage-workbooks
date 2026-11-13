@@ -1,0 +1,20 @@
+CAPTURE of Phase 13 FR8 grep of dashboard/__tests__
+COMMAND: grep -rlnE 'wordClips|sentenceClips|trickyWordClips|withoutNewFields|AX-lines|BookAudioSchema|FocusSchema|audio\??\.(file|slowFile|sentences|slowSentences)|opening\??\.(pa|audio)|words/manifest|sentences/manifest' dashboard/__tests__
+
+--- STDOUT ---
+dashboard/__tests__/storytime-phonemes.test.ts
+dashboard/__tests__/storytime-loops-checks.test.ts
+dashboard/__tests__/storytime-package-clips.test.ts
+dashboard/__tests__/storytime-package-readalong-clips.test.ts
+dashboard/__tests__/fixtures/storytime-loops-sample.ts
+dashboard/__tests__/storytime-week.test.ts
+dashboard/__tests__/storytime-package-practice-clips.test.ts
+dashboard/__tests__/storytime-loops-share-content.test.ts
+dashboard/__tests__/storytime-loops-content.test.ts
+dashboard/__tests__/storytime-print-v15.test.ts
+dashboard/__tests__/storytime-book-pictures.test.ts
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

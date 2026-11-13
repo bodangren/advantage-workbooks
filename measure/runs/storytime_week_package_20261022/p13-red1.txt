@@ -1,0 +1,1390 @@
+CAPTURE of P13 Red 1 RED_TEST_COMMAND
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-package-readalong-clips.test.ts --maxWorkers=1'
+
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-package-readalong-clips.test.ts [2m([22m[2m51 tests[22m[2m | [22m[31m46 failed[39m[2m)[22m[33m 14254[2mms[22m[39m
+     [32m✓[39m with no kinds plans the decodable books only, as Phase 12[32m 48[2mms[22m[39m
+[31m     [31m×[31m with kinds ["readalong"] plans the read-along sentences with book 0 and the b0 paths[39m[32m 22[2mms[22m[39m
+[31m     [31m×[31m with both kinds plans the books in order[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m gives the hand-written counts and characters of the shipped weeks (72 sentences, 927 characters)[39m[32m 4[2mms[22m[39m
+     [32m✓[39m gives nothing for w08, which has no book[32m 10[2mms[22m[39m
+[31m     [31m×[31m makes one call for each read-along sentence, in order, with the exact text, the voice of the book, and the speed 1[39m[33m 2618[2mms[22m[39m
+[31m     [31m×[31m made holds the 8 paths b0-s01.mp3 to b0-s08.mp3[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m the provenance file holds 16 items sorted by book and n, the 8 old items equal the fixture, and the header keys equal the fixture keys[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m the 8 old mp3 files are byte-equal[39m[32m 27[2mms[22m[39m
+     [33m[2m✓[22m[39m with no kinds the same copy gives no read-along call [33m 785[2mms[22m[39m
+[31m     [31m×[31m a second run with no change makes 0 calls, changes no byte, logs the kept lines, and ends with sent: 0[39m[33m 753[2mms[22m[39m
+[31m     [31m×[31m a done sentence whose mp3 hash differs from its item is made again[39m[33m 757[2mms[22m[39m
+[31m     [31m×[31m a fake that throws on call 5 leaves 4 finished items in the provenance file[39m[33m 391[2mms[22m[39m
+[31m     [31m×[31m a run again with a working fake makes only the other sentences[39m[33m 1101[2mms[22m[39m
+[31m     [31m×[31m the dry run lists only the sentences that are not done, and its chars: counts only them[39m[32m 65[2mms[22m[39m
+[31m     [31m×[31m throws for a header with another voice, before the first call, and changes no file[39m[33m 767[2mms[22m[39m
+[31m     [31m×[31m throws for a header with another speed, before the first call, and changes no file[39m[33m 774[2mms[22m[39m
+[31m     [31m×[31m throws for a header with another model, before the first call, and changes no file[39m[33m 776[2mms[22m[39m
+[31m     [31m×[31m a run with one retake gives the exact call lines call 1 to call 9, and the last line is sent: <s>[39m[33m 807[2mms[22m[39m
+[31m     [31m×[31m log receives the same lines in the same order as result.lines[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m a fake that throws on call 3 gives 3 call lines, the failed sent line, and the same error[39m[33m 794[2mms[22m[39m
+[31m     [31m×[31m the character limit stops the run before a call, and the failed sent line follows[39m[32m 78[2mms[22m[39m
+[31m     [31m×[31m a dry run gives no call line and no sent: line, and log receives the list lines[39m[33m 388[2mms[22m[39m
+[31m     [31m×[31m a run with a done sentence gives its kept line with the exact bytes[39m[33m 724[2mms[22m[39m
+[31m     [31m×[31m gives the exact call lines with the word key, the sent: line, and the Phase 12 list, chars, and made lines[39m[33m 456[2mms[22m[39m
+[31m     [31m×[31m a fake that throws on call 2 gives 1 call line and the failed sent line[39m[32m 219[2mms[22m[39m
+[31m     [31m×[31m the usage of both makers names --kind[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m a value of --kind other than decodable, readalong, or all exits 2 for both makers[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m a real run of the sentence maker ends with sent: <s> and then made: <n>, and stdout holds each line once[39m[32m 48[2mms[22m[39m
+[31m     [31m×[31m a failed run of the sentence maker exits 1, with the failed sent line in stdout and the error in stderr[39m[32m 52[2mms[22m[39m
+[31m     [31m×[31m an absent venv exits 2 with sent: 0 (run failed), for both makers[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m a real run of the word maker ends with sent: <s> and then made: <n>[39m[32m 94[2mms[22m[39m
+[31m     [31m×[31m with kinds ["readalong"] the array form comes after the wordClips object of book 0, and the new text parses with the schema[39m[32m 150[2mms[22m[39m
+[31m     [31m×[31m the run adds 34 lines (4 for each of 8 items, plus 2), the closing } of wordClips gains a comma, and the decodable block is byte-equal[39m[32m 11[2mms[22m[39m
+     [32m✓[39m a second run changes no byte[32m 35[2mms[22m[39m
+[31m     [31m×[31m kinds ["readalong", "decodable"] edits both blocks[39m[32m 52[2mms[22m[39m
+[31m     [31m×[31m a missing file or a differing hash in a decodable item does not stop a read-along run[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m a missing read-along file or a differing hash stops the run before any write[39m[32m 12[2mms[22m[39m
+[31m     [31m×[31m gives the exact id and label, and pass with no detail on the correct copy[39m[32m 180[2mms[22m[39m
+[31m     [31m×[31m warns "no clips" when the read-along book has no field[39m[32m 52[2mms[22m[39m
+[31m     [31m×[31m fails with "count differs: <book>" when the array length is not the sentence count[39m[32m 49[2mms[22m[39m
+[31m     [31m×[31m fails with "text differs: <path>" when an item sentence is not the book sentence[39m[32m 49[2mms[22m[39m
+[31m     [31m×[31m fails with "missing: <path>" when a clip file is absent[39m[32m 53[2mms[22m[39m
+[31m     [31m×[31m fails with "bad path: <path>" for a value that is not the M2 path of its index[39m[32m 43[2mms[22m[39m
+[31m     [31m×[31m joins the four fail parts in the order of L9 with "; "[39m[32m 45[2mms[22m[39m
+[31m     [31m×[31m lets a fail win over a warn, and the detail of the fail holds no warn part[39m[32m 44[2mms[22m[39m
+[31m     [31m×[31m gives no row for a week with no read-along book, for a week with no meta, and for the shipped w08[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m the F7 rule: checkSentenceClips does not flag the field on a read-along book, and the read-along row does not read a decodable book[39m[32m 49[2mms[22m[39m
+[31m     [31m×[31m sentenceClips on a read-along book parses and the parse output keeps it[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m gives true for a maker clip that the synthetic book mp3 holds, and false for a maker output of a fresh generation[39m[33m 806[2mms[22m[39m
+     [32m✓[39m holds no path of the Measure track folders[32m 0[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m46 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (51)[39m
+[2m   Start at [22m 00:19:24
+[2m   Duration [22m 16.15s[2m (transform 738ms, setup 280ms, import 792ms, tests 14.25s, environment 0ms)[22m
+
+--- STDERR ---
+[in#0 @ 0x63b098159c80] Error opening input: No such file or directory
+Error opening input file /tmp/opencode/storytime-readalong-maker-Yfjnxk/content/l2/media/w01/sentences/b0-s01.mp3.
+Error opening input files: No such file or directory
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 46 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN1 planSentenceClips with kinds (M3, FR 1)[2m > [22mwith kinds ["readalong"] plans the read-along sentences with book 0 and the b0 paths
+[31m[1mAssertionError[22m: the read-along book index: expected [ 1, 1, 1, 1, 1, 1, 1, 1 ] to deeply equal [ +0, +0, +0, +0, +0, +0, +0, +0 ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   0,[39m
+[32m-   0,[39m
+[32m-   0,[39m
+[32m-   0,[39m
+[32m-   0,[39m
+[32m-   0,[39m
+[32m-   0,[39m
+[32m-   0,[39m
+[31m+   1,[39m
+[31m+   1,[39m
+[31m+   1,[39m
+[31m+   1,[39m
+[31m+   1,[39m
+[31m+   1,[39m
+[31m+   1,[39m
+[31m+   1,[39m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1089:76[22m[39m
+    [90m1087| [39m        const plan = planSentenceClips({ level: 2, week: 1, books: shi…
+    [90m1088| [39m        [34mexpect[39m(plan[33m,[39m [32m'the 8 read-along sentences'[39m)[33m.[39m[34mtoHaveLength[39m([34m8[39m)[33m;[39m
+    [90m1089| [39m        expect(plan.map((item) => item.book), 'the read-along book ind…
+    [90m   | [39m                                                                           [31m^[39m
+    [90m1090| [39m        expect(plan.map((item) => item.text), 'the texts of the read-a…
+    [90m1091| [39m        expect(plan.map((item) => item.file), 'the b0 paths').toEqual(…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN1 planSentenceClips with kinds (M3, FR 1)[2m > [22mwith both kinds plans the books in order
+[31m[1mAssertionError[22m: the 16 sentences of the two books: expected [ { book: 1, n: 1, …(2) }, …(7) ] to have a length of 16 but got 8[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 16[39m
+[31m+ 8[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1097:59[22m[39m
+    [90m1095| [39m        [35mconst[39m planSentenceClips [33m=[39m [35mawait[39m [34msentences[39m([32m'planSentenceClips'[39m)[33m;[39m
+    [90m1096| [39m        const plan = planSentenceClips({ level: 2, week: 1, books: shi…
+    [90m1097| [39m        expect(plan, 'the 16 sentences of the two books').toHaveLength…
+    [90m   | [39m                                                          [31m^[39m
+    [90m1098| [39m        expect(plan.map((item) => item.book), 'book 0 first, then book…
+    [90m1099| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN1 planSentenceClips with kinds (M3, FR 1)[2m > [22mgives the hand-written counts and characters of the shipped weeks (72 sentences, 927 characters)
+[31m[1mAssertionError[22m: week 1: the characters of one take: expected 70 to be 137 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 137[39m
+[31m+ 70[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1108:104[22m[39m
+    [90m1106| [39m            const plan = planSentenceClips({ level: 2, week, books: sh…
+    [90m1107| [39m            expect(plan, `week ${week}: the sentence count`).toHaveLen…
+    [90m1108| [39m            expect(charsOf(plan.map((item) => item.text)), `week ${wee…
+    [90m   | [39m                                                                                                       [31m^[39m
+    [90m1109| [39m            expect(plan.every((item) => item.book === 0), `week ${week…
+    [90m1110| [39m            totalSentences [33m+=[39m plan[33m.[39mlength[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN2 the sentence maker with kinds ["readalong"] on a copy of w01 with the Phase 12 clips (M3, M4)[2m > [22mmakes one call for each read-along sentence, in order, with the exact text, the voice of the book, and the speed 1
+[31m[1mAssertionError[22m: the 8 read-along sentences, once each, in order: expected [ 'A nest.', 'A net.', 'A nut.', …(7) ] to deeply equal [ 'Hello, I am Pat.', …(7) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   "Hello, I am Pat.",[39m
+[32m-   "Hello, I am May.",[39m
+[32m-   "Hello, I am Sam.",[39m
+[32m-   "Hello, I am Mia.",[39m
+[32m-   "Hello, I am Nan.",[39m
+[32m-   "Hello, I am Ben.",[39m
+[32m-   "Hello, I am your teacher.",[39m
+[32m-   "Hello, I am Pip!",[39m
+[31m+   "A nest.",[39m
+[31m+   "A net.",[39m
+[31m+   "A nut.",[39m
+[31m+   "A nose.",[39m
+[31m+   "A neck.",[39m
+[31m+   "A nurse.",[39m
+[31m+   "A nest and a nut.",[39m
+[31m+   "A nest and a nut.",[39m
+[31m+   "A nest and a nut.",[39m
+[31m+   "Nan can nod!",[39m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1151:109[22m[39m
+    [90m1149| [39m        [35mconst[39m run [33m=[39m [35mawait[39m [34mn2Run[39m()[33m;[39m
+    [90m1150| [39m        [35mconst[39m texts [33m=[39m [34mreadAlongSentences[39m([34m1[39m)[33m;[39m
+    [90m1151| [39m        expect(run.voice.calls.map((call) => call.text), 'the 8 read-a…
+    [90m   | [39m                                                                                                            [31m^[39m
+    [90m1152| [39m        expect(run.voice.calls.map((call) => call.voice), 'the voice o…
+    [90m1153| [39m        expect(run.voice.calls.map((call) => call.speed), 'the speed 1…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN2 the sentence maker with kinds ["readalong"] on a copy of w01 with the Phase 12 clips (M3, M4)[2m > [22mmade holds the 8 paths b0-s01.mp3 to b0-s08.mp3
+[31m[1mAssertionError[22m: the paths of the new clips: expected [ …(8) ] to deeply equal [ …(8) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   "l2/media/w01/sentences/b0-s01.mp3",[39m
+[32m-   "l2/media/w01/sentences/b0-s02.mp3",[39m
+[32m-   "l2/media/w01/sentences/b0-s03.mp3",[39m
+[32m-   "l2/media/w01/sentences/b0-s04.mp3",[39m
+[32m-   "l2/media/w01/sentences/b0-s05.mp3",[39m
+[32m-   "l2/media/w01/sentences/b0-s06.mp3",[39m
+[32m-   "l2/media/w01/sentences/b0-s07.mp3",[39m
+[32m-   "l2/media/w01/sentences/b0-s08.mp3",[39m
+[31m+   "l2/media/w01/sentences/b1-s01.mp3",[39m
+[31m+   "l2/media/w01/sentences/b1-s02.mp3",[39m
+[31m+   "l2/media/w01/sentences/b1-s03.mp3",[39m
+[31m+   "l2/media/w01/sentences/b1-s04.mp3",[39m
+[31m+   "l2/media/w01/sentences/b1-s05.mp3",[39m
+[31m+   "l2/media/w01/sentences/b1-s06.mp3",[39m
+[31m+   "l2/media/w01/sentences/b1-s07.mp3",[39m
+[31m+   "l2/media/w01/sentences/b1-s08.mp3",[39m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1158:63[22m[39m
+    [90m1156| [39m    [34mit[39m([32m'made holds the 8 paths b0-s01.mp3 to b0-s08.mp3'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m1157| [39m        [35mconst[39m run [33m=[39m [35mawait[39m [34mn2Run[39m()[33m;[39m
+    [90m1158| [39m        expect(run.result.made, 'the paths of the new clips').toEqual(…
+    [90m   | [39m                                                              [31m^[39m
+    [90m1159| [39m    }[33m,[39m [34m120_000[39m)[33m;[39m
+    [90m1160| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN2 the sentence maker with kinds ["readalong"] on a copy of w01 with the Phase 12 clips (M3, M4)[2m > [22mthe provenance file holds 16 items sorted by book and n, the 8 old items equal the fixture, and the header keys equal the fixture keys
+[31m[1mAssertionError[22m: the items of the two kinds: expected [ { book: 1, n: 1, …(8) }, …(7) ] to have a length of 16 but got 8[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 16[39m
+[31m+ 8[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1164:64[22m[39m
+    [90m1162| [39m        [35mconst[39m run [33m=[39m [35mawait[39m [34mn2Run[39m()[33m;[39m
+    [90m1163| [39m        [35mconst[39m provenance [33m=[39m [34mprovenanceOf[39m(run[33m.[39mtree)[33m;[39m
+    [90m1164| [39m        expect(provenance.items, 'the items of the two kinds').toHaveL…
+    [90m   | [39m                                                               [31m^[39m
+    [90m1165| [39m        expect(provenance.items.map((item) => [item.book, item.n]), 's…
+    [90m1166| [39m            .toEqual([...readAlongSentences(1).map((_, index) => [0, i…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN2 the sentence maker with kinds ["readalong"] on a copy of w01 with the Phase 12 clips (M3, M4)[2m > [22mthe 8 old mp3 files are byte-equal
+[31m[1mAssertionError[22m: l2/media/w01/sentences/b1-s01.mp3 keeps its fixture bytes: expected 'ID3\u0004\u0000\u0000\u0000\u0000\u00…' to be 'fake clip l2/media/w01/sentences/b1-s…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- fake clip l2/media/w01/sentences/b1-s01.mp3 100[39m
+[31m+ ID3     "TSSE     Lavf62.3.100           ����                 Info        /@ $$$$$00000<<<<<IIIIIUUUUUaaaaammmmmyyyyy�������������������������������������������������������    Lavc62.11            $@      /@
+�ڒ                                                                                                                                                                                                                                                                                                                                                                                                               ���� � �      4�  LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUULAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU���� � �      4�  LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUU*�bѶ�@2a9�*|��E6ݘ�� �:  0@��)�V&h��q3i/�h&�!P��t�p3���'�g
+4�(�9�o�pLK���x�G��n8܋�
+�X?�Ж8��
+z˛�pz˛��N	����'DS�����;
+���
+C�1��[39m
+[31m+ ���{<�z����5
+X��������<yP�"e���=�+��X�/Տ2Ưg�����`V<�_�D�����>
+2<�_��������Ǒ5w�)w���<g�X���o�j��> <�
+
+�2���Ccg�
+<��
+5
+���~�~`R	�@`@�-� `"fB
+a*
+f'!jn�F �n��rfx`$��hd�
+F%�.0b
+5A`���@@�����$�L�10���C(�
+N Q���b�1�����z9��,�3Y�R�M�ǡ0 h(1p([39m
+[31m+ ���D�2��FP�!�FT��Ռi�18
+x 	���0@ ��r,�s@�C
+�
+BH1�(����H� 
+(�P< F
+%�������$~&�U���C�=� ``O��<C1@�����F1`�C��E(
+R�r�
+T�p\�[39m
+[31m+ �H]u�,
+/�4��
+�dhapH(�a����A�c
+��
+
+ �XZ`�a�¢��`-K�7ibU���Ho!���HHBx&<�Z�L�T
+x��ҁ���
+�*$ �ņ����	���A���`�8WK�M�f%Z�F���kQ,��Z[39m
+[31m+ ��6�iU�Wu
+e�N�yC��#f� �!��� ��!�Й� 
+�F�<,H0`��QС�@�[39m
+
+[31m+ L�f%Z�F���kQ�bU�Djى*LAME3.101 (beta 3)�������������������������������������������������������������  )�k$��  /��0+��0>�M0��91�c�5*50�E�0~�0/�k0;��0+��0 0@0�
+I��H�m�~���k]zhgv7{se���c5֥�i�?�J$8���<�������G����
+~� 䡀���EC�LE.0	Cg0@x�1�
+0X@^1a��0P�C0!@0�	 t
+ �M2����\��
+]����ψ�H;[��ov����pj�q���#q�4��b�����7�;v�����_�LAME3.101 (beta 3)�����������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������  %8� =�+18Ȩ�>C���AK��8�\��&LK`-� @]� �D � [39m
+[31m+ ��C�}+�`O�nͭ�v8��ޒ�EH�c�^;���~����g���5�� �0�p��/�>�8�X�G
+���ͤ�q
+Ã*��r	������3�  �ha��8ʏ]}\�?�md?[�����X
+ܵN|EA���А�
+uz���t����ӮΜ����o_�ӻƧ�{/��}-��ԯ����
+LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU?�b
+
+b2���哀'�#0X̡��$0��.���"�� n c�`  Td d�i$E��/��GFI�����Ⱦ�PmeJ<���)�����V3���~1+�e��zW`  �`��/B[39m
+[31m+ H�� ��E����`�- �y-�
+���0�6���30���U֐�����l�%����V�
+(�N|EA����	P�[�X
+R}���e�2 �n�ؤunoJ{���R}����|��EY=[39m
+[31m+ LAME3.101 (beta 3)���������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������0`�
+
+1�S;h8�T.c
+�D#��K�$t�4$
+
+#0�� �S 4 B���[�{.��ʑꄿ��s-�ʤ�
+��B�7w���޴���ut/G�������� �����=� T(cr��+LG#(��
+�� <@Մ � H}F�����S�$�M�EA�c��А
+RG_���*���L��F�Oo�K~}o&��.�Ww�ޯ��������LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU~� #0� Ŧ�)/�m0F��1[39m
+[31m+ �4݇.0���1���0U@&Px" J B�v��.�~�
+�*3:*�f1~����dZ�~��b�~+��iڹ�[�z�i�������� ���P82i��[39m
+[31m+ �q��
+��
+�<��r��0",
+S�w��!��2BD
+@ m�\�|�� ��U]\����V
+��N|EA����А�����z�MEW��S�z�Ӯ~�'OW��
+_W�
+ݪ��}�zn�W�LAME3.101 (beta 3)������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������/���Af:��j��]& D�Z����p�����_F�
+`�� ��0T %%;��O��z3����o[��e�N�z���B�A��G<_�R�c��ι
+�~��m�����z��u��qzLT
+��7�A�3H[39m
+[31m+ s'�G3�(�	��� ,���8� �7h��
+R\v���u����W�N��N|EA��bɿАn���e��
+M�ny�k6�T��f�;���F�
+����>C�݌J�ߏG�LAME3.101 (beta 3)�����������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������  	;+H䖘�2d
+R���� ��a��ۚ[39m
+[31m+ ������p��{�4F@Ɔ�!����:m��{
+�����"yv���48�Y��u�{d�b���M�"G���O}��RD  @��[39m
+[31m+[39m
+[31m+  R:@�S 4#�2�gsN�W��6��C�3�24s[39m
+[31m+ �SyDi�����U
+`�
+M~�����
+��P������t��ð��	:x7�u�<�[�����G�F�����Ӣ�}LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU  	J�$�H�1 ������[39m
+[31m+ ���\ȁD�q	L
+D�8
+��,��I iW�
+P�����������Lw�R޲[FH�f�uڍg(����
+~������@��o�
+T�˒�^
+�?
+���X�ͱ1HL#��LD�M�
+����@ �[39m
+[31m+ �?������N�
+4�
+M�EA��i���>����o{Y�L#���C�9մQ���}�������ߧ�������rLAME3.101 (beta 3)�������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������-�71@�1'5D���?���$�&�[39m
+[31m+ 3�LM�
+D�s�'��
+# TP` � ��܅�v��7��5��8b�>��ȭe
+V�����{�G��ݫ�}
+S�����7�i���B*&  HX��@M8@�IO���% T�
+*��,*tY��@
+`eZ�2���@w_u��-������W
+��M�EA���ݿАS�����f��Mv��gvZ[39m
+[31m+ [N��=���Z�k���z�O�ݽ=��G�LAME3.101 (beta 3)�����������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������-�
+1@s#
+3��mF=
+S�('����<;c,���/��(�
+ � 4 �ڹQ�z[�og��Ȕ�m녍�-�X��lh7o죈w��ܞmx���E�W��m�ԛ���l��)ed��a �8,FH1�3��
+j5�BL6� �0�
+4s$ 9�@Ј b�eB
+!����U|�M�EA����АK%�ۭ��U�W�	:�ѻ��[�I�G�Gs
+�O�o���������LAME3.101 (beta 3)��������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������� &)	 @D!0`��d�!�s009r0��n0\p19�Q0D�
+�
+� ҐD(8K����������g����e&��0�?SN�_��ޟ��?�����~�%8� [39m
+[31m+ �� *1Y4Ɉ�F�L��
+M�4
+x�T�!�X�H�>�
+�
+��H`H�^������M
+P��~�����i�А�9��}��nq=��ND�,�b45�8Ef�]�������?���>�W��LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU+�d2c���̦�T
+~na1eAـy�
+ha��bl�D`Y��`
+ �`�R @. (_�(�Jw��Y^�K�V��B�dG�,x7wF�%�}��w"��~]
+r/iZ��u�C�o`��z(Ŵ(��8�˃
+L�����.P�/h�[39m
+[31m+ 0��*��;
+�@�
+΀1
+���W�x�Vm���������[�N�N|EA���ݿА�����h$j�Ի����ԝg�t���G��?���i������{����LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUZ�[39m
+[31m+  �M$ �	O���"ʁ����[39m
+[31m+ ��(+h�h
+@�
+��7�@Ϡ4XeH0ȑ&����}��m�����hz�J�~�Y�o��]��ڿ�[���>��R������W�����4�Z�w1��t
+8� D���
+��
+�X&&
+�[�59`&Z�*�d&8��#0m�"�c�@#F�&�fH�@�  �C�\����:������g�EM����
+�� k��U�l���6��1���RΡ:��p�l�违�ޝ:?��Ѧ�W��0%��0�ƿ0��0A�00B��0��7o��5�
+�0�9�6�D�7��3��.0���0
+@U0����D��"�@nS8��W��
+$:
+�}��͢p0�����~�X4�`�$"
+
+�[39m
+[31m+ �{z���a0����P0@8L@�� 08-����� 1\
+
+
+�&����``@ �����ո
+ 1�Hn ��	����b[39m
+[31m+ !x�����
+S�-[ p
+5`,#@ e�pp ���υ�4
+�������{)Z����_j�X"��݀�8
+��$
+ ����� ����0l`
+ �`  ��A` �
+ X�3�UF�����
+�����cH/Ѡ���Dч!(б�l��+�E���ɖMD 
+� _��21�������5C*���̜X�
+
+�pd���t��F��A�?���S34 !q���違�8�
+�`\`T ���"� !_����R(1#�34�S;03#J 1�`����I�4X�D������(�
+��,�g
+;� 
+(�2d��|	2P�?�����1�Pi��
+�X��FL��FlhB�D`8nh"�J^2@�>�A��̈
+�O��FF
+bG�A�������%$2��
+*��H9���0!�
+��8)��� �
+[39m
+[31m+ ��(����p��
+H� :d@f*|
+20#? � 	�� G
+� �����������FDD�D c��s#1�p�0	ǅ���$3[39m
+[31m+ �
+�PN?2PA0(�"%0��h�8���!�T
+&0��`�A)��D	�0�"Ja�LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU���� � �
+     4�  LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUULAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU���� � �      4�  LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUULAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU���� � �      4�  LAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUULAME3.101 (beta 3)UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1177:111[22m[39m
+    [90m1175| [39m        [35mfor[39m ([35mlet[39m index [33m=[39m [34m1[39m[33m;[39m index [33m<=[39m [34m8[39m[33m;[39m index [33m+=[39m [34m1[39m) {
+    [90m1176| [39m            const file = path.join(run.tree.contentRoot, decodablePath…
+    [90m1177| [39m            expect(fs.readFileSync(file).toString('utf8'), `${decodabl…
+    [90m   | [39m                                                                                                              [31m^[39m
+    [90m1178| [39m        }
+    [90m1179| [39m    }[33m,[39m [34m120_000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN3 the skip rule and the per-clip write (M4, M5)[2m > [22ma second run with no change makes 0 calls, changes no byte, logs the kept lines, and ends with sent: 0
+[31m[1mAssertionError[22m: no call is made: expected [ …(10) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   {[39m
+[31m+     "extent": 16000,[39m
+[31m+     "speed": 1,[39m
+[31m+     "take": 1,[39m
+[31m+     "text": "A nest.",[39m
+[31m+     "voice": "English_captivating_female1",[39m
+[31m+   },[39m
+[31m+   {[39m
+[31m+     "extent": 16016,[39m
+[31m+     "speed": 1,[39m
+[31m+     "take": 1,[39m
+[31m+     "text": "A net.",[39m
+[31m+     "voice": "English_captivating_female1",[39m
+[31m+   },[39m
+[31m+   {[39m
+[31m+     "extent": 16032,[39m
+[31m+     "speed": 1,[39m
+[31m+     "take": 1,[39m
+[31m+     "text": "A nut.",[39m
+[31m+     "voice": "English_captivating_female1",[39m
+[31m+   },[39m
+[31m+   {[39m
+[31m+     "extent": 16048,[39m
+[31m+     "speed": 1,[39m
+[31m+     "take": 1,[39m
+[31m+     "text": "A nose.",[39m
+[31m+     "voice": "English_captivating_female1",[39m
+[31m+   },[39m
+[31m+   {[39m
+[31m+     "extent": 16064,[39m
+[31m+     "speed": 1,[39m
+[31m+     "take": 1,[39m
+[31m+     "text": "A neck.",[39m
+[31m+     "voice": "English_captivating_female1",[39m
+[31m+   },[39m
+[31m+   {[39m
+[31m+     "extent": 16080,[39m
+[31m+     "speed": 1,[39m
+[31m+     "take": 1,[39m
+[31m+     "text": "A nurse.",[39m
+[31m+     "voice": "English_captivating_female1",[39m
+[31m+   },[39m
+[31m+   {[39m
+[31m+     "extent": 16096,[39m
+[31m+     "speed": 1,[39m
+[31m+     "take": 1,[39m
+[31m+     "text": "A nest and a nut.",[39m
+[31m+     "voice": "English_captivating_female1",[39m
+[31m+   },[39m
+[31m+   {[39m
+[31m+     "extent": 16112,[39m
+[31m+     "speed": 1,[39m
+[31m+     "take": 2,[39m
+[31m+     "text": "A nest and a nut.",[39m
+[31m+     "voice": "English_captivating_female1",[39m
+[31m+   },[39m
+[31m+   {[39m
+[31m+     "extent": 16128,[39m
+[31m+     "speed": 1,[39m
+[31m+     "take": 3,[39m
+[31m+     "text": "A nest and a nut.",[39m
+[31m+     "voice": "English_captivating_female1",[39m
+[31m+   },[39m
+[31m+   {[39m
+[31m+     "extent": 16144,[39m
+[31m+     "speed": 1,[39m
+[31m+     "take": 1,[39m
+[31m+     "text": "Nan can nod!",[39m
+[31m+     "voice": "English_captivating_female1",[39m
+[31m+   },[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1202:48[22m[39m
+    [90m1200| [39m        const run = await runSentenceMaker(tree, voice, { kinds: ['rea…
+    [90m1201| [39m        expect(run.error?.message, 'the second run ends without an err…
+    [90m1202| [39m        [34mexpect[39m(voice[33m.[39mcalls[33m,[39m [32m'no call is made'[39m)[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                               [31m^[39m
+    [90m1203| [39m        expect(treeHashes(tree.contentRoot), 'no byte changes').toEqua…
+    [90m1204| [39m        const kept = readAlongSentences(1).map((_, index) => `kept\t${…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN3 the skip rule and the per-clip write (M4, M5)[2m > [22ma done sentence whose mp3 hash differs from its item is made again
+[31m[1mAssertionError[22m: one call, for the changed sentence: expected [ 'A nest.', 'A net.', 'A nut.', …(7) ] to deeply equal [ 'Hello, I am Sam.' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   "Hello, I am Sam.",[39m
+[31m+   "A nest.",[39m
+[31m+   "A net.",[39m
+[31m+   "A nut.",[39m
+[31m+   "A nose.",[39m
+[31m+   "A neck.",[39m
+[31m+   "A nurse.",[39m
+[31m+   "A nest and a nut.",[39m
+[31m+   "A nest and a nut.",[39m
+[31m+   "A nest and a nut.",[39m
+[31m+   "Nan can nod!",[39m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1216:92[22m[39m
+    [90m1214| [39m        const run = await runSentenceMaker(tree, voice, { kinds: ['rea…
+    [90m1215| [39m        expect(run.error?.message, 'the run ends without an error').to…
+    [90m1216| [39m        expect(voice.calls.map((call) => call.text), 'one call, for th…
+    [90m   | [39m                                                                                           [31m^[39m
+    [90m1217| [39m        [35mconst[39m provenance [33m=[39m [34mprovenanceOf[39m(tree)[33m;[39m
+    [90m1218| [39m        expect(provenance.items, 'the file keeps 8 items').toHaveLengt…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN3 the skip rule and the per-clip write (M4, M5)[2m > [22ma fake that throws on call 5 leaves 4 finished items in the provenance file
+[31m[1mError[22m: ENOENT: no such file or directory, open '/tmp/opencode/storytime-readalong-maker-nzg9Rk/content/l2/media/w01/sentences/manifest.json'[39m
+[36m [2m❯[22m provenanceOf __tests__/storytime-package-readalong-clips.test.ts:[2m845:26[22m[39m
+    [90m843| [39m */[39m
+    [90m844| [39m[35mfunction[39m [34mprovenanceOf[39m(tree[33m:[39m [33mWordTree[39m)[33m:[39m [33mProvenance[39m {
+    [90m845| [39m    return JSON.parse(fs.readFileSync(provenanceFile(tree), 'utf8')) a…
+    [90m   | [39m                         [31m^[39m
+    [90m846| [39m}
+    [90m847| [39m
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1230:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN3 the skip rule and the per-clip write (M4, M5)[2m > [22ma run again with a working fake makes only the other sentences
+[31m[1mAssertionError[22m: only the sentences 5 to 8 are made: expected [ 'A nest.', 'A net.', 'A nut.', …(7) ] to deeply equal [ 'Hello, I am Nan.', …(3) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   "Hello, I am Nan.",[39m
+[32m-   "Hello, I am Ben.",[39m
+[32m-   "Hello, I am your teacher.",[39m
+[32m-   "Hello, I am Pip!",[39m
+[31m+   "A nest.",[39m
+[31m+   "A net.",[39m
+[31m+   "A nut.",[39m
+[31m+   "A nose.",[39m
+[31m+   "A neck.",[39m
+[31m+   "A nurse.",[39m
+[31m+   "A nest and a nut.",[39m
+[31m+   "A nest and a nut.",[39m
+[31m+   "A nest and a nut.",[39m
+[31m+   "Nan can nod!",[39m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1242:92[22m[39m
+    [90m1240| [39m        const run = await runSentenceMaker(tree, voice, { kinds: ['rea…
+    [90m1241| [39m        expect(run.error?.message, 'the run again ends without an erro…
+    [90m1242| [39m        expect(voice.calls.map((call) => call.text), 'only the sentenc…
+    [90m   | [39m                                                                                           [31m^[39m
+    [90m1243| [39m        expect(provenanceOf(tree).items, 'the file holds the 8 items')…
+    [90m1244| [39m        expect(fs.readdirSync(sentencesFolder(tree)).filter((name) => …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN3 the skip rule and the per-clip write (M4, M5)[2m > [22mthe dry run lists only the sentences that are not done, and its chars: counts only them
+[31m[1mAssertionError[22m: the log holds one kept line for each sentence, then the chars line: expected [] to deeply equal [ …(9) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "kept	l2/media/w01/sentences/b0-s01.mp3[39m
+[32m- ",[39m
+[32m-   "kept	l2/media/w01/sentences/b0-s02.mp3[39m
+[32m- ",[39m
+[32m-   "kept	l2/media/w01/sentences/b0-s03.mp3[39m
+[32m- ",[39m
+[32m-   "kept	l2/media/w01/sentences/b0-s04.mp3[39m
+[32m- ",[39m
+[32m-   "kept	l2/media/w01/sentences/b0-s05.mp3[39m
+[32m- ",[39m
+[32m-   "kept	l2/media/w01/sentences/b0-s06.mp3[39m
+[32m- ",[39m
+[32m-   "kept	l2/media/w01/sentences/b0-s07.mp3[39m
+[32m- ",[39m
+[32m-   "kept	l2/media/w01/sentences/b0-s08.mp3[39m
+[32m- ",[39m
+[32m-   "chars: 0",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1256:95[22m[39m
+    [90m1254| [39m        expect(treeHashes(tree.contentRoot), 'nothing is written').toE…
+    [90m1255| [39m        const kept = readAlongSentences(1).map((_, index) => `kept\t${…
+    [90m1256| [39m        expect(run.log, 'the log holds one kept line for each sentence…
+    [90m   | [39m                                                                                              [31m^[39m
+    [90m1257| [39m        expect(run.value?.lines, 'result.lines holds the same lines').…
+    [90m1258| [39m    }[33m,[39m [34m120_000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN4 the header guard (M4)[2m > [22mthrows for a header with another voice, before the first call, and changes no file
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN4 the header guard (M4)[2m > [22mthrows for a header with another speed, before the first call, and changes no file
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN4 the header guard (M4)[2m > [22mthrows for a header with another model, before the first call, and changes no file
+[31m[1mAssertionError[22m: the exact error: expected undefined to be 'sentence clips: the provenance file h…' // Object.is equality[39m
+
+[32m- Expected:[39m 
+"sentence clips: the provenance file has another voice, speed, or model"
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1278:59[22m[39m
+    [90m1276| [39m            [35mconst[39m hashes [33m=[39m [34mtreeHashes[39m(tree[33m.[39mcontentRoot)[33m;[39m
+    [90m1277| [39m            const run = await runSentenceMaker(tree, voice, { kinds: […
+    [90m1278| [39m            expect(run.error?.message, 'the exact error').toBe('senten…
+    [90m   | [39m                                                          [31m^[39m
+    [90m1279| [39m            [34mexpect[39m(voice[33m.[39mcalls[33m,[39m [32m'no call is made'[39m)[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m1280| [39m            expect(treeHashes(tree.contentRoot), 'no file changes, and…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN5 the log of the sentence maker (M6)[2m > [22ma run with one retake gives the exact call lines call 1 to call 9, and the last line is sent: <s>
+[31m[1mAssertionError[22m: the 9 call lines: expected [ …(9) ] to deeply equal [ …(9) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   "call 1	l2/media/w01/sentences/b0-s01.mp3	take 1	chars 16	sent 16",[39m
+[32m-   "call 2	l2/media/w01/sentences/b0-s01.mp3	take 2	chars 16	sent 32",[39m
+[32m-   "call 3	l2/media/w01/sentences/b0-s02.mp3	take 1	chars 16	sent 48",[39m
+[32m-   "call 4	l2/media/w01/sentences/b0-s03.mp3	take 1	chars 16	sent 64",[39m
+[32m-   "call 5	l2/media/w01/sentences/b0-s04.mp3	take 1	chars 16	sent 80",[39m
+[32m-   "call 6	l2/media/w01/sentences/b0-s05.mp3	take 1	chars 16	sent 96",[39m
+[32m-   "call 7	l2/media/w01/sentences/b0-s06.mp3	take 1	chars 16	sent 112",[39m
+[32m-   "call 8	l2/media/w01/sentences/b0-s07.mp3	take 1	chars 25	sent 137",[39m
+[32m-   "call 9	l2/media/w01/sentences/b0-s08.mp3	take 1	chars 16	sent 153",[39m
+[31m+   "l2/media/w01/sentences/b1-s01.mp3	A nest.",[39m
+[31m+   "l2/media/w01/sentences/b1-s02.mp3	A net.",[39m
+[31m+   "l2/media/w01/sentences/b1-s03.mp3	A nut.",[39m
+[31m+   "l2/media/w01/sentences/b1-s04.mp3	A nose.",[39m
+[31m+   "l2/media/w01/sentences/b1-s05.mp3	A neck.",[39m
+[31m+   "l2/media/w01/sentences/b1-s06.mp3	A nurse.",[39m
+[31m+   "l2/media/w01/sentences/b1-s07.mp3	A nest and a nut.",[39m
+[31m+   "l2/media/w01/sentences/b1-s08.mp3	Nan can nod!",[39m
+[31m+   "chars: 70",[39m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1326:80[22m[39m
+    [90m1324| [39m            }
+    [90m1325| [39m        })[33m;[39m
+    [90m1326| [39m        expect(run.result.lines.slice(0, expected.length), 'the 9 call…
+    [90m   | [39m                                                                               [31m^[39m
+    [90m1327| [39m        expect(run.result.lines, 'the sent line is the last line').toE…
+    [90m1328| [39m        expect(run.result.chars, 'the sent sum equals the chars field'…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN5 the log of the sentence maker (M6)[2m > [22mlog receives the same lines in the same order as result.lines
+[31m[1mAssertionError[22m: the same lines, in the same order: expected [] to deeply equal [ …(17) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "l2/media/w01/sentences/b1-s01.mp3	A nest.",[39m
+[32m-   "l2/media/w01/sentences/b1-s02.mp3	A net.",[39m
+[32m-   "l2/media/w01/sentences/b1-s03.mp3	A nut.",[39m
+[32m-   "l2/media/w01/sentences/b1-s04.mp3	A nose.",[39m
+[32m-   "l2/media/w01/sentences/b1-s05.mp3	A neck.",[39m
+[32m-   "l2/media/w01/sentences/b1-s06.mp3	A nurse.",[39m
+[32m-   "l2/media/w01/sentences/b1-s07.mp3	A nest and a nut.",[39m
+[32m-   "l2/media/w01/sentences/b1-s08.mp3	Nan can nod!",[39m
+[32m-   "chars: 70",[39m
+[32m-   "made l2/media/w01/sentences/b1-s01.mp3 take 1",[39m
+[32m-   "made l2/media/w01/sentences/b1-s02.mp3 take 1",[39m
+[32m-   "made l2/media/w01/sentences/b1-s03.mp3 take 1",[39m
+[32m-   "made l2/media/w01/sentences/b1-s04.mp3 take 1",[39m
+[32m-   "made l2/media/w01/sentences/b1-s05.mp3 take 1",[39m
+[32m-   "made l2/media/w01/sentences/b1-s06.mp3 take 1",[39m
+[32m-   "made l2/media/w01/sentences/b1-s07.mp3 take 3 (length 0.664s outside 1s..7s in 3 takes)",[39m
+[32m-   "made l2/media/w01/sentences/b1-s08.mp3 take 1",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1333:62[22m[39m
+    [90m1331| [39m    it('log receives the same lines in the same order as result.lines'…
+    [90m1332| [39m        [35mconst[39m run [33m=[39m [35mawait[39m [34mn5Run[39m()[33m;[39m
+    [90m1333| [39m        expect(run.log, 'the same lines, in the same order').toEqual(r…
+    [90m   | [39m                                                             [31m^[39m
+    [90m1334| [39m    }[33m,[39m [34m120_000[39m)[33m;[39m
+    [90m1335| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN5 the log of the sentence maker (M6)[2m > [22ma fake that throws on call 3 gives 3 call lines, the failed sent line, and the same error
+[31m[1mAssertionError[22m: the same error: expected undefined to be 'fake mmx: the take 1 of "Hello, I am …' // Object.is equality[39m
+
+[32m- Expected:[39m 
+"fake mmx: the take 1 of \"Hello, I am Sam.\" fails"
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1341:54[22m[39m
+    [90m1339| [39m        const voice = fakeVoice({ throwsWhen: (text) => text === readA…
+    [90m1340| [39m        const run = await runSentenceMaker(tree, voice, { kinds: ['rea…
+    [90m1341| [39m        expect(run.error?.message, 'the same error').toBe(`fake mmx: t…
+    [90m   | [39m                                                     [31m^[39m
+    [90m1342| [39m        [35mconst[39m sent [33m=[39m lens[[34m0[39m] [33m+[39m lens[[34m1[39m] [33m+[39m lens[[34m2[39m][33m;[39m
+    [90m1343| [39m        expect(run.log.filter((line) => line.startsWith('call ')), 'th…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN5 the log of the sentence maker (M6)[2m > [22mthe character limit stops the run before a call, and the failed sent line follows
+[31m[1mAssertionError[22m: the 3 sentences before the limit are made: expected [] to deeply equal [ 'Hello, I am Pat.', …(2) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "Hello, I am Pat.",[39m
+[32m-   "Hello, I am May.",[39m
+[32m-   "Hello, I am Sam.",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1355:99[22m[39m
+    [90m1353| [39m        [34mexpect[39m(run[33m.[39merror[33m,[39m [32m'the maker throws'[39m)[33m.[39m[34mtoBeInstanceOf[39m([33mError[39m)[33m;[39m
+    [90m1354| [39m        [34mexpect[39m(run[33m.[39merror[33m?.[39mmessage)[33m.[39m[34mtoMatch[39m([36m/char/i[39m)[33m;[39m
+    [90m1355| [39m        expect(voice.calls.map((call) => call.text), 'the 3 sentences …
+    [90m   | [39m                                                                                                  [31m^[39m
+    [90m1356| [39m        expect(run.log.filter((line) => line.startsWith('call ')), 'th…
+    [90m1357| [39m        expect(run.log[run.log.length - 1], 'the failed sent line hold…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN5 the log of the sentence maker (M6)[2m > [22ma dry run gives no call line and no sent: line, and log receives the list lines
+[31m[1mAssertionError[22m: the list lines and the chars line: expected [] to deeply equal [ …(9) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "l2/media/w01/sentences/b1-s01.mp3	A nest.",[39m
+[32m-   "l2/media/w01/sentences/b1-s02.mp3	A net.",[39m
+[32m-   "l2/media/w01/sentences/b1-s03.mp3	A nut.",[39m
+[32m-   "l2/media/w01/sentences/b1-s04.mp3	A nose.",[39m
+[32m-   "l2/media/w01/sentences/b1-s05.mp3	A neck.",[39m
+[32m-   "l2/media/w01/sentences/b1-s06.mp3	A nurse.",[39m
+[32m-   "l2/media/w01/sentences/b1-s07.mp3	A nest and a nut.",[39m
+[32m-   "l2/media/w01/sentences/b1-s08.mp3	Nan can nod!",[39m
+[32m-   "chars: 70",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1367:62[22m[39m
+    [90m1365| [39m        expect(run.error?.message, 'the dry run ends without an error'…
+    [90m1366| [39m        expect(run.log.filter((line) => line.startsWith('call ') || li…
+    [90m1367| [39m        expect(run.log, 'the list lines and the chars line').toEqual(r…
+    [90m   | [39m                                                             [31m^[39m
+    [90m1368| [39m        expect(run.value?.lines[run.value.lines.length - 1], 'the char…
+    [90m1369| [39m    }[33m,[39m [34m120_000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN5 the log of the sentence maker (M6)[2m > [22ma run with a done sentence gives its kept line with the exact bytes
+[31m[1mAssertionError[22m: the exact bytes of "kept\tl2/media/w01/sentences/b0-s01.mp3\n": expected [] to include 'kept\tl2/media/w01/sentences/b0-s01.m…'[39m
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1378:96[22m[39m
+    [90m1376| [39m        expect(run.error?.message, 'the run ends without an error').to…
+    [90m1377| [39m        const kept = readAlongSentences(1).map((_, index) => `kept\t${…
+    [90m1378| [39m        for (const line of kept) expect(run.log, `the exact bytes of $…
+    [90m   | [39m                                                                                               [31m^[39m
+    [90m1379| [39m        expect(run.log.filter((line) => line.startsWith('call ')), 'th…
+    [90m1380| [39m        expect(run.log[run.log.length - 1], 'the sent line is the last…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN6 the log of the word maker (M6)[2m > [22mgives the exact call lines with the word key, the sent: line, and the Phase 12 list, chars, and made lines
+[31m[1mAssertionError[22m: the call line of fan: expected 'made wa-fan take 1 text "Fan"' to be 'call 1\tfan\ttake 1\tchars 3\tsent 3' // Object.is equality[39m
+
+Expected: [32m"[7mcall 1	[27mfan[7m	[27mtake 1[7m	chars 3	sent 3[27m"[39m
+Received: [31m"[7mmade wa-[27mfan[7m [27mtake 1[7m text "Fan"[27m"[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1398:61[22m[39m
+    [90m1396| [39m        expect(run.value?.lines[1], 'the list line of hen').toBe('hen\…
+    [90m1397| [39m        [34mexpect[39m(run[33m.[39mvalue[33m?.[39mlines[[34m2[39m][33m,[39m [32m'the chars line'[39m)[33m.[39m[34mtoBe[39m([32m'chars: 6'[39m)[33m;[39m
+    [90m1398| [39m        expect(run.value?.lines[3], 'the call line of fan').toBe('call…
+    [90m   | [39m                                                            [31m^[39m
+    [90m1399| [39m        expect(run.value?.lines[4], 'the call line of hen').toBe('call…
+    [90m1400| [39m        [34mexpect[39m(run[33m.[39mvalue[33m?.[39mlines[[34m5[39m][33m,[39m [32m'the sent line'[39m)[33m.[39m[34mtoBe[39m([32m'sent: 6'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN6 the log of the word maker (M6)[2m > [22ma fake that throws on call 2 gives 1 call line and the failed sent line
+[31m[1mAssertionError[22m: the call line of fan: expected [] to deeply equal [ Array(1) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "call 1	fan	take 1	chars 3	sent 3",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1412:92[22m[39m
+    [90m1410| [39m        [35mconst[39m run [33m=[39m [35mawait[39m [34mrunWordMaker[39m(tree[33m,[39m voice)[33m;[39m
+    [90m1411| [39m        expect(run.error?.message, 'the same error').toBe('fake mmx: t…
+    [90m1412| [39m        expect(run.log.filter((line) => line.startsWith('call ')), 'th…
+    [90m   | [39m                                                                                           [31m^[39m
+    [90m1413| [39m        expect(run.log[run.log.length - 1], 'the failed sent line is t…
+    [90m1414| [39m    }[33m,[39m [34m120_000[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN7 main of both makers (M6, M3)[2m > [22mthe usage of both makers names --kind
+[31m[1mAssertionError[22m: the usage of the sentence maker: expected 'Makes the sentence clips of one Story…' to contain '--kind'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- --kind[39m
+[31m+ Makes the sentence clips of one Storytime week (Phase 12, spec FR 5).[39m
+[31m+[39m
+[31m+ Usage: npx tsx scripts/storytime/make-sentence-clips.ts --level <n> --week <n> [--max-chars <n>] [--dry-run][39m
+[31m+[39m
+[31m+ --level      The level of the week.[39m
+[31m+ --week       The week.[39m
+[31m+ --max-chars  The character limit of the run, all takes included (default 2400).[39m
+[31m+ --dry-run    List each sentence, print the characters of one take of each sentence, and write nothing.[39m
+[31m+[39m
+[31m+ One mp3 clip per sentence of each decodable book goes into[39m
+[31m+ content/storytime/l2/media/w<nn>/sentences/, with the provenance file manifest.json of that folder.[39m
+[31m+ A run stops with exit 2 when the faster-whisper venv is absent, before the first mmx call.[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1427:80[22m[39m
+    [90m1425| [39m        const sentenceHelp = await captureOutput(() => sentenceMain(['…
+    [90m1426| [39m        [34mexpect[39m(sentenceHelp[33m.[39mvalue)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m1427| [39m        expect(sentenceHelp.out.join('\n'), 'the usage of the sentence…
+    [90m   | [39m                                                                               [31m^[39m
+    [90m1428| [39m        const wordHelp = await captureOutput(() => wordMain(['--help']…
+    [90m1429| [39m        [34mexpect[39m(wordHelp[33m.[39mvalue)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN7 main of both makers (M6, M3)[2m > [22ma value of --kind other than decodable, readalong, or all exits 2 for both makers
+[31m[1mAssertionError[22m: the sentence maker: expected +0 to be 2 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 2[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1436:172[22m[39m
+    [90m1434| [39m        [35mconst[39m sentenceMain [33m=[39m [35mawait[39m [34msentenceMaker[39m([32m'main'[39m)[33m;[39m
+    [90m1435| [39m        [35mconst[39m wordMain [33m=[39m [35mawait[39m [34mwordMaker[39m([32m'main'[39m)[33m;[39m
+    [90m1436| [39m        expect(await captureOutput(() => sentenceMain(['--level', '2',…
+    [90m   | [39m                                                                                                                                                                           [31m^[39m
+    [90m1437| [39m        expect(await captureOutput(() => wordMain(['--level', '2', '--…
+    [90m1438| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN7 main of both makers (M6, M3)[2m > [22ma real run of the sentence maker ends with sent: <s> and then made: <n>, and stdout holds each line once
+[31m[1mAssertionError[22m: the exit code: expected 2 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1453:48[22m[39m
+    [90m1451| [39m                recognize[33m:[39m voice[33m.[39mrecognize[33m,[39m
+    [90m1452| [39m            }))[33m;[39m
+    [90m1453| [39m            [34mexpect[39m(run[33m.[39mvalue[33m,[39m [32m'the exit code'[39m)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                                               [31m^[39m
+    [90m1454| [39m            expect(run.out[run.out.length - 1], 'the made line is the …
+    [90m1455| [39m            expect(run.out[run.out.length - 2], 'the sent line comes b…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN7 main of both makers (M6, M3)[2m > [22ma failed run of the sentence maker exits 1, with the failed sent line in stdout and the error in stderr
+[31m[1mAssertionError[22m: the exit code: expected 2 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1477:48[22m[39m
+    [90m1475| [39m                recognize[33m:[39m voice[33m.[39mrecognize[33m,[39m
+    [90m1476| [39m            }))[33m;[39m
+    [90m1477| [39m            [34mexpect[39m(run[33m.[39mvalue[33m,[39m [32m'the exit code'[39m)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m   | [39m                                               [31m^[39m
+    [90m1478| [39m            expect(run.out, 'the failed sent line is in stdout').toCon…
+    [90m1479| [39m            expect(run.err.join('\n'), 'the error is in stderr').toCon…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN7 main of both makers (M6, M3)[2m > [22man absent venv exits 2 with sent: 0 (run failed), for both makers
+[31m[1mAssertionError[22m: the failed sent line with no character: expected [] to include 'sent: 0 (run failed)'[39m
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1494:79[22m[39m
+    [90m1492| [39m            const sentenceRun = await captureOutput(() => sentenceMain…
+    [90m1493| [39m            expect(sentenceRun.value, 'the sentence maker exits 2').to…
+    [90m1494| [39m            expect(sentenceRun.out, 'the failed sent line with no char…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m1495| [39m            const wordRun = await captureOutput(() => wordMain(['--lev…
+    [90m1496| [39m            [34mexpect[39m(wordRun[33m.[39mvalue[33m,[39m [32m'the word maker exits 2'[39m)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN7 main of both makers (M6, M3)[2m > [22ma real run of the word maker ends with sent: <s> and then made: <n>
+[31m[1mAssertionError[22m: the exit code: expected 2 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1519:48[22m[39m
+    [90m1517| [39m                recognize[33m:[39m voice[33m.[39mrecognize[33m,[39m
+    [90m1518| [39m            }))[33m;[39m
+    [90m1519| [39m            [34mexpect[39m(run[33m.[39mvalue[33m,[39m [32m'the exit code'[39m)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                                               [31m^[39m
+    [90m1520| [39m            expect(run.out[run.out.length - 1], 'the made line is the …
+    [90m1521| [39m            expect(run.out[run.out.length - 2], 'the sent line comes b…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN8 set-sentence-clips.ts with kinds (M3, FR 4)[2m > [22mwith kinds ["readalong"] the array form comes after the wordClips object of book 0, and the new text parses with the schema
+[31m[1mAssertionError[22m: the block opens after the last key of the audio object of book 0: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string[39m
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1564:99[22m[39m
+    [90m1562| [39m        [35mconst[39m after [33m=[39m fs[33m.[39m[34mreadFileSync[39m(tree[33m.[39mweekFile[33m,[39m [32m'utf8'[39m)[33m;[39m
+    [90m1563| [39m        const diff = insertionDiff(before.split('\n'), after.split('\n…
+    [90m1564| [39m        expect(diff.added[0], 'the block opens after the last key of t…
+    [90m   | [39m                                                                                                  [31m^[39m
+    [90m1565| [39m        const parsed = StorytimeWeekSchema.parse(JSON.parse(after)) as…
+    [90m1566| [39m        expect(parsed.books[0].audio.sentenceClips, 'the parse output …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN8 set-sentence-clips.ts with kinds (M3, FR 4)[2m > [22mthe run adds 34 lines (4 for each of 8 items, plus 2), the closing } of wordClips gains a comma, and the decodable block is byte-equal
+[31m[1mAssertionError[22m: the 34 lines of the array: expected [] to have a length of 34 but got +0[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 34[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1576:57[22m[39m
+    [90m1574| [39m        [35mconst[39m after [33m=[39m fs[33m.[39m[34mreadFileSync[39m(tree[33m.[39mweekFile[33m,[39m [32m'utf8'[39m)[33m;[39m
+    [90m1575| [39m        const diff = insertionDiff(before.split('\n'), after.split('\n…
+    [90m1576| [39m        expect(diff.added, 'the 34 lines of the array').toHaveLength(3…
+    [90m   | [39m                                                        [31m^[39m
+    [90m1577| [39m        expect(diff.added.filter((line) => line.trim() === '{'), 'one …
+    [90m1578| [39m        expect(diff.changed, 'one closing line gains a comma').toHaveL…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN8 set-sentence-clips.ts with kinds (M3, FR 4)[2m > [22mkinds ["readalong", "decodable"] edits both blocks
+[31m[1mAssertionError[22m: the 68 lines of the two arrays: expected [ '        "sentenceClips": [', …(33) ] to have a length of 68 but got 34[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 68[39m
+[31m+ 34[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1605:62[22m[39m
+    [90m1603| [39m        [35mconst[39m after [33m=[39m fs[33m.[39m[34mreadFileSync[39m(tree[33m.[39mweekFile[33m,[39m [32m'utf8'[39m)[33m;[39m
+    [90m1604| [39m        const diff = insertionDiff(before.split('\n'), after.split('\n…
+    [90m1605| [39m        expect(diff.added, 'the 68 lines of the two arrays').toHaveLen…
+    [90m   | [39m                                                             [31m^[39m
+    [90m1606| [39m        expect(diff.changed, 'the two closing lines gain a comma').toH…
+    [90m1607| [39m        const parsed = StorytimeWeekSchema.parse(JSON.parse(after)) as…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN8 set-sentence-clips.ts with kinds (M3, FR 4)[2m > [22ma missing file or a differing hash in a decodable item does not stop a read-along run
+[31m[1mAssertionError[22m: the run ends without an error: expected 'sentence clips: l2/media/w01/sentence…' to be undefined[39m
+
+[32m- Expected:[39m 
+undefined
+
+[31m+ Received:[39m 
+"sentence clips: l2/media/w01/sentences/b1-s02.mp3: sha256 differs from the provenance row"
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1617:69[22m[39m
+    [90m1615| [39m        fs.appendFileSync(path.join(tree.contentRoot, decodablePath(2)…
+    [90m1616| [39m        const run = await attempt(() => setSentenceClips({ weekFile: t…
+    [90m1617| [39m        expect(run.error?.message, 'the run ends without an error').to…
+    [90m   | [39m                                                                    [31m^[39m
+    [90m1618| [39m        const parsed = StorytimeWeekSchema.parse(JSON.parse(fs.readFil…
+    [90m1619| [39m        expect(parsed.books[0].audio.sentenceClips, 'the read-along ar…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN8 set-sentence-clips.ts with kinds (M3, FR 4)[2m > [22ma missing read-along file or a differing hash stops the run before any write
+[31m[1mAssertionError[22m: expected 'sentence clips: l2/media/w01/sentence…' to contain 'b0-s02'[39m
+
+Expected: [32m"b0-s02"[39m
+Received: [31m"sentence clips: l2/media/w01/sentences/b1-s02.mp3: sha256 differs from the provenance row"[39m
+
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1630:36[22m[39m
+    [90m1628| [39m        const run = await attempt(() => setSentenceClips({ weekFile: t…
+    [90m1629| [39m        [34mexpect[39m(run[33m.[39merror[33m,[39m [32m'the mapper throws'[39m)[33m.[39m[34mtoBeInstanceOf[39m([33mError[39m)[33m;[39m
+    [90m1630| [39m        [34mexpect[39m(run[33m.[39merror[33m?.[39mmessage)[33m.[39m[34mtoContain[39m([32m'b0-s02'[39m)[33m;[39m
+    [90m   | [39m                                   [31m^[39m
+    [90m1631| [39m        expect(entryListing(tree.folder), 'no file appears').toEqual(l…
+    [90m1632| [39m        expect(treeHashes(tree.folder), 'no file changes, and the week…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5)[2m > [22mgives the exact id and label, and pass with no detail on the correct copy
+[31m[1mError[22m: Missing export: checkReadAlongSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-readalong-clips.test.ts:[2m463:54[22m[39m
+    [90m461| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [35mimport[39m(file) [35mas[39m [33mT[39m[33m;[39m
+    [90m462| [39m    [35mconst[39m value [33m=[39m mod[name][33m;[39m
+    [90m463| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m464| [39m    [35mreturn[39m value [35mas[39m [33mNonNullable[39m[33m<[39m[33mT[39m[[33mK[39m][33m>[39m[33m;[39m
+    [90m465| [39m}
+[90m [2m❯[22m readAlongRowOf __tests__/storytime-package-readalong-clips.test.ts:[2m1648:41[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1655:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5)[2m > [22mwarns "no clips" when the read-along book has no field
+[31m[1mError[22m: Missing export: checkReadAlongSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-readalong-clips.test.ts:[2m463:54[22m[39m
+    [90m461| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [35mimport[39m(file) [35mas[39m [33mT[39m[33m;[39m
+    [90m462| [39m    [35mconst[39m value [33m=[39m mod[name][33m;[39m
+    [90m463| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m464| [39m    [35mreturn[39m value [35mas[39m [33mNonNullable[39m[33m<[39m[33mT[39m[[33mK[39m][33m>[39m[33m;[39m
+    [90m465| [39m}
+[90m [2m❯[22m readAlongRowOf __tests__/storytime-package-readalong-clips.test.ts:[2m1648:41[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1662:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5)[2m > [22mfails with "count differs: <book>" when the array length is not the sentence count
+[31m[1mError[22m: Missing export: checkReadAlongSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-readalong-clips.test.ts:[2m463:54[22m[39m
+    [90m461| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [35mimport[39m(file) [35mas[39m [33mT[39m[33m;[39m
+    [90m462| [39m    [35mconst[39m value [33m=[39m mod[name][33m;[39m
+    [90m463| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m464| [39m    [35mreturn[39m value [35mas[39m [33mNonNullable[39m[33m<[39m[33mT[39m[[33mK[39m][33m>[39m[33m;[39m
+    [90m465| [39m}
+[90m [2m❯[22m readAlongRowOf __tests__/storytime-package-readalong-clips.test.ts:[2m1648:41[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1668:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5)[2m > [22mfails with "text differs: <path>" when an item sentence is not the book sentence
+[31m[1mError[22m: Missing export: checkReadAlongSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-readalong-clips.test.ts:[2m463:54[22m[39m
+    [90m461| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [35mimport[39m(file) [35mas[39m [33mT[39m[33m;[39m
+    [90m462| [39m    [35mconst[39m value [33m=[39m mod[name][33m;[39m
+    [90m463| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m464| [39m    [35mreturn[39m value [35mas[39m [33mNonNullable[39m[33m<[39m[33mT[39m[[33mK[39m][33m>[39m[33m;[39m
+    [90m465| [39m}
+[90m [2m❯[22m readAlongRowOf __tests__/storytime-package-readalong-clips.test.ts:[2m1648:41[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1676:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5)[2m > [22mfails with "missing: <path>" when a clip file is absent
+[31m[1mError[22m: Missing export: checkReadAlongSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-readalong-clips.test.ts:[2m463:54[22m[39m
+    [90m461| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [35mimport[39m(file) [35mas[39m [33mT[39m[33m;[39m
+    [90m462| [39m    [35mconst[39m value [33m=[39m mod[name][33m;[39m
+    [90m463| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m464| [39m    [35mreturn[39m value [35mas[39m [33mNonNullable[39m[33m<[39m[33mT[39m[[33mK[39m][33m>[39m[33m;[39m
+    [90m465| [39m}
+[90m [2m❯[22m readAlongRowOf __tests__/storytime-package-readalong-clips.test.ts:[2m1648:41[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1684:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5)[2m > [22mfails with "bad path: <path>" for a value that is not the M2 path of its index
+[31m[1mError[22m: Missing export: checkReadAlongSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-readalong-clips.test.ts:[2m463:54[22m[39m
+    [90m461| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [35mimport[39m(file) [35mas[39m [33mT[39m[33m;[39m
+    [90m462| [39m    [35mconst[39m value [33m=[39m mod[name][33m;[39m
+    [90m463| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m464| [39m    [35mreturn[39m value [35mas[39m [33mNonNullable[39m[33m<[39m[33mT[39m[[33mK[39m][33m>[39m[33m;[39m
+    [90m465| [39m}
+[90m [2m❯[22m readAlongRowOf __tests__/storytime-package-readalong-clips.test.ts:[2m1648:41[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1692:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5)[2m > [22mjoins the four fail parts in the order of L9 with "; "
+[31m[1mError[22m: Missing export: checkReadAlongSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-readalong-clips.test.ts:[2m463:54[22m[39m
+    [90m461| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [35mimport[39m(file) [35mas[39m [33mT[39m[33m;[39m
+    [90m462| [39m    [35mconst[39m value [33m=[39m mod[name][33m;[39m
+    [90m463| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m464| [39m    [35mreturn[39m value [35mas[39m [33mNonNullable[39m[33m<[39m[33mT[39m[[33mK[39m][33m>[39m[33m;[39m
+    [90m465| [39m}
+[90m [2m❯[22m readAlongRowOf __tests__/storytime-package-readalong-clips.test.ts:[2m1648:41[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1705:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5)[2m > [22mlets a fail win over a warn, and the detail of the fail holds no warn part
+[31m[1mError[22m: Missing export: checkReadAlongSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-readalong-clips.test.ts:[2m463:54[22m[39m
+    [90m461| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [35mimport[39m(file) [35mas[39m [33mT[39m[33m;[39m
+    [90m462| [39m    [35mconst[39m value [33m=[39m mod[name][33m;[39m
+    [90m463| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m464| [39m    [35mreturn[39m value [35mas[39m [33mNonNullable[39m[33m<[39m[33mT[39m[[33mK[39m][33m>[39m[33m;[39m
+    [90m465| [39m}
+[90m [2m❯[22m readAlongRowOf __tests__/storytime-package-readalong-clips.test.ts:[2m1648:41[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1720:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5)[2m > [22mgives no row for a week with no read-along book, for a week with no meta, and for the shipped w08
+[31m[1mError[22m: Missing export: checkReadAlongSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-readalong-clips.test.ts:[2m463:54[22m[39m
+    [90m461| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [35mimport[39m(file) [35mas[39m [33mT[39m[33m;[39m
+    [90m462| [39m    [35mconst[39m value [33m=[39m mod[name][33m;[39m
+    [90m463| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m464| [39m    [35mreturn[39m value [35mas[39m [33mNonNullable[39m[33m<[39m[33mT[39m[[33mK[39m][33m>[39m[33m;[39m
+    [90m465| [39m}
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1726:45[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5)[2m > [22mthe F7 rule: checkSentenceClips does not flag the field on a read-along book, and the read-along row does not read a decodable book
+[31m[1mError[22m: Missing export: checkReadAlongSentenceClips of /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts[39m
+[36m [2m❯[22m exportOf __tests__/storytime-package-readalong-clips.test.ts:[2m463:54[22m[39m
+    [90m461| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [35mimport[39m(file) [35mas[39m [33mT[39m[33m;[39m
+    [90m462| [39m    [35mconst[39m value [33m=[39m mod[name][33m;[39m
+    [90m463| [39m    if (value === undefined || value === null) throw new Error(`Missin…
+    [90m   | [39m                                                     [31m^[39m
+    [90m464| [39m    [35mreturn[39m value [35mas[39m [33mNonNullable[39m[33m<[39m[33mT[39m[[33mK[39m][33m>[39m[33m;[39m
+    [90m465| [39m}
+[90m [2m❯[22m readAlongRowOf __tests__/storytime-package-readalong-clips.test.ts:[2m1648:41[22m[39m
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1743:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN10 the schema on a read-along book (M2, M14)[2m > [22msentenceClips on a read-along book parses and the parse output keeps it
+[31m[1mZodError[22m: [
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      0,
+      "startTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      0,
+      "endTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      1,
+      "startTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      1,
+      "endTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      2,
+      "startTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      2,
+      "endTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      3,
+      "startTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      3,
+      "endTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      4,
+      "startTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      4,
+      "endTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      5,
+      "startTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      5,
+      "endTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      6,
+      "startTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      6,
+      "endTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      7,
+      "startTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  },
+  {
+    "expected": "number",
+    "code": "invalid_type",
+    "path": [
+      "sentences",
+      7,
+      "endTime"
+    ],
+    "message": "Invalid input: expected number, received undefined"
+  }
+][39m
+[36m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1754:39[22m[39m
+
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/46]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-readalong-clips.test.ts[2m > [22mN11 the cut guard (M10, FR 8)[2m > [22mgives true for a maker clip that the synthetic book mp3 holds, and false for a maker output of a fresh generation
+[31m[1mError[22m: Command failed: ffmpeg -y -loglevel error -i /tmp/opencode/storytime-readalong-maker-Yfjnxk/content/l2/media/w01/sentences/b0-s01.mp3 -ac 1 -ar 32000 /tmp/opencode/storytime-readalong-decode-mchNbj/decoded.wav
+[in#0 @ 0x63b098159c80] Error opening input: No such file or directory
+Error opening input file /tmp/opencode/storytime-readalong-maker-Yfjnxk/content/l2/media/w01/sentences/b0-s01.mp3.
+Error opening input files: No such file or directory
+[39m
+[36m [2m❯[22m decodeMp3 __tests__/storytime-package-readalong-clips.test.ts:[2m726:5[22m[39m
+    [90m724| [39m[35mfunction[39m [34mdecodeMp3[39m(file[33m:[39m string)[33m:[39m [33mInt16Array[39m {
+    [90m725| [39m    const wav = path.join(tempFolder('storytime-readalong-decode-'), '…
+    [90m726| [39m    execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', file, '-…
+    [90m   | [39m    [31m^[39m
+    [90m727| [39m    [35mreturn[39m [34mreadWav[39m(wav)[33m.[39msamples[33m;[39m
+    [90m728| [39m}
+[90m [2m❯[22m __tests__/storytime-package-readalong-clips.test.ts:[2m1777:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/46]⎯[22m[39m
+
+THAI_LINES_DROPPED=0
+EXIT=1
