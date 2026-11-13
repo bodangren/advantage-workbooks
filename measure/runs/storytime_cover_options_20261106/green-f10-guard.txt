@@ -1,0 +1,70 @@
+CAPTURE of F10 Green step 11, guard G-1 on the Green commits
+COMMAND: bash measure/runs/storytime_cover_options_20261106/guard-f10-green.sh 3d3fe891 c005fea2 55c32708 a043b039 aa6fb702 895331b5 c201ae04 a9dd4dcd e7bf9734 dbd42a08 9ad1d012 31cad937 11cffcbc 3224dab1 d36a42a1 b6baa8d3 0d0089e8 3e07c322 ae4aaae7 14367f95 5f96630c 2b15a26c 9461411a 757256e0
+
+--- STDOUT ---
+COMMIT 3d3fe891 files=1 outside=0
+  measure/tracks/storytime_cover_options_20261106/plan.md
+COMMIT c005fea2 files=2 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10.txt
+  measure/runs/storytime_cover_options_20261106/measure-f10-green.sh
+COMMIT 55c32708 files=2 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-debug-1.txt
+  measure/runs/storytime_cover_options_20261106/green-f10-wip.patch
+COMMIT a043b039 files=2 outside=0
+  measure/tracks/storytime_cover_options_20261106/plan.md
+  measure/tracks/storytime_cover_options_20261106/spec.md
+COMMIT aa6fb702 files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/jr-green-f10-b17ac103.log
+COMMIT 895331b5 files=1 outside=0
+  measure/tracks/storytime_cover_options_20261106/plan.md
+COMMIT c201ae04 files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-debug-2.txt
+COMMIT a9dd4dcd files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-pins.txt
+COMMIT e7bf9734 files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-gateA-1.txt
+COMMIT dbd42a08 files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-gateA-2.txt
+COMMIT 9ad1d012 files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-gateB.txt
+COMMIT 31cad937 files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-gateB-timeouts.txt
+COMMIT 11cffcbc files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-lint.txt
+COMMIT 3224dab1 files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-checks.txt
+COMMIT d36a42a1 files=1 outside=0
+  dashboard/lib/storytime/print/cover-quest.ts
+COMMIT b6baa8d3 files=4 outside=0
+  measure/runs/storytime_cover_options_20261106/fix-back-edge-f10.py
+  measure/runs/storytime_cover_options_20261106/green-f10-stage.txt
+  measure/runs/storytime_cover_options_20261106/link_pictures_f10.py
+  measure/runs/storytime_cover_options_20261106/prep-teacher-front-f10.mjs
+COMMIT 0d0089e8 files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-accepted-before.txt
+COMMIT 3e07c322 files=1 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-build.txt
+COMMIT ae4aaae7 files=2 outside=0
+  measure/runs/storytime_cover_options_20261106/copy_f10.py
+  measure/runs/storytime_cover_options_20261106/green-f10-copy.txt
+COMMIT 14367f95 files=2 outside=0
+  measure/runs/storytime_cover_options_20261106/contact_f10.py
+  measure/runs/storytime_cover_options_20261106/green-f10-contact.txt
+COMMIT 5f96630c files=2 outside=0
+  measure/runs/storytime_cover_options_20261106/contact_f10.py
+  measure/runs/storytime_cover_options_20261106/green-f10-contact.txt
+COMMIT 2b15a26c files=3 outside=0
+  measure/runs/storytime_cover_options_20261106/print-gate-f10-run.txt
+  measure/runs/storytime_cover_options_20261106/print-gate-f10.txt
+  measure/runs/storytime_cover_options_20261106/print_gate_f10.py
+COMMIT 9461411a files=2 outside=0
+  measure/runs/storytime_cover_options_20261106/green-f10-manifest.txt
+  measure/runs/storytime_cover_options_20261106/manifest_f10.py
+COMMIT 757256e0 files=1 outside=0
+  measure/tracks/storytime_cover_options_20261106/look-phase2.md
+COMMITS 24 OUTSIDE_TOTAL 0
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
