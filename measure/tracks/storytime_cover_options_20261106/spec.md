@@ -333,6 +333,7 @@ The PM order of 2026-11-13, about 14:50 ICT (PM relay, verbatim):
   - `quest-cover-hlogo.test.ts` test A3: on the 2 fronts, every text node that holds "Storytime" or "Advantage" sits inside the part `front-title`, and the 2 nodes are "Storytime" and "Advantage". On the 2 backs the count stays 0 outside `contact-line`.
   - `quest-cover-f1f2.test.ts` test G3: the part set of each front adds `front-title`, and the r3 tile box rule skips the part `front-title`. Every other part still stays out of the tile box.
   - Every other pin stays. The Red role runs the whole `quest-cover-*` set once, after the new file. It lists each failing test. A failing test outside the named pins stops the Red role, and it asks the orchestrator. The standing rules S1 to S5, D2 of `quest-cover-f3f6.test.ts`, and the plaque fit tests must pass on the new pages.
+- D-F10-10b (orchestrator decision, 2026-11-13 15:18): D8 of `quest-cover-f3f6.test.ts` moves too: the 2 hlogo fronts leave its byte pin; the 32 default renders stay pinned.
 - D-F10-11 (the build and the output, Green). The Green role changes `cover-quest.ts` only: the new function and one call in `frontBody` for the top style `hlogo`. The build script stays unchanged, unless a gate shows that one named line needs a change. Then the role stops and asks the orchestrator. One heavy-run build (`--level 2 --unit 1 --version 1 --top hlogo --print`, with the 31 staged pictures of M-F10-13) writes the build in a scratch folder under `/tmp/opencode/p2f10/`. The role copies only the 2 book sets. The output folder is new: `~/Desktop/print-ready/storytime/covers-quest-v1-books-r6/`. The accepted folder `covers-quest-v1` is not touched, so its `MANIFEST.txt` still hashes to `8f1901a3…`. The layout of the new folder:
   - `student/`: `front-alt-hlogo-r6.png`, `back-alt-hlogo-r6.png`, `cover-alt-hlogo-r6.pdf`, `Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r6_PDFX-1a.pdf` (2 pages), `build-report-alt-hlogo-r6.json`;
   - `teacher/`: `teacher-front-alt-hlogo-r6.png`, `teacher-back-alt-hlogo-r6.png`, `teacher-cover-alt-hlogo-r6.pdf`, `Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r6_PDFX-1a.pdf` (2 pages), `build-report-alt-hlogo-r6.json`;
@@ -346,7 +347,7 @@ The PM order of 2026-11-13, about 14:50 ICT (PM relay, verbatim):
 
 #### Moved pins
 
-The Red role changes the pins of D-F10-10 and no other pin. Each hunk has the comment "changed 2026-11-13 (F10)". The comment rule is the rule of F9.
+The Red role changes the pins of D-F10-10 and of D-F10-10b, and no other pin. Each hunk has the comment "changed 2026-11-13 (F10)". The comment rule is the rule of F9.
 
 #### Acceptance (Fix round F10)
 
