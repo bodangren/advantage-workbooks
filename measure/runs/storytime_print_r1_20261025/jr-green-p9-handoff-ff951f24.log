@@ -2,45 +2,44 @@
 
 Language: English only. This log holds no Thai text.
 Role base: ff951f24e1c82313b7e7d9d96f58057aec44c54a. Phase base: the same SHA (Phase 9 has no earlier commit).
-Lane: light (rebuild and check, no code change, no Red role), orchestrator decision of 2026-11-13.
+Lane: light (rebuild and check) in round 1; remediation R1 added a Red and Green pair.
 
-## Step log
+## Round 1 (blocked, closed by R1)
 
-1. Plan: task line 1366 marked `[~]`, commit 6e7663e7 (plan.md only).
-2. Build commands found in the plan and in the cover track captures: A3 readers `make-readers-pdf.ts --level 2 --weeks <list> --final --a3-color --version <n> --out <folder>`; student book `make-student-book-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --final --version <n> --out <file>` (the 136 page book of v15). Both are heavy jobs in one `heavy-run.sh` wrapper (HEAVY_PRIORITY=p2).
-3. Check folder `~/Desktop/print-ready/storytime/_check-p9-reader-covers/` created (it did not exist). A3 build from HEAD b62725e3: 14 files, version 9, exit 0, "reader cover check: 14 cover pages passed (FR-6.3)" (capture `p9-handoff-build-a3.txt`, commit 063e5d3d). Student book build from HEAD c42918df: version 16, exit 0, 136 pages, PDF/X-1a:2001, "All checks pass." (capture `p9-handoff-build-student.txt`, commit 94f21387).
-4. Compare (`p9_compare.py`, capture `p9-handoff-compare.txt`, commit 8e4afa46): 28 compares at 300 ppi. The first thresholds gave `a3_fail=10 leaf_fail=14`. The orchestrator asked for the cause of each FAIL before a verdict.
-5. Cause (`p9_cause.py`, capture `p9-handoff-cause.txt`, commit d234847b; `p9_strip_dump.ts`, capture `p9-handoff-strip-cause.txt`, commit c848fee3):
-   - A3 w03 to w07: 10 to 27 pixels differ (max 17 grey levels) in one text line (footer line rows 2921 to 3067, or the title plaque text rows of week 7). Art, frame, and plaque are equal. The reader cover code is unchanged since the accepted build `ef21fdbf` (only the F10 front title plate changed in `cover-quest.ts`; `readers.ts` is unchanged). The scratch picture folder of the accepted build (`/tmp/opencode/c29l/pictures`) no longer exists, so no art SHA-256 compare was possible; the zero difference of the art area is the evidence of equal art and equal crop. Cause class: glyph edge noise of a Chrome run. Verdict: PASS for 14 of 14.
-   - Leaf: the student book is K-only; the compare reference is the K-only accepted PDF/X leaf (the same Ghostscript gray conversion). After a blur of 5 px, 12 leaves show a blur mean of 0.8 to 1.7 and at most 0.3 % of the area above 30 grey levels: registration and resample noise, PASS. Two leaves FAIL: week 7 "Is It a Ball?" (student page 117) and "The Top" (student page 123): 10.1 % and 10.9 % of the area above 30 grey levels, blur mean 11.9 and 11.5.
-   - Cause of the 2 FAIL: a white box lies over the art (128.22 x 99.24 mm and 125.79 x 114.24 mm; the vector path is painted after the art image on page 117). It is the `footer-strip` of `leafFooterStrip` in `dashboard/lib/storytime/print/cover-quest.ts` (the `leafMark` branch, line 2954 and following): the strip box is the union of the footer box and the leaf mark ring. For week 7 the chrome placement puts the footer under the plaque (top 49.26 mm and 34.26 mm); the leaf mark stays in the bottom corner; the union grows to the 99.24 mm and 114.24 mm heights. Weeks 1 to 6 show strips of 12.24 mm or 13.24 mm. The accepted leaf covers hold no leaf mark, so the cover track tests did not catch this. The same defect shows in three renderers (pdftoppm, pdftocairo, Ghostscript), and the embedded art image of the page is complete.
-6. Not run (the Phase 9 rule runs them after 28 passes): the leaf copy check, `PRINT_GATE` on the student book, plan `[x]`. The fast gate `grep -c "from './cover-quest'" dashboard/lib/storytime/print/readers.ts` prints `1`.
-7. Plan: sub-lines added under the `[~]` task, commit 93a63a21 (plan.md only). The task stays `[~]`.
-8. Observation: the single-week compile of week 3 (`p9_strip_dump.ts 3`) stops with `forge manifest: the manifest holds no job for the row l2-w03-d4-prompt-apple`. The 8-week student book build passes. This is not a defect of this task.
-9. Scratch `/tmp/opencode/p9` removed after the captures were committed. `git status --porcelain pnpm-lock.yaml` printed nothing. No file of the cover track, the week package track, or another folder of `print-ready` or `handoff` changed. The check folder stays.
+1. Plan: task line marked `[~]`, commit 6e7663e7.
+2. Build commands from the plan and the cover track captures: A3 `make-readers-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7 --final --a3-color --version 9`; student book `make-student-book-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --final --version 16`. Check folder `~/Desktop/print-ready/storytime/_check-p9-reader-covers/`. Captures `p9-handoff-build-a3.txt` (063e5d3d), `p9-handoff-build-student.txt` (94f21387).
+3. Compares and causes: `p9-handoff-compare.txt` (8e4afa46), `p9-handoff-cause.txt` (d234847b), `p9-handoff-strip-cause.txt` (c848fee3). A3 14 of 14 pass (glyph edge noise). Leaf 12 of 14 pass; week 7 "Is It a Ball?" and "The Top" failed: `leafFooterStrip` joined the footer strip and the leaf mark into one white box of 99.24 and 114.24 mm. Plan commit 93a63a21; the first log blocked the task.
 
-## Decisions recorded
+## Green R1 (decision D-P9-R1, Red 825873f9)
 
-1. Light lane, no code change and no Red role (a needed code change stops the task).
-2. Phase 9 runs before Phase 8 closes (PM order of 2026-11-13 about 23:15).
-3. No strategy role for this single task.
-Book covers stay r2 until Task 2.14b of the cover track closes.
+4. Code: `leafFooterStrip` in `dashboard/lib/storytime/print/cover-quest.ts` only. Try 1 joined the box only when the ring overlapped the footer box; the targeted file failed L4 on all 12 week 1 to 6 pins (`p9-r1-green-target.txt`), because the ring lies beside the footer box with a gap that the old joined box covered. Try 2 joins when the ring lies in the vertical band of the footer box, and gives the mark its own `leaf-mark-box` outside that band: `quest-cover-leafmark.test.ts` 6 of 6 pass (`p9-r1-green-target2.txt`). This deviates from the word "overlaps" of D-P9-R1 to keep the byte pins L4; the orchestrator should confirm it.
+5. Gates, each one time: Gate A half 1, 9 files and 133 tests pass; half 2 with the new file, 10 files and 263 tests pass (19 `quest-cover-*` files); `PROJECT_LINT` exit 0; `PROJECT_CHECKS` exit 0 (0 failed checks, `tsc` clean); `storytime-print-readers` and `storytime-print-student-book`, 2 files and 135 tests pass. No time-out. The tree held the uncommitted files of the week package track Phase 13; Green R1 did not touch or stage them.
+6. Code commit `0eff8d17`; scope capture `p9-r1-scope.txt`: `files: 1`, `outside: 0` (commit 2388acfc).
+7. Lock wait: the student book build and the compares waited about 3 hours in the `heavy-run.sh` queue behind p1 jobs and a long suite of other tracks (two foreground calls timed out at 30 minutes with no capture; the third run, a background job polled with a foreground loop, ran). No job ran outside the wrapper. The target end of 03:30 ICT passed because of this wait.
+8. v17: student book from `0eff8d17`, exit 0, 136 pages, SHA-256 `5eb26e39d03a7732c68817cddcabbca3f01f745c67649e4620d8d6d5557e710a` (`p9-r1-build-student.txt`, e1d6f3f2). The 14 A3 files (version 9) were not rebuilt: the A3 output passes no `leafMark`.
+9. The 28 compares on v17 (`p9-r1-compare.txt` 2020933b; `p9-r1-cause.txt` 8105e659): 14 of 14 A3 pass; 14 of 14 leaves pass. Week 7 leaves: blur mean 1.27 and 0.77, 0.000 % and 0.010 % of the area above 30 grey levels. A look at page 117 at 50 dpi shows the whole art and a small mark box at the top (turned page). The first thresholds of `p9_compare.py` print FAIL for 24 pages; the cause lines explain each (A3 text glyph edge noise; leaf registration and resample noise), as in round 1.
+10. Copy check: 14 of 14 leaf strips hold the reader title and `sheet 1 of 3`; the A3 build printed `reader cover check: 14 cover pages passed (FR-6.3)`. `PRINT_GATE` on v17: exit 0, `136 pages, 20.9 MB, PDF 1.3, PDF/X-1a:2001, 5 font(s)`, `All checks pass.` (`p9-r1-print-gate.txt`, 8105e659). Fast gate prints `1`.
+11. Plan: task `[x]`, ending ` — 0eff8d17`, with the Green R1 sub-lines, commit 86c360fb (plan.md only). `git status --porcelain pnpm-lock.yaml` printed nothing. Scratch `/tmp/opencode/p9b` removed. The check folder stays. The book covers stay r2 until Task 2.14b of the cover track closes.
 
 MEASURE_AGENT_RESULT
-status: blocked
+status: complete
 role: Measure Jr Green
 track: storytime_print_r1_20261025
 phase: P9
-task: Hand-off from storytime_cover_options (plan line 1366), stays [~]
+task: Hand-off from storytime_cover_options (plan line 1366), flipped to [x] with ` — 0eff8d17`
 phase_base_sha: ff951f24e1c82313b7e7d9d96f58057aec44c54a
 role_base_sha: ff951f24e1c82313b7e7d9d96f58057aec44c54a
 head: see the last commit of this log (git log -1 on the log file)
-commits: 6e7663e7 (plan [~]); 063e5d3d (A3 build capture); 94f21387 (student book capture); 8e4afa46 (compare); d234847b (cause); c848fee3 (strip capture); 93a63a21 (plan evidence); the log commit
-check_folder: ~/Desktop/print-ready/storytime/_check-p9-reader-covers/ (readers-a3 with 14 files at version 9; student-book with v16, 136 pages)
-compares: A3 14 of 14 PASS (glyph edge noise only); leaf 12 of 14 PASS; leaf week 7 "Is It a Ball?" (student page 117) and "The Top" (student page 123) FAIL
-print_gate: not run (runs after 28 passes)
-copy_check: A3 build printed "reader cover check: 14 cover pages passed (FR-6.3)"; leaf copy check not run; page text check: each of the 14 leaf strips holds its title and "sheet 1 of 3" (first compare capture)
+code_commit: 0eff8d17 (cover-quest.ts leafFooterStrip; files 1, outside 0)
+plan_commit: 86c360fb
+commits: 6e7663e7; 063e5d3d; 94f21387; 8e4afa46; d234847b; c848fee3; 93a63a21; 0eff8d17; 2388acfc; cd820dac; e1d6f3f2; 2020933b; 8105e659; 86c360fb; the log commit
+tests: quest-cover-leafmark 6/6; Gate A 19 quest-cover files (133 + 263 tests) pass; storytime-print-readers and student-book 135 tests pass; PROJECT_LINT exit 0; PROJECT_CHECKS exit 0
+check_folder: ~/Desktop/print-ready/storytime/_check-p9-reader-covers/ (readers-a3: 14 files v9; student-book: v16 for the record, v17 SHA-256 5eb26e39d03a7732c68817cddcabbca3f01f745c67649e4620d8d6d5557e710a, 136 pages)
+compares: v17 28 of 28 pass (A3 14: glyph edge noise only; leaf 14: registration and resample noise only; week 7 leaves show the whole art)
+print_gate: exit 0 on v17, PDF/X-1a:2001, All checks pass
+copy_check: 14 of 14 leaf strips hold title and "sheet 1 of 3"; A3 build copy check 14 passed (FR-6.3)
 fast_gate: grep -c prints 1
-files_added: measure/runs/storytime_print_r1_20261025/{p9_compare.py, p9_cause.py, p9_strip_dump.ts, p9-handoff-build-a3.txt, p9-handoff-build-student.txt, p9-handoff-compare.txt, p9-handoff-cause.txt, p9-handoff-strip-cause.txt, jr-green-p9-handoff-ff951f24.log}
-handoff: A code change is needed. Cause: `leafFooterStrip` in dashboard/lib/storytime/print/cover-quest.ts (the leafMark branch, line 2954 on) joins the footer strip and the leaf mark into one white box. For week 7 the footer sits under the plaque, so the box grows to 99.24 mm and 114.24 mm and covers the art of both week 7 leaf covers in the student book. Route a Red and Green pair: the leaf mark must not join a distant footer strip (own small white box, or a mark place near the footer), a test for the week 7 covers with a leaf mark, then rebuild the student book and rerun the 28 compares, the leaf copy check, and PRINT_GATE one time. Default for the pair: a separate mark box, no change to the accepted leaf covers without a mark.
+deferred: none
+files_added: measure/runs/storytime_print_r1_20261025/{p9_compare.py, p9_cause.py, p9_strip_dump.ts, p9-handoff-*.txt, p9-r1-*.txt, jr-green-p9-handoff-ff951f24.log}
+handoff: Confirm the deviation from the word "overlaps" in D-P9-R1: the code joins the box when the mark ring lies in the vertical band of the footer box (needed for the 12 week 1 to 6 byte pins) and uses a separate leaf-mark-box otherwise. Phase 9 acceptance reviews this task; the cover track confirms the files (peer-report). The check files are not release files. The release proof task rebuilds. Observation: a single-week compile of week 3 stops on a missing d4-prompt-apple manifest row; the 8-week build passes. Lock wait of about 3 hours in heavy-run.sh queue; the PM may want the report.
 END_MEASURE_AGENT_RESULT
