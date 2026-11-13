@@ -1,0 +1,32 @@
+# Mid-red log, Phase 13, track storytime_week_package_20261022
+
+Role: measure-mid-red. Model: coding-plan/glm-5.3-flash#high. role_base_sha e8345509468ba9f0e86d08dd51d3fbb581c38d21. phase_base_sha c42918df.
+
+Steps, all output through the Thai-dropping capture script (light_capture_2_9g.py), THAI_LINES_DROPPED 0 everywhere:
+
+1. Thai filter run first (PM rule, 2026-11-09): 12 filtered copies, all THAI_CHARS_IN_OUTPUT 0. Only filtered copies read.
+2. plan.md Red 1 marked [~], commit d6b8ac60.
+3. Test file written: dashboard/__tests__/storytime-package-readalong-clips.test.ts, cases N1 to N12, pinned names in header PIN lines. Test commit 1e2f0573 (one file).
+4. RED run (RED_TEST_COMMAND, heavy-run wrapper): capture p13-red1.txt, EXIT 1, Tests 46 failed | 5 passed (51). The 5 passing cases (none vacuous): N1 with no kinds, N1 gives nothing for w08, N2 with no kinds, N8 a second run changes no byte, N12 the file guard. Failing N-ids: N1(3), N2(4), N3(5), N4(3), N5(6), N6(2), N7(6), N8(5), N9(10), N10(1), N11(1) — each a missing export, option, flag, row, or behavior of FR 1 to FR 5.
+5. Names run (verbose): p13-red1-names.txt, EXIT 1, 45 failed | 6 passed. N10 passed once there; source inspection of schema.ts (SentenceTimepointSchema requires startTime) proved the run-1 N10 failure came from the test's untimed sentence items, a test bug, not missing behavior. M14 is JSDoc only, so N10 is characterization.
+6. N10 fix: the case now uses the shipped timed sentences of the read-along book. One rerun: p13-red1-fix.txt, EXIT 1, Tests 45 failed | 6 passed (51), no N10 failure. Fix commit d9a1e363 (test file + fix capture).
+7. FR 8 grep: p13-red1-grep.txt, 11 files, none "changes" (9 pre-existing Phase 12 hits, the Phase 12 Red file, the new Red file). No test edit needed before Green 1; the GREEN command stays as pinned.
+8. Phase 11 and 12 files: p13-red1-p12.txt, 2 files, Tests 182 passed (182), exit 0 — the new file changes no older case.
+9. ESLint on the new file: p13-red1-lint.txt, exit 0. npx tsc --noEmit not run (orchestrator decision): every pinned name that Green 1 adds does not exist yet, so each error line would name Green 1 work.
+10. Captures committed 3908adc4. plan.md Red 1 [x] with evidence, commit 8909f979. plan.md Green 1 [~], commit c21293e2.
+11. No production source edited. No paid call: every maker run used a missing WHISPER_PYTHON or --dry-run. pnpm-lock.yaml clean.
+
+MEASURE_AGENT_RESULT
+baseline_sha: c42918df
+role: measure-mid-red
+track: storytime_week_package_20261022
+phase: 13
+head: c21293e2
+commits: d6b8ac60 (plan [~] start), 1e2f0573 (test file), 3908adc4 (captures), d9a1e363 (N10 fix + capture), 8909f979 (plan Red 1 [x] + evidence), c21293e2 (plan Green 1 [~])
+tests: dashboard/__tests__/storytime-package-readalong-clips.test.ts (N1 to N12; N10 uses the shipped timed sentences)
+files: the test file; plan.md (Red 1 [x] + evidence sub-line with trailing d9a1e363, Green 1 [~]); captures p13-red1.txt, p13-red1-names.txt, p13-red1-grep.txt, p13-red1-p12.txt, p13-red1-lint.txt, p13-red1-fix.txt
+red: RED_TEST_COMMAND exits 1 — 46 failed | 5 passed (p13-red1.txt), 45 failed | 6 passed after the N10 test fix (p13-red1-fix.txt); failing N-ids N1(3), N2(4), N3(5), N4(3), N5(6), N6(2), N7(6), N8(5), N9(10), N11(1), all missing behavior; passing: N1 no-kinds, N1 w08, N2 no-kinds, N8 second-run bytes, N12 guard, N10 characterization
+notes: ESLint exit 0; Phase 11 and 12 files 182 passed, exit 0; FR 8 grep 11 files, none changes; tsc not run by orchestrator decision; Thai filter first, 0 Thai in all output; scope guard p13-red1-scope.txt not run in this window (handoff note for Green 1)
+remaining_failures: none for the Red role; Green 1 owns the missing behavior listed above
+status: done
+END_MEASURE_AGENT_RESULT
