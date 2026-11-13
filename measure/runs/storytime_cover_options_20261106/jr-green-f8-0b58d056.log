@@ -1,0 +1,35 @@
+JR GREEN F8 LOG (track storytime_cover_options_20261106, Phase 2, Task (Green, F7b and F8))
+role_base_sha 0b58d056; phase_base_sha e6e2156a; model claude-code/claude-sonnet-5-5#high; Red model opencode/minimax-m3.1-flash-free#high; no coder. Red commit 291e4991 lies inside e6e2156a..HEAD.
+
+STEP 1 DONE: code. readers.ts: the rule `.a3-page > .quest-cover-picture` never matched, because page 1 is `.a3-page > .reader-page > .quest-cover-picture`, and `.reader-page` is 198 x 148.5 mm with overflow hidden. The rule is now `.a3-page > .reader-page` (420 x 297 mm) and `.a3-page > .reader-page > .quest-cover-picture` (420 x 297 mm). Only page 1 of a3-color matches (pages 2 to 12 sit inside `.a3-scale`); the workbook output is unchanged. pictures-edge-fill.json: topRows 168, bottomRows 169. art-edge-fill.ts needed no change.
+STEP 2 DONE: file runs, each alone (heavy-run p2, exit 0 each): quest-cover-f8 3 passed (3) (green-f8-f8.txt); quest-cover-f7 9 passed (9) (green-f8-f7.txt); quest-cover-f3f6 14 passed (14) (green-f8-f3f6.txt); storytime-print-readers 58 passed (58) (green-f8-readers.txt); reader-ink 4 passed (4) (green-f8-ink.txt); readers-adversarial and r2 22 passed (22) (green-f8-adv.txt).
+  F8-1 values: Hello! and Nan Can Nod each: page 1 holds 1588 x 1123 px; white edge rows top 0 and bottom 0; white edge columns left 0 and right 0. F8-2 values: mean absolute difference R 0.00, G 0.00, B 0.00 for both books. F8-3: 198.03 x 148.53 mm. F7-1b: top stripes 0, bottom stripes 0.
+STEP 3 DONE: commit 1 = 12f7aa75 (readers.ts and pictures-edge-fill.json); `git status --porcelain -- content dashboard/lib` printed nothing.
+STEP 4 DONE: full gate, once, after commit 1.
+  Gate A-fast: 16 files, 306 passed (306), exit 0 (green-f8-gateAfast.txt; list green-f8-gate-afast-files.txt).
+  Gate A-build: part 1 70 passed, 5 skipped; part 2 (failed PDF/X step) 1 passed; part 3 (move step) 1 passed; part 4 (copy that fails) 1 passed; part 5 (two builds plus git head) 2 passed; every part exit 0; 75 of 75 (green-f8-gateAbuild*.txt).
+  Gate B: B1 25 files 685 passed (685); B2 20 files 367 passed (367); B3 21 files 529 passed (529); every part exit 0; 0 failed (green-f8-gate-b1.txt to b3.txt).
+  tsc --noEmit exit 0 (green-f8-tsc.txt); eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts exit 0 (green-f8-lint.txt); `git status --porcelain -- pnpm-lock.yaml` printed nothing.
+  No load failure; no code fix after commit 1.
+STEP 5 DONE: mutants, each on one file; each file restored with `git checkout --` and an equal SHA-256 (readers.ts 3692a74edb2f..., pictures-edge-fill.json 9bc1fc60361a...).
+  M1 (the F8 CSS undone, the dead rule back): F8-1 and F8-2 fail (2 failed, 1 passed), exit 1 (green-f8-mutant-m1.txt).
+  M2 (data file 167 and 166): F7-1, F7-1b, F7-4, and F7-7 fail (4 failed, 5 passed), exit 1 (green-f8-mutant-m2.txt).
+STEP 6 DONE: commits: code 12f7aa75; plan dc44a177 (line 212 [x], ends with `code 12f7aa7`, one evidence sub-line); captures 5fd18fb9 (23 files); this log last. Not staged: video/storytime-song/scripts/render.mjs, dashboard/raw.json, spec-review-* files.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: done
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+task: Task (Green, F7b and F8)
+role_base_sha: 0b58d056
+phase_base_sha: e6e2156a
+commits: code 12f7aa75; plan dc44a177; captures 5fd18fb9; log (this file, last)
+tests_run: quest-cover-f8 3 passed (3); quest-cover-f7 9 passed (9); quest-cover-f3f6 14 passed (14); storytime-print-readers 58 passed (58); reader-ink 4 passed (4); readers-adversarial and r2 22 passed (22); Gate A-fast 306 passed (306) in 16 files; Gate A-build 75 of 75 in 5 parts; Gate B 685, 367, 529 passed (0 failed); tsc exit 0; eslint exit 0; pnpm-lock.yaml unchanged
+files_changed: dashboard/lib/storytime/print/readers.ts; content/storytime/l2/print/pictures-edge-fill.json; plan.md; captures green-f8-*.txt (22 files); log
+plan_updates: line 212 marked [x] with code 12f7aa7 at the line end, and one evidence sub-line
+known_failures: none
+mutants: M1 caught (F8-1, F8-2); M2 caught (F7-1, F7-1b, F7-4, F7-7); each file restored, SHA-256 equal
+dispositions: none
+handoff: Run the part 12 A3 rebuild of Task 2.9 in a later role, and measure the built PNG of w01-1 and its page 1 (the build wiring of the fill has no test, the M3 gap of the F7 round). F8 changes only the page 1 CSS of the a3-color reader; pages 2 to 12 and the workbook output keep their tests. Final Green code HEAD 12f7aa75; phase_base_sha e6e2156a.
+END_MEASURE_AGENT_RESULT
