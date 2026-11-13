@@ -1,0 +1,155 @@
+CAPTURE of Task (Green, F10) step 1, M-F10-1 to M-F10-13 at b17ac103
+COMMAND: bash measure/runs/storytime_cover_options_20261106/measure-f10-green.sh
+
+--- STDOUT ---
+== M-F10-1 (the call path)
+1337:function plaqueSvg(
+1571:function seriesBanner(kind: QuestCoverKind, size: 'front' | 'back' | 'reader', bleedMm: number): string {
+1638:function titlePlaqueFront(kind: QuestCoverKind, book: QuestBookRow, bleedMm: number, top: QuestTopStyle): string {
+2618:function frontBody(
+3012:export function renderQuestCover(
+== M-F10-2 (where r5 lost the title)
+80:-        parts.push(logoTile(kind, bleedMm));
+100:-        return [artLayer(kind, assets, bleedMm), logoTile(kind, bleedMm), weekPillHtml, plaqueHtml, roleBarHtml].join('\n');
+122:-            logoTile(kind, bleedMm, { fill: LEAF_PLAQUE_BAND, border: '#4E4E4E', src: K_LOGO_URL }),
+1933:function frontBody(
+1934-    kind: QuestCoverKind,
+1935-    book: QuestBookRow,
+1936-    assets: QuestRenderAssets,
+1937-    bleedMm: number,
+1938-    top: QuestTopStyle,
+1939-): string {
+1940-    const parts = [artLayer(kind, assets, bleedMm)];
+1941-    if (top === 'hlogo') {
+1942-        parts.push(logoTile(kind, bleedMm));
+1943-    } else {
+1944-        parts.push(seriesLogo(kind, assets, bleedMm), seriesBanner(kind, 'front', bleedMm));
+1945-    }
+1946-    if (kind === 'teacher-front' && top !== 'hlogo') parts.push(bandPill(book.litBand, bleedMm));
+1947-    parts.push(titlePlaqueFront(kind, book, bleedMm, top));
+1948-    return parts.join('\n');
+1949-}
+1950-
+1951-/**
+1952- * Builds the body of a back side (`options/build.py`, `a_back`). The student back holds the panel;
+1953- * the teacher back holds none. Round 5 of 2026-11-10: the Storytime Advantage logo, the centered
+1954- * contact lines, and the Reading Advantage publisher mark of the contact sign. The alternate A2 of
+1955- * 2026-11-10: with the top style `hlogo`, the horizontal logo on its amber tile stands in place of
+== M-F10-3 (the r5 Chrome PDFs, counts only)
+student/cover-alt-hlogo-r5.pdf page 1 thai_chars 0 joined_series_name False
+student/cover-alt-hlogo-r5.pdf page 2 thai_chars 38 joined_series_name False
+teacher/teacher-cover-alt-hlogo-r5.pdf page 1 thai_chars 0 joined_series_name False
+teacher/teacher-cover-alt-hlogo-r5.pdf page 2 thai_chars 38 joined_series_name False
+== M-F10-4 (the level plate)
+183:const FRONT_TITLE_FONT_MM = titleCapFontMm(14 - READER_PLAQUE_BAND_INSET_MM);
+360:    'student-front:title-plaque': { kind: 'student-front', leftMm: 26, topMm: 278, widthMm: 158, heightMm: 14 },
+364:    'teacher-front:title-plaque': { kind: 'teacher-front', leftMm: 26, topMm: 278, widthMm: 158, heightMm: 14 },
+1638:function titlePlaqueFront(kind: QuestCoverKind, book: QuestBookRow, bleedMm: number, top: QuestTopStyle): string {
+== M-F10-5 (the first front plate)
+357:    'student-front:series-logo': { kind: 'student-front', leftMm: 90, topMm: 14, widthMm: 30, heightMm: 30 },
+358:    'student-front:series-banner': { kind: 'student-front', leftMm: 22, topMm: 48, widthMm: 166, heightMm: 38 },
+362:    'teacher-front:series-banner': { kind: 'teacher-front', leftMm: 22, topMm: 48, widthMm: 166, heightMm: 38 },
+-rw-rw-r-- 1 daniebo daniebo 15630090 Nov 10 14:25 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/student/front.png
+-rw-rw-r-- 1 daniebo daniebo 16371190 Nov 11 00:15 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/teacher/teacher-front.png
+== M-F10-6 (the plate measure)
+student/front.png size (2480, 3508) ppm 11.81
+  ink rows mm 53.85 to 80.27 height 26.42 mm
+  ink cols mm 67.74 to 141.67 width 73.92 mm
+  band 32.4 mm; ink height share 81.5 %; of plate height 69.5 %; ink width share of plate 44.5 %
+  ink centre across mm 104.7 (page centre 105)
+  sample amber row (105mm, 50.8mm): (252, 210, 73)
+teacher/teacher-front.png size (2480, 3508) ppm 11.81
+  ink rows mm 53.85 to 80.27 height 26.42 mm
+  ink cols mm 67.74 to 141.67 width 73.92 mm
+  band 32.4 mm; ink height share 81.5 %; of plate height 69.5 %; ink width share of plate 44.5 %
+  ink centre across mm 104.7 (page centre 105)
+  sample amber row (105mm, 50.8mm): (252, 210, 73)
+== M-F10-7 (the free band)
+l2-u1-cover-quest-student-front-v1-300ppi.png px 2480 x 3508 ppm 11.8095 kinds ['dog-body', 'head']
+   box top mm (103.31, 'head', 'Sam head')
+   box top mm (116.01, 'head', 'Nan head')
+   box top mm (202.38, 'dog-body', 'Pip dog whole body (ears to paws and tail)')
+   box top mm (215.93, 'head', 'Pip dog head')
+   free band: 5 mm safe zone to 102.31 mm (1 mm clearance) = 97.31 mm high; whole width, since no box lies above 103.31 mm
+l2-u1-cover-quest-teacher-front-v1-300ppi.png px 2480 x 3508 ppm 11.8095 kinds ['head']
+   box top mm (97.38, 'head', 'Teacher Kim head')
+   box top mm (143.1, 'head', 'Nan head')
+   box top mm (152.42, 'head', 'Sam head')
+   free band: 5 mm safe zone to 96.38 mm (1 mm clearance) = 91.38 mm high; whole width, since no box lies above 97.38 mm
+== M-F10-8 (the logo colours)
+67:const LOGO_AMBER = '#FCD34D';
+70:const LOGO_BROWN = '#92400E';
+73:const LOGO_CREAM = '#FEF3C7';
+79:const LOGO_WHITE = '#FFFFFF';
+101:const READER_PLAQUE_BAND_INSET_MM = 5.6;
+1293:const PLAQUE_AMBER_PALETTE: QuestPlaquePalette = {
+== M-F10-9 (the pins of the r5 front)
+dashboard/__tests__/quest-cover-hlogo.test.ts:484:function seriesNameNodes(doc: Document): { part: string; text: string }[] {
+dashboard/__tests__/quest-cover-hlogo.test.ts:627:            expect(doc.querySelectorAll('[data-part="series-banner"]').length, `${kind} holds no series banner.`).toBe(0);
+dashboard/__tests__/quest-cover-hlogo.test.ts:645:            const names = seriesNameNodes(doc);
+dashboard/__tests__/quest-cover-f1f2.test.ts:110:const R3_PARTS: Record<string, string[]> = {
+dashboard/__tests__/quest-cover-f1f2.test.ts:132:const R3_TILE_BOXES: Record<string, [number, number, number, number]> = {
+dashboard/__tests__/quest-cover-f1f2.test.ts:766:            const wanted = [...R3_PARTS[spec.kind].filter((name) => !removed.includes(name)), ...added].sort();
+dashboard/__tests__/quest-cover-f1f2.test.ts:776:            const [left, top, width, height] = R3_TILE_BOXES[spec.kind];
+dashboard/__tests__/quest-cover-f1f2.test.ts:806:            if (JSON.stringify(found) !== JSON.stringify(R3_PARTS[kind])) {
+dashboard/__tests__/quest-cover-f1f2.test.ts:807:                problems.push(`${kind}: the part set is ${found.join(', ')} (the pin is ${R3_PARTS[kind].join(', ')}).`);
+== M-F10-10 (the reader titles)
+1445:function readerTitlePlaque(title: string, bleedMm: number, placement: QuestChromePlacement | null = null): string {
+2834:function leafTitlePlaque(title: string, bleedMm: number, placement: QuestChromePlacement | null = null): string {
+== M-F10-11 (Thai in the code and quest.json, counts only)
+dashboard/lib/storytime/print/cover-quest.ts:0
+content/storytime/covers/quest.json:0
+== M-F10-12 (the accepted set)
+8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87  /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt
+133 /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt
+79:9f5b588fa6f6b968b55c1f7c33abdff03f90cf513cd823ea940a645a829b20b3  5365339  student/back-alt-hlogo-r5.png
+94:6750339526f85e6fbcddb3de8ad93d9b43258b4b943cea4092528babb437d795  17188429  student/front-alt-hlogo-r5.png
+119:ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4  12577643  teacher/teacher-back-alt-hlogo-r5.png
+131:6a0d5227a074b9af9ca8822cc62afa3cdfe4d52d8819df43dfdb5fc5e2fe5f3b  18054730  teacher/teacher-front-alt-hlogo-r5.png
+9f5b588fa6f6b968b55c1f7c33abdff03f90cf513cd823ea940a645a829b20b3  /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/student/back-alt-hlogo-r5.png
+ad6c3335e4e92ae43eae1d86e50b2a8c4175bc7cbc9eecb23bc83aeb6e13b0a4  /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/teacher/teacher-back-alt-hlogo-r5.png
+6750339526f85e6fbcddb3de8ad93d9b43258b4b943cea4092528babb437d795  /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/student/front-alt-hlogo-r5.png
+6a0d5227a074b9af9ca8822cc62afa3cdfe4d52d8819df43dfdb5fc5e2fe5f3b  /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/teacher/teacher-front-alt-hlogo-r5.png
+== M-F10-13 (the scripts of the earlier rounds)
+contact-2-9j.py
+copy_2_9j.py
+fix-back-edge-2-9a-a2.py
+fix-back-edge-2-9a-r4.py
+fix-back-edge-2-9a-r5.py
+fix-back-edge-2-9a.py
+fix-back-edge-2-9b.py
+fix-back-edge-2-9b.txt
+fix-back-edge-2-9c.py
+fix-back-edge-2-9c.txt
+fix-back-edge-2-9e.py
+fix-back-edge-2-9f.py
+fix-back-edge-2-9g.py
+fix-back-edge-2-9i.py
+fix-back-edge-2_9j.py
+fix-back-edge-2_9k.py
+fix-back-edge-2_9l.py
+gate-functions-2-9l.py
+gate-functions-2-9l.txt
+link_pictures_2_9c.py
+prep-teacher-front-2-8-proof.txt
+prep-teacher-front-2-8.mjs
+prep-teacher-front-2-8.txt
+prep-teacher-front-2-9b.mjs
+prep-teacher-front-2-9b.txt
+prep-teacher-front-2-9c.mjs
+prep-teacher-front-2-9c.txt
+prep-teacher-front-2-9e.mjs
+prep-teacher-front-2-9f.mjs
+prep-teacher-front-2-9g.mjs
+prep-teacher-front-2-9i.mjs
+prep-teacher-front-2-9j.mjs
+prep-teacher-front-2-9k.mjs
+prep-teacher-front-2-9l.mjs
+== the output folder of D-F10-11 (must not exist)
+ABSENT covers-quest-v1-books-r6
+
+--- STDERR ---
+ls: cannot access '/home/daniebo/Desktop/print-ready/storytime/covers-quest-v1-books-r6': No such file or directory
+
+THAI_LINES_DROPPED=0
+EXIT=0
