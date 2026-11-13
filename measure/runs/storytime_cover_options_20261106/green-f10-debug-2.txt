@@ -1,0 +1,26 @@
+CAPTURE of F10 Green debug run 2, the spec plate after Red retry R1 (75c4397e)
+COMMAND: HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/quest-cover-f10.test.ts --maxWorkers=1'
+
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/quest-cover-f10.test.ts[2m > [22m[2mquest-cover-f10: T1 to T9 (Red, the r6 book covers with a title on the front)[2m > [22m[2mT7: the 2 backs keep the r5 bytes, one logo tile, and no front title
+[22m[39mT7 student-back: sha256 5a17085f221416481873bb0dea129711727bf4e399ddf26c8f5e31fe92093fbc
+T7 teacher-back: sha256 f7666628f955c41d946ce50df11b1ffa366693e2542f7e962ccec165a1f43fab
+
+ [32m✓[39m __tests__/quest-cover-f10.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 6263[2mms[22m[39m
+     [33m[2m✓[22m[39m T2: each of the 28 reader fronts holds its own title in its title-plaque part [33m 1204[2mms[22m[39m
+     [33m[2m✓[22m[39m T3: the plate takes the logo colours, and every colour of the part is in the token table [33m 1120[2mms[22m[39m
+     [33m[2m✓[22m[39m T4: the plate is centred, the ink fills 75 % to 85 % of the band, and the lines stay inside [33m 543[2mms[22m[39m
+     [33m[2m✓[22m[39m T5: the painted plate meets no key box of the art and lies 5 mm inside the trim [33m 468[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m 20:12:24
+[2m   Duration [22m 8.20s[2m (transform 481ms, setup 97ms, import 734ms, tests 6.26s, environment 707ms)[22m
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
