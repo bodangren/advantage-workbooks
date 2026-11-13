@@ -1,0 +1,81 @@
+# Mid-Red log, Phase 9 remediation R1 (storytime_print_r1_20261025)
+
+- Role: measure-mid-red (Red). Model: coding-plan/glm-5.3-flash. Green R1 will be a Claude model.
+- role_base_sha: 3908adc4774e5c26cec20dcb0e4159059bb2206d (HEAD at start).
+- phase_base_sha: ff951f24 (resolves).
+- Thai filter (PM rule 2026-11-09): first command, /tmp/opencode/p9r1-red/thai_filter.py, run with
+  python3 -I -B. It wrote filtered copies of the print plan, spec, test strategy, cover-quest.ts,
+  readers.ts, quest-cover-f3f6.test.ts, the 2 handoff captures, and the capture runner into
+  /tmp/opencode/p9r1-red/ and printed THAI_CHARS_IN_OUTPUT: 0. plan.md dropped 12 Thai lines,
+  readers.ts dropped 2. All later reads used the copies; every capture run went through
+  light_capture_2_9g.py (THAI_LINES_DROPPED=0 each time).
+
+## Steps
+
+1. git status --short: dirty paths classified. dashboard/__tests__/storytime-package-readalong-clips.test.ts
+   (other Red role, storytime_week_package_20261022 P13) and video/storytime-song/scripts/render.mjs
+   (banned file): preserved, not staged. All ?? entries under measure/runs/: generated captures of
+   other sessions, ignorable. pnpm-lock.yaml untouched (checked before and after).
+2. Read the filtered copies. Confirmed the defect shape at HEAD: leafFooterStrip grows the footer
+   box with questGrow(place, 2 * KEY_CLEARANCE_MM) and paints it white when leafMark is set
+   (cover-quest.ts lines 2940 on); readers.ts line 280 passes the mark for output workbook.
+3. Temporary probe dashboard/__tests__/zz-red-p9-r1-probe.test.ts rendered the 14 questReaders()
+   leaf covers with and without the mark at HEAD and printed hashes only
+   (capture /tmp/opencode/p9r1-red/probe-run.txt, EXIT 0). Deleted the probe before the commit.
+4. Wrote dashboard/__tests__/quest-cover-leafmark.test.ts (L1 to L6, boxes read from the inline
+   style left/top/width/height mm values of each data-part element; no Chrome session). Pins and
+   the frozen L6 bodies injected from the probe output; injected file has 0 Thai characters.
+5. RED run 1: EXIT 1; L1 and L3 failed as expected, but L2 failed on all 14 leaves with
+   "no white box holds the leaf-mark span". Cause: off-by-one in the holder test, the strip close
+   index equals the span end index when the span is the last child. Test-only fix: box.end >= spanEnd.
+6. RED run 2 (measure/runs/storytime_print_r1_20261025/p9-r1-red.txt): EXIT 1. L1 FAIL on 2 of 14
+   leaves (7:is-it-a-ball footer-strip 99.24 mm, 7:the-top footer-strip 114.24 mm), L2 PASS,
+   L3 FAIL (strip width 128.22/125.79 mm vs no-mark 84.44/79.58 mm, height 99.24/114.24 vs 7.72 mm,
+   no leaf-mark-box), L4 PASS, L5 PASS, L6 PASS. Tests 2 failed, 4 passed (6).
+7. Lint: measure/runs/storytime_print_r1_20261025/p9-r1-red-lint.txt, EXIT 0.
+8. Commit 825873f9: test(print): Phase 9 R1, the leaf mark box of the week 7 leaves
+   (storytime_print_r1) -- dashboard/__tests__/quest-cover-leafmark.test.ts only.
+9. plan.md: one exact-line insert under the Task (Hand-off from storytime_cover_options) header
+   (line 1366), anchored on the unique ASCII prefix of the Status line; no Thai line printed or
+   changed (12 Thai lines before and after). Commit b37cb61f, plan.md only.
+10. This log, committed last. /tmp/opencode/p9r1-red/ removed after the commit.
+
+## Handoff to Green R1 (a Claude model)
+
+- Implement D-P9-R1 in leafFooterStrip of dashboard/lib/storytime/print/cover-quest.ts: when
+  leafMark is set and the ring (questGrow(place, 2 * KEY_CLEARANCE_MM)) does not overlap the
+  footer box, keep the footer box at its own size and paint the ring as a separate
+  <div data-part="leaf-mark-box"> with background #FFFFFF holding the leaf-mark span (mark text
+  and mark place unchanged). When the ring overlaps the footer box, keep the joined box exactly
+  as now. Leaf covers with no leafMark keep their bytes.
+- Targeted run: cd dashboard and CI=true npx vitest run __tests__/quest-cover-leafmark.test.ts
+  --maxWorkers=1. After Green: L1, L2, L3, L4, L5, L6 all pass. L4 and L5 pin bytes, so the
+  weeks 1 to 6 joined-box path and all no-mark renders must keep their bytes.
+
+MEASURE_AGENT_RESULT
+- role: measure-mid-red (Red), track storytime_print_r1_20261025, Phase 9, remediation R1 (D-P9-R1)
+- baseline_sha: ff951f24
+- role_base_sha: 3908adc4774e5c26cec20dcb0e4159059bb2206d
+- head_before: 3908adc4774e5c26cec20dcb0e4159059bb2206d
+- head_after: b37cb61f
+- commits:
+  - 825873f9 test(print): Phase 9 R1, the leaf mark box of the week 7 leaves (storytime_print_r1)
+  - b37cb61f docs(measure): Phase 9 R1 Red line for D-P9-R1 in the print plan (storytime_print_r1)
+  - (this log commit follows and is recorded in the plan? no: this log is the last commit)
+- tests: dashboard/__tests__/quest-cover-leafmark.test.ts (L1 to L6), run
+  cd dashboard and CI=true npx vitest run __tests__/quest-cover-leafmark.test.ts --maxWorkers=1
+  through heavy-run.sh, capture measure/runs/storytime_print_r1_20261025/p9-r1-red.txt, exit 1
+- red_line: FAIL 2 (L1 on 7:is-it-a-ball footer-strip 99.24 mm and 7:the-top footer-strip
+  114.24 mm; L3 on both week 7 leaves: strip 128.22 x 99.24 mm and 125.79 x 114.24 mm vs no-mark
+  84.44 x 7.72 mm and 79.58 x 7.72 mm, no leaf-mark-box), PASS 4 (L2 on 14 leaves, L4 12 of 12,
+  L5 14 of 14, L6 control). ESLint exit 0 (p9-r1-red-lint.txt).
+- files_changed: dashboard/__tests__/quest-cover-leafmark.test.ts (new, committed),
+  measure/tracks/storytime_print_r1_20261025/plan.md (one line, committed),
+  measure/runs/storytime_print_r1_20261025/p9-r1-red.txt, p9-r1-red-lint.txt (captures),
+  this log. No production source changed.
+- remaining_failures: L1 fails on 7:is-it-a-ball and 7:the-top (99.24 mm and 114.24 mm white
+  footer-strip over the art); L3 fails on both week 7 leaves (strip grows, no leaf-mark-box).
+  These are the intended Red failures for Green R1.
+- notes: L2 needed one test-only parser fix (box.end >= spanEnd) between RED runs 1 and 2; both
+  runs are captured. The temporary probe test was deleted and never committed.
+END_MEASURE_AGENT_RESULT

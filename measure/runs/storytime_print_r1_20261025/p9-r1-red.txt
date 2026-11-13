@@ -1,0 +1,74 @@
+CAPTURE of P9 R1 RED quest-cover-leafmark (rerun after parser fix)
+COMMAND: HEAVY_PRIORITY=p2 /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c "cd dashboard && CI=true npx vitest run __tests__/quest-cover-leafmark.test.ts --maxWorkers=1"
+
+--- STDOUT ---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/quest-cover-leafmark.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 30[2mms[22m[39m
+[31m     [31m×[31m L1: every white box of the 14 marked leaf covers is 14.0 mm high or less[39m[32m 19[2mms[22m[39m
+     [32m✓[39m L2: the leaf-mark span exists once, holds the mark text, and lies inside a white box[32m 2[2mms[22m[39m
+[31m     [31m×[31m L3: on the week 7 leaves the strip keeps the no-mark size and the mark box exists[39m[32m 3[2mms[22m[39m
+     [32m✓[39m L4: the 12 week 1 to 6 marked bodies keep their role base bytes[32m 2[2mms[22m[39m
+     [32m✓[39m L5: the 14 no-mark bodies keep their role base bytes[32m 1[2mms[22m[39m
+     [32m✓[39m L6: control, the frozen week 7 bodies fail the L1 rule and the week 1 bodies pass it[32m 1[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 00:34:37
+[2m   Duration [22m 8.26s[2m (transform 515ms, setup 787ms, import 1.01s, tests 30ms, environment 5.90s)[22m
+
+--- STDERR ---
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-leafmark.test.ts[2m > [22mquest-cover-leafmark (Phase 9 R1, D-P9-R1)[2m > [22mL1: every white box of the 14 marked leaf covers is 14.0 mm high or less
+[31m[1mAssertionError[22m: 7:is-it-a-ball (Is It a Ball?) footer-strip height 99.24mm; 7:the-top (The Top) footer-strip height 114.24mm: expected [ …(2) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "7:is-it-a-ball (Is It a Ball?) footer-strip height 99.24mm",[39m
+[31m+   "7:the-top (The Top) footer-strip height 114.24mm",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-leafmark.test.ts:[2m216:37[22m[39m
+    [90m214| [39m            for (const violation of whiteBoxViolations(body)) bad.push…
+    [90m215| [39m        }
+    [90m216| [39m        [34mexpect[39m(bad[33m,[39m bad[33m.[39m[34mjoin[39m([32m'; '[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                    [31m^[39m
+    [90m217| [39m    })[33m;[39m
+    [90m218| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/quest-cover-leafmark.test.ts[2m > [22mquest-cover-leafmark (Phase 9 R1, D-P9-R1)[2m > [22mL3: on the week 7 leaves the strip keeps the no-mark size and the mark box exists
+[31m[1mAssertionError[22m: 7:is-it-a-ball: footer-strip width 128.22mm != no-mark 84.44mm; 7:is-it-a-ball: footer-strip height 99.24mm != no-mark 7.72mm; 7:is-it-a-ball: no leaf-mark-box; 7:the-top: footer-strip width 125.79mm != no-mark 79.58mm; 7:the-top: footer-strip height 114.24mm != no-mark 7.72mm; 7:the-top: no leaf-mark-box: expected [ …(6) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "7:is-it-a-ball: footer-strip width 128.22mm != no-mark 84.44mm",[39m
+[31m+   "7:is-it-a-ball: footer-strip height 99.24mm != no-mark 7.72mm",[39m
+[31m+   "7:is-it-a-ball: no leaf-mark-box",[39m
+[31m+   "7:the-top: footer-strip width 125.79mm != no-mark 79.58mm",[39m
+[31m+   "7:the-top: footer-strip height 114.24mm != no-mark 7.72mm",[39m
+[31m+   "7:the-top: no leaf-mark-box",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/quest-cover-leafmark.test.ts:[2m247:39[22m[39m
+    [90m245| [39m            if (boxesOf(body, ['leaf-mark-box']).length !== 1) errs.pu…
+    [90m246| [39m        }
+    [90m247| [39m        [34mexpect[39m(errs[33m,[39m errs[33m.[39m[34mjoin[39m([32m'; '[39m))[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m   | [39m                                      [31m^[39m
+    [90m248| [39m    })[33m;[39m
+    [90m249| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+THAI_LINES_DROPPED=0
+EXIT=1
