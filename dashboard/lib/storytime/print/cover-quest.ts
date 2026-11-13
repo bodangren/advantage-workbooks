@@ -2950,24 +2950,46 @@ function leafFooterStrip(reader: QuestReaderRow, bleedMm: number, placement: Que
         bottom: topMm + heightMm,
     };
     let markHtml = '';
+    let markBoxHtml = '';
     if (leafMark) {
         const place = leafMarkPlace(reader.picture.lineArtFileName, reader.title, reader.roleLabel);
         const ring = questGrow(place, 2 * KEY_CLEARANCE_MM);
-        box.left = Math.min(box.left, ring.left);
-        box.top = Math.min(box.top, ring.top);
-        box.right = Math.max(box.right, ring.right);
-        box.bottom = Math.max(box.bottom, ring.bottom);
-        markHtml =
-            `<span data-part="leaf-mark" style="position:absolute;left:${mm(place.left - box.left)};` +
-            `top:${mm(place.top - box.top)};width:${mm(place.right - place.left)};` +
+        // D-P9-R1: a ring in the footer band joins the footer box (one box, as before; the band is
+        // the vertical range of the box, because weeks 1 to 6 keep a gap beside the footer text and
+        // their bytes). A ring far above or below the band gets its own white box, so the strip
+        // never grows over the art.
+        const joined = Math.min(ring.bottom, box.bottom) - Math.max(ring.top, box.top) > 0;
+        const holder: QuestMmBox = joined
+            ? {
+                  left: Math.min(box.left, ring.left),
+                  top: Math.min(box.top, ring.top),
+                  right: Math.max(box.right, ring.right),
+                  bottom: Math.max(box.bottom, ring.bottom),
+              }
+            : ring;
+        const markSpan =
+            `<span data-part="leaf-mark" style="position:absolute;left:${mm(place.left - holder.left)};` +
+            `top:${mm(place.top - holder.top)};width:${mm(place.right - place.left)};` +
             `height:${mm(place.bottom - place.top)};font-size:5pt;line-height:${mm(place.bottom - place.top)};` +
             `white-space:nowrap;color:#000000;text-align:left">${esc(leafMark)}</span>`;
+        if (joined) {
+            box.left = holder.left;
+            box.top = holder.top;
+            box.right = holder.right;
+            box.bottom = holder.bottom;
+            markHtml = markSpan;
+        } else {
+            markBoxHtml =
+                `<div data-part="leaf-mark-box" style="position:absolute;left:${mm(ring.left + bleedMm)};` +
+                `top:${mm(ring.top + bleedMm)};width:${mm(ring.right - ring.left)};height:${mm(ring.bottom - ring.top)};` +
+                `background-color:#FFFFFF">${markSpan}</div>`;
+        }
     }
     return (
         `<div data-part="footer-strip" style="position:absolute;left:${mm(box.left + bleedMm)};` +
         `top:${mm(box.top + bleedMm)};width:${mm(box.right - box.left)};height:${mm(box.bottom - box.top)};` +
         `background-color:#FFFFFF;font-size:9pt;line-height:${mm(LEAF_FOOTER_HEIGHT_MM)};color:#000000">` +
-        `${markHtml}</div>`
+        `${markHtml}</div>${markBoxHtml}`
     );
 }
 
