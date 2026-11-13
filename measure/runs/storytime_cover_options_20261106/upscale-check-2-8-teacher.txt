@@ -1,0 +1,38 @@
+CAPTURE of Task 2.8, the upscale check of the teacher front (real run and 2 mutants)
+COMMAND: echo "REAL: the teacher front in content/storytime/l2/print/pictures" ; node measure/tracks/storytime_cover_options_20261106/options/upscale_check.mjs --dir content/storytime/l2/print/pictures --out l2-u1-cover-quest-teacher-front-v1-300ppi.png --source l2-u1-cover-quest-teacher-front-v1.png --side teacher-front --real ; echo "REAL_EXIT=$?" ; echo "MUTANT 1: the teacher front at 2480 x 3507 px (one pixel short)" ; node measure/tracks/storytime_cover_options_20261106/options/upscale_check.mjs --dir /tmp/opencode/t28/upmut1 --out l2-u1-cover-quest-teacher-front-v1-300ppi.png --source l2-u1-cover-quest-teacher-front-v1.png --side teacher-front ; echo "M1_EXIT=$?" ; echo "MUTANT 2: the teacher front checked against the back art as the source" ; node measure/tracks/storytime_cover_options_20261106/options/upscale_check.mjs --dir /tmp/opencode/t28/upmut2 --out l2-u1-cover-quest-teacher-front-v1-300ppi.png --source l2-u1-cover-quest-back-v1.jpg --side teacher-front ; echo "M2_EXIT=$?"
+
+--- STDOUT ---
+REAL: the teacher front in content/storytime/l2/print/pictures
+PASS size: 2480 x 3508
+PASS format: png
+PASS no alpha: hasAlpha=false
+PASS 3 channels: 3 channels
+PASS mean difference at most 3 of 255: 0.000
+PASS name of spec D-A8: l2-u1-cover-quest-teacher-front-v1-300ppi.png
+PASS file in the print pictures folder: /home/daniebo/Desktop/Workbooks/content/storytime/l2/print/pictures
+PASS git ignores the file: git check-ignore exit 0
+checks=8 failures=0
+REAL_EXIT=0
+MUTANT 1: the teacher front at 2480 x 3507 px (one pixel short)
+FAIL size: 2480 x 3507
+PASS format: png
+PASS no alpha: hasAlpha=false
+PASS 3 channels: 3 channels
+PASS mean difference at most 3 of 255: 2.791
+PASS name of spec D-A8: l2-u1-cover-quest-teacher-front-v1-300ppi.png
+checks=6 failures=1
+M1_EXIT=1
+MUTANT 2: the teacher front checked against the back art as the source
+PASS size: 2480 x 3508
+PASS format: png
+PASS no alpha: hasAlpha=false
+PASS 3 channels: 3 channels
+FAIL mean difference at most 3 of 255: 72.862
+PASS name of spec D-A8: l2-u1-cover-quest-teacher-front-v1-300ppi.png
+checks=6 failures=1
+M2_EXIT=1
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

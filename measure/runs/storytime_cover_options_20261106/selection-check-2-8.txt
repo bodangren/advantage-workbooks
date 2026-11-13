@@ -1,0 +1,28 @@
+CAPTURE of Task 2.8, the check of options/selection-final.json
+COMMAND: python3 -I /tmp/opencode/t28/check-selection.py ; echo "SELECTION_CHECK_EXIT=$?" ; echo "NUMSTAT of the pair" ; git diff --numstat -- measure/tracks/storytime_cover_options_20261106/options/selection-final.json measure/runs/storytime_cover_options_20261106/prep-teacher-front-2-8.mjs
+
+--- STDOUT ---
+JSON_PARSES true
+PICTURES_COUNT 3
+PICTURES_KEYS ['Q-front', 'Q-teacher', 'back']
+ENTRY_BYTE_EQUAL Q-front true
+ENTRY_BYTE_EQUAL back true
+FILE content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1-300ppi.png
+FALLBACK not used (the Forge try m6 passed)
+FORGE_SOURCE_PATH /home/daniebo/Desktop/handoff/storytime-cover-teacher-front-forge/l2-u1-cover-quest-teacher-front-forge-v1.png
+FORGE_SOURCE_SHA256 c91719903d3803bc02498f8e097528c9a64ddae263102ebf28d06d8d37f11a53
+ATTEMPTS_KEYS ['a1', 'a2', 'a3', 'forge-m6']
+FAULTS []
+LOCAL_FIX_UNCHANGED true
+RESULT pass (Forge route, try m6; orchestrator look 2026-11-13)
+A1_A2_A3_UNCHANGED true
+LOOK_TEXT_WORD_FOR_WORD true
+THAI_CHARS 0
+SELECTION_CHECK_EXIT=0
+NUMSTAT of the pair
+12	9	measure/tracks/storytime_cover_options_20261106/options/selection-final.json
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

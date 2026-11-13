@@ -1,0 +1,13 @@
+CAPTURE of Task 2.8, the D-T28-2 hard link of the Forge teacher front
+COMMAND: ln /home/daniebo/Desktop/handoff/storytime-cover-teacher-front-forge/l2-u1-cover-quest-teacher-front-forge-v1.png content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1.png ; stat -c 'D_T28_2_LINK_INODE %i LINKS %h BYTES %s FILE %n' content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1.png ; stat -c 'FORGE_FILE_INODE %i LINKS %h BYTES %s FILE %n' /home/daniebo/Desktop/handoff/storytime-cover-teacher-front-forge/l2-u1-cover-quest-teacher-front-forge-v1.png ; sha256sum content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1.png /home/daniebo/Desktop/handoff/storytime-cover-teacher-front-forge/l2-u1-cover-quest-teacher-front-forge-v1.png
+
+--- STDOUT ---
+D_T28_2_LINK_INODE 14332129 LINKS 3 BYTES 17794058 FILE content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1.png
+FORGE_FILE_INODE 14332129 LINKS 3 BYTES 17794058 FILE /home/daniebo/Desktop/handoff/storytime-cover-teacher-front-forge/l2-u1-cover-quest-teacher-front-forge-v1.png
+c91719903d3803bc02498f8e097528c9a64ddae263102ebf28d06d8d37f11a53  content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1.png
+c91719903d3803bc02498f8e097528c9a64ddae263102ebf28d06d8d37f11a53  /home/daniebo/Desktop/handoff/storytime-cover-teacher-front-forge/l2-u1-cover-quest-teacher-front-forge-v1.png
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0

@@ -1,0 +1,30 @@
+CAPTURE of Task 2.8, the spend log check (D-T28-1) and the MANIFEST proof
+COMMAND: echo "SPEND CHECK of ~/Desktop/print-ready/storytime/covers-quest-v1/spend-log.md" ; python3 -I measure/tracks/storytime_cover_options_20261106/options/spend_check.py ; echo "SPEND_EXIT=$?" ; echo "MANIFEST: the spend-log.md line of the current MANIFEST" ; grep -n spend-log /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt ; echo "MANIFEST_SHA256" ; sha256sum /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt ; echo "MANIFEST_CHECK (only the failing files are named)" ; cd /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1 ; awk "{print \$1\"  \"\$3}" MANIFEST.txt | sha256sum -c --quiet ; echo "MANIFEST_EXIT=$?" ; echo "MANIFEST_OK_COUNT" ; awk "{print \$1\"  \"\$3}" MANIFEST.txt | sha256sum -c | grep -c ": OK"
+
+--- STDOUT ---
+SPEND CHECK of ~/Desktop/print-ready/storytime/covers-quest-v1/spend-log.md
+PASS six_fields_ok: rows=7, rows_with_a_missing_field=0
+PASS phase2_equals_row_sum: rows_units=245, stated_phase2_units=245
+PASS phase2_at_most_9335: phase2_units=245, limit=9335
+PASS track_equals_665_plus_phase2: track_units=910, expected=910
+PASS track_at_most_10000: track_units=910, limit=10000
+PASS at_least_2_rows: rows=7
+PASS attempts_1_to_3: rows_outside_1_to_3=0
+PASS id_ok: id_ok=True (1 recorded exception: row 4 probe)
+PASS saved_files_exist: saved_rows_without_a_file=0
+rows=7 checks=8 failures=0
+EXIT=0
+SPEND_EXIT=0
+MANIFEST: the spend-log.md line of the current MANIFEST
+69:ca5cbc85975a14c7a709fcbcd9bd5da6bef5dec524753337a92e83d1cf367028  2152  spend-log.md
+MANIFEST_SHA256
+8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87  /home/daniebo/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt
+MANIFEST_CHECK (only the failing files are named)
+MANIFEST_EXIT=0
+MANIFEST_OK_COUNT
+133
+
+--- STDERR ---
+
+THAI_LINES_DROPPED=0
+EXIT=0
