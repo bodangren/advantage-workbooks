@@ -1,6 +1,6 @@
 # Spec: Storytime cover options in the RPG-theme style
 
-Track: `storytime_cover_options_20261106`. Type: chore (classic FR list). Created: 2026-11-06. Owner: Daniel Bo. Status: Daniel picked option A on 2026-11-07 (Phase 1). Phase 2 (the option A covers) is planned. The independent spec review passed on 2026-11-07 (findings F1 to F6 answered). Amendment 2 (2026-11-13, PM look): fix round F9, D-F9-1 to D-F9-10.
+Track: `storytime_cover_options_20261106`. Type: chore (classic FR list). Created: 2026-11-06. Owner: Daniel Bo. Status: Daniel picked option A on 2026-11-07 (Phase 1). Phase 2 (the option A covers) is planned. The independent spec review passed on 2026-11-07 (findings F1 to F6 answered). Amendment 2 (2026-11-13, PM look): fix round F9, D-F9-1 to D-F9-10 (cancelled 2026-11-13; Daniel approved the covers).
 
 ## Owner order
 
@@ -228,7 +228,9 @@ The frame is the same on every book. Only the per-book parts of FR-7 change.
 - AC-11: The 11-16 folder holds the files of FR-11.6, and its `MANIFEST.txt` passes `sha256sum -c`.
 - AC-12 (owner-approved): Daniel approves the option A covers, or asks for a change. The task stays open until his word.
 
-### Fix round F9 (Amendment 2, 2026-11-13)
+### Fix round F9 (Amendment 2, 2026-11-13) (CANCELLED 2026-11-13)
+
+**CANCELLED 2026-11-13.** Daniel passed the covers (Google Tasks LW5mMW9WbFJvNTR1OUNKVQ, 2026-11-13 11:41, PM relay, verbatim): "They all look fine at 12:40. Teacher gave is not cut." The PM then cancelled this fix round and ordered no cover change. Fault 1 was a PM error, because the PM crop of the contact sheet cut the Paint! tile. D-F9-1 to D-F9-10 and the open points Q8 to Q12 do not apply. The cover set of MANIFEST 8f1901a3 is the accepted set. The text below stays as the record.
 
 The PM look of the A3 and leaf contact sheets passed F7 (no white band) and the rule "no logo on a front". It found 5 faults and kept one point. This round fixes the faults by crop, layout, and data only. It makes no paid call.
 
