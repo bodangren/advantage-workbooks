@@ -101,6 +101,14 @@ const KEYS_PER_BOOK: Record<number, number[]> = {
 };
 const FILES_PER_WEEK: Record<number, number> = { 1: 22, 2: 23, 3: 20, 4: 24, 5: 28, 6: 22, 7: 24 };
 
+/** The keys of the three practice lists of week 1, sorted by code point (Phase 12, spec L3, hand-written from the Facts section). */
+const W01_OPENING = ['fan', 'hen', 'nest', 'net', 'nose', 'nut', 'pen', 'sun'];
+const W01_FAMILY = ['boy', 'friend', 'girl', 'goodbye', 'hello', 'teacher'];
+const W01_TRICKY = ['a', 'and', 'can'];
+
+/** The 30 distinct keys of week 1: the two books and the three practice lists, sorted (Phase 12, spec L5). */
+const W01_UNION = [...new Set([...W01_BOOK0, ...W01_BOOK1, ...W01_OPENING, ...W01_FAMILY, ...W01_TRICKY])].sort();
+
 /** The 12 keys of week 1 that have no bank row, sorted. */
 const W01_MISSING = ['a', 'and', 'ben', 'can', 'i', 'may', 'mia', 'neck', 'nod', 'nurse', 'pip', 'your'];
 
@@ -332,9 +340,10 @@ function shippedText(week: number): string {
 }
 
 /**
- * The week text without its `wordClips` blocks, and without the comma that the block added to the line
- * before it. Every case that copies a shipped week file starts here, so that the case stays valid after
- * the Clips tasks add those blocks.
+ * The week text without its clip blocks (`wordClips`, `trickyWordClips`, and `sentenceClips`), and
+ * without the comma that a block added to the line before it. Every case that copies a shipped week
+ * file starts here, so that the case stays valid after the Clips tasks add those blocks (Phase 11 and
+ * Phase 12, spec L3, L7, and L17).
  * @param text The text of the shipped week file.
  * @returns The text of the start file.
  */
@@ -342,14 +351,16 @@ function withoutWordClips(text: string): string {
     const out: string[] = [];
     const lines = text.split('\n');
     for (let index = 0; index < lines.length; index += 1) {
-        const open = lines[index].match(/^(\s*)"wordClips": \{$/);
+        const open = lines[index].match(/^(\s*)"(wordClips|trickyWordClips|sentenceClips)": ([{[])$/);
         if (!open) {
             out.push(lines[index]);
             continue;
         }
+        const close = `${open[1]}${open[3] === '{' ? '}' : ']'}`;
+        while (index < lines.length && lines[index].trimEnd().replace(/,$/, '') !== close) index += 1;
+        const hadComma = lines[index]?.trimEnd().endsWith(',') ?? false;
         const previous = out[out.length - 1];
-        if (previous !== undefined && previous.endsWith(',')) out[out.length - 1] = previous.slice(0, -1);
-        while (index < lines.length && lines[index] !== `${open[1]}}`) index += 1;
+        if (!hadComma && previous !== undefined && previous.endsWith(',')) out[out.length - 1] = previous.slice(0, -1);
     }
     return out.join('\n');
 }
@@ -877,14 +888,15 @@ function bankRow(n: number, word: string, sha: string): WordBankRow {
 }
 
 /**
- * The tree of the mapper: the start file of week 1, and a bank of 22 rows with a WAV file and an mp3
- * file of each. The mp3 bytes are fake and differ by word, because the mapper never makes audio.
+ * The tree of the mapper: the start file of week 1, and a bank of 30 rows (the two books and the three
+ * practice lists, Phase 12 spec L5) with a WAV file and an mp3 file of each. The mp3 bytes are fake and
+ * differ by word, because the mapper never makes audio.
  * @returns The tree.
  */
 function mapperTree(): WordTree {
     const tree = baseTree('storytime-clips-map-');
     fs.mkdirSync(tree.bankFolder, { recursive: true });
-    const keys = [...new Set([...W01_BOOK0, ...W01_BOOK1])].sort();
+    const keys = W01_UNION;
     const items = keys.map((key, index) => {
         const wav = wavBuffer(takeSamples(1000 + index, false));
         fs.writeFileSync(path.join(tree.bankFolder, `wa-${key}.wav`), wav);
@@ -1375,8 +1387,24 @@ function blockLines(keys: string[]): string[] {
     ];
 }
 
-describe('C6 the mapper on a copy of w01 (K3, K4, K5)', () => {
-    it('writes the two maps, copies 22 clips, removes a stale clip, and changes only the closing lines (27 added, 2 changed)', async () => {
+/**
+ * The expected lines of one map block of week 1 at any indent, as the mapper writes them (Phase 12, L17).
+ * @param indent The indent of the key of the block.
+ * @param name The key of the block.
+ * @param keys The sorted keys of the map.
+ * @returns The lines from the opening line to the closing brace.
+ */
+function mapBlockLines(indent: string, name: string, keys: string[]): string[] {
+    const map = w01Map(keys);
+    return [
+        `${indent}"${name}": {`,
+        ...keys.map((key, index) => `${indent}  ${JSON.stringify(key)}: ${JSON.stringify(map[key])}${index < keys.length - 1 ? ',' : ''}`),
+        `${indent}}`,
+    ];
+}
+
+describe('C6 the mapper on a copy of w01 (K3, K4, K5, Phase 12 L3 to L5)', () => {
+    it('writes the five maps, copies 30 clips, removes a stale clip, and changes only the closing lines (50 added, 5 changed)', async () => {
         const setWordClips = await mapper('setWordClips');
         const tree = mapperTree();
         const wordsFolder = path.join(tree.contentRoot, 'l2/media/w01/words');
@@ -1388,14 +1416,13 @@ describe('C6 the mapper on a copy of w01 (K3, K4, K5)', () => {
         const run = await attempt(() => setWordClips({ weekFile: tree.weekFile, contentRoot: tree.contentRoot, bankFolder: tree.bankFolder }));
         expect(run.error?.message, 'the mapper runs').toBeUndefined();
         const result = run.value as SetWordClipsResult;
-        expect(result.keys, 'the key slots: 12 + 11').toBe(23);
-        expect(result.files, 'the distinct clip files').toBe(22);
+        expect(result.files, 'the distinct clip files: the union of the books and the three practice lists').toBe(30);
         expect(result.removed).toHaveLength(1);
         expect(result.removed[0].endsWith('wa-zebra.mp3')).toBe(true);
         expect(result.lines.some((line) => line.startsWith('removed ') && line.includes('wa-zebra.mp3')), 'a line "removed <path>"').toBe(true);
 
-        const expectedFiles = [...new Set([...W01_BOOK0, ...W01_BOOK1])].map((key) => `wa-${key}.mp3`).sort();
-        expect(fs.readdirSync(wordsFolder).filter((name) => /^wa-.*\.mp3$/.test(name)).sort(), 'the 22 clips of the week, and no stale clip').toEqual(expectedFiles);
+        const expectedFiles = W01_UNION.map((key) => `wa-${key}.mp3`).sort();
+        expect(fs.readdirSync(wordsFolder).filter((name) => /^wa-.*\.mp3$/.test(name)).sort(), 'the 30 clips of the week, and no stale clip').toEqual(expectedFiles);
         expect(fs.existsSync(path.join(wordsFolder, 'notes.txt')), 'a file that is not a clip stays').toBe(true);
         for (const name of expectedFiles) {
             expect(fileHash(path.join(wordsFolder, name)), `${name} equals its bank mp3`).toBe(fileHash(path.join(tree.bankFolder, name)));
@@ -1408,12 +1435,21 @@ describe('C6 the mapper on a copy of w01 (K3, K4, K5)', () => {
         expect(() => StorytimeWeekSchema.parse(week), 'the new week parses').not.toThrow();
 
         const diff = insertionDiff(before.split('\n'), after.split('\n'));
-        expect(diff.changed, 'the two closing lines of slowSentences gain a comma').toEqual([
+        expect(diff.changed, 'the closing line before each block gains a comma: family words, wordWall, opening audio, and the two slowSentences').toEqual([
+            ['      ]', '      ],'],
+            ['    "wordWall": []', '    "wordWall": [],'],
+            ['    ]', '    ],'],
             ['        ]', '        ],'],
             ['        ]', '        ],'],
         ]);
-        expect(diff.added).toHaveLength(27);
-        expect(diff.added).toEqual([...blockLines(W01_BOOK0), ...blockLines(W01_BOOK1)]);
+        expect(diff.added).toHaveLength(50);
+        expect(diff.added, 'the blocks in document order: family, tricky, opening, book 0, book 1').toEqual([
+            ...mapBlockLines('      ', 'wordClips', W01_FAMILY),
+            ...mapBlockLines('    ', 'trickyWordClips', W01_TRICKY),
+            ...mapBlockLines('    ', 'wordClips', W01_OPENING),
+            ...blockLines(W01_BOOK0),
+            ...blockLines(W01_BOOK1),
+        ]);
     }, 60_000);
 
     it('changes no byte and no modification time on a second run', async () => {
@@ -1428,8 +1464,7 @@ describe('C6 the mapper on a copy of w01 (K3, K4, K5)', () => {
         const second = await attempt(() => setWordClips(options));
         expect(second.error?.message, 'the second run').toBeUndefined();
         expect(second.value?.removed).toEqual([]);
-        expect(second.value?.keys).toBe(23);
-        expect(second.value?.files).toBe(22);
+        expect(second.value?.files).toBe(30);
         expect(treeHashes(tree.contentRoot), 'no byte changes').toEqual(hashes);
         expect(treeStamps(tree.contentRoot), 'no modification time changes').toEqual(stamps);
     }, 60_000);
@@ -1450,7 +1485,7 @@ describe('C6 the mapper on a copy of w01 (K3, K4, K5)', () => {
         expect(Object.keys(week.books[0].audio.wordClips)).toEqual(W01_BOOK0.filter((key) => key !== 'pat'));
         expect(week.books[1].audio.wordClips).toEqual(w01Map(W01_BOOK1));
         expect(second.value?.removed.map((file) => path.basename(file))).toEqual(['wa-pat.mp3']);
-        expect(second.value?.files).toBe(21);
+        expect(second.value?.files).toBe(29);
     }, 60_000);
 });
 
@@ -1573,25 +1608,27 @@ describe('C7b the mapper checks the week structure before any write (K4, K5, FR 
     }
 });
 
-describe('C8 the mapper --check (FR 4)', () => {
-    it('prints 23 tab lines for the copy of w01 and writes nothing', async () => {
+describe('C8 the mapper --check (FR 4, Phase 12 L3 to L5)', () => {
+    it('prints 40 tab lines for the copy of w01 (23 book keys and 17 practice keys) and writes nothing', async () => {
         const setWordClips = await mapper('setWordClips');
         const tree = mapperTree();
         const hashes = treeHashes(tree.folder);
         const run = await attempt(() => setWordClips({ weekFile: tree.weekFile, contentRoot: tree.contentRoot, bankFolder: tree.bankFolder, check: true }));
         expect(run.error?.message, 'the check runs').toBeUndefined();
         const lines = (run.value as SetWordClipsResult).lines;
-        expect(lines).toHaveLength(23);
+        expect(lines).toHaveLength(40);
         const fields = lines.map((line) => line.split('\t'));
         for (const row of fields) expect(row, row.join(' | ')).toHaveLength(4);
-        expect(fields.map((row) => row[0])).toEqual([...W01_BOOK0.map(() => '0'), ...W01_BOOK1.map(() => '1')]);
-        expect(fields.map((row) => row[1])).toEqual([...W01_BOOK0, ...W01_BOOK1]);
-        expect(fields.map((row) => row[2])).toEqual([...W01_BOOK0, ...W01_BOOK1].map((key) => `wa-${key}`));
+        const bookRows = fields.filter((row) => row[0] === '0' || row[0] === '1');
+        expect(bookRows.map((row) => row[0]), 'the lines of the two books keep the book index').toEqual([...W01_BOOK0.map(() => '0'), ...W01_BOOK1.map(() => '1')]);
+        expect(bookRows.map((row) => row[1])).toEqual([...W01_BOOK0, ...W01_BOOK1]);
+        expect(bookRows.map((row) => row[2])).toEqual([...W01_BOOK0, ...W01_BOOK1].map((key) => `wa-${key}`));
+        expect(fields.map((row) => row[1]).sort(), 'one line for each key of each map').toEqual([...W01_BOOK0, ...W01_BOOK1, ...W01_OPENING, ...W01_FAMILY, ...W01_TRICKY].sort());
         expect(fields.every((row) => row[3] === 'ok')).toBe(true);
         expect(treeHashes(tree.folder), 'the check writes nothing').toEqual(hashes);
     }, 60_000);
 
-    it('prints 12 "no bank row" lines when 12 bank rows are absent, and writes nothing', async () => {
+    it('prints 15 "no bank row" lines when 12 bank rows are absent (a, and, and can also sit in the tricky map), and writes nothing', async () => {
         const setWordClips = await mapper('setWordClips');
         const tree = mapperTree();
         for (const key of W01_MISSING) removeBankRow(tree, key);
@@ -1599,9 +1636,9 @@ describe('C8 the mapper --check (FR 4)', () => {
         const run = await attempt(() => setWordClips({ weekFile: tree.weekFile, contentRoot: tree.contentRoot, bankFolder: tree.bankFolder, check: true }));
         expect(run.error?.message, 'the check runs').toBeUndefined();
         const fields = (run.value as SetWordClipsResult).lines.map((line) => line.split('\t'));
-        expect(fields).toHaveLength(23);
-        expect(fields.filter((row) => row[3].includes('no bank row')), 'the lines of the 12 absent rows').toHaveLength(12);
-        expect(fields.filter((row) => row[3] === 'ok'), 'the other lines').toHaveLength(11);
+        expect(fields).toHaveLength(40);
+        expect(fields.filter((row) => row[3].includes('no bank row')), 'the 12 book lines and the 3 tricky lines of the absent rows').toHaveLength(15);
+        expect(fields.filter((row) => row[3] === 'ok'), 'the other lines').toHaveLength(25);
         expect(treeHashes(tree.folder), 'the check writes nothing').toEqual(hashes);
     }, 60_000);
 
@@ -1612,7 +1649,7 @@ describe('C8 the mapper --check (FR 4)', () => {
         const stamps = { week: treeStamps(path.dirname(week)), bank: treeStamps(bank) };
         const run = await captureOutput(() => main(['--level', '2', '--week', '1', '--check']));
         const rows = run.out.map((line) => line.split('\t')).filter((row) => row.length === 4);
-        expect(rows, 'one line for each key slot').toHaveLength(23);
+        expect(rows, 'one line for each key slot: 23 book keys and 17 practice keys').toHaveLength(40);
         expect(run.value).toBe(rows.every((row) => row[3] === 'ok') ? 0 : 1);
         expect({ week: treeStamps(path.dirname(week)), bank: treeStamps(bank) }, 'the check writes nothing').toEqual(stamps);
     }, 60_000);

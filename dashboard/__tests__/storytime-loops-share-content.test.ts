@@ -121,7 +121,9 @@ function sortKeys(value: unknown): unknown {
  * `books[].cover.file`, and `books[].pages[].image.file`) and `scripts[].share`. It also removes the two
  * Phase 11 fields, `books[].audio.wordClips` and `song.videoLeadInSeconds` (spec K15), as `withoutNewFields`
  * of `storytime-loops-content.test.ts` does: a clips commit adds them after the baseline commit, so the
- * additive compare must ignore them. Both sides of the compare go through this function.
+ * additive compare must ignore them. It also removes the four Phase 12 fields, `opening.wordClips`,
+ * `focus.family.wordClips`, `focus.trickyWordClips`, and `books[].audio.sentenceClips` (spec L3 and L7).
+ * Both sides of the compare go through this function.
  * The allow-list has no other key.
  */
 function withoutAllowList(week: Raw): Raw {
@@ -133,8 +135,14 @@ function withoutAllowList(week: Raw): Raw {
     for (const book of copy.books ?? []) {
         delete book.cover?.file;
         delete book.audio?.wordClips;
+        // The sentence clips of the decodable books are Phase 12 media (Phase 12, L7).
+        delete book.audio?.sentenceClips;
         for (const page of book.pages ?? []) delete page.image?.file;
     }
+    // The word clips of the opening words, the family words, and the tricky words are Phase 12 media (Phase 12, L3).
+    delete copy.opening?.wordClips;
+    delete copy.focus?.family?.wordClips;
+    delete copy.focus?.trickyWordClips;
     delete copy.song?.videoLeadInSeconds;
     if (copy.approval) {
         delete copy.approval.loops;

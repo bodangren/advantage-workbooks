@@ -404,12 +404,18 @@ function withoutNewFields(week: Raw, dropTh = false): Raw {
         delete book.questions;
         // The app word clips of the book words are Phase 11 media, not loops content (Phase 11, K15).
         delete book.audio?.wordClips;
+        // The sentence clips of the decodable books are Phase 12 media, not loops content (Phase 12, L7).
+        delete book.audio?.sentenceClips;
         // The app picture paths of the book covers and pages are media paths, not loops content.
         delete book.cover?.file;
         for (const page of book.pages ?? []) delete page.image?.file;
     }
     // The app picture paths of the family words are media paths, not loops content (Phase 10, E8).
     for (const word of copy.focus?.family?.words ?? []) delete word.image?.file;
+    // The word clips of the opening words, the family words, and the tricky words are Phase 12 media (Phase 12, L3).
+    delete copy.opening?.wordClips;
+    delete copy.focus?.family?.wordClips;
+    delete copy.focus?.trickyWordClips;
     if (copy.approval) {
         delete copy.approval.loops;
         delete copy.approval.print;
