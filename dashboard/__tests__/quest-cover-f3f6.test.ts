@@ -59,8 +59,8 @@
  *   D7 (F6): page 12 holds no "Storytime Advantage" text and no `.reader-series` line. It keeps the
  *       heading "Words in this book", the word row, one logo tile with one image, and the footer.
  *   D8 (keep): the default (banner) renders keep their bytes (SHA-256 at the role base). Changed
- *   2026-11-13 (F10, D-F10-10b): the 2 hlogo fronts leave the byte pin, because D-F10-2 changes them
- *   by design. The 32 default renders stay pinned. G4 of
+ *   2026-11-13 (F10): the 2 hlogo fronts leave the byte pin, because D-F10-2 changes them
+ *   by design (D-F10-10b). The 32 default renders stay pinned. G4 of
  *   `quest-cover-f1f2.test.ts` pins the 2 hlogo book backs.
  *
  * Q1 (the default of this file, the PM can overrule it): on w01 Nan Can Nod A3 no art position
@@ -1545,7 +1545,7 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
         expect(problems, problems.join('\n')).toEqual([]);
     }, 120_000);
 
-    // changed 2026-11-13 (F10, D-F10-10b): the 2 hlogo fronts leave the byte pin.
+    // changed 2026-11-13 (F10): the 2 hlogo fronts leave the byte pin (D-F10-10b).
     it('D8: the 32 default renders keep their bytes, and the 2 hlogo fronts leave the byte pin', () => {
         const book = bookRow();
         const renders: [string, string][] = [];
@@ -1566,8 +1566,8 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
                     defaultKeys(spec, keys).every((key) => overlap(grow(key.box, CLEARANCE_MM), { left: value[0], top: value[1], right: value[2], bottom: value[3] }) === null),
                 );
             console.log(`D8 ${spec.id}: the default place is ${free ? 'free' : 'not free'}.`);
-            // changed 2026-11-13 (F10, D-F10-10b): the 2 hlogo fronts leave the byte pin, because
-            // D-F10-2 changes them by design. The 32 default renders stay pinned, byte for byte.
+            // changed 2026-11-13 (F10): the 2 hlogo fronts leave the byte pin, because D-F10-2
+            // changes them by design (D-F10-10b). The 32 default renders stay pinned, byte for byte.
         }
         const problems: string[] = [];
         for (const [id, html] of renders) {
