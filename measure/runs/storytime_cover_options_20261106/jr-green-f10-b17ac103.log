@@ -1,28 +1,39 @@
-Task (Green, F10), track storytime_cover_options_20261106, Phase 2. Model claude-opus-5-5 (Anthropic).
+Task (Green, F10), track storytime_cover_options_20261106, Phase 2. Model claude-code/claude-opus-5-5 (Anthropic).
 
 Step log (2026-11-13, ICT)
-- 20:00 Read the task line, the spec section F10, and the Red evidence. git status: no change in an allowed path.
-- 20:01 Marked the task [~] (3d3fe891, plan.md only).
-- 20:04 Step 1: repeated M-F10-1 to M-F10-13 (measure-f10-green.sh, capture green-f10.txt, commit c005fea2). Every value equals the spec value. One path differs from the brief: quest.json is content/storytime/covers/quest.json. The folder covers-quest-v1-books-r6 is absent. The accepted MANIFEST.txt gives 8f1901a3... with 133 lines.
-- 20:05 Step 2: wrote frontTitlePlate (the box of series-banner, the amber plaque with the diamond ends, "Storytime" at 17.5 mm and "Advantage" at 10.5 mm on 2 centred lines) and one call in frontBody for hlogo.
-- 20:06 Debug run 1 on quest-cover-f10.test.ts (heavy-run, green-f10-debug-1.txt): Tests 1 failed | 8 passed (9). T4 fails with "the ink centre is 99.07 mm and the plate centre is 105.00 mm". T4 reports no other problem: the ink share and the lines inside the band pass.
-- 20:08 Cause: inkBlock (quest-cover-f10.test.ts line 737) returns left = line 1 left and right = line 2 right. The 2 centred lines have the widths 75.0 mm and 51.3 mm (advance table), so the box centre is 105 + (51.3 - 75.0) / 4 = 99.07 mm. The real ink block is centred. T4 contradicts D-F10-2. Stopped. Saved the draft as green-f10-wip.patch and restored cover-quest.ts (git status clean for the file). Commit 55c32708.
-- 20:09 Recorded the PM answers to Q13 and Q14 in spec.md and the block note in plan.md (a043b039).
-- No gate A, no gate B, no build, no output folder. pnpm-lock.yaml unchanged. Scratch /tmp/opencode/p2f10/ kept for the retry.
+- 20:00 Read the task line, the spec section F10, and the Red evidence. Marked the task [~] (3d3fe891).
+- 20:04 Step 1: repeated M-F10-1 to M-F10-13 (green-f10.txt, c005fea2). Every value repeats. quest.json is at content/storytime/covers/quest.json.
+- 20:06 Debug run 1: Tests 1 failed | 8 passed (9). T4 read the ink centre at 99.07 mm (inkBlock line 737 took the left edge of line 1 and the right edge of line 2). Stopped, kept the draft as green-f10-wip.patch, restored cover-quest.ts (55c32708). Block note and the PM answers to Q13 and Q14 (a043b039), blocked log (aa6fb702).
+- Red retry R1 (75c4397e) by the Red role: the ink box spans the widest line.
+- 20:12 Guard fix: Task (Green, F3 to F6) line ends with its SHA 74ef6e4 (895331b5). Applied the patch.
+- Debug run 2: Tests 9 passed (9) (c201ae04). Moved pins: Tests 24 passed (24) (a9dd4dcd).
+- Gate A half 1: Tests 133 passed (133) (e7bf9734). Gate A half 2: Tests 257 passed (257) (dbd42a08).
+- Gate B: exit 1, Tests 3 failed | 1667 passed (1670), 3 timeouts of 5000 ms (9ad1d012). The 3 files alone: Tests 49 passed (49), exit 0 (31cad937). The command held --maxWorkers=1; load average about 5.
+- PROJECT_LINT exit 0, 0 errors, 1 warning (11cffcbc). PROJECT_CHECKS exit 0, 0 FAIL rows, 0 tsc errors (3224dab1).
+- Code commit d36a42a1 (cover-quest.ts only, files 1, outside 0).
+- Step 4: 31 staged pictures, SHA pairs 9087de28, 881e93b2, 09014118 equal (b6baa8d3). Accepted folder before: 8f1901a3, 133 OK (0d0089e8).
+- Step 5: build, 32 pages, 44 files, 4 lines "All checks pass." (3e07c322).
+- Step 6: copy of the 10 book files, 10 SHA pairs equal, backs equal r5 (ae4aaae7).
+- Step 7: contact sheet, 4 whole tiles (14367f95); run 2 with the heading clear of the tiles (5f96630c).
+- Step 8: print gates, 20 PASS lines, SUMMARY FAIL_LINES=0 (2b15a26c).
+- Steps 9 and 10: r6 MANIFEST.txt a7f9b91c, 11 of 11 OK; accepted folder after 8f1901a3, 133 OK (9461411a).
+- Step 12: look of the 2 fronts in look-phase2.md, both pass (757256e0). Step 11: guard G-1, 24 commits, 0 outside (8deb245e).
+- 21:32 The turn ended at the step limit. 21:33 the orchestrator accepted the Gate B deviation.
+- Fast gates (bd92946c). Plan evidence (6c7c4f82). This log. Then the scratch /tmp/opencode/p2f10/ removed.
 
 MEASURE_AGENT_RESULT
 role: measure-jr-green
-status: blocked
+status: done
 track: storytime_cover_options_20261106
 phase: Phase 2 (fix round F10)
 task: Task (Green, F10)
 role_base_sha: b17ac1037259b4654f4e4c3d9394a64e7684a5f2
 phase_base_sha: e6e2156a
-commits: 3d3fe891 (plan [~]); c005fea2 (step 1 measures); 55c32708 (debug run 1 and the draft patch); a043b039 (plan block note, spec Q13 and Q14 answers); this log
-tests_run: debug run 1, cd dashboard && CI=true npx vitest run __tests__/quest-cover-f10.test.ts --maxWorkers=1 (heavy-run), exit 1, Tests 1 failed | 8 passed (9), failing T4 only
-checks: none run (Gate A, Gate B, PROJECT_LINT, PROJECT_CHECKS, and the print gates wait for the retry)
-files_changed: measure/runs/storytime_cover_options_20261106/{green-f10.txt, measure-f10-green.sh, green-f10-debug-1.txt, green-f10-wip.patch, jr-green-f10-b17ac103.log}; measure/tracks/storytime_cover_options_20261106/{plan.md, spec.md}. cover-quest.ts unchanged at HEAD.
-plan_updates: Task (Green, F10) stays [~] with a "Blocked" sub-line; spec.md Q13 and Q14 closed with the PM answers of 2026-11-13 about 15:10
-known_failures: T4 of quest-cover-f10.test.ts fails on the plate of D-F10-2, because of the ink box formula of line 737
-handoff: Mid Red retry asked. Exact line: dashboard/__tests__/quest-cover-f10.test.ts line 737, `return { left: first.left, top, right: last.right, bottom };`. Cause: on the 2 centred lines of D-F10-2 the box takes the left edge of the wider line 1 and the right edge of the narrower line 2, so T4 reads 99.07 mm against the plate centre 105.00 mm, while the real ink block is centred (the first front measures 104.7 mm, M-F10-6). Proposed fix: left = the least left and right = the largest right of all line boxes, with the comment "changed 2026-11-13 (F10)". The T4 control (6 mm and 4 mm lines) still fails on the ink share, so the control stays valid. Default if the orchestrator does not want a Red retry: none taken. The alternatives change the look of D-F10-2 (a right-aligned "Advantage", or equal-width lines at about 15 mm and 13.2 mm, or letter spacing on "Advantage", which can split the PDF text into letters), so they need an orchestrator or PM decision. After the retry, the Green role applies green-f10-wip.patch (git apply) and goes on at step 2 (debug run). The time is 20:09 ICT; the due time is 2026-11-14 10:00 ICT.
+commits: code d36a42a1; plan 3d3fe891, a043b039, 895331b5, 6c7c4f82; look 757256e0; captures c005fea2, 55c32708, aa6fb702, c201ae04, a9dd4dcd, e7bf9734, dbd42a08, 9ad1d012, 31cad937, 11cffcbc, 3224dab1, b6baa8d3, 0d0089e8, 3e07c322, ae4aaae7, 14367f95, 5f96630c, 2b15a26c, 9461411a, 8deb245e, bd92946c; this log
+tests_run: debug run 2 9 passed (9); moved pins 24 passed (24); Gate A half 1 133 passed (133), half 2 257 passed (257); Gate B exit 1, 3 timeouts of 5000 ms, 1667 passed (1670); the 3 timeout files alone 49 passed (49), exit 0
+checks: PROJECT_LINT exit 0 (0 errors, 1 warning); PROJECT_CHECKS exit 0 (0 FAIL rows, 0 tsc errors); build 32 pages, 44 files, 4 x "All checks pass."; print gates 20 PASS, SUMMARY FAIL_LINES=0; r6 MANIFEST a7f9b91c 11 of 11 OK; accepted MANIFEST 8f1901a3 before and after, 133 of 133 OK; guard G-1 24 commits, 0 outside; fast gates pass
+files_changed: dashboard/lib/storytime/print/cover-quest.ts; measure/tracks/storytime_cover_options_20261106/{plan.md, spec.md, look-phase2.md}; measure/runs/storytime_cover_options_20261106/ (green-f10*.txt, print-gate-f10*.txt, measure-f10-green.sh, green-f10-wip.patch, link_pictures_f10.py, fix-back-edge-f10.py, prep-teacher-front-f10.mjs, copy_f10.py, contact_f10.py, print_gate_f10.py, manifest_f10.py, guard-f10-green.sh, this log); new output folder ~/Desktop/print-ready/storytime/covers-quest-v1-books-r6/ (11 files and MANIFEST.txt)
+plan_updates: Task (Green, F10) [x] — d36a42a with the evidence, the Gate B deviation, the block and Red retry record, and the PM answers; Task (Green, F3 to F6) line ends with 74ef6e4; spec.md Q13 and Q14 closed with the PM answers
+known_failures: Gate B whole run exit 1 with 3 timeouts of 5000 ms under load (deviation accepted by the orchestrator at 21:33); the 3 files pass alone
+handoff: r6 folder ~/Desktop/print-ready/storytime/covers-quest-v1-books-r6/, MANIFEST.txt SHA-256 a7f9b91c1bed3dace547437d9c75fe822134e4859e392f2df3496bea8aba025f. Print files: student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r6_PDFX-1a.pdf (03b5b18a...), teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r6_PDFX-1a.pdf (a21a20d4...), 4 print pages. Contact sheet contact-sheets/books-r6.png (4 whole tiles). The accepted folder stays 8f1901a3. Correction to the 21:33 note: the Gate B command held --maxWorkers=1 (the COMMAND line of green-f10-gateB.txt). Task (PM line, F10) stays open for the orchestrator. Task 2.14b waits for Daniel's look at r6; the release proof keeps r2 until then.
 END_MEASURE_AGENT_RESULT
