@@ -1,0 +1,38 @@
+Green Jr log, Phase 12 Packages (storytime_week_package), role_base fa47ca23, model route kimi-code-plan-cn/kimi-for-coding#high.
+
+Route substitution (recorded): the table names `volcengine-agent-plan/glm-5.3-flash#high` (Ark agent plan in WAIT); `ra-quota pick green --not-family anthropic` gave MiniMax (weekly 87 %); Kimi weekly is 83 % at 14:25 (over the 80 % line, resets 2026-11-14 18:46). The orchestrator chose Kimi, because Kimi built the Phase 12 content and knows the files. Coder: none.
+
+Step 0 Thai filter: /tmp/opencode/p12-pkg/thai_filter.py ran first; THAI_CHARS_IN_OUTPUT: 0 for plan.md and spec.md copies. All reads used the copies; every run went through light_capture_2_9g.py. No week file, no week text, and no week diff was printed.
+
+Step 1 scripts: p11-handoff-r3-build.py, p11-handoff-r3-check.py, and p11-handoff-r3-tree.py copied and extended as p12-handoff-build.py, p12-handoff-check.py, p12-handoff-tree.py. Source commit fa47ca23bef49008be2494ea948e8aebb9b638d4 for every git show. HEAD moved to 3863ec23 during the run (another track's docs commit); the source SHA rule was followed.
+
+Step 2 tree before: p12-handoff-tree-before.txt, 22 existing folders hashed.
+
+Step 3 build: p12-handoff-build.txt. w01 r5 (previous r4, the 4 song files read-only from the r4 folder, SHA-256 equal to its MANIFEST) and w02 to w07 r4 (previous r3). Create-only: no existing folder changed. Payload counts 90, 99, 86, 86, 95, 85, 92; changed paths 18, 23, 17, 17, 16, 15, 19; new-sha256 empty lines 0. Each README.txt names the L14 contract change (the four fields verbatim), the K2 key rule, the characters, and the look points of its own week.
+
+Step 4 checks: p12-handoff.txt. Nine checks pass on each of the 7 folders, 63 of 63. Check 3 cmp: word clips equal git show of media and bank, sentence clips equal git show, sentence manifest equal git show, w01 song files equal the r4 MANIFEST. Check 5: expected equals listed, diff lines 0, no other track changed a path. Check 6: word clip lines 30, 36, 27, 31, 34, 27, 33 (218) and 8 sentence clips per week. Check 9: each value of the three new maps and each sentenceClips file is a file of the folder.
+
+Step 5 tree after: p12-handoff-tree-after.txt. The 22 existing folders have the same tree hash; 7 new folders. Python compare: changed existing folders 0.
+
+Step 6 characters: p12-chars.txt. Word run 47 (15 bank clips, all take 1). Sentence runs: one-take text sum 779 (70, 62, 130, 116, 127, 132, 142). Sent sum 887 = 873 over the 56 clips (text length x take from p12-listen.txt) plus 14 for the 2 failed w01 calls that reached mmx ("A nest." ENOENT, "A nose." network). Total 934.
+
+Commits: ca7c51ab (the 3 scripts and 6 captures: p12-handoff-build.txt, p12-handoff.txt, p12-handoff-tree-before.txt, p12-handoff-tree-after.txt, p12-chars.txt, p12-chars-compute.py), 944bd160 (plan.md evidence line, task marked [~], Thai line count still 1). This log commits last.
+
+Not done here per the brief: the PM line (the orchestrator sends it and the PM confirms), GREEN_TEST_COMMAND (the orchestrator runs it), the earlier p12 Clips captures (the next role commits those).
+
+MEASURE_AGENT_RESULT
+status: done
+phase_base_sha: 32a9739e
+role_base_sha: fa47ca23
+head: fa47ca23..HEAD contains only the two commits above plus another track's pre-existing docs commit 3863ec23 (not mine); committed Red change inside phase_base_sha..HEAD: confirmed, the Phase 12 content commits ade618a5..fa47ca23 and the plan/spec exist at role_base_sha.
+tasks:
+- [~] "Task (Packages and the PM line)" of Phase 12: evidence sub-line added, commit 944bd160; not [x] because the orchestrator sends the PM line and the PM confirms each folder.
+handoff:
+- Folders (path, MANIFEST sha256 prefix, payload count without MANIFEST and README): ~/Desktop/handoff/w01-storytime-app-package-r5 59036155 90; ~/Desktop/handoff/w02-storytime-app-package-r4 8d5c6c62 99; ~/Desktop/handoff/w03-storytime-app-package-r4 38fc7496 86; ~/Desktop/handoff/w04-storytime-app-package-r4 d10b085a 86; ~/Desktop/handoff/w05-storytime-app-package-r4 445de797 95; ~/Desktop/handoff/w06-storytime-app-package-r4 085100ce 85; ~/Desktop/handoff/w07-storytime-app-package-r4 a9d45e41 92.
+- Check result: 63 of 63 (9 checks on each of the 7 folders), p12-handoff.txt; existing folders unchanged, tree diff 0 (22 folders).
+- Characters: word run 47; sentence one-take 779; sentence sent 887; total 934. No measured difference to name; the values match the captures.
+- Listen list: w02 b1-s01 take 3; w04 b1-s08 take 3, note "heard 'Nan and Pam Knapp' in 3 takes"; w05 b1-s08 take 1, the re-heard check on the shipped mp3 failed ("Knap"); w06 b1-s01 take 3; other weeks: none.
+- New files: measure/runs/storytime_week_package_20261022/p12-handoff-build.py, p12-handoff-check.py, p12-handoff-tree.py, p12-chars-compute.py, p12-handoff-build.txt, p12-handoff.txt, p12-handoff-tree-before.txt, p12-handoff-tree-after.txt, p12-chars.txt; 7 hand-off folders under ~/Desktop/handoff (not in the repo).
+- L14 contract change for the PM line, verbatim fields: opening.wordClips, focus.family.wordClips, focus.trickyWordClips, books[].audio.sentenceClips.
+- Commits: ca7c51ab (scripts and captures), 944bd160 (plan evidence), this log's commit follows.
+END_MEASURE_AGENT_RESULT
