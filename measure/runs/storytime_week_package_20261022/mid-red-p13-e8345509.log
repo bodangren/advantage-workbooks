@@ -16,16 +16,18 @@ Steps, all output through the Thai-dropping capture script (light_capture_2_9g.p
 10. Captures committed 3908adc4. plan.md Red 1 [x] with evidence, commit 8909f979. plan.md Green 1 [~], commit c21293e2.
 11. No production source edited. No paid call: every maker run used a missing WHISPER_PYTHON or --dry-run. pnpm-lock.yaml clean.
 
+Red retry R1 (2026-11-14 01:10): the Green role found 6 test defects D1 to D6 (p13-green1-red-defects.txt, commit c3f66555; 18 cases failed at a correct Green implementation). Thai gate first: defect list and test file 0 Thai, plan.md read only through a filtered copy. The 6 hunks applied exactly, each marked `// changed 2026-11-14 (Red retry R1, D<n>)`: D1 fake span 48000 samples (1.66 s, inside the 1 to 5 word bounds of L8), D2 the character limit case retakes sentence 1 under the one-take sum 137 (spec M6 checks the sum before the first call), D3 the kept lines expect 7 lines and no line for the remade b0-s03, D4 the word maker log pins indexes 5 and 7 (the made line of fan sits at index 4), D5 the failed call still gets its call line, so 2 call lines and `sent: 6 (run failed)`, D6 the before-write compare reads the week text right before the run. One run at HEAD: p13-red1-r1.txt, EXIT 1, Tests 45 failed | 6 passed (51) — every failure is missing behavior, and the 6 passing cases of p13-red1-fix.txt still pass. ESLint: p13-red1-r1-lint.txt, EXIT 0. Test commit 1f4d9fb6 (one file), captures 0e11b44f. Plan sub-line commit 143e384d. This log commit is the last commit of the retry.
+
 MEASURE_AGENT_RESULT
 baseline_sha: c42918df
 role: measure-mid-red
 track: storytime_week_package_20261022
 phase: 13
 head: c21293e2
-commits: d6b8ac60 (plan [~] start), 1e2f0573 (test file), 3908adc4 (captures), d9a1e363 (N10 fix + capture), 8909f979 (plan Red 1 [x] + evidence), c21293e2 (plan Green 1 [~])
+commits: d6b8ac60 (plan [~] start), 1e2f0573 (test file), 3908adc4 (captures), d9a1e363 (N10 fix + capture), 8909f979 (plan Red 1 [x] + evidence), c21293e2 (plan Green 1 [~]), 1f4d9fb6 (Red retry R1, D1 to D6), 0e11b44f (R1 captures)
 tests: dashboard/__tests__/storytime-package-readalong-clips.test.ts (N1 to N12; N10 uses the shipped timed sentences)
 files: the test file; plan.md (Red 1 [x] + evidence sub-line with trailing d9a1e363, Green 1 [~]); captures p13-red1.txt, p13-red1-names.txt, p13-red1-grep.txt, p13-red1-p12.txt, p13-red1-lint.txt, p13-red1-fix.txt
-red: RED_TEST_COMMAND exits 1 — 46 failed | 5 passed (p13-red1.txt), 45 failed | 6 passed after the N10 test fix (p13-red1-fix.txt); failing N-ids N1(3), N2(4), N3(5), N4(3), N5(6), N6(2), N7(6), N8(5), N9(10), N11(1), all missing behavior; passing: N1 no-kinds, N1 w08, N2 no-kinds, N8 second-run bytes, N12 guard, N10 characterization
+red: RED_TEST_COMMAND exits 1 — 46 failed | 5 passed (p13-red1.txt), 45 failed | 6 passed after the N10 test fix (p13-red1-fix.txt) and again at HEAD after Red retry R1 (p13-red1-r1.txt); failing N-ids N1(3), N2(4), N3(5), N4(3), N5(6), N6(2), N7(6), N8(5), N9(10), N11(1), all missing behavior; passing: N1 no-kinds, N1 w08, N2 no-kinds, N8 second-run bytes, N12 guard, N10 characterization
 notes: ESLint exit 0; Phase 11 and 12 files 182 passed, exit 0; FR 8 grep 11 files, none changes; tsc not run by orchestrator decision; Thai filter first, 0 Thai in all output; scope guard p13-red1-scope.txt not run in this window (handoff note for Green 1)
 remaining_failures: none for the Red role; Green 1 owns the missing behavior listed above
 status: done
