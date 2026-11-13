@@ -1595,6 +1595,33 @@ function seriesBanner(kind: QuestCoverKind, size: 'front' | 'back' | 'reader', b
 }
 
 /**
+ * Draws the title plate of a front with the top style hlogo (fix round F10 of 2026-11-13, Daniel's
+ * look: "we still need a title on the fucking front"). The plate takes the place and the look of
+ * the series banner of the first front: the box of `series-banner` (22, 48, 166, 38 mm), the amber
+ * plaque with the diamond ends, and the series name as text on 2 centred lines in the logo brown,
+ * "Storytime" at 17.5 mm and "Advantage" at 10.5 mm. The ink block fills about 81 % of the 32.4 mm
+ * band (S3). The band fill and the `data-plaque-colour` value are the same string. The 2 lines hold
+ * no part mark, so the text of the part reads "Storytime Advantage".
+ * @param kind The cover kind.
+ * @param bleedMm The bleed.
+ * @returns The HTML.
+ */
+function frontTitlePlate(kind: QuestCoverKind, bleedMm: number): string {
+    const box = boxOf(kind, 'series-banner');
+    const inner =
+        `<div style="position:absolute;left:0;top:0;width:${mm(box.widthMm)};height:${mm(box.heightMm)};` +
+        `display:flex;flex-direction:column;align-items:center;justify-content:center;` +
+        `font-family:'League Spartan';font-weight:700;line-height:1;white-space:nowrap">` +
+        `<div style="font-size:${mm(17.5)};color:${LOGO_BROWN}">Storytime</div>\n` +
+        `<div style="font-size:${mm(10.5)};color:${LOGO_BROWN}">Advantage</div>` +
+        `</div>`;
+    return (
+        `<div data-part="front-title" data-plaque-colour="${LOGO_AMBER}" style="${boxStyle(box, bleedMm)}">` +
+        `${plaqueSvg(box.widthMm, box.heightMm, LOGO_AMBER, false, PLAQUE_AMBER_PALETTE)}${inner}</div>`
+    );
+}
+
+/**
  * Draws the unit bar pill of the teacher front (`options/build.py`, `a_front`). Round 4 of
  * 2026-11-10: the pill keeps its box, its border, and a 13 pt size, and adds the League Spartan
  * family and a line height of 5.9 mm. With border-box sizing the line box spans 272.1 mm to
@@ -2625,6 +2652,8 @@ function frontBody(
     const parts = [artLayer(kind, assets, bleedMm)];
     if (top !== 'hlogo') {
         parts.push(seriesLogo(kind, assets, bleedMm), seriesBanner(kind, 'front', bleedMm));
+    } else {
+        parts.push(frontTitlePlate(kind, bleedMm));
     }
     if (kind === 'teacher-front' && top !== 'hlogo') parts.push(bandPill(book.litBand, bleedMm));
     parts.push(titlePlaqueFront(kind, book, bleedMm, top));
