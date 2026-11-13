@@ -1,0 +1,225 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-package-clips.test.ts [2m([22m[2m93 tests[22m[2m | [22m[31m6 failed[39m[2m)[22m[33m 14843[2mms[22m[39m
+     [32m✓[39m gives the key of the hand-written table[32m 44[2mms[22m[39m
+     [32m✓[39m throws "word clip: ... not a word key" for a word with a hyphen, a digit, or an accent inside[32m 2[2mms[22m[39m
+     [32m✓[39m gives one key for a word in each letter case[32m 2[2mms[22m[39m
+     [32m✓[39m removes each apostrophe from the stem[32m 1[2mms[22m[39m
+     [32m✓[39m gives the K3 path of a key, a level, and a week[32m 1[2mms[22m[39m
+     [32m✓[39m throws for a bad key, for week 0, and for week 100[32m 1[2mms[22m[39m
+     [32m✓[39m plans one map for each book and the sorted distinct files[32m 1[2mms[22m[39m
+     [32m✓[39m plans the two maps of the shipped week 1 and 22 files[32m 28[2mms[22m[39m
+     [32m✓[39m throws "two keys, one file" for the keys its and it's in one week[32m 1[2mms[22m[39m
+     [32m✓[39m gives the 12 keys of book 0 and the 11 keys of book 1 of the shipped w01, sorted[32m 17[2mms[22m[39m
+     [32m✓[39m sorts by code point, gives each key once, and reads both speeds[32m 1[2mms[22m[39m
+     [32m✓[39m gives the key slots of each book and the files of each week for w01 to w07, and nothing for w08[32m 150[2mms[22m[39m
+     [32m✓[39m keeps a wordClips map in the parse output of the book audio[32m 3[2mms[22m[39m
+     [32m✓[39m rejects an upper-case key, a key with a hyphen, and an empty value[32m 2[2mms[22m[39m
+     [32m✓[39m keeps the map in the parse output of a whole week[32m 40[2mms[22m[39m
+     [32m✓[39m parses videoLeadInSeconds 3 and 0, and keeps the value; it rejects -0.001 and a non-finite value[32m 13[2mms[22m[39m
+[31m     [31m×[31m writes the five maps, copies 30 clips, removes a stale clip, and changes only the closing lines (50 added, 5 changed)[39m[32m 174[2mms[22m[39m
+[31m     [31m×[31m changes no byte and no modification time on a second run[39m[32m 165[2mms[22m[39m
+[31m     [31m×[31m replaces only the wordClips block when the books change, and removes the clip that no key names[39m[32m 119[2mms[22m[39m
+     [32m✓[39m stops for a key with no bank row with "no bank row" and changes no file[32m 119[2mms[22m[39m
+     [32m✓[39m stops for a bank row with no mp3 file with "no bank file" and changes no file[32m 149[2mms[22m[39m
+     [32m✓[39m stops for a WAV file whose SHA-256 differs from its row with "bank SHA-256 differs" and changes no file[32m 114[2mms[22m[39m
+     [32m✓[39m stops for a week with 2 books and 1 audio object and leaves the media folder and the week file as they were[32m 127[2mms[22m[39m
+     [32m✓[39m stops for a week whose second book has an empty audio object and leaves the media folder and the week file as they were[32m 142[2mms[22m[39m
+     [32m✓[39m stops for a week that the schema refuses and leaves the media folder and the week file as they were[32m 129[2mms[22m[39m
+[31m     [31m×[31m prints 40 tab lines for the copy of w01 (23 book keys and 17 practice keys) and writes nothing[39m[32m 104[2mms[22m[39m
+[31m     [31m×[31m prints 15 "no bank row" lines when 12 bank rows are absent (a, and, and can also sit in the tricky map), and writes nothing[39m[32m 103[2mms[22m[39m
+[31m     [31m×[31m exits with 1 when a line is not ok and with 0 when every line is ok (the shipped w01, read only)[39m[32m 156[2mms[22m[39m
+     [32m✓[39m prints the usage and exits 0 for --help, and exits 2 for a missing option[32m 1[2mms[22m[39m
+     [32m✓[39m gives the exact id and label, and pass with no detail on the mapped copy[32m 227[2mms[22m[39m
+     [32m✓[39m passes a clip that equals its bank mp3 although the row sha256 is the WAV hash (review F2)[32m 83[2mms[22m[39m
+     [32m✓[39m warns "no clip: <keys>" with each key once, in document order, when the books have no map[32m 97[2mms[22m[39m
+     [32m✓[39m warns for the keys that a map lacks, in document order[32m 93[2mms[22m[39m
+     [32m✓[39m warns for a word that has no key in the map of its own book, although the other book maps it[32m 83[2mms[22m[39m
+     [32m✓[39m warns for every key of a book that has no map[32m 101[2mms[22m[39m
+     [32m✓[39m fails with "missing: <path>" when a clip file is absent[32m 82[2mms[22m[39m
+     [32m✓[39m fails with "differs from bank: <path>" when a clip differs from the bank mp3[32m 81[2mms[22m[39m
+     [32m✓[39m fails with "no bank row: <key>" when a key has no bank row[32m 87[2mms[22m[39m
+     [32m✓[39m fails with "not a book word: <key>" for a key that no word of its book gives[32m 83[2mms[22m[39m
+     [32m✓[39m fails with "bad path: <path>" for a value that is not the K3 path of its key[32m 88[2mms[22m[39m
+     [32m✓[39m joins the five fail parts in the order of K12 with "; "[32m 83[2mms[22m[39m
+     [32m✓[39m lets a fail win over a warn, and the detail of the fail holds no warn part[32m 95[2mms[22m[39m
+     [32m✓[39m gives no row for a week with no book and for a week with no meta (review F1)[32m 87[2mms[22m[39m
+     [33m[2m✓[22m[39m gives pass or warn and never fail for the shipped w01 to w07, and no row for w08 [33m 650[2mms[22m[39m
+     [32m✓[39m fails and names the key when the week clip exists and the row names an absent bank mp3[32m 119[2mms[22m[39m
+     [32m✓[39m names each key whose bank mp3 is absent[32m 83[2mms[22m[39m
+     [32m✓[39m gives pass when the song names a video and has the field, with the exact id and label[32m 1[2mms[22m[39m
+     [32m✓[39m gives warn "no lead-in" when the song names a video and has no field[32m 0[2mms[22m[39m
+     [32m✓[39m gives fail "lead-in without video" when the song has the field and names no video[32m 0[2mms[22m[39m
+     [32m✓[39m gives no row for a song with audio only, and for a week with no song[32m 18[2mms[22m[39m
+     [32m✓[39m reads the onsets of the w01 logs and drops the silence that ends at the end of the file[32m 1[2mms[22m[39m
+     [32m✓[39m gives the first onset 0 for a file that starts with sound[32m 0[2mms[22m[39m
+     [32m✓[39m treats a first silence that starts at 0.001 s or less as a leading silence, and a later one as not[32m 0[2mms[22m[39m
+     [32m✓[39m keeps a silence_end that is 0.002 s from the end of the file and drops one that is 0.0005 s from it[32m 0[2mms[22m[39m
+     [32m✓[39m gives the lead-in 3 for the w01 onsets of the classroom and the phone video[32m 0[2mms[22m[39m
+     [32m✓[39m rounds the lead-in to 3 decimals[32m 0[2mms[22m[39m
+     [32m✓[39m throws when the second onsets differ from the first lead-in by more than 0.010 s, and accepts 0.009 s[32m 0[2mms[22m[39m
+     [32m✓[39m throws "lead-in:" when a list has fewer than 2 onsets[32m 1[2mms[22m[39m
+     [32m✓[39m gives the lead-in of a file that starts with sound against its first onset 0[32m 0[2mms[22m[39m
+     [33m[2m✓[22m[39m measures 1.5 s within 0.002, prints one tab line for each video and "lead-in: <value>", and writes nothing [33m 3229[2mms[22m[39m
+     [33m[2m✓[22m[39m adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte [33m 931[2mms[22m[39m
+     [33m[2m✓[22m[39m changes only the line videoLeadInSeconds when the field holds another value [33m 465[2mms[22m[39m
+     [32m✓[39m prints "no video", exits 0 without a value, and writes nothing for a song with audio only[32m 28[2mms[22m[39m
+     [32m✓[39m stops for a song that has no audio[32m 23[2mms[22m[39m
+     [33m[2m✓[22m[39m stops when the two videos of one song give lead-ins that differ by more than 0.010 s [33m 453[2mms[22m[39m
+     [32m✓[39m prints the usage and exits 0 for --help, and exits 2 for a missing option[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m lists 12 made words for week 1 and prints "chars" for one take of each key [33m 1243[2mms[22m[39m
+     [32m✓[39m writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and 80 ms of quiet at each edge[32m 16[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 811[2mms[22m[39m
+     [32m✓[39m adds a row of the K6 form for each new word and leaves the 98 old rows as they are[32m 16[2mms[22m[39m
+     [32m✓[39m adds the rows by a text edit in the Python form: one comma line changes, -3.0 stays, the top fields stay[32m 49[2mms[22m[39m
+     [32m✓[39m makes the words in sorted order and writes no file for a word that has a row[32m 3[2mms[22m[39m
+     [32m✓[39m exports main, which prints the usage for --help and exits 2 for a missing option[32m 1[2mms[22m[39m
+     [32m✓[39m scales so that the largest sample is 23197 with Math.round(x * 23197 / peak)[32m 0[2mms[22m[39m
+     [32m✓[39m keeps 80 ms (2560 samples) at each edge, or fewer when the take has fewer[32m 4[2mms[22m[39m
+     [32m✓[39m applies wordClipText: uh for a, I for i, else the first written form[32m 1[2mms[22m[39m
+     [32m✓[39m holds the variant list of K9[32m 1[2mms[22m[39m
+     [32m✓[39m joins the recognized words with no space, in lower case, and removes each other character[32m 1[2mms[22m[39m
+     [32m✓[39m passes the key and the variants of the key only, with the note of the K9 form[32m 1[2mms[22m[39m
+     [32m✓[39m appends rows by a text edit: one comma line changes, the rows are in the K6 order, and -3.0 stays[32m 79[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as another word, and keeps the take number [33m 1142[2mms[22m[39m
+     [32m✓[39m keeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail[32m 1[2mms[22m[39m
+     [32m✓[39m passes a variant with its note: a sends the text uh and the row holds text uh[32m 1[2mms[22m[39m
+     [32m✓[39m sends the text eye for the next take of i when the heard text is a number (K8)[32m 1[2mms[22m[39m
+     [32m✓[39m makes a take again when its longest inner pause is above 0.6 s[32m 1[2mms[22m[39m
+     [32m✓[39m makes the words in sorted order with the takes in a row, and counts every character sent[32m 35[2mms[22m[39m
+     [32m✓[39m stops before the first call when one take of each key needs more than maxChars, and changes no row[32m 159[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 1092[2mms[22m[39m
+     [32m✓[39m lists the keys with their K8 texts and prints "chars: 37" for --dry-run, and writes nothing[32m 160[2mms[22m[39m
+     [32m✓[39m throws "word bank: no faster-whisper venv at <path>" before the first call when recognize is absent[32m 158[2mms[22m[39m
+     [33m[2m✓[22m[39m has 98 rows or more, and each sha256 equals the SHA-256 of its WAV file [33m 483[2mms[22m[39m
+     [32m✓[39m holds no path of the Measure track folders[32m 1[2mms[22m[39m
+     [32m✓[39m writes nothing under content/storytime (this case runs last)[32m 15[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-content.test.ts [2m([22m[2m75 tests[22m[2m)[22m[33m 2018[2mms[22m[39m
+     [33m[2m✓[22m[39m is byte-equal with and without the share fields, and holds no caption marker (AC-14.7) [33m 1202[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m104 tests[22m[2m)[22m[33m 804[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m266 passed[39m[22m[90m (272)[39m
+[2m   Start at [22m 09:52:40
+[2m   Duration [22m 20.58s[2m (transform 1.47s, setup 511ms, import 1.50s, tests 17.67s, environment 1ms)[22m
+
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 6 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC6 the mapper on a copy of w01 (K3, K4, K5, Phase 12 L3 to L5)[2m > [22mwrites the five maps, copies 30 clips, removes a stale clip, and changes only the closing lines (50 added, 5 changed)
+[31m[1mAssertionError[22m: the distinct clip files: the union of the books and the three practice lists: expected 22 to be 30 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 30[39m
+[31m+ 22[39m
+
+[36m [2m❯[22m __tests__/storytime-package-clips.test.ts:[2m1419:110[22m[39m
+    [90m1417| [39m        expect(run.error?.message, 'the mapper runs').toBeUndefined();
+    [90m1418| [39m        const result = run.value as SetWordClipsResult;
+    [90m1419| [39m        expect(result.files, 'the distinct clip files: the union of th…
+    [90m   | [39m                                                                                                             [31m^[39m
+    [90m1420| [39m        expect(result.removed).toHaveLength(1);
+    [90m1421| [39m        expect(result.removed[0].endsWith('wa-zebra.mp3')).toBe(true);
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC6 the mapper on a copy of w01 (K3, K4, K5, Phase 12 L3 to L5)[2m > [22mchanges no byte and no modification time on a second run
+[31m[1mAssertionError[22m: expected 22 to be 30 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 30[39m
+[31m+ 22[39m
+
+[36m [2m❯[22m __tests__/storytime-package-clips.test.ts:[2m1467:37[22m[39m
+    [90m1465| [39m        expect(second.error?.message, 'the second run').toBeUndefined(…
+    [90m1466| [39m        expect(second.value?.removed).toEqual([]);
+    [90m1467| [39m        expect(second.value?.files).toBe(30);
+    [90m   | [39m                                    [31m^[39m
+    [90m1468| [39m        expect(treeHashes(tree.contentRoot), 'no byte changes').toEqua…
+    [90m1469| [39m        expect(treeStamps(tree.contentRoot), 'no modification time cha…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC6 the mapper on a copy of w01 (K3, K4, K5, Phase 12 L3 to L5)[2m > [22mreplaces only the wordClips block when the books change, and removes the clip that no key names
+[31m[1mAssertionError[22m: expected 21 to be 29 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 29[39m
+[31m+ 21[39m
+
+[36m [2m❯[22m __tests__/storytime-package-clips.test.ts:[2m1488:37[22m[39m
+    [90m1486| [39m        expect(week.books[1].audio.wordClips).toEqual(w01Map(W01_BOOK1…
+    [90m1487| [39m        expect(second.value?.removed.map((file) => path.basename(file)…
+    [90m1488| [39m        expect(second.value?.files).toBe(29);
+    [90m   | [39m                                    [31m^[39m
+    [90m1489| [39m    }, 60_000);
+    [90m1490| [39m});
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC8 the mapper --check (FR 4, Phase 12 L3 to L5)[2m > [22mprints 40 tab lines for the copy of w01 (23 book keys and 17 practice keys) and writes nothing
+[31m[1mAssertionError[22m: expected [ '0\tam\twa-am\tok', …(22) ] to have a length of 40 but got 23[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 40[39m
+[31m+ 23[39m
+
+[36m [2m❯[22m __tests__/storytime-package-clips.test.ts:[2m1619:23[22m[39m
+    [90m1617| [39m        expect(run.error?.message, 'the check runs').toBeUndefined();
+    [90m1618| [39m        const lines = (run.value as SetWordClipsResult).lines;
+    [90m1619| [39m        expect(lines).toHaveLength(40);
+    [90m   | [39m                      [31m^[39m
+    [90m1620| [39m        const fields = lines.map((line) => line.split('\t'));
+    [90m1621| [39m        for (const row of fields) expect(row, row.join(' | ')).toHaveL…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC8 the mapper --check (FR 4, Phase 12 L3 to L5)[2m > [22mprints 15 "no bank row" lines when 12 bank rows are absent (a, and, and can also sit in the tricky map), and writes nothing
+[31m[1mAssertionError[22m: expected [ [ '0', 'am', 'wa-am', 'ok' ], …(22) ] to have a length of 40 but got 23[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 40[39m
+[31m+ 23[39m
+
+[36m [2m❯[22m __tests__/storytime-package-clips.test.ts:[2m1639:24[22m[39m
+    [90m1637| [39m        expect(run.error?.message, 'the check runs').toBeUndefined();
+    [90m1638| [39m        const fields = (run.value as SetWordClipsResult).lines.map((li…
+    [90m1639| [39m        expect(fields).toHaveLength(40);
+    [90m   | [39m                       [31m^[39m
+    [90m1640| [39m        expect(fields.filter((row) => row[3].includes('no bank row')),…
+    [90m1641| [39m        expect(fields.filter((row) => row[3] === 'ok'), 'the other lin…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-clips.test.ts[2m > [22mC8 the mapper --check (FR 4, Phase 12 L3 to L5)[2m > [22mexits with 1 when a line is not ok and with 0 when every line is ok (the shipped w01, read only)
+[31m[1mAssertionError[22m: one line for each key slot: 23 book keys and 17 practice keys: expected [ [ '0', 'am', 'wa-am', 'ok' ], …(22) ] to have a length of 40 but got 23[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 40[39m
+[31m+ 23[39m
+
+[36m [2m❯[22m __tests__/storytime-package-clips.test.ts:[2m1652:87[22m[39m
+    [90m1650| [39m        const run = await captureOutput(() => main(['--level', '2', '-…
+    [90m1651| [39m        const rows = run.out.map((line) => line.split('\t')).filter((r…
+    [90m1652| [39m        expect(rows, 'one line for each key slot: 23 book keys and 17 …
+    [90m   | [39m                                                                                      [31m^[39m
+    [90m1653| [39m        expect(run.value).toBe(rows.every((row) => row[3] === 'ok') ? …
+    [90m1654| [39m        expect({ week: treeStamps(path.dirname(week)), bank: treeStamp…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯[22m[39m
+
+
+exit: 1
