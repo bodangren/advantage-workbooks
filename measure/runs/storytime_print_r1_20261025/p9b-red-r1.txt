@@ -1,0 +1,25 @@
+C2: the start table of the trace words (P9-B2 to P9-B5) C2-keys: the table holds exactly the 26 lowercase letters a to z and the 6 uppercase letters G, H, I, P, S, T: PASSED
+C2: the start table of the trace words (P9-B2 to P9-B5) C2-taught: the 7 taught letters agree with the start of stroke 1 of the letter box within 0.3 mm: PASSED
+C2: the start table of the trace words (P9-B2 to P9-B5) C2-ink: each of the 32 values equals the pinned value of P9-B3 and sits 0.02 em or more inside the Andika glyph: PASSED
+C2: the start table of the trace words (P9-B2 to P9-B5) C2-book: every trace dot of weeks 1 to 7 sits at the absolute spec position within 0.3 mm: PASSED
+C2: the start table of the trace words (P9-B2 to P9-B5) C2-all-letters: traceLineLayout gives a dot for each of the 26 lowercase letters and throws for a letter outside the table: PASSED
+C2: the start table of the trace words (P9-B2 to P9-B5) C2-mutants: the old c, the old S, a left-middle value, a missing u, and a dot 0.5 mm left each fail: PASSED
+RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-count: the compiled student book has 140 pages, a multiple of 4, and no end padding: FAILED
+  first failure line: AssertionError: the pages of the compiled student book: expected 136 to be 140 // Object.is equality
+RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-order: after page 131 the week 8 page kinds are review, review, review-more, review, review-more, review, review-more, review, review-more: FAILED
+  first failure line: AssertionError: the pages of the compiled student book: expected 136 to be greater than or equal to 140
+RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-stable: the reader sides keep the pages of P9-A9 and the pages 1 to 131 keep their kind and number: PASSED
+RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-data: days 2 to 5 hold paperMore with 4 pairs, a pictureOrder with no fixed point, and a read entry: FAILED
+  first failure line: AssertionError: day 2 has no paperMore field
+RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-pictures: each picture row of a page is in the list, comes from a week of its day, and passes the SHA-256 check: FAILED
+  first failure line: AssertionError: day 2 has no picture rows to check
+RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-decodable: each of the 5 texts of a page has 0 untaught words at the week of its reader: PASSED
+RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-no-position: a review-more page asks no position mark and no sound label: FAILED
+  first failure line: AssertionError: page 134 is not a review-more page
+RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-steps: line 5 of B1, C1, D1, and E1 names the page after it, and the step map rows carry pageEnd: FAILED
+  first failure line: AssertionError: line 5 of B1 does not name the page after the review page: "Paper: review page 2 in the student book, then one earlier review page that the child has not done."
+RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-no-picture: the print list keeps the rows it has, and no review page adds a row: PASSED
+RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-fit: a review-more page holds 4 match rows, 1 read row, and a score strip of __ / 4, and they fit the page: FAILED
+  first failure line: AssertionError: page 134 has 0 picture boxes; the spec has 5
+=== Total: 16 checks (PASS=9, FAIL=7) ===
+exit: 1

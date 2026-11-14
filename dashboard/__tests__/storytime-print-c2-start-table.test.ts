@@ -45,6 +45,9 @@ import { ANDIKA_ADVANCE_EM, TRACE_START_EM, traceLineLayout } from '../lib/story
  *    Fact 2 measured the r6-v1 dots, so its value for a changed letter is the old, faulty place.
  *    For a letter with no change this rule equals the fact-2 position within 0.3 mm; the case checks
  *    that for "saw" and "see" (s), the two cases whose letter does not change.
+ *  - PIN the decision D-P9B-G1 (orchestrator, Red retry R1, 2026-11-14): the case C2-ink renders the
+ *    32 glyphs in one child process and takes 4.4 to 5.0 s, so the default 5000 ms timeout stopped it
+ *    twice with correct values; the case carries a 60000 ms timeout (the third argument of `it`).
  *
  * Every expected value below is a value of the spec, written by hand. The test never reads an
  * expected value from the code under the test. The file holds no Thai string, names no track
@@ -454,7 +457,7 @@ describe('C2: the start table of the trace words (P9-B2 to P9-B5)', () => {
             if (problem) problems.push(problem);
         }
         expect(problems.length, problems.join('\n') || 'the values of TRACE_START_EM and their ink inset are complete').toBe(0);
-    });
+    }, 60000);
 
     // -----------------------------------------------------------------------------------------
     // C2-book

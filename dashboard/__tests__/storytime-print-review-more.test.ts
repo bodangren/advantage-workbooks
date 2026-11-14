@@ -52,6 +52,10 @@ import { storytimeStepMapRows, storytimeStudentBookPages } from '../lib/storytim
  *    page 136 (RM-order); RM7 a blank page added at the end (RM-count); RM8 the sentence equal to
  *    a pair (RM-data); RM9 `paperMore` on day 1 (RM-data); RM10 a changed byte in one line file
  *    (the SHA-256 check of RM-pictures).
+ *  - PIN the decision D-P9B-G2 (orchestrator, Red retry R1, 2026-11-14): a review-more page holds
+ *    one score strip, a div with `data-part="score-strip"` whose `score-blank` span is followed by
+ *    the visible text ` / 4`; a `data-score` attribute does not stand for the visible text, and a
+ *    page with a second strip, or a strip of ` / 5`, fails RM-fit.
  *
  * The file reads English keys and writes no file. It holds no Thai string and prints no Thai string.
  */
@@ -469,7 +473,16 @@ describe('RM: the four review pages of week 8 (P9-B8 to P9-B13)', () => {
             const rows = (section.match(/data-part="more-row"/g) ?? []).length;
             if (boxes !== 5) problems.push(`page ${PAGE_OF_DAY[pin.day]} has ${boxes} picture boxes; the spec has 5`);
             if (rows !== 5) problems.push(`page ${PAGE_OF_DAY[pin.day]} has ${rows} rows; the spec has 4 match rows and 1 read row`);
-            if (!section.includes('__ / 4')) problems.push(`page ${PAGE_OF_DAY[pin.day]} holds no score strip of __ / 4`);
+            const strips = Array.from(section.matchAll(/<div class="score-strip" data-part="score-strip">([\s\S]*?)<\/div>/g));
+            if (strips.length !== 1) {
+                problems.push(`page ${PAGE_OF_DAY[pin.day]} holds ${strips.length} score strips; the spec has one`);
+            } else {
+                const strip = strips[0][1];
+                if (!strip.startsWith('<span class="score-blank"></span> / 4')) {
+                    problems.push(`page ${PAGE_OF_DAY[pin.day]} holds a score strip that is not a score-blank span followed by the visible text " / 4"`);
+                }
+                if (strip.includes('data-score')) problems.push(`page ${PAGE_OF_DAY[pin.day]} holds a data-score attribute in place of the visible text`);
+            }
         }
         const used = 5 * BOX_MM.height + 20;
         if (used > CONTENT_MM) problems.push(`the 5 rows use ${used} mm of the ${CONTENT_MM} mm of a page`);
