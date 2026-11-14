@@ -1,0 +1,116 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-package-practice-clips.test.ts [2m([22m[2m89 tests[22m[2m | [22m[31m14 failed[39m[2m)[22m[33m 15823[2mms[22m[39m
+     [32m✓[39m keeps opening.wordClips, focus.family.wordClips, focus.trickyWordClips, and sentenceClips in the parse output[32m 52[2mms[22m[39m
+     [32m✓[39m keeps the fields in the parse output of FocusSchema and BookAudioSchema[32m 10[2mms[22m[39m
+     [32m✓[39m parses a week without the fields as before, and leaves each field undefined[32m 15[2mms[22m[39m
+     [32m✓[39m refuses an upper-case key and an empty value in each of the three maps[32m 104[2mms[22m[39m
+     [32m✓[39m refuses a sentence clip item with no file, and an item with an empty file[32m 1[2mms[22m[39m
+     [32m✓[39m gives the 10 words of the hand-written table of the shipped w01[32m 102[2mms[22m[39m
+     [32m✓[39m gives the distinct counts 10, 10, 9, 10, 8, 9, 10 and the hand-written words for w01 to w07[32m 42[2mms[22m[39m
+     [32m✓[39m finds 10 word forms in the 5 lines of each shipped week (the data, counted with the expression of L4)[32m 50[2mms[22m[39m
+     [32m✓[39m reads both forms and ignores a sound line, a first-sound question, and the case of the word[32m 1[2mms[22m[39m
+     [32m✓[39m throws "opening: no word form in line <i>" with i from 0 for a line with no form[32m 1[2mms[22m[39m
+     [32m✓[39m never reads the th text: a change of th, and a th that throws when it is read, give the same keys[32m 7[2mms[22m[39m
+     [32m✓[39m gives the three lists of each shipped week, sorted by code point, with the hand-written words[32m 40[2mms[22m[39m
+[31m     [31m×[31m counts 58 opening words, 51 family words, and 19 tricky words: 128 word slots[39m[32m 62[2mms[22m[39m
+[31m     [31m×[31m finds 55 gap slots (42, 8, and 5) and 47 gap words: the 32 with a bank row and the 15 new words[39m[32m 54[2mms[22m[39m
+     [32m✓[39m plans the three maps and the sorted distinct files of the shipped w01[32m 7[2mms[22m[39m
+     [32m✓[39m serves two maps with one file, and plans an empty map for an absent list[32m 1[2mms[22m[39m
+     [32m✓[39m throws "two keys, one file" for the keys its and it's in one week[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives the union of the book files and the practice files: 30, 36, 27, 31, 34, 27, and 33 (218)[39m[32m 12[2mms[22m[39m
+[31m     [31m×[31m lists the new words of each week in a dry run, prints "chars: <n>" for one take, and writes nothing[39m[32m 200[2mms[22m[39m
+     [33m[2m✓[22m[39m makes only the book words without the flag, and the 15 words with it (week 3: cap) [33m 2306[2mms[22m[39m
+[31m     [31m×[31m makes the 15 words in the order of the runs and sends no text for a word that has a row[39m[33m 1524[2mms[22m[39m
+[31m     [31m×[31m adds 15 rows from n 138 to 152 in the K6 and L6 form and leaves the 137 old rows as they are[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and an mp3 of 32 kHz, mono, 128 kb/s for each new word[39m[32m 235[2mms[22m[39m
+[31m     [31m×[31m adds the rows by text edits in the Python form: one comma line changes in each run, the top fields stay[39m[32m 65[2mms[22m[39m
+[31m     [31m×[31m applies the heard rule, the retake, and the 3-take note to a practice word, and counts every character[39m[33m 330[2mms[22m[39m
+[31m     [31m×[31m stops before the first call when one take of each word needs more than maxChars, and changes no row[39m[33m 311[2mms[22m[39m
+[31m     [31m×[31m stops before the call that would take the run above maxChars, and keeps the rows of the finished words[39m[33m 366[2mms[22m[39m
+[31m     [31m×[31m throws "no faster-whisper venv at <path>" before the first call when recognize is absent[39m[32m 143[2mms[22m[39m
+     [32m✓[39m names the flag --practice in its usage[32m 2[2mms[22m[39m
+[31m     [31m×[31m writes the three new maps and the book maps in the L17 form, copies 30 clips, and changes only closing lines[39m[32m 167[2mms[22m[39m
+     [32m✓[39m changes no byte and no modification time on a second run[32m 177[2mms[22m[39m
+     [32m✓[39m removes a stale clip and a file that is not a clip stays, and keeps each practice clip that no book names[32m 129[2mms[22m[39m
+[31m     [31m×[31m prints one tab line for each key of each map with --check and writes nothing[39m[32m 98[2mms[22m[39m
+     [32m✓[39m stops for a practice word with no bank row with "no bank row" and changes no file[32m 117[2mms[22m[39m
+     [32m✓[39m stops for a practice word with no bank mp3 file with "no bank file" and changes no file[32m 130[2mms[22m[39m
+     [32m✓[39m stops for a practice word whose WAV SHA-256 differs from its row with "bank SHA-256 differs" and changes no file[32m 107[2mms[22m[39m
+     [32m✓[39m gives the exact id and label, and pass with no detail on the mapped copy[32m 264[2mms[22m[39m
+     [32m✓[39m warns "no clip: <keys>" for a key that its map lacks, and for a list that has no map[32m 262[2mms[22m[39m
+     [32m✓[39m warns for a practice word that only a book map names[32m 79[2mms[22m[39m
+     [32m✓[39m fails with "missing: <path>" when a clip file is absent[32m 79[2mms[22m[39m
+     [32m✓[39m fails with "differs from bank: <path>" when a clip differs from the bank mp3[32m 85[2mms[22m[39m
+     [32m✓[39m fails with "no bank file: <key>" when the bank mp3 is absent and the week clip exists[32m 78[2mms[22m[39m
+     [32m✓[39m fails with "no bank row: <key>" when a key has no bank row[32m 84[2mms[22m[39m
+     [32m✓[39m fails with "not a practice word: <key>" for a key that no word of its list gives[32m 79[2mms[22m[39m
+     [32m✓[39m fails with "bad path: <path>" for a value that is not the K3 path of its key[32m 80[2mms[22m[39m
+     [32m✓[39m joins the six fail parts in the order of L9 with "; "[32m 86[2mms[22m[39m
+     [32m✓[39m lets a fail win over a warn, and the detail of the fail holds no warn part[32m 77[2mms[22m[39m
+     [32m✓[39m gives no row for a week with no meta and for a week with no book (the review week w08)[32m 89[2mms[22m[39m
+     [33m[2m✓[22m[39m gives pass or warn and never fail for the shipped w01 to w07, and no row for w08 [33m 743[2mms[22m[39m
+     [32m✓[39m gives the path l2/media/w<nn>/sentences/b<i>-s<jj>.mp3[32m 3[2mms[22m[39m
+     [32m✓[39m plans the decodable books only, in the order of the books, and gives nothing for a read-along book[32m 4[2mms[22m[39m
+     [32m✓[39m plans 8 sentences for each shipped week (56 in all, 779 characters), none for the read-along books, and none for w08[32m 83[2mms[22m[39m
+     [33m[2m✓[22m[39m makes one call for each sentence, in order, with the exact text, the voice of the book, and the speed 1 [33m 947[2mms[22m[39m
+     [32m✓[39m succeeds although the tree has no book audio file, so the maker does not read the book audio[32m 3[2mms[22m[39m
+     [33m[2m✓[22m[39m creates the sentences folder before the first synthesize call (R1) [33m 875[2mms[22m[39m
+     [32m✓[39m exports main, which prints the usage for --help and exits 2 for a missing option[32m 1[2mms[22m[39m
+     [32m✓[39m passes a take only when the recognizer heard each word in order (sentenceHeardPasses)[32m 1[2mms[22m[39m
+     [32m✓[39m gives the bounds of a sentence: 0.2 s for each word at least, and 1.2 s for each word plus 1 s at most[32m 1[2mms[22m[39m
+     [32m✓[39m writes only the mp3 clips and the provenance file: no WAV file and no take file stays[32m 0[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s with the peak near -3 dBFS and 80 ms of quiet at each edge [33m 1187[2mms[22m[39m
+     [32m✓[39m writes the provenance file with the L8 keys, the JSON.stringify form, and the SHA-256 of each mp3[32m 5[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as other words, and keeps the take number [33m 994[2mms[22m[39m
+     [32m✓[39m keeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail[32m 1[2mms[22m[39m
+     [32m✓[39m makes a take again when it is too long or too short, and when its longest inner pause is above 0.6 s[32m 1[2mms[22m[39m
+     [32m✓[39m sends the sentences in order with the takes in a row, and counts every character[32m 0[2mms[22m[39m
+     [32m✓[39m stops before the first call when one take of each sentence needs more than maxChars, and writes nothing[32m 53[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars [33m 776[2mms[22m[39m
+     [32m✓[39m lists the 8 sentences and prints "chars: 70" for --dry-run, and writes nothing[32m 59[2mms[22m[39m
+     [32m✓[39m throws "no faster-whisper venv at <path>" before the first call when recognize is absent[32m 52[2mms[22m[39m
+     [32m✓[39m gives true for a window cut from a synthetic source, also after a change of the gain (the positive control)[32m 66[2mms[22m[39m
+     [32m✓[39m gives false for an unrelated synthetic signal of the same length (the negative control)[32m 9[2mms[22m[39m
+     [33m[2m✓[22m[39m gives false for each clip that the maker makes, against a synthetic book mp3 that sits at the book audio path [33m 1355[2mms[22m[39m
+     [32m✓[39m gives the exact id and label, and pass with no detail[32m 11[2mms[22m[39m
+     [32m✓[39m warns "no clips" when the decodable book has no field[32m 8[2mms[22m[39m
+     [32m✓[39m fails with "count differs: <book>" when the array length is not the sentence count[32m 8[2mms[22m[39m
+     [32m✓[39m fails with "text differs: <path>" when an item sentence is not the book sentence[32m 7[2mms[22m[39m
+     [32m✓[39m fails with "missing: <path>" when a clip file is absent[32m 7[2mms[22m[39m
+     [32m✓[39m fails with "bad path: <path>" for a value that is not the L7 path of its index[32m 8[2mms[22m[39m
+     [32m✓[39m joins the four fail parts in the order of L9 with "; "[32m 7[2mms[22m[39m
+     [32m✓[39m lets a fail win over a warn, and the detail of the fail holds no warn part[32m 8[2mms[22m[39m
+     [32m✓[39m gives no row for a week with no decodable book[32m 12[2mms[22m[39m
+     [32m✓[39m gives pass or warn and never fail for the shipped w01 to w07[32m 36[2mms[22m[39m
+     [32m✓[39m writes the array form after the last key of the decodable audio object, and the new text parses with the schema[32m 56[2mms[22m[39m
+     [32m✓[39m changes no byte and no modification time on a second run[32m 24[2mms[22m[39m
+     [32m✓[39m stops for a clip file that is absent and writes nothing[32m 12[2mms[22m[39m
+     [32m✓[39m stops for a clip whose SHA-256 differs from the provenance row and writes nothing[32m 10[2mms[22m[39m
+     [32m✓[39m names the flags in its usage and exits 2 for a missing option[32m 1[2mms[22m[39m
+     [32m✓[39m holds no path of the Measure track folders[32m 1[2mms[22m[39m
+     [32m✓[39m writes nothing under content/storytime (this case runs last)[32m 12[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-step2.test.ts [2m([22m[2m39 tests[22m[2m)[22m[33m 5639[2mms[22m[39m
+     [33m[2m✓[22m[39m F1-geometry: the baseline of each trace line is the bottom of its SVG, where the rule line starts (within 0.5 mm) [33m 2981[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-card-kit.test.ts [2m([22m[2m12 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 571[2mms[22m[39m
+     [32m✓[39m R-P8-1 the sound cards, the letter cards, and the frame cards of unit 1[32m 175[2mms[22m[39m
+     [32m✓[39m R-P8-2 the picture cards, the sound picture cards, and the family picture cards of unit 1[32m 42[2mms[22m[39m
+     [32m✓[39m R-P8-3 the tricky-word cards and the word cards of unit 1[32m 49[2mms[22m[39m
+     [32m✓[39m R-P8-4 no step of the 8 weeks names a symbol card[32m 29[2mms[22m[39m
+     [32m✓[39m R-P8-5 the letter strip holds the 26 letters of w08.json in order[32m 32[2mms[22m[39m
+     [32m✓[39m R-P8-6 the sound and symbol cards are A5; the picture and tricky-word cards are A6[32m 35[2mms[22m[39m
+[31m     [31m×[31m R-P8-7 the kit has two card sizes; the A5 cards are 2 on a sheet and the A6 cards are 4[39m[32m 45[2mms[22m[39m
+     [32m✓[39m R-P8-8 the cards are 300 gsm; the stickers are round 40 mm on an A4 sheet[32m 1[2mms[22m[39m
+[31m     [31m×[31m R-P8-9 the workmats, the sorting mats, and the word wall cards of unit 1[39m[32m 40[2mms[22m[39m
+     [32m✓[39m R-P8-10 the sticker sheet holds 8 stickers: the 7 decodable covers and unit 1[32m 35[2mms[22m[39m
+     [32m✓[39m R-P8-12 only the letter cards of the class set and the workmats are class-set items[32m 44[2mms[22m[39m
+     [32m✓[39m R-P8-11 mutant: one removed materials item changes the card list and fails the check[32m 41[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-sound-stages.test.ts [2m([22m[2m49 tests[22m[2m)[22m[32m 292[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[31m16 failed[39m[22m[2m | [22m[1m[32m173 passed[39m[22m[90m (189)[39m
+[2m   Start at [22m 12:08:51
+[2m   Duration [22m 33.91s[2m (transform 1.93s, setup 1.13s, import 2.00s, tests 22.32s, environment 7.02s)[22m
+
+exit: 1

@@ -1,0 +1,206 @@
+Phase 14 Green (measure-jr-green), storytime_week_package_20261022
+Route: claude-code/claude-opus-5-5[1m]#high (Anthropic family; Red was MiniMax, then DeepSeek)
+Start: 2026-11-14 12:03 ICT. Work stop: 12:32 ICT. Log: 2026-11-14 12:55 ICT.
+
+== What the role did ==
+1. Plan commit 81434914: the Green task line is [~]. The Spec review task line is [x], ends with b5948d7, and has its evidence sub-line. git diff showed changes on plan lines 644 and 653 only. Line 103 did not change.
+2. Rule R4 (p14-green-r4.txt): git status --porcelain of schema.ts, sound-stages.ts, check-weeks.ts, content/storytime/l2/, content/storytime/words/, and dashboard/__tests__/ printed 0 lines at 12:04 ICT.
+3. Code in the work tree: dashboard/lib/storytime/sound-stages.ts (new, pure, JSDoc on each export; it imports bankSound and soundLabels only), FocusSchema.paStage and the opening JSDoc text in schema.ts, and the three R14 rows in check-weeks.ts after the readalong-sentence-clips row.
+4. Content in the work tree: p14-apply-check.py applied the 114 field rows as text edits of the changed lines, made the 5 byte copies, and made the 5 removals.
+   - p14-green-apply.txt: rows applied 114; weeks equal 8 of 8; copies cmp equal 5 of 5; removed 5 of 5; exit 0.
+   - p14-form-check.txt: whitespace-only changes 0 for each of w01 to w08; exit 0.
+5. RED_TEST_COMMAND with the work tree (p14-green-red-rerun.txt): exit 1. storytime-package-sound-stages.test.ts passed 49 of 49. 16 cases failed: 14 in storytime-package-practice-clips.test.ts and 2 in storytime-print-card-kit.test.ts.
+6. PROJECT_TESTS with the work tree (p14-green-project-try1.txt, Thai masked): exit 1. Test files: 10 failed, 59 passed (69). Tests: 44 failed, 1728 passed (1772).
+7. Mutants on the new test file (p14-green-mutants-try1.txt, p14-green-mutants-try1-m10.txt): 8 of 12 caught. M1, M3, M4, and M12 survived. Each restore was cmp equal.
+8. Step 8 of the brief applies: tests that the Red edits did not cover pin old values of the change list. The role edited no test, and it made no code and content commit.
+9. The role saved its code in /tmp/p14-green/wip/ and restored its paths to HEAD. git status --porcelain of dashboard/lib, dashboard/scripts, and content/storytime printed 0 lines.
+10. Plan commit 5cca7718: one sub-line under the Green task records the block. The Green task stays [~].
+
+Note on the source of the values below: p14-green-project-try1.txt holds the stdout of vitest (the case names and the counts). vitest wrote the failure details to stderr. The role read those details in its session output; that stderr file no longer exists. p14-green-red-rerun.txt holds the 16 failures of the practice-clips and card-kit files in full. vitest stops a case at its first failed expect. A value marked "measure" comes after the first failed expect of its case, so this run did not show it. The Red retry reads it with the content applied (see the resume note).
+
+== A. The 44 failed cases (10 files) ==
+Format: line of the pin | old pinned value | new value | change list rows.
+
+A1. dashboard/__tests__/storytime-package-practice-clips.test.ts (14 cases)
+ 1. "counts 58 opening words, 51 family words, and 19 tricky words: 128 word slots"
+    - line 1571 | [58, 51, 19] | [66, 51, 19] | C01-09, C02-11, C03-13, C04-11, C05-19, C06-21, C07-17 (the new opening maps hold 10, 10, 9, 10, 8, 9, 10 keys; sum 66)
+    - line 1572 | 128 | 136 | the same rows
+    - the title names 66 and 136.
+ 2. "finds 55 gap slots (42, 8, and 5) and 47 gap words: the 32 with a bank row and the 15 new words"
+    - line 1592 | { opening: 42, family: 8, tricky: 5 } | { opening: 43, family: 8, tricky: 5 } | the opening rows of item 1
+    - lines 1593 to 1594 (GAP_WITH_ROW at line 160, NEW_WORDS at line 166, the count 47) | measure | the opening rows of item 1. NEW_WORDS loses 'arm' and 'dress' (see item 4).
+    - the title: 55 becomes 56; measure the gap word count.
+ 3. "gives the union of the book files and the practice files: 30, 36, 27, 31, 34, 27, and 33 (218)"
+    - line 157 UNION_FILES (checked at line 1650) | { 1: 30, 2: 36, 3: 27, 4: 31, 5: 34, 6: 27, 7: 33 } | { 1: 30, 2: 38, 3: 27, 4: 31, 5: 33, 6: 27, 7: 32 } | F02-01, F02-02 (w02 +2), F05-01 (w05 -1), F07-01 (w07 -1); w03 and w04 +0 (F03-01 to F03-04, F04-01, F04-02). The run showed w02 38; w05 and w07 come from spec P14-D13.
+    - the title: "30, 38, 27, 31, 33, 27, and 32 (218)".
+ 4. "lists the new words of each week in a dry run, prints "chars: <n>" for one take, and writes nothing"
+    - line 180 DRY_BY_WEEK (checked at line 1675) | w04 [['arm', 'arm'], ['ham', 'Ham'], ['jam', 'jam'], ['mop', 'Mop']], w05 [['dress', 'dress'], ['sad', 'Sad'], ['sit', 'Sit']] | w04 [['ham', 'Ham'], ['jam', 'Jam'], ['mop', 'Mop']], w05 [['sad', 'Sad'], ['sit', 'Sit']] | C04-04 and C04-11 (arm leaves; jam now stands only in "What is the word? Jam!"), C05-04 and C05-19 (dress leaves). The run showed the w04 list; the w05 list came from case 12.
+    - line 191 DRY_CHARS | [6, 3, 3, 12, 11, 3, 15] | [6, 3, 3, 9, 6, 3, 15] | derived from the lists (Ham+Jam+Mop 9; Sad+Sit 6); measure to confirm.
+ 5. "makes the 15 words in the order of the runs and sends no text for a word that has a row"
+    - line 169 MADE_BY_WEEK (checked at line 1703) | w04 [['arm', 'arm'], ['ham', 'Ham'], ['jam', 'jam'], ['mop', 'Mop']], w05 [['dress', 'dress'], ['sad', 'Sad'], ['sit', 'Sit']] | w04 [['ham', 'Ham'], ['jam', 'Jam'], ['mop', 'Mop']], w05 [['sad', 'Sad'], ['sit', 'Sit']] | as item 4
+    - line 192 MADE_CHARS | [6, 0, 3, 12, 11, 3, 12] | [6, 0, 3, 9, 6, 3, 12] | derived; measure to confirm
+    - line 195 ROW_FACTS | arm and dress rows; jam: { sources: 'opening', weeks: '4' } | no arm and no dress row; jam: { sources: 'opening', weeks: '4', text: 'Jam' } | as item 4
+    - the title: 15 becomes 13.
+ 6. "adds 15 rows from n 138 to 152 in the K6 and L6 form and leaves the 137 old rows as they are"
+    - line 1716 | toHaveLength(152) | toHaveLength(150) | as item 4 (the run showed 150)
+    - line 1717 (n from 138 to 152) | 138 to 152 | 138 to 150 | as item 4
+    - the title: "adds 13 rows from n 138 to 150".
+ 7. "writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and an mp3 of 32 kHz, mono, 128 kb/s for each new word"
+    - line 1750 (readWav of each word of NEW_WORDS) | NEW_WORDS with 'arm' (ENOENT wa-arm.wav) | NEW_WORDS without 'arm' and 'dress' | as item 4. This case has no pin of its own; it takes NEW_WORDS.
+ 8. "adds the rows by text edits in the Python form: one comma line changes in each run, the top fields stay"
+    - line 1771 (the count of "peak_dbfs": -3.0) | 152 | 150 | as item 4
+ 9. "applies the heard rule, the retake, and the 3-take note to a practice word, and counts every character"
+    - line 1792 | rows.dress.take 3, recognized 'dresses', note "heard 'dresses' in 3 takes" | no new value: dress is no longer a made word, so the case loses its subject | C05-04, C05-19. Not a plain pin: the case needs a new subject word, or option A below.
+ 10. "stops before the first call when one take of each word needs more than maxChars, and changes no row"
+    - line 1805 | week 5 with maxChars 10 throws (dress 5 + Sad 3 + Sit 3 = 11 characters) | week 5 now needs 6 characters, so maxChars 10 throws nothing | C05-04, C05-19. Not a plain pin: the limit must be below 6 (for example maxChars 5), or option A.
+ 11. "stops before the call that would take the run above maxChars, and keeps the rows of the finished words"
+    - line 1816 | week 5 with maxChars 15 and the voice that hears 'dresses'; the calls start with 'dress' | no new value: dress leaves the run | C05-04, C05-19. Not a plain pin: new subject word or limit, or option A.
+ 12. "throws "no faster-whisper venv at <path>" before the first call when recognize is absent"
+    - line 1828 | the w05 dry list ['dress\tdress', 'sad\tSad', 'sit\tSit'] (and the message "week 5 has 3 words") | ['sad\tSad', 'sit\tSit'] ("week 5 has 2 words") | C05-04, C05-19
+ 13. "writes the three new maps and the book maps in the L17 form, copies 30 clips, and changes only closing lines"
+    - line 1884 | toHaveLength(50) | toHaveLength(52) | C01-09 (the w01 opening map gains goodbye and hello). The block content after line 1885 takes W01_OPENING, which Red already set to the 10 keys.
+ 14. "prints one tab line for each key of each map with --check and writes nothing"
+    - line 1941 | 40, message "12 + 11 book keys, 8 opening, 6 family, and 3 tricky" | 42, message "12 + 11 book keys, 10 opening, 6 family, and 3 tricky" | C01-09
+ Option A for items 4 to 12 (the role's default): these D4 cases replay the Phase 12 bank run, which is history. They can read the week files of ddc70618 with git show, as the loops compares read their baselines. Then their Phase 12 facts stay true and no D4 pin changes. Option B: the new pins above, with a new subject word for items 9 to 11. The orchestrator picks the option.
+
+A2. dashboard/__tests__/storytime-package-clips.test.ts (4 cases)
+ Common pin: line 105 W01_OPENING | ['fan', 'hen', 'nest', 'net', 'nose', 'nut', 'pen', 'sun'] | ['fan', 'goodbye', 'hello', 'hen', 'nest', 'net', 'nose', 'nut', 'pen', 'sun'] | C01-03, C01-09 (the S11 w01 list). W01_UNION (line 110) stays 30 keys, because goodbye and hello are also family keys.
+ 1. "writes the five maps, copies 30 clips, removes a stale clip, and changes only the closing lines (50 added, 5 changed)"
+    - line 1445 | toHaveLength(50) | toHaveLength(52) | C01-09; the title "(52 added, 5 changed)".
+ 2. "prints 40 tab lines for the copy of w01 (23 book keys and 17 practice keys) and writes nothing"
+    - line 1619 | 40 | 42 | C01-09; the title "42 tab lines ... (23 book keys and 19 practice keys)".
+ 3. "prints 15 "no bank row" lines when 12 bank rows are absent (a, and, and can also sit in the tricky map), and writes nothing"
+    - line 1639 | 40 | 42 | C01-09; measure the "no bank row" and "ok" counts on lines 1640 and 1641.
+ 4. "exits with 1 when a line is not ok and with 0 when every line is ok (the shipped w01, read only)"
+    - line 1652 | 40, message "23 book keys and 17 practice keys" | 42, message "23 book keys and 19 practice keys" | C01-09
+
+A3. dashboard/__tests__/storytime-print-card-kit.test.ts (2 cases; a file of the print track)
+ 1. "R-P8-7 the kit has two card sizes; the A5 cards are 2 on a sheet and the A6 cards are 4"
+    - line 143 A6_CARD_COUNT (checked at line 236) | 151 | 145 | the six cards of Q14-6: picture cards arm (C04-08), dress and horse (C05-08), boat (C06-08, C06-16, C06-19); sound picture cards bus and dress (C05-14, C05-17)
+    - line 237 | 38 sheets | 37 sheets | derived: 145 cards, 4 on a sheet; measure to confirm
+ 2. "R-P8-9 the workmats, the sorting mats, and the word wall cards of unit 1"
+    - line 124 (checked at line 258) | 'sss / no sss', '/t/ / no /t/', '/o/ / no /o/' | 'sss / not sss', '/t/ / not /t/', '/o/ / not /o/' | C05-16, C06-18, C07-14
+
+A4. dashboard/__tests__/storytime-print-card-kit-patches.test.ts (2 cases; a file of the print track)
+ 1. "R-P8-P3 all 17 special cards replace the empty box and all 32 unmatched cards retain it"
+    - line 186 | 89 non-special picture cards | 83 | the six cards of A3
+    - lines 188 and 194 (57 matched, 32 unmatched) | measure (the split of the 83)
+ 2. "R-P8-P4 the shipped match report gives 57 picture matches, 8 patches, 9 dots, and 32 none"
+    - line 220 | 106 report lines | 100 | the six cards of A3
+    - lines 223, 230, 234 (57, 32, 32) | measure. Patches 8 and dots 9 stay (the six cards are non-special cards, by line 186).
+
+A5. dashboard/__tests__/storytime-print-card-kit-adversarial-r3.test.ts (1 case; a file of the print track)
+ 1. "R3-3 counts the 106 cards of weeks 1 to 8 as picture 89, patch 8, dots 9, and none 0"
+    - line 160 | 106 | 100 | the six cards of A3
+    - the counts after line 160 | picture 89, patch 8, dots 9, none 0 | picture 83, patch 8, dots 9, none 0 | derived from A4 item 1; measure to confirm
+
+A6. dashboard/__tests__/storytime-print-card-kit-match.test.ts (3 cases; a file of the print track)
+ 1. "G-P8-M8 counts picture, patch, dots, and none source columns"
+    - line 116 | { picture: 0, patch: 8, dots: 9, none: 89 } | { picture: 0, patch: 8, dots: 9, none: 83 } | the six cards of A3 (the run showed 83)
+ 2. "G-P8-M5 the shipped weeks give 106 picture-type cards: 57 picture matches, 8 patches, 9 dots, 32 with no match"
+    - line 165 | 106 | 100 | the six cards of A3; measure the split of 57 and 32
+ 3. "G-P8-M6 the shipped picture cards hold 94 distinct words: 46 picture rows, 17 patches or dots, and 31 none"
+    - line 192 | 94 | 91 | arm, dress, and boat leave as words; horse and bus stay as words of other cards; measure the split of 46 and 31
+
+A7. dashboard/__tests__/storytime-loops-audio.test.ts (1 case)
+ 1. "returns the same fields for the eight shipped weeks as the frozen baseline"
+    - line 202 BASELINE_SHA256 (checked at line 209) | '8370c711b093a3836cd1274f59d1b0751326532b0ba9266a7b604c6e3e1c2721' | '8d2a1984b772fa89265ed2e9907d45c2ca19109b0c9a1e9b97bc7efca1530f3b' | C01-05, C02-05, C03-05, C04-05, C05-05, C06-05, C07-05 (opening.audio.0)
+    - line 201 BASELINE_FIELD_COUNTS | [4, 9, 14, 14, 19, 19, 19, 26] | no change
+    - the comment on lines 198 to 200 names the new source. A replica of the case (/tmp/p14-green/la.ts) gave the new hash on the new content, and it gave the old hash on HEAD.
+
+A8. dashboard/__tests__/storytime-loops-content.test.ts (8 cases)
+ 1 to 8. "w0N adds only the FR-1 fields to its baseline file (additive, spec D10)" for N = 1 to 8
+    - line 514 | normalize(shipped) equals normalize(the baseline of commit 23ad4cf8 with the A-48 pairs) | the shipped side now holds the Phase 14 edits | w01 C01-01 to C01-09; w02 C02-01 to C02-11; w03 C03-01 to C03-13; w04 C04-01 to C04-11; w05 C05-01 to C05-19; w06 C06-01 to C06-21; w07 C07-01 to C07-17; w08 C08-01 to C08-13
+    - Not a single value: the compare needs the Phase 14 edits on the baseline side. Precedent: 0a610432 (Phase 12) and 14a8c5eb (Phase 11). The A-48 form uses exact text pairs, and many rows hold Thai, so a non-Claude Red role cannot write those pairs (for example C01-01 (Thai)). Default: both sides align the paths of the change list by path, with English-only checks of the English new values.
+
+A9. dashboard/__tests__/storytime-loops-share-content.test.ts (8 cases)
+ 1 to 8. "w0N adds only share moments to its baseline file (additive, AC-14.5)" for N = 1 to 8
+    - line 286 | normalize(shipped) equals normalize(the baseline of commit 10d5fcfc) | the shipped side now holds the Phase 14 edits | the same rows as A8
+    - The same cause and the same default as A8.
+
+A10. dashboard/__tests__/storytime-loops-share.test.ts (1 case)
+ 1. "J18: the week files keep their hash, and the test writes nothing into the content folder"
+    - line 582 | contentStatus() is '' | no pin change
+    - Other cause: the work tree held the uncommitted Phase 14 content, so git status of content/storytime was not empty. SHIPPED_HASHES (line 269) is read at the start of the run, so the hash part holds. The case passes after the content commit.
+
+Count: A1 14, A2 4, A3 2, A4 2, A5 1, A6 3, A7 1, A8 8, A9 8, A10 1. Total 44.
+
+== B. The four surviving mutants ==
+File: dashboard/lib/storytime/sound-stages.ts (the work-tree version, saved in /tmp/p14-green/wip/sound-stages.ts).
+
+M1 (S2). Line 87, the first pattern.
+ - old text: /\bfirst sounds?\b|\bstarts? with\b|\bat the start\b|\bfirst box\b/i
+ - new text: /\bfirst sounds?\b|\bat the start\b|\bfirst box\b/i (the part |\bstarts? with\b removed)
+ - Why it survives: no S2 row asks the first sound with "start with" alone. Each "first" row also says "first sound" or "at the start".
+ - Case to add (S2): the text '"Listen. Ant. Does ant start with /a/? Yes!"' gives ['first'] (the new English line of C02-07). With M1 it gives [].
+
+M3 (S2). Line 89, the middle pattern.
+ - old text: ...|\blisten to the middle\b|...
+ - new text: the part |\blisten to the middle\b removed
+ - Why it survives: S2 row 3 also matches the sound-token part ("/a/ in the middle"), so it still gives ['middle'].
+ - Case to add (S2): the text '"Now listen to the middle."' gives ['middle']. With M3 it gives [].
+
+M4 (S3). In soundUnits, after the line ...(step.en?.studentActions ?? []),
+ - old text: (no line)
+ - new text: ...((step.en as { watchFor?: string[] } | undefined)?.watchFor ?? []),
+ - Why it survives: the S3 fixture puts watchFor at the step level (fixtureWeek, test line 224), but the schema and the week files hold it under en.watchFor (and th.watchFor). So the fixture never offers en.watchFor. A mutant that reads the step-level object (M4b) was caught.
+ - Case to add (S3): in fixtureWeek, step A1, add en.watchFor: ['Ask about the last sound.']. Then expect the unit scripts.0.steps.0 to keep the text of test lines 426 to 436 exactly, and no unit to hold 'last' (test lines 438 and 439). With M4 the unit holds 'last'.
+
+M12 (S3 or S6). In itemPositions:
+ - old text: asking.map((item) => item.position ?? 'first')
+ - new text: asking.map((item) => item.position)
+ - Why it survives: each fixture item has a position, and S8 parses the shipped weeks, where the schema default fills 'first'. So no case offers a raw item with no position.
+ - Case to add (S3): a raw fixture week with check.items [{ kind: 'circle-picture', sound: '/p/', pictures: ['pet', 'pen', 'pan'], answer: 'pet' }] (no position) gives the unit { where: 'check.items', text: '', positions: ['first'] }. With M12 the positions are []. Optional (S6): the same week at week 1 with the stage-1 paStage gives checkSoundStagePlan status 'pass'.
+
+M10 note: in try 1 the M10 pattern ".min(1) }).strict().optional()," matched 2 places in schema.ts, so the script did not apply it ("pattern count 2, not applied"). The single run used the unique pattern "'middle'])).min(1) }).strict().optional()," and M10 was caught (1 failed, 48 passed; restore cmp equal).
+
+Caught mutants: M2, M5, M6, M7, M8, M9, M10, M11. Count: mutants 12, caught 8.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: storytime_week_package_20261022
+phase: P14 (Phase 14: Sound skill stages)
+phase_base_sha: 76fc13b0
+role_base_sha: 7415de9250466a4f7744d715d0198a30aba4fca9
+red_commit_in_range: yes (e72c68b0 is inside 76fc13b0..HEAD)
+commits:
+  - 81434914 measure(plan): Spec review task [x] (ends b5948d7), Green task [~]
+  - 5cca7718 measure(plan): the Green blocked sub-line
+  - the commit of this log: the log, p14-apply-check.py, p14-form-check.txt, and the p14-green-*.txt captures
+files_changed:
+  - measure/tracks/storytime_week_package_20261022/plan.md (the Spec review and Green task lines and their sub-lines)
+  - measure/runs/storytime_week_package_20261022/p14-apply-check.py (new)
+  - measure/runs/storytime_week_package_20261022/p14-form-check.txt (new)
+  - measure/runs/storytime_week_package_20261022/p14-green-r4.txt, p14-green-apply.txt, p14-green-apply-run.txt, p14-green-red-rerun.txt, p14-green-project-try1.txt, p14-green-mutants-try1.txt, p14-green-mutants-try1-m10.txt (new)
+  - measure/runs/storytime_week_package_20261022/jr-green-p14-7415de92.log (new)
+  - no code, content, media, or test file
+gates:
+  - RED_TEST_COMMAND (work tree): exit 1; files 2 failed, 2 passed; tests 16 failed, 173 passed
+  - PROJECT_TESTS (work tree): exit 1; files 10 failed, 59 passed; tests 44 failed, 1728 passed
+  - GREEN_TEST_COMMAND: not run (blocked; its files are a subset of the PROJECT_TESTS run)
+  - PROJECT_LINT: not run (blocked)
+  - PROJECT_CHECKS: not run (blocked)
+  - apply check: exit 0 (rows applied 114, weeks equal 8 of 8, copies cmp equal 5 of 5, removed 5 of 5)
+  - form check: exit 0 (whitespace-only changes 0 for each week)
+  - mutants: 12, caught: 8 (M1, M3, M4, M12 survived)
+  - pnpm-lock.yaml: no change
+deviations:
+  - The role ran the targeted Red command after the code edit, not before it. The Red capture p14-red.txt of e72c68b0 holds the failing run.
+  - The tee captures hold stdout only. The vitest failure details went to stderr, and the role read them from its session output. The next runs must capture with "2>&1" in the heavy-run command string, or with the vitest JSON reporter.
+  - The first apply run had an indent fault in the script. The role restored the files from git, fixed the script, and ran it again. The captures hold the second run.
+  - The scratch folder /tmp/p14-green stays, because it holds the saved code for the resume. Remove it after the Green commit.
+  - The first log write failed at the step limit; the orchestrator asked for this log at 12:45 ICT.
+handoff: |
+  Request: a Red retry (test only) before Green commits. Green resumes after the Red retry commit.
+  1. Pins: part A of this log gives each case, its line, the old value, the new value, and the change list rows. Each failure comes from the values of the change list, except A10 (J18), which passes after the commit.
+  2. Decisions for the orchestrator: option A or option B for the D4 history cases (A1 items 4 to 12; default option A), and the form of the additive compares (A8 and A9; default: align the change list paths by path, with English-only checks).
+  3. Mutant gaps: part B gives the four cases to add to storytime-package-sound-stages.test.ts (M1 and M3 in S2; M4 and M12 in S3).
+  4. Values marked "measure": the Red retry applies the content in the work tree, reads the values, and restores:
+     - apply: python3 -I measure/runs/storytime_week_package_20261022/p14-apply-check.py apply (from the repository root; it prints no Thai)
+     - restore: git checkout -- content/storytime/l2/w01.json to w08.json and the 5 removed files (media/w03/words/wa-cup.mp3, media/w03/words/wa-map.mp3, media/w04/words/wa-arm.mp3, media/w05/words/wa-dress.mp3, media/w07/words/wa-sock.mp3); then remove the 5 copies (media/w02/words/wa-net.mp3, media/w02/words/wa-nose.mp3, media/w03/words/wa-ant.mp3, media/w03/words/wa-net.mp3, media/w04/words/wa-apple.mp3)
+     - The Red retry commits no content. Its new pins fail at HEAD and pass after the apply.
+  5. Green resume: the R4 check; the code from /tmp/p14-green/wip/; the apply; the SHA-256 compare with /tmp/p14-green/wip/content-sha256.txt; the four gates (captures with stderr); the 12 mutants; the live rows; AC14-4; the one commit; the plan evidence.
+  6. Tasks: the Spec review line is [x] (81434914, ends b5948d7). No task is [b]. The Green task stays [~].
+  7. Final HEAD at the end of the role: the commit of this log.
+END_MEASURE_AGENT_RESULT

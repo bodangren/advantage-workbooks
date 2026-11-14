@@ -1,0 +1,818 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-package-practice-clips.test.ts [2m([22m[2m89 tests[22m[2m | [22m[31m14 failed[39m[2m)[22m[33m 14684[2mms[22m[39m
+     [32m✓[39m keeps opening.wordClips, focus.family.wordClips, focus.trickyWordClips, and sentenceClips in the parse output[32m 48[2mms[22m[39m
+     [32m✓[39m keeps the fields in the parse output of FocusSchema and BookAudioSchema[32m 7[2mms[22m[39m
+     [32m✓[39m parses a week without the fields as before, and leaves each field undefined[32m 12[2mms[22m[39m
+     [32m✓[39m refuses an upper-case key and an empty value in each of the three maps[32m 98[2mms[22m[39m
+     [32m✓[39m refuses a sentence clip item with no file, and an item with an empty file[32m 5[2mms[22m[39m
+     [32m✓[39m gives the 10 words of the hand-written table of the shipped w01[32m 74[2mms[22m[39m
+     [32m✓[39m gives the distinct counts 10, 10, 9, 10, 8, 9, 10 and the hand-written words for w01 to w07[32m 42[2mms[22m[39m
+     [32m✓[39m finds 10 word forms in the 5 lines of each shipped week (the data, counted with the expression of L4)[32m 53[2mms[22m[39m
+     [32m✓[39m reads both forms and ignores a sound line, a first-sound question, and the case of the word[32m 1[2mms[22m[39m
+     [32m✓[39m throws "opening: no word form in line <i>" with i from 0 for a line with no form[32m 1[2mms[22m[39m
+     [32m✓[39m never reads the th text: a change of th, and a th that throws when it is read, give the same keys[32m 6[2mms[22m[39m
+     [32m✓[39m gives the three lists of each shipped week, sorted by code point, with the hand-written words[32m 43[2mms[22m[39m
+[31m     [31m×[31m counts 58 opening words, 51 family words, and 19 tricky words: 128 word slots[39m[32m 72[2mms[22m[39m
+[31m     [31m×[31m finds 55 gap slots (42, 8, and 5) and 47 gap words: the 32 with a bank row and the 15 new words[39m[32m 63[2mms[22m[39m
+     [32m✓[39m plans the three maps and the sorted distinct files of the shipped w01[32m 6[2mms[22m[39m
+     [32m✓[39m serves two maps with one file, and plans an empty map for an absent list[32m 1[2mms[22m[39m
+     [32m✓[39m throws "two keys, one file" for the keys its and it's in one week[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives the union of the book files and the practice files: 30, 36, 27, 31, 34, 27, and 33 (218)[39m[32m 13[2mms[22m[39m
+[31m     [31m×[31m lists the new words of each week in a dry run, prints "chars: <n>" for one take, and writes nothing[39m[32m 260[2mms[22m[39m
+     [33m[2m✓[22m[39m makes only the book words without the flag, and the 15 words with it (week 3: cap) [33m 1071[2mms[22m[39m
+[31m     [31m×[31m makes the 15 words in the order of the runs and sends no text for a word that has a row[39m[33m 1531[2mms[22m[39m
+[31m     [31m×[31m adds 15 rows from n 138 to 152 in the K6 and L6 form and leaves the 137 old rows as they are[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and an mp3 of 32 kHz, mono, 128 kb/s for each new word[39m[32m 222[2mms[22m[39m
+[31m     [31m×[31m adds the rows by text edits in the Python form: one comma line changes in each run, the top fields stay[39m[32m 54[2mms[22m[39m
+[31m     [31m×[31m applies the heard rule, the retake, and the 3-take note to a practice word, and counts every character[39m[33m 318[2mms[22m[39m
+[31m     [31m×[31m stops before the first call when one take of each word needs more than maxChars, and changes no row[39m[33m 314[2mms[22m[39m
+[31m     [31m×[31m stops before the call that would take the run above maxChars, and keeps the rows of the finished words[39m[33m 329[2mms[22m[39m
+[31m     [31m×[31m throws "no faster-whisper venv at <path>" before the first call when recognize is absent[39m[32m 117[2mms[22m[39m
+     [32m✓[39m names the flag --practice in its usage[32m 1[2mms[22m[39m
+[31m     [31m×[31m writes the three new maps and the book maps in the L17 form, copies 30 clips, and changes only closing lines[39m[32m 143[2mms[22m[39m
+     [32m✓[39m changes no byte and no modification time on a second run[32m 178[2mms[22m[39m
+     [32m✓[39m removes a stale clip and a file that is not a clip stays, and keeps each practice clip that no book names[32m 130[2mms[22m[39m
+[31m     [31m×[31m prints one tab line for each key of each map with --check and writes nothing[39m[32m 104[2mms[22m[39m
+     [32m✓[39m stops for a practice word with no bank row with "no bank row" and changes no file[32m 110[2mms[22m[39m
+     [32m✓[39m stops for a practice word with no bank mp3 file with "no bank file" and changes no file[32m 124[2mms[22m[39m
+     [32m✓[39m stops for a practice word whose WAV SHA-256 differs from its row with "bank SHA-256 differs" and changes no file[32m 109[2mms[22m[39m
+     [32m✓[39m gives the exact id and label, and pass with no detail on the mapped copy[32m 272[2mms[22m[39m
+     [32m✓[39m warns "no clip: <keys>" for a key that its map lacks, and for a list that has no map[32m 254[2mms[22m[39m
+     [32m✓[39m warns for a practice word that only a book map names[32m 80[2mms[22m[39m
+     [32m✓[39m fails with "missing: <path>" when a clip file is absent[32m 81[2mms[22m[39m
+     [32m✓[39m fails with "differs from bank: <path>" when a clip differs from the bank mp3[32m 86[2mms[22m[39m
+     [32m✓[39m fails with "no bank file: <key>" when the bank mp3 is absent and the week clip exists[32m 90[2mms[22m[39m
+     [32m✓[39m fails with "no bank row: <key>" when a key has no bank row[32m 111[2mms[22m[39m
+     [32m✓[39m fails with "not a practice word: <key>" for a key that no word of its list gives[32m 142[2mms[22m[39m
+     [32m✓[39m fails with "bad path: <path>" for a value that is not the K3 path of its key[32m 109[2mms[22m[39m
+     [32m✓[39m joins the six fail parts in the order of L9 with "; "[32m 87[2mms[22m[39m
+     [32m✓[39m lets a fail win over a warn, and the detail of the fail holds no warn part[32m 79[2mms[22m[39m
+     [32m✓[39m gives no row for a week with no meta and for a week with no book (the review week w08)[32m 92[2mms[22m[39m
+     [33m[2m✓[22m[39m gives pass or warn and never fail for the shipped w01 to w07, and no row for w08 [33m 903[2mms[22m[39m
+     [32m✓[39m gives the path l2/media/w<nn>/sentences/b<i>-s<jj>.mp3[32m 2[2mms[22m[39m
+     [32m✓[39m plans the decodable books only, in the order of the books, and gives nothing for a read-along book[32m 2[2mms[22m[39m
+     [32m✓[39m plans 8 sentences for each shipped week (56 in all, 779 characters), none for the read-along books, and none for w08[32m 68[2mms[22m[39m
+     [33m[2m✓[22m[39m makes one call for each sentence, in order, with the exact text, the voice of the book, and the speed 1 [33m 910[2mms[22m[39m
+     [32m✓[39m succeeds although the tree has no book audio file, so the maker does not read the book audio[32m 3[2mms[22m[39m
+     [33m[2m✓[22m[39m creates the sentences folder before the first synthesize call (R1) [33m 855[2mms[22m[39m
+     [32m✓[39m exports main, which prints the usage for --help and exits 2 for a missing option[32m 1[2mms[22m[39m
+     [32m✓[39m passes a take only when the recognizer heard each word in order (sentenceHeardPasses)[32m 2[2mms[22m[39m
+     [32m✓[39m gives the bounds of a sentence: 0.2 s for each word at least, and 1.2 s for each word plus 1 s at most[32m 7[2mms[22m[39m
+     [32m✓[39m writes only the mp3 clips and the provenance file: no WAV file and no take file stays[32m 1[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s with the peak near -3 dBFS and 80 ms of quiet at each edge [33m 1234[2mms[22m[39m
+     [32m✓[39m writes the provenance file with the L8 keys, the JSON.stringify form, and the SHA-256 of each mp3[32m 5[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as other words, and keeps the take number [33m 973[2mms[22m[39m
+     [32m✓[39m keeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail[32m 1[2mms[22m[39m
+     [32m✓[39m makes a take again when it is too long or too short, and when its longest inner pause is above 0.6 s[32m 1[2mms[22m[39m
+     [32m✓[39m sends the sentences in order with the takes in a row, and counts every character[32m 1[2mms[22m[39m
+     [32m✓[39m stops before the first call when one take of each sentence needs more than maxChars, and writes nothing[32m 56[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars [33m 762[2mms[22m[39m
+     [32m✓[39m lists the 8 sentences and prints "chars: 70" for --dry-run, and writes nothing[32m 53[2mms[22m[39m
+     [32m✓[39m throws "no faster-whisper venv at <path>" before the first call when recognize is absent[32m 57[2mms[22m[39m
+     [32m✓[39m gives true for a window cut from a synthetic source, also after a change of the gain (the positive control)[32m 88[2mms[22m[39m
+     [32m✓[39m gives false for an unrelated synthetic signal of the same length (the negative control)[32m 12[2mms[22m[39m
+     [33m[2m✓[22m[39m gives false for each clip that the maker makes, against a synthetic book mp3 that sits at the book audio path [33m 1213[2mms[22m[39m
+     [32m✓[39m gives the exact id and label, and pass with no detail[32m 11[2mms[22m[39m
+     [32m✓[39m warns "no clips" when the decodable book has no field[32m 8[2mms[22m[39m
+     [32m✓[39m fails with "count differs: <book>" when the array length is not the sentence count[32m 7[2mms[22m[39m
+     [32m✓[39m fails with "text differs: <path>" when an item sentence is not the book sentence[32m 7[2mms[22m[39m
+     [32m✓[39m fails with "missing: <path>" when a clip file is absent[32m 8[2mms[22m[39m
+     [32m✓[39m fails with "bad path: <path>" for a value that is not the L7 path of its index[32m 8[2mms[22m[39m
+     [32m✓[39m joins the four fail parts in the order of L9 with "; "[32m 7[2mms[22m[39m
+     [32m✓[39m lets a fail win over a warn, and the detail of the fail holds no warn part[32m 7[2mms[22m[39m
+     [32m✓[39m gives no row for a week with no decodable book[32m 13[2mms[22m[39m
+     [32m✓[39m gives pass or warn and never fail for the shipped w01 to w07[32m 32[2mms[22m[39m
+     [32m✓[39m writes the array form after the last key of the decodable audio object, and the new text parses with the schema[32m 78[2mms[22m[39m
+     [32m✓[39m changes no byte and no modification time on a second run[32m 24[2mms[22m[39m
+     [32m✓[39m stops for a clip file that is absent and writes nothing[32m 11[2mms[22m[39m
+     [32m✓[39m stops for a clip whose SHA-256 differs from the provenance row and writes nothing[32m 11[2mms[22m[39m
+     [32m✓[39m names the flags in its usage and exits 2 for a missing option[32m 1[2mms[22m[39m
+     [32m✓[39m holds no path of the Measure track folders[32m 1[2mms[22m[39m
+     [32m✓[39m writes nothing under content/storytime (this case runs last)[32m 12[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-card-kit.test.ts [2m([22m[2m12 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 624[2mms[22m[39m
+     [32m✓[39m R-P8-1 the sound cards, the letter cards, and the frame cards of unit 1[32m 230[2mms[22m[39m
+     [32m✓[39m R-P8-2 the picture cards, the sound picture cards, and the family picture cards of unit 1[32m 44[2mms[22m[39m
+     [32m✓[39m R-P8-3 the tricky-word cards and the word cards of unit 1[32m 50[2mms[22m[39m
+     [32m✓[39m R-P8-4 no step of the 8 weeks names a symbol card[32m 30[2mms[22m[39m
+     [32m✓[39m R-P8-5 the letter strip holds the 26 letters of w08.json in order[32m 31[2mms[22m[39m
+     [32m✓[39m R-P8-6 the sound and symbol cards are A5; the picture and tricky-word cards are A6[32m 35[2mms[22m[39m
+[31m     [31m×[31m R-P8-7 the kit has two card sizes; the A5 cards are 2 on a sheet and the A6 cards are 4[39m[32m 45[2mms[22m[39m
+     [32m✓[39m R-P8-8 the cards are 300 gsm; the stickers are round 40 mm on an A4 sheet[32m 1[2mms[22m[39m
+[31m     [31m×[31m R-P8-9 the workmats, the sorting mats, and the word wall cards of unit 1[39m[32m 39[2mms[22m[39m
+     [32m✓[39m R-P8-10 the sticker sheet holds 8 stickers: the 7 decodable covers and unit 1[32m 34[2mms[22m[39m
+     [32m✓[39m R-P8-12 only the letter cards of the class set and the workmats are class-set items[32m 43[2mms[22m[39m
+     [32m✓[39m R-P8-11 mutant: one removed materials item changes the card list and fails the check[32m 40[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m58 tests[22m[2m)[22m[33m 188405[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default) [33m 448[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04) [33m 8627[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1) [33m 1184[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 3513[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 upright or turned pages on each side (spec FR-5.1) [33m 399[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1) [33m 4620[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders [33m 324[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8) [33m 967[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8) [33m 1019[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder [33m 351[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-6 exposes the readers PDF CLI help [33m 1397[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry [33m 1270[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture [33m 3963[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names [33m 10930[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size [33m 3060[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts [33m 1124[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file [33m 1399[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-15 rejects a Forge job that is not ready or holds no selected version [33m 1327[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-16 reports a row whose Forge job is not ready as fail with a reason [33m 1201[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings [33m 4944[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-14 exposes the stage-one batch command [33m 443[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix [33m 16567[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest [33m 2355[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI [33m 1197[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F20 checks requested week 2 card rows after the book rows [33m 502[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32a checks all 31 requested card rows without requesting book rows [33m 5530[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32b fails the missing requested week 1 card row [33m 5695[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32c checks a missing card row beside the complete week 1 book delivery [33m 15675[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F40 prints the skip line for card rows in a book-only week 1 batch [33m 15049[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F45 reports requested-row totals in card-only and book-only batches [33m 20342[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F44 documents the skipped-row rule in picture-check usage [33m 417[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F36 prints a clean error when duplicate words break the card list [33m 441[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text [33m 837[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names [33m 12644[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-24 fails a row that has two jobs with the same row id, in any job order, and keeps the other rows [33m 793[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions [33m 1639[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-26 accepts only <row id>-v<N>.png with <row id>-line-v<N>.png, N positive, one N, equal to selectedVersion [33m 319[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id [33m 23000[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output [33m 1624[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder [33m 1461[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder [33m 1084[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 738[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output [33m 1760[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file [33m 1255[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 2905[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+[22m[39mR34 pdffonts:
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+NBDDKL+Sarabun-Regular               CID TrueType      Identity-H       yes yes yes     20  0
+RIGJGG+Andika                        CID TrueType      Identity-H       yes yes yes     14  0
+NYAHJN+Andika-Bold                   CID TrueType      Identity-H       yes yes yes     10  0
+UCFIFH+LeagueSpartanThin-Bold        CID TrueType      Identity-H       yes yes yes    152  0
+
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+[22m[39mR38 compiled trace medians: 175, 175, 175, 175
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+[22m[39mR38 removed-gray-rule medians: 0, 0, 0, 0
+
+ [32m✓[39m __tests__/storytime-print-student-book.test.ts [2m([22m[2m77 tests[22m[2m)[22m[33m 95959[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the page order and a left-page spread [33m 941[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the week 1 student book as 20 A4 sides: 7 inside pages, 1 aligner, and 12 reader sides (spec FR-3) [33m 351[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: uses the P11 default title and the eight book-map places [33m 326[2mms[22m[39m
+     [33m[2m✓[22m[39m R27: gives the two real QR generators the S23 song and read-along inputs (P4) [33m 392[2mms[22m[39m
+     [33m[2m✓[22m[39m R35: keeps the QR deploy mark in proof mode and excludes it from final mode [33m 667[2mms[22m[39m
+     [33m[2m✓[22m[39m R28: excludes the four forbidden labels and every CJK character from the HTML [33m 320[2mms[22m[39m
+     [33m[2m✓[22m[39m R28: keeps Thai only on the home card, the week header, and the icon key, and keeps each Thai run unbroken [33m 403[2mms[22m[39m
+     [33m[2m✓[22m[39m R29: loads only static Andika and Sarabun font faces with their OFL files [33m 743[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: uses the exported K-only flags in the production student-book conversion call [33m 752[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count [33m 7730[2mms[22m[39m
+     [33m[2m✓[22m[39m R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X [33m 919[2mms[22m[39m
+     [33m[2m✓[22m[39m R43: rejects unsafe QR paths and keeps the shipped inputs on the checked URL contract [33m 362[2mms[22m[39m
+     [33m[2m✓[22m[39m R44: final mode requires and selects line art, not the color file [33m 494[2mms[22m[39m
+     [33m[2m✓[22m[39m R36: matches both printed PDF/X QR matrices to their labeled song and book addresses [33m 3007[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch [33m 1074[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: registers the 12 reader sides as 6 duplex leaves of 2 landscape 198 x 148.5 mm pages each, in the spec imposition (spec FR-3, FR-5.1) [33m 397[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: each leaf mark of the student book lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 5486[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: fails on a wrong imposition, a missing fold line, a wrong mark, a front page not turned, a back page turned, the old 90 degree turn, a portrait page, and a 99 x 140 mm page (mutants on a copy; spec FR-5.1) [33m 5468[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-10: fills the twelve student-book reader sides with the R32 leaves and reader pages [33m 429[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a removed home leaf on a temporary HTML copy [33m 638[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects an answer mark on a temporary HTML copy [33m 907[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a right-page spread on a temporary HTML copy [33m 771[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints each trace item in a K 20-40% gray, never solid black (D2) [33m 5978[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in [33m 31405[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints a black start dot on each letter copy (D2) [33m 5077[2mms[22m[39m
+     [33m[2m✓[22m[39m R39: leaves the dictation letter lines empty write-in lines (D3) [33m 3610[2mms[22m[39m
+     [33m[2m✓[22m[39m R40: mirrors the horizontal fold line with the leaf parity and prints it across the middle of the leaf (D4, spec FR-5.1) [33m 4766[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-30 prints the line art of a redone row from the folder manifest and never the color file [33m 1077[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33b final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 480[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-40 a hostile folder prefix adds no attribute and no element, and a prefix with #, ?, %, a quote, or a space decodes to the resolved file [33m 3847[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-42 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 3170[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers-16books-adversarial.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 94382[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-CLI: a bad level, a bad unit, and an unknown option exit 2 before any write [33m 13620[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-OUT: a version 3 --print build without --out leaves the approved proof-v3 mock folder unchanged (C-P2-01) [33m 18006[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-D12: with week 1 back to draft and weeks 2 to 8 approved, a print build stops on the story field and writes nothing [33m 2291[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-D12: with only week 3 back to draft, the printed back page carries no word that only week 3 supplies [33m 16870[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-GATE: PRINT_GATE fails a Chrome-like PDF, also under the print file name, and a missing file exits 2 [33m 827[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only [33m 16338[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged [33m 19062[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-GUARD: a --print build with an explicit --out inside the proof folder of another version exits 2 before any write [33m 6502[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m46 tests[22m[2m)[22m[33m 92791[2mms[22m[39m
+     [33m[2m✓[22m[39m R20.1 and R20.3 to R20.6: the five fields follow their shipped week and phonics sources [33m 331[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs [33m 13093[2mms[22m[39m
+     [33m[2m✓[22m[39m R23: all backs show five fields; empty fields show mock-only missing copy and no Thai [33m 685[2mms[22m[39m
+     [33m[2m✓[22m[39m R22 M21 and M22: print source and version output path remain bounded [33m 2031[2mms[22m[39m
+     [33m[2m✓[22m[39m R29 CLI: a version 3 build into proof exits 2 before a write and keeps the seed file [33m 1752[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 8788[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 1557[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 1875[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails [33m 2630[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2: all three shipped compositions meet the fill threshold on their tinted ground [33m 5498[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2 mutation: a centred 75 percent L4U4 image passes corners and fails by fill [33m 1711[2mms[22m[39m
+     [33m[2m✓[22m[39m R19 v2: each shipped figure box keeps its trimmed cut-out ratio, including a copied 6 percent stretch mutant [33m 674[2mms[22m[39m
+     [33m[2m✓[22m[39m R13: the picture layer has no alpha, composeSide stays JPEG, and the page is not one image [33m 373[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 18485[2mms[22m[39m
+     [33m[2m✓[22m[39m R26: six panel mutation copies, each in a temp folder, each fails one panel check (M16 to M20, replaces R16 M6) [33m 385[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 21386[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture [33m 2474[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge [33m 4941[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 top band: no figure pixel is in the top 8 mm band of a composed cover picture [33m 2616[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+ [32m✓[39m __tests__/storytime-package-family.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 26943[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5 the script writes six pictures, six provenance lines, and six file lines [33m 1603[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5b the card JPEG and the Forge JPEG hold the H6 output rules [33m 520[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5c the provenance file follows the H7 sort order [33m 486[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6 the week file gains a file line after each caption and changes nothing else [33m 833[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6b a caption that holds a JSON escape keeps its value [33m 407[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6c the script parses the new week text before it writes [33m 474[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-7 the script stops before any write: 'a PNG of 16 bits' [33m 308[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-8 a line file next to a color file does not stop the run [33m 444[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-9 the partial run skips a Forge word with no file and keeps the card rule [33m 738[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-10 the provenance keeps the lines of the words that a run skips [33m 941[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-11 the check mode prints one line per word and writes nothing [33m 759[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-12 the script changes a file line with another value and keeps a file line with the same value [33m 1280[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-13 a second run changes no byte [33m 733[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-15 the live run of the color patches of week 3 writes seven pictures [33m 13360[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-19 the 51 shipped pictures hold the H6 facts and the provenance matches the sources [33m 1491[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers-adversarial.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 47206[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symbolic link --out into an occupied print-ready folder and writes no file [33m 3343[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a print-ready folder that holds any file [33m 1758[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the gates for a new folder and for an empty folder in print-ready [33m 3666[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves a folder outside print-ready with its own rules [33m 2330[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --out at the end and writes no folder [33m 1963[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --band at the end after a full --out and writes no folder [33m 1936[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --out followed by another flag and writes no folder [33m 2162[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --version followed by --print and writes no folder [33m 2142[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --front followed by another flag and writes no folder [33m 2411[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a fully transparent front art file and writes nothing [33m 4532[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 and writes no file in --out when Ghostscript fails [33m 13835[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the reader cover check for the real covers and writes the print file [33m 7035[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-step-system.test.ts [2m([22m[2m57 tests[22m[2m)[22m[33m 38771[2mms[22m[39m
+     [33m[2m✓[22m[39m S-mutants: the n strokes for o, a dot off the stroke, and a missing stroke each fail the check [33m 541[2mms[22m[39m
+     [33m[2m✓[22m[39m M-icons: each icon is a black line SVG with no color, no transparency, and no gradient, 10 to 12 mm wide [33m 6343[2mms[22m[39m
+     [33m[2m✓[22m[39m M-badge: the step badge is a grey box of 8 pt, and the new look uses only black, white, and grey (PRINT_GATE) [33m 512[2mms[22m[39m
+     [33m[2m✓[22m[39m C-pages: the page number is at the bottom right; the reader leaves carry no page number and no week header [33m 797[2mms[22m[39m
+     [33m[2m✓[22m[39m C-hostile: a hostile trace text and a hostile dictation word add no element and print only as text [33m 710[2mms[22m[39m
+     [33m[2m✓[22m[39m X-parity: the grey model letters and the trace lines match the Andika outline within 0.5 mm [33m 13086[2mms[22m[39m
+     [33m[2m✓[22m[39m X-rule: the baseline of a trace word lies on its rule line in the PDF (A-48 F1, within 0.5 mm) [33m 4768[2mms[22m[39m
+     [33m[2m✓[22m[39m X-fit: the 2 benchmark pages and the 5 review pages of week 8 print on 7 pages, and the circle words carry no drawn oval (A-48 U4) [33m 4720[2mms[22m[39m
+     [33m[2m✓[22m[39m X-fit-write: each of the 7 write pages prints on one page (A-48 F4) [33m 4577[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-adversarial-r2.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 36003[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-1 fails a job whose id differs from the row id by a trailing space or by case [33m 1040[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-2 requests both classes of week 1 when no job id equals a row id [33m 493[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-3 ignores a job of a week that --weeks does not request [33m 11611[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-4 gives each class of each week a result line or a skip line for the book rows of week 1 and the card rows of week 2 [33m 11449[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5 fails a missing week 2 card row beside complete week 1 books and counts it in the total [33m 11203[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-card-kit-patches.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 48519[2mms[22m[39m
+     [32m✓[39m R-P8-P1 the eight named color words use their approved sRGB patch colors[32m 217[2mms[22m[39m
+     [32m✓[39m R-P8-P2 the nine number cards show the numeral and exactly its number of round dots[32m 144[2mms[22m[39m
+[31m     [31m×[31m R-P8-P3 all 17 special cards replace the empty box and all 32 unmatched cards retain it[39m[33m 32820[2mms[22m[39m
+[31m     [31m×[31m R-P8-P4 the shipped match report gives 57 picture matches, 8 patches, 9 dots, and 32 none[39m[33m 15227[2mms[22m[39m
+     [32m✓[39m R-P8-P5 falsifier: a dot count off by one fails the exact count assertion[32m 106[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-card-kit-adversarial-r3.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 7538[2mms[22m[39m
+     [32m✓[39m X-P8-14 does not count a match line with only white space in the third column as a picture[32m 3[2mms[22m[39m
+     [32m✓[39m R3-1 reads a tab with an empty fourth column from the third column and keeps the four counts adding up[32m 3[2mms[22m[39m
+     [32m✓[39m X-P8-15 keeps one line and four columns for a card whose label holds a tab or a line break[32m 2[2mms[22m[39m
+     [32m✓[39m R3-2 reads a centre map with a null prototype and an own __proto__ key, and leaves Object.prototype alone[32m 3[2mms[22m[39m
+     [32m✓[39m X-P8-16 rejects a centre value whose separator is not CSS white space[32m 1[2mms[22m[39m
+[31m     [31m×[31m R3-3 counts the 106 cards of weeks 1 to 8 as picture 89, patch 8, dots 9, and none 0[39m[33m 7522[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-package-clips.test.ts [2m([22m[2m93 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 16636[2mms[22m[39m
+     [32m✓[39m gives the key of the hand-written table[32m 11[2mms[22m[39m
+     [32m✓[39m throws "word clip: ... not a word key" for a word with a hyphen, a digit, or an accent inside[32m 2[2mms[22m[39m
+     [32m✓[39m gives one key for a word in each letter case[32m 2[2mms[22m[39m
+     [32m✓[39m removes each apostrophe from the stem[32m 0[2mms[22m[39m
+     [32m✓[39m gives the K3 path of a key, a level, and a week[32m 1[2mms[22m[39m
+     [32m✓[39m throws for a bad key, for week 0, and for week 100[32m 1[2mms[22m[39m
+     [32m✓[39m plans one map for each book and the sorted distinct files[32m 1[2mms[22m[39m
+     [32m✓[39m plans the two maps of the shipped week 1 and 22 files[32m 13[2mms[22m[39m
+     [32m✓[39m throws "two keys, one file" for the keys its and it's in one week[32m 1[2mms[22m[39m
+     [32m✓[39m gives the 12 keys of book 0 and the 11 keys of book 1 of the shipped w01, sorted[32m 13[2mms[22m[39m
+     [32m✓[39m sorts by code point, gives each key once, and reads both speeds[32m 1[2mms[22m[39m
+     [32m✓[39m gives the key slots of each book and the files of each week for w01 to w07, and nothing for w08[32m 63[2mms[22m[39m
+     [32m✓[39m keeps a wordClips map in the parse output of the book audio[32m 3[2mms[22m[39m
+     [32m✓[39m rejects an upper-case key, a key with a hyphen, and an empty value[32m 2[2mms[22m[39m
+     [32m✓[39m keeps the map in the parse output of a whole week[32m 41[2mms[22m[39m
+     [32m✓[39m parses videoLeadInSeconds 3 and 0, and keeps the value; it rejects -0.001 and a non-finite value[32m 12[2mms[22m[39m
+[31m     [31m×[31m writes the five maps, copies 30 clips, removes a stale clip, and changes only the closing lines (50 added, 5 changed)[39m[32m 190[2mms[22m[39m
+     [32m✓[39m changes no byte and no modification time on a second run[32m 192[2mms[22m[39m
+     [32m✓[39m replaces only the wordClips block when the books change, and removes the clip that no key names[32m 139[2mms[22m[39m
+     [32m✓[39m stops for a key with no bank row with "no bank row" and changes no file[32m 120[2mms[22m[39m
+     [32m✓[39m stops for a bank row with no mp3 file with "no bank file" and changes no file[32m 121[2mms[22m[39m
+     [32m✓[39m stops for a WAV file whose SHA-256 differs from its row with "bank SHA-256 differs" and changes no file[32m 121[2mms[22m[39m
+     [32m✓[39m stops for a week with 2 books and 1 audio object and leaves the media folder and the week file as they were[32m 128[2mms[22m[39m
+     [32m✓[39m stops for a week whose second book has an empty audio object and leaves the media folder and the week file as they were[32m 141[2mms[22m[39m
+     [32m✓[39m stops for a week that the schema refuses and leaves the media folder and the week file as they were[32m 138[2mms[22m[39m
+[31m     [31m×[31m prints 40 tab lines for the copy of w01 (23 book keys and 17 practice keys) and writes nothing[39m[32m 111[2mms[22m[39m
+[31m     [31m×[31m prints 15 "no bank row" lines when 12 bank rows are absent (a, and, and can also sit in the tricky map), and writes nothing[39m[32m 110[2mms[22m[39m
+[31m     [31m×[31m exits with 1 when a line is not ok and with 0 when every line is ok (the shipped w01, read only)[39m[32m 276[2mms[22m[39m
+     [32m✓[39m prints the usage and exits 0 for --help, and exits 2 for a missing option[32m 1[2mms[22m[39m
+     [32m✓[39m gives the exact id and label, and pass with no detail on the mapped copy[32m 217[2mms[22m[39m
+     [32m✓[39m passes a clip that equals its bank mp3 although the row sha256 is the WAV hash (review F2)[32m 100[2mms[22m[39m
+     [32m✓[39m warns "no clip: <keys>" with each key once, in document order, when the books have no map[32m 83[2mms[22m[39m
+     [32m✓[39m warns for the keys that a map lacks, in document order[32m 97[2mms[22m[39m
+     [32m✓[39m warns for a word that has no key in the map of its own book, although the other book maps it[32m 100[2mms[22m[39m
+     [32m✓[39m warns for every key of a book that has no map[32m 89[2mms[22m[39m
+     [32m✓[39m fails with "missing: <path>" when a clip file is absent[32m 85[2mms[22m[39m
+     [32m✓[39m fails with "differs from bank: <path>" when a clip differs from the bank mp3[32m 91[2mms[22m[39m
+     [32m✓[39m fails with "no bank row: <key>" when a key has no bank row[32m 83[2mms[22m[39m
+     [32m✓[39m fails with "not a book word: <key>" for a key that no word of its book gives[32m 92[2mms[22m[39m
+     [32m✓[39m fails with "bad path: <path>" for a value that is not the K3 path of its key[32m 93[2mms[22m[39m
+     [32m✓[39m joins the five fail parts in the order of K12 with "; "[32m 86[2mms[22m[39m
+     [32m✓[39m lets a fail win over a warn, and the detail of the fail holds no warn part[32m 91[2mms[22m[39m
+     [32m✓[39m gives no row for a week with no book and for a week with no meta (review F1)[32m 89[2mms[22m[39m
+     [33m[2m✓[22m[39m gives pass or warn and never fail for the shipped w01 to w07, and no row for w08 [33m 1205[2mms[22m[39m
+     [32m✓[39m fails and names the key when the week clip exists and the row names an absent bank mp3[32m 165[2mms[22m[39m
+     [32m✓[39m names each key whose bank mp3 is absent[32m 105[2mms[22m[39m
+     [32m✓[39m gives pass when the song names a video and has the field, with the exact id and label[32m 1[2mms[22m[39m
+     [32m✓[39m gives warn "no lead-in" when the song names a video and has no field[32m 0[2mms[22m[39m
+     [32m✓[39m gives fail "lead-in without video" when the song has the field and names no video[32m 0[2mms[22m[39m
+     [32m✓[39m gives no row for a song with audio only, and for a week with no song[32m 18[2mms[22m[39m
+     [32m✓[39m reads the onsets of the w01 logs and drops the silence that ends at the end of the file[32m 1[2mms[22m[39m
+     [32m✓[39m gives the first onset 0 for a file that starts with sound[32m 0[2mms[22m[39m
+     [32m✓[39m treats a first silence that starts at 0.001 s or less as a leading silence, and a later one as not[32m 0[2mms[22m[39m
+     [32m✓[39m keeps a silence_end that is 0.002 s from the end of the file and drops one that is 0.0005 s from it[32m 0[2mms[22m[39m
+     [32m✓[39m gives the lead-in 3 for the w01 onsets of the classroom and the phone video[32m 0[2mms[22m[39m
+     [32m✓[39m rounds the lead-in to 3 decimals[32m 0[2mms[22m[39m
+     [32m✓[39m throws when the second onsets differ from the first lead-in by more than 0.010 s, and accepts 0.009 s[32m 0[2mms[22m[39m
+     [32m✓[39m throws "lead-in:" when a list has fewer than 2 onsets[32m 0[2mms[22m[39m
+     [32m✓[39m gives the lead-in of a file that starts with sound against its first onset 0[32m 0[2mms[22m[39m
+     [33m[2m✓[22m[39m measures 1.5 s within 0.002, prints one tab line for each video and "lead-in: <value>", and writes nothing [33m 4051[2mms[22m[39m
+     [33m[2m✓[22m[39m adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte [33m 959[2mms[22m[39m
+     [33m[2m✓[22m[39m changes only the line videoLeadInSeconds when the field holds another value [33m 473[2mms[22m[39m
+     [32m✓[39m prints "no video", exits 0 without a value, and writes nothing for a song with audio only[32m 20[2mms[22m[39m
+     [32m✓[39m stops for a song that has no audio[32m 21[2mms[22m[39m
+     [33m[2m✓[22m[39m stops when the two videos of one song give lead-ins that differ by more than 0.010 s [33m 475[2mms[22m[39m
+     [32m✓[39m prints the usage and exits 0 for --help, and exits 2 for a missing option[32m 1[2mms[22m[39m
+     [33m[2m✓[22m[39m lists 12 made words for week 1 and prints "chars" for one take of each key [33m 1289[2mms[22m[39m
+     [32m✓[39m writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and 80 ms of quiet at each edge[32m 12[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 841[2mms[22m[39m
+     [32m✓[39m adds a row of the K6 form for each new word and leaves the 98 old rows as they are[32m 17[2mms[22m[39m
+     [32m✓[39m adds the rows by a text edit in the Python form: one comma line changes, -3.0 stays, the top fields stay[32m 49[2mms[22m[39m
+     [32m✓[39m makes the words in sorted order and writes no file for a word that has a row[32m 4[2mms[22m[39m
+     [32m✓[39m exports main, which prints the usage for --help and exits 2 for a missing option[32m 2[2mms[22m[39m
+     [32m✓[39m scales so that the largest sample is 23197 with Math.round(x * 23197 / peak)[32m 0[2mms[22m[39m
+     [32m✓[39m keeps 80 ms (2560 samples) at each edge, or fewer when the take has fewer[32m 5[2mms[22m[39m
+     [32m✓[39m applies wordClipText: uh for a, I for i, else the first written form[32m 1[2mms[22m[39m
+     [32m✓[39m holds the variant list of K9[32m 1[2mms[22m[39m
+     [32m✓[39m joins the recognized words with no space, in lower case, and removes each other character[32m 1[2mms[22m[39m
+     [32m✓[39m passes the key and the variants of the key only, with the note of the K9 form[32m 1[2mms[22m[39m
+     [32m✓[39m appends rows by a text edit: one comma line changes, the rows are in the K6 order, and -3.0 stays[32m 84[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as another word, and keeps the take number [33m 1190[2mms[22m[39m
+     [32m✓[39m keeps the third take with the note "heard '<x>' in 3 takes" when 3 takes fail[32m 1[2mms[22m[39m
+     [32m✓[39m passes a variant with its note: a sends the text uh and the row holds text uh[32m 0[2mms[22m[39m
+     [32m✓[39m sends the text eye for the next take of i when the heard text is a number (K8)[32m 1[2mms[22m[39m
+     [32m✓[39m makes a take again when its longest inner pause is above 0.6 s[32m 1[2mms[22m[39m
+     [32m✓[39m makes the words in sorted order with the takes in a row, and counts every character sent[32m 36[2mms[22m[39m
+     [32m✓[39m stops before the first call when one take of each key needs more than maxChars, and changes no row[32m 174[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 1138[2mms[22m[39m
+     [32m✓[39m lists the keys with their K8 texts and prints "chars: 37" for --dry-run, and writes nothing[32m 164[2mms[22m[39m
+     [32m✓[39m throws "word bank: no faster-whisper venv at <path>" before the first call when recognize is absent[32m 163[2mms[22m[39m
+     [33m[2m✓[22m[39m has 98 rows or more, and each sha256 equals the SHA-256 of its WAV file [33m 517[2mms[22m[39m
+     [32m✓[39m holds no path of the Measure track folders[32m 1[2mms[22m[39m
+     [32m✓[39m writes nothing under content/storytime (this case runs last)[32m 17[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-book-pictures.test.ts[2m > [22m[2mStorytime app book pictures[2m > [22m[2mruns the week command successfully on the shipped w01
+[22m[39mset 18 book pictures in ../content/storytime/l2/w01.json
+
+ [32m✓[39m __tests__/storytime-book-pictures.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 23367[2mms[22m[39m
+     [33m[2m✓[22m[39m sets the 18 app pictures with valid JPEGs and complete provenance [33m 2873[2mms[22m[39m
+     [33m[2m✓[22m[39m runs the week command successfully on the shipped w01 [33m 5620[2mms[22m[39m
+     [33m[2m✓[22m[39m gives the w02 pages with a repeated text the base row and the second row (E7 case a) [33m 7453[2mms[22m[39m
+     [33m[2m✓[22m[39m gives the w06 pages with a repeated text the base row and the second row (E7 case b) [33m 7335[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-stickers.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 12926[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S2 the unit 1 sticker keeps its text and shows no picture [33m 5613[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S8 a centre override moves one sticker only [33m 6043[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S10 falsifier: the old 28 mm inset art fails the same check [33m 990[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 8379[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 3379[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of purple is a progressive JPEG of 800 x 800 [33m 835[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of one is a progressive JPEG of 800 x 800 [33m 735[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of ten is a progressive JPEG of 800 x 800 [33m 767[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 975[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 1597[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-readalong-clips.test.ts [2m([22m[2m53 tests[22m[2m)[22m[33m 11855[2mms[22m[39m
+     [33m[2m✓[22m[39m makes one call for each read-along sentence, in order, with the exact text, the voice of the book, and the speed 1 [33m 1566[2mms[22m[39m
+     [33m[2m✓[22m[39m a fake that throws on call 5 leaves 4 finished items in the provenance file [33m 457[2mms[22m[39m
+     [33m[2m✓[22m[39m a run again with a working fake makes only the other sentences [33m 931[2mms[22m[39m
+     [33m[2m✓[22m[39m a run with one retake gives the exact call lines call 1 to call 9, and the last line is sent: <s> [33m 844[2mms[22m[39m
+     [33m[2m✓[22m[39m the character limit stops the run before a call, and the failed sent line follows [33m 749[2mms[22m[39m
+     [33m[2m✓[22m[39m gives the exact call lines with the word key, the sent: line, and the Phase 12 list, chars, and made lines [33m 402[2mms[22m[39m
+     [33m[2m✓[22m[39m --kind all plans both kinds: the decodable kept lines and the read-along call list [33m 854[2mms[22m[39m
+     [33m[2m✓[22m[39m a real run of the sentence maker ends with sent: <s> and then made: <n>, and stdout holds each line once [33m 887[2mms[22m[39m
+     [33m[2m✓[22m[39m a real run of the word maker ends with sent: <s> and then made: <n> [33m 375[2mms[22m[39m
+     [33m[2m✓[22m[39m gives true for a maker clip that the synthetic book mp3 holds, and false for a maker output of a fresh generation [33m 2151[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-weeks-2-8.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 11221[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P7-1 compiles every teaching week and week 8 review pages in order [33m 4723[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P7-2 renders all week 8 circle-picture rows, picture sorts, and seven empty letter boxes [33m 1751[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P7-3 tests each week 2 to 7 reader plan and text across six A5 leaves [33m 2245[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P7-5 uses placeholders only for named pending rows and still rejects an unnamed missing picture [33m 2493[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-part3a.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 10732[2mms[22m[39m
+     [33m[2m✓[22m[39m D-all: every dot of every letter, in every week and cell kind, is on the start of stroke 1 within 0.3 mm [33m 2583[2mms[22m[39m
+     [33m[2m✓[22m[39m D-mutants: a dot moved in one week only, in one kind of cell, fails the check [33m 4698[2mms[22m[39m
+     [33m[2m✓[22m[39m Q-roundtrip: a QR SVG from the code turns into a PNG that decodes to its input [33m 329[2mms[22m[39m
+     [33m[2m✓[22m[39m Q-two: two codes on one page both decode, and an image with no code decodes to nothing [33m 455[2mms[22m[39m
+     [33m[2m✓[22m[39m Q-expected: the expected codes are the song and book codes of each home card and the code of each reader, on the pages that print them [33m 1817[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-reader-ink.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 8105[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6a: the 12 reader sides of the student book have a dashed fold line only, solid frames, tick-only tear-outs with the scissors label, and fold labels; the 2 home sides keep the dashed cut line [33m 3148[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6b: the 12 reader sides of the readers workbook build keep the same rules [33m 931[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6c: the picture frames are solid 0.3 mm lines in the student book and the workbook, and print 0.3 mm in the A3 reader (CSS 0.15 mm at scale 2.0) [33m 891[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6d: a dashed picture frame and a full-height perforation line are each caught (mutants on a copy) [33m 3131[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-part2.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 8665[2mms[22m[39m
+     [33m[2m✓[22m[39m F3-check: the trace text equals the sentence of the D4 teacher action, with the punctuation [33m 548[2mms[22m[39m
+     [33m[2m✓[22m[39m F5-page: the label and the icon follow the action (Look. eye; Color. pencil) [33m 2413[2mms[22m[39m
+     [33m[2m✓[22m[39m U8-badge: each step carries the grey badge of its code, and a part that two steps share carries both codes [33m 1708[2mms[22m[39m
+     [33m[2m✓[22m[39m U8-pages: the materials name the printed page of the student book ("[th] [th] N") [33m 1350[2mms[22m[39m
+     [33m[2m✓[22m[39m U8-questions: the read-along questions print in D3 with the printed page, and not in C5 [33m 1424[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-book.test.ts [2m([22m[2m65 tests[22m[2m)[22m[33m 9075[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring: the manual PDF help names --share [33m 2715[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring: the print script with an unknown flag exits 2 and its usage names --share and --loops [33m 593[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 3436[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 1078[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-book-pages.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 8312[2mms[22m[39m
+     [33m[2m✓[22m[39m B1 wiring: --help exits 0 and names --book-pages [33m 1705[2mms[22m[39m
+     [33m[2m✓[22m[39m B1 wiring: the flag --book-pages is accepted, and an unknown flag still exits 2 [33m 4388[2mms[22m[39m
+     [33m[2m✓[22m[39m B2 equality w01: manualPdfHtml with bookPages equals compileStorytimeManual with the unit page list [33m 1703[2mms[22m[39m
+     [33m[2m✓[22m[39m B2 equality w08: manualPdfHtml with bookPages equals compileStorytimeManual with the unit page list [33m 388[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-student-book-adversarial.test.ts [2m([22m[2m55 tests[22m[2m)[22m[33m 6086[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: keeps hostile week text out of the markup [33m 1566[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: catches a broken copy that injects the raw payload [33m 477[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: names only the line-art picture file in any attribute [33m 399[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: runs the output check before the write and the browser [33m 384[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-v15.test.ts [2m([22m[2m28 tests[22m[2m)[22m[33m 6927[2mms[22m[39m
+     [33m[2m✓[22m[39m E2-workbook: the leaf sides of Nan Can Nod print "Listen and read." with ear and read, not "Sound it out." [33m 307[2mms[22m[39m
+     [33m[2m✓[22m[39m E2-qr: the QR label of Nan Can Nod stays "Listen to the book" [33m 2341[2mms[22m[39m
+     [33m[2m✓[22m[39m F3-key-en: for each review day and sound, the key names the target pictures that the student page prints in that row [33m 381[2mms[22m[39m
+     [33m[2m✓[22m[39m G6-build-control: a valid checkRows copy of week 3 compiles [33m 1851[2mms[22m[39m
+     [33m[2m✓[22m[39m G6-text-check: the print text check passes on weeks 1 to 7 and fails without the read-word Row line [33m 453[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-card-kit-match.test.ts [2m([22m[2m20 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 33618[2mms[22m[39m
+[31m     [31m×[31m G-P8-M8 counts picture, patch, dots, and none source columns[39m[33m 33446[2mms[22m[39m
+     [32m✓[39m G-P8-M1 a case (a) row wins over an earlier case (b) story-page row of the same word[32m 2[2mms[22m[39m
+     [32m✓[39m G-P8-M2 a story-page row with two object counts does not match a card[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-M3 a plural card word matches the singular object count of a story-page row[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-M4 a row without both delivered files does not match[32m 5[2mms[22m[39m
+[31m     [31m×[31m G-P8-M5 the shipped weeks give 106 picture-type cards: 57 picture matches, 8 patches, 9 dots, 32 with no match[39m[32m 28[2mms[22m[39m
+[31m     [31m×[31m G-P8-M6 the shipped picture cards hold 94 distinct words: 46 picture rows, 17 patches or dots, and 31 none[39m[32m 73[2mms[22m[39m
+     [32m✓[39m G-P8-M7 a none line says why the card has no picture[32m 5[2mms[22m[39m
+     [32m✓[39m G-P8-X1 a hostile picture-card label is escaped in the card sheet[32m 10[2mms[22m[39m
+     [32m✓[39m G-P8-X2 a hostile sticker label is escaped on the sticker sheet[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-X3 a hostile document title is escaped in the head[32m 2[2mms[22m[39m
+     [32m✓[39m G-P8-R1 a path under the repo root reads <repo>[32m 4[2mms[22m[39m
+     [32m✓[39m G-P8-R2 a path under the home folder and outside the repo reads ~[32m 2[2mms[22m[39m
+     [32m✓[39m G-P8-R3 the repo root keeps <repo> when the repo sits under the home folder[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-R4 a resolved root path is masked too, so a symbolic-link home keeps ~[32m 3[2mms[22m[39m
+     [32m✓[39m G-P8-R5 the cap gives 160 characters that end with ... and a 160-character reason stays whole[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-R6 a tab and a CR give one line[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-R7 ESC, NUL, DEL, and a C1 character are removed[32m 1[2mms[22m[39m
+     [32m✓[39m G-P8-M9 resolves delivered pictures and reports manifest errors for missing rows[32m 5[2mms[22m[39m
+     [32m✓[39m G-P8-S1 a line with one quoted name and one unquoted name keeps both stickers[32m 11[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-step2.test.ts [2m([22m[2m39 tests[22m[2m)[22m[33m 6777[2mms[22m[39m
+     [33m[2m✓[22m[39m F1-geometry: the baseline of each trace line is the bottom of its SVG, where the rule line starts (within 0.5 mm) [33m 4041[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-captions.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 7390[2mms[22m[39m
+     [33m[2m✓[22m[39m X1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems [33m 600[2mms[22m[39m
+     [33m[2m✓[22m[39m X2 command line: one Thai caption plus one ASCII character exits 1 with one problem line that starts with the row id [33m 587[2mms[22m[39m
+     [33m[2m✓[22m[39m X4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id [33m 588[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: an unknown flag exits 2 [33m 403[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a missing --list exits 2 [33m 520[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a missing --level exits 2 [33m 566[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: --level without a value exits 2 [33m 468[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: --level 9 exits 2 [33m 898[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: both arguments missing exits 2 [33m 903[2mms[22m[39m
+     [33m[2m✓[22m[39m X3 command line: a list file that does not exist exits 2 [33m 652[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-teacher-book-adversarial.test.ts [2m([22m[2m28 tests[22m[2m)[22m[33m 8043[2mms[22m[39m
+     [33m[2m✓[22m[39m rejects a duplicate week with exit 1 and writes nothing [33m 824[2mms[22m[39m
+     [33m[2m✓[22m[39m passes a week gap through week validation and stops at the missing drafts [33m 1586[2mms[22m[39m
+     [33m[2m✓[22m[39m rejects a week the level does not load with exit 1 and writes nothing [33m 1090[2mms[22m[39m
+     [33m[2m✓[22m[39m rejects a path-like week value with exit 2 and writes nothing [33m 1045[2mms[22m[39m
+     [33m[2m✓[22m[39m rejects --version 0 with exit 2 and writes nothing [33m 805[2mms[22m[39m
+     [33m[2m✓[22m[39m rejects --lang en with exit 2 and writes nothing [33m 798[2mms[22m[39m
+     [33m[2m✓[22m[39m rejects an --out folder outside the print folder with exit 2 [33m 834[2mms[22m[39m
+     [33m[2m✓[22m[39m stops at a missing draft with exit 1 before the folder is made [33m 1001[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-practice-rule.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 6251[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F4: each line of each practice text has one rule across the full width of the practice text box (Chrome, Andika loaded) [33m 6247[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-d4-prompt.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 4597[2mms[22m[39m
+     [33m[2m✓[22m[39m D4P-page: week 5 prints l2-w05-d4-prompt-face above the trace row with the label Draw. and one draw box [33m 2244[2mms[22m[39m
+     [33m[2m✓[22m[39m D4P-page: week 7 prints l2-w07-d4-prompt-ball above the trace row with the label Color. and one draw box [33m 2109[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-adversarial.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 3837[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a missing --level [33m 402[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level without a value [33m 400[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 9 (outside 1 to 4) [33m 395[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 0 [33m 391[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level -1 [33m 375[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level ../x (path traversal) [33m 369[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level=2 (the equals form is not accepted) [33m 369[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a level with more digits than a safe integer [33m 389[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a valid level with no week files and writes nothing [33m 403[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-teacher-book.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 4037[2mms[22m[39m
+     [33m[2m✓[22m[39m documents --loops in the manual PDF help [33m 1846[2mms[22m[39m
+     [33m[2m✓[22m[39m returns exit 2 for an unknown manual PDF flag [33m 1764[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-h1-classes.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 3577[2mms[22m[39m
+     [33m[2m✓[22m[39m H1-script: classify-text-gate exits 1 on a report line that does not parse, and 2 on an output that exists or is outside the print-ready folder [33m 1587[2mms[22m[39m
+     [33m[2m✓[22m[39m H1-build: the teacher-book build has the h1 list in its output list, and a link at that path stops the build before it writes outside [33m 1811[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-c6-baseline.test.ts[2m > [22m[2mStorytime print text on rules sits on the baseline (audit item C6)[2m > [22m[2mC6: every printed rule lies on the baseline of its text within 0.5 mm, and the p of "p p p" goes below the rule (Chrome, Andika loaded)
+[22m[39mC6 offsets
+practice line (A7): 19 line(s), offset 0.00 to 0.01 mm (rule top minus baseline)
+trace row (dictation-word-trace): 1 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+trace row (writing-trace): 25 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+trace row (dictation-trace): 22 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+trace row (choice-word-trace): 22 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+
+ [32m✓[39m __tests__/storytime-print-c6-baseline.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 4010[2mms[22m[39m
+     [33m[2m✓[22m[39m C6: every printed rule lies on the baseline of its text within 0.5 mm, and the p of "p p p" goes below the rule (Chrome, Andika loaded) [33m 4007[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-teacher-book.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 3101[2mms[22m[39m
+     [33m[2m✓[22m[39m provides the teacher-book print CLI and a successful help response [33m 532[2mms[22m[39m
+     [33m[2m✓[22m[39m R-F-P3-1 exports the exact K-only PDF/X flag list [33m 437[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside [33m 1099[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside [33m 902[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-binding-practice.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 3276[2mms[22m[39m
+     [33m[2m✓[22m[39m fills the 8-week book to 136 pages with the benchmark before Review 1 and no pad at the end (A-48 U4) [33m 2483[2mms[22m[39m
+     [33m[2m✓[22m[39m keeps the week 1 book at 20 pages without an end pad [33m 411[2mms[22m[39m
+     [33m[2m✓[22m[39m draws a full-width rule for each practice-text line without one bottom border [33m 375[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers-adversarial.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 3235[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-CLI-NO-MANIFEST exits 2 on a batch folder without manifest.json, on an unknown flag, and writes no file [33m 1009[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-A3-PREFLIGHT the final color A3 build stops on a missing color file, and no output folder is made [33m 1578[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-PICTURE-FILES lists the line-art names for the workbook and the color names for the A3 pages, for one reader or both [33m 332[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-loops-share.test.ts [2m([22m[2m23 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 2234[2mms[22m[39m
+     [32m✓[39m J1: the eight shipped weeks parse, and no script of them has a share[32m 152[2mms[22m[39m
+     [32m✓[39m J2: a share-complete copy of each week parses, and the parsed share equals the sample[32m 85[2mms[22m[39m
+     [32m✓[39m J3: a moment holds one or two shots, and refuses zero and three[32m 39[2mms[22m[39m
+     [32m✓[39m J3: a shot holds the media photo or video, and refuses audio, Photo, and the empty string[32m 42[2mms[22m[39m
+     [32m✓[39m J3: a step id holds the form A1, and refuses the other forms[32m 92[2mms[22m[39m
+     [32m✓[39m J4: a share and a shot refuse an unknown key, and hold only their own keys[32m 139[2mms[22m[39m
+     [32m✓[39m J5: a caption holds English and Thai, and the English needs one character[32m 40[2mms[22m[39m
+     [32m✓[39m J6: a share-complete copy of each week passes the check[32m 172[2mms[22m[39m
+     [32m✓[39m J7: a day without a moment reports, and the detail names that day only[32m 69[2mms[22m[39m
+     [32m✓[39m J8: a shot names a step of its own script, or a moved step of the day before[32m 59[2mms[22m[39m
+     [32m✓[39m J9: a day needs one shot in the period of the day[32m 33[2mms[22m[39m
+     [32m✓[39m J10: two shots of a day name two different steps[32m 24[2mms[22m[39m
+     [32m✓[39m J11: a shot names no assessment step[32m 45[2mms[22m[39m
+     [32m✓[39m J12: the caption of the sample holds 12 English words[32m 30[2mms[22m[39m
+     [32m✓[39m J12: a caption holds 1 to 40 English words and a Thai text[32m 101[2mms[22m[39m
+     [33m[2m✓[22m[39m J13: no caption string ends in a media file extension [33m 430[2mms[22m[39m
+     [32m✓[39m J14: every problem of the check has the status SHARE_CHECK_STATUS[32m 80[2mms[22m[39m
+     [32m✓[39m J15: a Level 1 week has no share-moment row, and a Level 3 week has one[32m 26[2mms[22m[39m
+     [32m✓[39m J16: the share-moment row comes before the published row[32m 102[2mms[22m[39m
+     [32m✓[39m J16: a published week with a broken moment blocks the publication at the status fail[32m 11[2mms[22m[39m
+     [32m✓[39m J17: the share field adds no minutes to any week[32m 227[2mms[22m[39m
+     [32m✓[39m J17: the compare of the minute rows can fail[32m 31[2mms[22m[39m
+[31m     [31m×[31m J18: the week files keep their hash, and the test writes nothing into the content folder[39m[32m 192[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-loops-share-content.test.ts [2m([22m[2m75 tests[22m[2m | [22m[31m8 failed[39m[2m)[22m[33m 1764[2mms[22m[39m
+     [32m✓[39m compare falsifier: one changed character in an existing Thai line fails the compare[32m 100[2mms[22m[39m
+     [32m✓[39m compare falsifier: one deleted existing line fails the compare[32m 24[2mms[22m[39m
+     [32m✓[39m compare falsifier: one changed minutes value fails the compare[32m 25[2mms[22m[39m
+     [32m✓[39m compare falsifier: two steps reordered fail the compare[32m 18[2mms[22m[39m
+     [32m✓[39m compare falsifier: a Thai array reordered fails the compare[32m 21[2mms[22m[39m
+     [32m✓[39m compare falsifier: one changed recall item fails the compare[32m 21[2mms[22m[39m
+     [32m✓[39m compare falsifier: one changed loopMinutes value fails the compare[32m 20[2mms[22m[39m
+     [32m✓[39m compare tolerance: a key reorder alone passes the compare[32m 17[2mms[22m[39m
+     [32m✓[39m compare tolerance: a copy with only an added or a changed share passes the compare[32m 30[2mms[22m[39m
+     [32m✓[39m compare falsifier: a changed existing line next to a share fails the compare[32m 14[2mms[22m[39m
+     [32m✓[39m w01 has a share on each of its 5 scripts[32m 39[2mms[22m[39m
+     [32m✓[39m w01 shots equal the moment table of FR-14, step and media, in order[32m 1[2mms[22m[39m
+     [32m✓[39m w01 passes share-moment with the status pass[32m 17[2mms[22m[39m
+     [32m✓[39m w01 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w01 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w01 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+[31m     [31m×[31m w01 adds only share moments to its baseline file (additive, AC-14.5)[39m[32m 29[2mms[22m[39m
+     [32m✓[39m w02 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w02 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w02 passes share-moment with the status pass[32m 9[2mms[22m[39m
+     [32m✓[39m w02 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w02 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w02 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+[31m     [31m×[31m w02 adds only share moments to its baseline file (additive, AC-14.5)[39m[32m 28[2mms[22m[39m
+     [32m✓[39m w03 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w03 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w03 passes share-moment with the status pass[32m 9[2mms[22m[39m
+     [32m✓[39m w03 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w03 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w03 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+[31m     [31m×[31m w03 adds only share moments to its baseline file (additive, AC-14.5)[39m[32m 34[2mms[22m[39m
+     [32m✓[39m w04 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w04 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w04 passes share-moment with the status pass[32m 10[2mms[22m[39m
+     [32m✓[39m w04 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w04 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w04 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+[31m     [31m×[31m w04 adds only share moments to its baseline file (additive, AC-14.5)[39m[32m 35[2mms[22m[39m
+     [32m✓[39m w05 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w05 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w05 passes share-moment with the status pass[32m 11[2mms[22m[39m
+     [32m✓[39m w05 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w05 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w05 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+[31m     [31m×[31m w05 adds only share moments to its baseline file (additive, AC-14.5)[39m[32m 46[2mms[22m[39m
+     [32m✓[39m w06 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w06 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w06 passes share-moment with the status pass[32m 9[2mms[22m[39m
+     [32m✓[39m w06 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w06 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w06 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+[31m     [31m×[31m w06 adds only share moments to its baseline file (additive, AC-14.5)[39m[32m 34[2mms[22m[39m
+     [32m✓[39m w07 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w07 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w07 passes share-moment with the status pass[32m 9[2mms[22m[39m
+     [32m✓[39m w07 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w07 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w07 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+[31m     [31m×[31m w07 adds only share moments to its baseline file (additive, AC-14.5)[39m[32m 46[2mms[22m[39m
+     [32m✓[39m w08 has a share on each of its 5 scripts[32m 0[2mms[22m[39m
+     [32m✓[39m w08 shots equal the moment table of FR-14, step and media, in order[32m 0[2mms[22m[39m
+     [32m✓[39m w08 passes share-moment with the status pass[32m 6[2mms[22m[39m
+     [32m✓[39m w08 captions in English have 1 to 40 words and no pipe, angle bracket, or line break[32m 1[2mms[22m[39m
+     [32m✓[39m w08 captions in Thai are present and hold a Thai-script character[32m 0[2mms[22m[39m
+     [32m✓[39m w08 English captions differ from each other and from the captions of the other weeks[32m 0[2mms[22m[39m
+[31m     [31m×[31m w08 adds only share moments to its baseline file (additive, AC-14.5)[39m[32m 32[2mms[22m[39m
+     [32m✓[39m hold 40 shares and 40 different English captions[32m 1[2mms[22m[39m
+     [32m✓[39m the status of share-moment is fail after the switch (AC-14.6)[32m 0[2mms[22m[39m
+     [33m[2m✓[22m[39m is byte-equal with and without the share fields, and holds no caption marker (AC-14.7) [33m 762[2mms[22m[39m
+     [32m✓[39m compares different student books as different (non-vacuity of the student book test)[32m 256[2mms[22m[39m
+     [32m✓[39m keeps the eight week files byte for byte over the run (guard)[32m 9[2mms[22m[39m
+     [32m✓[39m fixtureWeek has a share on each of its 5 scripts and passes share-moment[32m 8[2mms[22m[39m
+     [32m✓[39m fixtureWeek without the share of one day fails share-moment (non-vacuity of the fixture test)[32m 4[2mms[22m[39m
+     [32m✓[39m fixtureReviewWeek has a share on each of its 5 scripts and passes share-moment[32m 4[2mms[22m[39m
+     [32m✓[39m fixtureReviewWeek without the share of one day fails share-moment (non-vacuity of the fixture test)[32m 2[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-student-book-adversarial-r2.test.ts [2m([22m[2m49 tests[22m[2m)[22m[33m 1314[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: prints the exact address of a good non-shipped path [33m 559[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: prints one code when the read-along path is absent [33m 312[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 1698[2mms[22m[39m
+     [33m[2m✓[22m[39m checks each shipped week 1 reader cover for no band word and catches a copied cover mutation [33m 475[2mms[22m[39m
+     [33m[2m✓[22m[39m composes each teacher-book side as an opaque 300 ppi image at the specified trim [33m 1186[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-reader-howto.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 1518[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 1184[2mms[22m[39m
+     [33m[2m✓[22m[39m parses, and passes the six loop checks on w01 to w07 [33m 301[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-r3.test.ts [2m([22m[2m43 tests[22m[2m)[22m[33m 918[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m104 tests[22m[2m | [22m[31m8 failed[39m[2m)[22m[33m 840[2mms[22m[39m
+     [32m✓[39m counts words: "don't" is one word, punctuation is not a word, and 13 words are more than 12[32m 2[2mms[22m[39m
+     [32m✓[39m compares the baseline with itself and finds a real change (falsifiers on copies)[32m 117[2mms[22m[39m
+     [32m✓[39m has the loop checks at the status fail[32m 0[2mms[22m[39m
+     [32m✓[39m ignores the share moment in the compare, and still sees a change next to a share[32m 31[2mms[22m[39m
+[31m     [31m×[31m w01 adds only the FR-1 fields to its baseline file (additive, spec D10)[39m[32m 56[2mms[22m[39m
+     [32m✓[39m w01 passes the six loop checks with the status pass[32m 60[2mms[22m[39m
+     [32m✓[39m w01 gives every new line English and Thai[32m 1[2mms[22m[39m
+     [32m✓[39m w01 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 22[2mms[22m[39m
+     [32m✓[39m w01 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[32m 1[2mms[22m[39m
+     [32m✓[39m w01 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w01 says a pure sound and never a letter name in the new English lines[32m 1[2mms[22m[39m
+     [32m✓[39m w01 keeps approval.loops draft, or approved with the words and the date[32m 1[2mms[22m[39m
+     [32m✓[39m w01 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[32m 1[2mms[22m[39m
+     [32m✓[39m w01 puts a sound loop on A1, A2, and A3 that models the pure sound again[32m 0[2mms[22m[39m
+     [32m✓[39m w01 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[32m 4[2mms[22m[39m
+     [32m✓[39m w01 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[32m 1[2mms[22m[39m
+     [32m✓[39m w01 asks who, what, and where about the read-along, with an answer on a page[32m 1[2mms[22m[39m
+[31m     [31m×[31m w02 adds only the FR-1 fields to its baseline file (additive, spec D10)[39m[32m 49[2mms[22m[39m
+     [32m✓[39m w02 passes the six loop checks with the status pass[32m 7[2mms[22m[39m
+     [32m✓[39m w02 gives every new line English and Thai[32m 0[2mms[22m[39m
+     [32m✓[39m w02 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 31[2mms[22m[39m
+     [32m✓[39m w02 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[32m 0[2mms[22m[39m
+     [32m✓[39m w02 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w02 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w02 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+     [32m✓[39m w02 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[32m 1[2mms[22m[39m
+     [32m✓[39m w02 puts a sound loop on A1, A2, and A3 that models the pure sound again[32m 0[2mms[22m[39m
+     [32m✓[39m w02 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[32m 1[2mms[22m[39m
+     [32m✓[39m w02 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[32m 1[2mms[22m[39m
+     [32m✓[39m w02 asks who, what, and where about the read-along, with an answer on a page[32m 1[2mms[22m[39m
+[31m     [31m×[31m w03 adds only the FR-1 fields to its baseline file (additive, spec D10)[39m[32m 47[2mms[22m[39m
+     [32m✓[39m w03 passes the six loop checks with the status pass[32m 7[2mms[22m[39m
+     [32m✓[39m w03 gives every new line English and Thai[32m 0[2mms[22m[39m
+     [32m✓[39m w03 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 29[2mms[22m[39m
+     [32m✓[39m w03 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[32m 0[2mms[22m[39m
+     [32m✓[39m w03 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w03 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w03 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+     [32m✓[39m w03 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[32m 1[2mms[22m[39m
+     [32m✓[39m w03 puts a sound loop on A1, A2, and A3 that models the pure sound again[32m 0[2mms[22m[39m
+     [32m✓[39m w03 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[32m 1[2mms[22m[39m
+     [32m✓[39m w03 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[32m 1[2mms[22m[39m
+     [32m✓[39m w03 asks who, what, and where about the read-along, with an answer on a page[32m 1[2mms[22m[39m
+[31m     [31m×[31m w04 adds only the FR-1 fields to its baseline file (additive, spec D10)[39m[32m 38[2mms[22m[39m
+     [32m✓[39m w04 passes the six loop checks with the status pass[32m 8[2mms[22m[39m
+     [32m✓[39m w04 gives every new line English and Thai[32m 0[2mms[22m[39m
+     [32m✓[39m w04 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 26[2mms[22m[39m
+     [32m✓[39m w04 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[32m 0[2mms[22m[39m
+     [32m✓[39m w04 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w04 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w04 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+     [32m✓[39m w04 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[32m 1[2mms[22m[39m
+     [32m✓[39m w04 puts a sound loop on A1, A2, and A3 that models the pure sound again[32m 0[2mms[22m[39m
+     [32m✓[39m w04 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[32m 1[2mms[22m[39m
+     [32m✓[39m w04 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[32m 1[2mms[22m[39m
+     [32m✓[39m w04 asks who, what, and where about the read-along, with an answer on a page[32m 1[2mms[22m[39m
+[31m     [31m×[31m w05 adds only the FR-1 fields to its baseline file (additive, spec D10)[39m[32m 42[2mms[22m[39m
+     [32m✓[39m w05 passes the six loop checks with the status pass[32m 8[2mms[22m[39m
+     [32m✓[39m w05 gives every new line English and Thai[32m 0[2mms[22m[39m
+     [32m✓[39m w05 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 23[2mms[22m[39m
+     [32m✓[39m w05 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[32m 0[2mms[22m[39m
+     [32m✓[39m w05 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w05 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w05 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+     [32m✓[39m w05 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[32m 1[2mms[22m[39m
+     [32m✓[39m w05 puts a sound loop on A1, A2, and A3 that models the pure sound again[32m 0[2mms[22m[39m
+     [32m✓[39m w05 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[32m 1[2mms[22m[39m
+     [32m✓[39m w05 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[32m 1[2mms[22m[39m
+     [32m✓[39m w05 asks who, what, and where about the read-along, with an answer on a page[32m 1[2mms[22m[39m
+[31m     [31m×[31m w06 adds only the FR-1 fields to its baseline file (additive, spec D10)[39m[32m 35[2mms[22m[39m
+     [32m✓[39m w06 passes the six loop checks with the status pass[32m 10[2mms[22m[39m
+     [32m✓[39m w06 gives every new line English and Thai[32m 0[2mms[22m[39m
+     [32m✓[39m w06 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 24[2mms[22m[39m
+     [32m✓[39m w06 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[32m 0[2mms[22m[39m
+     [32m✓[39m w06 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w06 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w06 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+     [32m✓[39m w06 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[32m 1[2mms[22m[39m
+     [32m✓[39m w06 puts a sound loop on A1, A2, and A3 that models the pure sound again[32m 0[2mms[22m[39m
+     [32m✓[39m w06 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[32m 1[2mms[22m[39m
+     [32m✓[39m w06 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[32m 1[2mms[22m[39m
+     [32m✓[39m w06 asks who, what, and where about the read-along, with an answer on a page[32m 1[2mms[22m[39m
+[31m     [31m×[31m w07 adds only the FR-1 fields to its baseline file (additive, spec D10)[39m[32m 44[2mms[22m[39m
+     [32m✓[39m w07 passes the six loop checks with the status pass[32m 10[2mms[22m[39m
+     [32m✓[39m w07 gives every new line English and Thai[32m 0[2mms[22m[39m
+     [32m✓[39m w07 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 23[2mms[22m[39m
+     [32m✓[39m w07 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[32m 0[2mms[22m[39m
+     [32m✓[39m w07 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w07 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w07 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+     [32m✓[39m w07 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[32m 1[2mms[22m[39m
+     [32m✓[39m w07 puts a sound loop on A1, A2, and A3 that models the pure sound again[32m 0[2mms[22m[39m
+     [32m✓[39m w07 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[32m 1[2mms[22m[39m
+     [32m✓[39m w07 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[32m 0[2mms[22m[39m
+     [32m✓[39m w07 asks who, what, and where about the read-along, with an answer on a page[32m 1[2mms[22m[39m
+[31m     [31m×[31m w08 adds only the FR-1 fields to its baseline file (additive, spec D10)[39m[32m 19[2mms[22m[39m
+     [32m✓[39m w08 passes loops-recall and loops-minutes with the status pass[32m 8[2mms[22m[39m
+     [32m✓[39m w08 gives every new line English and Thai[32m 0[2mms[22m[39m
+     [32m✓[39m w08 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 12[2mms[22m[39m
+     [32m✓[39m w08 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w08 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w08 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+     [32m✓[39m w08 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[32m 1[2mms[22m[39m
+     [32m✓[39m w08 has the recall and nothing else (the review week, spec D11)[32m 2[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-pictures.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 337[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract.test.ts [2m([22m[2m47 tests[22m[2m)[22m[33m 774[2mms[22m[39m
+ [32m✓[39m __tests__/covers-render.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 763[2mms[22m[39m
+     [33m[2m✓[22m[39m cuts the middle two pages of a wide picture into the back (left) and the front (right) [33m 643[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers-adversarial-r2.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 659[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-R2-GITIGNORE-LEVELS the picture folder of level 1, 3, 4, 9, and 10 is ignored at any depth; the picture list and week files of those levels are not [33m 341[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m25 tests[22m[2m)[22m[33m 707[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-loops-audio.test.ts [2m([22m[2m14 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 534[2mms[22m[39m
+     [32m✓[39m lists one field for each drill word of the loop-complete w02 copy, with its sounds in order[32m 47[2mms[22m[39m
+     [32m✓[39m finds the drill step by its place and not by the script index (A7)[32m 15[2mms[22m[39m
+     [32m✓[39m gives each word of w01 to w07 a list of bank paths with one path for each sound[32m 108[2mms[22m[39m
+     [32m✓[39m names a drill sound that the bank lacks, and lists no field for that word[32m 15[2mms[22m[39m
+     [32m✓[39m reports a drill field that is missing, for each word[32m 11[2mms[22m[39m
+     [32m✓[39m reports a drill field that differs, and no problem when every field holds its recording[32m 16[2mms[22m[39m
+[31m     [31m×[31m returns the same fields for the eight shipped weeks as the frozen baseline[39m[32m 92[2mms[22m[39m
+     [32m✓[39m keeps every other field of a week when a drill is added[32m 60[2mms[22m[39m
+     [32m✓[39m sets the drill audio, then the problems are empty, and the other bytes stay equal[32m 21[2mms[22m[39m
+     [32m✓[39m writes the same values again on a second run (the set is stable)[32m 19[2mms[22m[39m
+     [32m✓[39m makes setPhonemeAudio throw with the sound and its field, and changes nothing[32m 15[2mms[22m[39m
+     [32m✓[39m gives the problem that check-weeks turns into a phoneme-audio fail[32m 11[2mms[22m[39m
+     [32m✓[39m keeps every drill audio path of w01 to w07 safe and relative[32m 87[2mms[22m[39m
+     [32m✓[39m keeps the SHA-256 of the eight shipped week files and of the bank manifest[32m 9[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 344[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-adversarial.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 358[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 293[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-sound-stages.test.ts [2m([22m[2m49 tests[22m[2m)[22m[32m 288[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-week.test.ts [2m([22m[2m44 tests[22m[2m)[22m[32m 226[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-manual.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 211[2mms[22m[39m
+ [32m✓[39m __tests__/covers-kit.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 195[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonemes.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 62[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-dictation-case.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 57[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonics.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 52[2mms[22m[39m
+ [32m✓[39m __tests__/covers-back.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 32[2mms[22m[39m
+ [32m✓[39m __tests__/covers-contract.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-book-audio.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m __tests__/print-pdfx.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-adversarial-r4.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-cli.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-e4-back-list.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m10 failed[39m[22m[2m | [22m[1m[32m59 passed[39m[22m[90m (69)[39m
+[2m      Tests [22m [1m[31m44 failed[39m[22m[2m | [22m[1m[32m1728 passed[39m[22m[90m (1772)[39m
+[2m   Start at [22m 12:10:03
+[2m   Duration [22m 1051.95s[2m (transform 7.35s, setup 10.37s, import 25.57s, tests 943.31s, environment 53.33s)[22m
+
+exit: 1
