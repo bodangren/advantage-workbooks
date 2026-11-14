@@ -1,0 +1,150 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-print-r6v2-fixes.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 3314[2mms[22m[39m
+     [33m[2m✓[22m[39m X2: every box of the row l2-w06-check-row-ten in weeks 6 and 8 loads ten.jpg and no box loads the line art [33m 565[2mms[22m[39m
+     [33m[2m✓[22m[39m X7c: the class C line pictures with ink in the outer pixel ring are exactly the two nose files [33m 1463[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m58 tests[22m[2m)[22m[33m 173744[2mms[22m[39m
+     [33m[2m✓[22m[39m exports the reader compiler without a collection-time import [33m 393[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default) [33m 458[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04) [33m 2753[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1) [33m 961[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 4329[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 upright or turned pages on each side (spec FR-5.1) [33m 373[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1) [33m 4603[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders [33m 304[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8) [33m 933[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8) [33m 2106[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder [33m 361[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-6 exposes the readers PDF CLI help [33m 1163[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry [33m 1291[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture [33m 3792[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names [33m 10595[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size [33m 3148[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts [33m 1047[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file [33m 1473[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-15 rejects a Forge job that is not ready or holds no selected version [33m 1137[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-16 reports a row whose Forge job is not ready as fail with a reason [33m 1067[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings [33m 4584[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-14 exposes the stage-one batch command [33m 457[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix [33m 15802[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest [33m 1704[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI [33m 1117[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F20 checks requested week 2 card rows after the book rows [33m 496[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32a checks all 31 requested card rows without requesting book rows [33m 5549[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32b fails the missing requested week 1 card row [33m 5383[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32c checks a missing card row beside the complete week 1 book delivery [33m 15105[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F40 prints the skip line for card rows in a book-only week 1 batch [33m 14309[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F45 reports requested-row totals in card-only and book-only batches [33m 19482[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F44 documents the skipped-row rule in picture-check usage [33m 404[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F36 prints a clean error when duplicate words break the card list [33m 468[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text [33m 804[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names [33m 11634[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-24 fails a row that has two jobs with the same row id, in any job order, and keeps the other rows [33m 620[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions [33m 1686[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id [33m 20665[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output [33m 1131[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder [33m 1151[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder [33m 888[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 784[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output [33m 1271[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file [33m 1492[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 2610[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+[22m[39mR34 pdffonts:
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+NBDDKL+Sarabun-Regular               CID TrueType      Identity-H       yes yes yes     20  0
+RIGJGG+Andika                        CID TrueType      Identity-H       yes yes yes     14  0
+NYAHJN+Andika-Bold                   CID TrueType      Identity-H       yes yes yes     10  0
+UCFIFH+LeagueSpartanThin-Bold        CID TrueType      Identity-H       yes yes yes    152  0
+
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+[22m[39mR38 compiled trace medians: 175, 175, 175, 175
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+[22m[39mR38 removed-gray-rule medians: 0, 0, 0, 0
+
+ [32m✓[39m __tests__/storytime-print-student-book.test.ts [2m([22m[2m77 tests[22m[2m)[22m[33m 93173[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the page order and a left-page spread [33m 848[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the week 1 student book as 20 A4 sides: 7 inside pages, 1 aligner, and 12 reader sides (spec FR-3) [33m 318[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: uses the P11 default title and the eight book-map places [33m 312[2mms[22m[39m
+     [33m[2m✓[22m[39m R27: gives the two real QR generators the S23 song and read-along inputs (P4) [33m 397[2mms[22m[39m
+     [33m[2m✓[22m[39m R35: keeps the QR deploy mark in proof mode and excludes it from final mode [33m 632[2mms[22m[39m
+     [33m[2m✓[22m[39m R28: excludes the four forbidden labels and every CJK character from the HTML [33m 309[2mms[22m[39m
+     [33m[2m✓[22m[39m R28: keeps Thai only on the home card, the week header, and the icon key, and keeps each Thai run unbroken [33m 445[2mms[22m[39m
+     [33m[2m✓[22m[39m R29: loads only static Andika and Sarabun font faces with their OFL files [33m 666[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: uses the exported K-only flags in the production student-book conversion call [33m 748[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count [33m 7110[2mms[22m[39m
+     [33m[2m✓[22m[39m R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X [33m 928[2mms[22m[39m
+     [33m[2m✓[22m[39m R43: rejects unsafe QR paths and keeps the shipped inputs on the checked URL contract [33m 346[2mms[22m[39m
+     [33m[2m✓[22m[39m R44: final mode requires and selects line art, not the color file [33m 465[2mms[22m[39m
+     [33m[2m✓[22m[39m R36: matches both printed PDF/X QR matrices to their labeled song and book addresses [33m 2989[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch [33m 1054[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: registers the 12 reader sides as 6 duplex leaves of 2 landscape 198 x 148.5 mm pages each, in the spec imposition (spec FR-3, FR-5.1) [33m 407[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: each leaf mark of the student book lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 5157[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: fails on a wrong imposition, a missing fold line, a wrong mark, a front page not turned, a back page turned, the old 90 degree turn, a portrait page, and a 99 x 140 mm page (mutants on a copy; spec FR-5.1) [33m 5297[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-10: fills the twelve student-book reader sides with the R32 leaves and reader pages [33m 438[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a removed home leaf on a temporary HTML copy [33m 621[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects an answer mark on a temporary HTML copy [33m 842[2mms[22m[39m
+     [33m[2m✓[22m[39m R33: rejects a right-page spread on a temporary HTML copy [33m 720[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints each trace item in a K 20-40% gray, never solid black (D2) [33m 4137[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in [33m 33916[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints a black start dot on each letter copy (D2) [33m 5864[2mms[22m[39m
+     [33m[2m✓[22m[39m R39: leaves the dictation letter lines empty write-in lines (D3) [33m 1439[2mms[22m[39m
+     [33m[2m✓[22m[39m R40: mirrors the horizontal fold line with the leaf parity and prints it across the middle of the leaf (D4, spec FR-5.1) [33m 4884[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-30 prints the line art of a redone row from the folder manifest and never the color file [33m 842[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33b final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 307[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-40 a hostile folder prefix adds no attribute and no element, and a prefix with #, ?, %, a quote, or a space decodes to the resolved file [33m 3969[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-42 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 2908[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-match.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 37569[2mms[22m[39m
+     [33m[2m✓[22m[39m G-P8-M8 counts picture, patch, dots, and none source columns [33m 37518[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-step-system.test.ts [2m([22m[2m57 tests[22m[2m)[22m[33m 33392[2mms[22m[39m
+     [33m[2m✓[22m[39m S-mutants: the n strokes for o, a dot off the stroke, and a missing stroke each fail the check [33m 516[2mms[22m[39m
+     [33m[2m✓[22m[39m M-icons: each icon is a black line SVG with no color, no transparency, and no gradient, 10 to 12 mm wide [33m 3633[2mms[22m[39m
+     [33m[2m✓[22m[39m M-badge: the step badge is a grey box of 8 pt, and the new look uses only black, white, and grey (PRINT_GATE) [33m 395[2mms[22m[39m
+     [33m[2m✓[22m[39m C-pages: the page number is at the bottom right; the reader leaves carry no page number and no week header [33m 622[2mms[22m[39m
+     [33m[2m✓[22m[39m C-hostile: a hostile trace text and a hostile dictation word add no element and print only as text [33m 627[2mms[22m[39m
+     [33m[2m✓[22m[39m X-parity: the grey model letters and the trace lines match the Andika outline within 0.5 mm [33m 14260[2mms[22m[39m
+     [33m[2m✓[22m[39m X-rule: the baseline of a trace word lies on its rule line in the PDF (A-48 F1, within 0.5 mm) [33m 3920[2mms[22m[39m
+     [33m[2m✓[22m[39m X-fit: the 2 benchmark pages and the 5 review pages of week 8 print on 7 pages, and the circle words carry no drawn oval (A-48 U4) [33m 3627[2mms[22m[39m
+     [33m[2m✓[22m[39m X-fit-write: each of the 7 write pages prints on one page (A-48 F4) [33m 3523[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-part3a.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 10249[2mms[22m[39m
+     [33m[2m✓[22m[39m D-all: every dot of every letter, in every week and cell kind, is on the start of stroke 1 within 0.3 mm [33m 2594[2mms[22m[39m
+     [33m[2m✓[22m[39m D-mutants: a dot moved in one week only, in one kind of cell, fails the check [33m 4302[2mms[22m[39m
+     [33m[2m✓[22m[39m Q-two: two codes on one page both decode, and an image with no code decodes to nothing [33m 558[2mms[22m[39m
+     [33m[2m✓[22m[39m Q-expected: the expected codes are the song and book codes of each home card and the code of each reader, on the pages that print them [33m 1714[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-reader-ink.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 8472[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6a: the 12 reader sides of the student book have a dashed fold line only, solid frames, tick-only tear-outs with the scissors label, and fold labels; the 2 home sides keep the dashed cut line [33m 2978[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6b: the 12 reader sides of the readers workbook build keep the same rules [33m 1256[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6c: the picture frames are solid 0.3 mm lines in the student book and the workbook, and print 0.3 mm in the A3 reader (CSS 0.15 mm at scale 2.0) [33m 1010[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6d: a dashed picture frame and a full-height perforation line are each caught (mutants on a copy) [33m 3223[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-student-book-adversarial.test.ts [2m([22m[2m55 tests[22m[2m)[22m[33m 6431[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: keeps hostile week text out of the markup [33m 1511[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: prints hostile week text as literal text [33m 302[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: keeps a hostile start point inside its attribute [33m 645[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: keeps hostile Thai text as text and creates no element [33m 359[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: catches a broken copy that injects the raw payload [33m 491[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: carries no answer element anywhere in the book [32m 300[2mms[22m[39m
+     [33m[2m✓[22m[39m A2: names only the line-art picture file in any attribute [33m 320[2mms[22m[39m
+     [33m[2m✓[22m[39m A3: runs the output check before the write and the browser [33m 437[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers-adversarial.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 2704[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-CLI-NO-MANIFEST exits 2 on a batch folder without manifest.json, on an unknown flag, and writes no file [33m 942[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-A3-PREFLIGHT the final color A3 build stops on a missing color file, and no output folder is made [33m 1232[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-student-book-adversarial-r2.test.ts [2m([22m[2m49 tests[22m[2m)[22m[33m 1751[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: prints the exact address of a good non-shipped path [33m 811[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: prints one code when the read-along path is absent [33m 375[2mms[22m[39m
+     [33m[2m✓[22m[39m R2: prints no code and still renders when both paths are absent [33m 368[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers-adversarial-r2.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 684[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-R2-GITIGNORE-LEVELS the picture folder of level 1, 3, 4, 9, and 10 is ignored at any depth; the picture list and week files of those levels are not [33m 379[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 579[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-pictures.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 485[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m13 passed[39m[22m[90m (13)[39m
+[2m      Tests [22m [1m[32m403 passed[39m[22m[90m (403)[39m
+[2m   Start at [22m 14:30:58
+[2m   Duration [22m 397.12s[2m (transform 3.14s, setup 1.60s, import 5.59s, tests 372.55s, environment 13.46s)[22m
+
+JSON report written to /home/daniebo/Desktop/Workbooks/measure/runs/storytime_print_r1_20261025/p9a-green-green.json
+exit: 0
