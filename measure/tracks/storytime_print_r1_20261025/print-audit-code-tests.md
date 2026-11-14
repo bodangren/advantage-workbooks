@@ -1,6 +1,6 @@
 # Print audit code tests (the list of the PM hand-off T3.2)
 
-Date: 2026-11-14. Source: the PM hand-off `~/Desktop/handoff/pr-print-audit-gate/workbooks-handoff.md` (version 0.2, SHA-256 `2c2638de…faec`). Spec: the addendum "Addendum 2026-11-14: print audit gate, code tests, and the r6-v2 fix batch" in [spec.md](./spec.md), decision P9-A2.
+Date: 2026-11-14. Source: the PM hand-off `~/Desktop/handoff/pr-print-audit-gate/workbooks-handoff.md` (version 0.2, SHA-256 `3ba657f39bcfc781da581bff93df6a7245f674df4deac023576f5d52ad0aba81`). Spec: the addendum "Addendum 2026-11-14: print audit gate, code tests, and the r6-v2 fix batch" in [spec.md](./spec.md), decision P9-A2.
 
 ## What this file holds
 

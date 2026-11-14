@@ -296,7 +296,7 @@ The pictures sit in frames on white pages, so they need no bleed. S19 also lets 
 
 ## Addendum 2026-11-14: print audit gate, code tests, and the r6-v2 fix batch
 
-Request: the PM hand-off of 2026-11-14 (`~/Desktop/handoff/pr-print-audit-gate/workbooks-handoff.md`, version 0.2, SHA-256 `2c2638de…faec`, receipt sent 11:10 ICT) and the PM decisions of 2026-11-14 11:25 ICT on the PM print audit of `proof-books-r6-v1` (`~/Desktop/handoff/print-audit-r6-v1/Storytime-Advantage-L2-U1-books-r6-v1.audit.md`). The audit verdict is PASS: 0 blockers, 0 majors, 10 minors (A6, B1, B3, B4, C2, D1, D2, D5, D7, F3). The PM accepted six fixes. This addendum records the audit gate, the code-test list, and the fix batch. It changes no earlier decision.
+Request: the PM hand-off of 2026-11-14 (`~/Desktop/handoff/pr-print-audit-gate/workbooks-handoff.md`, version 0.2, SHA-256 `3ba657f39bcfc781da581bff93df6a7245f674df4deac023576f5d52ad0aba81`, receipt sent 12:45 ICT) and the PM decisions of 2026-11-14 11:25 ICT on the PM print audit of `proof-books-r6-v1` (`~/Desktop/handoff/print-audit-r6-v1/Storytime-Advantage-L2-U1-books-r6-v1.audit.md`). The audit verdict is PASS: 0 blockers, 0 majors, 10 minors in the audit summary (A6, B1, B3, B4, C2, D1, D2, D5, D7, F3). The J1 re-check table also marks E22 as a minor, so 11 rows need a decision from Daniel. The PM accepted six fixes. This addendum records the audit gate, the code-test list, and the fix batch. It changes no earlier decision.
 
 ### Decisions
 
@@ -388,6 +388,7 @@ The file [print-audit-code-tests.md](./print-audit-code-tests.md) holds the 11 r
 ### P9-A7: B4, the ticks
 
 - `readerLeafMarkCss` in `readers.ts` (line 619): `.tear-tick { position: absolute; left: -0.25mm; width: 0; height: 5mm; border-left: 2px solid #000; }`. The tick stays 5 mm long, at the top edge and the bottom edge, on the perforation line. The scissors mark and the label do not change.
+- The left offset changes from `-0.2mm` to `-0.25mm`. The old border of 0.4 mm was centered on the perforation line by the offset `-0.2mm`. The new border of 2 px (0.53 mm) needs about `-0.265mm`. The offset `-0.25mm` puts 0.25 mm of the band left of the line and 0.28 mm right of it. The case X6 of the Red task pins the offset `-0.25mm`.
 - The test computes the printed width of a border as the CSS width in pixels (millimeters x 96 / 25.4) rounded down, with a minimum of 1 px, and expects at least 0.5 mm minus 0.05 mm. The old value `0.4mm` gives 0.26 mm and fails. The value `0.5mm` also gives 0.26 mm and fails. The test `R-P6-F6a` of `storytime-print-reader-ink.test.ts` keeps its checks, because the tick keeps a solid border.
 - The same rule serves the readers build (`readers.ts`, `readerTearOutHtml`) and the student book.
 - The page proof: the Phase 14 Print proof task measures the tick on page 9 of the student book v18 at 300 dpi, as the audit did (column x = 142, rows 0 to 58). The expected width is 6 px (0.53 mm). A width of 3 px is a fail, and it means that the rule did not reach the PDF.
