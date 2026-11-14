@@ -988,3 +988,192 @@ Each command is read only. Run it in the repository root.
 - A change of a decodable clip, of a bank clip, of the book audio, of `song.times`, or of an approval.
 - A shared clip for two sentence slots with one text (Q5).
 - A new voice, model, or provider, and any use of credits.
+
+## Addendum 2026-11-14, Phase 14: sound skill stages (Daniel's look at the teacher lesson pages)
+
+Author model: claude-code/claude-opus-5-5[1m]#high (Build session, 2026-11-14)
+
+P14-D names the decisions of this phase. R14 names the check rows, S names the cases of the new test file, and AC14 names the acceptance criteria. The decisions K1 to K18, L1 to L18, and M1 to M17 stay in force. A P14 decision can extend or replace one of them, and then it says so. No Phase 13 line changes.
+
+### Overview
+
+Daniel looked at the teacher lesson pages on 2026-11-14 and found two faults. Each week mixes the first sound with the last sound (or the middle sound) in one activity. The day-1 opening asks about the new sound of the week before step A1 teaches it. Phase 14 puts the sound skills into stages and writes the stage of each week into the week data. Three new check rows hold the rule mechanically. It changes w01 to w08: the week files, the teacher book (new version TH-v3), and the student book (new version v18, for the w08 benchmark page). The change list is [p14-change-list.md](./p14-change-list.md): 114 field rows and 10 media file rows.
+
+### The order
+
+Daniel's words (Google Tasks, 09:55 to 09:56 ICT, 2026-11-14, PM relay), exact:
+
+- "Do not mix teaching initial and final sound recognition. Those are different skills at different developmental levels"
+- "Day one's lesson starts with what's the first sound whats the last sound but that's what's being taught during the week so how can students accomplish that on day one of the week?"
+
+The PM order (P1, about 10:00 ICT, 2026-11-14), exact: "Fix across w01 to w07 (week packages, teacher book, and any student-book or home-card task that does the same):
+1. Initial-sound recognition and final-sound recognition are separate skills. Teach initial sound first. Final sound comes only at a later stage of the sequence, never in the same activity as initial sound. Write the stage plan into the week data.
+2. The day-1 opening uses only sounds and skills already taught (a review of earlier weeks). The new sound starts in A1 "Hear it". Week 1 has no earlier sounds: its opening uses an oral warm-up with no new-sound question (you choose the form, with the reason).
+3. List every changed item (week, field, old, new) in a change list for the PM. Daniel checks the Thai lines in his 11-16 sitting.
+4. The approved w02-w07 hand-off to Monorepo stays on 11-17 10:00. The teacher book proof gets a new version after the fix. The print audit runs on the current proof now; the PM sends its findings to you."
+
+### Facts (measured 2026-11-14 at HEAD `ddc70618`)
+
+Each command is read only. The scratch scripts of the author were in `/tmp/p14-build/` and are not repository files.
+
+- The opening game: `dashboard/lib/storytime/manual.ts:291` prints `opening.pa[day - 1]` as the sound game of a day, so `opening.pa[0]` is the day-1 opening. In w01 to w07, `opening.pa[0]` and `opening.pa[1]` ask two positions of the new sound in one line. The positions are the first and the last sound (w01, w03 to w06) or the first and the middle sound (w02, w07). `opening.pa[2]` to `opening.pa[4]` are blends by ear. In w08, `opening.pa[2]` and `opening.pa[4]` ask a last sound.
+- The mix is wider than the opening. A scan of every English and Thai string of w01 to w08 found these other items. Step A1 "Hear it" (`scripts[0].steps[0]`) of w02 to w07 holds four such items: a teacher action with three last-sound or middle-sound words, the teacher line `teacherLanguage[4]`, a materials line with these words, and the harder variant. The teacher line is "Now listen to the end." or "Now listen to the middle." The A1 harder variant of w01 asks the last sound. The A5 word wall harder variant (`scripts[0].steps[4].harder`) asks the last sound in w03, w05, and w06 and the middle sound in w07. The w01 day-3 letter-card variant (`scripts[2].steps[1].harder`) pushes a card into the last box. The day-5 centers of w05 to w07 (`scripts[4].steps[0]` and `scripts[4].steps[1]`) hold up last-sound or middle-sound cards and sort "at the start or the end" (or "in the middle"). The w03 A4 line says "say /p/ at the end". The w08 benchmark (`benchmark.paper.items[4]` to `[7]` and the step A1 lines) asks the last sound on rows 5 to 8.
+- `focus.paSkill` names "the first and last sound" (w01, w03 to w06), "the first sound and the middle sound" (w02, w07), and "first sounds, last sounds, and blends" (w08). The tags hold `english.phonics.pa.final-sound.identify` (w01 taught; w03 to w06 and w08 reviewed) and `english.phonics.pa.medial-vowel.identify` (w02 taught; w07 and w08 reviewed).
+- The check pages (`check.items`) of w01 to w07, the home cards (`home`), and the print blocks (`print`) ask the first sound only. The student book prints the check page and the benchmark from the data (`dashboard/lib/storytime/print/student-book.ts`, `benchmarkPages` with `positionMark`). So the only student-book page with a last-sound task is the w08 Benchmark 1 page.
+- A scan of the A-step notes found pronunciation notes about a final consonant (w03 A1, w05 A1 `watchFor[2]` and `[3]`, w06 A1 `teacherActions[5]` and `watchFor[2]`). They are not recognition tasks. They speak about the last-sound words of A1, which this phase removes.
+- Letter-card word building that changes the last letter (w03 day 3 "nap", w07 day 3 "pot") and decoding notes about a middle letter (w04, w06, and w07 A5 `watchFor`) are phonics reading and spelling, not sound-position recognition.
+- The schema: `FocusSchema` and `StorytimeWeekSchema` in `dashboard/lib/storytime/schema.ts` are not strict, so a parse drops an unknown key. A new field needs a schema change. The JSDoc of `opening` (line 737) says "Days 1 and 2 find the first and the last sound of the week".
+- The code that reads the opening: `checks.ts:406` (the drill sounds may be sounds of the opening game), `phonemes.ts:98` (`opening.audio` is one list of phoneme files for each line, from `soundLabels`), `word-clips.ts:447` (`openingWordKeys`: the forms `Listen: <word>.` and `What is the word? <word>!`), and `check-weeks.ts:205` (`checkPracticeClips`: each opening key needs a clip `l2/media/w<nn>/words/wa-<key>.mp3` equal to its bank mp3, and a map key that is not an opening word fails).
+- The word bank `content/storytime/words/manifest.json` holds 152 words. Each day-1 review word of this phase has a bank row. Today each clip of a week folder is named by a map of the week (0 clips with no map).
+- The receiver: `apps/storytime/lib/contracts/week.ts` of `reading-advantage-monorepo` (read only). `focusSchema` is `passthrough`, so a new key in `focus` passes and the app ignores it. `openingSchema.audio` is `z.array(z.array(mediaPath)).length(5)`, so an empty list for one day parses.
+- The unit 2 drafts `content/storytime/drafts/l2/w09.json` to `w16.json` (read only) hold the same mix: one opening line with the first and the last sound (w09 /d/, w14 /f/, w15 /g/, w16 review) or the first and the middle sound (w11 /e/). w10 and w13 teach word families (`english.phonics.pa.onset-rime.word-family`, "hear the same end, and change the first sound"). w12 asks the first sound only.
+- No app package of w08 exists in `~/Desktop/handoff/`. The newest app packages are `w01-storytime-app-package-r5` and `w02-storytime-app-package-r4` to `w07-storytime-app-package-r4`. Phase 13 builds the next ones (r6 and r5).
+- The current proof: `~/Desktop/print-ready/storytime/proof-books-r6-v1/` holds the teacher book TH v2 (224 pages, the `--loops --share` build) and the student book v17 (136 pages). A file named `Storytime-Advantage-L2-U1-Teachers-Book-TH-v3_PDFX-1a.pdf` also exists in `unit1-check-v1/` (an older build of 188 pages without the loops pages). No student book v18 exists.
+- Tests that pin a value that this phase changes: `storytime-package-practice-clips.test.ts` (the table `OPENING_KEYS` at line 125 and the counts `[8, 8, 9, 9, 7, 8, 9]` at line 1496), `storytime-print-card-kit.test.ts` (`PICTURE_CARDS` at line 87 and `SOUND_PICTURE_CARDS` at line 94), and `storytime-print-a48-step2.test.ts` (the two benchmark group heads at line 339).
+- Quotas: the MiniMax weekly window is in WAIT until 2026-11-15 23:00 ICT, and the Kimi weekly window until 18:46 ICT on 2026-11-14 (orchestrator, 10:02 ICT).
+
+### Decisions (pinned before Red; the roles do not guess)
+
+- P14-D1 (the stage plan): the sound-position skills of Level 2 come in three stages. Stage 1 is the first sound (initial-sound recognition) from week 1. Stage 2 adds the last sound (final-sound recognition) from week 9. Stage 3 adds the middle sound (the medial vowel) from week 17. Oral blending by ear is a separate strand from week 1. Word families (onset and rime, from week 10) are a separate strand too. A stage adds a position and keeps the earlier positions for review.
+  - The rule of each stage: two positions never meet in one activity. One activity is one opening line, one step with its variants (easier, harder, group, and the sound loop), one check page, or one benchmark paper.
+  - The reason for week 9: unit 1 (weeks 1 to 7 and the review week 8) gives stage 1 a full unit. The unit 2 drafts already start the last sound in week 9, so they need a split of their lines and no new week order.
+  - The reason for week 17: the middle sound is the hardest position, and Daniel says that the skills are "at different developmental levels". So stage 3 waits one full unit after stage 2. The middle-sound items of the w11 draft become first-sound items.
+  - The unit 2 drafts get the same fix in their own track before they move into `content/storytime/l2/` (the PM line names this). The check rows (R14-1 to R14-3) fail a moved draft that breaks the plan.
+- P14-D2 (where the plan lives): a structured field and mechanical check rows, the default of the orchestrator, because the rule must also hold for unit 2. Each week gets `focus.paStage`: `{ "stage": <1 to 3>, "positions": [<positions of the stage>] }`. The positions are `first`, `last`, and `middle`, in this order. The plan itself is a constant in a new pure module (FR14-1), and R14-3 compares each week with it. The tags follow the plan: a week holds no position skill id of a later stage.
+  - The receiver impact: the field is additive. The Monorepo `focusSchema` is `passthrough`, so the Storytime app parses and ignores it. Monorepo needs no code change.
+  - The text form of the new lines in each week file, after the closing line `    },` of `paSkill` (4 spaces of indent for the key, 6 for the members, 8 for the array item): `    "paStage": {`, `      "stage": 1,`, `      "positions": [`, `        "first"`, `      ]`, `    },`. No other byte of these lines changes.
+  - The tag deletions are the rows `tags.*` of the change list (9 rows).
+- P14-D3 (the skill text): `focus.paSkill` of w01 to w07 names the first sound and the blends only, for example "the first sound /p/; blend three sounds by ear". The Thai follows the same form.
+- P14-D4 (the opening game of w02 to w07):
+  - Day 1 (`opening.pa[0]`) is a review of earlier weeks. Two words with the first sound of an earlier week: the newest earlier sound first, then the one before it (w02 has only /n/). No word holds the new sound of the week. Each word has a bank clip.
+  - Day 2 (`opening.pa[1]`) asks the first sound of the new sound with two words. These words were already words of the opening game, so their clips exist.
+  - Days 3 to 5 (the blends by ear) do not change.
+  - The form of each line is the HEAD form: `"Listen: <word>. What is the first sound? <sound>! Listen: <word>. What is the first sound? <sound>!"`. The Thai line keeps the HEAD Thai form of a first-sound question (the change list holds each Thai line). So each line keeps 2 word forms (10 for each week, the L4 count).
+- P14-D5 (the day-1 opening of w01): an echo warm-up, `"Listen: hello. Say it with me: hello! Listen: goodbye. Say it with me: goodbye!"`. The teacher says a whole word, and the class says it back. The reasons:
+  - It asks no question about /n/ and names no sound position. Week 1 day 1 is the first lesson, so no sound has been taught.
+  - Listening to a whole word and saying it back is the base of each later sound game.
+  - `hello` and `goodbye` are the greeting words of the week frame "Hello, I am ___." They are w01 family words. Their clips are in the w01 folder, so the form needs no new audio.
+  - The line holds no sound label, so `opening.audio[0]` is `[]`. The receiver accepts an empty list (Facts).
+- P14-D6 (the steps): each step asks one position.
+  - In A1 of w02 to w07, the last-sound or middle-sound words leave. The teacher action keeps its first sentence. `teacherLanguage[4]` becomes a first-sound "Yes!" line with a sound picture card of the step. The materials line of these words is deleted.
+  - Each A1 harder variant becomes a stage-1 variant. One child says the first sound alone, then the next child does, with two sound picture cards of the step.
+  - The A5 harder variants of w03, w05, w06, and w07 become the w02 and w04 text: "A child reads one word on the wall alone, then says its first sound."
+  - The w01 day-3 letter-card variant adds two words (`nut` and `dog`) for the first box. The w03 A4 line drops "at the end".
+  - The pronunciation notes of the removed words: the w05 A1 notes are deleted (no A1 word ends in /s/ after the change). The w06 A1 notes about a final /t/ move to A4 "Blend it", where the class blends cat, hat, sat, mat, and Pat. The moved teacher action names these five words.
+- P14-D7 (the day-5 centers of w05 to w07): the picture sort uses the w02 to w04 form: "<sound> at the start" and "not <sound>", and the mat "<sound> / not <sound>". The last-sound and middle-sound cards leave the set-up line and the materials.
+- P14-D8 (the audio): no new paid audio, and no MiniMax call. `opening.audio[0]` of each week is the list of the phoneme files of the sounds of the new day-1 line, in order. `opening.audio[1]` to `[4]` do not change, because the day-2 line holds the same two sound labels as before. The opening word clip map (`opening.wordClips`) holds the keys of the new lines (the K2 key and the K3 path). Five bank clips are copied byte for byte into the week folders, and five week clips that no map names are removed (change list, media files). There is no audio gap. A later word with no bank clip would wait for the MiniMax plan quota after 2026-11-15 23:00 ICT.
+- P14-D9 (w08, listed apart): w08 is in the fix, because the teacher book (w01 to w08) and the student book hold its pages. `focus.paSkill`, `focus.paStage`, `opening.pa[2]` and `[4]` (the last-sound halves become first-sound halves; the audio lists do not change), the step A1 lines, the benchmark rows 5 to 8, and the tags change.
+  - The benchmark rows 5 to 8 ask the first sound of /t/, /m/, /a/, and /n/. Each picture is already a check-row picture, so the picture list and `pictures.json` do not change. The pass mark "6 of 8 pictures and 5 of 7 letters" does not change.
+  - The package impact: w08 has no app package, so no package changes. The w08 pages of the teacher book and the Benchmark 1 page of the student book change.
+- P14-D10 (the check rows; FR14-1 and FR14-3): three rows R14-1 to R14-3 in `check-weeks.ts`. The rule reads English text only, and never a Thai string.
+- P14-D11 (Thai and the approvals): the author (a Claude model) drafted each changed Thai string. Daniel checks the 64 Thai rows on 2026-11-16. The approval objects do not change in this phase.
+  - The reasons: the approval parts are strict, so no note key is possible. A `draft` status unpublishes w01, which is live, and blocks the 11-17 hand-off. New approved words would be a false approval.
+  - The approval records keep what Daniel approved, with the date and the source. The record of this change is the change list and the plan.
+  - After the 11-16 sitting, the orchestrator records Daniel's exact words and the date in `approval.thai` of each week that he approves. A Thai correction goes into a new change list.
+- P14-D12 (the print): after the content commit, a new proof folder `~/Desktop/print-ready/storytime/proof-books-r6-v2/` with `student/`, `teacher/`, `drafts/`, `contact-sheets/`, a note, and `MANIFEST.txt`.
+  - The teacher book is TH-v3, built from the content commit with the recipe of the loops track: the 8 Thai drafts with `--loops --share`, then `make-teacher-book-print.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --lang th --loops --share --version 3`. The name TH-v3 also exists in `unit1-check-v1/` (an older build). The new folder and its MANIFEST keep the two apart.
+  - The student book is v18, built with `make-student-book-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --final --version 18`, because the w08 Benchmark 1 page changes. The two r6 covers are byte copies from `proof-books-r6-v1/`.
+  - The print audit findings of the PM join this build. A finding that needs no code change of another track is fixed before the build, or the note lists it as open with its owner. A finding that arrives after the build goes into the next version.
+  - The card kit is not rebuilt in this phase. The change list names its card changes for the print track.
+- P14-D13 (the packages): the fix rides with the Phase 13 packages (`w01-storytime-app-package-r6` and `w02-storytime-app-package-r5` to `w07-storytime-app-package-r5`) for the hand-off of 2026-11-17 10:00 ICT. The Phase 14 content commit lands before the Phase 13 Clips task (2026-11-15 23:00 ICT).
+  - The Phase 13 package task meets these measured differences from its M11 counts, with this cause. The payload files: w02 +2, w05 −1, w07 −1 (w03 and w04 +0: 2 copies and 2 removals, 1 copy and 1 removal). The `words/wa-*.mp3` lines: w02 38, w05 33, w07 32 (w03 27 and w04 31 do not change). The changed paths: w02 +2, w03 +4, w04 +2, w05 +1, w07 +1. The removed files give empty `new-sha256:` lines: w03 2, w04 1, w05 1, w07 1.
+  - The README text of M12 does not change. The PM line of Phase 14 names the new field `focus.paStage` for Monorepo.
+- P14-D14 (the lane and the roles): the light lane of Phase 13 (K18). One spec review of this addendum by a model family other than Anthropic, Red, Green, Review A, the print task, the PM line, and phase acceptance. There is no strategy role and no adversarial round. The reason: the code is one small pure module and three rows, and the content is fixed text from the change list. Red is a model other than Claude, Green is Claude (the Thai text), and Review A is a family other than Anthropic. The routes are picked by `ra-quota` at spawn. One Workbooks role runs at a time.
+- P14-D15 (Green makes one commit): the code, the content, and the media files go into one commit. So no commit holds the new rows with the old content, and `PROJECT_CHECKS` of other tracks stays at exit 0 (the reason of rule F9).
+- P14-D16 (the dates): the spec review on 2026-11-14. Red on 2026-11-14. Green by 2026-11-15 12:00 ICT, before the Phase 13 Clips task. Review A on 2026-11-15. The proof folder by 2026-11-15 20:00 ICT, for Daniel's sitting on 2026-11-16. The packages with the Phase 13 task on 2026-11-16, and the Monorepo hand-off on 2026-11-17 10:00 ICT. A first PM line with the change list goes out after the plan commit.
+
+### The check rows (R14; the Red role writes them as failing tests first)
+
+The units of a week (`soundUnits`), in this order:
+
+1. `focus.paSkill`: the text `focus.paSkill.en`.
+2. `opening.pa.<i>` for i from 0 to 4: the text `opening.pa[i].en`. Each line is its own unit.
+3. `scripts.<s>.steps.<t>`: the lines of `en.teacherActions`, `en.teacherLanguage`, and `en.studentActions`, then `easier.en`, `harder.en`, and `group.en`, then `soundLoop.correct.en`, `soundLoop.practise.en`, and `soundLoop.retest.en` when the step has a sound loop, joined by a newline. The unit does not read `watchFor`, `materials`, `title`, a Thai field, `blendDrill`, or `sightWords`.
+4. `check.items`: the positions of the items of kind `circle-picture` and `picture-sort` (an absent `position` is `first`). There is no unit when the week has no such item.
+5. `benchmark.paper.items`: the same rule.
+6. `home`: the text `home.line.en`, a newline, and `home.activity.en`, when the week has a home card.
+
+The positions of a text (`soundPositionsAsked`), in the order `first`, `last`, `middle`, each with this exact JavaScript expression:
+
+- `first`: `/\bfirst sounds?\b|\bstarts? with\b|\bat the start\b|\bfirst box\b/i`
+- `last`: `/\blast sounds?\b|\bends? with\b|\blast box\b|\blisten to the end\b|\bat the start or the end\b|(?:\/[a-z-]+\/|\b([a-z])\1{2,}\b|\b[a-z]\b) (?:is )?at the end\b/i`
+- `middle`: `/\bmiddle sounds?\b|\blisten to the middle\b|\bat the start or in the middle\b|(?:\/[a-z-]+\/|\b([a-z])\1{2,}\b|\b[a-z]\b) (?:is )?in the middle\b/i`
+
+The author ran a model of these rules in a scratch script. It finds every fault of the Facts in the HEAD data. It finds 0 faults in the data after the change list.
+
+- R14-1 `sound-stage-mix`, `checkSoundStageMix(week)`. The label is exactly `No activity asks two sound positions (first, last, middle)`. The status is `pass` when each unit has 1 position or less. Else the status is `fail`, and the detail is `mixed: ` and the parts joined by `; `. A part is `<where> (<positions joined by +>)`, for example `opening.pa.0 (first+last)`.
+- R14-2 `sound-stage-day1`, `checkSoundStageDayOne(week, earlierSounds)`. The label is exactly `The day-1 sound game holds no new sound and asks only a skill of an earlier stage`. `earlierSounds` is the list of `focus.element.sound` of the weeks of the same level with a smaller week number. The detail parts, in this order, joined by `; `:
+  - `no opening` when the week has no opening game (then no other part).
+  - For each sound label of `opening.pa[0].en` (the `soundLabels` order): `new sound: <label>` when its `bankSound` equals the `bankSound` of `focus.element.sound`; else `untaught sound: <label>` when its `bankSound` is not the `bankSound` of an earlier sound.
+  - For each position of `opening.pa[0].en` that the stage of week `<n − 1>` does not hold: `position: <p> (stage of week <n − 1> allows <positions joined by ", ", or none>)`. Week 1 allows none.
+  - The status is `pass` with no part, else `fail`.
+- R14-3 `sound-stage-plan`, `checkSoundStagePlan(week)`. The label is exactly `The week follows the sound stage plan (focus.paStage, positions, tags)`. The detail parts, in this order, joined by `; `:
+  - `no paStage`, or `stage <x>, plan <y>` and `positions <list>, plan <list>` (each list joined by `,`) when the field differs from the plan.
+  - `outside stage: <where> (<p>)` for each position of a unit that the planned stage does not hold.
+  - `tag outside stage: <tag>` for each plan entry of the level whose position is outside the planned stage and whose tag is in `tags.taught` or `tags.reviewed`.
+  - `stage start not taught: <tag>` for each plan entry whose first week is this week and whose tag is not in `tags.taught`.
+  - The status is `pass` with no part, else `fail`.
+- Each row gives no row (`undefined`) for a week with no `meta`, or for a level and week with no plan entry (`plannedSoundStage` gives `undefined`).
+- The CLI adds the three rows in the order R14-1, R14-2, R14-3, after the `readalong-sentence-clips` row. It builds `earlierSounds` from the weeks that it read for the level.
+
+### Functional Requirements
+
+1. **Module** `dashboard/lib/storytime/sound-stages.ts` (new, pure, no file access, JSDoc on each export):
+   - `SOUND_POSITIONS = ['first', 'last', 'middle'] as const` and the type `SoundPosition`.
+   - `SOUND_STAGE_PLAN`: the entries `{ level: 2, stage: 1, position: 'first', fromWeek: 1, tag: 'english.phonics.pa.initial-sound.identify' }`, `{ level: 2, stage: 2, position: 'last', fromWeek: 9, tag: 'english.phonics.pa.final-sound.identify' }`, and `{ level: 2, stage: 3, position: 'middle', fromWeek: 17, tag: 'english.phonics.pa.medial-vowel.identify' }`.
+   - `plannedSoundStage(level, week)`: `{ stage, positions }` of the entry of the level with the highest `fromWeek` at or below `week`. `positions` holds the positions of the entries of that stage and below, in plan order. It gives `undefined` for a level with no entry and for a week below the first `fromWeek`.
+   - `soundPositionsAsked(text)`, `soundUnits(week)`, and the three row functions of R14. The module imports `bankSound` and `soundLabels` from `phonemes.ts` and no schema value.
+2. **Schema** `dashboard/lib/storytime/schema.ts`: `FocusSchema` gets `paStage: z.object({ stage: z.number().int().min(1).max(3), positions: z.array(z.enum(['first', 'last', 'middle'])).min(1) }).strict().optional()`, after `paSkill`, with the JSDoc `The sound-position stage of the week (Phase 14 decision P14-D2): the stage number and the positions that the week may ask.` The JSDoc of `opening` replaces the sentence `Days 1 and 2 find the first and the last sound of the week; days 3 to 5 blend three sounds by ear.` with `Day 1 reviews the first sounds of earlier weeks (week 1: an oral warm-up with no sound question); day 2 finds the first sound of the week; days 3 to 5 blend three sounds by ear (Phase 14 decision P14-D4).` No other change. The rules of K15 for `schema.ts` apply.
+3. **Checks** `dashboard/scripts/storytime/check-weeks.ts`: the three rows of R14 (CLI order and `earlierSounds`).
+4. **Content**: the 114 field rows and the 10 media file rows of the change list, in `content/storytime/l2/w01.json` to `w08.json` and `content/storytime/l2/media/w02/` to `w07/words/`. The edit is a text edit of the changed lines only (K4); no file is written again as a whole.
+5. **Tests** in `dashboard/__tests__/storytime-package-sound-stages.test.ts` (Red), the cases S1 to S10, and the test-only edits of S11:
+   - S1 the plan: the 3 entries of `SOUND_STAGE_PLAN` exactly; `plannedSoundStage(2, w)` gives stage 1 `['first']` for w 1 to 8, stage 2 `['first', 'last']` for w 9 to 16, stage 3 `['first', 'last', 'middle']` for w 17; `undefined` for (2, 0), (1, 5), and (3, 1).
+   - S2 `soundPositionsAsked`, a hand-written table: the HEAD texts `"Listen: nose. What is the first sound? Nnn! Listen: sun. What is the last sound? Nnn!"` (first, last), `Ask about the last sound too: "Sun. Does sun end with nnn?"` (last), `"Now listen to the middle. /k/ - /a/ - /t/. Is /a/ in the middle? Yes!"` (middle), `"Now listen to the end. Cup. Cup. Is /p/ at the end? Yes!"` (last), `Add a word with n at the end (sun): children push the card into the last box.` (last), `sort the picture cards into "sss at the start or the end" and "no sss"` (first, last), `sort the picture cards into "/o/ at the start or in the middle" and "no /o/"` (first, middle), `Show the word card "nap". Hold nnn, and say /p/ at the end as a short puff.` (last), `"Row 5: cat, sun, bed. Which one ends with /t/? Circle it."` (last); and the negatives `"A big letter at the start. A full stop at the end."` (first only), `the voice goes up at the end of a question` (none), `Children who say "nuh": the sound is n, with no "uh" at the end.` (none), `Children who read "top" as "tap": point to the middle letter and ask for its sound.` (none), `"Listen: hello. Say it with me: hello! Listen: goodbye. Say it with me: goodbye!"` (none).
+   - S3 `soundUnits` on a fixture week: the order of the units, the joined step text, and no unit text from `watchFor`, `materials`, or a Thai field (a fixture `watchFor` and a fixture `th` line with "last sound" give no `last`).
+   - S4 R14-1: `pass`; `fail` with the exact detail for two mixed units; the exact id and label; `undefined` for a week with no `meta` and for Level 1.
+   - S5 R14-2: a week-1 fixture with `"Listen: nose. What is the first sound? Nnn!"` gives `new sound: Nnn; position: first (stage of week 0 allows none)`; a week-3 fixture with a `Mmm` label gives `untaught sound: Mmm`; a week-3 fixture with an earlier sound and the first position passes; `no opening`.
+   - S6 R14-3: each fail part in order; a week-1 fixture with a last-position check item gives `outside stage: check.items (last)`; a week-9 fixture with `{ stage: 2, positions: ['first', 'last'] }` and the final-sound tag in `taught` passes, and without the tag gives `stage start not taught: english.phonics.pa.final-sound.identify`.
+   - S7 the schema: `paStage` parses, and the parse output keeps it; an extra key, stage 4, and an empty `positions` fail; an absent `paStage` parses; the schema enum equals `SOUND_POSITIONS`.
+   - S8 the shipped weeks: R14-1 to R14-3 give `pass` for w01 to w08, and `focus.paStage` is `{ stage: 1, positions: ['first'] }` in each.
+   - S9 the shipped values of the change list, written by hand: `opening.pa[0].en` of w01 to w07 and `opening.audio[0]` of w01 to w07 (the rows C0n-03 and C0n-05); the w08 benchmark rows 5 to 8 (sound, pictures, answer, no `position`).
+   - S10 the guards of the file: no `measure/tracks/` string, and no write under `content/storytime/`.
+   - S11 the test-only edits (each records the old and the new value in the Red task line): `storytime-package-practice-clips.test.ts` `OPENING_KEYS` becomes `1: ['fan', 'goodbye', 'hello', 'hen', 'nest', 'net', 'nose', 'nut', 'pen', 'sun']`, `2: ['ant', 'apple', 'bag', 'cat', 'fan', 'hat', 'man', 'nap', 'net', 'nose']`, `3: ['ant', 'cap', 'nap', 'net', 'pan', 'pear', 'pen', 'pig', 'top']`, `4: ['apple', 'ham', 'jam', 'man', 'mango', 'map', 'milk', 'mop', 'pam', 'pan']`, `5: ['bus', 'map', 'pan', 'sad', 'sam', 'sit', 'sock', 'sun']`, `6: ['hat', 'map', 'mat', 'sat', 'see', 'tap', 'ten', 'tiger', 'top']`, `7: ['hop', 'hot', 'mop', 'nod', 'octopus', 'ox', 'pot', 'see', 'teddy', 'top']`; the counts become `[10, 10, 9, 10, 8, 9, 10]`, the test title names them, and the w01 case at line 1483 expects the w01 list; `storytime-print-card-kit.test.ts` `PICTURE_CARDS` becomes `'nose', 'cat', 'sun', 'dog', 'bus', 'hat', 'fan', 'fish', 'cap', 'map', 'sheep', 'jam', 'ham', 'pen', 'sad', 'bag', 'ten', 'cup', 'pot', 'mop', 'sock'`, and `SOUND_PICTURE_CARDS` loses `'bus'` and `'dress'`; `storytime-print-a48-step2.test.ts` line 339 expects only `['Listen. Circle the picture that starts with the sound.']`. Another test that fails at Green only because it pins an old value of the change list gets a Red retry with the same rule.
+6. **Print**: the proof folder of P14-D12.
+7. **PM line**: the change list, the facts changed, and the receiver note of P14-D2.
+
+### Acceptance Criteria
+
+- AC14-1: `cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2` shows `sound-stage-mix`, `sound-stage-day1`, and `sound-stage-plan` with `pass` for st2/1 to st2/8, and the summary prints `FAIL rows other than published: 0`. The rows `practice-clips` and `phoneme-audio` stay `pass`.
+- AC14-2: the apply check is the Green script `measure/runs/storytime_week_package_20261022/p14-apply-check.py`. It parses the change list table and applies each row to the parse of `git show ddc70618:content/storytime/l2/w0<n>.json`. Then it compares the result with the parse of the new file. It prints `rows applied 114`, `weeks equal 8 of 8`, `copies cmp equal 5 of 5`, and `removed 5 of 5`.
+- AC14-3: the text edit keeps the form of the file (K4). In `git diff -U0 ddc70618` of each week file, no removed line equals an added line of the same hunk after the removal of all spaces (`p14-form-check.txt` prints `whitespace-only changes 0` for each week), and the capture records `git diff --numstat` of each week file.
+- AC14-4: `grep -c '"paStage"' content/storytime/l2/w0<n>.json` prints 1 for each of w01 to w08. `grep -c "final-sound.identify\|medial-vowel.identify" content/storytime/l2/w0<n>.json` prints 0 for each of w01 to w08.
+- AC14-5: `RED_TEST_COMMAND` fails after Red only on the new cases and the S11 pins. The four gates pass after Green.
+- AC14-6: each mutant of the Green task is caught.
+- AC14-7: the proof folder holds the teacher book TH-v3 and the student book v18, each with `PRINT_GATE` exit 0. The teacher text gate gives 0 differences for each week. The contact sheets show every page, and `MANIFEST.txt` passes `sha256sum -c`.
+- AC14-8: no existing print-ready folder and no existing hand-off folder changes (tree hash before and after).
+- AC14-9: the PM has the change list path and the facts changed (peer-report). Daniel's 11-16 Thai result is recorded (owner gate).
+
+### Open questions (each continues with its default)
+
+- Q14-1: the start weeks of stage 2 (week 9) and stage 3 (week 17). Default: P14-D1. Daniel can move them; a move changes one constant and the unit 2 drafts.
+- Q14-2: word families (w10, w13 drafts) ask "the same end" and a changed first sound in one line. Default: onset and rime is a separate strand, not a last-sound task, so R14-1 does not read "the end is the same". Daniel can call it a mix; then the unit 2 track splits those lines too.
+- Q14-3: the approval objects. Default: no change before Daniel's 11-16 check (P14-D11). The PM can ask for a `draft` status of the `thai` part instead; this unpublishes w01.
+- Q14-4: the name TH-v3, which also exists in `unit1-check-v1/`. Default: keep TH-v3 (the PM order), in the new folder.
+- Q14-5: the w01 day-1 sound game has no phoneme audio (`opening.audio[0]` is `[]`). Default: keep; the app plays the word clips of `hello` and `goodbye`. The PM line asks Monorepo to confirm that an empty day list shows no sound button.
+- Q14-6: the card kit loses six cards. Default: the print track rebuilds the card kit with the release proof (P14-D12); this phase builds no card kit.
+
+### Blast radius of the addendum
+
+- New files: `dashboard/lib/storytime/sound-stages.ts`, `dashboard/__tests__/storytime-package-sound-stages.test.ts`, and under `measure/runs/storytime_week_package_20261022/` the script `p14-apply-check.py` and the `p14-*` captures. The script is not repository code.
+- Files that change: `dashboard/lib/storytime/schema.ts` (one optional field and two JSDoc texts; shared with the loops track), `dashboard/scripts/storytime/check-weeks.ts` (3 rows), `content/storytime/l2/w01.json` to `w08.json`, and `content/storytime/l2/media/w02/`, `w03/`, `w04/`, `w05/`, and `w07/` `words/` (5 copies and 5 removals).
+- Test files that change (test only, Red): `storytime-package-practice-clips.test.ts`, `storytime-print-card-kit.test.ts`, and `storytime-print-a48-step2.test.ts`.
+- Read only: `phonemes.ts`, `word-clips.ts`, `checks.ts`, `manual.ts`, the print modules, the word bank, the phoneme bank, and the unit 2 drafts.
+- The repository is public. The change holds no test items.
+
+### Out of Scope
+
+- The unit 2 drafts (weeks 9 to 16): their fix is work of the unit 2 track, through the PM.
+- The Monorepo code. The field `focus.paStage` needs none.
+- New audio, a new word clip, a new picture, and any use of credits.
+- The card kit build (Q14-6), the A3 readers, and the covers.
+- A change of an approval object before Daniel's 11-16 check.
