@@ -74,8 +74,14 @@
       "audio": "phonemes/daniel/04-n.mp3"
     },
     "paSkill": {
-      "en": "the first and last sound n; blend three sounds by ear",
-      "th": "ฟังเสียงแรกและเสียงสุดท้าย n และฟังแล้วผสม 3 เสียงเป็นคำ"
+      "en": "the first sound n; blend three sounds by ear",
+      "th": "ฟังเสียงแรก n และฟังแล้วผสม 3 เสียงเป็นคำ"
+    },
+    "paStage": {
+      "stage": 1,
+      "positions": [
+        "first"
+      ]
     },
     "trickyWords": [
       "a",
@@ -176,12 +182,12 @@
   "opening": {
     "pa": [
       {
-        "en": "\"Listen: nose. What is the first sound? Nnn! Listen: sun. What is the last sound? Nnn!\"",
-        "th": "\"ฟัง: nose เสียงแรกคือเสียงอะไร? Nnn! ฟัง: sun เสียงสุดท้ายคือเสียงอะไร? Nnn!\""
+        "en": "\"Listen: hello. Say it with me: hello! Listen: goodbye. Say it with me: goodbye!\"",
+        "th": "\"ฟัง: hello พูดพร้อมครู: hello! ฟัง: goodbye พูดพร้อมครู: goodbye!\""
       },
       {
-        "en": "\"Listen: nest. What is the first sound? Nnn! Listen: pen. What is the last sound? Nnn!\"",
-        "th": "\"ฟัง: nest เสียงแรกคือเสียงอะไร? Nnn! ฟัง: pen เสียงสุดท้ายคือเสียงอะไร? Nnn!\""
+        "en": "\"Listen: nest. What is the first sound? Nnn! Listen: nose. What is the first sound? Nnn!\"",
+        "th": "\"ฟัง: nest เสียงแรกคือเสียงอะไร? Nnn! ฟัง: nose เสียงแรกคือเสียงอะไร? Nnn!\""
       },
       {
         "en": "\"Listen: nnn - /e/ - /t/. What is the word? Net! Listen: /p/ - /e/ - nnn. What is the word? Pen!\"",
@@ -197,10 +203,7 @@
       }
     ],
     "audio": [
-      [
-        "phonemes/daniel/04-n.mp3",
-        "phonemes/daniel/04-n.mp3"
-      ],
+      [],
       [
         "phonemes/daniel/04-n.mp3",
         "phonemes/daniel/04-n.mp3"
@@ -232,6 +235,8 @@
     ],
     "wordClips": {
       "fan": "l2/media/w01/words/wa-fan.mp3",
+      "goodbye": "l2/media/w01/words/wa-goodbye.mp3",
+      "hello": "l2/media/w01/words/wa-hello.mp3",
       "hen": "l2/media/w01/words/wa-hen.mp3",
       "nest": "l2/media/w01/words/wa-nest.mp3",
       "net": "l2/media/w01/words/wa-net.mp3",
@@ -2224,8 +2229,8 @@
             "th": "ใช้บัตรเพียง 3 ใบ (nest, nose, cat) และพูดเสียงแรก 2 ครั้ง"
           },
           "harder": {
-            "en": "Ask about the last sound too: \"Sun. Does sun end with nnn?\"",
-            "th": "ถามเรื่องเสียงสุดท้ายด้วย: \"Sun. Does sun end with nnn?\" (sun ลงท้ายด้วย nnn ไหม)"
+            "en": "A child says the first sound alone: \"Net. Nnn!\" Then the next child: \"Nut. Nnn!\"",
+            "th": "เด็กบอกเสียงแรกด้วยตัวเองทีละคน: \"Net. Nnn!\" แล้วเด็กคนต่อไป: \"Nut. Nnn!\""
           },
           "group": {
             "en": "Pairs: you hold up a card; partner A says the word, and partner B shows the thumbs.",
@@ -3411,8 +3416,8 @@
             "th": "ใช้เฉพาะคำ nest และ cat คำละ 2 ครั้ง"
           },
           "harder": {
-            "en": "Add a word with n at the end (sun): children push the card into the last box.",
-            "th": "เพิ่มคำที่มี n อยู่ท้ายคำ (sun): เด็ก ๆ เลื่อนบัตรไปที่ช่องสุดท้าย"
+            "en": "Add two more words, nut and dog. Children push the card into the first box for nut only.",
+            "th": "เพิ่มอีก 2 คำ คือ nut และ dog เด็ก ๆ เลื่อนบัตรไปที่ช่องแรกเฉพาะคำ nut"
           },
           "group": {
             "en": "Pairs share one workmat and take turns to push the card.",
@@ -4738,7 +4743,6 @@
       "english.phonics.tricky.and",
       "english.phonics.tricky.can",
       "english.phonics.pa.initial-sound.identify",
-      "english.phonics.pa.final-sound.identify",
       "english.phonics.pa.phoneme.blend-2-3"
     ],
     "reviewed": []

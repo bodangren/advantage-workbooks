@@ -7,6 +7,7 @@ import { checkStorytimeWeek, taughtTo } from '../../lib/storytime/checks';
 import { PHONICS_GRAPH_FILE, readLevelWeeks, readPhonemeBank, readPhonicsGraph, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { phonemeAudioFields, phonemeAudioProblems } from '../../lib/storytime/phonemes';
 import { sentenceClipPath, type SentenceKind } from '../../lib/storytime/sentence-clips';
+import { checkSoundStageDayOne, checkSoundStageMix, checkSoundStagePlan } from '../../lib/storytime/sound-stages';
 import { bookWordKey, practiceWordKeys, wordClipPath, type BookWords } from '../../lib/storytime/word-clips';
 
 const USAGE = `Checks the Storytime week files of a level (track storytime_week_package_20261022).
@@ -431,6 +432,13 @@ function main(argv: string[]): number {
         if (sentenceClips) report.checks.push(sentenceClips);
         const readAlongSentenceClips = w.week ? checkReadAlongSentenceClips(w.week) : undefined;
         if (readAlongSentenceClips) report.checks.push(readAlongSentenceClips);
+        // The sound skill stages (Phase 14): the rows `sound-stage-mix`, `sound-stage-day1`, and `sound-stage-plan`,
+        // in this order. The earlier sounds come from the weeks of the level that this run read.
+        const earlierSounds = weeks
+            .filter((o) => o.week && w.week && o.week.meta.week < w.week.meta.week)
+            .flatMap((o) => (o.week?.focus.element?.sound ? [o.week.focus.element.sound] : []));
+        const soundStageRows = w.week ? [checkSoundStageMix(w.week), checkSoundStageDayOne(w.week, earlierSounds), checkSoundStagePlan(w.week)] : [];
+        for (const row of soundStageRows) if (row) report.checks.push(row);
         const songLeadIn = w.week ? checkSongLeadIn(w.week) : undefined;
         if (songLeadIn) report.checks.push(songLeadIn);
         // Daniel's recordings (S22) for every sound of the package; the QR page copy step reads them too.

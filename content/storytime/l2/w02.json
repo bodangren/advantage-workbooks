@@ -60,8 +60,14 @@
       "audio": "phonemes/daniel/26-a-short.mp3"
     },
     "paSkill": {
-      "en": "the first sound /a/ and the middle sound /a/; blend three sounds by ear",
-      "th": "ฟังเสียงแรกและเสียงกลาง /a/ และฟังแล้วผสม 3 เสียงเป็นคำ"
+      "en": "the first sound /a/; blend three sounds by ear",
+      "th": "ฟังเสียงแรก /a/ และฟังแล้วผสม 3 เสียงเป็นคำ"
+    },
+    "paStage": {
+      "stage": 1,
+      "positions": [
+        "first"
+      ]
     },
     "trickyWords": [
       "I",
@@ -193,12 +199,12 @@
   "opening": {
     "pa": [
       {
-        "en": "\"Listen: apple. What is the first sound? /a/! Listen: cat. What is the middle sound? /a/!\"",
-        "th": "\"ฟัง: apple เสียงแรกคือเสียงอะไร? /a/! ฟัง: cat เสียงกลางคำคือเสียงอะไร? /a/!\""
+        "en": "\"Listen: nose. What is the first sound? Nnn! Listen: net. What is the first sound? Nnn!\"",
+        "th": "\"ฟัง: nose เสียงแรกคือเสียงอะไร? Nnn! ฟัง: net เสียงแรกคือเสียงอะไร? Nnn!\""
       },
       {
-        "en": "\"Listen: ant. What is the first sound? /a/! Listen: hat. What is the middle sound? /a/!\"",
-        "th": "\"ฟัง: ant เสียงแรกคือเสียงอะไร? /a/! ฟัง: hat เสียงกลางคำคือเสียงอะไร? /a/!\""
+        "en": "\"Listen: apple. What is the first sound? /a/! Listen: ant. What is the first sound? /a/!\"",
+        "th": "\"ฟัง: apple เสียงแรกคือเสียงอะไร? /a/! ฟัง: ant เสียงแรกคือเสียงอะไร? /a/!\""
       },
       {
         "en": "\"Listen: /k/ - /a/ - /t/. What is the word? Cat! Listen: /h/ - /a/ - /t/. What is the word? Hat!\"",
@@ -215,8 +221,8 @@
     ],
     "audio": [
       [
-        "phonemes/daniel/26-a-short.mp3",
-        "phonemes/daniel/26-a-short.mp3"
+        "phonemes/daniel/04-n.mp3",
+        "phonemes/daniel/04-n.mp3"
       ],
       [
         "phonemes/daniel/26-a-short.mp3",
@@ -255,7 +261,9 @@
       "fan": "l2/media/w02/words/wa-fan.mp3",
       "hat": "l2/media/w02/words/wa-hat.mp3",
       "man": "l2/media/w02/words/wa-man.mp3",
-      "nap": "l2/media/w02/words/wa-nap.mp3"
+      "nap": "l2/media/w02/words/wa-nap.mp3",
+      "net": "l2/media/w02/words/wa-net.mp3",
+      "nose": "l2/media/w02/words/wa-nose.mp3"
     }
   },
   "books": [
@@ -2166,7 +2174,7 @@
             "teacherActions": [
               "Hold up one picture card at a time and say the word slowly.",
               "Say the first sound two times, short and quick: /a/, /a/, apple. Keep the sound short.",
-              "Mix the /a/ words with other words. Then say three words with /a/ in the middle: cat, hat, fan.",
+              "Mix the /a/ words with other words.",
               "When the script says /a/, say the short sound, as in \"apple\" (close to แอะ). When it says \"the letter a\", say the letter name \"ay\". The word a (a tricky word) says \"uh\"."
             ],
             "teacherLanguage": [
@@ -2174,7 +2182,7 @@
               "\"Is the first sound /a/? Thumbs up or thumbs down?\"",
               "\"Yes! Apple starts with /a/.\"",
               "\"Listen. Dog. Does dog start with /a/? No!\"",
-              "\"Now listen to the middle. /k/ - /a/ - /t/. Is /a/ in the middle? Yes!\""
+              "\"Listen. Ant. Does ant start with /a/? Yes!\""
             ],
             "studentActions": [
               "Children say each word after the teacher.",
@@ -2190,8 +2198,8 @@
             "th": "ใช้บัตรเพียง 4 ใบ (apple, ant, dog, sun) และพูดเสียงแรก 2 ครั้ง"
           },
           "harder": {
-            "en": "Say a word with /a/ in the middle: \"Hat.\" Children say the middle sound: \"/a/!\"",
-            "th": "พูดคำที่มี /a/ อยู่กลางคำ: \"Hat.\" เด็ก ๆ บอกเสียงกลาง: \"/a/!\""
+            "en": "A child says the first sound alone: \"Axe. /a/!\" Then the next child: \"Astronaut. /a/!\"",
+            "th": "เด็กบอกเสียงแรกด้วยตัวเองทีละคน: \"Axe. /a/!\" แล้วเด็กคนต่อไป: \"Astronaut. /a/!\""
           },
           "group": {
             "en": "Pairs: you hold up a card; partner A says the word, and partner B shows the thumbs.",
@@ -2199,14 +2207,13 @@
           },
           "materials": [
             "sound picture cards: apple, ant, axe, astronaut",
-            "picture cards: dog, sun, bus",
-            "picture cards: cat, hat, fan"
+            "picture cards: dog, sun, bus"
           ],
           "th": {
             "teacherActions": [
               "ชูบัตรภาพทีละใบ แล้วพูดคำช้า ๆ",
               "พูดเสียงแรก 2 ครั้ง สั้นและเร็ว: /a/, /a/, apple ออกเสียงให้สั้น",
-              "คละคำที่ขึ้นต้นด้วย /a/ กับคำอื่น จากนั้นพูดคำ 3 คำที่มี /a/ อยู่กลางคำ: cat, hat, fan",
+              "คละคำที่ขึ้นต้นด้วย /a/ กับคำอื่น",
               "เมื่อบทพูดเขียนว่า /a/ ให้ออกเสียงสั้นแบบใน \"apple\" (ใกล้กับเสียงสระ แอะ) เมื่อบทพูดเขียนว่า \"the letter a\" ให้พูดชื่อตัวอักษร \"ay\" (เอ) ส่วนคำว่า a (คำที่ต้องจำ) ออกเสียงว่า \"uh\" (คล้ายเสียง เออะ)"
             ],
             "teacherLanguage": [
@@ -2214,7 +2221,7 @@
               "\"เสียงแรกคือ /a/ ไหม? ยกนิ้วโป้งขึ้นหรือคว่ำนิ้วโป้งลง?\"",
               "\"ใช่! Apple ขึ้นต้นด้วย /a/\"",
               "\"ฟัง dog คำว่า dog ขึ้นต้นด้วย /a/ ไหม? ไม่ใช่!\"",
-              "\"ทีนี้ฟังเสียงกลางคำ /k/ - /a/ - /t/ มี /a/ อยู่ตรงกลางไหม? ใช่!\""
+              "\"ฟัง ant คำว่า ant ขึ้นต้นด้วย /a/ ไหม? ใช่!\""
             ],
             "studentActions": [
               "เด็ก ๆ พูดแต่ละคำตามครู",
@@ -4893,7 +4900,6 @@
       "english.phonics.tricky.i",
       "english.phonics.tricky.in",
       "english.phonics.tricky.on",
-      "english.phonics.pa.medial-vowel.identify",
       "english.phonics.pattern.cvc-short-a"
     ],
     "reviewed": [

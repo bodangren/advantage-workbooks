@@ -104,6 +104,8 @@ export const FocusSchema = z.object({
     element: ElementSchema.optional(),
     /** The phonemic awareness skill of the week (design §5.2), e.g. "the first sound n". */
     paSkill: BiTextSchema,
+    /** The sound-position stage of the week (Phase 14 decision P14-D2): the stage number and the positions that the week may ask. */
+    paStage: z.object({ stage: z.number().int().min(1).max(3), positions: z.array(z.enum(['first', 'last', 'middle'])).min(1) }).strict().optional(),
     /** The new tricky words of the week (design §6.1: 3 or fewer). */
     trickyWords: z.array(z.string().min(1)).default([]),
     /**
@@ -734,7 +736,7 @@ export const StorytimeWeekSchema = z.object({
     focus: FocusSchema,
     /**
      * The daily 1-minute sound game, opening item 2 (Storytime, 2026-10-22): one teacher line for each day.
-     * Days 1 and 2 find the first and the last sound of the week; days 3 to 5 blend three sounds by ear.
+     * Day 1 reviews the first sounds of earlier weeks (week 1: an oral warm-up with no sound question); day 2 finds the first sound of the week; days 3 to 5 blend three sounds by ear (Phase 14 decision P14-D4).
      */
     opening: z
         .object({
