@@ -714,7 +714,7 @@ ${groupHead(['read', 'pencil'], 'Read. Match to the picture.')}
 ${matchRows}
 ${groupHead(['read'], 'Read it.')}
 ${readRow}
-<div class="score-strip" data-part="score-strip" data-score="__ / ${more.pairs.length}"><span class="score-blank"></span> / ${more.pairs.length}</div>`,
+${scoreStrip(more.pairs.length)}`,
     };
 }
 
