@@ -1,0 +1,56 @@
+P13 packages Step A (the staging build) - jr-green report, 2026-11-15
+
+What ran: the three builder scripts (p13-handoff-build.py, p13-handoff-check.py,
+p13-handoff-tree.py) copied from the Phase 12 scripts and extended by the Phase
+13 task (spec M11, M12). The build built the 7 folders from source commit
+6d9ab699 (the HEAD at the role start) into /tmp/opencode/p13-handoff-staging/
+with git show. No folder under ~/Desktop/handoff/ changed (tree diff 0).
+The staging root is removed; the capture prints "scratch removed".
+
+Results per folder (measured; expected of spec M11 in brackets):
+- w01-storytime-app-package-r6: payload 90 [98], changed paths 1 [10],
+  word clips 30 [30], read-along clips 0 [8], decodable clips 8 [8];
+  checks 1, 2, 4, 7, 8, 9 pass; checks 3, 5, 6 give the measured values;
+  README of AC13-13 passes; MANIFEST 0b7bdbbd.
+- w02-storytime-app-package-r5: payload 101 [115], changed 3 [18],
+  word clips 38 [36], read-along 0 [16], decodable 8; checks 1, 2, 4, 7, 8, 9
+  pass; README passes; MANIFEST f54b9483.
+- w03-storytime-app-package-r5: payload 86 [94], changed 5 [10],
+  word clips 27 [27], read-along 0 [8], decodable 8; checks 1, 2, 4, 7, 8, 9
+  pass; README passes; MANIFEST 6954723e.
+- w04-storytime-app-package-r5: payload 86 [94], changed 3 [10],
+  word clips 31 [31], read-along 0 [8], decodable 8; checks 1, 2, 4, 7, 8, 9
+  pass; README passes; MANIFEST aee900f1.
+- w05-storytime-app-package-r5: payload 94 [103], changed 2 [10],
+  word clips 33 [34], read-along 0 [8], decodable 8; checks 1, 2, 4, 7, 8, 9
+  pass; README passes; MANIFEST 506d77ac.
+- w06-storytime-app-package-r5: payload 85 [93], changed 1 [10],
+  word clips 27 [27], read-along 0 [8], decodable 8; checks 1, 2, 4, 7, 8, 9
+  pass; README passes; MANIFEST 85e948b1.
+- w07-storytime-app-package-r5: payload 91 [108], changed 2 [18],
+  word clips 32 [33], read-along 0 [16], decodable 8; checks 1, 2, 4, 7, 8, 9
+  pass; README passes; MANIFEST 9c8cfc0d.
+
+Causes of the differences from the spec M11 values (each check line names its
+own cause): the read-along clips b0-s<jj>.mp3 do not exist yet (the Clips task
+runs after 2026-11-15 23:00 ICT), and the word clip copies and removals of
+a318b199 (the Phase 14 sound stages) moved w02 +2, w03 +2 net paths (2 copies,
+2 removals), w04 +1 copy 1 removal, w05 -1, w07 -1.
+
+Commits: 8ccb2476 (the 3 scripts and the 3 captures), 5b9c8f1b (the plan
+evidence line), this log third.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green (maker), Phase 13 Task (Packages and the PM line), D-P13-H1 Step A (the staging build)
+status: done
+track: storytime_week_package_20261022 (short: storytime_week_package)
+phase: P13
+role_base_sha: 6d9ab699766fde74f7c68a08c281615eff5f1f9b
+source_commit: 6d9ab699766fde74f7c68a08c281615eff5f1f9b (the HEAD at the role start)
+commits: 8ccb24764343568591ae97e2016412fb26dd5cf6 (scripts and captures), 5b9c8f1b82d81bfea33128267e71cfe99ea65c44 (plan evidence), the log commit third
+results per folder: w01 r6 payload 90 changed 1 words 30 read-along 0 decodable 8; w02 r5 payload 101 changed 3 words 38 read-along 0 decodable 8; w03 r5 payload 86 changed 5 words 27 read-along 0 decodable 8; w04 r5 payload 86 changed 3 words 31 read-along 0 decodable 8; w05 r5 payload 94 changed 2 words 33 read-along 0 decodable 8; w06 r5 payload 85 changed 1 words 27 read-along 0 decodable 8; w07 r5 payload 91 changed 2 words 32 read-along 0 decodable 8; checks 1, 2, 4, 7, 8, 9 pass on all 7 folders; checks 3, 5, 6 and the payload counts give the measured values with named causes on each folder; the README check of AC13-13 passes on all 7 folders
+causes: the read-along clips b0-s<jj>.mp3 are not made yet (the Clips task runs after 2026-11-15 23:00 ICT); the word clip copies and removals of a318b199 (the Phase 14 sound stages)
+substitution: the table model volcengine-agent-plan/glm-5.3-flash#high is in WAIT (Ark monthly 86 percent) and the PM blocks new opencode-go roles until 03:00 ICT; Kimi (kimi-code-plan-cn/kimi-for-coding#high) runs this maker role as a substitution, recorded per the route note (Kimi built the Phase 12 packages)
+deviations: none beyond the measured values and their causes; the task line and its sub-lines keep their states (no [x] flips in Step A); no folder under ~/Desktop/handoff/ changed (tree diff 0); the staging root /tmp/opencode/p13-handoff-staging/ is removed (the capture prints "scratch removed"); Step A2 (2026-11-16) reruns the same scripts from the last content commit after the Clips task and Review A round 2
+handoff: Step A2 and Step B run on 2026-11-16 with the same scripts; the README Characters values stay "pending the Clips task" until p13-chars.txt exists; the final build (Step B) rebuilds from the approval commit into ~/Desktop/handoff/ only
+END_MEASURE_AGENT_RESULT
