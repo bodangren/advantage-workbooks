@@ -1,0 +1,37 @@
+# Spec review p9b round 2: re-check of F1 to F4 on the answer commits
+Track: storytime_print_r1_20261025
+Round 1 audited head: 15ea495d36d69c177e7dda481a782fcebac9589a (fail, F1 Major, F2 to F4 Nits)
+Re-check audited head: da3abcb67da811a1efa1a65a6bbd66031494d1d1 (answer commits c8aa1b67 and da3abcb6; HEAD equals it and the track folder is unchanged)
+Reviewer: measure-spec-review, kimi-code-plan-cn/kimi-for-coding (non-Anthropic family, per the family rule)
+
+## Basis
+
+The Thai filter was the first file of this run. The plan diff was read only through it and prints THAI_CHARS_IN_OUTPUT: 0. spec.md and spec-review.md hold no Thai and were read directly.
+
+## Re-check of each finding
+
+- F1 [Major] sentences in place of single words: WITHDRAWN. The answer commits add decision P9-B20 in its final form (commit da3abcb6): "PM decision (2026-11-14, PM stamp 23:10 ICT): option A, short decodable sentences matched to existing story pictures. No paid generation and no cut script. The words 'read the words and match them to pictures' came from the PM brief; Daniel's words were only 'Add review pages'." The default of P9-B20 is "Closed. No question goes to Daniel." Q9-9 now reads "Closed by P9-B20 (PM decision, PM stamp 23:10 ICT): sentences." The PM correction of the same stamp is recorded verbatim in spec-review.md: the brief was a PM text, so the finding and the answer follow the PM correction. The owner of the brief decided the question F1 raised; the decision stands on the same evidence F1 cited (single-word object pictures exist for ant, pot, and mop only; the brief forbids new generation).
+- F2 [Nit] day 5 without weeks 1 and 6: WITHDRAWN. spec.md P9-B10 now holds the "Day 5 weeks" line with the recorded reason (day 3 already reviews weeks 5 and 6; 4 pairs and 1 sentence cover 5 of the 6 weeks with decodable text) and the PM decision of 23:10 ICT that the scope is accepted. This is the fix the finding asked for.
+- F3 [Nit] C2-book absolutes: WITHDRAWN. The P9-B5 decision row and the C2-book case text now state that C2-book asserts the absolute dot positions of spec fact 2 (car, kite, drum, can, see, saw) within 0.3 mm, not only the agreement with the table.
+- F4 [Nit] RM-decodable names and ratio: WITHDRAWN. The RM-decodable case text now states that the names of the source reader pass to the decodable check, that the case asserts 0 untaught words for each text, and that it asserts no ratio for each text.
+
+## New open choices
+
+None. P9-B20 and Q9-9 are closed. The C2-book and RM-decodable case texts are fully specified. The new sub-line of the Green content task (the Thai draft step, plan.md line 1415, masked read) names the deliverable (p9b-thai-change-list.md with the 28 rows: week, day, step, key, English line, old Thai line, new Thai draft), the deadline (2026-11-15 07:00 ICT), the commit shape (committed alone), the fallback (a short separate Thai item on 2026-11-16), and it states "It changes no week file." No week file, test file, or code file gains a new edit path.
+
+## Verdict
+
+Status pass. F1 to F4 are withdrawn. retry_recommendation: none.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+status: complete
+track: storytime_print_r1_20261025
+phase: track setup
+commits: none
+tests_run: git show and git diff of the answer commits; masked grep of plan.md and spec.md; no vitest run
+files_changed: measure/runs/storytime_print_r1_20261025/spec-review-p9b-da3abcb6.json, measure/runs/storytime_print_r1_20261025/spec-review-p9b-da3abcb6.log
+plan_updates: none
+known_failures: none
+handoff: Round 2 passes. All four findings of round 1 are withdrawn: F1 closed by PM decision P9-B20 (PM stamp 23:10 ICT; the "match words" words came from the PM brief, Daniel said only "Add review pages"), F2 to F4 fixed in spec.md as asked. The answers add no new open choice for Red or Green; the Thai draft step changes no week file. The Red role can start on the review-page cases; C2 and F3 cases stay gated on Daniel's answer at the r6-v2 proof look (P9-B1).
+END_MEASURE_AGENT_RESULT

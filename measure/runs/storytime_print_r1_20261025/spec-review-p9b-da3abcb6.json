@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "role": "spec-review",
+  "track": "storytime_print_r1_20261025",
+  "phase": "Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)",
+  "baseline_sha": "15ea495d36d69c177e7dda481a782fcebac9589a",
+  "audited_head_sha": "da3abcb67da811a1efa1a65a6bbd66031494d1d1",
+  "status": "pass",
+  "summary": "Re-check of F1 to F4 on the answer commits c8aa1b67 and da3abcb6: all four findings are withdrawn. F1 is closed by PM decision P9-B20 after the PM correction of 23:10 ICT (the words \"read the words and match them to pictures\" came from the PM brief, not from Daniel); F2 to F4 are fixed in spec.md as asked. The answers add no new open choice for Red or Green, and the new Thai draft step of the Green content task changes no week file. Status pass.",
+  "paraphrase": {
+    "proposes": "The batch fixes C2 (the trace start table gains 8 missing lowercase letters and new positions for c, d, g, and S, guarded by a new ink test on all 32 values), fixes F3 (the D4 teacher script order of weeks 2 to 7 matches the writing-page order; 14 Thai lines change, 10 move), and adds 4 week-8 review pages, one after each of days 2 to 5, so the student book goes from 136 to 140 pages. Per PM decision P9-B20, the match pairs are short decodable sentences of the readers, matched to existing story pictures. The batch also updates the w08 scripts, the step map, and the teacher book, ships proof r6-v3 with a cast sheet, and holds all Thai drafts to Daniel's check.",
+    "current_system": "The student book compiles to 136 pages from the week files and the print code. Trace start dots come from TRACE_START_EM (18 lowercase and 6 uppercase values) with no ink-based test, and a word that starts with a missing letter throws. The D4 step of weeks 2 to 7 names the trace before the page's prompt action, so the script order differs from the page order. Week 8 has five review pages on pages 132 to 136 and no app package; the step map and the teacher book take their page references from the compiled book."
+  },
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is da3abcb67da811a1efa1a65a6bbd66031494d1d1, and git diff --stat da3abcb6 HEAD -- measure/tracks/storytime_print_r1_20261025 prints nothing.",
+    "F1 withdrawn: git show c8aa1b67 da3abcb6 of spec.md and spec-review.md shows decision P9-B20 in its final form: \"PM decision (2026-11-14, PM stamp 23:10 ICT): option A, short decodable sentences matched to existing story pictures. No paid generation and no cut script. The words 'read the words and match them to pictures' came from the PM brief; Daniel's words were only 'Add review pages'\", default \"Closed. No question goes to Daniel.\"; Q9-9 reads \"Closed by P9-B20 (PM decision, PM stamp 23:10 ICT): sentences\"; the PM correction of the same stamp is recorded verbatim in spec-review.md. The owner of the brief decided the question that F1 raised.",
+    "F2 withdrawn: spec.md P9-B10 now holds the \"Day 5 weeks\" line (day 3 already reviews weeks 5 and 6; 4 pairs and 1 sentence cover 5 of the 6 weeks with decodable text) with the PM decision of 23:10 ICT that day 5 without weeks 1 and 6 is accepted; this is the fix the finding asked for (recorded reason).",
+    "F3 withdrawn: spec.md P9-B5 decision row and the C2-book case text now state that C2-book asserts the absolute dot positions of spec fact 2 (car, kite, drum, can, see, saw) within 0.3 mm, not only the agreement with the table.",
+    "F4 withdrawn: spec.md P9-B13 RM-decodable now states that the names of the source reader pass to the decodable check and the case asserts 0 untaught words for each text and no ratio for each text.",
+    "No new open choice: P9-B20 and Q9-9 are closed (no question to Daniel); the C2-book and RM-decodable case texts are fully specified; the new Thai draft step of the Green content task (plan.md line 1415, masked read) names the file p9b-thai-change-list.md, the 28 rows with week, day, step, key, English line, old Thai line, and new Thai draft, the 2026-11-15 07:00 ICT deadline, and the fallback (a short separate Thai item on 2026-11-16), and it states \"It changes no week file.\"",
+    "The masked plan diff of 15ea495d..da3abcb6 prints THAI_CHARS_IN_OUTPUT: 0 and adds only the round-1 evidence line and the Thai draft step sub-line."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git diff --stat da3abcb6 HEAD -- measure/tracks/storytime_print_r1_20261025",
+    "git show c8aa1b67 da3abcb6 -- measure/tracks/storytime_print_r1_20261025/spec.md measure/tracks/storytime_print_r1_20261025/spec-review.md",
+    "git diff 15ea495d da3abcb6 -- measure/tracks/storytime_print_r1_20261025/plan.md through /tmp/opencode/p9b-spec-recheck/mask.py (THAI_CHARS_IN_OUTPUT: 0)",
+    "grep of the current spec.md for P9-B20 and Q9-9; grep of plan.md line 1415 through the mask"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_print_r1_20261025/spec-review-p9b-da3abcb6.json",
+    "measure/runs/storytime_print_r1_20261025/spec-review-p9b-da3abcb6.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high"
+}
