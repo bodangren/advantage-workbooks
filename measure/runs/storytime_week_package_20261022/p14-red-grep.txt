@@ -1,0 +1,64 @@
+# Phase 14 Red: the grep of the task line
+
+Command (plan line 645, run 2026-11-14 at HEAD b5948d77):
+`grep -rlnE "OPENING_KEYS|PICTURE_CARDS|SOUND_PICTURE_CARDS|ends with the sound|final-sound|medial-vowel|paSkill|benchmark" dashboard/__tests__`
+
+12 files hit. 3 change (the S11 test-only edits of spec FR14-5). 9 do not change.
+
+## changes
+
+1. `dashboard/__tests__/storytime-package-practice-clips.test.ts` — changes. S11: the table
+   `OPENING_KEYS` (line 124) takes the new opening words of w01 to w07, the counts at line 1496
+   become `[10, 10, 9, 10, 8, 9, 10]`, the test titles name the new counts, and the w01 case
+   expects the new w01 list. The change list moves the opening lines of w01 to w07 (rows C0n-03),
+   so the opening words of those weeks change.
+2. `dashboard/__tests__/storytime-print-card-kit.test.ts` — changes. S11: `PICTURE_CARDS` (line 87)
+   loses `arm`, `dress`, `horse`, and `boat`, and `cup` moves after `ten`; `SOUND_PICTURE_CARDS`
+   (line 94) loses `bus` and `dress`. The change list deletes those materials lines (the rows C0n-08,
+   C0n-14, C0n-17, C0n-19, and C0n-12 of the day-5 centers), so the kit holds fewer cards.
+3. `dashboard/__tests__/storytime-print-a48-step2.test.ts` — changes. S11: line 339 expects one
+   group head, `['Listen. Circle the picture that starts with the sound.']`. The w08 benchmark rows
+   5 to 8 lose `position: last` (the rows C08-08 to C08-11), so all 8 rows ask the first sound and
+   the print gives one head.
+
+## no change
+
+4. `dashboard/__tests__/fixtures/storytime-week-fixture.ts` — no change. The hit is `paSkill` at
+   line 117 and line 213 and `benchmark` at line 230. The fixture builds a synthetic week for the
+   schema and report tests; it is not a shipped week file, so no row of the change list reaches it.
+5. `dashboard/__tests__/storytime-loops-share.test.ts` — no change. The hit is `benchmark` at line
+   446 (the message of a share problem). It names no value of the change list.
+6. `dashboard/__tests__/storytime-manual.test.ts` — no change. The hits are `paSkill.th` at line 126
+   (a Thai gloss written into a parsed copy for a print case) and `benchmark` at lines 273, 283, 298,
+   321, and 330 (the review pages of the manual). The test prints its own copy; it pins no shipped
+   English value of the change list.
+7. `dashboard/__tests__/storytime-phonemes.test.ts` — no change. The hits are a synthetic `benchmark`
+   object at lines 100 to 118 for the audio fields. It builds its own week; no shipped value.
+8. `dashboard/__tests__/storytime-print-adversarial.test.ts` — no change. The hits are `delete
+   copy.benchmark` at line 168 and the empty-review expectation at line 170. The test removes the
+   benchmark to prove the print gives no rows; it pins no value of the change list.
+9. `dashboard/__tests__/storytime-print-binding-practice.test.ts` — no change. The hits are the page
+   kinds of the 136-page book at lines 25 and 29. The change list keeps the page count and the
+   benchmark pages (the w08 Benchmark 1 page keeps 8 rows), so the page kinds do not move.
+10. `dashboard/__tests__/storytime-print-step-system.test.ts` — no change. The hits are the week 8
+    page kinds at lines 561 and 564, the benchmark and review pages at line 844, and the row-group
+    head at lines 511 and 512 (an inner-text compare). The change list keeps the page count of w08,
+    so these cases do not move.
+11. `dashboard/__tests__/storytime-print-weeks-2-8.test.ts` — no change. The hits count the benchmark
+    pages and the 8 benchmark rows (lines 44, 60, 61, and 62). The change list keeps 8 circle-picture
+    rows on the w08 Benchmark 1 page, so the counts do not move.
+12. `dashboard/__tests__/storytime-week.test.ts` — no change. The hits are the review-week rules
+    (`benchmark` at lines 221, 228, 365, 369, 376, 381, 384, 387, 418, 426, and 452) and the Thai
+    gloss `paSkill.th` at line 241. The cases test the schema and the checks of a review week; no
+    shipped English value of the change list.
+
+## The files with Thai, read through the filter
+
+`storytime-package-practice-clips.test.ts` (line 1533), `storytime-print-a48-step2.test.ts` (6 lines),
+`storytime-manual.test.ts` (26 lines), `storytime-week.test.ts` (4 lines),
+`storytime-print-step-system.test.ts` (4 lines), and `fixtures/storytime-week-fixture.ts` (2 lines)
+hold Thai. Each was read only as a filtered copy with 0 Thai characters, and no Thai string entered
+this record or a test.
+
+A new hit after this Red commit: `dashboard/__tests__/storytime-package-sound-stages.test.ts` holds
+`paSkill` and `paStage` in its fixtures. It is the new test file of this task.

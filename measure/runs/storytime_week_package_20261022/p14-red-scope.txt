@@ -1,0 +1,23 @@
+# Phase 14 Red: the scope guard of the test commit
+
+commit: e72c68b0
+files: 4
+outside: 0
+
+The 4 files (`git show --name-only --format=`):
+- dashboard/__tests__/storytime-package-practice-clips.test.ts
+- dashboard/__tests__/storytime-package-sound-stages.test.ts
+- dashboard/__tests__/storytime-print-a48-step2.test.ts
+- dashboard/__tests__/storytime-print-card-kit.test.ts
+
+Diffstat (`git show --stat --format=`): 4 files changed, 768 insertions(+), 16 deletions(-).
+
+Every path lies inside the allowed paths of the Red task line: the new test file and the three test
+files of S11. No production file, no content file, and no other test file changed.
+
+Thai: no changed line of the commit holds a Thai character (`git show` piped through a filter for
+U+0E00 to U+0E7F prints 0). `dashboard/__tests__/storytime-package-practice-clips.test.ts` still holds
+its one Thai line (line 1533), unchanged; 1 Thai line before the commit, 1 after.
+
+The seven hunks of the practice-clips file sit in `OPENING_KEYS` (the table at line 124), the w01 case,
+the counts title, and the counts line. None touches a Thai line.
