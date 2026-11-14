@@ -1,0 +1,138 @@
+# P13 Red retry R2 log (storytime_week_package, role mid-red)
+
+Role: measure-mid-red, Red retry R2 of Phase 13.
+Route: opencode-go/mimo-v2.6-flash (substitution; see deviations).
+Date: 2026-11-14.
+phase_base_sha: c42918df
+role_base_sha: d8b183eb6de52ad192371943459f8e3062160f7a (verified ancestor of HEAD before work).
+
+## First command
+
+The Thai filter ran first, before any read (PM rule 2026-11-09, spec L15 and M16):
+`python3 -I measure/runs/storytime_week_package_20261022/p12-accept-thai_filter.py` printed
+`THAI_CHARS_IN_OUTPUT: 0` twelve times, exit 0. A scratch line-drop filter
+(`/tmp/opencode/p13-red-r2/thai-line-filter.py`) made Thai-clean copies of the test file and of
+`plan.md`. The test file copy proved `cmp` identical to the original, so the file holds no Thai
+line. The plan copy dropped one line (real line 103, 61 Thai characters). Reads used the filtered
+copies only. `dashboard/__tests__/storytime-package-practice-clips.test.ts` was never opened.
+Every vitest output passed through the Thai mask before this role read it.
+
+## Scope check
+
+`git status --short` showed one tracked modification: `video/storytime-song/scripts/render.mjs`
+(another session's work; untouched). The untracked files belong to other runs and tracks; none was
+staged. Both base SHAs resolve: `git rev-parse c42918df` and `git rev-parse d8b183eb...` printed
+full SHAs, and `git merge-base --is-ancestor d8b183eb... HEAD` passed.
+
+## Work
+
+Three edits to `dashboard/__tests__/storytime-package-readalong-clips.test.ts` only:
+
+1. N3 new case (Review A F1, the M5 text half): "a done sentence whose item text differs from the
+   book sentence is made again". The case rewrites one provenance item's `text` to `<text> stale`
+   (file and SHA-256 unchanged), runs the maker with `kinds: ['readalong']`, and asserts one call
+   for the book text, the exact call line, no `kept` line for the stale sentence, the exact
+   `kept` bytes of the other seven sentences, the final `sent:` line, and the rewritten item text.
+2. N7 new case (Review A F2): "--kind all plans both kinds: the decodable kept lines and the
+   read-along call list". The case runs `main` with `--kind all` on `phase12Tree()` with the fake
+   voice, and asserts the exact stdout: 8 decodable `kept` lines, 8 read-along call lines with
+   cumulative `sent`, `sent: 137`, `made: 8`, and that only read-along texts were called. No mmx
+   call, no network.
+3. N6 rename (Review A F3): the `it` name now reads "a fake that throws on call 2 gives 2 call
+   lines and the failed sent line", which matches its body.
+
+No other case changed. No production source changed. The Red 1 task marker stayed `[x]`; this
+retry added sub-lines only.
+
+## Gates
+
+Each gate ran in one foreground heavy-run wrapper
+(`HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400`):
+
+- Baseline (a): `Tests  53 passed (53)`, `exit: 0` (`p13-red-r2-base.txt`). The two new cases
+  pass at HEAD, so this retry adds tests that pass now and fail under the mutants.
+- Mutants (b): script `p13-red-r2-mutants.py`, one run, capture `p13-red-r2-mutants.txt`
+  (wrapper echo in `p13-red-r2-mutants-run.txt`). R4 fails the new N3 case
+  (`Tests  1 failed | 52 passed (53)`), R2 fails the new `--kind all` case (same counts).
+  The capture ends with `mutants: 2, caught: 2` and `restore: cmp equal 2 of 2`. Each restore
+  proved `cmp` equal against the saved copy and against
+  `git show HEAD:dashboard/scripts/storytime/make-sentence-clips.ts`.
+- Lint (c): `npx eslint __tests__/storytime-package-readalong-clips.test.ts`, `eslint exit: 0`
+  (`p13-red-r2-lint.txt`).
+- Clean (d): `git status --porcelain dashboard/lib dashboard/scripts content/` printed nothing
+  (`p13-red-r2-clean.txt`, 0 bytes).
+
+## Commits
+
+- `f2bde7fa` baseline capture (committed before the test file; deviation noted below).
+- `1ecc2646` the test file alone; scope guard `files: 1`, `outside: 0`
+  (`p13-red-r2-scope.txt`).
+- `9dd59ed6` the mutant script and the captures (mutants, mutants-run, lint, clean, scope).
+- `988c40a5` `plan.md` alone: 2 insertions, 0 deletions (`git diff --stat`), Thai-masked diff
+  shows the two new lines and no other change. The Review A task stays `[ ]`.
+- this log, committed last.
+
+## Plan evidence
+
+- Under Red 1: `  - Red retry R2 (2026-11-14): 1ecc2646 closes Review A round 1 F1 ... F2 ...
+  F3 ...` with the test count, the mutant result, the lint result, the route substitution, and
+  the capture names.
+- Under the Review A task: `  - Round 1 (2026-11-14, kimi-code-plan-cn/kimi-for-coding#high,
+  audited head 234883a3): status fail, F1 Major FIX (Red retry R2 1ecc2646), F2 Nit FIX on the
+  same ride, F3 Nit FIX, F4 Nit accept (the light lane has no strategy role). Round 2 (content
+  points) runs after the Clips task.`
+
+## Deviations
+
+1. Route substitution: the first try of this role (route `opencode-go/deepseek-v4.1-flash`) did
+   not start (a provider region error) and wrote nothing. The route `opencode-go/mimo-v2.6-flash`
+   ran this retry. The orchestrator recorded the substitution.
+2. Step-limit stop: the first turn of this role hit its step limit after the baseline gate and
+   the test edits. The orchestrator resumed the role; this turn ran gates (b) to (d) and the
+   commits.
+3. Commit order: the baseline capture (`f2bde7fa`) was committed before the test file
+   (`1ecc2646`), because the brief orders each capture committed right after it is written.
+
+## Handoff
+
+Green 1 needs no code change. The two new cases pass at HEAD and fail under mutants R4 and R2.
+Review A round 2 (content points) runs after the Clips task. F4 stays accepted: the light lane
+has no strategy role.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red (Red retry R2)
+status: complete
+track: storytime_week_package_20261022
+phase: P13 (Read-along sentence clips and the log of the makers)
+phase_base_sha: c42918df
+role_base_sha: d8b183eb6de52ad192371943459f8e3062160f7a
+commits:
+  - f2bde7fa baseline capture (p13-red-r2-base.txt)
+  - 1ecc2646 test file (44 insertions, 1 deletion); scope guard files: 1, outside: 0
+  - 9dd59ed6 mutant script and captures (mutants, mutants-run, lint, clean, scope)
+  - 988c40a5 plan.md (2 insertions, 0 deletions)
+  - this log
+files_changed:
+  - dashboard/__tests__/storytime-package-readalong-clips.test.ts
+  - measure/tracks/storytime_week_package_20261022/plan.md (2 sub-lines only)
+  - measure/runs/storytime_week_package_20261022/p13-red-r2-base.txt
+  - measure/runs/storytime_week_package_20261022/p13-red-r2-mutants.py
+  - measure/runs/storytime_week_package_20261022/p13-red-r2-mutants.txt
+  - measure/runs/storytime_week_package_20261022/p13-red-r2-mutants-run.txt
+  - measure/runs/storytime_week_package_20261022/p13-red-r2-lint.txt
+  - measure/runs/storytime_week_package_20261022/p13-red-r2-clean.txt
+  - measure/runs/storytime_week_package_20261022/p13-red-r2-scope.txt
+  - measure/runs/storytime_week_package_20261022/mid-red-p13-r2-d8b183eb.log
+base_test_count: 53 passed (53), exit 0 (p13-red-r2-base.txt)
+mutant_result: mutants: 2, caught: 2; restore: cmp equal 2 of 2; R4 fails the new N3 case,
+  R2 fails the new --kind all case (p13-red-r2-mutants.txt)
+lint: exit 0 (p13-red-r2-lint.txt)
+scope_guard: files: 1, outside: 0 (p13-red-r2-scope.txt)
+deviations:
+  - route substitution: opencode-go/deepseek-v4.1-flash did not start (provider region error);
+    opencode-go/mimo-v2.6-flash ran this retry
+  - step-limit stop after the baseline gate and the test edits, then this resume
+  - the baseline capture f2bde7fa was committed before the test file 1ecc2646
+handoff: Green 1 needs no code change; the two new cases pass at HEAD and fail under R4 and R2;
+  Review A round 2 (content points) runs after the Clips task; F4 accepted (the light lane has
+  no strategy role)
