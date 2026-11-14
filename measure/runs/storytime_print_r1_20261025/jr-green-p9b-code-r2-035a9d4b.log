@@ -1,0 +1,40 @@
+Measure Green, P9-B, run 2 of 2 (the code: C2 and the review pages)
+
+Track: storytime_print_r1_20261025. Role base of run 2: 035a9d4b. Green model: Anthropic (claude-sonnet-5-5). No coder was used.
+
+Work:
+1. Code fix e0592708: the review-more score strip now uses the standard scoreStrip form. The data-score attribute is gone (D-P9B-G2). One file changed: student-book.ts.
+2. The 10 review-page mutants ran against the review-page file. Each file went back from a backup, and cmp showed no difference. The capture p9b-green-mutants.txt ends with: mutants: 14, caught: 14.
+3. Gates at e0592708 with no timeout flag: GREEN_TEST_COMMAND_P9B 828 pass and 6 fail (F3-order weeks 2 to 7 only); PROJECT_LINT exit 0; tsc exit 0; check-weeks --level 2 exit 0 with 0 FAIL rows.
+4. Scope guard: the range 035a9d4b..HEAD held one code commit with one file; outside: 0.
+5. Plan line of the task flipped to [x] with the SHA 6f38383 and one evidence sub-line (commit eb27188e).
+
+Mutants (4 C2 from run 1, 10 review-page now):
+C2-a the old values of c and S; C2-b c, s, and d at the left middle; C2-c the letter u removed; C2-d the dot of d 0.5 mm left;
+RM1 a pair text with an untaught word (RM-decodable); RM2 a picture row of a week outside the day (RM-pictures); RM3 pictureOrder as the identity (RM-data, and the schema rule); RM4 a position-mark on the page (RM-no-position); RM5 extraBlock removed from one step-map entry (RM-steps); RM6 the four pages appended after page 136 (RM-order); RM7 a blank page added at the end (RM-count); RM8 the sentence equal to a pair (RM-data); RM9 paperMore on day 1 (RM-data); RM10 a changed byte in one line file (RM-pictures).
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: done
+run: 2 of 2 (the code)
+track: storytime_print_r1_20261025
+phase: P9
+phase_base_sha: 0d07336b
+role_base_sha: 035a9d4b
+red_commits: d0660317, df7feb8d, d7462aa8, d0283eb3, da2b5554, 012c6aee
+code_commits: 6f38383d, e0592708
+commits: e0592708 (code), the captures commit of run 2, eb27188e (plan [x]), and the commit of this log
+tasks_flipped_x: Task (Green, code: C2 and the review pages) with 6f38383
+tasks_flipped_b: none
+gates: GREEN_TEST_COMMAND_P9B 828 pass and 6 fail, exit 1 (the 6 are F3-order weeks 2 to 7, which wait for the F3 content commit); C2 file 6 of 6; review-page file 10 of 10; PROJECT_LINT exit 0; tsc exit 0; check-weeks --level 2 exit 0 with 0 FAIL rows
+mutants: 14, caught: 14
+failures_waiting_for_content: F3-order week 2, F3-order week 3, F3-order week 4, F3-order week 5, F3-order week 6, F3-order week 7
+decisions_recorded: D-P9B-G1, D-P9B-G2, D-P9B-C1, D-P9B-C2
+new_files: none in dashboard; captures p9b-green-r2-gate.txt, p9b-green-r2-lint-tsc-weeks.txt, p9b-green-r2-scope.txt, p9b-green-mutants.txt
+changed_files: dashboard/lib/storytime/print/student-book.ts (run 2); run 1 changed trace-words.ts, student-book.ts, step-map.ts, step-pages.ts, schema.ts, manual.ts
+test_files_changed: none
+scope: outside: 0
+deviations: (1) Mutants RM1, RM2, RM3, RM8, RM9, and RM10 changed a data file or a picture file for one run, not the code, because their cases read data. Each file went back with cmp equal, and git status was clean after the runs. (2) The answer key says "picture N" in place of "picture caption" (run 1). (3) RM3 fails the schema rule at parse time, so all 10 cases of the file fail for that mutant; RM-data is among them.
+end_time: 00:15 ICT
+handoff: The Red window of this batch closes when PROJECT_TESTS passes after the last Green commit of the batch (rule R1); this run did not run PROJECT_TESTS. The next step is the F3 content commit after the Step B build of 2026-11-16. After it, GREEN_TEST_COMMAND_P9B should pass with 0 failures.
+END_MEASURE_AGENT_RESULT
