@@ -1,0 +1,77 @@
+P9-B Red report, storytime_print_r1_20261025, Phase 9
+Role: measure-mid-red. Model route: opencode-go/deepseek-v4.1-flash (substitution; see below).
+Base: 0d07336b65f36dee03d5987942723d2932527aca (phase_base_sha and role_base_sha).
+Date: 2026-11-14.
+
+Work done
+Three new test files and the pin edits of P9-B12. The Thai filter ran before every read of a file
+that holds Thai, and every vitest run used the JSON reporter. The role wrote no production code and
+no content file.
+
+Commits
+- eb7b5164: the plan line 1412 marked in progress.
+- d0660317: dashboard/__tests__/storytime-print-c2-start-table.test.ts and its 3 captures.
+- df7feb8d: dashboard/__tests__/storytime-print-f3-script-order.test.ts and its 3 captures.
+- d7462aa8: dashboard/__tests__/storytime-print-review-more.test.ts, the F3 scope fix D-P9B-R2,
+  and 5 captures.
+- d0283eb3: the 6 pin-edit files and 5 captures.
+- 41a6b65e: the scope guard capture.
+- d8b15e77: the plan task marked done with its evidence line.
+
+Gates
+- C2 file alone: exit 1. 6 checks, 2 pass, 4 fail.
+- F3 file alone: exit 1. 11 checks, 5 pass, 6 fail.
+- Review-page file alone: exit 1. 10 checks, 3 pass, 7 fail.
+- RED_TEST_COMMAND_P9B full run: exit 1. 304 checks, 281 pass, 23 fail.
+  The 23 failures: 17 in the three new files and 6 in the pin edits. 0 outside them.
+- ESLint on the 9 test files: exit 0.
+- Scope guard: 5 commits, 27 files, outside: 0. The paths dashboard/lib, dashboard/scripts, and
+  content/ are clean.
+
+Decisions applied
+- D-P9B-R1: the C2-book expected place of each word is the word origin in the compiled book plus
+  the P9-B3 value of its first letter. P9-B3 replaces the measured x of spec fact 2 for c, d, g,
+  and S. The fact-2 value stays only for the two cases whose letter does not change (saw, see).
+- D-P9B-R2: F3-scope ignores approval.thai and keeps every other approval key and all of print.
+
+Grep record
+13 hits. 6 files change, 5 need no change, and 3 of those are false positives. The record is in
+p9b-red-grep.txt.
+
+Deviations
+- One process substitution in a verification command in the first step budget. It broke the shell
+  guard and did not repeat.
+- One unfiltered sed read of student-book.ts, which holds Thai. The printed range held no Thai
+  character. Every later read of a lib file went through the mask.
+- One wrong baseline digit in the F3 file. One run failed on a git error before the recorded run.
+  The constant now comes from git rev-parse HEAD.
+- The part2 line 311 edit copies the gloss bytes of the A2 entry of the same line for the new B1,
+  C1, and D1 entries. No Thai text was authored.
+- No question went to the user. The orchestrator answered the two spec tensions as D-P9B-R1 and
+  D-P9B-R2.
+
+Handoff for Green
+- The code role writes the C2 table of P9-B3 in trace-words.ts, the review-page code of P9-B11,
+  and the 14 mutants: C2-mutants (a) to (d) of P9-B5, and RM1 to RM10 of P9-B13.
+- The content role writes the F3 English lines of P9-B6 for weeks 2 to 7 (the exact text is pinned
+  in storytime-print-f3-script-order.test.ts), the w08 paperMore data of P9-B10, line 5 of B1, C1,
+  D1, and E1, the step map file, and the Thai drafts of the 28 rows.
+- F3-th-shape asserts the length of each th array only. The byte-equal swap of th.teacherLanguage[1]
+  and [2] in weeks 2, 3, 5, 6, and 7 waits for Daniel's Thai check.
+- RM-steps leaves the teacher book page reference to the F6 tests of the gate.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: done
+track: storytime_print_r1_20261025
+phase: P9
+phase_base_sha: 0d07336b65f36dee03d5987942723d2932527aca
+role_base_sha: 0d07336b65f36dee03d5987942723d2932527aca
+red_commits: d0660317 (C2), df7feb8d (F3), d7462aa8 (review pages and D-P9B-R2), d0283eb3 (the pin edits)
+plan_commits: eb7b5164 (started), d8b15e77 (done with evidence); 41a6b65e (the scope guard capture)
+gates: C2 alone exit 1 (6 checks, 2 pass, 4 fail); F3 alone exit 1 (11 checks, 5 pass, 6 fail); review pages alone exit 1 (10 checks, 3 pass, 7 fail); RED_TEST_COMMAND_P9B exit 1 (304 checks, 281 pass, 23 fail); ESLint exit 0; scope guard outside 0
+tests_failing_as_planned: 23 failures, all in the three new files (17) or in the pin edits (6); 0 outside them
+substitution: route opencode-go/deepseek-v4.1-flash, picked by ra-quota for a role of a family other than Anthropic
+deviations: one process substitution in a verification command (not repeated); one unfiltered sed of student-book.ts with no Thai in the printed range; one wrong baseline digit fixed before the recorded run; the part2 pin edit copies the gloss bytes of the A2 entry
+handoff_green: the 4 C2 mutants and the 10 review-page mutants; the F3 English lines of P9-B6 for weeks 2 to 7; the w08 paperMore data, the line 5 of B1 to E1, and the step map file; the byte-equal Thai swap stays with Daniel's check
+END_MEASURE_AGENT_RESULT
