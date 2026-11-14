@@ -1,0 +1,47 @@
+Measure Green, P9-B, run 1 of 2 (the code: C2 and the review pages)
+
+Track: storytime_print_r1_20261025. Role base: cd0e3dc0. Red commits: d0660317, df7feb8d, d7462aa8, d0283eb3.
+Green model: Anthropic (claude-sonnet-5-5). Red model: DeepSeek. No coder was used.
+
+Work:
+1. Line 1415 of the plan went to [~] in a plan-only commit (29b1c4b5). One line changed.
+2. Before the edit, git status of dashboard/lib/storytime showed no change.
+3. The code commit 6f38383d holds 6 files: trace-words.ts (the 32-value table), student-book.ts (reviewMorePage, the kind review-more, CSS, reviewPages with allRows), step-map.ts (extraBlock on B1, C1, D1, E1), step-pages.ts (entryPage ends on the review-more page), schema.ts (paperMore), manual.ts (the answer key).
+4. The gate captures and the C2 mutants are in commit b99b3cfd (p9b-green-*).
+
+Design notes:
+- reviewMorePage runs only for a day that holds paperMore. A week 8 file without paperMore compiles to 136 pages as before. Day 1 with paperMore stops the build with an error.
+- A picture of a page is a print list row. The build stops when the row is missing or its text differs from the text of the entry.
+- The answer key names each sentence with the number of the picture row that holds its picture ("text = picture N").
+
+Orchestrator decision D-P9B-G1 (recorded here by the orchestrator order): a Red retry adds a timeout of 60000 ms to the one case C2-ink. Until the retry lands, a gate run may add --testTimeout=60000, and its capture says so. The captures p9b-green-gate.txt and p9b-green-c2.txt say so.
+
+Gates (details in the captures):
+- C2 file: 6 of 6 pass with --testTimeout=120000. Without the flag, C2-ink times out at 5000 ms (4.4 to 5.0 s needed).
+- GREEN_TEST_COMMAND_P9B with --testTimeout=60000: 815 pass, 19 fail in 6 files, exit 1. Every failure waits for a content commit.
+- PROJECT_LINT exit 0. tsc exit 0.
+- The 4 C2 mutants: 4 caught, each file restored with cmp.
+- A probe with the P9-B10 data in memory: 140 pages, the kinds of pages 132 to 140 as in P9-B8, the 4 pages have 5 pictures, 5 rows, and the strip __ / 4, no position mark, step rows B1 133-134, C1 135-136, D1 137-138, E1 139-140.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: partial (run 1 of 2, the code)
+track: storytime_print_r1_20261025
+phase: P9
+phase_base_sha: 0d07336b
+role_base_sha: cd0e3dc0
+red_commits: d0660317, df7feb8d, d7462aa8, d0283eb3
+code_commit: 6f38383d
+commits: 29b1c4b5 (plan [~]), 6f38383d (code), b99b3cfd (captures), and the commit of this log
+tasks_flipped_x: none (line 1415 stays [~]; run 2 flips it after the review-page mutants)
+tasks_flipped_b: none
+gates: C2 file 6 of 6, exit 0 (with --testTimeout, D-P9B-G1); GREEN_TEST_COMMAND_P9B with --testTimeout=60000: 815 pass, 19 fail, exit 1 (all 19 wait for content); PROJECT_LINT exit 0; tsc exit 0
+c2_mutants: 4, caught: 4 (each file restored with cmp; the 10 review-page mutants run in run 2)
+failures_waiting_for_content: 19 in 6 files. F3-order week 2, F3-order week 3, F3-order week 4, F3-order week 5, F3-order week 6, F3-order week 7 (the F3 content commit); RM-count, RM-order, RM-no-position, RM-fit, U2-count, U4-order, U4-chrome, binding-practice "fills the 8-week book to 140 pages", F1-numbers of v15 (the book stays at 136 pages until w08 holds paperMore); RM-data, RM-pictures (the paperMore data); RM-steps (line 5 of B1, C1, D1, E1 and step-map-u1.json); U8-pages of a48-part2 (the page range 133 to 134 of B1 needs page 134)
+c2_ink_timeout_note: the case C2-ink of the Red file runs 4.4 to 5.0 s, and the default vitest limit is 5 s. It timed out twice without the flag, and it passes with the flag. The test file and vitest.config.ts are outside the allowed files. D-P9B-G1 sets the fix: a Red retry adds 60000 ms to that case.
+new_files: none in dashboard; captures p9b-green-gate.txt, p9b-green-c2.txt, p9b-green-lint-tsc.txt, p9b-green-probe.txt, p9b-green-mutants-c2.txt
+changed_files: dashboard/lib/storytime/print/trace-words.ts; dashboard/lib/storytime/print/student-book.ts; dashboard/lib/storytime/print/step-map.ts; dashboard/lib/storytime/print/step-pages.ts; dashboard/lib/storytime/schema.ts; dashboard/lib/storytime/manual.ts
+test_files_changed: none
+deviations: (1) A gate run used --testTimeout (D-P9B-G1). (2) The strip of a review-more page prints the standard blank and "/ 4", and the attribute data-score="__ / 4" holds the literal that RM-fit reads. (3) The answer key says "picture N" in place of "picture caption": the manual has no access to the picture rows. (4) The schema checks pictureOrder (a permutation with no fixed point); the rule "days 2 to 5 only" is a build error in reviewPages, not a schema rule. (5) The first attempt to commit this log ended with the tool limit, so the log commit is later than the captures commit.
+handoff: The w08 content commit comes next (paperMore on days 2 to 5, line 5 of B1, C1, D1, E1, and step-map-u1.json made again). After it, run 2 makes the 10 review-page mutants (RM1 to RM10), writes p9b-green-mutants.txt with the total of 14, and flips line 1415 to [x]. GREEN_TEST_COMMAND_P9B passes only after the w08 and the F3 content commits and the C2-ink timeout.
+END_MEASURE_AGENT_RESULT
