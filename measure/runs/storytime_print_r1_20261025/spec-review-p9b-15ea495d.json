@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "role": "spec-review",
+  "track": "storytime_print_r1_20261025",
+  "phase": "Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)",
+  "baseline_sha": "64d6a95c",
+  "audited_head_sha": "15ea495d36d69c177e7dda481a782fcebac9589a",
+  "status": "fail",
+  "summary": "The batch is implementable as written: the C2 table values pass a repeated ink measure (all 32 at or above 0.02 em), the F3 list matches the English D4 lines of weeks 2 to 7, the 20 picture rows and texts of P9-B10 verify against pictures.json and the decodable pages, the page arithmetic of P9-B8 holds, and the pin hits are covered. One open Major: the review-page pairs are sentences, not the single words of Daniel's order (Q9-9). It needs Daniel. Three Nits: the day-5 week scope, the C2-book absolute positions, and the RM-decodable names and ratio scope.",
+  "paraphrase": {
+    "proposes": "The batch fixes C2 (the trace start table gains 8 missing lowercase letters and new positions for c, d, g, and S, guarded by a new ink test on all 32 values), fixes F3 (the D4 teacher script order of weeks 2 to 7 matches the writing-page order; 14 Thai lines change, 10 move), and adds 4 week-8 review pages, one after each of days 2 to 5, so the student book goes from 136 to 140 pages. It also updates the w08 scripts, the step map, and the teacher book, ships proof r6-v3 with a cast sheet, and holds all Thai drafts to Daniel's check. C2 and F3 start only on Daniel's FIX answer at the r6-v2 proof look; the review pages need no answer.",
+    "current_system": "The student book compiles to 136 pages from the week files and the print code. Trace start dots come from TRACE_START_EM (18 lowercase and 6 uppercase values) with no ink-based test, and a word that starts with a missing letter throws. The D4 step of weeks 2 to 7 names the trace before the page's prompt action, so the script order differs from the page order. Week 8 has five review pages on pages 132 to 136 and no app package; the step map and the teacher book take their page references from the compiled book."
+  },
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] spec.md Q9-9 and P9-B10 (review-page content): The 16 match pairs are short decodable sentences, where Daniel's order says \"read the words and match them to pictures\". Rationale: the repo holds single-word object pictures for ant, pot, and mop only (verified: l2-w02-check-row-ant, l2-w07-card-pot, l2-w07-card-mop in pictures.json), and the order forbids new generation, so sentences are the only compliant reading; still the pupil task differs from the ordered one and Daniel decides. Default: keep sentences (the Q9-9 default); Daniel answers at the r6-v2 proof look; a single-word choice needs new picture generation or a changed order.",
+    "F2 [Nit] spec.md P9-B10 (day 5 weeks): Day 5 pairs and sentence come from weeks 2, 3, 4, 5, and 7, not from \"mixed weeks 1-7\" of the order; the week-1 reason is recorded, the week-6 reason is not. Rationale: the week-1 exclusion is documented and true (the w01 decodable is an exempt sound book, and \"Nan can nod!\" has the untaught letter d); the week-6 exclusion has no stated reason. Default: keep the P9-B10 content and add one line that day 3 already reviews week 6.",
+    "F3 [Nit] spec.md P9-B5 (C2-mutants (b) and C2-book): The left-middle mutant (x 0.1, y 0.25) sits on glyph ink for c and d (re-measured 0.039 em and 0.042 em), so C2-ink catches the combined mutant only through s (re-measured 0.000 em, on white). Rationale: fact 5 records that today's book tests compare a dot with the table that placed it, so a table-relative C2-book cannot catch a partial left-middle mutant of c or d. Default: C2-book asserts the absolute measured dot positions of fact 2 (car, kite, drum, can, see, saw) within 0.3 mm.",
+    "F4 [Nit] spec.md P9-B13 (RM-decodable): The per-text decodability assertion must receive the names of the source reader and must not assert the 0.9 ratio per text. Rationale: checks.ts excepts names from untaught words (the w06 decodable lists names [\"Pip\"]), and \"Pip sat on the mat!\" alone is 4 of 5 decodable (0.8), so a per-text ratio assertion fails the page's own data; the book-level E2 check computes the ratio over the whole book. Default: assert untaught.length === 0 with names passed; no per-text ratio."
+  ],
+  "evidence": [
+    "HEAD is 15ea495d36d69c177e7dda481a782fcebac9589a, and git diff --stat 15ea495d HEAD -- measure/tracks/storytime_print_r1_20261025 dashboard/lib/storytime prints nothing.",
+    "Thai filter: masked copies of spec.md, plan.md, print-audit-code-tests.md, w01 to w08.json, and pictures.json each print THAI_CHARS_IN_OUTPUT: 0; every week-file read went through the filter.",
+    "F3 list verified against the masked English D4 lines of w02 to w07: the script order differs from the page order in weeks 2, 3, 4, 5, 6, and 7 exactly as the P9-B6 table says; week 1 has no order difference; week 8 has no D4 step; the proposed new English lines match the current lines with only the order changed.",
+    "C2 inset measure repeated for the 32 spec values: sharp rendered each glyph of dashboard/assets/print-fonts/andika-regular.ttf at 1000 px per em with a fontconfig that names only that folder; every inset is at or above 0.02 em (minimum 0.0243 em for s), and the measured insets match the spec claims within 0.003 em.",
+    "C2 mutants re-measured: the old c value (0.4272, 0.3873) gives 0.0043 em and the old S value (0.4696, 0.6718) gives 0.0163 em, both below 0.02 em; the old d and old g values pass (0.0303 em and 0.0233 em), so their change is positional, as P9-B3 says.",
+    "P9-B10 content verified: all 20 picture row ids exist in pictures.json with exactly the claimed texts (all use story-page, in the claimed weeks); all 20 texts are decodable page texts of their week files; the manifest holds the line files (spot-checked).",
+    "E2-style check of the 20 texts at their weeks (cumulative graphemes and tricky words of the week files): 0 untaught words; \"Pip\" passes as a name of the w06 reader.",
+    "Single-word object pictures exist only for ant (l2-w02-check-row-ant), pot (l2-w07-card-pot), and mop (l2-w07-card-mop), so Q9-9's rationale holds.",
+    "Page arithmetic of P9-B8 verified against step-map-u1.json: today A1 is 130-131, A2 is 132, B1 133, C1 134, D1 135, E1 136; the after-table keeps pages 1 to 133 unchanged, moves Reviews 3 to 5 to 135, 137, and 139, adds pages 134, 136, 138, and 140, and ends at 140 = 35 x 4, so the reader sides 9 to 128 do not move.",
+    "Pin grep of the Red task line (TRACE_START_EM|trace-words|\\b136\\b|review-5|REVIEW_BLOCKS|P14_PATHS over dashboard/__tests__) returns 11 files: the 8 files of fact 9 and P9-B12 (the 3 TRACE_START_EM importers need no pin edit per P9-B4) and 3 false positives (an RGB value 136 in quest-cover-leafmark, a count of 136 in package-practice-clips, a data URI in package-raster).",
+    "w08 data verified: each day of block.days holds three circle-word items and one picture-sort; line 5 of B1, C1, D1, and E1 matches the quoted English of fact 7.",
+    "Reuse symbols of P9-B11 exist: pictureElement, groupHead, scoreStrip, and weekEightHead in student-book.ts; STORYTIME_STEP_MAP in step-map.ts; TRACE_START_EM is imported by step-system, a48-step2, and a48-part3a, and a48-part3a compares dots with strokeStartEm ?? TRACE_START_EM (fact 5).",
+    "Cast sheet files verified: the seven front.png files of content/storytime/l2/media/w01/forge/cast/ exist (pat, sam, pip, nan, ben, may, mia).",
+    "Roles and gates: no task gives a test or code edit to the orchestrator (the two Thai-holding test files get digit-only scripted edits by Red; P9-B12 states the orchestrator edits no test file); the family rules hold (this review is Kimi, a non-Anthropic family; Red is non-Claude; Green code is a different family; Green content is Claude); the F3 commit waits for the Step B build unless Daniel approves the F3 Thai lines in his 2026-11-16 check (P9-B7 and plan decision D-P13-H2)."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git diff --stat 15ea495d HEAD -- measure/tracks/storytime_print_r1_20261025 dashboard/lib/storytime",
+    "python3 -I /tmp/opencode/p9b-spec-review/thai_mask.py (masked copies of spec.md, plan.md, print-audit-code-tests.md, w01-w08.json, pictures.json; each prints THAI_CHARS_IN_OUTPUT: 0)",
+    "masked reads of the D4 steps of w02-w07 and the w08 block.days paper and line 5 of B1, C1, D1, E1",
+    "grep -rlnE \"TRACE_START_EM|trace-words|\\b136\\b|review-5|REVIEW_BLOCKS|P14_PATHS\" dashboard/__tests__ (11 files, 3 false positives)",
+    "HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash .../heavy-run.sh -c 'cd dashboard && FONTCONFIG_FILE=/tmp/opencode/p9b-spec-review/fontconfig/fonts.conf node /tmp/opencode/p9b-spec-review/c2d-insets.cjs' (32-value ink measure; exit 0)",
+    "same wrapper with c2g-insets.cjs (old c, old S, old d, old g, and the left-middle mutants; exit 0)",
+    "read of dashboard/lib/storytime/checks.ts lines 90-110 and 216-230 (names excepted from untaught; ratio over the whole book)",
+    "step-map-u1.json week 8 rows; pictures.json row lookup for the 20 ids; manifest spot check; ls of the cast folder"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_print_r1_20261025/spec-review-p9b-15ea495d.json",
+    "measure/runs/storytime_print_r1_20261025/spec-review-p9b-15ea495d.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high"
+}

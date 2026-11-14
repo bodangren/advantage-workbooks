@@ -1,0 +1,58 @@
+# Spec review p9b: C2, F3, the week 8 review pages, and the cast sheet
+Track: storytime_print_r1_20261025
+Audited head: 15ea495d36d69c177e7dda481a782fcebac9589a (confirmed; no track or print-code change since the base)
+Reviewer: measure-spec-review, kimi-code-plan-cn/kimi-for-coding (non-Anthropic family, per the family rule)
+Round: 1
+
+## What this track proposes
+
+The batch fixes C2 (the trace start table gains 8 missing lowercase letters and new positions for c, d, g, and S, guarded by a new ink test on all 32 values), fixes F3 (the D4 teacher script order of weeks 2 to 7 matches the writing-page order; 14 Thai lines change, 10 move), and adds 4 week-8 review pages, one after each of days 2 to 5, so the student book goes from 136 to 140 pages. It also updates the w08 scripts, the step map, and the teacher book, ships proof r6-v3 with a cast sheet, and holds all Thai drafts to Daniel's check. C2 and F3 start only on Daniel's FIX answer at the r6-v2 proof look; the review pages need no answer.
+
+## How the current system works, per this spec
+
+The student book compiles to 136 pages from the week files and the print code. Trace start dots come from TRACE_START_EM (18 lowercase and 6 uppercase values) with no ink-based test, and a word that starts with a missing letter throws. The D4 step of weeks 2 to 7 names the trace before the page's prompt action, so the script order differs from the page order. Week 8 has five review pages on pages 132 to 136 and no app package; the step map and the teacher book take their page references from the compiled book.
+
+## Checks of the brief
+
+1. C2 inset measure, repeated for the 32 values. Method of spec fact 3: sharp renders each glyph of dashboard/assets/print-fonts/andika-regular.ttf at 1000 px per em, with a fontconfig file that names only that folder; a pixel below 128 is ink; the inset of a point is the distance to the nearest white pixel. Result: all 32 insets are at or above 0.02 em (minimum 0.0243 em for s). The measured insets match the spec claims within 0.003 em. Mutants: the old c value measures 0.0043 em and the old S value 0.0163 em, so both fail the new test as the spec says; the old d and old g values pass (0.0303 em and 0.0233 em), so their change is positional, as P9-B3 states.
+2. F3 list. The masked English D4 lines of w02 to w07 match the P9-B6 table: the script order differs from the page order in weeks 2, 3, 4, 5, 6, and 7; week 1 has no order difference; week 8 has no D4 step. The proposed new English lines change only the order.
+3. P9-B10 content. All 20 picture row ids exist in pictures.json with exactly the claimed texts (all use story-page, in the claimed weeks); all 20 texts are decodable page texts of their week files; the manifest holds the line files. An E2-style check (cumulative graphemes and tricky words of the week files) finds 0 untaught words in all 20 texts at their weeks. The 4 read sentences pass the same check; "Pip" passes as a name of the w06 reader.
+4. Page arithmetic of P9-B8. The step map today holds A1 on pages 130 to 131, A2 on 132, B1 on 133, C1 on 134, D1 on 135, and E1 on 136. The after-table keeps pages 1 to 133 unchanged, moves Reviews 3 to 5 to 135, 137, and 139, adds pages 134, 136, 138, and 140, and ends at 140 = 35 x 4. The reader sides 9 to 128 do not move.
+5. Pin hits of fact 9. The Red grep returns 11 files: the 8 files of fact 9 and P9-B12 (the 3 TRACE_START_EM importers need no pin edit per P9-B4) and 3 false positives (an RGB value 136, a count of 136, and a data URI). The pin-edit plan covers every real hit.
+6. Deviations from Daniel's words. Q9-9 and the day-5 scope are findings F1 and F2 below.
+7. Roles and gates. No task gives a test or code edit to the orchestrator: the digit-only edits of the two Thai-holding test files are scripted and run by the Red role, and P9-B12 states the orchestrator edits no test file. The family rules hold: this review is Kimi (non-Anthropic), Red is non-Claude, Green code is a family other than Red, and Green content is Claude because it writes Thai. The F3 commit waits for the Step B build of 2026-11-16 unless Daniel approves the F3 Thai lines in his check (P9-B7; plan decision D-P13-H2 of storytime_week_package_20261022). The w08 commit waits for no one, because w08 has no app package (D-P13-H3).
+
+## Zoom-out check
+
+1. Root problem: C2 and F3 are audit findings; the review pages are Daniel's order. The batch fixes causes (the table values, the script order, the missing review) and not symptoms.
+2. No speculative feature: every part has a PM order or an audit item behind it.
+3. No premature optimization: none seen.
+4. Reuse: the spec names existing symbols, and each one exists (pictureElement, groupHead, scoreStrip, weekEightHead in student-book.ts; STORYTIME_STEP_MAP in step-map.ts; the row-number and picture-box rules). C2 reuses TRACE_START_EM and keeps LETTER_STROKES and S-all unchanged.
+5. Place: the table stays in trace-words.ts; the page function goes into student-book.ts beside the other page kinds; the field goes into schema.ts; the step map is regenerated by make-step-map.ts. No logic sits in the wrong place.
+6. Requirement level: the addendum stays at the level of the r6-v2 batch that passed its review (decisions, gate commands, acceptance criteria, open questions with defaults).
+
+## Zero-decision check
+
+The 32 table values, the new English lines, the page numbers, the pictureOrder values, the case names, and both gate commands are fully specified. The schema shape of paperMore, the page form, and the CSS class names are named. The remaining contingencies (Q9-6 to Q9-11) each carry a default. Four findings below name the gaps.
+
+## Findings
+
+- F1 [Major] spec.md Q9-9 and P9-B10 (review-page content): The 16 match pairs are short decodable sentences, where Daniel's order says "read the words and match them to pictures". Rationale: the repo holds single-word object pictures for ant, pot, and mop only (verified: l2-w02-check-row-ant, l2-w07-card-pot, l2-w07-card-mop in pictures.json), and the order forbids new generation, so sentences are the only compliant reading; still the pupil task differs from the ordered one and Daniel decides. Default: keep sentences (the Q9-9 default); Daniel answers at the r6-v2 proof look; a single-word choice needs new picture generation or a changed order.
+- F2 [Nit] spec.md P9-B10 (day 5 weeks): Day 5 pairs and sentence come from weeks 2, 3, 4, 5, and 7, not from "mixed weeks 1-7" of the order; the week-1 reason is recorded, the week-6 reason is not. Rationale: the week-1 exclusion is documented and true (the w01 decodable is an exempt sound book, and "Nan can nod!" has the untaught letter d); the week-6 exclusion has no stated reason. Default: keep the P9-B10 content and add one line that day 3 already reviews week 6.
+- F3 [Nit] spec.md P9-B5 (C2-mutants (b) and C2-book): The left-middle mutant (x 0.1, y 0.25) sits on glyph ink for c and d (re-measured 0.039 em and 0.042 em), so C2-ink catches the combined mutant only through s (re-measured 0.000 em, on white). Rationale: fact 5 records that today's book tests compare a dot with the table that placed it, so a table-relative C2-book cannot catch a partial left-middle mutant of c or d. Default: C2-book asserts the absolute measured dot positions of fact 2 (car, kite, drum, can, see, saw) within 0.3 mm.
+- F4 [Nit] spec.md P9-B13 (RM-decodable): The per-text decodability assertion must receive the names of the source reader and must not assert the 0.9 ratio per text. Rationale: checks.ts excepts names from untaught words (the w06 decodable lists names ["Pip"]), and "Pip sat on the mat!" alone is 4 of 5 decodable (0.8), so a per-text ratio assertion fails the page's own data; the book-level E2 check computes the ratio over the whole book. Default: assert untaught.length === 0 with names passed; no per-text ratio.
+
+Verdict: fail (one open Major, F1). retry_recommendation: escalate_human. F1 goes to Daniel with the question below; F2 to F4 are Nits for the author.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+status: blocked
+track: storytime_print_r1_20261025
+phase: track setup
+commits: none
+tests_run: heavy-run.sh wrapper with c2d-insets.cjs (32-value ink measure, exit 0) and c2g-insets.cjs (old-value and left-middle mutants, exit 0); masked reads; pin grep; no vitest run
+files_changed: measure/runs/storytime_print_r1_20261025/spec-review-p9b-15ea495d.json, measure/runs/storytime_print_r1_20261025/spec-review-p9b-15ea495d.log
+plan_updates: none
+known_failures: none
+handoff: F1 needs Daniel. Question (Q9-9): the 4 new review pages match short decodable sentences to pictures, not single words as the order said, because the repo holds single-word object pictures for ant, pot, and mop only and the order forbids new generation. Options: A) keep sentences (spec default; no new pictures); B) single words, which needs new picture generation or a drop of the no-generation line of the order. Nits F2 to F4 go to the author. Everything else of the batch verified: C2 ink measure passes for all 32 values, the F3 list matches the English D4 lines, the 20 picture rows and texts verify, the page arithmetic holds, and the pin plan covers every real hit.
+END_MEASURE_AGENT_RESULT
