@@ -121,7 +121,7 @@ const WORD_CARDS = [
 /** The sorting mats, one for each teaching week. */
 const SORTING_MATS = [
     'nnn / no nnn', '/a/ / not /a/', '/p/ / not /p/', 'mmm / not mmm',
-    'sss / no sss', '/t/ / no /t/', '/o/ / no /o/',
+    'sss / not sss', '/t/ / not /t/', '/o/ / not /o/',
 ];
 
 /** The stickers: the 7 decodable covers of the unit and unit 1. */
@@ -140,7 +140,7 @@ const LETTER_STRIP = [
 const A5_CARD_COUNT = 14;
 
 /** The number of A6 cards of unit 1: the picture, tricky-word, word, and letter cards. */
-const A6_CARD_COUNT = 151;
+const A6_CARD_COUNT = 145;
 
 /** The module of the card kit. It does not exist before the Green task. */
 async function cardKit(): Promise<CardKitModule> {
@@ -234,7 +234,7 @@ describe('Storytime card kit, unit 1 (spec FR-7)', () => {
         const a6 = mod.storytimeCardPagePlan(kit.cards, 'A6');
         expect(a6.perSheet, 'the A6 cards on one sheet').toBe(4);
         expect(a6.cards, 'the number of A6 cards').toBe(A6_CARD_COUNT);
-        expect(a6.sheets, 'the number of A6 sheets').toBe(38);
+        expect(a6.sheets, 'the number of A6 sheets').toBe(37);
         expect(a6.sheet, 'the A6 sheet').toEqual({ widthMm: 210, heightMm: 297 });
     });
 

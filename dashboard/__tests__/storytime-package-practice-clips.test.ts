@@ -154,9 +154,13 @@ const TRICKY_KEYS: Record<number, string[]> = {
 };
 
 /** The distinct files of the union of the book clips and the practice clips, for each week. */
-const UNION_FILES: Record<number, number> = { 1: 30, 2: 36, 3: 27, 4: 31, 5: 34, 6: 27, 7: 33 };
+const UNION_FILES: Record<number, number> = { 1: 30, 2: 38, 3: 27, 4: 31, 5: 33, 6: 27, 7: 32 };
 
 /** The 32 gap words that already have a bank clip (spec Facts). */
+/** The words that join the gap list with the Phase 14 change list, and the words that leave it (R1). */
+const P14_GAP_IN = ['net', 'nose'];
+const P14_GAP_OUT = ['arm', 'cup', 'dress', 'map'];
+
 const GAP_WITH_ROW = [
     'ant', 'apple', 'bag', 'boy', 'bus', 'cat', 'cup', 'eight', 'friend', 'girl', 'goodbye', 'hat', 'in', 'man', 'mango', 'map',
     'milk', 'nap', 'nine', 'nod', 'octopus', 'on', 'ox', 'pear', 'pen', 'pig', 'sister', 'sock', 'sun', 'ten', 'tiger', 'top',
@@ -1008,17 +1012,35 @@ interface WordTree {
     manifestFile: string;
 }
 
+/** The commit of the Phase 12 facts that the D4 history cases replay (P14 Red retry R1, D-R1-1 option A). */
+const PHASE12_COMMIT = 'ddc70618';
+
+/**
+ * The start file text of a week at the Phase 12 commit. The D4 cases replay the Phase 12 bank run, which is
+ * history: their Phase 12 pins stay, and their week files come from `git show` at that commit, as the loops
+ * compares read their baselines.
+ * @param week The week number.
+ * @returns The text of the week file at that commit.
+ */
+function phase12Text(week: number): string {
+    try {
+        return execFileSync('git', ['show', `${PHASE12_COMMIT}:content/storytime/l2/w${weekDigits(week)}.json`], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    } catch (error) {
+        throw new Error(`git show ${PHASE12_COMMIT} of the week ${week} failed: ${(error as Error).message}`);
+    }
+}
+
 /**
  * A temporary content root with a copy of the start file of each shipped week of level 2.
  * @param prefix The prefix of the folder name.
  * @returns The paths of the tree. The bank folder does not exist yet.
  */
-function baseTree(prefix: string): WordTree {
+function baseTree(prefix: string, weekText: (week: number) => string = startText): WordTree {
     const folder = tempFolder(prefix);
     const contentRoot = path.join(folder, 'content');
     fs.mkdirSync(path.join(contentRoot, 'l2'), { recursive: true });
     for (let week = 1; week <= 8; week += 1) {
-        fs.writeFileSync(path.join(contentRoot, 'l2', `w${weekDigits(week)}.json`), startText(week));
+        fs.writeFileSync(path.join(contentRoot, 'l2', `w${weekDigits(week)}.json`), weekText(week));
     }
     const bankFolder = path.join(contentRoot, 'words');
     return {
@@ -1124,7 +1146,7 @@ function oldBankWords(): string[] {
  * @returns The tree.
  */
 function makerTree(): WordTree {
-    const tree = baseTree('storytime-practice-bank-');
+    const tree = baseTree('storytime-practice-bank-', phase12Text);
     fs.mkdirSync(tree.bankFolder, { recursive: true });
     const words = oldBankWords();
     expect(words, 'the fixture bank holds 137 rows').toHaveLength(137);
@@ -1557,7 +1579,7 @@ describe('D3 practiceWordKeys, planPracticeClips, and the counts of the Facts se
         }
     });
 
-    it('counts 58 opening words, 51 family words, and 19 tricky words: 128 word slots', async () => {
+    it('counts 66 opening words, 51 family words, and 19 tricky words: 136 word slots', async () => {
         const practiceWordKeys = await clips('practiceWordKeys');
         let opening = 0;
         let family = 0;
@@ -1568,11 +1590,11 @@ describe('D3 practiceWordKeys, planPracticeClips, and the counts of the Facts se
             family += keys.family.length;
             tricky += keys.tricky.length;
         }
-        expect([opening, family, tricky]).toEqual([58, 51, 19]);
-        expect(opening + family + tricky).toBe(128);
+        expect([opening, family, tricky]).toEqual([66, 51, 19]);
+        expect(opening + family + tricky).toBe(136);
     });
 
-    it('finds 55 gap slots (42, 8, and 5) and 47 gap words: the 32 with a bank row and the 15 new words', async () => {
+    it('finds 56 gap slots (43, 8, and 5) and 45 gap words: the 32 with a bank row and the 15 new words', async () => {
         const practiceWordKeys = await clips('practiceWordKeys');
         const bookWordKeys = await clips('bookWordKeys');
         const slots = { opening: 0, family: 0, tricky: 0 };
@@ -1589,9 +1611,9 @@ describe('D3 practiceWordKeys, planPracticeClips, and the counts of the Facts se
                 }
             }
         }
-        expect(slots).toEqual({ opening: 42, family: 8, tricky: 5 });
-        expect([...gap].sort(), 'the 47 gap words').toEqual([...GAP_WITH_ROW, ...NEW_WORDS].sort());
-        expect(gap.size).toBe(47);
+        expect(slots).toEqual({ opening: 43, family: 8, tricky: 5 });
+        expect([...gap].sort(), 'the 45 gap words').toEqual([...GAP_WITH_ROW, ...NEW_WORDS, ...P14_GAP_IN].filter((word) => !P14_GAP_OUT.includes(word)).sort());
+        expect(gap.size).toBe(45);
         const rows = new Set((manifestItems(path.join(STORYTIME_ROOT, 'words/manifest.json')) as unknown as WordBankRow[]).map((row) => row.word));
         expect(GAP_WITH_ROW.filter((word) => !rows.has(word)), 'each of the 32 words has a bank row').toEqual([]);
     });
@@ -1638,7 +1660,7 @@ describe('D3 practiceWordKeys, planPracticeClips, and the counts of the Facts se
         expect(error?.message).toContain("it's");
     });
 
-    it('gives the union of the book files and the practice files: 30, 36, 27, 31, 34, 27, and 33 (218)', async () => {
+    it('gives the union of the book files and the practice files: 30, 38, 27, 31, 33, 27, and 32 (218)', async () => {
         const planPracticeClips = await clips('planPracticeClips');
         const planWordClips = await clips('planWordClips');
         let total = 0;
@@ -1881,7 +1903,7 @@ describe('D5 the word mapper with the three new maps on a copy of w01 (L5, L17)'
             ['        ]', '        ],'],
             ['        ]', '        ],'],
         ]);
-        expect(diff.added).toHaveLength(50);
+        expect(diff.added).toHaveLength(52);
         expect(diff.added, 'the blocks in document order: family, tricky, opening, book 0, book 1').toEqual([
             ...mapBlock('      ', 'wordClips', W01_FAMILY),
             ...mapBlock('    ', 'trickyWordClips', W01_TRICKY),
@@ -1938,7 +1960,7 @@ describe('D5 the word mapper with the three new maps on a copy of w01 (L5, L17)'
         const run = await attempt(() => setWordClips({ weekFile: tree.weekFile, contentRoot: tree.contentRoot, bankFolder: tree.bankFolder, check: true }));
         expect(run.error?.message, 'the check runs').toBeUndefined();
         const rows = (run.value as SetWordClipsResult).lines.map((line) => line.split('\t'));
-        expect(rows, 'one line for each key: 12 + 11 book keys, 8 opening, 6 family, and 3 tricky').toHaveLength(40);
+        expect(rows, 'one line for each key: 12 + 11 book keys, 10 opening, 6 family, and 3 tricky').toHaveLength(42);
         for (const row of rows) {
             expect(row, row.join(' | ')).toHaveLength(4);
             expect(row[3], row.join(' | ')).toBe('ok');

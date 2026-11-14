@@ -102,7 +102,7 @@ const KEYS_PER_BOOK: Record<number, number[]> = {
 const FILES_PER_WEEK: Record<number, number> = { 1: 22, 2: 23, 3: 20, 4: 24, 5: 28, 6: 22, 7: 24 };
 
 /** The keys of the three practice lists of week 1, sorted by code point (Phase 12, spec L3, hand-written from the Facts section). */
-const W01_OPENING = ['fan', 'hen', 'nest', 'net', 'nose', 'nut', 'pen', 'sun'];
+const W01_OPENING = ['fan', 'goodbye', 'hello', 'hen', 'nest', 'net', 'nose', 'nut', 'pen', 'sun'];
 const W01_FAMILY = ['boy', 'friend', 'girl', 'goodbye', 'hello', 'teacher'];
 const W01_TRICKY = ['a', 'and', 'can'];
 
@@ -1404,7 +1404,7 @@ function mapBlockLines(indent: string, name: string, keys: string[]): string[] {
 }
 
 describe('C6 the mapper on a copy of w01 (K3, K4, K5, Phase 12 L3 to L5)', () => {
-    it('writes the five maps, copies 30 clips, removes a stale clip, and changes only the closing lines (50 added, 5 changed)', async () => {
+    it('writes the five maps, copies 30 clips, removes a stale clip, and changes only the closing lines (52 added, 5 changed)', async () => {
         const setWordClips = await mapper('setWordClips');
         const tree = mapperTree();
         const wordsFolder = path.join(tree.contentRoot, 'l2/media/w01/words');
@@ -1442,7 +1442,7 @@ describe('C6 the mapper on a copy of w01 (K3, K4, K5, Phase 12 L3 to L5)', () =>
             ['        ]', '        ],'],
             ['        ]', '        ],'],
         ]);
-        expect(diff.added).toHaveLength(50);
+        expect(diff.added).toHaveLength(52);
         expect(diff.added, 'the blocks in document order: family, tricky, opening, book 0, book 1').toEqual([
             ...mapBlockLines('      ', 'wordClips', W01_FAMILY),
             ...mapBlockLines('    ', 'trickyWordClips', W01_TRICKY),
@@ -1609,14 +1609,14 @@ describe('C7b the mapper checks the week structure before any write (K4, K5, FR 
 });
 
 describe('C8 the mapper --check (FR 4, Phase 12 L3 to L5)', () => {
-    it('prints 40 tab lines for the copy of w01 (23 book keys and 17 practice keys) and writes nothing', async () => {
+    it('prints 42 tab lines for the copy of w01 (23 book keys and 19 practice keys) and writes nothing', async () => {
         const setWordClips = await mapper('setWordClips');
         const tree = mapperTree();
         const hashes = treeHashes(tree.folder);
         const run = await attempt(() => setWordClips({ weekFile: tree.weekFile, contentRoot: tree.contentRoot, bankFolder: tree.bankFolder, check: true }));
         expect(run.error?.message, 'the check runs').toBeUndefined();
         const lines = (run.value as SetWordClipsResult).lines;
-        expect(lines).toHaveLength(40);
+        expect(lines).toHaveLength(42);
         const fields = lines.map((line) => line.split('\t'));
         for (const row of fields) expect(row, row.join(' | ')).toHaveLength(4);
         const bookRows = fields.filter((row) => row[0] === '0' || row[0] === '1');
@@ -1636,9 +1636,9 @@ describe('C8 the mapper --check (FR 4, Phase 12 L3 to L5)', () => {
         const run = await attempt(() => setWordClips({ weekFile: tree.weekFile, contentRoot: tree.contentRoot, bankFolder: tree.bankFolder, check: true }));
         expect(run.error?.message, 'the check runs').toBeUndefined();
         const fields = (run.value as SetWordClipsResult).lines.map((line) => line.split('\t'));
-        expect(fields).toHaveLength(40);
+        expect(fields).toHaveLength(42);
         expect(fields.filter((row) => row[3].includes('no bank row')), 'the 12 book lines and the 3 tricky lines of the absent rows').toHaveLength(15);
-        expect(fields.filter((row) => row[3] === 'ok'), 'the other lines').toHaveLength(25);
+        expect(fields.filter((row) => row[3] === 'ok'), 'the other lines').toHaveLength(27);
         expect(treeHashes(tree.folder), 'the check writes nothing').toEqual(hashes);
     }, 60_000);
 
@@ -1649,7 +1649,7 @@ describe('C8 the mapper --check (FR 4, Phase 12 L3 to L5)', () => {
         const stamps = { week: treeStamps(path.dirname(week)), bank: treeStamps(bank) };
         const run = await captureOutput(() => main(['--level', '2', '--week', '1', '--check']));
         const rows = run.out.map((line) => line.split('\t')).filter((row) => row.length === 4);
-        expect(rows, 'one line for each key slot: 23 book keys and 17 practice keys').toHaveLength(40);
+        expect(rows, 'one line for each key slot: 23 book keys and 19 practice keys').toHaveLength(42);
         expect(run.value).toBe(rows.every((row) => row[3] === 'ok') ? 0 : 1);
         expect({ week: treeStamps(path.dirname(week)), bank: treeStamps(bank) }, 'the check writes nothing').toEqual(stamps);
     }, 60_000);

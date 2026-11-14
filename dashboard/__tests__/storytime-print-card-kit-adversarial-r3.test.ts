@@ -157,10 +157,10 @@ describe('the shipped match report', () => {
         const rows = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures.json'), 'utf8')) as StorytimePictureRow[];
         const { delivered, reasons } = storytimeDeliveredPictures(path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures'), rows);
         const lines = storytimeCardPictureMatchLines(kit.cards, rows, delivered, reasons);
-        expect(lines, 'one line for each picture-type card').toHaveLength(106);
+        expect(lines, 'one line for each picture-type card').toHaveLength(100);
         expect(lines.every((line) => line.split('\t').length === 4), 'each line holds four columns').toBe(true);
         const counts = storytimeCardMatchCounts(lines);
-        expect(counts, 'the counts of the A6 v3 build of the plan (card-picture-match.txt, Phase 8 A6 v3)').toEqual({ picture: 89, patch: 8, dots: 9, none: 0 });
+        expect(counts, 'the counts of the A6 v3 build of the plan (card-picture-match.txt, Phase 8 A6 v3)').toEqual({ picture: 83, patch: 8, dots: 9, none: 0 });
         expect(counts.picture + counts.patch + counts.dots + counts.none, 'the four counts add up to the lines').toBe(lines.length);
         expect(lines.filter((line) => line.split('\t')[2] === 'none').length, 'a none line has the source none').toBe(counts.none);
     }, 120_000);

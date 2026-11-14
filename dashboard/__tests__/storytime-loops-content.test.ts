@@ -431,6 +431,54 @@ function withoutNewFields(week: Raw, dropTh = false): Raw {
     return copy;
 }
 
+const P14_PATHS: Record<number, string[]> = {
+    1: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.harder', 'scripts.2.steps.1.harder', 'tags.taught', 'opening.wordClips'],
+    2: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'tags.taught', 'opening.wordClips'],
+    3: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'scripts.0.steps.3.en.teacherActions', 'scripts.0.steps.3.th.teacherActions', 'scripts.0.steps.4.harder', 'tags.reviewed', 'opening.wordClips'],
+    4: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'tags.reviewed', 'opening.wordClips'],
+    5: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'scripts.0.steps.4.harder', 'scripts.0.steps.0.en.watchFor', 'scripts.0.steps.0.th.watchFor', 'scripts.4.steps.0.en.teacherActions', 'scripts.4.steps.0.th.teacherActions', 'scripts.4.steps.0.materials', 'scripts.4.steps.1.en.teacherActions', 'scripts.4.steps.1.th.teacherActions', 'scripts.4.steps.1.materials', 'tags.reviewed', 'opening.wordClips'],
+    6: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'scripts.0.steps.4.harder', 'scripts.0.steps.0.en.watchFor', 'scripts.0.steps.0.th.watchFor', 'scripts.0.steps.3.en.teacherActions', 'scripts.0.steps.3.th.teacherActions', 'scripts.0.steps.3.en.watchFor', 'scripts.0.steps.3.th.watchFor', 'scripts.4.steps.0.en.teacherActions', 'scripts.4.steps.0.th.teacherActions', 'scripts.4.steps.0.materials', 'scripts.4.steps.1.en.teacherActions', 'scripts.4.steps.1.th.teacherActions', 'scripts.4.steps.1.materials', 'tags.reviewed', 'opening.wordClips'],
+    7: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'scripts.0.steps.4.harder', 'scripts.4.steps.0.en.teacherActions', 'scripts.4.steps.0.th.teacherActions', 'scripts.4.steps.0.materials', 'scripts.4.steps.1.en.teacherActions', 'scripts.4.steps.1.th.teacherActions', 'scripts.4.steps.1.materials', 'tags.reviewed', 'opening.wordClips'],
+    8: ['focus.paSkill', 'focus.paStage', 'opening.pa.2', 'opening.pa.4', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'benchmark.paper.items.4', 'benchmark.paper.items.5', 'benchmark.paper.items.6', 'benchmark.paper.items.7', 'tags.reviewed'],
+};
+
+const P14_ENGLISH: Record<number, string[]> = {
+    1: ['the first sound n; blend three sounds by ear', '"Listen: hello. Say it with me: hello! Listen: goodbye. Say it with me: goodbye!"', '"Listen: nest. What is the first sound? Nnn! Listen: nose. What is the first sound? Nnn!"', 'A child says the first sound alone: "Net. Nnn!" Then the next child: "Nut. Nnn!"', 'Add two more words, nut and dog. Children push the card into the first box for nut only.'],
+    2: ['the first sound /a/; blend three sounds by ear', '"Listen: nose. What is the first sound? Nnn! Listen: net. What is the first sound? Nnn!"', '"Listen: apple. What is the first sound? /a/! Listen: ant. What is the first sound? /a/!"', 'Mix the /a/ words with other words.', '"Listen. Ant. Does ant start with /a/? Yes!"', 'A child says the first sound alone: "Axe. /a/!" Then the next child: "Astronaut. /a/!"'],
+    3: ['the first sound /p/; blend three sounds by ear', '"Listen: ant. What is the first sound? /a/! Listen: net. What is the first sound? Nnn!"', '"Listen: pen. What is the first sound? /p/! Listen: pear. What is the first sound? /p/!"', 'Mix the /p/ words with other words.', '"Listen. Pear. Does pear start with /p/? Yes!"', 'A child says the first sound alone: "Pencil. /p/!" Then the next child: "Pineapple. /p/!"', 'Show the word card "nap". Hold nnn, and say /p/ as a short puff.', 'A child reads one word on the wall alone, then says its first sound.'],
+    4: ['the first sound mmm; blend three sounds by ear', '"Listen: pan. What is the first sound? /p/! Listen: apple. What is the first sound? /a/!"', '"Listen: milk. What is the first sound? Mmm! Listen: mango. What is the first sound? Mmm!"', 'Mix the mmm words with other words.', '"Listen. Mouse. Does mouse start with mmm? Yes!"', 'A child says the first sound alone: "Mango. Mmm!" Then the next child: "Milk. Mmm!"'],
+    5: ['the first sound sss; blend three sounds by ear', '"Listen: map. What is the first sound? Mmm! Listen: pan. What is the first sound? /p/!"', '"Listen: sun. What is the first sound? Sss! Listen: sock. What is the first sound? Sss!"', 'Mix the sss words with other words.', '"Listen. Sock. Does sock start with sss? Yes!"', 'A child says the first sound alone: "Sofa. Sss!" Then the next child: "Sandwich. Sss!"', 'A child reads one word on the wall alone, then says its first sound.', 'Hold up each sound picture card and say the word with the class: sun, sock, sofa, sandwich.', 'sound picture cards: sun, sock, sofa, sandwich', 'Groups work at their center. Picture sort: sort the picture cards into "sss at the start" and "not sss". Letter cards: build the words "Sam" and "map", and read them. Book corner: read the ten books of weeks 1 to 5. Karaoke corner: sing with the karaoke videos on the tablet, with the sound low.', 'sorting mat: sss / not sss'],
+    6: ['the first sound /t/; blend three sounds by ear', '"Listen: see. What is the first sound? Sss! Listen: map. What is the first sound? Mmm!"', '"Listen: tiger. What is the first sound? /t/! Listen: ten. What is the first sound? /t/!"', 'Mix the /t/ words with other words.', '"Listen. Table. Does table start with /t/? Yes!"', 'A child says the first sound alone: "Tomato. /t/!" Then the next child: "Ten. /t/!"', 'A child reads one word on the wall alone, then says its first sound.', 'Children who stop a word with no release at the end ("ca" for "cat"): let the tongue go with a small puff of air at the end.', 'Hold up each sound picture card and say the word with the class: tiger, ten, table, tomato.', 'Groups work at their center. Picture sort: sort the picture cards into "/t/ at the start" and "not /t/". Letter cards: build the words "sat" and "tap", and read them. Book corner: read the twelve books of weeks 1 to 6. Karaoke corner: sing with the karaoke videos on the tablet, with the sound low.', 'sorting mat: /t/ / not /t/'],
+    7: ['the first sound /o/; blend three sounds by ear', '"Listen: teddy. What is the first sound? /t/! Listen: see. What is the first sound? Sss!"', '"Listen: octopus. What is the first sound? /o/! Listen: ox. What is the first sound? /o/!"', 'Mix the /o/ words with other words.', '"Listen. Ostrich. Does ostrich start with /o/? Yes!"', 'A child says the first sound alone: "Otter. /o/!" Then the next child: "Ox. /o/!"', 'A child reads one word on the wall alone, then says its first sound.', 'Hold up each sound picture card and say the word with the class: octopus, ox, ostrich, otter.', 'Groups work at their center. Picture sort: sort the picture cards into "/o/ at the start" and "not /o/". Letter cards: build the words "top" and "pot", and read them. Book corner: read the fourteen books of weeks 1 to 7. Karaoke corner: sing with the karaoke videos on the tablet, with the sound low.', 'sorting mat: /o/ / not /o/'],
+    8: ['the mixed sound game over the seven sounds: first sounds and blends by ear', '"Listen: sun. What is the first sound? Sss! Listen: /t/ - /a/ - /p/. What is the word? Tap!"', '"Listen: ten. What is the first sound? /t/! Listen: mmm - /o/ - mmm. What is the word? Mom!"', 'Rows 1 to 8: say the three pictures of the row two times, then the sound. Children circle the picture that starts with the sound.', '"Row 5: drum, ten, fish. Which one starts with /t/? Circle it."'],
+};
+
+
+/**
+ * The Phase 14 alignment of the additive compare (Red retry R1, D-R1-2): at each changed path of the change
+ * list, both sides take the shipped value, so the compare allows the P14 edits and any other change still
+ * fails. A path that the shipped week does not hold fails the test.
+ */
+function p14Align(week: Raw, shipped: Raw, n: number): Raw {
+    const copy = structuredClone(week);
+    for (const path of P14_PATHS[n]) {
+        const shippedValue = path.split('.').reduce<unknown>((node, key) => (node == null ? undefined : (node as Record<string, unknown>)[key]), shipped);
+        if (shippedValue === undefined) throw new Error(`the Phase 14 path ${path} is missing in the shipped w0${n}`);
+        const parts = path.split('.');
+        const parent = parts.slice(0, -1).reduce<Record<string, unknown>>((node, key) => node[key] as Record<string, unknown>, copy);
+        parent[parts[parts.length - 1]] = structuredClone(shippedValue);
+    }
+    return copy;
+}
+
+/** Every string of a value, for the English-only check of the change list (no Thai string is written here). */
+function stringsOf(value: unknown, out: Set<string>): Set<string> {
+    if (typeof value === 'string') out.add(value);
+    else if (Array.isArray(value)) for (const item of value) stringsOf(item, out);
+    else if (value && typeof value === 'object') for (const item of Object.values(value)) stringsOf(item, out);
+    return out;
+}
+
 const normalize = (week: Raw, dropTh = false): string => JSON.stringify(sortKeys(withoutNewFields(week, dropTh)));
 const parsed = (raw: Raw): Raw => StorytimeWeekSchema.parse(raw);
 
@@ -511,7 +559,10 @@ for (const n of WEEK_NUMBERS) {
 
     describe(`${name} content`, () => {
         it(`${name} adds only the FR-1 fields to its baseline file (additive, spec D10)`, () => {
-            expect(normalize(parsed(shippedRaw(n)))).toBe(normalize(parsed(baselineRaw(n))));
+            const shipped = shippedRaw(n);
+            expect(normalize(p14Align(parsed(shipped), shipped, n))).toBe(normalize(p14Align(parsed(baselineRaw(n)), shipped, n)));
+            const strings = stringsOf(shipped, new Set<string>());
+            for (const value of P14_ENGLISH[n]) expect(strings.has(value), `the English new value of w0${n}: ${value}`).toBe(true);
         });
 
         it(`${name} passes ${teach ? 'the six loop checks' : 'loops-recall and loops-minutes'} with the status pass`, () => {

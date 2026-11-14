@@ -145,7 +145,7 @@ describe('Phase 8 color patches and number dots', () => {
         }
     });
 
-    it('R-P8-P3 all 17 special cards replace the empty box and all 32 unmatched cards retain it', () => {
+    it('R-P8-P3 all 17 special cards replace the empty box and all 29 unmatched cards retain it', () => {
         const kit = storytimeCardKit(shippedWeeks());
         const specialLabels = new Set([...Object.keys(COLOR_PATCHES), ...Object.keys(NUMBER_DOTS)]);
         const allPictureCards = pictureCards(kit.cards);
@@ -182,16 +182,16 @@ describe('Phase 8 color patches and number dots', () => {
             expect(doc.querySelector(`[data-kind="${card.kind}"][data-label="${card.label}"] .card-picture-empty`),
                 `${card.label} has no empty box`).toBeNull();
         }
-        expect(otherCards, 'the 89 non-special picture cards keep their prior picture behavior')
-            .toHaveLength(89);
-        expect(otherMatchedCards, 'the 57 matched non-special cards still show the picture')
-            .toHaveLength(57);
+        expect(otherCards, 'the 83 non-special picture cards keep their prior picture behavior')
+            .toHaveLength(83);
+        expect(otherMatchedCards, 'the 54 matched non-special cards still show the picture')
+            .toHaveLength(54);
         for (const card of otherMatchedCards) {
             expect(doc.querySelector(`[data-kind="${card.kind}"][data-label="${card.label}"] .card-picture img`),
                 `${card.label} still shows its matched picture`).not.toBeNull();
         }
-        expect(otherNoneCards, 'the remaining cards with no picture row, including both dress cards')
-            .toHaveLength(32);
+        expect(otherNoneCards, 'the remaining cards with no picture row')
+            .toHaveLength(29);
         expect(otherNoneCards.every((card) => {
             const index = allPictureCards.indexOf(card);
             return reportFields[index][3] === 'none: files not delivered';
@@ -202,7 +202,7 @@ describe('Phase 8 color patches and number dots', () => {
         }
     }, 120_000);
 
-    it('R-P8-P4 the shipped match report gives 57 picture matches, 8 patches, 9 dots, and 32 none', () => {
+    it('R-P8-P4 the shipped match report gives 54 picture matches, 8 patches, 9 dots, and 29 none', () => {
         const cards = storytimeCardKit(shippedWeeks()).cards;
         const rows = shippedRows();
         const delivered = new Set(resolveStorytimePictureFiles(
@@ -217,21 +217,21 @@ describe('Phase 8 color patches and number dots', () => {
         const dots = fields.filter((field) => field[3] === 'dots');
         const none = fields.filter((field) => field[2] === 'none');
 
-        expect(fields, 'one line per picture-type card').toHaveLength(106);
+        expect(fields, 'one line per picture-type card').toHaveLength(100);
         expect(fields.every((field) => field.length === 4), 'the report has four tab-separated columns')
             .toBe(true);
-        expect(rowMatches, 'picture row matches').toHaveLength(57);
+        expect(rowMatches, 'picture row matches').toHaveLength(54);
         expect(patches.map((field) => field[1].toLowerCase()).sort(), 'color patch sources')
             .toEqual(Object.keys(COLOR_PATCHES).sort());
         expect(dots.map((field) => field[1].toLowerCase()).sort(), 'number dot sources')
             .toEqual(Object.keys(NUMBER_DOTS).sort());
         expect([...patches, ...dots].every((field) => field[2] !== 'none'), 'special cards have a source, not none')
             .toBe(true);
-        expect(none, 'remaining report rows with no source').toHaveLength(32);
+        expect(none, 'remaining report rows with no source').toHaveLength(29);
         expect(none.every((field) => field[3] === 'none: files not delivered'), 'all none entries have undelivered Forge rows')
             .toBe(true);
         expect(fields.filter((field) => field[2] === 'none' && field[3] === 'none: files not delivered'), 'all unmatched entries')
-            .toHaveLength(32);
+            .toHaveLength(29);
     }, 120_000);
 
     it('R-P8-P5 falsifier: a dot count off by one fails the exact count assertion', () => {

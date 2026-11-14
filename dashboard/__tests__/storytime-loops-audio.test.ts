@@ -199,7 +199,7 @@ describe('storytime loops: a week without blendDrill keeps its fields (D3)', () 
     // `phonemeAudioFields` for the eight shipped weeks w01 to w08 (the FR-1 fields removed), computed from
     // the code at a25fe053 (before Green 3). The field counts are 4, 9, 14, 14, 19, 19, 19, 26.
     const BASELINE_FIELD_COUNTS = [4, 9, 14, 14, 19, 19, 19, 26];
-    const BASELINE_SHA256 = '8370c711b093a3836cd1274f59d1b0751326532b0ba9266a7b604c6e3e1c2721';
+    const BASELINE_SHA256 = '8d2a1984b772fa89265ed2e9907d45c2ca19109b0c9a1e9b97bc7efca1530f3b';
 
     it('returns the same fields for the eight shipped weeks as the frozen baseline', () => {
         const bank = realBank();

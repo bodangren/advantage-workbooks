@@ -211,6 +211,8 @@ function fixtureWeek(): WeekFixture {
                             teacherActions: ['Hold up one picture card.'],
                             teacherLanguage: ['Listen. Pet.'],
                             studentActions: ['Children say the first sound.'],
+                            // M4: the schema and the week files hold watchFor under `en.watchFor`.
+                            watchFor: ['Ask about the last sound.'],
                         },
                         easier: { en: 'One child says the first sound.' },
                         harder: { en: 'A child reads one word on the wall alone, then says its first sound.' },
@@ -385,6 +387,10 @@ describe('S2 the positions a text asks (FR14-1)', () => {
         { text: 'Children who say "nuh": the sound is n, with no "uh" at the end.', positions: [] },
         { text: 'Children who read "top" as "tap": point to the middle letter and ask for its sound.', positions: [] },
         { text: '"Listen: hello. Say it with me: hello! Listen: goodbye. Say it with me: goodbye!"', positions: [] },
+        // M1: the "starts with" form alone, with no "first sound" and no "at the start".
+        { text: '"Listen. Ant. Does ant start with /a/? Yes!"', positions: ['first'] },
+        // M3: "listen to the middle" alone, with no sound token before "in the middle".
+        { text: '"Now listen to the middle."', positions: ['middle'] },
     ];
 
     table.forEach((row, index) => {
@@ -451,6 +457,15 @@ describe('S3 the units of a week (FR14-1)', () => {
             'opening.pa.3',
             'opening.pa.4',
         ]);
+    });
+
+    it('gives the first position for a check item with no position (M12)', async () => {
+        const units = await exportOf('soundUnits');
+        const week = day1Week(3, 'Listen: pet. What is the first sound? /p/!', '/p/');
+        week.check = { items: [{ kind: 'circle-picture', sound: '/p/', pictures: ['pet', 'pen', 'pan'], answer: 'pet' }] };
+        const list = units(week);
+        const item = list.find((unit) => unit.where === 'check.items');
+        expect(item, 'the item unit').toEqual({ where: 'check.items', text: '', positions: ['first'] });
     });
 });
 

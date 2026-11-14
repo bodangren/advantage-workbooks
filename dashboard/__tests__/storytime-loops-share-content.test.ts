@@ -155,6 +155,36 @@ function withoutAllowList(week: Raw): Raw {
     return copy;
 }
 
+const P14_PATHS: Record<number, string[]> = {
+    1: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.harder', 'scripts.2.steps.1.harder', 'tags.taught', 'opening.wordClips'],
+    2: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'tags.taught', 'opening.wordClips'],
+    3: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'scripts.0.steps.3.en.teacherActions', 'scripts.0.steps.3.th.teacherActions', 'scripts.0.steps.4.harder', 'tags.reviewed', 'opening.wordClips'],
+    4: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'tags.reviewed', 'opening.wordClips'],
+    5: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'scripts.0.steps.4.harder', 'scripts.0.steps.0.en.watchFor', 'scripts.0.steps.0.th.watchFor', 'scripts.4.steps.0.en.teacherActions', 'scripts.4.steps.0.th.teacherActions', 'scripts.4.steps.0.materials', 'scripts.4.steps.1.en.teacherActions', 'scripts.4.steps.1.th.teacherActions', 'scripts.4.steps.1.materials', 'tags.reviewed', 'opening.wordClips'],
+    6: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'scripts.0.steps.4.harder', 'scripts.0.steps.0.en.watchFor', 'scripts.0.steps.0.th.watchFor', 'scripts.0.steps.3.en.teacherActions', 'scripts.0.steps.3.th.teacherActions', 'scripts.0.steps.3.en.watchFor', 'scripts.0.steps.3.th.watchFor', 'scripts.4.steps.0.en.teacherActions', 'scripts.4.steps.0.th.teacherActions', 'scripts.4.steps.0.materials', 'scripts.4.steps.1.en.teacherActions', 'scripts.4.steps.1.th.teacherActions', 'scripts.4.steps.1.materials', 'tags.reviewed', 'opening.wordClips'],
+    7: ['focus.paSkill', 'focus.paStage', 'opening.pa.0', 'opening.pa.1', 'opening.audio', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'scripts.0.steps.0.materials', 'scripts.0.steps.0.harder', 'scripts.0.steps.4.harder', 'scripts.4.steps.0.en.teacherActions', 'scripts.4.steps.0.th.teacherActions', 'scripts.4.steps.0.materials', 'scripts.4.steps.1.en.teacherActions', 'scripts.4.steps.1.th.teacherActions', 'scripts.4.steps.1.materials', 'tags.reviewed', 'opening.wordClips'],
+    8: ['focus.paSkill', 'focus.paStage', 'opening.pa.2', 'opening.pa.4', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'benchmark.paper.items.4', 'benchmark.paper.items.5', 'benchmark.paper.items.6', 'benchmark.paper.items.7', 'tags.reviewed'],
+};
+
+
+/**
+ * The Phase 14 alignment of the additive compare (Red retry R1, D-R1-2): at each changed path of the change
+ * list, both sides take the shipped value, so the compare allows the P14 edits and any other change still
+ * fails. A path that the shipped week does not hold fails the test.
+ */
+function p14Align(week: Raw, shipped: Raw, n: number): Raw {
+    const copy = structuredClone(week);
+    for (const path of P14_PATHS[n]) {
+        const shippedValue = path.split('.').reduce<unknown>((node, key) => (node == null ? undefined : (node as Record<string, unknown>)[key]), shipped);
+        if (shippedValue === undefined) throw new Error(`the Phase 14 path ${path} is missing in the shipped w0${n}`);
+        const parts = path.split('.');
+        const parent = parts.slice(0, -1).reduce<Record<string, unknown>>((node, key) => node[key] as Record<string, unknown>, copy);
+        parent[parts[parts.length - 1]] = structuredClone(shippedValue);
+    }
+    return copy;
+}
+
+
 const normalize = (week: Raw): string => JSON.stringify(sortKeys(withoutAllowList(week)));
 
 /** The English captions of the shipped weeks, in week order and day order. Missing shares give no entry. */
@@ -283,7 +313,8 @@ for (const n of WEEK_NUMBERS) {
         });
 
         it(`${name} adds only share moments to its baseline file (additive, AC-14.5)`, () => {
-            expect(normalize(parsed(shippedRaw(n)))).toBe(normalize(parsed(baselineRaw(n))));
+            const shipped = shippedRaw(n);
+            expect(normalize(p14Align(parsed(shipped), shipped, n))).toBe(normalize(p14Align(parsed(baselineRaw(n)), shipped, n)));
         });
     });
 }
