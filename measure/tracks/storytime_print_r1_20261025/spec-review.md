@@ -46,7 +46,9 @@ Scope: the section "Addendum 2026-11-14 (2): C2, F3, the week 8 review pages, an
 
 Audited head: 15ea495d36d69c177e7dda481a782fcebac9589a
 
-Status: fail at 15ea495d (F1 Major); F1 closed by a PM decision and F2 to F4 by FIX in this section; a re-check of the reviewer confirms the final status.
+Status: pass at da3abcb6 (re-check of the reviewer; F1 to F4 withdrawn; F1 closed by PM decision P9-B20).
+
+Re-check result files: measure/runs/storytime_print_r1_20261025/spec-review-p9b-da3abcb6.json and .log (commit 5f8f333).
 
 PM correction (PM stamp 23:10 ICT, exact words): "Correction first: "read the words and match them to pictures" was MY brief, not Daniel's words. Daniel said only "Add review pages". So these are PM decisions, and no question goes to Daniel". The reviewer quoted the brief as the order of Daniel. The brief is a PM text, so the finding and the answers below follow the PM correction.
 
