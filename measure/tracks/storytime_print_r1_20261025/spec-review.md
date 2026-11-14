@@ -46,21 +46,23 @@ Scope: the section "Addendum 2026-11-14 (2): C2, F3, the week 8 review pages, an
 
 Audited head: 15ea495d36d69c177e7dda481a782fcebac9589a
 
-Status: fail at 15ea495d (F1 Major); after the answers of this section, a re-check of the reviewer decides the final status.
+Status: fail at 15ea495d (F1 Major); F1 closed by a PM decision and F2 to F4 by FIX in this section; a re-check of the reviewer confirms the final status.
+
+PM correction (PM stamp 23:10 ICT, exact words): "Correction first: "read the words and match them to pictures" was MY brief, not Daniel's words. Daniel said only "Add review pages". So these are PM decisions, and no question goes to Daniel". The reviewer quoted the brief as the order of Daniel. The brief is a PM text, so the finding and the answers below follow the PM correction.
 
 Checks that passed: the C2 ink measure of all 32 values (each at or above 0.02 em; the old c 0.0043 em and the old S 0.0163 em fail); the F3 list; the 20 picture rows and texts; the 4 sentences (E2-style check; "Pip" passes as a reader name); the page arithmetic; the pin grep (11 hits: 8 real, 3 false positives); the roles; the F3 commit gate. The review found 0 Blockers, 1 Major, and 3 Nits. The retry recommendation of the reviewer is escalate_human.
 
 ### F1 [Major]: the review pages match short decodable sentences, not single words
 
-Finding: the 16 match pairs are short decodable sentences. The order of Daniel says "read the words and match them to pictures". The repo holds single-word object pictures for ant, pot, and mop only, and the order forbids new generation. The pupil task differs from the ordered task, so Daniel decides.
+Finding: the 16 match pairs are short decodable sentences. The PM brief says "read the words and match them to pictures". The repo holds single-word object pictures for ant, pot, and mop only, and the brief forbids new generation. The pupil task differs from the briefed task, so a decision is needed.
 
-FIX: add an explicit decision to [spec.md](./spec.md). Answer: the new decision row P9-B20 and the extended default of Q9-9 now state: "Orchestrator decision (2026-11-14 21:10 ICT): option A, the sentences, is the working default of the batch, because the repo holds single-word object pictures for ant, pot, and mop only, and the order forbids new generation. The question goes to the PM for Daniel with three options: A, sentences (no new picture); B, single words with new pictures (paid generation, a human gate); C, single words with crops of the object from the existing story line art (no generation; a crop script and a look check). If Daniel picks B or C, a Red retry changes the RM-data and RM-pictures cases, the w08 content Green changes the data, and the proof note says so. The C2 and F3 parts do not depend on this answer."
+FIX: add an explicit decision to [spec.md](./spec.md). Answer: closed by PM decision P9-B20. Row P9-B20 and the default of Q9-9 now state: "PM decision (2026-11-14, PM stamp 23:10 ICT): option A, short decodable sentences matched to existing story pictures. No paid generation and no cut script. The words 'read the words and match them to pictures' came from the PM brief; Daniel's words were only 'Add review pages'." The PM words are quoted in P9-B20. The options B and C and the Red retry path are removed, and no question goes to Daniel.
 
 ### F2 [Nit]: day 5 omits weeks 1 and 6
 
 Finding: day 5 takes its items from weeks 2, 3, 4, 5, and 7. The reason for week 1 is recorded. The reason for week 6 is not.
 
-FIX: add one line to P9-B10. Answer: P9-B10 of [spec.md](./spec.md) now holds: "Day 5 has no week 6 item, because day 3 already reviews weeks 5 and 6, and 4 pairs and 1 sentence cover 5 of the 6 weeks with decodable text (weeks 2 to 7)."
+FIX, PM decision: add one line to P9-B10. Answer: P9-B10 of [spec.md](./spec.md) now holds: "Day 5 has no week 6 item, because day 3 already reviews weeks 5 and 6, and 4 pairs and 1 sentence cover 5 of the 6 weeks with decodable text (weeks 2 to 7)." PM decision (2026-11-14, PM stamp 23:10 ICT): day 5 without weeks 1 and 6 is accepted. It is not a Daniel choice.
 
 ### F3 [Nit]: a table-relative C2-book case cannot catch the left-middle mutant
 
@@ -76,4 +78,4 @@ FIX: state the names and drop the ratio in P9-B13. Answer: P9-B13 of [spec.md](.
 
 Result file: `measure/runs/storytime_print_r1_20261025/spec-review-p9b-15ea495d.json` (log: `spec-review-p9b-15ea495d.log`, commit f86763d3).
 
-Transcribed 2026-11-14 by the orchestrator build session, because the review role cannot write track files. The task in [plan.md](./plan.md) stays open until the re-check of the reviewer passes.
+Transcribed 2026-11-14 by the orchestrator build session, because the review role cannot write track files. The task in [plan.md](./plan.md) stays open until the re-check of the reviewer confirms the final status. The correction of PM stamp 23:10 ICT was added in a second commit.
