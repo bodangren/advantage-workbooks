@@ -1,0 +1,38 @@
+Report: The three fixed commands ran on the r6-v2 student book proof. The proof SHA-256 matched the expected value. The code tests passed 269 of 269 tests. The live check passed 8 packages with 0 failed checks. The QR check decoded 28 of 28 expected codes with 0 mismatches. No code, test, content, or proof file changed. The plan task now has its capture SHA and evidence line.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: done
+track: storytime_print_r1_20261025
+phase: P9
+phase_base_sha: 8b9e1e723196dde3578f09aa19144a965beb78fc
+role_base_sha: 32ffdf744dc2093035bad1f26c326a4f08b0a50e
+commits:
+- capture commit: da51a2bb41a28781cb742f510e0651b3b3b2e463
+- plan evidence commit: 321da77fc88fb93debc3d91c9ed2fc8a341d0882
+gates:
+- CODE_TESTS: exit 0
+- CODE_TEST_LIVE: exit 0
+- CODE_TEST_QR: exit 0
+code_tests: 269 total, 269 passed, 0 failed
+live_checks: 8 packages, 0 failed checks
+qr_decoded: 28
+qr_expected: 28
+qr_mismatches: 0
+tasks:
+- flipped to [x]: Task (Code tests on the r6-v2 proof), capture commit da51a2b, plan commit 321da77f
+- flipped to [b]: none
+substitution: ra-quota pick green --not-family deepseek selected nvidia/minimaxai/minimax-m3.1-flash#thinking. The table model volcengine-agent-plan/glm-5.3-flash#high was on WAIT at 86 percent Ark monthly use. Claude was on WAIT for pace.
+deviations:
+- The orchestrator handoff gave role_base_sha but did not give phase_base_sha. The role used the parent of the committed Red commit d737206a as the immutable phase base. The Red commit is inside 8b9e1e72..HEAD.
+- The QR tool left an empty note column with trailing tabs. The role removed only those trailing tabs from the two committed QR captures.
+new_files:
+- measure/runs/storytime_print_r1_20261025/p9a-codetests-v2.txt
+- measure/runs/storytime_print_r1_20261025/p9a-codetests-v2-tests.txt
+- measure/runs/storytime_print_r1_20261025/p9a-codetests-v2-live.txt
+- measure/runs/storytime_print_r1_20261025/p9a-codetests-v2-qr.txt
+- measure/runs/storytime_print_r1_20261025/p9a-codetests-v2-tests-summary.txt
+- measure/runs/storytime_print_r1_20261025/p9a-codetests-v2-qr-report.txt
+- measure/runs/storytime_print_r1_20261025/p9a-codetests-v2-green-32ffdf74.log
+handoff: The PM can run the print audit on the r6-v2 proof. The PM hand-off task remains open. The code-test capture records every row status. The final Green HEAD is the commit that contains this log. The final role result reports that SHA because a commit cannot contain its own SHA.
+END_MEASURE_AGENT_RESULT
