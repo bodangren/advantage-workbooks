@@ -1,0 +1,52 @@
+P9-B Red run 2: the F3 teacher script order (storytime_print_r1_20261025)
+File: dashboard/__tests__/storytime-print-f3-script-order.test.ts
+Command: CI=true npx vitest run dashboard/__tests__/storytime-print-f3-script-order.test.ts --maxWorkers=1 --reporter=json
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-order week 1: the D4 rows and the D4 script name the same items in one order ===
+passed
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-order week 2: the D4 rows and the D4 script name the same items in one order ===
+failed
+first line: AssertionError: the D4 script of week 2 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+problems: 5
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-order week 3: the D4 rows and the D4 script name the same items in one order ===
+failed
+first line: AssertionError: the D4 script of week 3 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+problems: 5
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-order week 4: the D4 rows and the D4 script name the same items in one order ===
+failed
+first line: AssertionError: the D4 script of week 4 names "find the word" later than the item above it; the page order is trace, draw, choice, line
+problems: 5
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-order week 5: the D4 rows and the D4 script name the same items in one order ===
+failed
+first line: AssertionError: the D4 script of week 5 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+problems: 5
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-order week 6: the D4 rows and the D4 script name the same items in one order ===
+failed
+first line: AssertionError: the D4 script of week 6 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+problems: 5
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-order week 7: the D4 rows and the D4 script name the same items in one order ===
+failed
+first line: AssertionError: the D4 script of week 7 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+problems: 5
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-order week 8: the week has no D4 step and the book has no writing page for it ===
+passed
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-th-shape: each th array of the D4 step has the length of its en array ===
+passed
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-scope: only the four English keys of the D4 step and their th twins differ from the Red baseline ===
+passed
+
+=== F3: the D4 teacher script follows the page (P9-B6) F3-mutants: the old order, a Thai line moved alone, and a change outside the keys each fail ===
+passed
+
+=== Total: 11 checks (PASS=5, FAIL=6) ===
+deviation: F3-th-shape asserts the length of each th array only; it compares no Thai text (run brief). The byte-equal swap is left to Daniel's Thai check.
+exit: 1
