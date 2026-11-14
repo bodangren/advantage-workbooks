@@ -1,0 +1,26 @@
+P9-B Green, run 2 of 2: the 14 mutants of spec P9-B5 and P9-B13.
+The 4 C2 mutants ran in run 1 (capture p9b-green-mutants-c2.txt, code commit 6f38383d). The 10 review-page mutants ran now, at code commit e0592708.
+Each review-page mutant changed one file, ran the file storytime-print-review-more.test.ts with the default timeout (no flag), and put the file back from a backup. cmp printed no difference after each run. git status of dashboard/lib and content is clean after the 10 runs. The scripts stood outside the repository.
+Mutants that need data or a picture file changed that file for the run only (w08.json, pictures.json, or one line PNG): the file is back at its commit state.
+
+C2 mutants (run 1):
+C2-a the old values of c and S: caught by C2-ink, C2-book, C2-all-letters
+C2-b c, s, and d at the left middle: caught by C2-taught, C2-ink, C2-book, C2-all-letters
+C2-c the letter u removed: caught by C2-keys, C2-ink, C2-all-letters
+C2-d the dot of d 0.5 mm left: caught by C2-ink, C2-book, C2-all-letters
+
+Review-page mutants (run 2):
+RM1 (a pair text with an untaught word): 7/10 pass; failed cases: RM-data, RM-decodable, RM-no-picture; expected case RM-decodable: CAUGHT
+RM2 (a picture row of a week outside the day): 9/10 pass; failed cases: RM-pictures; expected case RM-pictures: CAUGHT
+RM3 (pictureOrder as the identity): 0/10 pass; failed cases: RM-count, RM-order, RM-stable, RM-data, RM-pictures, RM-decodable, RM-no-position, RM-steps, RM-no-picture, RM-fit; expected case RM-data: CAUGHT
+RM4 (a position-mark on the page): 9/10 pass; failed cases: RM-no-position; expected case RM-no-position: CAUGHT
+RM5 (extraBlock removed from one step-map entry): 9/10 pass; failed cases: RM-steps; expected case RM-steps: CAUGHT
+RM6 (the four pages appended after page 136): 6/10 pass; failed cases: RM-order, RM-no-position, RM-steps, RM-fit; expected case RM-order: CAUGHT
+RM7 (a blank page added at the end): 9/10 pass; failed cases: RM-count; expected case RM-count: CAUGHT
+RM8 (the sentence equal to a pair): 9/10 pass; failed cases: RM-data; expected case RM-data: CAUGHT
+RM9 (paperMore on day 1): 3/10 pass; failed cases: RM-count, RM-order, RM-stable, RM-data, RM-no-position, RM-steps, RM-fit; expected case RM-data: CAUGHT
+RM10 (a changed byte in one line file): 7/10 pass; failed cases: RM-pictures, RM-no-position, RM-fit; expected case RM-pictures: CAUGHT
+Note on RM3: the identity pictureOrder fails the schema rule (permutation with no fixed point) when the week file parses, so every case of the file fails. RM-data is among them.
+Note on RM1: the changed row text is in pictures.json (the cases read the row text); RM-decodable names the untaught word.
+
+mutants: 14, caught: 14

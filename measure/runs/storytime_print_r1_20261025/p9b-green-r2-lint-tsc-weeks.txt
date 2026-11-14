@@ -1,0 +1,7 @@
+P9-B Green, run 2 of 2: lint, tsc, and the week check at code commit e0592708. Each command ran in one heavy-run wrapper.
+PROJECT_LINT: cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts
+exit: 0 (no output)
+tsc: cd dashboard && npx tsc --noEmit
+exit: 0 (no output)
+check-weeks: cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2
+exit: 0. Summary line: 8 package(s), 0 failed check(s), 8 warning(s). 359 PASS rows and 0 FAIL rows, so no FAIL row at all (the published row prints PASS).

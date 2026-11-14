@@ -1,0 +1,37 @@
+P9-B Green, run 2 of 2: the gates at code commit e0592708 (HEAD 035a9d4b plus the code commit).
+Command: GREEN_TEST_COMMAND_P9B (spec line 716), with no --testTimeout flag, in one heavy-run wrapper, JSON reporter.
+Result: exit 1. 828 checks pass and 6 fail.
+The 6 failures are F3-order weeks 2 to 7 in storytime-print-f3-script-order.test.ts. They wait for the F3 content commit after the Step B build of 2026-11-16. No other failure.
+Run 1 had 815 pass and 19 fail. The w08 content commit, the Red retries R1 and R2, and the score strip fix closed the other 13.
+The review-page file passes 10 of 10. The C2 file passes 6 of 6 without a flag (D-P9B-G1).
+
+Per-file summary:
+storytime-loops-checks.test.ts: 38/38 pass
+storytime-loops-content.test.ts: 104/104 pass
+storytime-loops-manual.test.ts: 10/10 pass
+storytime-loops-schema.test.ts: 27/27 pass
+storytime-loops-share-content.test.ts: 75/75 pass
+storytime-loops-teacher-book.test.ts: 6/6 pass
+storytime-manual.test.ts: 27/27 pass
+storytime-package-sound-stages.test.ts: 52/52 pass
+storytime-print-a48-part2.test.ts: 27/27 pass
+storytime-print-a48-part3a.test.ts: 16/16 pass
+storytime-print-a48-step2.test.ts: 39/39 pass
+storytime-print-binding-practice.test.ts: 4/4 pass
+storytime-print-c2-start-table.test.ts: 6/6 pass
+storytime-print-d4-prompt.test.ts: 6/6 pass
+storytime-print-dictation-case.test.ts: 2/2 pass
+storytime-print-f3-script-order.test.ts: 5/11 pass (F3-order weeks 2, 3, 4, 5, 6, 7 fail)
+storytime-print-r6v2-fixes.test.ts: 20/20 pass
+storytime-print-review-more.test.ts: 10/10 pass
+storytime-print-step-system.test.ts: 57/57 pass
+storytime-print-student-book-adversarial-r2.test.ts: 49/49 pass
+storytime-print-student-book-adversarial.test.ts: 55/55 pass
+storytime-print-student-book.test.ts: 77/77 pass
+storytime-print-teacher-book-adversarial.test.ts: 28/28 pass
+storytime-print-teacher-book.test.ts: 11/11 pass
+storytime-print-v15.test.ts: 28/28 pass
+storytime-print-weeks-2-8.test.ts: 5/5 pass
+storytime-week.test.ts: 44/44 pass
+total: 828 passed, 6 failed
+exit: 1
