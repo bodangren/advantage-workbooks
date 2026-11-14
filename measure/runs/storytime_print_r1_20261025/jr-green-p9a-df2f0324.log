@@ -1,0 +1,91 @@
+Measure Green log: the r6-v2 fix batch (P9)
+
+- date: 2026-11-14, end time 15:36 ICT
+- role: measure-jr-green, model `claude-code/claude-sonnet-5-5` (Anthropic; the Red role used DeepSeek, so the family rule holds)
+- track: storytime_print_r1_20261025
+- phase: P9
+- phase_base_sha: ff951f24e1c82313b7e7d9d96f58057aec44c54a
+- role_base_sha: df2f0324
+- Red commits inside phase_base_sha..HEAD: d737206a (the test file), ff60c1fe (captures), 63ba42db (plan), 39c794c3 and df2f0324 (logs)
+- coder subagent: none. The role did all the work.
+
+Commits
+
+1. cfb0e680 measure(plan): the Green task set to `[~]`. One plan line changed.
+2. e0350881 feat(print): the code, the fix table, and the four filled files. 10 files, 317 insertions, 7 deletions.
+3. ca65edc7 measure(runs): the Green captures `p9a-green-*`.
+4. e73b9dea measure(plan): the Green task set to `[x]` with the SHA e035088, and one evidence sub-line. Plan diff: 1 line changed, 1 line added. No Thai line changed.
+5. This log.
+
+Targeted Red command
+
+- The role did not rerun `RED_TEST_COMMAND_P9A` before the code. It read the Red capture `p9a-red.txt` instead: `exit: 1` with 19 of 20 checks failed, on the head that holds no change to the test or to the code.
+- The first Green run of `GREEN_TEST_COMMAND_P9A` failed 4 checks (X3: the filled files had 3 channels, not 1). The fix of finding 2 made the run pass. The final run gave `exit: 0` with 403 of 403 tests.
+
+What the code does
+
+- `dashboard/lib/storytime/print/line-art-fix.ts` (new): the table type, `readStorytimeLineArtFixTable`, `applyStorytimeLineArtFixes`, and `fillStorytimeLineArtHair` (a 4-connected flood fill with the checks of P9-A5).
+- `dashboard/lib/storytime/print/picture-check.ts`: `resolveStorytimePictureFiles` passes its result through `applyStorytimeLineArtFixes`. This one call covers `readers.ts`, `student-book.ts`, and the card kit check.
+- `dashboard/lib/storytime/print/student-book.ts`: `.picture-box` is `0.6mm solid`; the constant `NOSE_CLIP_ROWS`; `data-edge-ink="clip"` on the two nose boxes; the one clip rule.
+- `dashboard/lib/storytime/print/readers.ts`: `.tear-tick` takes `left: -0.25mm` and `border-left: 2px solid #000`.
+- `dashboard/scripts/storytime/make-line-art-hair-fill.ts` (new): `--write` and `--check`.
+- `content/storytime/l2/print/pictures-line-fix.json` (new): five entries (D1 ten, four D7 hair rows).
+- `content/storytime/l2/print/pictures-fix/` (new): four 8-bit gray PNG files, 4000 x 3000 px, made with `--write`.
+
+Gates (each in one heavy-run wrapper)
+
+- `GREEN_TEST_COMMAND_P9A`: 13 files, 403 tests, `exit: 0` (`p9a-green-green.txt`, `p9a-green-green.json`).
+- Full `GREEN_TEST_COMMAND`: 41 files, 870 tests, `exit: 0` (`p9a-green-full.txt`, `p9a-green-full.json`).
+- `PROJECT_TESTS`: 70 files, 1795 tests, `exit: 0` (`p9a-green-project.txt`, `p9a-green-project.json`). The first run failed 1 test (J18, "the content folder is clean") only because the new files were not committed yet. The second run, after the code commit, passed. No `storytime-print-*` file timed out.
+- `PROJECT_LINT`: `exit: 0` (`p9a-green-lint.txt`).
+- `PROJECT_CHECKS`: `check-weeks` printed 8 packages, 0 failed checks, and `tsc --noEmit` passed, `exit: 0` (`p9a-green-checks.txt`).
+- Hair check: `hair fills equal 4 of 4`, `exit: 0` (`p9a-green-hair.txt`).
+- Scope guard: `files: 10`, `outside: 0`, 0 test files, 0 week files, and the diff stat of `content/storytime/l2/media` and `content/storytime/l2/print/pictures` prints no line (`p9a-green-scope.txt`).
+- Pre-edit check: `git status --porcelain` on the three folders printed nothing (`p9a-green-r4.txt`, `files: 0`).
+- Fast gate: both files listed; `ls pictures-fix | wc -l` prints 4; `grep -c "line-art-fix" picture-check.ts` prints 1; the `.picture-box` grep prints 1.
+- `pnpm-lock.yaml` did not change. Thai masking: 4 captures held Thai text from the teacher book usage lines and now show `[th]`; every `p9a-green-*` file holds 0 Thai characters.
+
+Mutants (`p9a-green-mutants.txt`: `mutants: 13, caught: 13`)
+
+- M1, M2, M3 (resolver): caught by X1c, X1c, X1d.
+- M4, M5 (hair seed on a line pixel, in the face): caught by X1a.
+- M6 (fill value 128): caught by X4e.
+- M7 (fill one pixel wider): caught by check (b) of X3. M7 is a data mutant: a hair file with one extra black pixel outside the box, with the table SHA-256 changed to match, so that only the pixel checks can catch it.
+- M8 (dashed `.picture-box`), M9 (tick `0.5mm`), M10 (clip rule gone), M11 (mark on every box): caught by X5, X6, X7b, X7a.
+- M12 (the ten entry points to the apples file): caught by X2.
+- M13 (an entry for the map row): caught by X3g.
+- Each file was restored from a saved copy and compared with `cmp` (`restored` on each line).
+
+Findings for the reviewers
+
+1. M7 at function level: a fill that dilates by one pixel gives the same pixels on the four shipped files, because the ink ring around each hair region is 0 already (the log line "M7a" shows `hair check exit 0`). A test with a gray ring pixel in a synthetic image would catch it. No test covers it. This is a coverage gap of the Red tests, not a defect of the code.
+2. The first `--write` produced 3-channel PNG files, and the test (f) failed. The script now calls `toColourspace('b-w')` and the files are 1 channel. The four files were deleted and made again before the code commit. Only the final files are in the history.
+3. The plan task line ends with `Done when: e035088`, because the task has sub-bullets. The evidence sub-line holds the other facts.
+
+Deferred tasks
+
+- No task changed to `[b]`. Each of the four pending tasks after the Green task (the PM hand-off, the code tests on the r6-v2 proof, the owner gate, the print order) stays `[ ]`, as they were.
+
+MEASURE_AGENT_RESULT
+status: done
+role: measure-jr-green
+track: storytime_print_r1_20261025
+phase: P9
+phase_base_sha: ff951f24e1c82313b7e7d9d96f58057aec44c54a
+role_base_sha: df2f0324
+red_commit: d737206a
+code_commit: e0350881
+green_head_before_log: e73b9dea
+commits: cfb0e680, e0350881, ca65edc7, e73b9dea, and the log commit
+tasks_flipped_x: Task (Green, r6-v2 fix batch) with e035088
+tasks_flipped_b: none
+gates: GREEN_TEST_COMMAND_P9A 13 files 403 tests exit 0; GREEN_TEST_COMMAND 41 files 870 tests exit 0; PROJECT_TESTS 70 files 1795 tests exit 0; PROJECT_LINT exit 0; PROJECT_CHECKS exit 0
+hair_check: hair fills equal 4 of 4
+mutants: 13, caught: 13
+scope: outside: 0; diff stat of l2/media and l2/print/pictures prints no line
+new_files: dashboard/lib/storytime/print/line-art-fix.ts; dashboard/scripts/storytime/make-line-art-hair-fill.ts; content/storytime/l2/print/pictures-line-fix.json; content/storytime/l2/print/pictures-fix/ (4 PNG files); captures p9a-green-*
+changed_files: dashboard/lib/storytime/print/picture-check.ts; student-book.ts; readers.ts
+test_files_changed: none
+end_time: 15:36 ICT
+handoff: The student book v18 build can start from the commit e0350881 (or a later head). Reviewers should read finding 1 (the M7 coverage gap at function level) and decide if a Red retry is wanted. The print files use the fix table, so a later change of `l2/media/w02/family/ten.jpg` stops the build with `line-art fix:` (wanted, spec P9-A4).
+END_MEASURE_AGENT_RESULT
