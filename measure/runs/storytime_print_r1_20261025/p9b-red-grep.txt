@@ -1,0 +1,57 @@
+P9-B Red: the grep record of the pin-edit scope (2026-11-14)
+Track: storytime_print_r1_20261025, Phase 9, plan task "Red, C2, F3, and the review pages" (P9-B12)
+Command: grep -rlnE "TRACE_START_EM|trace-words|\b136\b|review-5|REVIEW_BLOCKS|P14_PATHS" dashboard/__tests__
+HEAD before the edits: d7462aa8
+
+13 hits. 8 are real hits on the print book or the trace table; 3 are false positives; 2 are the
+new files of this batch.
+
+1. dashboard/__tests__/storytime-print-a48-step2.test.ts
+   changes. U2-count and U4-order hold the page count 136, and U4-chrome holds the page list
+   (A1, A2, B1, C1, D1, E1). P9-B12 pins them to 140 pages and to the 9 kinds of pages 132 to 140.
+
+2. dashboard/__tests__/storytime-print-binding-practice.test.ts
+   changes. The case holds 136 pages, the week 8 kind list, and the last page number 136. P9-B12
+   pins them to 140 pages and to the page 140.
+
+3. dashboard/__tests__/storytime-print-v15.test.ts
+   changes. F1-numbers holds 136 pages in the title and in the assertion. P9-B12 pins them to 140.
+   The file holds Thai lines; the edit is digit-only.
+
+4. dashboard/__tests__/storytime-print-a48-part2.test.ts
+   changes. The teacher book page table holds the E1 page 136. P9-B12 pins E1 to 139 and adds the
+   B1, C1, and D1 ranges of P9-B8. The file holds Thai lines; the added entries copy the gloss
+   bytes of the A2 entry of the same line, so no Thai text is authored.
+
+5. dashboard/__tests__/storytime-loops-content.test.ts
+   changes. The additive compare against the baseline commit 23ad4cf8 allows the P14_PATHS of each
+   week. P9-B6 pins a second list, P9B_PATHS, for the D4 keys of weeks 2 to 7 and the week 8 paths
+   of P9-B9 and P9-B12.
+
+6. dashboard/__tests__/storytime-loops-share-content.test.ts
+   changes. The same additive compare and the same P9B_PATHS list.
+
+7. dashboard/__tests__/storytime-print-step-system.test.ts
+   no change. It reads the key count of TRACE_START_EM with "at least 18" and loops over the
+   entries. The table of P9-B3 holds 32 values, so the check still holds (P9-B4).
+
+8. dashboard/__tests__/storytime-print-a48-part3a.test.ts
+   no change. It reads TRACE_START_EM as the fallback of the start of stroke 1 and uses the stroke
+   table first. The 7 taught letters keep their values (P9-B4).
+
+9. dashboard/__tests__/storytime-print-c2-start-table.test.ts
+   no change. The new file of Red run 1.
+
+10. dashboard/__tests__/storytime-print-review-more.test.ts
+    no change. The new file of Red run 3a.
+
+11. dashboard/__tests__/quest-cover-leafmark.test.ts
+    no change (false positive). The hit is the CSS value 136.26mm of the quest cover footer.
+
+12. dashboard/__tests__/storytime-package-practice-clips.test.ts
+    no change (false positive). The hit is the word-slot count 136 of the practice clips.
+
+13. dashboard/__tests__/storytime-package-raster.test.ts
+    no change (false positive). The hit is the blue channel value 136 of an RGB triple.
+
+Result: 6 files change, 5 files need no change (3 of them false positives).

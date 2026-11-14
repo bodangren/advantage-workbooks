@@ -22,14 +22,14 @@ describe('Storytime print binding pad and practice rules', () => {
         expect(STORYTIME_PRINT_PROFILE).toHaveProperty('bindingPageMultiple', 4);
     });
 
-    it('fills the 8-week book to 136 pages with the benchmark before Review 1 and no pad at the end (A-48 U4)', () => {
+    it('fills the 8-week book to 140 pages with the benchmark before Review 1 and no pad at the end (A-48 U4)', () => {
         const pages = Array.from(documentOf(shippedWeeks()).querySelectorAll('.student-page'));
 
-        expect(pages).toHaveLength(136);
-        expect(pages.slice(128).map((page) => page.getAttribute('data-page-kind'))).toEqual(['blank', 'benchmark', 'benchmark', 'review', 'review', 'review', 'review', 'review']);
+        expect(pages).toHaveLength(140);
+        expect(pages.slice(128).map((page) => page.getAttribute('data-page-kind'))).toEqual(['blank', 'benchmark', 'benchmark', 'review', 'review', 'review-more', 'review', 'review-more', 'review', 'review-more', 'review', 'review-more']);
         expect(pages[129]?.getAttribute('data-page-number')).toBe('130');
-        expect(pages[135]?.getAttribute('data-page-kind')).toBe('review');
-        expect(pages[135]?.getAttribute('data-page-number')).toBe('136');
+        expect(pages[139]?.getAttribute('data-page-kind')).toBe('review-more');
+        expect(pages[139]?.getAttribute('data-page-number')).toBe('140');
     }, 120_000);
 
     it('keeps the week 1 book at 20 pages without an end pad', () => {

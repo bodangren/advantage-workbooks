@@ -264,9 +264,9 @@ describe('v15 AX: week 2 names the axe, not the alligator', () => {
 // ---------------------------------------------------------------------------------------------
 
 describe('v15 F1/E50: each home-card page carries its page number', () => {
-    it('F1-numbers: the 14 home-card pages print their own page number; the book stays at 136 pages', async () => {
+    it('F1-numbers: the 14 home-card pages print their own page number; the book stays at 140 pages', async () => {
         const { doc } = await book();
-        expect(doc.querySelectorAll('.student-page')).toHaveLength(136);
+        expect(doc.querySelectorAll('.student-page')).toHaveLength(140);
         const cards = Array.from(doc.querySelectorAll('.student-page[data-page-kind="home-front"], .student-page[data-page-kind="home-back"]'));
         const numbers = cards.map((page) => Number(page.getAttribute('data-page-number')));
         expect(numbers).toEqual([7, 8, 25, 26, 43, 44, 61, 62, 79, 80, 97, 98, 115, 116]);

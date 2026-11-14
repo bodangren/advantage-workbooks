@@ -1,0 +1,71 @@
+P9-B Red: the full run of RED_TEST_COMMAND_P9B (storytime_print_r1_20261025)
+Command: vitest run
+Base: d7462aa8 (before the pin edits)
+
+=== storytime-loops-content.test.ts: 104 passed, 0 failed ===
+
+=== storytime-loops-share-content.test.ts: 75 passed, 0 failed ===
+
+=== storytime-print-a48-part2.test.ts: 26 passed, 1 failed ===
+  failed: A-48 part 2, U8: the teacher book (step badge, student book pages, questions in D3) U8-pages: the materials name the printed page of the student book ("[TH] [TH] N")
+    first line: AssertionError: week 8 B1: expected '[TH]: books (one for each pair)…' to contain '[TH] [TH] 133–134'
+
+=== storytime-print-a48-step2.test.ts: 36 passed, 3 failed ===
+  failed: A-48 U2: the write pages (E11 to E16) U2-count: the book keeps 140 pages
+    first line: AssertionError: expected 136 to be 140 // Object.is equality
+  failed: A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) U4-order: the book keeps 140 pages; the benchmark takes pages 130 and 131 before Review 1 (page 132), and the 9 page kinds of pages 132 to 140 follow it, with no pad at the end (B23)
+    first line: AssertionError: expected [ Array(136) ] to have a length of 140 but got 136
+  failed: A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) U4-chrome: each benchmark and review page has the week header, the page number, and the step badge (A1, A1, A2, B1, B1, C1, C1, D1, D1, E1, E1)
+    first line: AssertionError: expected 'C1' to be 'B1' // Object.is equality
+
+=== storytime-print-binding-practice.test.ts: 3 passed, 1 failed ===
+  failed: Storytime print binding pad and practice rules fills the 8-week book to 140 pages with the benchmark before Review 1 and no pad at the end (A-48 U4)
+    first line: AssertionError: expected [ Array(136) ] to have a length of 140 but got 136
+
+=== storytime-print-c2-start-table.test.ts: 2 passed, 4 failed ===
+  failed: C2: the start table of the trace words (P9-B2 to P9-B5) C2-keys: the table holds exactly the 26 lowercase letters a to z and the 6 uppercase letters G, H, I, P, S, T
+    first line: AssertionError: the table has no value for "j"
+  failed: C2: the start table of the trace words (P9-B2 to P9-B5) C2-ink: each of the 32 values equals the pinned value of P9-B3 and sits 0.02 em or more inside the Andika glyph
+    first line: AssertionError: the value of "c" is 0.4272, 0.3873; the table of P9-B3 says 0.4, 0.445
+  failed: C2: the start table of the trace words (P9-B2 to P9-B5) C2-book: every trace dot of weeks 1 to 7 sits at the absolute spec position within 0.3 mm
+    first line: AssertionError: the dot of "can." (page 23) sits 0.50 mm from the spec start of "c"
+  failed: C2: the start table of the trace words (P9-B2 to P9-B5) C2-all-letters: traceLineLayout gives a dot for each of the 26 lowercase letters and throws for a letter outside the table
+    first line: AssertionError: the dot of "c" sits at 3.3151, 3.0054 mm; the table of P9-B3 gives 3.1040, 3.4532 mm
+
+=== storytime-print-f3-script-order.test.ts: 5 passed, 6 failed ===
+  failed: F3: the D4 teacher script follows the page (P9-B6) F3-order week 2: the D4 rows and the D4 script name the same items in one order
+    first line: AssertionError: the D4 script of week 2 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+  failed: F3: the D4 teacher script follows the page (P9-B6) F3-order week 3: the D4 rows and the D4 script name the same items in one order
+    first line: AssertionError: the D4 script of week 3 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+  failed: F3: the D4 teacher script follows the page (P9-B6) F3-order week 4: the D4 rows and the D4 script name the same items in one order
+    first line: AssertionError: the D4 script of week 4 names "find the word" later than the item above it; the page order is trace, draw, choice, line
+  failed: F3: the D4 teacher script follows the page (P9-B6) F3-order week 5: the D4 rows and the D4 script name the same items in one order
+    first line: AssertionError: the D4 script of week 5 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+  failed: F3: the D4 teacher script follows the page (P9-B6) F3-order week 6: the D4 rows and the D4 script name the same items in one order
+    first line: AssertionError: the D4 script of week 6 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+  failed: F3: the D4 teacher script follows the page (P9-B6) F3-order week 7: the D4 rows and the D4 script name the same items in one order
+    first line: AssertionError: the D4 script of week 7 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+
+=== storytime-print-review-more.test.ts: 3 passed, 7 failed ===
+  failed: RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-count: the compiled student book has 140 pages, a multiple of 4, and no end padding
+    first line: AssertionError: the pages of the compiled student book: expected 136 to be 140 // Object.is equality
+  failed: RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-order: after page 131 the week 8 page kinds are review, review, review-more, review, review-more, review, review-more, review, review-more
+    first line: AssertionError: the pages of the compiled student book: expected 136 to be greater than or equal to 140
+  failed: RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-data: days 2 to 5 hold paperMore with 4 pairs, a pictureOrder with no fixed point, and a read entry
+    first line: AssertionError: day 2 has no paperMore field
+  failed: RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-pictures: each picture row of a page is in the list, comes from a week of its day, and passes the SHA-256 check
+    first line: AssertionError: day 2 has no picture rows to check
+  failed: RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-no-position: a review-more page asks no position mark and no sound label
+    first line: AssertionError: page 134 is not a review-more page
+  failed: RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-steps: line 5 of B1, C1, D1, and E1 names the page after it, and the step map rows carry pageEnd
+    first line: AssertionError: line 5 of B1 does not name the page after the review page: "Paper: review page 2 in the student book, then one earlier review page that the child has not done."
+  failed: RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-fit: a review-more page holds 4 match rows, 1 read row, and a score strip of __ / 4, and they fit the page
+    first line: AssertionError: page 134 has 0 picture boxes; the spec has 5
+
+=== storytime-print-v15.test.ts: 27 passed, 1 failed ===
+  failed: v15 F1/E50: each home-card page carries its page number F1-numbers: the 14 home-card pages print their own page number; the book stays at 140 pages
+    first line: AssertionError: expected <section …(3)>…(4)</section>
+
+=== Total: 304 checks (PASS=281, FAIL=23) ===
+failures outside the new cases and the recorded pin edits: 0
+exit: 1

@@ -273,9 +273,9 @@ describe('A-48 U2: the write pages (E11 to E16)', () => {
         expect(mod.storytimePrintPictures(weeks()).length).toBe(196);
     });
 
-    it('U2-count: the book keeps 136 pages', async () => {
+    it('U2-count: the book keeps 140 pages', async () => {
         const { doc } = await book();
-        expect(doc.querySelectorAll('.student-page').length).toBe(136);
+        expect(doc.querySelectorAll('.student-page').length).toBe(140);
     });
 });
 
@@ -297,25 +297,26 @@ async function checkRowIds(): Promise<Map<string, string>> {
 const idsOf = (root: ParentNode): string[] => Array.from(root.querySelectorAll('[data-picture-id]'), (element) => element.getAttribute('data-picture-id') ?? '');
 
 describe('A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23)', () => {
-    it('U4-order: the book keeps 136 pages; the benchmark takes pages 130 and 131 before Review 1 (page 132 to 136), with no pad at the end (B23)', async () => {
+    it('U4-order: the book keeps 140 pages; the benchmark takes pages 130 and 131 before Review 1 (page 132), and the 9 page kinds of pages 132 to 140 follow it, with no pad at the end (B23)', async () => {
         const { doc } = await book();
         const list = pages(doc);
-        expect(list).toHaveLength(136);
-        expect(list.map((page) => page.getAttribute('data-page-kind')).slice(128)).toEqual(['blank', 'benchmark', 'benchmark', 'review', 'review', 'review', 'review', 'review']);
+        expect(list).toHaveLength(140);
+        expect(list.map((page) => page.getAttribute('data-page-kind')).slice(128)).toEqual(['blank', 'benchmark', 'benchmark', 'review', 'review', 'review-more', 'review', 'review-more', 'review', 'review-more', 'review', 'review-more']);
         expect(list.map((page) => page.getAttribute('data-page-number'))).toEqual(list.map((_page, index) => String(index + 1)));
     });
 
-    it('U4-chrome: each benchmark and review page has the week header, the page number, and the step badge (A1, A2, B1, C1, D1, E1)', async () => {
+    it('U4-chrome: each benchmark and review page has the week header, the page number, and the step badge (A1, A1, A2, B1, B1, C1, C1, D1, D1, E1, E1)', async () => {
         const { doc } = await book();
         const list = pages(doc).slice(129);
-        const codes = ['A1', 'A1', ...REVIEW_CODES];
+        const codes = ['A1', 'A1', 'A2', 'B1', 'B1', 'C1', 'C1', 'D1', 'D1', 'E1', 'E1'];
         list.forEach((page, index) => {
             expect(text(page.querySelector('[data-part="week-label"]')!), `page ${130 + index}`).toBe('Week 8 · สัปดาห์ที่ 8');
             expect(text(page.querySelector('[data-part="page-number"]')!)).toBe(String(130 + index));
             expect(page.querySelector('[data-part="step-badge"]')!.getAttribute('data-step')).toBe(codes[index]);
         });
         expect(text(list[0].querySelector('.page-title')!)).toBe('Benchmark 1');
-        list.slice(2).forEach((page, index) => expect(text(page.querySelector('.page-title')!)).toBe(`Review ${index + 1}`));
+        const titles = ['Review 1', 'Review 2', 'Review 2 more', 'Review 3', 'Review 3 more', 'Review 4', 'Review 4 more', 'Review 5', 'Review 5 more'];
+        list.slice(2).forEach((page, index) => expect(text(page.querySelector('.page-title')!)).toBe(titles[index]));
     });
 
     it('U4-bench1: rows 1 to 8 print 3 pictures each, numbered, with the first-sound or last-sound mark and a head for each group (B22, E43)', async () => {

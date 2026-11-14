@@ -1,0 +1,63 @@
+P9-B Red: the pin edits of P9-B12 (2026-11-14)
+Track: storytime_print_r1_20261025, Phase 9, plan task "Red, C2, F3, and the review pages"
+Base before the edits: d7462aa8
+A Thai character or run prints as [TH]. No Thai text is written by this record.
+
+A. dashboard/__tests__/storytime-print-a48-step2.test.ts (8 edits)
+  276  old: it('U2-count: the book keeps 136 pages', ...
+       new: it('U2-count: the book keeps 140 pages', ...
+  278  old: expect(doc.querySelectorAll('.student-page').length).toBe(136);
+       new: expect(doc.querySelectorAll('.student-page').length).toBe(140);
+  300  old: it('U4-order: the book keeps 136 pages; ... Review 1 (page 132 to 136), with no pad at the end (B23)'
+       new: it('U4-order: the book keeps 140 pages; ... Review 1 (page 132), and the 9 page kinds of
+            pages 132 to 140 follow it, with no pad at the end (B23)'
+  303  old: expect(list).toHaveLength(136);
+       new: expect(list).toHaveLength(140);
+  304  old: kinds ['blank', 'benchmark', 'benchmark', 'review', 'review', 'review', 'review', 'review']
+       new: kinds ['blank', 'benchmark', 'benchmark', 'review', 'review', 'review-more', 'review',
+            'review-more', 'review', 'review-more', 'review', 'review-more']
+  308  old: (A1, A2, B1, C1, D1, E1)
+       new: (A1, A1, A2, B1, B1, C1, C1, D1, D1, E1, E1)
+  311  old: const codes = ['A1', 'A1', ...REVIEW_CODES];
+       new: const codes = ['A1', 'A1', 'A2', 'B1', 'B1', 'C1', 'C1', 'D1', 'D1', 'E1', 'E1'];
+  318  old: list.slice(2).forEach(...).toBe(`Review ${index + 1}`)
+       new: const titles = ['Review 1', 'Review 2', 'Review 2 more', 'Review 3', 'Review 3 more',
+            'Review 4', 'Review 4 more', 'Review 5', 'Review 5 more']; list.slice(2).forEach(...)
+            .toBe(titles[index])
+
+B. dashboard/__tests__/storytime-print-v15.test.ts (2 edits, digit-only)
+  267  old: it('F1-numbers: ...; the book stays at 136 pages', ...
+       new: it('F1-numbers: ...; the book stays at 140 pages', ...
+  269  old: expect(doc.querySelectorAll('.student-page')).toHaveLength(136);
+       new: expect(doc.querySelectorAll('.student-page')).toHaveLength(140);
+
+C. dashboard/__tests__/storytime-print-a48-part2.test.ts (1 edit on one line)
+  311  old: [8, 'A1', '[TH] [TH] 130–131'], [8, 'A2', '[TH] [TH] 132'], [8, 'E1', '[TH] [TH] 136'], ...
+       new: [8, 'A1', '[TH] [TH] 130–131'], [8, 'A2', '[TH] [TH] 132'],
+            [8, 'B1', '[TH] [TH] 133–134'], [8, 'C1', '[TH] [TH] 135–136'],
+            [8, 'D1', '[TH] [TH] 137–138'], [8, 'E1', '[TH] [TH] 139'], ...
+       The gloss bytes of the three new entries are a byte copy of the A2 entry of the same line.
+       The numbers are the ranges of P9-B8 and P9-B12.
+
+D. dashboard/__tests__/storytime-print-binding-practice.test.ts (4 edits, the file holds no Thai)
+  25    old: it('fills the 8-week book to 136 pages ...')
+        new: it('fills the 8-week book to 140 pages ...')
+  28    old: expect(pages).toHaveLength(136);
+        new: expect(pages).toHaveLength(140);
+  29    old: kinds [... 'review', 'review', 'review', 'review', 'review']
+        new: kinds [... 'review', 'review-more', 'review', 'review-more', 'review', 'review-more',
+             'review', 'review-more']
+  31-32 old: pages[135] kind 'review' and page number '136'
+        new: pages[139] kind 'review-more' and page number '140'
+
+E. dashboard/__tests__/storytime-loops-content.test.ts (2 insertions)
+  443  new: const P9B_PATHS: Record<number, string[]>, after P14_PATHS: the D4 keys of weeks 2 to 7
+       and the week 8 paths of P9-B9 and P9-B12.
+  489  new: the second loop of p14Align over P9B_PATHS[n]. A path whose shipped value is undefined is
+       skipped, so a new field does not fail the compare before the content commit adds it.
+
+F. dashboard/__tests__/storytime-loops-share-content.test.ts (2 insertions)
+  167  new: const P9B_PATHS, the same list.
+  201  new: the second loop of p14Align over P9B_PATHS[n].
+
+Every edit is proved with git diff through the Thai mask. The mask prints [TH] in place of Thai.

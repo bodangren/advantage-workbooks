@@ -166,6 +166,25 @@ const P14_PATHS: Record<number, string[]> = {
     8: ['focus.paSkill', 'focus.paStage', 'opening.pa.2', 'opening.pa.4', 'scripts.0.steps.0.en.teacherActions', 'scripts.0.steps.0.th.teacherActions', 'scripts.0.steps.0.en.teacherLanguage', 'scripts.0.steps.0.th.teacherLanguage', 'benchmark.paper.items.4', 'benchmark.paper.items.5', 'benchmark.paper.items.6', 'benchmark.paper.items.7', 'tags.reviewed'],
 };
 
+/**
+ * The P9-B allow list of the additive compare (spec P9-B6, pin edit of P9-B12): the D4 keys of weeks
+ * 2 to 7 and the week 8 paths of P9-B9 and P9-B12. A path that the shipped week does not hold yet is
+ * skipped, so a new field does not fail the compare before the content commit adds it.
+ */
+const P9B_PATHS: Record<number, string[]> = {
+    2: ['scripts.3.steps.3.en.teacherActions', 'scripts.3.steps.3.th.teacherActions', 'scripts.3.steps.3.en.teacherLanguage', 'scripts.3.steps.3.th.teacherLanguage', 'scripts.3.steps.3.en.studentActions', 'scripts.3.steps.3.th.studentActions'],
+    3: ['scripts.3.steps.3.en.teacherActions', 'scripts.3.steps.3.th.teacherActions', 'scripts.3.steps.3.en.teacherLanguage', 'scripts.3.steps.3.th.teacherLanguage', 'scripts.3.steps.3.en.studentActions', 'scripts.3.steps.3.th.studentActions'],
+    4: ['scripts.3.steps.3.en.teacherActions', 'scripts.3.steps.3.th.teacherActions', 'scripts.3.steps.3.en.teacherLanguage', 'scripts.3.steps.3.th.teacherLanguage', 'scripts.3.steps.3.en.studentActions', 'scripts.3.steps.3.th.studentActions'],
+    5: ['scripts.3.steps.3.en.teacherActions', 'scripts.3.steps.3.th.teacherActions', 'scripts.3.steps.3.en.teacherLanguage', 'scripts.3.steps.3.th.teacherLanguage', 'scripts.3.steps.3.en.studentActions', 'scripts.3.steps.3.th.studentActions'],
+    6: ['scripts.3.steps.3.en.teacherActions', 'scripts.3.steps.3.th.teacherActions', 'scripts.3.steps.3.en.teacherLanguage', 'scripts.3.steps.3.th.teacherLanguage', 'scripts.3.steps.3.en.studentActions', 'scripts.3.steps.3.th.studentActions'],
+    7: ['scripts.3.steps.3.en.teacherActions', 'scripts.3.steps.3.th.teacherActions', 'scripts.3.steps.3.en.teacherLanguage', 'scripts.3.steps.3.th.teacherLanguage', 'scripts.3.steps.3.en.studentActions', 'scripts.3.steps.3.th.studentActions'],
+    8: ['block.days.1.paperMore', 'block.days.2.paperMore', 'block.days.3.paperMore', 'block.days.4.paperMore',
+        'scripts.1.steps.0.en.teacherActions', 'scripts.1.steps.0.th.teacherActions',
+        'scripts.2.steps.0.en.teacherActions', 'scripts.2.steps.0.th.teacherActions',
+        'scripts.3.steps.0.en.teacherActions', 'scripts.3.steps.0.th.teacherActions',
+        'scripts.4.steps.0.en.teacherActions', 'scripts.4.steps.0.th.teacherActions'],
+};
+
 
 /**
  * The Phase 14 alignment of the additive compare (Red retry R1, D-R1-2): at each changed path of the change
@@ -177,6 +196,13 @@ function p14Align(week: Raw, shipped: Raw, n: number): Raw {
     for (const path of P14_PATHS[n]) {
         const shippedValue = path.split('.').reduce<unknown>((node, key) => (node == null ? undefined : (node as Record<string, unknown>)[key]), shipped);
         if (shippedValue === undefined) throw new Error(`the Phase 14 path ${path} is missing in the shipped w0${n}`);
+        const parts = path.split('.');
+        const parent = parts.slice(0, -1).reduce<Record<string, unknown>>((node, key) => node[key] as Record<string, unknown>, copy);
+        parent[parts[parts.length - 1]] = structuredClone(shippedValue);
+    }
+    for (const path of P9B_PATHS[n] ?? []) {
+        const shippedValue = path.split('.').reduce<unknown>((node, key) => (node == null ? undefined : (node as Record<string, unknown>)[key]), shipped);
+        if (shippedValue === undefined) continue;
         const parts = path.split('.');
         const parent = parts.slice(0, -1).reduce<Record<string, unknown>>((node, key) => node[key] as Record<string, unknown>, copy);
         parent[parts[parts.length - 1]] = structuredClone(shippedValue);
