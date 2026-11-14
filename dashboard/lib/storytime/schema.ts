@@ -505,6 +505,26 @@ export const CheckItemSchema = z.discriminatedUnion('kind', [
     }),
 ]);
 
+/** One sentence of a "more review" page with its story picture: `picture` is a print list row id, and `text` equals the text of that row. */
+const PaperMoreEntrySchema = z.object({
+    text: z.string().min(1),
+    picture: z.string().min(1),
+}).strict();
+
+/**
+ * The extra review page of a day of week 8 (print spec P9-B9): 4 sentences to match with 4 story pictures,
+ * and 1 sentence to read. `pictureOrder` is the order of the picture column: a permutation of 0 to 3 with no
+ * fixed point, so that no picture stands in the row of its own sentence. The field holds no Thai text.
+ */
+export const PaperMoreSchema = z.object({
+    pairs: z.array(PaperMoreEntrySchema).length(4),
+    pictureOrder: z.array(z.number().int().min(0).max(3)).length(4).refine(
+        (order) => new Set(order).size === 4 && order.every((value, index) => value !== index),
+        { message: 'pictureOrder must be a permutation of 0 to 3 with no fixed point' },
+    ),
+    read: PaperMoreEntrySchema,
+}).strict();
+
 /** One day of a review week (design §3.5): the weeks that its centers and strips use, and the opening medley. */
 export const BlockDaySchema = z.object({
     day: z.number().int().min(1).max(5),
@@ -516,6 +536,8 @@ export const BlockDaySchema = z.object({
     medley: z.array(z.string().min(1)).length(2),
     /** The review page of the day in the student book, for the paper center (circle-word rows and a picture sort). */
     paper: z.array(CheckItemSchema).default([]),
+    /** The extra review page that follows the review page of the day (days 2 to 5 only; print spec P9-B9). */
+    paperMore: PaperMoreSchema.optional(),
 });
 
 /** The teaching weeks that a review week covers, and its day plan (design §3.5). */

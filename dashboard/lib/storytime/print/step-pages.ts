@@ -37,7 +37,7 @@ export interface StorytimeStepMapRow {
     icons: StorytimeIcon[];
     /** The printed page number of the first page of the part. */
     page: number;
-    /** The last page, only when the part has more than one page (the benchmark). */
+    /** The last page, only when the part has more than one page (the benchmark, and a review page with its more page). */
     pageEnd?: number;
 }
 
@@ -62,6 +62,9 @@ export function storytimeStudentBookPages(weeks: StorytimeWeek[], profile: Story
 /** The order of the review pages of week 8: the code of the paper center step of each. */
 const REVIEW_BLOCKS = ['review-1', 'review-2', 'review-3', 'review-4', 'review-5'];
 
+/** The order of the `review-more` pages of week 8: the extra block of days 2 to 5. */
+const REVIEW_MORE_BLOCKS = ['review-more-2', 'review-more-3', 'review-more-4', 'review-more-5'];
+
 /** The pages of one entry of the step map in one week, or undefined when the book has no such page. */
 function entryPage(pages: StorytimeBookPage[], week: number, entry: StorytimeStepEntry): StorytimeStepPage | undefined {
     if (entry.pageKind === 'book-map') {
@@ -71,7 +74,12 @@ function entryPage(pages: StorytimeBookPage[], week: number, entry: StorytimeSte
     const ofWeek = pages.filter((page) => page.kind === entry.pageKind && page.week === week);
     if (entry.pageKind === 'review') {
         const page = ofWeek[REVIEW_BLOCKS.indexOf(entry.block)];
-        return page && { first: page.page, last: page.page };
+        if (!page) return undefined;
+        // A part with an extra block ends on the `review-more` page that follows its review page, when the book has that page.
+        const more = entry.extraBlock
+            ? pages.filter((candidate) => candidate.kind === 'review-more' && candidate.week === week)[REVIEW_MORE_BLOCKS.indexOf(entry.extraBlock)]
+            : undefined;
+        return { first: page.page, last: more && more.page > page.page ? more.page : page.page };
     }
     if (!ofWeek.length) return undefined;
     return { first: ofWeek[0].page, last: ofWeek[ofWeek.length - 1].page };

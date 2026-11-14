@@ -331,6 +331,20 @@ function paperItem(item: StorytimeCheckItem, l: StorytimeLabels): string {
 }
 
 /**
+ * The answer key of the extra review page of a day (print spec P9-B11): each sentence with the number of the picture row that
+ * holds its picture, then the sentence that the child reads. The heading is the review page heading with the suffix "more".
+ * @param day The review day.
+ * @param l The labels of the manual language.
+ * @returns The HTML, or an empty string when the day has no extra page.
+ */
+function moreKey(day: NonNullable<StorytimeWeek['block']>['days'][number], l: StorytimeLabels): string {
+    const more = day.paperMore;
+    if (!more) return '';
+    const items = more.pairs.map((pair, index) => `<li>${escapeHtml(pair.text)} = picture ${more.pictureOrder.indexOf(index) + 1}</li>`).join('');
+    return `<p><strong>${escapeHtml(l.reviewPage(day.day))} more</strong></p><ol>${items}<li>${escapeHtml(more.read.text)}</li></ol>`;
+}
+
+/**
  * The benchmark of a review week (design §3.5): the page that the teacher reads from (the paper items,
  * the one-to-one script, the letter strip, the sound cards, the blend words, and the reading record),
  * the class record sheet, and one reading record form for each decodable.
@@ -358,7 +372,7 @@ function renderBenchmark(w: StorytimeWeek, lang: SupportedLanguage, l: Storytime
     // The answer key of the review pages (the paper center, one page a day).
     const days = [...(w.block?.days ?? [])].filter((d) => d.paper.length).sort((x, y) => x.day - y.day);
     const pages = days.length
-        ? `<h4>${escapeHtml(l.reviewPages)}</h4>${days.map((d) => `<p><strong>${escapeHtml(l.reviewPage(d.day))}</strong></p><ol>${d.paper.map((item) => `<li>${escapeHtml(paperItem(item, l))}</li>`).join('')}</ol>`).join('')}`
+        ? `<h4>${escapeHtml(l.reviewPages)}</h4>${days.map((d) => `<p><strong>${escapeHtml(l.reviewPage(d.day))}</strong></p><ol>${d.paper.map((item) => `<li>${escapeHtml(paperItem(item, l))}</li>`).join('')}</ol>${moreKey(d, l)}`).join('')}`
         : '';
     return `
   <section class="st-bench" id="week-${w.meta.week}-benchmark">

@@ -26,6 +26,8 @@ export interface StorytimeStepEntry {
     icons: StorytimeIcon[];
     /** The short English title of the block. */
     label: string;
+    /** The block of the `review-more` page that follows the page of the part, when the part owns two pages (week 8, days 2 to 5). */
+    extraBlock?: string;
 }
 
 /** The page parts that script steps use. The week check (E5), the book map (C7), and the week 8 pages hold the whole page. */
@@ -40,10 +42,10 @@ export const STORYTIME_STEP_MAP: readonly StorytimeStepEntry[] = [
     // Week 8 (A-48 U4): the benchmark is step A1, and the five review pages are the paper centers of A2, B1, C1, D1, and E1.
     { code: 'A1', steps: ['A1'], pageKind: 'benchmark', block: 'benchmark', icons: ['ear', 'circle', 'pencil'], label: 'Benchmark 1' },
     { code: 'A2', steps: ['A2'], pageKind: 'review', block: 'review-1', icons: ['read', 'circle'], label: 'Review 1' },
-    { code: 'B1', steps: ['B1'], pageKind: 'review', block: 'review-2', icons: ['read', 'circle'], label: 'Review 2' },
-    { code: 'C1', steps: ['C1'], pageKind: 'review', block: 'review-3', icons: ['read', 'circle'], label: 'Review 3' },
-    { code: 'D1', steps: ['D1'], pageKind: 'review', block: 'review-4', icons: ['read', 'circle'], label: 'Review 4' },
-    { code: 'E1', steps: ['E1'], pageKind: 'review', block: 'review-5', icons: ['read', 'circle'], label: 'Review 5' },
+    { code: 'B1', steps: ['B1'], pageKind: 'review', block: 'review-2', icons: ['read', 'circle'], label: 'Review 2', extraBlock: 'review-more-2' },
+    { code: 'C1', steps: ['C1'], pageKind: 'review', block: 'review-3', icons: ['read', 'circle'], label: 'Review 3', extraBlock: 'review-more-3' },
+    { code: 'D1', steps: ['D1'], pageKind: 'review', block: 'review-4', icons: ['read', 'circle'], label: 'Review 4', extraBlock: 'review-more-4' },
+    { code: 'E1', steps: ['E1'], pageKind: 'review', block: 'review-5', icons: ['read', 'circle'], label: 'Review 5', extraBlock: 'review-more-5' },
 ];
 
 /**

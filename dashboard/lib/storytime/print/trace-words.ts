@@ -28,8 +28,10 @@ export const ANDIKA_ADVANCE_EM: Readonly<Record<string, number>> = {
 /**
  * The start of the first stroke of a letter that begins a trace word, in em: x from the left end of
  * the advance, y up from the baseline. A stem letter starts on the top of its stem; a round letter
- * starts at the upper right (a, c, s, G, S) or at the top (o); e starts at the left end of its bar.
- * The points were measured on the Andika regular skeleton and sit inside the glyph ink. A letter of
+ * starts at the upper right (a, c, d, g, q, s, G, S) or at the top (o); e starts at the left end of
+ * its bar; a diagonal letter (v, w, x, y) and u and z start at the upper left. The table holds the 26
+ * lowercase letters and 6 uppercase letters. Each point sits on the glyph ink with an inset of 0.02 em
+ * or more (c and S sit on the arc before the end of the stroke, not on its tip). A letter of
  * unit 1 starts at the first point of stroke 1 of `letter-strokes.ts` (A-48 C4), so the dot of a
  * trace word and the dot of the letter box sit at one place on the letter.
  */
@@ -38,26 +40,34 @@ export const TRACE_START_EM: Readonly<Record<string, { x: number; y: number }>> 
     H: { x: 0.1315, y: 0.6764 },
     I: { x: 0.2326, y: 0.6764 },
     P: { x: 0.1327, y: 0.6782 },
-    S: { x: 0.4696, y: 0.6718 },
+    S: { x: 0.425, y: 0.66 },
     T: { x: 0.3029, y: 0.6764 },
     a: { x: 0.4217, y: 0.4409 },
     b: { x: 0.1165, y: 0.7445 },
-    c: { x: 0.4272, y: 0.3873 },
-    d: { x: 0.3905, y: 0.4318 },
+    c: { x: 0.4, y: 0.445 },
+    d: { x: 0.442, y: 0.441 },
     e: { x: 0.0992, y: 0.2545 },
     f: { x: 0.2922, y: 0.7545 },
-    g: { x: 0.3837, y: 0.4318 },
+    g: { x: 0.42, y: 0.441 },
     h: { x: 0.1164, y: 0.7445 },
     i: { x: 0.137, y: 0.4182 },
+    j: { x: 0.151, y: 0.4182 },
     k: { x: 0.1163, y: 0.7445 },
+    l: { x: 0.134, y: 0.7445 },
     m: { x: 0.1309, y: 0.4609 },
     n: { x: 0.1216, y: 0.4609 },
     o: { x: 0.2783, y: 0.4691 },
     p: { x: 0.122, y: 0.4609 },
+    q: { x: 0.417, y: 0.441 },
     r: { x: 0.1214, y: 0.4609 },
     s: { x: 0.3801, y: 0.4536 },
     t: { x: 0.167, y: 0.6073 },
+    u: { x: 0.1175, y: 0.44 },
+    v: { x: 0.085, y: 0.44 },
+    w: { x: 0.0835, y: 0.44 },
+    x: { x: 0.13, y: 0.44 },
     y: { x: 0.0679, y: 0.4609 },
+    z: { x: 0.11, y: 0.455 },
 };
 
 /**

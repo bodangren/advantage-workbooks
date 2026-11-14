@@ -200,6 +200,13 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .sound-label { display: block; flex: none; width: 16mm; font-size: 16pt; font-weight: 700; text-align: center; }
 .match-target { display: block; flex: none; min-width: 28mm; border: 0.6mm solid #000; padding: 2mm 5mm; font-size: 18pt; text-align: center; }
 .match-choices { display: flex; gap: 8mm; margin-left: 4mm; padding-left: 8mm; border-left: 0.6mm dotted #000; }
+/* The more review pages of week 8 (P9-B9): the sentence at the left, the picture at the right, a dot at the end of each so that the child draws a line. */
+.more-row { display: flex; align-items: center; gap: 4mm; margin-top: 4mm; }
+.more-text { display: block; flex: 1; font-size: 16pt; }
+.more-read .more-text { font-size: 20pt; }
+.more-pic { display: flex; flex: none; align-items: center; gap: 2mm; }
+.more-pic .picture-box { width: 38mm; height: 28.5mm; }
+.more-dot { display: block; flex: none; width: 1.8mm; height: 1.8mm; border-radius: 50%; background: #000; }
 .benchmark-boxes { display: flex; flex-wrap: wrap; gap: 8mm 12mm; margin-top: 8mm; }
 .benchmark-box { display: flex; align-items: center; gap: 3mm; }
 .benchmark-box .check-write-letter { margin-top: 0; width: 24mm; height: 24mm; }
@@ -673,16 +680,65 @@ ${scoreStrip(number)}`,
     };
 }
 
-/** The week 8 pages: the Benchmark 1 pages first (step A1 opens week 8), then the five review pages (spec FR-3, A-48 U4). */
+/**
+ * The extra review page of one day of week 8 (P9-B9, P9-B11): the child reads 4 short sentences of the readers and draws a
+ * line to the story picture of each, then reads one more sentence. The picture column follows `pictureOrder`, so no picture
+ * stands in the row of its own sentence. The page asks no sound and holds no position mark.
+ * @param week The review week.
+ * @param dayIndex The 0-based index of the day; it is 1 to 4 (days 2 to 5).
+ * @param allRows Every picture row of the unit; each picture of the page is one of them.
+ * @param o The print profile and build mode.
+ * @param files The resolved picture files of a final build.
+ * @returns The page.
+ * @throws Error When a picture row is missing, or its text differs from the text of the entry.
+ */
+function reviewMorePage(week: StorytimeWeek, dayIndex: number, allRows: StorytimePictureRow[], o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>): PageSpec {
+    const day = week.block!.days[dayIndex];
+    const more = day.paperMore!;
+    const pictureOf = (entry: { text: string; picture: string }): string => {
+        const row = allRows.find((candidate) => candidate.id === entry.picture);
+        if (!row) throw new Error(`picture row missing for paperMore of day ${day.day}: ${entry.picture}`);
+        if (row.text !== entry.text) throw new Error(`paperMore text of day ${day.day} differs from its picture row "${entry.picture}"`);
+        return pictureElement(row, o, files, 'more-picture');
+    };
+    const dot = '<span class="more-dot" data-part="more-dot"></span>';
+    const matchRows = more.pairs.map((pair, index) =>
+        `<div class="more-row" data-part="more-row"><span class="row-number" data-part="row-number">${index + 1}</span><span class="more-text" data-part="more-text">${esc(pair.text)}</span>${dot}<span class="more-pic" data-part="more-pic">${dot}${pictureOf(more.pairs[more.pictureOrder[index]])}</span></div>`).join('\n');
+    const readRow = `<div class="more-row more-read" data-part="more-row"><span class="row-number" data-part="row-number">${more.pairs.length + 1}</span><span class="more-text" data-part="more-text">${esc(more.read.text)}</span><span class="more-pic" data-part="more-pic">${pictureOf(more.read)}</span></div>`;
+    const code = storytimeStep(['A2', 'B1', 'C1', 'D1', 'E1'][dayIndex]).code;
+    return {
+        kind: 'review-more',
+        numbered: true,
+        body: `${weekEightHead(week, `Review ${dayIndex + 1} more`, code)}
+${groupHead(['read', 'pencil'], 'Read. Match to the picture.')}
+${matchRows}
+${groupHead(['read'], 'Read it.')}
+${readRow}
+<div class="score-strip" data-part="score-strip" data-score="__ / ${more.pairs.length}"><span class="score-blank"></span> / ${more.pairs.length}</div>`,
+    };
+}
+
+/**
+ * The week 8 pages: the Benchmark 1 pages first (step A1 opens week 8), then the five review pages, each of days 2 to 5
+ * followed by its more review page when the day holds `paperMore` (spec FR-3, A-48 U4, P9-B8).
+ */
 function reviewPages(
     week: StorytimeWeek,
     rows: StorytimePictureRow[],
+    allRows: StorytimePictureRow[],
     o: StorytimeStudentBookOptions,
     files: Map<string, StorytimePictureFile>,
 ): PageSpec[] {
     const days = week.block?.days ?? [];
     if (days.length !== 5 || !week.benchmark) throw new Error(`student book: review week ${week.meta.week} needs five review pages and a benchmark`);
-    return [...benchmarkPages(week, rows, o, files), ...days.map((_day, index) => reviewPage(week, index, rows, o, files))];
+    if (days[0].paperMore) throw new Error('student book: paperMore belongs to days 2 to 5; day 1 holds none');
+    return [
+        ...benchmarkPages(week, rows, o, files),
+        ...days.flatMap((day, index) => [
+            reviewPage(week, index, rows, o, files),
+            ...(day.paperMore ? [reviewMorePage(week, index, allRows, o, files)] : []),
+        ]),
+    ];
 }
 
 /** The Thai line of each QR label of the Thai card side (E45; Daniel checks the Thai). */
@@ -781,7 +837,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
     for (const week of weeks) {
         if (week.meta.kind === 'review') {
             const rows = allPictureRows.filter((row) => row.week === week.meta.week || row.use === 'check-row');
-            const review = reviewPages(week, rows, o, pictureFiles);
+            const review = reviewPages(week, rows, allPictureRows, o, pictureFiles);
             if (specs.length % 2 === 0) specs.push(blankPage());
             pageOf.set(week.meta.week, specs.length + 1);
             review.forEach((spec) => { spec.week = week.meta.week; });
