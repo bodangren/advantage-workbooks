@@ -1,0 +1,112 @@
+# Phase 14 Red log (storytime_week_package_20261022)
+
+Role: measure-mid-red (Red). Track: storytime_week_package_20261022. Phase: P14.
+phase_base_sha: 76fc13b0. role_base_sha: b5948d7731eff2a155dd688315587f7b3a5ee7f6 (HEAD at 10:55 ICT).
+Date: 2026-11-14. Route: opencode/minimax-m3.1-flash-free#high to 11:26 ICT, then
+opencode-go/deepseek-v4.1-flash (the free route reached its limit). Neither route is the Green family.
+
+## The Thai filter (PM rule 2026-11-09)
+
+The first command wrote `measure/runs/storytime_week_package_20261022/p14-red-scratch/thai_mask.py`
+(scratch, never committed; it writes the range as `chr(0x0E00)` and `chr(0x0E7F)`, so the script
+holds no Thai). It ran with `python3 -I` on the spec, the plan, the change list, the spec review,
+`w01.json` to `w08.json`, and the six test files with Thai. Every output printed
+`THAI_CHARS_IN_OUTPUT: 0`. The role read only the filtered copies. Every vitest output was masked
+before it was read. The capture `p14-red.txt` was masked in place after the run: one line held the
+Thai test title of `storytime-print-a48-step2.test.ts`. It prints `THAI_CHARS_IN_OUTPUT: 0`, and
+`grep -cP` on the committed capture prints 0.
+
+## The work
+
+1. The new test file `dashboard/__tests__/storytime-package-sound-stages.test.ts` holds the cases
+   S1 to S10 of spec FR14-5: the plan, the positions of a text, the units of a week, R14-1, R14-2,
+   R14-3, the schema field, the shipped weeks (with the w08 case of the review answer F1), the
+   shipped values of the change list, and the two guards. Its header holds the PIN lines for each
+   name the spec leaves open: the module path, the unit shape `{ where, text, positions }` and the
+   order of the units, the row shape `{ id, label, status, detail }`, the row ids, the detail
+   formats, `SOUND_STAGE_PLAN` as the three entries in stage order, the empty text of the two item
+   units, the distinct positions of one item unit, and the schema enum check.
+2. The three S11 edits, by exact line match: `OPENING_KEYS` (line 124) and the counts (line 1496)
+   with the w01 case and the two titles in `storytime-package-practice-clips.test.ts`;
+   `PICTURE_CARDS` (line 87) and `SOUND_PICTURE_CARDS` (line 94) in
+   `storytime-print-card-kit.test.ts`; the group heads at line 339 of
+   `storytime-print-a48-step2.test.ts`.
+3. `p14-red-grep.txt`: 12 hit files, 3 changed and 9 unchanged, each with its reason.
+4. Gate (a): `RED_TEST_COMMAND` in one foreground heavy-run wrapper, `| tee p14-red.txt`, with
+   `; echo exit: $?`. The capture ends with `exit: 1` and holds no `No test files found`.
+5. Gates (b), (c), (d): one heavy-run wrapper each, with the three captures.
+6. The test commit `e72c68b0` (4 files, 768 insertions, 16 deletions), the scope guard
+   `p14-red-scope.txt` (`files: 4`, `outside: 0`), and the capture commit `bc7e1716`.
+7. The plan: the Red task line to `[x]` with `Test commit e72c68b`, one evidence sub-line, and the
+   plan commit `edf44018` alone (`git diff --stat`: 2 insertions, 1 deletion; both hunks in the
+   Phase 14 section; 0 changed lines with Thai).
+
+## The failures (Thai-masked)
+
+56 cases fail and 133 pass (189 cases, 4 files, 44 s). Each failure has one of the four causes of
+the task line. The names of the failing cases are in `p14-red.txt`.
+
+- The missing module `lib/storytime/sound-stages.ts` (FR14-1), 38 cases: S1 (3), S2 (14), S3 (3),
+  S4 (4), S5 (6), S6 (5), the S7 enum case, S8 (2 of 3), and S9 (0). Each fails inside its body
+  with `Missing module: <path>` from `exportOf`.
+- The missing `paStage` field of FR14-2, 4 cases of S7: the parse keeps no `paStage`, and the parse
+  accepts an extra key, stage 4, and an empty `positions` (the schema is not strict, so the key is
+  dropped).
+- The shipped values of the change list (S8, S9, S11), 14 cases: S8 `gives the stage-1 plan in the
+  focus` and S9 (3); `storytime-package-practice-clips.test.ts` (7: the w01 list, the counts, the
+  three lists, the three maps, the mapper, the `--check` lines, and the `no clip` keys);
+  `storytime-print-card-kit.test.ts` (2: the card lists and the mutant copy);
+  `storytime-print-a48-step2.test.ts` (1: the two group heads).
+
+The guard cases S10 pass (`names no track folder`, `writes no file`), and so does the S7 case that
+proves an absent `paStage` parses.
+
+## Gates
+
+- (a) `p14-red.txt`: `exit: 1`; 56 failed, 133 passed; no `No test files found`; 0 Thai characters.
+- (b) `p14-red-lint.txt`: `exit: 0` (ESLint on the four test files).
+- (c) `p14-red-clean.txt`: `exit: 0`, and `git status --porcelain dashboard/lib dashboard/scripts
+  content/` prints nothing.
+- (d) `p14-red-guards.txt`: the new file holds 0 Thai characters and 0 `measure/tracks/` paths.
+- The scope guard `p14-red-scope.txt`: `files: 4`, `outside: 0`; no changed line of the test commit
+  holds Thai; the one Thai line of the practice-clips file (line 1533) is unchanged.
+
+## Deviations
+
+1. Step-limit resume. The first session ran out of its step budget at 11:26 ICT after the Thai
+   filter and the reads, and before the tests were written. This session resumed the same role with
+   a new route.
+2. The `[~]` commit of the plan line was skipped, as the orchestrator ordered. The plan line went
+   from `[ ]` to `[x]` in one commit.
+3. Route substitution: MiniMax free (limit reached), then DeepSeek Go. Both are not the Green
+   family (Claude), so decision P14-D14 and rule L15 hold.
+4. The guard case of S10 is stronger than the spec asks: the file holds no write call at all, so it
+   writes nothing under the content folder.
+5. The title of the w01 case now names 10 words (it named 8), because the S11 pin changes that
+   list. The title names its own count, so this change keeps the test honest.
+6. The capture `p14-red.txt` was masked in place for one Thai test-name line of another file.
+7. One fixture string was corrected in the new test file with `sed -i` (a sound label `/p!` to
+   `/p/!`). It is a test-only edit inside the new file.
+8. One heavy-run call wrote its three gate outputs in one wrapper and one tee file; it was rerun
+   with one wrapper and one capture for each of the three gates. The first capture was removed in
+   the same step and never committed.
+
+The Phase 14 Red window stays open until the Green commit.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: success
+track: storytime_week_package_20261022
+phase: P14
+phase_base_sha: 76fc13b0
+role_base_sha: b5948d7731eff2a155dd688315587f7b3a5ee7f6
+commits: e72c68b0 (the four test files), bc7e1716 (the six p14-red captures), edf44018 (plan.md alone), and the log commit
+files_changed: dashboard/__tests__/storytime-package-sound-stages.test.ts (new), dashboard/__tests__/storytime-package-practice-clips.test.ts (test only, S11), dashboard/__tests__/storytime-print-card-kit.test.ts (test only, S11), dashboard/__tests__/storytime-print-a48-step2.test.ts (test only, S11), measure/tracks/storytime_week_package_20261022/plan.md (the Red task line and one evidence sub-line), and measure/runs/storytime_week_package_20261022/p14-red-{txt,lint,clean,guards,grep,scope}.txt
+failed_test_count: 56 failed, 133 passed (189 cases, 4 files)
+failure_reasons: (1) the missing module lib/storytime/sound-stages.ts (FR14-1), 38 cases with "Missing module"; (2) the missing paStage field of FR14-2, 4 cases of S7; (3) the shipped values of the change list (S8, S9, S11), 14 cases in the four files. No other cause: no syntax error, no import error of the new test, and no TypeError.
+guard_cases: S10 passes its two cases (no track path, no write call), and the S7 case of an absent paStage parses. The new file holds 0 Thai characters and 0 "measure/tracks/" paths (p14-red-guards.txt).
+lint: exit 0, ESLint on the four test files (p14-red-lint.txt)
+scope_guard: files 4, outside 0 (p14-red-scope.txt); no changed line of the test commit holds Thai, and the one Thai line of the practice-clips file (line 1533) is unchanged
+deviations: the step-limit resume on a new route (MiniMax free then DeepSeek Go, neither the Green family); the [~] commit was skipped as ordered; the S10 write guard is stronger than the spec asks (no write call at all); the w01 case title names 10 words (it named 8); the p14-red.txt capture was Thai-masked in place for one line; one fixture label was fixed with sed -i; one combined gate wrapper was rerun as three wrappers with one capture each, and the extra capture was removed and never committed
+handoff: Green (Claude) implements FR14-1 to FR14-4 to make RED_TEST_COMMAND pass. The module is lib/storytime/sound-stages.ts with SOUND_POSITIONS, SOUND_STAGE_PLAN, plannedSoundStage, soundPositionsAsked, soundUnits (units { where, text, positions }), and checkSoundStageMix / checkSoundStageDayOne / checkSoundStagePlan, each row { id, label, status, detail } or undefined; the rows are sound-stage-mix, sound-stage-day1, sound-stage-plan, with the labels of the spec. The schema is FocusSchema.paStage (stage 1 to 3, positions of the enum, min 1, strict, optional). The CLI adds the three rows after readalong-sentence-clips and builds earlierSounds from the weeks of the level. The content is the 114 field rows and the 10 media rows of the change list. Two known Red-retry candidates: the practice-clips tables W01_OPENING and W01_FAMILY and the W01 clip count are derived from OPENING_KEYS and may need their own Red retry at Green, per plan line 661. The Phase 14 Red window closes at the Green commit.
+END_MEASURE_AGENT_RESULT
