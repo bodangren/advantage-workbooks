@@ -650,7 +650,7 @@ The "words" are the short decodable sentences of the readers, because the repo h
 - **Step map.** `content/storytime/l2/step-map-u1.json` is made again by `make-step-map.ts`. The week 8 rows become: A2 page 132; B1 page 133, `pageEnd` 134; C1 page 135, `pageEnd` 136; D1 page 137, `pageEnd` 138; E1 page 139, `pageEnd` 140. The rows of weeks 1 to 7 and the A1 row (130, 131) do not change. `U9-file` and `U9-book` hold.
 - **Teacher book.** The page reference is `first–last` from the step map, so B1 prints "133–134". The teacher book is built again for r6-v3 (TH-v4).
 - **App.** w08 has no app package (D-P13-H3). The review-page work changes no week file of w01 to w07 and none of the 7 app packages. F3 changes w02 to w07 (P9-B7). The step map rows of week 8 change: the PM line lists this under "facts changed" (the pages of A2, B1, C1, D1, and E1).
-- **Pin edits (recorded, test-only, by the Red role).** `storytime-print-a48-step2.test.ts` (`U2-count` and `U4-order` to 140 pages and the 9 kinds; `U4-chrome` to the new page list), `storytime-print-binding-practice.test.ts` (line 25 to 140 and the last page number), and `P9B_PATHS` (P9-B6). The two files that hold Thai (`storytime-print-v15.test.ts`, `F1-numbers`; `storytime-print-a48-part2.test.ts`, line 311) get a digit-only edit by the orchestrator (Claude) before Red: 136 to 140 in `F1-numbers`, and the E1 page 136 to 139 (and the ranges of B1, C1, D1) in line 311.
+- **Pin edits (recorded, test-only, by the Red role).** `storytime-print-a48-step2.test.ts` (`U2-count` and `U4-order` to 140 pages and the 9 kinds; `U4-chrome` to the new page list), `storytime-print-binding-practice.test.ts` (line 25 to 140 and the last page number), and `P9B_PATHS` (P9-B6). The two files that hold Thai (`storytime-print-v15.test.ts`, `F1-numbers`; `storytime-print-a48-part2.test.ts`, line 311) get a digit-only edit by the Red role before the Red run: a script reads the file, checks the old value at each named line, writes only the named digits, and prints only the file, the line number, and `lines changed: <n>`; the role proves the edit with a git diff through its Thai mask. The orchestrator edits no test file. The edits are: 136 to 140 in `F1-numbers`, and the E1 page 136 to 139 (and the ranges of B1, C1, D1) in line 311.
 
 ### P9-B13: review page Red cases (file `storytime-print-review-more.test.ts`)
 
@@ -693,8 +693,8 @@ Mutants for Green (each caught, each restored with `cmp`): RM1 a pair text with 
 
 | Task | Default window | Condition |
 |---|---|---|
-| Spec review | 2026-11-14, done by 23:00 | Before the Phase 13 Clips task (2026-11-14 23:00 to about 2026-11-15 06:00). The role writes only under `measure/runs/`. |
-| Red (3 runs, pin edits) | 2026-11-15, 13:00 to 17:00 | After the Phase 13 Review A round 2 and Step A of the packages. Rule R1. |
+| Spec review | 2026-11-14, done by 23:00 | Before Step A of the packages and before the Phase 13 Clips task (it runs after 2026-11-15 23:00 ICT; see the update below). The role writes only under `measure/runs/`. |
+| Red (3 runs, pin edits) | 2026-11-15, 13:00 to 17:00 | After the spec review and Step A of the packages (see the update below). Rule R1. |
 | Green, code | 2026-11-15, 17:00 to 22:00 | After the Red commit. |
 | Green, content: w08 | 2026-11-15, 22:00 to 24:00 | After the Green code commit. |
 | Phase 13 Step B | 2026-11-16, within 1 hour after Daniel's Thai answers | Priority over every task here. |
@@ -702,6 +702,8 @@ Mutants for Green (each caught, each restored with `cmp`): RM1 a pair text with 
 | Proof r6-v3 and code tests | 2026-11-16, 15:00 to 19:30 | After the last Green commit. |
 | Hand-off to the PM | 2026-11-16, 20:00 | The PM audit follows within 1 day. |
 | Printer order | 2026-11-25 | Unchanged. |
+
+Update (orchestrator, 2026-11-14 20:45 ICT): the Phase 13 Clips task runs after 2026-11-15 23:00 ICT (the MiniMax weekly reset), not on the night of 2026-11-14. The Workbooks slot is free from the end of the spec review until 2026-11-15 23:00 ICT, except for Step A of the packages. The batch roles may start earlier than the times above, in the same order. The hand-off target of proof-books-r6-v3 (2026-11-16 20:00 ICT) stays.
 
 Fallback: if the F3 commit does not land by 15:30 on 2026-11-16, the proof builds with the parts that landed, and the note says "next version" for F3. The same rule holds for each other part. The hand-off to the PM then moves to 2026-11-17. The last date for the r6-v3 hand-off is 2026-11-20 (the release proof task).
 
