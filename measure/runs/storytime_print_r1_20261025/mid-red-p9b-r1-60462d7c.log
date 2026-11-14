@@ -1,0 +1,52 @@
+P9-B Red retry R1, measure-mid-red (kimi-code-plan-cn/kimi-for-coding#high), 2026-11-14
+
+Scope: two test-only edits of the batch "C2, F3, and the week 8 review pages" of track
+storytime_print_r1_20261025, phase P9. No production code and no content file changed.
+
+- D-P9B-G1: dashboard/__tests__/storytime-print-c2-start-table.test.ts gains a PIN line and a
+  60000 ms timeout on the C2-ink case only (the third argument of it). The case renders 32
+  glyphs in one child process and takes 4.4 to 5.0 s; it timed out twice at the default
+  5000 ms with correct values.
+- D-P9B-G2: dashboard/__tests__/storytime-print-review-more.test.ts gains a PIN line and the
+  RM-fit check now requires one div with data-part="score-strip" whose score-blank span is
+  followed by the visible text " / 4", with no second strip on the page; a data-score
+  attribute does not stand for the visible text. The file has no mutant it section, so the
+  conditional mutant case does not apply (mutants RM1 to RM10 are named only in the header).
+
+Evidence (one run, no --testTimeout flag, shell timeout 1800000 ms):
+- C2 file: 6 of 6 pass with no flag (C2-keys, C2-taught, C2-ink, C2-book, C2-all-letters,
+  C2-mutants).
+- Review-page file: 16 checks total, 9 pass, 7 fail. The failures are RM-count (136 pages,
+  not 140), RM-order (136 pages), RM-data (day 2 has no paperMore), RM-pictures (day 2 has
+  no picture rows), RM-no-position (page 134 is not a review-more page), RM-steps (line 5
+  of B1 names no page after the review page), RM-fit (page 134 has 0 picture boxes; the
+  failure is the missing page, not the score strip). All seven fail for the missing w08
+  data, the expected Red state.
+- Captures: p9b-red-r1-run.txt, p9b-red-r1.txt, p9b-red-r1-lint.txt (ESLint exit 0).
+
+Commits:
+- da2b5554 test(print): P9-B Red retry R1, C2-ink timeout and the RM-fit strip check
+- 37fb6790 measure(plan): P9-B Red retry R1
+
+Substitution: the first Red role of this batch ran on opencode-go/deepseek-v4.1-flash. The
+PM blocks new opencode-go roles until 03:00 ICT, so this retry runs on Kimi (weekly window
+8 %). The Green of this batch is Anthropic, so the family rule holds.
+
+Deviations: none. The conditional mutant case of D-P9B-G2 was not added because the file
+has no mutant section.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: done
+track: storytime_print_r1_20261025
+phase: P9
+baseline_sha: 60462d7c
+role_base_sha: 60462d7c
+red_commit: da2b5554
+plan_commit: 37fb6790
+gates: C2 file 6 of 6 with no flag; review-page file fails only for the missing w08 data;
+ESLint exit 0; Thai chars in all outputs: 0
+substitution: opencode-go/deepseek-v4.1-flash blocked by PM until 03:00 ICT; retry on
+kimi-code-plan-cn/kimi-for-coding#high; Green is Anthropic, family rule holds
+deviations: none
+END_MEASURE_AGENT_RESULT
