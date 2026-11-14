@@ -1,0 +1,89 @@
+Phase 14 Review A (correctness and architecture), track storytime_week_package_20261022, P14.
+
+Route: nvidia/minimaxai/minimax-m3.1-flash#thinking.
+
+## Route substitution
+
+The table model claude-code/claude-opus-5-5[1m]#high was excluded, because Green is Anthropic and the independence rule 2 needs a family other than Anthropic. The first try on opencode-go/muse-spark-1.3-contributor#high failed at its start with an API error about tool_choice and did no review work. The command `ra-quota pick review-a --not-family anthropic --not-family deepseek --not-family muse` printed this route. Red and Red retry R1 were DeepSeek, Green was Anthropic, and this review is neither.
+
+## Thai filter
+
+My own script is measure/runs/storytime_week_package_20261022/p14-review-a-scratch/thai_mask.py. It replaced the old file of the scratch folder. It drops every th key and masks every Thai run in text, Markdown, code, and git diffs. The first command of the session was `ls -l dashboard/lib/storytime/sound-stages.ts`. The filter was written before any read. Every read of plan.md, spec.md, spec-review.md, p14-change-list.md, the week files, the test files, the logs, and the captures went through the filter, and each output printed THAI_CHARS_IN_OUTPUT: 0. No Thai text entered this log.
+
+## Provenance
+
+`git rev-parse HEAD` prints 77c423c9246ecb1c81c9349f36e0f18ada7f960c. It equals the audited head of this review. `git rev-parse 76fc13b0` prints 76fc13b0e03268b40f229d8311ae4662e85be1ba. The audited range 76fc13b0..77c423c9 holds 30 commits: the Phase 14 spec review, Red, Red retry R1, Green a318b199, the plan commit b233b16e, the Green log bac87517, and 11 commits of the print track storytime_print_r1 after a318b199. The brief places the print commits outside this review.
+
+## Code: FR14-1 to FR14-3
+
+The module dashboard/lib/storytime/sound-stages.ts holds 279 lines. It imports only bankSound and soundLabels from ./phonemes (line 7), and phonemes.ts reads no file at import time. My probe prints "module reads a file: false" and "module reads a Thai field: false". Every field the module reads is an English text.
+
+The three regexes of POSITION_PATTERNS match the spec expressions line by line. plannedSoundStage gives stage 1 ['first'] for weeks 1 to 8, stage 2 ['first','last'] for weeks 9 to 16, and stage 3 ['first','last','middle'] for week 17. checkSoundStageDayOne puts the sound parts before the position parts, as the spec orders them. checkSoundStagePlan gives the no-paStage part, the stage and positions parts, the outside-stage parts, the tag parts, and the stage-start part in the spec order.
+
+The schema field paStage (dashboard/lib/storytime/schema.ts:108) is optional and strict. My probe parses the w01 file of ddc70618 and prints "old w01 parses: true paStage: null". An old week file without the field still parses.
+
+The CLI (dashboard/scripts/storytime/check-weeks.ts:10 and lines 432-440) builds earlierSounds from the weeks of the level with a smaller week number. It pushes the three rows in the order R14-1, R14-2, R14-3, right after the readalong-sentence-clips row. My run of `./node_modules/.bin/tsx scripts/storytime/check-weeks.ts --level 2` shows sound-stage-mix, sound-stage-day1, and sound-stage-plan as PASS for st2/1 to st2/8 (24 of 24). The summary prints "Summary: 8 package(s), 0 failed check(s), 8 warning(s)." The practice-clips and phoneme-audio rows stay PASS.
+
+Callers: only check-weeks.ts imports the module. No other production code reads paStage. The Monorepo receiver needs no change, because its focus schema is passthrough.
+
+## Missing-deliverable fixtures (anti-pattern A4)
+
+My probe a4_fixtures.ts prints "no paStage -> fail no paStage", "mixed line -> fail mixed: opening.pa.0 (first+last)", "new sound -> fail new sound: /a/", and "untaught sound -> fail untaught sound: /k/". The rows do not pass on a missing deliverable. The shipped w03 gives pass for all three rows.
+
+## Content: FR14-4, AC14-2 to AC14-4
+
+My run of `python3 -I measure/runs/storytime_week_package_20261022/p14-apply-check.py check` prints rows applied 114, weeks equal 8 of 8, copies cmp equal 5 of 5, and removed 5 of 5, with exit 0. My form check prints whitespace-only changes 0 for w01 to w08 and the numstat of each week, with exit 0. The shell guard of this session rejects any command that holds the word "form", so a scratch wrapper calls the same mode of the same script.
+
+My count script prints field rows 114, media rows 10, and field rows with Thai 64. These numbers match the spec, the plan, and Daniel's 64 Thai rows.
+
+My week_facts.py prints one paStage in each of w01 to w08, each with stage 1 and positions ['first']. It prints a count of 0 for final-sound.identify and medial-vowel.identify in every week. The w01 day-1 line is the echo warm-up with no sound label and an empty audio list. Each day-1 line of w02 to w07 names only sounds of earlier weeks: w02 /n/, w03 /a/ and /n/, w04 /p/ and /a/, w05 /m/ and /p/, w06 /s/ and /m/, w07 /t/ and /s/. The w08 day-1 line names /n/, /a/, and /p/, all earlier.
+
+## Tests: FR14-5, S1 to S11
+
+The new file dashboard/__tests__/storytime-package-sound-stages.test.ts holds 52 cases. S2 has a hand-written table with 5 negative rows from the spec and 2 more from the Red retry (M1 and M3). S3 pins the order of the units and the joined step text, and checks that no unit text holds the last sound. S4 to S6 pin the row ids, the labels, and each fail part. S7 pins the schema field. S8 reads the shipped weeks, and S9 pins the shipped English values by hand. S10 holds the two guard cases.
+
+One heavy-run wrapper ran the Phase 14 RED_TEST_COMMAND with the JSON reporter and no default reporter. The JSON report prints numTotalTests 192, numPassedTests 192, numFailedTests 0, success true, with 89, 52, 39, and 12 tests in the four files. The wrapper printed exit: 0. This matches the plan claim of 4 files and 192 tests.
+
+The mutant capture p14-green-mutants.txt lists M1 to M12 and the extra M4b, each caught, each with a cmp-equal restore. The first try capture p14-green-mutants-try1.txt shows 7 of 12 caught, with M1, M3, M4, and M12 surviving. The Red retry R1 (0fe6e269) added the four cases that catch them.
+
+The D4 history cases of dashboard/__tests__/storytime-package-practice-clips.test.ts (lines 1684-1866) read the week files of ddc70618 through phase12Text (line 1024) and the makerTree helper (line 1149). The Phase 12 pins of the 15 practice words, the 137 old rows, and the 47 characters still hold. The R1 change restores their input and weakens no case.
+
+Every count in the phase artifacts is a labeled integer, for example "rows applied 114", "weeks equal 8 of 8", and "numTotalTests: 192". No count uses a bare-digit match, so the A3 rule holds. The plan claims of 192 tests, 8 packages, and 0 failed checks match my run, so the A5 rule holds.
+
+## Known gap of decision D-R1-2
+
+The share compare takes the change list alignment and has no English-only check. The content compare has one. The gap is real, because the aligned paths hide a wrong English value from the share compare. The severity is low. Two other guards cover the same values: the P14_ENGLISH presence check in the content test and the apply check of AC14-2. The share fields of the week are not aligned, so the share compare still checks its own contract. The finding is F1, a Nit.
+
+## Findings
+
+F1 [Nit] review-a: the share compare (dashboard/__tests__/storytime-loops-share-content.test.ts:315-318) has no English-only check, while the content compare (dashboard/__tests__/storytime-loops-content.test.ts:561-566) has one. Owner: Green (test). Fix text: copy the P14_ENGLISH table of line 445 and the stringsOf helper of line 475 into the share test, and assert each expected English value of the shipped week inside the case at line 315.
+
+F2 [Nit] review-a: the mutant capture lists 13 mutant lines and its summary prints "mutants: 12, caught: 12" (line 14). Owner: Green (capture). Fix text: print "mutants: 13, caught: 13" in the capture, and name M4b as the extra step-level variant in the Green evidence sub-line of plan.md.
+
+F3 [Nit] review-a: AC14-1 (spec.md:1146) names a summary line that the CLI does not print. The CLI prints "Summary: 8 package(s), 0 failed check(s), 8 warning(s)." (dashboard/lib/lesson-package/report.ts:24). Owner: the user or a build session. Fix text: replace "and the summary prints `FAIL rows other than published: 0`" with "and the summary prints `Summary: 8 package(s), 0 failed check(s)`".
+
+F4 [Nit] review-a: measure/tracks/storytime_week_package_20261022/test-strategy.md has no Phase 14 section. Owner: the strategy role, not this phase. Fix text: no change in this phase; the strategy role adds a Phase 14 section when the track closes.
+
+## Verdict
+
+pass, 0 Blockers, 4 Nits. The code, the content, and the tests of Phase 14 hold the spec. The Nits are routed to their owners and do not block the phase.
+
+MEASURE_AGENT_RESULT
+role: review-a
+status: done
+track: storytime_week_package_20261022
+phase: Phase 14: Sound skill stages (2026-11-14 to 2026-11-17)
+phase_base_sha: 76fc13b0
+role_base_sha: 77c423c9246ecb1c81c9349f36e0f18ada7f960c
+audited_head_sha: 77c423c9246ecb1c81c9349f36e0f18ada7f960c
+verdict: pass, 0
+result: measure/runs/storytime_week_package_20261022/review-a-p14-77c423c9.json
+tests_run: RED_TEST_COMMAND in one heavy-run wrapper (exit 0; 4 files; 192 tests; numFailedTests 0); check-weeks.ts --level 2 (24 of 24 R14 rows PASS; 0 failed checks; 8 warnings); p14-apply-check.py check (rows applied 114; weeks equal 8 of 8; copies cmp equal 5 of 5; removed 5 of 5; exit 0); the form check (whitespace-only changes 0 for each week; exit 0); the missing-deliverable probe (no paStage, mixed line, new sound, untaught sound all fail)
+findings: F1 Nit FIX test (the share compare needs the English-only check of the content compare), F2 Nit FIX capture (the mutant count must name 13 runs), F3 Nit FIX spec (AC14-1 must name the printed summary line), F4 Nit accept (the test strategy file has no Phase 14 section)
+route: nvidia/minimaxai/minimax-m3.1-flash#thinking
+route_substitution: the table model claude-code/claude-opus-5-5[1m]#high was excluded because Green is Anthropic; the first try on opencode-go/muse-spark-1.3-contributor#high failed at its start with an API error about tool_choice and did no review work; ra-quota pick review-a --not-family anthropic --not-family deepseek --not-family muse printed this route
+files_changed: measure/runs/storytime_week_package_20261022/review-a-p14-77c423c9.json, measure/runs/storytime_week_package_20261022/review-a-p14-77c423c9.log
+scratch: measure/runs/storytime_week_package_20261022/p14-review-a-scratch/ is removed at the end of this role
+retry_recommendation: none
+handoff: Review A of Phase 14 passes with 0 Blockers and 4 Nits. The code holds FR14-1 to FR14-3, the content holds the 114 change list rows and the 10 media rows, the three R14 rows pass for st2/1 to st2/8, and the RED_TEST_COMMAND passes at HEAD with 192 tests. The known gap of decision D-R1-2 is real and a Nit: the share compare takes the change list alignment but has no English-only check, so it cannot fail on a wrong English value at an aligned path; the content compare and the apply check still cover those values. Route F1 to Green as a test fix, F2 to Green as a capture fix, F3 to the spec owner, and F4 to the strategy role. No Blocker stops the phase, and no point needs Daniel now. The print-track commits after a318b199 stay outside this review.
+END_MEASURE_AGENT_RESULT
