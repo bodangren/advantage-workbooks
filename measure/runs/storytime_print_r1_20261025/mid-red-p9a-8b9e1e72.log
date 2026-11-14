@@ -1,0 +1,79 @@
+# Measure Red log: print audit gate, code tests, and the r6-v2 fix batch (P9)
+
+- date: 2026-11-14
+- role: measure-mid-red, model `opencode-go/deepseek-v4.1-flash`
+- track: storytime_print_r1_20261025
+- phase: P9
+- phase_base_sha: ff951f24e1c82313b7e7d9d96f58057aec44c54a
+- red_base (role_base_sha): 8b9e1e723196dde3578f09aa19144a965beb78fc
+- head at the start: 8b9e1e72 (nothing of this batch was committed before)
+
+## Commits
+
+1. `d737206a` test(print): r6-v2 fix batch Red, X1 to X7 (storytime_print_r1). One file, 587 insertions.
+2. `ff60c1fe` measure(runs): r6-v2 fix batch Red captures, P9 (storytime_print_r1). Six captures, 59 insertions.
+3. `63ba42db` measure(plan): r6-v2 fix batch Red done, P9 (storytime_print_r1). Plan diff: 2 insertions, 1 deletion; no Thai line changed (12 Thai lines stay).
+4. This log.
+
+## Gates
+
+- Gate a: `RED_TEST_COMMAND_P9A` gave `exit: 1`. 20 checks, 19 failed, 1 passed (the X7c guard). Capture `p9a-red.txt`, 32 lines, 0 Thai characters.
+- Gate b: ESLint on the new file gave exit 0. Capture `p9a-red-lint.txt`.
+- Gate c: `git status --porcelain dashboard/lib dashboard/scripts content/` printed nothing (`p9a-red-clean.txt`, empty). The guards print 0 Thai characters and 0 `measure/tracks/` paths (`p9a-red-guards.txt`). The scope guard prints `files: 1` and `outside: 0` (`p9a-red-scope.txt`).
+- Grep record: the command gave 6 hit test files, each "no change"; no pin edit (`p9a-red-grep.txt`).
+- Q9-3: no card uses the row `l2-w06-check-row-ten`; the number card words stop at nine (`p9a-red-grep.txt`).
+- The spec SHA-256 pins were recomputed with `sha256sum`: all six equal the spec.
+- The four P9-A5 areas and boxes were confirmed on the shipped files (probe, 101 class C line pictures, 4000 x 3000 sources).
+
+## The 19 failures and their causes
+
+- X1a: missing table `content/storytime/l2/print/pictures-line-fix.json`.
+- X1b, X1c, X1d: missing module `dashboard/lib/storytime/print/line-art-fix.ts`.
+- X2: the five boxes of the ten row still print `l2-w06-check-row-ten-line-v2.png`.
+- X3 (four rows) and X3g: missing module (the table read fails first).
+- X4a to X4e: missing module `line-art-fix.ts` (the fill function).
+- X5: `.picture-box` is `dashed` today.
+- X6: the tick is `left: -0.2mm; border-left: 0.4mm solid` today.
+- X7a: no `data-edge-ink` attribute today. X7b: no clip rule today.
+- X7c passes: the class C line pictures with edge ink are exactly the two nose files (102 ring pixels each).
+
+## PIN lines for Green (the file header holds the same text)
+
+- `line-art-fix.ts` exports `StorytimeLineArtFixEntry`, `StorytimeLineArtFixTable`, `readStorytimeLineArtFixTable()`, `applyStorytimeLineArtFixes(files, kind, table?)`, `fillStorytimeLineArtHair(gray, fill)`.
+- An entry holds `sourceFile`, `sourceSha256`, `replacement` (relative to `content/storytime/`), `replacementSha256`, `reason`, and for D7 `fill` with `seed`, `areaPx`, `bbox`.
+- A `line` file swaps only when its bytes hold `sourceSha256`; it keeps `fileName`. A `color` file and an unlisted row do not change. A wrong or missing replacement throws `line-art fix: ...`.
+- The fill throws `line-art fill: ...` for a seed on ink, a region that touches the border, a wrong area, and a wrong box. A right region becomes black and the source stays equal.
+- The filled files are `l2/print/pictures-fix/<source without -line-v1.png>-hair-v1.png`.
+- The two nose rows only carry `data-edge-ink="clip"`, with one rule `.picture-box[data-edge-ink] img { clip-path: inset(1.5mm); }`.
+- The printed border width is `max(1, floor(cssMm * 96 / 25.4)) * 25.4 / 96` mm.
+- X5 pins `.match-choices` as the only dotted rule and the three dashed selectors `.map-place`, `.perforation`, `.fold-line`. This keeps the dashed set exact and non-vacuous; `.match-choices` is a match line, not a frame.
+
+## Deviations
+
+1. Route substitution: `ra-quota pick red` skipped the Go route for a missing 5-hour window. The Go plan was at 11.5 % of its weekly limit. This role ran on `opencode-go/deepseek-v4.1-flash`; Green is Claude, so the family rule holds.
+2. Step-limit resume: the first session stopped at the step limit after gate a and before the commits. This session finished the gates, the commits, the plan line, and this log. Nothing was committed in the first session.
+3. X7b was re-authored after the first gate a run: the match assertion dumped the whole CSS. It now compares the one matched rule string. The gate a capture is from the final file (commit d737206a).
+4. Date: the Red ran on 2026-11-14, one day before the plan date 2026-11-15, on the orchestrator order.
+
+## Handoff
+
+- Green follows the task line "Green, r6-v2 fix batch" and the PIN lines above. The resolver call sits in `picture-check.ts` after its SHA-256 check.
+- Rule R1: this Red window closes at the Green commit of this batch. No other Red window is open.
+- The scratch folder `measure/runs/storytime_print_r1_20261025/p9a-red-scratch/` is removed at the end of this role.
+
+## MEASURE_AGENT_RESULT
+
+- role: measure-mid-red
+- track: storytime_print_r1_20261025
+- phase: P9
+- task: Red, r6-v2 fix batch (plan line 1395)
+- baseline_sha: ff951f24e1c82313b7e7d9d96f58057aec44c54a
+- role_base_sha: 8b9e1e723196dde3578f09aa19144a965beb78fc
+- head: 63ba42db (then this log commit)
+- commits: d737206a (test file), ff60c1fe (captures), 63ba42db (plan), this log
+- tests: `dashboard/__tests__/storytime-print-r6v2-fixes.test.ts`, 20 checks; RED exit 1, 19 failed, 1 passed (X7c guard)
+- files: the test file, six `p9a-red-*` captures, plan.md
+- remaining failures: X1a missing table; X1b, X1c, X1d, X3, X4a to X4e missing module `line-art-fix.ts`; X2 ten row still on line art; X5 `.picture-box` dashed; X6 tick 0.4mm and -0.2mm; X7a no clip mark; X7b no clip rule
+- status: done
+
+## END_MEASURE_AGENT_RESULT
