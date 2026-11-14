@@ -1,0 +1,52 @@
+P9-B Red: the scope guard of the five Red commits (2026-11-14)
+Track: storytime_print_r1_20261025, Phase 9, plan task "Red, C2, F3, and the review pages"
+Base: 0d07336b65f36dee03d5987942723d2932527aca
+Allowed paths: the plan line, the three new test files, the 6 pin-edit files of P9-B12, and
+measure/runs/storytime_print_r1_20261025/p9b-red-*
+
+eb7b5164 (1 files)
+  ok      measure/tracks/storytime_print_r1_20261025/plan.md
+  files: 1
+
+d0660317 (4 files)
+  ok      dashboard/__tests__/storytime-print-c2-start-table.test.ts
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-c2-lint.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-c2-run.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-c2.txt
+  files: 4
+
+df7feb8d (4 files)
+  ok      dashboard/__tests__/storytime-print-f3-script-order.test.ts
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-f3-lint.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-f3-run.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-f3.txt
+  files: 4
+
+d7462aa8 (7 files)
+  ok      dashboard/__tests__/storytime-print-f3-script-order.test.ts
+  ok      dashboard/__tests__/storytime-print-review-more.test.ts
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-f3-r2-run.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-f3-r2.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-rm-lint.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-rm-run.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-rm.txt
+  files: 7
+
+d0283eb3 (11 files)
+  ok      dashboard/__tests__/storytime-loops-content.test.ts
+  ok      dashboard/__tests__/storytime-loops-share-content.test.ts
+  ok      dashboard/__tests__/storytime-print-a48-part2.test.ts
+  ok      dashboard/__tests__/storytime-print-a48-step2.test.ts
+  ok      dashboard/__tests__/storytime-print-binding-practice.test.ts
+  ok      dashboard/__tests__/storytime-print-v15.test.ts
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-full-run.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-full.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-grep.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-lint.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9b-red-pins.txt
+  files: 11
+
+files: 27
+outside: 0
+git status --porcelain dashboard/lib dashboard/scripts content/: (no output)
+clean: yes
