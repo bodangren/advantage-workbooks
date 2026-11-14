@@ -35,3 +35,45 @@ FIX: use `3ba657f39bcfc781da581bff93df6a7245f674df4deac023576f5d52ad0aba81` (PR 
 Result file: `measure/runs/storytime_print_r1_20261025/spec-review-p9a-bac87517.json` (log: `spec-review-p9a-bac87517.log`).
 
 Transcribed 2026-11-14 by the orchestrator build session, because the review role cannot write track files.
+
+## Amendment: C2, F3, and the week 8 review pages (2026-11-14)
+
+Author model: claude-code/claude-sonnet-5-5#high
+
+Reviewer model: kimi-code-plan-cn/kimi-for-coding#high
+
+Scope: the section "Addendum 2026-11-14 (2): C2, F3, the week 8 review pages, and the cast sheet" of [spec.md](./spec.md) (P9-B1 to P9-B19, Q9-6 to Q9-11), the plan lines 1410 to 1415 of [plan.md](./plan.md), and the gate commands `RED_TEST_COMMAND_P9B` and `GREEN_TEST_COMMAND_P9B`.
+
+Audited head: 15ea495d36d69c177e7dda481a782fcebac9589a
+
+Status: fail at 15ea495d (F1 Major); after the answers of this section, a re-check of the reviewer decides the final status.
+
+Checks that passed: the C2 ink measure of all 32 values (each at or above 0.02 em; the old c 0.0043 em and the old S 0.0163 em fail); the F3 list; the 20 picture rows and texts; the 4 sentences (E2-style check; "Pip" passes as a reader name); the page arithmetic; the pin grep (11 hits: 8 real, 3 false positives); the roles; the F3 commit gate. The review found 0 Blockers, 1 Major, and 3 Nits. The retry recommendation of the reviewer is escalate_human.
+
+### F1 [Major]: the review pages match short decodable sentences, not single words
+
+Finding: the 16 match pairs are short decodable sentences. The order of Daniel says "read the words and match them to pictures". The repo holds single-word object pictures for ant, pot, and mop only, and the order forbids new generation. The pupil task differs from the ordered task, so Daniel decides.
+
+FIX: add an explicit decision to [spec.md](./spec.md). Answer: the new decision row P9-B20 and the extended default of Q9-9 now state: "Orchestrator decision (2026-11-14 21:10 ICT): option A, the sentences, is the working default of the batch, because the repo holds single-word object pictures for ant, pot, and mop only, and the order forbids new generation. The question goes to the PM for Daniel with three options: A, sentences (no new picture); B, single words with new pictures (paid generation, a human gate); C, single words with crops of the object from the existing story line art (no generation; a crop script and a look check). If Daniel picks B or C, a Red retry changes the RM-data and RM-pictures cases, the w08 content Green changes the data, and the proof note says so. The C2 and F3 parts do not depend on this answer."
+
+### F2 [Nit]: day 5 omits weeks 1 and 6
+
+Finding: day 5 takes its items from weeks 2, 3, 4, 5, and 7. The reason for week 1 is recorded. The reason for week 6 is not.
+
+FIX: add one line to P9-B10. Answer: P9-B10 of [spec.md](./spec.md) now holds: "Day 5 has no week 6 item, because day 3 already reviews weeks 5 and 6, and 4 pairs and 1 sentence cover 5 of the 6 weeks with decodable text (weeks 2 to 7)."
+
+### F3 [Nit]: a table-relative C2-book case cannot catch the left-middle mutant
+
+Finding: the left-middle mutant (x 0.1, y 0.25) sits on glyph ink for c and d (0.039 em and 0.042 em). C2-ink catches the combined mutant only through s. A C2-book case that compares a dot with the table that placed it cannot catch a partial mutant of c or d.
+
+FIX: state absolute positions in P9-B5 and in the C2-book case. Answer: P9-B5 of [spec.md](./spec.md) (the decision row and the case text) now holds: "C2-book asserts the absolute dot positions of spec fact 2 (car, kite, drum, can, see, saw) within 0.3 mm, not only the agreement with the table."
+
+### F4 [Nit]: RM-decodable needs the reader names and no ratio for each text
+
+Finding: the decodable check excepts the names of the source reader ("Pip" for week 6). A text such as "Pip sat on the mat!" alone is 4 of 5 decodable (0.8). A ratio assertion for each text fails the own data of the page. The E2 check computes the ratio over the whole book.
+
+FIX: state the names and drop the ratio in P9-B13. Answer: P9-B13 of [spec.md](./spec.md) now holds: "RM-decodable passes the names of the source reader to the decodable check and asserts 0 untaught words for each text; it asserts no ratio for each text."
+
+Result file: `measure/runs/storytime_print_r1_20261025/spec-review-p9b-15ea495d.json` (log: `spec-review-p9b-15ea495d.log`, commit f86763d3).
+
+Transcribed 2026-11-14 by the orchestrator build session, because the review role cannot write track files. The task in [plan.md](./plan.md) stays open until the re-check of the reviewer passes.
