@@ -1,0 +1,32 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-r6v2-fixes.test.ts [2m([22m[2m20 tests[22m[2m | [22m[31m19 failed[39m[2m)[22m[33m 3435[2mms[22m[39m
+[31m     [31m×[31m X1a: the table holds exactly the five entries, with the source and replacement SHA-256 pins[39m[32m 16[2mms[22m[39m
+[31m     [31m×[31m X1b: a line result swaps file and keeps fileName through the shipped resolver[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m X1c: a color result and an unlisted row do not change, and a scratch folder with other bytes gets no swap[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m X1d: a wrong replacement SHA-256 and a missing replacement each throw an error that starts with line-art fix:[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X2: every box of the row l2-w06-check-row-ten in weeks 6 and 8 loads ten.jpg and no box loads the line art[39m[33m 1600[2mms[22m[39m
+[31m     [31m×[31m X3: l2-w06-story-page-pat-sat-on-a-mat passes checks (a) to (g)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X3: l2-w06-story-page-sam-sat-on-a-mat passes checks (a) to (g)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X3: l2-w06-story-page-pip-sat-on-the-mat passes checks (a) to (g)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X3: l2-w06-cover-tap-tap passes checks (a) to (g)[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X3g: the table holds no entry for the row that already has black hair[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X4a: a seed on an ink pixel fails[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X4b: a region that touches the border fails[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X4c: a region with another area fails[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X4d: a region with another box fails[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X4e: a right region becomes black, changes no other pixel, and leaves the source alone[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m X5: .picture-box is solid and the dashed rules are exactly .map-place, .perforation, and .fold-line[39m[32m 201[2mms[22m[39m
+[31m     [31m×[31m X6: the tick is 2px solid, 5 mm long, offset -0.25mm, and prints at least 0.45 mm by the whole-pixel rule[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m X7a: exactly the two nose picture boxes carry data-edge-ink=clip[39m[32m 28[2mms[22m[39m
+[31m     [31m×[31m X7b: the page CSS holds the one clip rule[39m[32m 33[2mms[22m[39m
+     [33m[2m✓[22m[39m X7c: the class C line pictures with ink in the outer pixel ring are exactly the two nose files [33m 1539[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m19 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (20)[39m
+[2m   Start at [22m 14:18:04
+[2m   Duration [22m 5.15s[2m (transform 700ms, setup 96ms, import 962ms, tests 3.43s, environment 0ms)[22m
+
+JSON report written to /home/daniebo/Desktop/Workbooks/measure/runs/storytime_print_r1_20261025/p9a-red-scratch/p9a-red.json
+exit: 1

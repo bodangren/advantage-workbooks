@@ -1,0 +1,18 @@
+grep record (before the edit), base HEAD 8b9e1e72
+command: grep -rlnE "pictures-line-fix|line-art-fix|check-row-ten|picture-box|tear-tick|data-edge-ink|border-left: 0\.4mm" dashboard/__tests__
+hits: 6
+
+1. storytime-print-student-book.test.ts: no change. It counts .picture-box and writing-picture-box elements. P9-A6 changes the border style only, so the counts stay true.
+2. storytime-print-d4-prompt.test.ts: no change. It reads data-picture-id and counts writing-picture-box elements. The border style does not touch them.
+3. storytime-print-student-book-adversarial.test.ts: no change. It counts the picture boxes of reader sides. The change is the border style of .picture-box.
+4. storytime-print-reader-ink.test.ts: no change. Its pins cover .reader-picture frames, the fold line, and its own injected CSS string border-left: 0.4mm. P9-A7 keeps a solid tick border and P9-A6 does not touch .reader-picture.
+5. storytime-print-a48-step2.test.ts: no change. It counts .picture-box and prompt-row elements. The border style does not touch the counts.
+6. storytime-print-step-system.test.ts: no change. It counts writing-picture-box elements. The border style does not touch them.
+
+pin edits: none. No hit pin states the dashed .picture-box border, the 0.4mm tick border, or the -0.2mm tick offset, so no new rule makes a pin false.
+
+Q9-3 record (does the card kit use the row l2-w06-check-row-ten):
+- grep "l2-w06-check-row-ten" dashboard/lib/storytime/print/card-kit.ts gives 0 hits.
+- STORYTIME_CARD_NUMBER_DOTS holds the number card words one to nine, so no number card word is "ten".
+- storytimeCardPictureRow matches a card word to a check-row row by the row text. No card word "ten" exists, so no card uses the row l2-w06-check-row-ten.
+- result: the card kit does not use the row. Q9-3 stays "no change", and the kit keeps the color file.
