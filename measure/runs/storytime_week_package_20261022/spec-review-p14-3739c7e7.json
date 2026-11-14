@@ -1,0 +1,65 @@
+{
+  "role": "spec-review",
+  "phase": "track setup",
+  "track": "storytime_week_package_20261022",
+  "review": "Amendment: Phase 14 (2026-11-14), sound skill stages",
+  "audited_head_sha": "3739c7e7d9f0246fb5ede1e988be88602f70e3e3",
+  "head_matches": true,
+  "schema_version": 1,
+  "summary": "The Phase 14 addendum, plan section, and change list pass the spec review with no open Blocker. Two findings need a FIX or an accepted reason: one Major, the rule text for a week with no focus sound, and one Nit, a line number in the Facts.",
+  "commands": [
+    "python3 -I /tmp/opencode/p14-spec-review/thai_mask.py on spec.md, plan.md, p14-change-list.md, spec-review.md, the print plan, and w01.json to w08.json (13 filtered copies; THAI_CHARS_IN_OUTPUT: 0 for each)",
+    "git rev-parse HEAD and git show --stat 3739c7e7 76fc13b0",
+    "python3 verify.py: a model of R14-1 to R14-3 and an applier of the 114 field rows against the filtered HEAD weeks",
+    "python3 checks.py: day 1 of w01 to w08, the opening keys against the map, the 10 media paths, and the w08 audio lists",
+    "python3 scan2.py: every string of each changed week scanned for 2 or 3 positions, and each unit for a single non-first position",
+    "grep -n with cut to a line number only on the three test files (no text printed, because one holds Thai)",
+    "ls of the w01 clips wa-hello.mp3 and wa-goodbye.mp3",
+    "grep -c of the Thai rows, the field rows, and the media rows of the change list"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_week_package_20261022/spec-review-p14-3739c7e7.json",
+    "measure/runs/storytime_week_package_20261022/spec-review-p14-3739c7e7.log"
+  ],
+  "confidence": "high",
+  "reviewer_model": "opencode-go/deepseek-v4.1-flash",
+  "author_model": "claude-code/claude-opus-5-5[1m]#high",
+  "route_note": "The plan default route kimi-code-plan-cn/kimi-for-coding#high is in WAIT (weekly 98 %, reset 18:46 ICT), so the orchestrator chose opencode-go/deepseek-v4.1-flash. DeepSeek is not the Anthropic family, so decision P14-D14 and rule L15 hold for this role.",
+  "status": "pass",
+  "retry_recommendation": "none",
+  "paraphrase": {
+    "proposes": "Phase 14 separates initial-sound recognition from final-sound and middle-sound recognition in the Level 2 Storytime weeks. The phase adds the field `focus.paStage` to w01 to w08, the pure module `sound-stages.ts` with the stage plan, and three check rows that fail a week which mixes two sound positions or opens day 1 with a new sound. It changes 114 field rows and 10 media files by the change list, and it rebuilds the teacher book as TH-v3 and the student book as v18. Day 1 of w01 becomes an echo warm-up with no sound question.",
+    "current_system": "Per the spec, the day-1 and day-2 openings of w01 to w07 ask two sound positions of the new sound in one line. Step A1 of w02 to w07 holds three last-sound or middle-sound words, with a teacher line that says Now listen to the end or Now listen to the middle. The tags carry `english.phonics.pa.final-sound.identify` and `english.phonics.pa.medial-vowel.identify`, and `focus.paSkill` names both positions. `FocusSchema` is not strict, so a parse drops an unknown key, and the Monorepo `focusSchema` is `passthrough`, so the app ignores a new field. The check pages, the home cards, and the print blocks ask the first sound only, and the w08 Benchmark 1 page is the only student-book page with a last-sound task."
+  },
+  "zoom_out": "The phase solves the root fault that Daniel named, a skill order fault in the content, and not a symptom: the stage plan goes into the week data, three check rows read the rule from the data, and the unit 2 drafts get the same rule through the plan. The phase adds no speculative feature and no premature optimization. Each reuse claim cites a file and a symbol: `manual.ts:291` prints the day line, `phonemes.ts:98` builds the audio list, `word-clips.ts:447` gives the word keys, `check-weeks.ts:205` checks the clip of each opening word, and the new rows join that CLI. The logic sits in a new pure module plus three rows, which is the place the existing checks live. The content change is text only, and the phase stays at the requirement level through the change list.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] spec.md:1105 to 1109 (row R14-2, the rule and the detail parts): the new-sound part compares each label with `focus.element.sound`, and w08 has no `focus.element` key (its focus keys are family, frame, paSkill, trickyWords, and wordWall). The text does not say what the row does when the week has no focus sound, and S8 requires `pass` for w08. Fix: add one sentence to R14-2, in the form when the week has no `focus.element.sound` the new-sound part gives no part, and repeat it in S5 and S8. Rationale: Red must otherwise choose between a guard and a throw for the one shipped week that hits this case, and an edge-case behavior is a design choice that the plan must pin.",
+    "F2 [Nit] spec.md:1032 (Facts, the tests that pin a value): the text puts the table `OPENING_KEYS` at line 125 of `storytime-package-practice-clips.test.ts`, and the table starts at line 124. The counts array line 1496 and the a48 line 339 are exact, and the other two anchors (PICTURE_CARDS at 87 and SOUND_PICTURE_CARDS at 94) are exact. Fix: change 125 to 124. Rationale: the symbol name is given, so Red makes no choice; a wrong line only wastes a read."
+  ],
+  "evidence": [
+    "HEAD is 3739c7e7d9f0246fb5ede1e988be88602f70e3e3 and equals the commit under review, as the brief states. Commit 76fc13b0 holds the addendum, the plan section, and the change list; commit 3739c7e7 adds the author model line, the spec-review stub, and one print-plan sub-line.",
+    "Thai filter: step 0 ran first and printed THAI_CHARS_IN_OUTPUT: 0 for all 13 copies. I read only the filtered copies, and I printed no Thai text.",
+    "Change list shape: 114 field rows (9, 11, 13, 11, 19, 21, 17, 13 for w01 to w08), 10 media rows, and 64 rows marked yes in the Thai column. These values equal the Counts table and the PM line of the brief.",
+    "Old values are exact: my applier compared each old value with the filtered HEAD data. 113 rows match byte for byte. The one difference, C03-06, is my filter and not the list: that English cell holds a Thai word, which the filter turns into [TH]. No row of the list is wrong.",
+    "Coverage and the fail-then-pass claim: the R14 model finds 35 mixed units at HEAD (w01 4, w02 4, w03 4, w04 4, w05 6, w06 5, w07 5, w08 3), and 0 after the change list. A scan of every string of each changed week finds 0 strings with 2 or 3 positions after the change, and 0 units with a single last or middle position. So R14-1 and R14-3 fail on HEAD data and pass after the change list, as the author claims.",
+    "The mixed units at HEAD are the ones the Facts name: focus.paSkill, opening.pa.0, opening.pa.1, and scripts.0.steps.0 of each week, plus scripts.2.steps.1 (w01), scripts.0.steps.4 (w05), scripts.4.steps.1 (w05 to w07), and the w08 benchmark items. The change list has a row for each.",
+    "Day 1 of w02 to w07 asks the first sound only, and no label equals the focus sound: w02 labels Nnn against focus /a/, w03 /a/ and Nnn against /p/, w04 /p/ and /a/ against /m/, w05 Mmm and /p/ against /s/, w06 Sss and Mmm against /t/, w07 /t/ and Sss against /o/. Each day-1 word has a bank clip, and the sounds are the newest earlier sound and the one before it.",
+    "Day 1 of w01 asks no sound question: `opening.pa.0` is the echo warm-up, the line holds no sound label, `opening.audio[0]` is `[]`, and the clips wa-hello.mp3 and wa-goodbye.mp3 exist in the w01 folder.",
+    "Day 1 of w08 keeps its HEAD line and asks the first sound plus a blend by ear, which is the separate strand of P14-D1. w08 has no new sound, so the row gives no new-sound part, apart from the guard that F1 names.",
+    "Audio: the 5 copy sources exist in `content/storytime/words/` (net, nose, ant, net, apple) and no target file exists today, as the rows state. The 5 removal targets exist today (w03 cup and map, w04 arm, w05 dress, w07 sock), and no map of the week names them after the change.",
+    "Opening clips: for each of w01 to w07, the words named by the five day lines equal the keys of `opening.wordClips` at HEAD and after the change (7 of 7 weeks). So no day-1 word lacks a clip, and the map holds no extra key.",
+    "w08 audio: `opening.audio[2]` is 01-s, 02-t, 26-a-short, and 03-p, and the new `opening.pa.2` keeps the Sss label and the same blend, so the list stays correct without a change, as P14-D9 says.",
+    "S11 pins: the new `OPENING_KEYS` lists equal the map keys that the change list produces, with counts 10, 10, 9, 10, 8, 9, 10, and the Counts line 175 gives the same counts. The anchors exist: `PICTURE_CARDS` at line 87, `SOUND_PICTURE_CARDS` at line 94, the counts array at line 1496, and the a48 group head at line 339. Red owns the three test files, and the test line says so.",
+    "Check rows: each row has an exact id (`sound-stage-mix`, `sound-stage-day1`, `sound-stage-plan`), an exact signature with its inputs, an exact label, and ordered detail parts with an example. The CLI order and the source of `earlierSounds` are pinned, and a week with no meta gives no row. Red needs no choice.",
+    "Schema and receiver: `FocusSchema` sits at `dashboard/lib/storytime/schema.ts:102`, and the module holds no `passthrough` call, so the default parse drops an unknown key, as the spec says. Monorepo alone can confirm that its `focusSchema` is `passthrough` and that `opening.audio` accepts an empty day list; the spec cites `apps/storytime/lib/contracts/week.ts` read only, and Q14-5 asks Monorepo for the empty-list behavior.",
+    "Plan: each task of the phase gives a Done-when list with a command or a capture, the four gates are named, the heavy-run wrapper rule is stated, the Thai rule names the three files and the Red and Review A roles, the Red and Green families are fixed, and the order puts the Green commit before the Phase 13 Clips task and the dates 11-15 12:00, 11-15 20:00, and 11-17 10:00 in sequence.",
+    "Print plan sub-line: it names TH-v3, v18, the folder proof-books-r6-v2, the date 11-15 20:00, and the six cards that leave the kit. These values agree with P14-D12, Q14-6, and the change list.",
+    "Approval: P14-D11 keeps the approval objects, keeps w01 published, and puts Daniel's words and date into `approval.thai` after his 11-16 sitting, so the phase makes no false approval. AC14-9 records the owner gate.",
+    "The Thai values are Daniel's check on 2026-11-16. I read no Thai text, so I make no finding about a Thai value."
+  ],
+  "open_questions": {
+    "Q1": "Safe. F1 has a two-line fix in the spec, and the outcome is already pinned by S8, so the risk to the 11-15 12:00 Green date is small.",
+    "Q2": "Open for Monorepo only: that `focusSchema` is `passthrough` and that `opening.audio` accepts `[]` for a day. The spec cites the file and asks the question through Q14-5, so the Workbooks side needs no change."
+  }
+}
