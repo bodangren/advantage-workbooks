@@ -1,0 +1,18 @@
+P13 Red retry R2 mutants, test command: cd dashboard && CI=true npx vitest run __tests__/storytime-package-readalong-clips.test.ts --maxWorkers=1
+R4 the skip rule drops the text compare of M5: caught, exit 1
+  failed: × a done sentence whose item text differs from the book sentence is made again 65ms
+  failed: FAIL  __tests__/storytime-package-readalong-clips.test.ts > N3 the skip rule and the per-clip write (M4, M5) > a done sentence whose item text differs from the book sentence is made again
+  Test Files  1 failed (1)
+  Tests  1 failed | 52 passed (53)
+  expected case failed: a done sentence whose item text differs from the book sentence is made again
+  restore cmp vs copy: equal, cmp vs git show HEAD: equal
+R2 the flag --kind all maps to readalong only: caught, exit 1
+  failed: × --kind all plans both kinds: the decodable kept lines and the read-along call list 826ms
+  failed: FAIL  __tests__/storytime-package-readalong-clips.test.ts > N7 main of both makers (M6, M3) > --kind all plans both kinds: the decodable kept lines and the read-along call list
+  Test Files  1 failed (1)
+  Tests  1 failed | 52 passed (53)
+  expected case failed: --kind all plans both kinds: the decodable kept lines and the read-along call list
+  restore cmp vs copy: equal, cmp vs git show HEAD: equal
+mutants: 2, caught: 2
+restore: cmp equal 2 of 2
+exit: 0
