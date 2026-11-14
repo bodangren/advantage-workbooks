@@ -1,0 +1,60 @@
+Measure Green, P9-B content commit 1 of 2 (the w08 review-more pages)
+
+Track: storytime_print_r1_20261025. Role base: 5a271749. Phase base: 0d07336b.
+Green model: Anthropic (claude-sonnet-5-5). Red model: DeepSeek, retry R1 on Kimi. No coder was used.
+
+Work:
+1. The plan line of the task "Green, content, Claude" went to [~] in a plan-only commit (4ef4faa9). The brief says line 1416;
+   the task stands on line 1417, because line 1416 is the code task. One line changed.
+2. Rule R4: before the edit, git status of content/storytime/l2/, content/storytime/words/, and dashboard/__tests__/ showed no change.
+3. w08.json: paperMore on days 2 to 5 (data of P9-B10), and line 5 of B1, C1, D1, E1 in English and the Thai drafts T25 to T28.
+   A script wrote the text by exact string match, and a second check proved that no other key changed.
+4. step-map-u1.json made again by make-step-map.ts --level 2: pageEnd on B1, C1, D1, E1 and the new pages of C1, D1, E1.
+5. Commit 1: 46616021 (2 files). Captures: 2fe1a75f. Scope guard: outside 0.
+
+D-P9B-C1 (applied): no change to the materials lines "student book: review page N".
+
+Gates (details in the captures p9b-content-w08-gate.txt and p9b-content-w08-checks.txt):
+- GREEN_TEST_COMMAND_P9B, no --testTimeout flag: 834 tests, 820 pass, 14 fail, exit 1.
+  6 are the expected F3-order cases (weeks 2 to 7). 8 more fail; see the next list.
+- check-weeks --level 2: exit 0, 0 FAIL rows.
+
+The 8 failures outside the F3-order cases:
+ a. RM-fit (1): the Green code prints data-score="__ / 4" on the score strip of a review-more page, and Red retry R1 forbids it.
+    A code fix (student-book.ts line 717) is needed. A content role does not edit code.
+ b. F3-key-en, F3-key-th of storytime-print-v15.test.ts (2): the test takes the last 5 lists of the week key as the review lists.
+    manual.ts adds a "more" list after each of days 2 to 5. Either the code changes the order of the key, or the test changes.
+ c. U9-book of storytime-print-a48-part2.test.ts (1): the test needs the kind of pageEnd equal to the kind of the row, and pageEnd is a review-more page.
+    This is a stale test pin (P9-B12 does not list it). It needs a Mid Red retry.
+ d. U4-review3, U4-review4, U4-review5 of storytime-print-a48-step2.test.ts (3): the test reads the page with the index 130 + number.
+    The review pages 3, 4, and 5 moved by 1, 2, and 3 pages (P9-B8). Stale test pins. They need a Mid Red retry.
+ e. C-pages of storytime-print-step-system.test.ts (1): the list of 44 page kinds that carry a page number does not equal the expected 40.
+    A stale test pin. It needs a Mid Red retry.
+ The tests b to e are not on the list of tests that pass after this commit. They passed before the content, at 136 pages.
+
+Deviation: the day 4 read sentence is "Can Tom see the top?" (row l2-w07-story-page-can-tom-see-the-top), not "The top on a pot!".
+ The print list pictures.json names the line file -line-v1.png for the pot row, and the manifest selects version 2. RM-pictures needs the two equal.
+ 22 of 227 rows have this mismatch; the pot row is the only one of the 20 rows of P9-B10. The spec review did not measure it.
+ To use the spec row, the list pictures.json needs a regeneration or the test needs a change. Both are outside this commit.
+
+Not done: commit 2 (F3, weeks 2 to 7) waits for the Step B package build of 2026-11-16. The plan line stays [~].
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: partial (commit 1 of 2, the w08 pages)
+track: storytime_print_r1_20261025
+phase: P9
+phase_base_sha: 0d07336b
+role_base_sha: 5a271749
+plan_commit: 4ef4faa9
+content_commit: 46616021 (466160210325163b980ac9ada50eb183c5dcc1a4)
+captures_commit: 2fe1a75f
+tasks_flipped_x: none (line 1417 is [~])
+tasks_flipped_b: none
+gates: GREEN_TEST_COMMAND_P9B 834 tests, 820 pass, 14 fail (6 F3-order expected, 8 not expected: RM-fit, F3-key-en, F3-key-th, U9-book, U4-review3, U4-review4, U4-review5, C-pages); check-weeks exit 0 with 0 FAIL rows
+new_files: none in the repository except the captures p9b-content-w08-gate.txt, p9b-content-w08-checks.txt, p9b-content-w08-scope.txt
+changed_files: content/storytime/l2/w08.json; content/storytime/l2/step-map-u1.json
+test_files_changed: none
+deviations: (1) the day 4 read sentence and its picture row differ from the P9-B10 table (list/manifest mismatch of the pot row); (2) the plan line is 1417, not 1416; (3) one test run of 2 files (review-more, a48-step2) ran outside the heavy wrapper to check the swap, then the full gate ran again inside the wrapper
+handoff: Commit 2 (F3) waits for 2026-11-16. Before it, decide 8 failures. RM-fit needs a Green code fix: remove data-score from line 717 of student-book.ts. F3-key-en and F3-key-th need a decision: reorder the "more" key lists in manual.ts, or change the test. U9-book, U4-review3 to 5, and C-pages are stale pins and need a Mid Red retry (the pin list of P9-B12 omits them). Decide also for the pot row: keep the swap, or fix the list pictures.json (22 stale rows) and restore the spec sentence. The 4 Thai rows T25 to T28 stay for Daniel's sitting of 2026-11-16.
+END_MEASURE_AGENT_RESULT
