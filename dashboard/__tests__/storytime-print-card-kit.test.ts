@@ -85,16 +85,15 @@ const FRAME_CARDS = [
 
 /** The picture cards, in the order the weeks name them. */
 const PICTURE_CARDS = [
-    'nose', 'cat', 'sun', 'dog', 'bus', 'hat', 'fan', 'fish', 'cup', 'map', 'sheep',
-    'cap', 'arm', 'jam', 'ham', 'pen', 'dress', 'horse', 'sad', 'bag', 'boat', 'ten',
-    'pot', 'mop', 'sock',
+    'nose', 'cat', 'sun', 'dog', 'bus', 'hat', 'fan', 'fish', 'cap', 'map', 'sheep',
+    'jam', 'ham', 'pen', 'sad', 'bag', 'ten', 'cup', 'pot', 'mop', 'sock',
 ];
 
 /** The sound picture cards, in the order the weeks name them. */
 const SOUND_PICTURE_CARDS = [
     'nest', 'net', 'nut', 'apple', 'ant', 'axe', 'astronaut', 'pen', 'pencil', 'pear',
     'pineapple', 'monkey', 'mouse', 'mango', 'milk', 'sun', 'sock', 'sofa', 'sandwich',
-    'bus', 'dress', 'tiger', 'ten', 'table', 'tomato', 'octopus', 'ox', 'ostrich', 'otter',
+    'tiger', 'ten', 'table', 'tomato', 'octopus', 'ox', 'ostrich', 'otter',
 ];
 
 /** The family picture cards, in the order the weeks name them. */

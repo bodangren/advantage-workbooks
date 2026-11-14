@@ -122,13 +122,13 @@ const ITEM_KEYS = ['book', 'n', 'text', 'file', 'take', 'len_s', 'peak_dbfs', 'r
 
 /** The distinct opening words of each week, sorted by code point (the Facts section). */
 const OPENING_KEYS: Record<number, string[]> = {
-    1: ['fan', 'hen', 'nest', 'net', 'nose', 'nut', 'pen', 'sun'],
-    2: ['ant', 'apple', 'bag', 'cat', 'fan', 'hat', 'man', 'nap'],
-    3: ['cap', 'cup', 'map', 'nap', 'pan', 'pear', 'pen', 'pig', 'top'],
-    4: ['arm', 'ham', 'jam', 'man', 'mango', 'map', 'milk', 'mop', 'pam'],
-    5: ['bus', 'dress', 'sad', 'sam', 'sit', 'sock', 'sun'],
-    6: ['cat', 'hat', 'mat', 'sat', 'tap', 'ten', 'tiger', 'top'],
-    7: ['hop', 'hot', 'mop', 'nod', 'octopus', 'ox', 'pot', 'sock', 'top'],
+    1: ['fan', 'goodbye', 'hello', 'hen', 'nest', 'net', 'nose', 'nut', 'pen', 'sun'],
+    2: ['ant', 'apple', 'bag', 'cat', 'fan', 'hat', 'man', 'nap', 'net', 'nose'],
+    3: ['ant', 'cap', 'nap', 'net', 'pan', 'pear', 'pen', 'pig', 'top'],
+    4: ['apple', 'ham', 'jam', 'man', 'mango', 'map', 'milk', 'mop', 'pam', 'pan'],
+    5: ['bus', 'map', 'pan', 'sad', 'sam', 'sit', 'sock', 'sun'],
+    6: ['hat', 'map', 'mat', 'sat', 'see', 'tap', 'ten', 'tiger', 'top'],
+    7: ['hop', 'hot', 'mop', 'nod', 'octopus', 'ox', 'pot', 'see', 'teddy', 'top'],
 };
 
 /** The distinct family words of each week, sorted by code point. */
@@ -1477,14 +1477,14 @@ describe('D2 openingWordKeys (L4)', () => {
     /** The expression of L4, written here to count the forms of the shipped data. */
     const FORM = /(?:Listen: |What is the word\? )([A-Za-z]+)[.!]/g;
 
-    it('gives the 8 words of the hand-written table of the shipped w01', async () => {
+    it('gives the 10 words of the hand-written table of the shipped w01', async () => {
         const openingWordKeys = await clips('openingWordKeys');
         const keys = openingWordKeys(startWeek(1).opening?.pa ?? []);
-        expect([...keys].sort(), 'nose, sun, nest, pen, net, nut, hen, fan').toEqual(['fan', 'hen', 'nest', 'net', 'nose', 'nut', 'pen', 'sun']);
+        expect([...keys].sort(), 'nose, net, nest, nut, hen, fan, hello, goodbye, pen, sun').toEqual(['fan', 'goodbye', 'hello', 'hen', 'nest', 'net', 'nose', 'nut', 'pen', 'sun']);
         expect(new Set(keys).size, 'each key once').toBe(keys.length);
     });
 
-    it('gives the distinct counts 8, 8, 9, 9, 7, 8, 9 and the hand-written words for w01 to w07', async () => {
+    it('gives the distinct counts 10, 10, 9, 10, 8, 9, 10 and the hand-written words for w01 to w07', async () => {
         const openingWordKeys = await clips('openingWordKeys');
         const counts: number[] = [];
         for (let week = 1; week <= 7; week += 1) {
@@ -1493,7 +1493,7 @@ describe('D2 openingWordKeys (L4)', () => {
             expect(new Set(keys).size, `week ${week}: each key once`).toBe(keys.length);
             counts.push(keys.length);
         }
-        expect(counts).toEqual([8, 8, 9, 9, 7, 8, 9]);
+        expect(counts).toEqual([10, 10, 9, 10, 8, 9, 10]);
     });
 
     it('finds 10 word forms in the 5 lines of each shipped week (the data, counted with the expression of L4)', () => {

@@ -336,7 +336,7 @@ describe('A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the rev
             expect(row.querySelectorAll('.picture-box')).toHaveLength(3);
         });
         const heads = Array.from(page.querySelectorAll('[data-part="row-group-head"]'));
-        expect(heads.map(text)).toEqual(['Listen. Circle the picture that starts with the sound.', 'Listen. Circle the picture that ends with the sound.']);
+        expect(heads.map(text)).toEqual(['Listen. Circle the picture that starts with the sound.']);
         expect(heads[0].querySelectorAll('[data-part="step-icon"]')).toHaveLength(2);
         expect(page.querySelectorAll('[data-answer], [data-correct], .answer, .correct')).toHaveLength(0);
         expect(text(page.querySelector('[data-part="score-strip"]')!), 'a blank, then the total').toBe('/ 8');
