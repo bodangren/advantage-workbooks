@@ -80,3 +80,7 @@ Status: pass (0 Blockers; the gate PASS at 23:48 on the audited head c42918df; a
 Result file: `measure/runs/storytime_week_package_20261022/spec-review-p13-c42918df.json` (the log: `spec-review-p13-c42918df.log`).
 
 Transcribed 2026-11-14 by the orchestrator build session, because the review role cannot write track files.
+
+## Amendment: Phase 14 (2026-11-14)
+
+Author model: claude-code/claude-opus-5-5[1m]#high (Build session, 2026-11-14)
