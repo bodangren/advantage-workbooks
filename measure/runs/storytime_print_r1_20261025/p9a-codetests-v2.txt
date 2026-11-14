@@ -1,0 +1,108 @@
+Code tests on the r6-v2 proof
+
+Track: storytime_print_r1_20261025
+Phase: P9
+Task: Task (Code tests on the r6-v2 proof)
+HEAD: 32ffdf744dc2093035bad1f26c326a4f08b0a50e
+phase_base_sha: 8b9e1e723196dde3578f09aa19144a965beb78fc
+role_base_sha: 32ffdf744dc2093035bad1f26c326a4f08b0a50e
+Proof PDF: /home/daniebo/Desktop/print-ready/storytime/proof-books-r6-v2/student/Storytime-Advantage-L2-U1-Student-Book-v18_PDFX-1a.pdf
+Proof SHA-256: 6768d50198fe24f8ee944df31dac3d58929ab53edf25e59f1b6cc9fd59440211
+
+CODE_TESTS
+numTotalTests: 269
+numFailedTests: 0
+Per test file:
+- storytime-print-a48-part3a.test.ts: 16 passed, 0 failed
+- storytime-print-step-system.test.ts: 57 passed, 0 failed
+- storytime-print-a48-part2.test.ts: 27 passed, 0 failed
+- storytime-print-a48-step2.test.ts: 39 passed, 0 failed
+- storytime-print-dictation-case.test.ts: 2 passed, 0 failed
+- storytime-print-h1-classes.test.ts: 32 passed, 0 failed
+- storytime-week.test.ts: 44 passed, 0 failed
+- storytime-package-sound-stages.test.ts: 52 passed, 0 failed
+
+CODE_TEST_LIVE
+- Summary: 8 package(s), 0 failed check(s), 8 warning(s).
+- sound-stage-mix for st2/1 through st2/8: passed
+- sound-stage-day1 for st2/1 through st2/8: passed
+- sound-stage-plan for st2/1 through st2/8: passed
+
+CODE_TEST_QR
+- Decoded codes: 28
+- Expected codes: 28
+- Matching codes: 28
+- Mismatches: 0
+
+Rows
+C1
+- S-words-n: passed
+- S-words-a: passed
+- S-words-p: passed
+- S-words-m: passed
+- S-words-s: passed
+- S-words-t: passed
+- S-words-o: passed
+- S-words-mutants: passed
+- S-all: passed
+- S-weeks: passed
+C2
+- D-all: passed
+- D-letters: passed
+- D-mutants: passed
+- W-layout: passed
+C3
+- S-words-n: passed
+- S-words-a: passed
+- S-words-p: passed
+- S-words-m: passed
+- S-words-s: passed
+- S-words-t: passed
+- S-words-o: passed
+- S-words-mutants: passed
+- S-a-up: passed
+C4
+- S-all: passed
+- D-letters: passed
+E2
+- counts decodable, tricky, name, and untaught words (design §5.6): passed
+- fails a decodable under 90 percent or with an untaught word, lists names, allows the week 1 sound book, and warns with no level: passed
+E3
+- T-rule: passed
+- P-write: passed
+- K-taught: passed
+- accepts a capitalised dictated word that C3 says: passed
+- rejects a dictated word that C3 does not say: passed
+E6
+- gives a pass for a week that asks one position in each activity: passed
+- gives the exact detail for two mixed activities: passed
+- gives a pass for the three rows of every shipped week of Level 2: passed
+- sound-stage-mix for st2/1 through st2/8: passed
+E7
+- gives the untaught sound of a week-3 fixture: passed
+- gives a pass for a week-3 fixture with an earlier sound and the first position: passed
+- gives a pass for the three rows of every shipped week of Level 2: passed
+- sound-stage-day1 for st2/1 through st2/8: passed
+- sound-stage-plan for st2/1 through st2/8: passed
+F6
+- U9-file: passed
+- U9-book: passed
+- U8-pages: passed
+- U4-map: passed
+- U6-pages: passed
+H1
+- H1-classes: passed
+- H1-* cases (31 cases): passed
+- reports no text difference for identical layout text: not in CODE_TESTS
+I1
+- Q-roundtrip: passed
+- Q-mutant: passed
+- Q-two: passed
+- Q-compare: passed
+- Q-expected: passed
+- proof PDF decode: 28 of 28 passed, 0 mismatches
+
+Capture names: tests, live, qr, tests-summary, qr-report
+CODE_TESTS exit: 0
+CODE_TEST_LIVE exit: 0
+CODE_TEST_QR exit: 0

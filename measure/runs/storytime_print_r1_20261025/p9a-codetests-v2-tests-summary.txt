@@ -1,0 +1,117 @@
+CODE_TESTS JSON summary
+numTotalTests: 269
+numFailedTests: 0
+
+Per test file
+storytime-print-a48-part3a.test.ts | passed=16 failed=0
+storytime-print-step-system.test.ts | passed=57 failed=0
+storytime-print-a48-part2.test.ts | passed=27 failed=0
+storytime-print-a48-step2.test.ts | passed=39 failed=0
+storytime-print-dictation-case.test.ts | passed=2 failed=0
+storytime-print-h1-classes.test.ts | passed=32 failed=0
+storytime-week.test.ts | passed=44 failed=0
+storytime-package-sound-stages.test.ts | passed=52 failed=0
+
+Rows
+C1
+  passed | S-words-n
+  passed | S-words-a
+  passed | S-words-p
+  passed | S-words-m
+  passed | S-words-s
+  passed | S-words-t
+  passed | S-words-o
+  passed | S-words-mutants
+  passed | S-all
+  passed | S-weeks
+
+C2
+  passed | D-all
+  passed | D-letters
+  passed | D-mutants
+  passed | W-layout
+
+C3
+  passed | S-words-n
+  passed | S-words-a
+  passed | S-words-p
+  passed | S-words-m
+  passed | S-words-s
+  passed | S-words-t
+  passed | S-words-o
+  passed | S-words-mutants
+  passed | S-a-up
+
+C4
+  passed | S-all
+  passed | D-letters
+
+E2
+  passed | counts decodable, tricky, name, and untaught words (design §5.6)
+  passed | fails a decodable under 90 percent or with an untaught word, lists names, allows the week 1 sound book, and warns with no level
+
+E3
+  passed | T-rule
+  passed | P-write
+  passed | K-taught
+  passed | accepts a capitalised dictated word that C3 says
+  passed | rejects a dictated word that C3 does not say
+
+E6
+  passed | gives a pass for a week that asks one position in each activity
+  passed | gives the exact detail for two mixed activities
+  passed | gives a pass for the three rows of every shipped week of Level 2
+
+E7
+  passed | gives the untaught sound of a week-3 fixture
+  passed | gives a pass for a week-3 fixture with an earlier sound and the first position
+  passed | gives a pass for the three rows of every shipped week of Level 2
+
+F6
+  passed | U9-file
+  passed | U9-book
+  passed | U8-pages
+  passed | U4-map
+  passed | U6-pages
+
+H1
+  passed | H1-classes
+  not in CODE_TESTS | reports no text difference for identical layout text
+  passed | A-48 H1: the six classes H1-minutes: the A1 badge and minutes line is an A-42 routine; the reason names the badge and the minutes
+  passed | A-48 H1: the six classes H1-minutes-down: the A4 line, where the loop minutes are fewer, is an A-42 routine too
+  passed | A-48 H1: the six classes H1-badge: the A3 line, where only the badge changes, is an A-48 badge
+  passed | A-48 H1: the six classes H1-badge-tricky: the D2 line, where the badge is the code of the step map, is an A-48 badge
+  passed | A-48 H1: the six classes H1-page: the A3 materials line with a page reference is a page reference
+  passed | A-48 H1: the six classes H1-page-wrong: a page reference line with another word is a word change
+  passed | A-48 H1: the six classes H1-loop: a soundLoop line of week 1 is an A-42 routine, with and without its outer quotes
+  passed | A-48 H1: the six classes H1-loop-labels: the fixed loop labels and the seconds line are A-42 routines
+  passed | A-48 H1: the six classes H1-d3: the question lines of the read-along of week 1 and the D3 label are D3 questions
+  passed | A-48 H1: the six classes H1-word: the Start at the top line is a word change
+  passed | A-48 H1: the six classes H1-other: an added line that no rule knows is other, with the reason "added line"
+  passed | A-48 H1: the six classes H1-reflow: a removed line whose text stands in the new week text is other, with the reflow reason
+  passed | A-48 H1: the six classes H1-removed: a removed line that is not in the new week text is other, with the reason "removed line"
+  passed | A-48 H1: the report H1-format: the report lines are byte-equal to the lines of the text gate before H1
+  passed | A-48 H1: the report H1-roundtrip: a report with a quote inside a line parses back to the same differences
+  passed | A-48 H1: the report H1-parse: a line that does not parse stops the parser and names the line
+  passed | A-48 H1: the report H1-sum: the class counts add up to the count of the report, and a lost or added row is a problem
+  passed | A-48 H1: the report H1-section: the text of a week is the text between its heading and the heading of the next week
+  passed | A-48 H1: the report H1-markdown: the list has the source report, its SHA-256, a summary whose total equals the count, and one row for each difference
+  passed | A-48 H1 r2: block context, recall, wrapped parts, position pairs H1r2-block-added: an added line under the heading B7 is an A-42 routine of LP-26 class B; under another heading it stays other
+  passed | A-48 H1 r2: block context, recall, wrapped parts, position pairs H1r2-block-d6: the heading D6 gives the same class as B7
+  passed | A-48 H1 r2: block context, recall, wrapped parts, position pairs H1r2-block-removed: a removed line under B7 in the draft is an A-42 routine, the old place of the song step, also when its text stands in the new text
+  passed | A-48 H1 r2: block context, recall, wrapped parts, position pairs H1r2-recall: the recall label, its ask lines, and its cards line are A-42 routines with the recall reason
+  passed | A-48 H1 r2: block context, recall, wrapped parts, position pairs H1r2-recall-first: a recall line under the heading B7 is a recall line, not a song line
+  passed | A-48 H1 r2: block context, recall, wrapped parts, position pairs H1r2-wrapped: a part of a printed loop line takes the class of the whole line; a short part does not
+  passed | A-48 H1 r2: block context, recall, wrapped parts, position pairs H1r2-pair-recall: the A1 title paired with the recall label is a position pair with the class of the recall
+  passed | A-48 H1 r2: block context, recall, wrapped parts, position pairs H1r2-pair-song: the B7 title paired with the C1 title is a position pair; the expected side is the old place of the song step
+  passed | A-48 H1 r2: block context, recall, wrapped parts, position pairs H1r2-pair-wrapped: a materials line whose expected text stands in the new text is a position pair of the class other
+  passed | A-48 H1 r2: block context, recall, wrapped parts, position pairs H1r2-edit: a real edit stays a word change, with the same step code or no code and an expected text that is not in the new text
+  passed | A-48 H1: the scripts H1-script: classify-text-gate exits 1 on a report line that does not parse, and 2 on an output that exists or is outside the print-ready folder
+  passed | A-48 H1: the scripts H1-build: the teacher-book build has the h1 list in its output list, and a link at that path stops the build before it writes outside
+
+I1
+  passed | Q-roundtrip
+  passed | Q-mutant
+  passed | Q-two
+  passed | Q-compare
+  passed | Q-expected
