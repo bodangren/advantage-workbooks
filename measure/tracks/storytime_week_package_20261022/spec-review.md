@@ -84,3 +84,20 @@ Transcribed 2026-11-14 by the orchestrator build session, because the review rol
 ## Amendment: Phase 14 (2026-11-14)
 
 Author model: claude-code/claude-opus-5-5[1m]#high (Build session, 2026-11-14)
+
+Reviewer model: opencode-go/deepseek-v4.1-flash (family DeepSeek, not Anthropic)
+
+Route note: the plan default route kimi-code-plan-cn/kimi-for-coding#high is in WAIT (weekly 98 %, reset 18:46 ICT), so the orchestrator chose opencode-go/deepseek-v4.1-flash. DeepSeek is not the Anthropic family, so decision P14-D14 and rule L15 hold for this role.
+
+Scope: the section "Addendum 2026-11-14, Phase 14: sound skill stages (Daniel's look at the teacher lesson pages)" of [spec.md](./spec.md), the section "Phase 14: Sound skill stages (2026-11-14 to 2026-11-17)" of [plan.md](./plan.md), and [p14-change-list.md](./p14-change-list.md), at the audited head 3739c7e7.
+
+### Findings
+
+- F1 [Major] spec R14-2 (lines 1105 to 1109): the new-sound part compares each label with `focus.element.sound`, and w08 has no `focus.element` key (its focus keys are family, frame, paSkill, trickyWords, and wordWall). The text did not say what the row does then, and S8 requires `pass` for w08. FIX: R14-2 now says "When the week has no `focus.element.sound`, the new-sound part gives no part (w08 has no `focus.element` key); the `untaught sound` part still applies." S5 adds a fixture week with no `focus.element.sound` that gives no new-sound part and does not throw. S8 names w08 and says that its R14-2 gives no new-sound part. The plan Red task states no w08 case in another way, so `plan.md` does not change.
+- F2 [Nit] spec Facts (the tests that pin a value): the text put the table `OPENING_KEYS` at line 125 of `storytime-package-practice-clips.test.ts`, and the table starts at line 124 (checked in the file). FIX: the text now says line 124.
+
+Status: pass (0 Blockers; the gate PASS on the audited head 3739c7e7; answers in this commit)
+
+Result file: `measure/runs/storytime_week_package_20261022/spec-review-p14-3739c7e7.json` (the log: `spec-review-p14-3739c7e7.log`).
+
+Transcribed 2026-11-14 by the orchestrator build session, because the review role cannot write track files.
