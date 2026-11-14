@@ -1,0 +1,79 @@
+Green log: print proof, Phase 14, storytime_week_package_20261022
+Date: 2026-11-14. Start 16:42 ICT. End 17:47 ICT.
+Role: measure-jr-green. Model: claude-code/claude-sonnet-5-5#high. Packaging run: no code change, no test change, no content change.
+
+Work done
+1. The Print proof task went to [~] (commit 2cc08f53).
+2. The tree hash of each of the 38 existing folders under print-ready/storytime/ was recorded before the first build (p14-proof-tree-before.txt).
+3. The 8 Thai drafts were built, 8 exit codes 0. The first try used the plan command without --book-pages (p14-proof-drafts-try1.txt, commit 415a9b69). The teacher book build of this first try gave 316 text gate differences, all page-list rows (p14-proof-teacher-try1.txt). The role cleared its own new drafts and teacher folders, built the drafts again with --book-pages (p14-proof-drafts.txt), and built the teacher book TH-v3 again. The text gate gave 0 differences for each of the 8 weeks, and the build exited 0 with 224 pages (p14-proof-teacher.txt, commit dbad483d).
+4. The student book v18 was built: exit 0, 136 pages, 20.8 MB (p14-proof-student.txt, commit e7a89496).
+5. The 2 r6 covers were copied as bytes from proof-books-r6-v1. The SHA-256 pairs are equal, 2 of 2 (p14-proof-covers.txt).
+6. The fold-test PDF was built in one heavy-run wrapper: 86 pages, A4, 84 of 84 page texts equal to the source pages (p14-proof-fold.txt, commit 42d1c0bd with the cover capture).
+7. PRINT_GATE ran on the 4 book files in one wrapper: 4 lines EXIT=0 with "All checks pass." The page counts are 2, 136, 2, and 224 (p14-proof-gate.txt, commit ae51bb53, with the contact sheet script p14_proof_contact.py).
+8. Contact sheets: student cover 1 sheet, student book 17, teacher cover 1, teacher book 28. The pages covered are 2, 136, 2, and 224 (p14-proof-contact.txt).
+9. The maker looked at the pages (see the section "Pages opened").
+10. The note p14-proof-note.md and MANIFEST.txt were written. The check sha256sum -c MANIFEST.txt exits 0 for 64 of 64 files, and the 64 sizes agree. MANIFEST.txt SHA-256 is 9665cf322fe24ea3d986cdd29e1910f1cce35756459574b8e9b26b579e7e6e48 (p14-proof-manifest.txt).
+11. The tree hash check: 38 folders before, 38 after, diff lines 0 (p14-proof-tree.txt, commit 498bd069, with the contact and manifest captures).
+12. Plan evidence: the Print proof task is [x] with commit 498bd06 and one evidence sub-line. The print plan has one new sub-line under the Phase 9 release proof task (commit 5ebb84b9).
+
+Source commit
+The build used HEAD 570a510f. The command git diff --stat a318b199 HEAD -- content/storytime/l2 before the first build gave 5 files, 41 insertions (the 5 print-fix files of e0350881). The same command before the student book build gave the same result. No code or content file changed between 570a510f and the builds (decision D-P14-PP1).
+
+Pages opened
+The maker rendered each page and looked at it. Contact sheets opened: student-book/sheet-129-136.png and teacher-book/sheet-001-008.png.
+- Teacher book, day 1 of each week (3 pages each, the opening game, A1, A2): w01 pages 3, 4, 5; w02 pages 29, 30, 31; w03 pages 58, 59, 60; w04 pages 87, 88, 89; w05 pages 116, 117, 118; w06 pages 145, 146, 147; w07 pages 173, 174, 175; w08 pages 202, 203, 204. Each page has a complete layout, no overflow, and the new Phase 14 text (first-sound lines only for w01 to w07; the w08 opening ends with the blend nnn - /a/ - /p/).
+- Student page 130 and 131 (w08 Benchmark 1): 8 rows with the position mark and a score box, then the 7 write boxes.
+- Student page 9: the tear-out ticks are thick and clear at the top and bottom of the left edge.
+- Student pages 6 and 96: solid frames. The "ten" picture shows the numeral 10 over 10 dots.
+- Student page 94: the picture shows one child with black hair in a solid frame. The room scene is still cut at the frame edge (the A6 rest, open).
+- Student page 132: the nose strokes stop before the frame at the top and the bottom of the box.
+No page was wrong.
+
+Deviations
+- The plan step 1 draft command has no --book-pages flag. The text gate needs drafts with this flag (the baseline of the teaching loops track). The role used the flag. The plan text of the Print proof task still shows the old command. The PM or the orchestrator can add the flag to the plan.
+- The role used a Python heredoc for the first plan edit (the [~] line), and shell redirects (the characters less-than and greater-than) in scratch commands: a sed with an output file and two while-read loops that read /tmp/opencode/p9-fold/files.lst. These commands read files or wrote scratch files only. They changed no file of the repository and no existing folder. All captures use tee.
+- MANIFEST.txt uses the line format "sha256, two spaces, path" with the header and the sizes as comment lines starting with "# ". The format of proof-books-r6-v1 had a size column, and sha256sum -c cannot read that format. The result is that sha256sum -c MANIFEST.txt exits 0, and a second check (size lines) agrees.
+- The first manifest capture printed the exit status of tail in place of sha256sum. The role ran the check again with the true exit status. The committed capture is the second one.
+- The plan line numbers named in the brief (668 to 675) had moved to 673 to 681 because of earlier commits. The role edited by exact text.
+- The scratch folder /tmp/opencode/p9-fold was removed at the end. The look sheets, which were in this folder, are not kept.
+- No pnpm-lock.yaml change. The file video/storytime-song/scripts/render.mjs and the other files of other sessions were not touched.
+
+Files added in the repository: p14-proof-tree-before.txt, p14-proof-drafts.txt, p14-proof-drafts-try1.txt, p14-proof-teacher.txt, p14-proof-teacher-try1.txt, p14-proof-student.txt, p14-proof-covers.txt, p14-proof-fold.txt, p14-proof-gate.txt, p14-proof-contact.txt, p14_proof_contact.py, p14-proof-manifest.txt, p14-proof-tree-after.txt, p14-proof-tree.txt, and this log. Plan files changed: the Phase 14 plan (the Print proof task, 3 places) and the print plan (1 sub-line).
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_week_package_20261022
+phase: P14 (Phase 14: Sound skill stages), Task (Print proof)
+phase_base_sha: 76fc13b0
+role_base_sha: 570a510f
+commits: 2cc08f53 (task to [~]), 415a9b69 (tree before, drafts try 1), dbad483d (teacher book TH-v3, drafts with --book-pages), e7a89496 (student book v18), 42d1c0bd (covers, fold-test), ae51bb53 (print gate, contact script), 498bd069 (contact sheets, manifest check, tree check), 5ebb84b9 (plan evidence, both plans), log commit follows this file
+files_changed: measure/tracks/storytime_week_package_20261022/plan.md; measure/tracks/storytime_print_r1_20261025/plan.md (1 sub-line); measure/runs/storytime_week_package_20261022/p14-proof-* captures, p14_proof_contact.py, this log; outside the repository: ~/Desktop/print-ready/storytime/proof-books-r6-v2/ (new, 64 files, 209 MB)
+gates:
+  - source check: git diff --stat a318b199 HEAD -- content/storytime/l2 = 5 files (the e0350881 print-fix files)
+  - drafts: 8 of 8 exit 0 (with --book-pages)
+  - teacher book TH-v3: exit 0, 224 pages, text gate 0 differences for each of 8 weeks
+  - student book v18: exit 0, 136 pages
+  - covers: 2 of 2 SHA-256 pairs equal
+  - fold-test: 86 pages, A4, 84 of 84 page texts equal
+  - PRINT_GATE student cover r6: EXIT=0, 2 pages, A4
+  - PRINT_GATE student book v18: EXIT=0, 136 pages, A4
+  - PRINT_GATE teacher cover r6: EXIT=0, 2 pages, A4
+  - PRINT_GATE teacher book TH-v3: EXIT=0, 224 pages, A4
+  - contact sheets: 1, 17, 1, 28 sheets; pages covered 2, 136, 2, 224
+  - sha256sum -c MANIFEST.txt: exit 0, 64 of 64 OK; sizes agree
+  - tree hash of the existing folders: 38 before, 38 after, diff lines 0
+  - ls proof-books-r6-v2/teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-v3_PDFX-1a.pdf lists the file
+proof_folder: /home/daniebo/Desktop/print-ready/storytime/proof-books-r6-v2/
+manifest_sha256: 9665cf322fe24ea3d986cdd29e1910f1cce35756459574b8e9b26b579e7e6e48
+file_sha256:
+  student book v18: 6768d50198fe24f8ee944df31dac3d58929ab53edf25e59f1b6cc9fd59440211
+  teacher book TH-v3: 1f9191803523e72216f3c268fd7cc0a9b14a1c38f78ecbafbfe97d2024a9f29a
+  student cover r6: 03b5b18ab12ec54153f9c46dc6ae36c2477ebef716354d86e148ccfae53542e2
+  teacher cover r6: a21a20d447fa75e8a8794bb5ac7c4d99e8d664ff040286c665bd6b277e45c163
+  fold-test v18: e861f918f88ecfb7f5ff85d0baeb53a03f25b9c5ef5a3d91d5fb8aaa3c32ac09
+pages_opened: teacher 3-5, 29-31, 58-60, 87-89, 116-118, 145-147, 173-175, 202-204; student 130, 131, 9, 6, 96, 94, 132 (all correct); contact sheets student-book/sheet-129-136 and teacher-book/sheet-001-008
+tasks_flipped: Task (Print proof) of Phase 14 to [x] (commit 498bd06)
+deviations: see the section "Deviations" above (--book-pages in the draft build; one heredoc and a few shell redirects in scratch commands; MANIFEST line format for sha256sum -c)
+handoff: The PM can run the print audit on proof-books-r6-v2 with MANIFEST.txt SHA-256 9665cf322fe24ea3d986cdd29e1910f1cce35756459574b8e9b26b579e7e6e48. The note p14-proof-note.md in the folder lists the audit findings of r6-v1: D1, D7, B3, B4, and the nose part of A6 fixed in e035088; B1 fixed in this folder; A6 rest, C2, D2, D5, E22, and F3 open for Daniel's proof look. The plan text of the Print proof task needs --book-pages in step 1 (the draft command). The card kit is not rebuilt (Q14-6). The release proof task of Phase 9 stays [~].
+END_MEASURE_AGENT_RESULT
