@@ -1143,7 +1143,7 @@ The author ran a model of these rules in a scratch script. It finds every fault 
 
 ### Acceptance Criteria
 
-- AC14-1: `cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2` shows `sound-stage-mix`, `sound-stage-day1`, and `sound-stage-plan` with `pass` for st2/1 to st2/8, and the summary prints `FAIL rows other than published: 0`. The rows `practice-clips` and `phoneme-audio` stay `pass`.
+- AC14-1: `cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2` shows `sound-stage-mix`, `sound-stage-day1`, and `sound-stage-plan` with `pass` for st2/1 to st2/8, and the summary prints `Summary: 8 package(s), 0 failed check(s)`. The rows `practice-clips` and `phoneme-audio` stay `pass`.
 - AC14-2: the apply check is the Green script `measure/runs/storytime_week_package_20261022/p14-apply-check.py`. It parses the change list table and applies each row to the parse of `git show ddc70618:content/storytime/l2/w0<n>.json`. Then it compares the result with the parse of the new file. It prints `rows applied 114`, `weeks equal 8 of 8`, `copies cmp equal 5 of 5`, and `removed 5 of 5`.
 - AC14-3: the text edit keeps the form of the file (K4). In `git diff -U0 ddc70618` of each week file, no removed line equals an added line of the same hunk after the removal of all spaces (`p14-form-check.txt` prints `whitespace-only changes 0` for each week), and the capture records `git diff --numstat` of each week file.
 - AC14-4: `grep -c '"paStage"' content/storytime/l2/w0<n>.json` prints 1 for each of w01 to w08. `grep -c "final-sound.identify\|medial-vowel.identify" content/storytime/l2/w0<n>.json` prints 0 for each of w01 to w08.
