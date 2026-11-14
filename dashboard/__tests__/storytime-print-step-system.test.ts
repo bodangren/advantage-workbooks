@@ -558,10 +558,10 @@ describe('A-48: the page chrome and the shared look', () => {
         expect(rule).toMatch(/bottom:\s*[\d.]+mm/);
         expect(doc.querySelectorAll('.student-page[data-page-kind="reader"] [data-part="page-number"], .student-page[data-page-kind="reader"] [data-part="week-label"]')).toHaveLength(0);
         const marked = Array.from(doc.querySelectorAll('.student-page')).filter((page) => page.querySelector('[data-part="page-number"]'));
-        // The week 8 pages (the 2 benchmark pages and the 5 reviews) carry a number and a week header too (A-48 U4).
+        // The week 8 pages (the 2 benchmark pages, the 5 reviews, and the 4 review-more pages) carry a number and a week header too (A-48 U4, P9-B8).
         expect(marked.map((page) => page.getAttribute('data-page-kind'))).toEqual([
             ...Array.from({ length: 7 }, () => ['practice', 'writing', 'check', 'home-front', 'home-back']).flat(),
-            'benchmark', 'benchmark', 'review', 'review', 'review', 'review', 'review',
+            'benchmark', 'benchmark', 'review', 'review', 'review-more', 'review', 'review-more', 'review', 'review-more', 'review', 'review-more',
         ]);
         for (const page of marked) expect(text(onlyPart(page, 'page-number'))).toBe(page.getAttribute('data-page-number'));
     });

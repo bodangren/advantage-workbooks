@@ -1,0 +1,26 @@
+P9-B Red retry R2, four stale pins (2026-11-14, kimi-code-plan-cn/kimi-for-coding#high)
+Reason for each move: the rule of P9-B8 (or P9-B11, P9-B12) makes the old pin false.
+
+1. dashboard/__tests__/storytime-print-a48-part2.test.ts, line 359 (case U9-book)
+   old: if (row.pageEnd) expect(sections.get(row.pageEnd)!.getAttribute('data-page-kind')).toBe(row.pageKind);
+   new: if (row.pageEnd) expect(sections.get(row.pageEnd)!.getAttribute('data-page-kind')).toBe(row.pageKind === 'review' ? 'review-more' : row.pageKind);
+   Reason: the rule of P9-B12 makes the old pin false. The B1, C1, D1, E1 rows get pageEnd, and the page at pageEnd is the review-more page (134, 136, 138, 140), not the row kind review. The A1 benchmark row keeps its kind at pageEnd (131).
+
+2. dashboard/__tests__/storytime-print-a48-step2.test.ts, line 364 (cases U4-review3, U4-review4, U4-review5)
+   old: const page = pages(doc)[130 + number];
+   new: const page = pages(doc)[[132, 133, 135, 137, 139][number - 1] - 1];
+   Reason: the rule of P9-B8 makes the old pin false. Review 1 to 5 sit on pages 132, 133, 135, 137, 139, not on 5 adjacent pages. Form chosen: the P9-B8 page map (the Nth page of kind review reads less direct, because review-more pages sit between the review pages).
+
+3. dashboard/__tests__/storytime-print-step-system.test.ts, line 561 comment and line 564 list (case C-pages)
+   old comment: // The week 8 pages (the 2 benchmark pages and the 5 reviews) carry a number and a week header too (A-48 U4).
+   new comment: // The week 8 pages (the 2 benchmark pages, the 5 reviews, and the 4 review-more pages) carry a number and a week header too (A-48 U4, P9-B8).
+   old list tail: 'benchmark', 'benchmark', 'review', 'review', 'review', 'review', 'review',
+   new list tail: 'benchmark', 'benchmark', 'review', 'review', 'review-more', 'review', 'review-more', 'review', 'review-more', 'review', 'review-more',
+   Reason: the rule of P9-B8 makes the old pin false. The marked list now holds 46 entries: the 4 review-more pages carry a number and sit after Review 2, 3, 4, and 5, in the P9-B8 order. (The brief said 44; the actual marked list is 46, the old 42 plus 4.)
+
+4. dashboard/__tests__/storytime-print-v15.test.ts, line 13 import, lines 219-228 selection, lines 249-254 more-list assertion (cases F3-key-en, F3-key-th)
+   old: const lists = Array.from(keyDoc.querySelectorAll('ol')).filter((ol) => ol.previousElementSibling?.querySelector('strong')).slice(-5);
+   new: the 5 review lists are picked by their heading (labels.reviewPage(day) via storytimeLabels(lang)), not by position; and for each of days 2 to 5, the list right after the day list is the "more" list, with the heading labels.reviewPage(day) + " more".
+   Reason: the rule of P9-B11 makes the old pin false. The key now holds a "more" list after each of days 2 to 5, so the last 5 lists of the key are not the 5 review day lists.
+
+Run: all 4 files pass (exit 0). ESLint exit 0.

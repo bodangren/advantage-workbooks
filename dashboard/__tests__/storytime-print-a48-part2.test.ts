@@ -356,7 +356,7 @@ describe('A-48 part 2, U9: the step map file for the app (tasks 4.3 and 4.6)', (
             const section = sections.get(row.page)!;
             expect(section.getAttribute('data-page-kind'), `week ${row.week} ${row.code}`).toBe(row.pageKind);
             if (row.pageKind !== 'book-map') expect(Number(section.getAttribute('data-week')), `week ${row.week} ${row.code}`).toBe(row.week);
-            if (row.pageEnd) expect(sections.get(row.pageEnd)!.getAttribute('data-page-kind')).toBe(row.pageKind);
+            if (row.pageEnd) expect(sections.get(row.pageEnd)!.getAttribute('data-page-kind')).toBe(row.pageKind === 'review' ? 'review-more' : row.pageKind);
         }
         expect(readRows().filter((row) => row.code === 'E5').map((row) => row.page)).toEqual([6, 24, 42, 60, 78, 96, 114]);
         expect(readRows().find((row) => row.week === 8 && row.code === 'A1')).toMatchObject({ page: 130, pageEnd: 131 });

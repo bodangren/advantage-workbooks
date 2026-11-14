@@ -361,7 +361,8 @@ describe('A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the rev
         const { doc } = await book();
         const week8 = weeks()[7];
         const ids = await checkRowIds();
-        const page = pages(doc)[130 + number];
+        // P9-B8: Review 1 to 5 sit on pages 132, 133, 135, 137, 139; pages() is the 0-based page list.
+        const page = pages(doc)[[132, 133, 135, 137, 139][number - 1] - 1];
         const day = week8.block!.days[number - 1];
         const words = day.paper.filter((item) => item.kind === 'circle-word') as { words: string[]; answer: string }[];
         const sort = day.paper.find((item) => item.kind === 'picture-sort') as { groups: { sound: string; pictures: string[] }[] };

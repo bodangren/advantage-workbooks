@@ -11,6 +11,7 @@ import { checkStorytimePrintText } from '../lib/storytime/print/text-check';
 import { STORYTIME_CHECK_ROW_TYPES } from '../lib/storytime/print/step-map';
 import { compileStorytimeReaders, storytimeReaderLeafSides } from '../lib/storytime/print/readers';
 import { renderStorytimeWeek } from '../lib/storytime/manual';
+import { storytimeLabels } from '../lib/storytime/i18n';
 
 /**
  * A-48 part F, the v15 fix batch (PM decisions of 2026-11-05 on the v14 audit):
@@ -215,8 +216,16 @@ describe('v15 F3: the week 8 teacher key names only the pictures that print', ()
             expect(reviewPages).toHaveLength(5);
             const keyDoc = new DOMParser().parseFromString(renderStorytimeWeek(week8, lang), 'text/html');
             // The answer key of the review pages is the last block of the week: one titled list for each day.
-            const lists = Array.from(keyDoc.querySelectorAll('ol')).filter((ol) => ol.previousElementSibling?.querySelector('strong')).slice(-5);
-            expect(lists).toHaveLength(5);
+            const labels = storytimeLabels(lang);
+            // P9-B11: the key holds one list per review day, headed by the review-page heading, and a "more" list after each of days 2 to 5.
+            const lists = [1, 2, 3, 4, 5].map((day) => {
+                const list = Array.from(keyDoc.querySelectorAll('ol')).find((ol) => {
+                    const strong = ol.previousElementSibling?.querySelector('strong');
+                    return !!strong && text(strong) === labels.reviewPage(day);
+                });
+                expect(list, `day ${day} key list`).toBeDefined();
+                return list!;
+            });
             week8.block!.days.slice().sort((x, y) => x.day - y.day).forEach((day, d) => {
                 const groups = day.paper.flatMap((item) => (item.kind === 'picture-sort' ? item.groups : []));
                 expect(groups.length, `day ${d + 1}`).toBeGreaterThan(0);
@@ -237,6 +246,12 @@ describe('v15 F3: the week 8 teacher key names only the pictures that print', ()
                     expect(own.length, `day ${d + 1} ${sound} prints a target`).toBeGreaterThan(0);
                     expect(keyed.get(sound), `day ${d + 1} ${sound} (${lang})`).toBe(own.join(', '));
                 });
+                // P9-B11: the "more" list of the day comes right after the day list, for days 2 to 5.
+                if (d >= 1) {
+                    const more = lists[d].nextElementSibling?.nextElementSibling;
+                    expect(more?.tagName, `day ${d + 1} more list`).toBe('OL');
+                    expect(text(more!.previousElementSibling?.querySelector('strong') ?? more!), `day ${d + 1} more heading`).toBe(`${labels.reviewPage(d + 1)} more`);
+                }
             });
         });
     }
