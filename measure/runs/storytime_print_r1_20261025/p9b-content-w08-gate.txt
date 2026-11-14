@@ -1,0 +1,50 @@
+P9-B Green, content commit 1 (w08 review-more pages): gate GREEN_TEST_COMMAND_P9B.
+Date: 2026-11-14. Wrapper: heavy-run.sh, HEAVY_PRIORITY=p2, one foreground run. No --testTimeout flag. Reporter: json.
+Command: GREEN_TEST_COMMAND_P9B of spec line 716 with --reporter=json --outputFile=/tmp/opencode/p9b-content/green.json.
+Working tree: the 2 content files changed (w08.json, step-map-u1.json). HEAD at the run: 4ef4faa9.
+Thai text in this file: none (a script drops every non-ASCII character).
+
+Result: exit 1. Test files 27. Tests 834: 820 pass, 14 fail.
+
+The 14 failures, in 4 groups:
+
+Group 1, expected (6): F3-order of storytime-print-f3-script-order.test.ts, weeks 2, 3, 4, 5, 6, 7.
+  They wait for commit 2 (F3, the Step B package build of 2026-11-16).
+
+Group 2, a stale test pin that the Red role did not edit (5 failures, 3 tests):
+  - U9-book of storytime-print-a48-part2.test.ts. The test checks that the page kind of pageEnd equals the page kind
+    of the row. The rows B1, C1, D1, E1 now end on a review-more page (the spec says so in P9-B12). The test reads
+    "expected 'review-more' to be 'review'" at line 359.
+  - U4-review3, U4-review4, U4-review5 of storytime-print-a48-step2.test.ts. The test reads the page with the index
+    130 + number. The review 3, 4, 5 pages are now the pages 135, 137, 139. The index 133, 134, 135 holds a
+    review-more page, a review page of another day, and a review-more page. The spec P9-B12 lists the pin edits
+    U2-count, U4-order, and U4-chrome only.
+  - C-pages of storytime-print-step-system.test.ts. The test lists the kinds of the pages that carry a page number:
+    the 5 review entries. The book now has 9 review-type entries (5 review, 4 review-more). The list holds 44 entries
+    and the test expects 40.
+
+Group 3, a code gap in the Green code commit 6f38383d (1): RM-fit of storytime-print-review-more.test.ts.
+  The page of review-more prints the score strip with the attribute data-score="__ / 4". The Red retry R1
+  (da2b5554, D-P9B-G2) forbids that attribute and reads the visible text " / 4" after the blank span.
+  The message: "page 134 (and 136, 138, 140) holds 0 score strips". The fix is one attribute in
+  dashboard/lib/storytime/print/student-book.ts (line 717). A content role does not edit code.
+
+Group 4, the order of the answer key in manual.ts (2): F3-key-en and F3-key-th of storytime-print-v15.test.ts.
+  The test takes the last 5 lists of the week key (slice(-5)) as the 5 review days. manual.ts (commit 6f38383d) adds a
+  "more" list after the list of each of days 2 to 5. The last 5 lists are no longer the 5 review lists, and the
+  message is "day 1 has a picture-sort key: expected undefined to be defined".
+
+Tests that must pass after this commit, and their result:
+  RM-count PASS, RM-order PASS, RM-data PASS, RM-pictures PASS (see the note below), RM-no-position PASS, RM-steps PASS,
+  RM-fit FAIL (group 3), U2-count PASS, U4-order PASS, U4-chrome PASS, binding-practice "fills the 8-week book to 140
+  pages" PASS, F1-numbers of v15 PASS, U8-pages of a48-part2 PASS.
+  The tests RM-decodable, RM-stable, RM-no-picture, and U9-file also pass.
+
+Note on RM-pictures (a deviation from spec P9-B10, one cell):
+  The spec read sentence of day 4 is "The top on a pot!" (row l2-w07-story-page-the-top-on-a-pot). RM-pictures fails
+  for this row: the print list pictures.json names the line file ...-line-v1.png, and the manifest selects version 2
+  (...-line-v2.png). The test needs the two names equal. 22 of the 227 rows of pictures.json have this
+  mismatch; 1 of the 20 rows of the P9-B10 table is among them. The content now uses the row
+  l2-w07-story-page-can-tom-see-the-top ("Can Tom see the top?"), a week 7 row of the same page style, with no
+  mismatch. RM-pictures and RM-decodable pass with it.
+  The first gate run (with the spec row) had 15 failures: the 14 above and RM-pictures.

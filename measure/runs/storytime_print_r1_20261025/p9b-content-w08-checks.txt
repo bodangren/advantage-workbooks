@@ -1,0 +1,10 @@
+P9-B Green, content commit 1 (w08 review-more pages): check-weeks.
+Date: 2026-11-14. Wrapper: heavy-run.sh, HEAVY_PRIORITY=p2, one foreground run.
+Command: cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2
+Thai text in this file: none.
+
+exit: 0
+Summary line of the tool: 8 package(s), 0 failed check(s), 8 warning(s).
+Rows: 359 PASS, 8 WARN, 0 FAIL. The row "published" is PASS.
+The 8 warnings: 7 of "readalong-sentence-clips" (weeks 1 to 7) and 1 of "print-missing" (a week with no print block).
+No check reads paperMore (Q9-9). The run before the commit was not measured.

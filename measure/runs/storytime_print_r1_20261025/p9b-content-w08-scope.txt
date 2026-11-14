@@ -1,0 +1,26 @@
+P9-B Green, content commit 1 (w08 review-more pages): scope guard.
+Date: 2026-11-14.
+Content commit: 466160210325163b980ac9ada50eb183c5dcc1a4 (46616021). Parent: 4ef4faa9 (plan [~] commit). Role base: 5a271749.
+Rule R4: before the edit, git status --porcelain of content/storytime/l2/, content/storytime/words/, and dashboard/__tests__/ showed no change.
+
+Files in the content commit (git diff --name-only HEAD~1 HEAD):
+content/storytime/l2/step-map-u1.json
+content/storytime/l2/w08.json
+Count: 2. outside: 0
+
+git diff --stat HEAD~1 -- content/storytime/l2/media content/storytime/l2/print/pictures: prints nothing (0 bytes).
+No icon file changed: make-step-map.ts wrote the 7 icon files again and git shows no change in them.
+
+Changes in w08.json (only these keys):
+- block.days[1..4].paperMore (days 2 to 5): 4 pairs, pictureOrder, read. Day 1 has no paperMore.
+- scripts[1..4].steps[0].en.teacherActions[4] (B1, C1, D1, E1): "... review page N and the page after it in the student book ..." (N = 2, 3, 4, 5).
+- scripts[1..4].steps[0].th.teacherActions[4]: the 4 Thai drafts T25 to T28 of p9b-thai-change-list.md, copied by a script from that file.
+- A script compared the parsed file before and after: with the 12 changed values restored, the two JSON values are equal. The approval key did not change.
+
+Changes in step-map-u1.json: pageEnd 134, 136, 138, 140 added to B1, C1, D1, E1; page of C1, D1, E1 is 135, 137, 139 (B1 stays 133).
+
+Decision D-P9B-C1 (the orchestrator default, applied): the materials lines "student book: review page N" of B1, C1, D1, E1 do not change.
+The teacher book prints the page range from the step map (P9-B12, pageEnd).
+
+Deviation (1 cell of the P9-B10 table): the day 4 read sentence is "Can Tom see the top?" (row l2-w07-story-page-can-tom-see-the-top)
+in place of "The top on a pot!". The reason is in p9b-content-w08-gate.txt (RM-pictures: the list and the manifest disagree for the pot row).
