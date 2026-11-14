@@ -1,0 +1,78 @@
+P9-B Green, run 1 of 2 (code), gate GREEN_TEST_COMMAND_P9B at code commit 6f38383d.
+Command: the full command of spec line 716, plus --testTimeout=60000 (see the note below),
+run in one heavy-run wrapper. Output: vitest JSON, summarized by a script that masks Thai text.
+Result: exit 1. 815 checks pass and 19 fail. The 19 failures are in 6 files.
+
+Note on --testTimeout=60000: the case C2-ink of storytime-print-c2-start-table.test.ts renders
+32 glyphs in a child process. It takes 4.4 to 5.0 seconds, and the default limit is 5 seconds.
+Without the flag, C2-ink timed out twice at 5000 ms, with the values correct. The test file and
+vitest.config.ts are outside the files of this task, so Green sets no timeout in either file.
+Decision for the orchestrator: a Mid Red retry adds a timeout argument to that one case.
+
+Every failure waits for a content commit. None needs another code change:
+- F3-order weeks 2 to 7 (6 failures): the D4 script lines of w02 to w07 change in the F3 content commit.
+- RM-count, RM-order, RM-no-position, RM-fit, U2-count, U4-order, U4-chrome, binding-practice
+  "fills the 8-week book to 140 pages", F1-numbers of v15 (9 failures): the book stays at 136 pages
+  until w08.json holds paperMore on days 2 to 5 (the w08 content commit). The code adds a
+  review-more page only for a day that holds paperMore.
+- RM-data, RM-pictures (2 failures): the paperMore data of w08 is absent.
+- RM-steps (1 failure): line 5 of B1, C1, D1, and E1 and step-map-u1.json change in the w08 content commit.
+- U8-pages of a48-part2 (1 failure): the page range of step B1 in the teacher book is 133 to 134
+  only when the page 134 exists (the w08 content commit).
+Proof that the code makes the pages: capture p9b-green-probe.txt (the data of spec P9-B10 added
+in memory only, no file written; 140 pages, the 4 pages have 5 pictures, 5 rows, and __ / 4).
+
+Files with no failure: c2-start-table (6 of 6), the two loops-content files (P9B_PATHS pin edits
+hold), loops-checks, loops-manual, loops-schema, loops-teacher-book, manual, package-sound-stages,
+a48-part3a, d4-prompt, dictation-case, r6v2-fixes, step-system, the student-book files,
+the teacher-book files, weeks-2-8, and week. RM-stable, RM-decodable, and RM-no-picture pass.
+
+Per-file summary:
+storytime-loops-checks.test.ts: 38/38 pass
+storytime-loops-content.test.ts: 104/104 pass
+storytime-loops-manual.test.ts: 10/10 pass
+storytime-loops-schema.test.ts: 27/27 pass
+storytime-loops-share-content.test.ts: 75/75 pass
+storytime-loops-teacher-book.test.ts: 6/6 pass
+storytime-manual.test.ts: 27/27 pass
+storytime-package-sound-stages.test.ts: 52/52 pass
+storytime-print-a48-part2.test.ts: 26/27 pass
+   FAIL U8-pages: the materials name the printed page of the student book ("? :: AssertionError: week 8 B1: expected '??????????: books (one for each pair)…' to contain '??????????????? ???? 133–134'
+storytime-print-a48-part3a.test.ts: 16/16 pass
+storytime-print-a48-step2.test.ts: 36/39 pass
+   FAIL U2-count: the book keeps 140 pages :: AssertionError: expected 136 to be 140 // Object.is equality
+   FAIL U4-order: the book keeps 140 pages; the benchmark takes pages 130 and  :: AssertionError: expected [ Array(136) ] to have a length of 140 but got 136
+   FAIL U4-chrome: each benchmark and review page has the week header, the pag :: AssertionError: expected 'C1' to be 'B1' // Object.is equality
+storytime-print-binding-practice.test.ts: 3/4 pass
+   FAIL fills the 8-week book to 140 pages with the benchmark before Review 1  :: AssertionError: expected [ Array(136) ] to have a length of 140 but got 136
+storytime-print-c2-start-table.test.ts: 6/6 pass
+storytime-print-d4-prompt.test.ts: 6/6 pass
+storytime-print-dictation-case.test.ts: 2/2 pass
+storytime-print-f3-script-order.test.ts: 5/11 pass
+   FAIL F3-order week 2: the D4 rows and the D4 script name the same items in  :: AssertionError: the D4 script of week 2 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+   FAIL F3-order week 3: the D4 rows and the D4 script name the same items in  :: AssertionError: the D4 script of week 3 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+   FAIL F3-order week 4: the D4 rows and the D4 script name the same items in  :: AssertionError: the D4 script of week 4 names "find the word" later than the item above it; the page order is trace, draw, choice, line
+   FAIL F3-order week 5: the D4 rows and the D4 script name the same items in  :: AssertionError: the D4 script of week 5 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+   FAIL F3-order week 6: the D4 rows and the D4 script name the same items in  :: AssertionError: the D4 script of week 6 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+   FAIL F3-order week 7: the D4 rows and the D4 script name the same items in  :: AssertionError: the D4 script of week 7 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+storytime-print-r6v2-fixes.test.ts: 20/20 pass
+storytime-print-review-more.test.ts: 3/10 pass
+   FAIL RM-count: the compiled student book has 140 pages, a multiple of 4, an :: AssertionError: the pages of the compiled student book: expected 136 to be 140 // Object.is equality
+   FAIL RM-order: after page 131 the week 8 page kinds are review, review, rev :: AssertionError: the pages of the compiled student book: expected 136 to be greater than or equal to 140
+   FAIL RM-data: days 2 to 5 hold paperMore with 4 pairs, a pictureOrder with  :: AssertionError: day 2 has no paperMore field
+   FAIL RM-pictures: each picture row of a page is in the list, comes from a w :: AssertionError: day 2 has no picture rows to check
+   FAIL RM-no-position: a review-more page asks no position mark and no sound  :: AssertionError: page 134 is not a review-more page
+   FAIL RM-steps: line 5 of B1, C1, D1, and E1 names the page after it, and th :: AssertionError: line 5 of B1 does not name the page after the review page: "Paper: review page 2 in the student book, then one earlier review page that the child has not done."
+   FAIL RM-fit: a review-more page holds 4 match rows, 1 read row, and a score :: AssertionError: page 134 has 0 picture boxes; the spec has 5
+storytime-print-step-system.test.ts: 57/57 pass
+storytime-print-student-book-adversarial-r2.test.ts: 49/49 pass
+storytime-print-student-book-adversarial.test.ts: 55/55 pass
+storytime-print-student-book.test.ts: 77/77 pass
+storytime-print-teacher-book-adversarial.test.ts: 28/28 pass
+storytime-print-teacher-book.test.ts: 11/11 pass
+storytime-print-v15.test.ts: 27/28 pass
+   FAIL F1-numbers: the 14 home-card pages print their own page number; the bo :: AssertionError: expected <section …(3)>…(4)</section>
+storytime-print-weeks-2-8.test.ts: 5/5 pass
+storytime-week.test.ts: 44/44 pass
+total passed 815 failed 19
+exit: 1

@@ -1,0 +1,16 @@
+P9-B Green, run 1 of 2 (code): the C2 file at code commit 6f38383d.
+Command: cd dashboard && CI=true npx vitest run __tests__/storytime-print-c2-start-table.test.ts --testTimeout=120000 --maxWorkers=1
+Result: 6 of 6 pass (exit 0): C2-keys, C2-taught, C2-ink, C2-book, C2-all-letters, C2-mutants.
+Time of C2-ink: 4449 ms in this run. The default limit is 5000 ms.
+Without the flag --testTimeout, C2-ink timed out at 5000 ms in two runs (the first run had the
+review-page file in the same command). The values are not the cause: with the flag the case passes.
+The test file sets no timeout. Green may not edit it. The orchestrator decides on a Mid Red retry
+that adds a timeout argument to the case C2-ink (default: yes, 60000 ms).
+The vitest output of the passing run:
+ PASS C2-keys
+ PASS C2-taught
+ PASS C2-ink (4449 ms)
+ PASS C2-book (1969 ms)
+ PASS C2-all-letters
+ PASS C2-mutants (754 ms)
+Tests 6 passed (6). Test files 1 passed (1). exit: 0
