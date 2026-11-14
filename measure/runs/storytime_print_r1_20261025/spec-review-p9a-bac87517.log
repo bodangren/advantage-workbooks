@@ -1,0 +1,68 @@
+# Spec Review Log: storytime_print_r1_20261025 (P9 addendum 2026-11-14)
+
+Reviewer: measure-spec-review subagent, DeepSeek V4.1 Flash 1017 (opencode-go/deepseek-v4.1-flash).
+Round: 1. Date: 2026-11-14.
+role_base_sha: bac87517c06cb301243ce947664239d2b72be574. audited_head_sha: bac87517c06cb301243ce947664239d2b72be574. HEAD equals the audited head.
+Scope: the section "Addendum 2026-11-14: print audit gate, code tests, and the r6-v2 fix batch" of spec.md (P9-A1 to P9-A11, Q9-1 to Q9-5), the five new Phase 9 tasks (plan lines 1385 to 1403), and print-audit-code-tests.md.
+Standard: ~/.agents/skills/measure/references/spec-review.md. Audit schema: measure-orchestrator references/contracts.md.
+
+## Steps
+
+1. Thai filter first. Wrote p9a-spec-review-scratch/thai_mask.py. Ran it with python3 -I on spec.md, plan.md, and print-audit-code-tests.md. Each output printed THAI_CHARS_IN_OUTPUT: 0. Read only the masked copies.
+2. Wrote the provisional JSON and this log with status inconclusive.
+3. Checked the CSS facts, the resolver calls, the row ids, the hashes, the manifest versions, and the audit report. Every read of a print module or a Thai-bearing test file went through the masked grep.
+4. Reproduced P9-A5 with an own flood fill. All four areas and boxes match exactly.
+5. Checked the 11 code-test rows, the 13 gate files, the fold-test script options, and the Phase 14 commit a318b199.
+6. Decided: no Blocker, no Major, three Nits.
+
+### What this track proposes
+
+The addendum records the print audit gate and its pass rule as P9-A1, and the 11-row code-test list as P9-A2 in print-audit-code-tests.md. It fixes six audit minors for proof-books-r6-v2: D1 swaps the ten picture to ten.jpg through a new line-art fix table, D7 fills the hair of Pat in four week 6 pictures, B1 adds a fold-test PDF, B3 makes the picture frames solid, B4 makes the tear-out ticks 0.5 mm wide, and the nose part of A6 clips two nose pictures. It sends six other minors (A6 rest, C2, D2, D5, E22, F3) to Daniel's proof look, and it names the lane, the order, and the dates of one spec review, one Red, and one Green before the 2026-11-15 20:00 hand-off.
+
+### How the current system works, per this spec
+
+The print modules build the student book, the readers, the card kit, and the teacher book from the week packages and the Forge picture batch. One function, resolveStorytimePictureFiles(folder, rows, kind), gives the file of each picture row to the readers, the student book, and the card kit after the manifest SHA-256 check. The student book CSS draws the picture frames dashed at 0.6 mm and the reader tear ticks 1 px wide, and the resolver has no repair hook. The pictures, the manifest, and the hashes stay byte equal, and the app media take the color files only.
+
+### Findings
+
+- F1 [Nit] spec.md P9-A7: The new `.tear-tick` rule changes `left: -0.2mm` to `left: -0.25mm` and the text gives no reason. The Red case X6 pins the width, the length, and the solid border, but no case pins the offset. Rationale: the implementer must guess whether the offset change is intended or a slip. Fix: after the rule line in P9-A7 add: `The left offset changes from -0.2mm to -0.25mm, so the 0.53 mm band is centred on the perforation line (0.25 mm to the left, 0.28 mm to the right). The X6 case also pins the offset.` Disposition: FIX.
+- F2 [Nit] spec.md addendum request line: The line says `10 minors (A6, B1, B3, B4, C2, D1, D2, D5, D7, E22, F3)` and names 11 rows. The audit summary counts 10 and leaves E22 out; E22 appears only in its J1 re-check table as a minor. Rationale: a wrong count reaches the PM hand-off. The six open items of P9-A10 are right. Fix: replace the parenthetical with `10 minors in the audit summary (A6, B1, B3, B4, C2, D1, D2, D5, D7, F3); the J1 re-check table also marks E22 as a minor, so 11 rows need Daniel's decision`. Disposition: FIX.
+- F3 [Nit] print-audit-code-tests.md header: The header names the hand-off as version 0.2 with SHA-256 `2c2638de…faec`. That value is version 0.1. Version 0.2 is `3ba657f39bcfc781da581bff93df6a7245f674df4deac023576f5d52ad0aba81`. Rationale: the file cites the wrong hash for its own source; the PM accepted this fault. Fix: replace `2c2638de…faec` with `3ba657f39bcfc781da581bff93df6a7245f674df4deac023576f5d52ad0aba81`. Disposition: FIX.
+
+## Checks behind the findings
+
+- P9-A5 reproduced. Flood fill (open = gray 128 or more, 4-connected) on the shipped line art gives: pat-sat 157420 px and box (1195, 1297, 1896, 1733); sam-sat 187021 px and (1143, 1229, 1874, 1741); pip-sat 186107 px and (820, 1236, 1543, 1773); cover-tap-tap 214243 px and (1115, 1283, 1834, 1820). Difference 0 in every number. No region touches the border. Each seed is 255.
+- P9-A5 target looked at. A tinted montage shows a full head of hair in each of the four pictures. The color files have mean RGB about (50, 42, 37) in those regions, so the hair is black, as Pat's hair is.
+- Hashes. All six SHA-256 values of P9-A4 and P9-A5 match. The manifest selects line v1 for the four Pat rows and line v2 for l2-w06-check-row-ten.
+- CSS. student-book.ts:138 `.picture-box` is `0.6mm dashed`; .map-place 93, .perforation 221, .fold-line 228; readers.ts:619 `.tear-tick` is `left: -0.2mm` with `border-left: 0.4mm solid`; readers.ts:542 .fold-line; card-kit.ts:826 `.card-picture-empty` `0.4mm dashed`. Exactly three dashed rules remain in the student book after the change, so the P9-A6 test can pass.
+- Resolver. picture-check.ts:614 holds resolveStorytimePictureFiles(folder, rows, kind); calls at readers.ts:196 and 216, student-book.ts:767, card-kit.ts:589 and 597; the type holds rowId, fileName, file; art-edge-fill.ts is the cited pattern; line 589 of student-book.ts holds the earliest-week rule.
+- Nose rows. pictures.json holds both ids (lines 334 and 414).
+- Audit report. PASS, 0 blockers, 0 majors, 10 minors; the minor set, the 0.25 mm tick at column x=142 rows 0 to 58, pages p96, p132, p134, p94, and the room-scene pages match the addendum.
+- Pages. Week blocks start at 4, 22, 40, 58, 76, 94, 112 and week 8 is 130 to 136, so the reader sides are 9+18(n-1) to 20+18(n-1), 84 sides; with 2 lead sheets the fold test holds 86 pages. make-fold-test-lead-pdf.ts takes --out, needs an absolute path, allows /tmp/opencode/, and refuses a PDF that is not 2 pages. check-qr.ts takes --level, --out, and a positional PDF.
+- Code-test list. All 11 rows name real test names and real paths. The names S-words-%s, S-words-mutants, S-all, S-weeks, S-a-up, D-all, D-letters, D-mutants, W-layout, both decodable names, P-write, T-rule, K-taught, both dictation names, the S4 and S5 names, the S8 name, U9-file, U9-book, U8-pages, U4-map, U6-pages, H1-classes and the other H1-* names, the teacher-book name, and Q-roundtrip, Q-mutant, Q-two, Q-compare, Q-expected were found by masked grep.
+- Gate files. 12 of the 13 files of GREEN_TEST_COMMAND_P9A exist. storytime-print-r6v2-fixes.test.ts is the Red file, so its absence is correct.
+- Phase 14. a318b199 changed w01.json to w08.json, schema.ts, sound-stages.ts, check-weeks.ts, and word audio. It changed no print file, no step-map-u1.json, and no page code. The check-page pins (6, 24, 42, 60, 78, 96, 114) still match. The addendum facts hold on HEAD.
+
+## Verdict
+
+status pass. No open Blocker and no open Major. Three Nit findings, all FIX. retry_recommendation none.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+status: pass
+track: storytime_print_r1_20261025
+phase: track setup
+role_base_sha: bac87517c06cb301243ce947664239d2b72be574
+findings:
+- F1 [Nit] spec.md P9-A7 (tear-tick offset change has no reason) - FIX
+- F2 [Nit] spec.md addendum request line (11 rows named under a count of 10 minors) - FIX
+- F3 [Nit] print-audit-code-tests.md header (v0.1 SHA-256 named for v0.2) - FIX
+blocking_findings: none
+files_written: measure/runs/storytime_print_r1_20261025/spec-review-p9a-bac87517.json, measure/runs/storytime_print_r1_20261025/spec-review-p9a-bac87517.log
+deviations:
+- Route substitution: kimi-code-plan-cn/kimi-for-coding#high is on WAIT (weekly 98 percent, reset 18:46 ICT); ra-quota skipped this Go route for a missing 5-hour window; the Go plan is at weekly 11.5 percent. The reviewer family (DeepSeek) is not the author family (Anthropic).
+- The review ran in two sessions because of a step limit; the second session continued from the same scratch copies and the same HEAD.
+- No vitest, no PDF build, and no heavy job ran, as the brief requires.
+- The scratch folder `measure/runs/storytime_print_r1_20261025/p9a-spec-review-scratch/` was NOT deleted. The shell of this role denies `rm` and `rmdir` ("Permission denied: shell"), and the role cannot write outside its two artifacts. The folder holds only masked copies and analysis scripts, with 0 Thai characters. A Build session deletes it with `rm -rf measure/runs/storytime_print_r1_20261025/p9a-spec-review-scratch`.
+handoff: The orchestrator transcribes the three findings and writes spec-review.md under "## Amendment: print audit gate and r6-v2 fix batch (2026-11-14)" with the line "Reviewer model: opencode-go/deepseek-v4.1-flash". F3 is the fault the PM already accepted; F1 and F2 are new. Red may start after the Phase 14 Green commit closes the Phase 14 Red window (rule R1). Delete the scratch folder p9a-spec-review-scratch/ when the next Build session runs. No commit was made.
+END_MEASURE_AGENT_RESULT

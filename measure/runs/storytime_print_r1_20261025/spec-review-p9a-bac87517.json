@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "summary": "Round 1 spec review of the 2026-11-14 addendum (P9-A1 to P9-A11, Q9-1 to Q9-5), the five new Phase 9 tasks, and print-audit-code-tests.md. No Blocker and no Major finding. Three Nit findings: the unexplained tear-tick offset change, the minor count of the addendum request line, and the v0.1 SHA-256 in the code-test list header. Every check of the batch reproduced: the four D7 seeds give the exact areaPx and bbox of the spec, all six SHA-256 values match, the CSS facts of P9-A6 to P9-A8 match the files, the two nose row ids exist, all 11 code-test rows name real files and real test names, and the fold-test page list and commands fit the shipped scripts.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Nit] spec.md P9-A7: The new `.tear-tick` rule changes `left: -0.2mm` to `left: -0.25mm` and the text gives no reason. The Red case X6 pins the width, the length, and the solid border, but no case pins the offset. Rationale: the implementer must guess whether the offset change is intended or a slip. Fix: after the rule line in P9-A7 add: `The left offset changes from -0.2mm to -0.25mm, so the 0.53 mm band is centred on the perforation line (0.25 mm to the left, 0.28 mm to the right). The X6 case also pins the offset.`",
+    "F2 [Nit] spec.md addendum request line: The line says `10 minors (A6, B1, B3, B4, C2, D1, D2, D5, D7, E22, F3)` and names 11 rows. The audit summary counts 10 and leaves E22 out; E22 appears only in its J1 re-check table as a minor. Rationale: a wrong count reaches the PM hand-off. The six open items of P9-A10 are right. Fix: replace the parenthetical with `10 minors in the audit summary (A6, B1, B3, B4, C2, D1, D2, D5, D7, F3); the J1 re-check table also marks E22 as a minor, so 11 rows need Daniel's decision`.",
+    "F3 [Nit] print-audit-code-tests.md header: The header names the hand-off as version 0.2 with SHA-256 `2c2638de…faec`. That value is version 0.1. Version 0.2 is `3ba657f39bcfc781da581bff93df6a7245f674df4deac023576f5d52ad0aba81`. Rationale: the file cites the wrong hash for its own source; the PM accepted this fault. Fix: replace `2c2638de…faec` with `3ba657f39bcfc781da581bff93df6a7245f674df4deac023576f5d52ad0aba81`."
+  ],
+  "evidence": [
+    "Thai filter first: p9a-spec-review-scratch/thai_mask.py (range chr(0x0E00) to chr(0x0E7F)) ran with python3 -I on spec.md, plan.md, and print-audit-code-tests.md; each output printed THAI_CHARS_IN_OUTPUT: 0. All reads used the masked copies. A masked grep confirmed the Thai rule is needed: storytime-print-a48-part2.test.ts printed `(\"[TH] [TH] N\")`.",
+    "HEAD check: git rev-parse HEAD gives bac87517c06cb301243ce947664239d2b72be574, equal to role_base_sha and audited_head_sha.",
+    "P9-A5 reproduced with an own 4-connected flood fill (open = gray value 128 or more) on the shipped line art: pat-sat 157420 px, bbox (1195, 1297, 1896, 1733); sam-sat 187021 px, bbox (1143, 1229, 1874, 1741); pip-sat 186107 px, bbox (820, 1236, 1543, 1773); cover-tap-tap 214243 px, bbox (1115, 1283, 1834, 1820). Area difference 0 and bbox difference 0,0,0,0 for all four; no region touches the border; each seed pixel is 255.",
+    "P9-A5 target check: a tinted montage of the four regions shows the filled area is the hair of a head in all four pictures, not the face. The same regions in the color files have mean RGB about (50, 42, 37), so the hair is black, as the spec says of Pat.",
+    "SHA-256 of the sources matches the spec exactly: ten.jpg 45548b692934a9ff1d9a39da120c214d77c8eeffc08bd582ff90a1bdc7285431, ten line v2 b9647ab86cf41e1839877290f668e9f984c830307944fa8440433111d4b07e1e, pat 78ece6ba…, sam 8f930c72…, pip f990e6ab…, cover 48efe50b….",
+    "Files and shapes: ten.jpg is an 800x800 JPEG; the four line sources are 4000x3000 8-bit grayscale PNG; the two nose files are 1500x1500. pictures/manifest.json selects line v1 for the four Pat rows and line v2 for l2-w06-check-row-ten, so every sourceFile of the table is the file that the resolver reads.",
+    "CSS facts: student-book.ts:138 `.picture-box { border: 0.6mm dashed #000; ... }`; .map-place at 93, .perforation at 221, .fold-line at 228; readers.ts:619 `.tear-tick { ... left: -0.2mm; ... border-left: 0.4mm solid #000; }`; readers.ts:542 .fold-line; card-kit.ts:826 `.card-picture-empty { border: 0.4mm dashed #000; }`. A masked grep finds exactly three dashed rules in student-book.ts after the change, so the P9-A6 test can pass.",
+    "Resolver facts: resolveStorytimePictureFiles(folder, rows, 'color' | 'line') at picture-check.ts:614; calls at readers.ts:196 and 216, student-book.ts:767, card-kit.ts:589 and 597; the result type holds rowId, fileName, and file; art-edge-fill.ts exists with readArtEdgeFillTable and edgeFilledArtPath as the cited pattern; student-book.ts:589 holds the earliest-week review row rule; pictureElement is at 262.",
+    "Nose rows: pictures.json holds l2-w01-check-row-nose (line 334) and l2-w01-practice-line-nose (line 414), so the P9-A8 constant names real rows.",
+    "Audit report facts match the addendum: verdict PASS with 0 blockers, 0 majors, 10 minors; minors A6, B1, B3, B4, C2, D1, D2, D5, D7, F3; E22 marked minor in the J1 table only; tick 0.25 mm (3 px at 300 dpi) at column x=142, rows 0 to 58; ten at p96 item 2 and p134 item 5; nose cut at p132 and p134; room scenes p22, p23, p40, p58, p76, p94, p112; B1 audit default pages 9 to 20.",
+    "Page list of P9-A9 fits the book: week blocks start at 4, 22, 40, 58, 76, 94, 112 and week 8 is 130 to 136, so the reader sides are 9+18(n-1) to 20+18(n-1), 84 sides plus 2 lead sheets give 86 pages. The lead build takes --out, requires an absolute path, and allows /tmp/opencode/ (outputRoots at make-fold-test-lead-pdf.ts:24); it refuses a PDF that is not 2 pages (line 80). check-qr.ts takes --level and --out and a positional PDF.",
+    "Code-test list: all 11 rows name real test names, found by masked grep: S-words-%s and S-words-mutants, S-all, S-weeks, S-a-up, D-all, D-letters, D-mutants, W-layout, the two decodable names, P-write, T-rule, K-taught, the two dictation names, the S4 and S5 names with R14-1 and R14-2, the S8 name, U9-file, U9-book, U8-pages, U4-map, U6-pages, H1-classes, H1-sum and the other H1-* names, the teacher-book name, and Q-roundtrip, Q-mutant, Q-two, Q-compare, Q-expected. Every named path exists: letter-strokes.ts (LETTER_STROKES), trace-words.ts, taught-letters.ts, step-pages.ts, step-map.ts, text-diff.ts, text-diff-classes.ts, qr-check.ts (expectedStudentBookQrs), files.ts (PHONICS_GRAPH_FILE), readers.ts (qrPathOf), classify-text-gate.ts, make-teacher-book-print.ts, and the 8 draft PDFs.",
+    "GREEN_TEST_COMMAND_P9A: 12 of the 13 files exist on HEAD; storytime-print-r6v2-fixes.test.ts is the file that Red creates, so its absence is correct. sound-stages.ts and storytime-package-sound-stages.test.ts landed with Phase 14.",
+    "Phase 14 check (a318b199): the commit changed w01.json to w08.json, schema.ts, sound-stages.ts, check-weeks.ts, and word audio. It changed no print file, no step-map-u1.json, and no page code, and the check-page pins of U9-book (6, 24, 42, 60, 78, 96, 114) still match the addendum pages. The addendum facts stay true on HEAD.",
+    "Heavy jobs, vitest, and PDF builds were not run, as the brief requires.",
+    "The scratch folder measure/runs/storytime_print_r1_20261025/p9a-spec-review-scratch/ was not deleted: the shell of this role denies rm and rmdir. It holds only masked copies (0 Thai characters) and analysis scripts. A Build session deletes it."
+  ],
+  "commands": [
+    "python3 -I thai_mask.py spec.md | plan.md | print-audit-code-tests.md (masked copies, THAI_CHARS_IN_OUTPUT: 0)",
+    "git rev-parse HEAD; git status --short; git log --oneline -3",
+    "sha256sum of ten.jpg and the five line-art files; file(1) on the six files",
+    "python3 -I fillcheck.py (four flood fills); python3 -I montage.py; python3 -I colorsample.py",
+    "python3 -I mkgrep.py on the print modules and the test files (masked output)",
+    "ls of the 13 gate test files, the print scripts, and the 8 draft PDFs",
+    "git show --stat --format='%h %s' a318b199"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_print_r1_20261025/spec-review-p9a-bac87517.json",
+    "measure/runs/storytime_print_r1_20261025/spec-review-p9a-bac87517.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "paraphrase": {
+    "proposes": "The addendum records the print audit gate and its pass rule as decision P9-A1, and the 11-row code-test list as P9-A2 in print-audit-code-tests.md. It fixes six audit minors for proof-books-r6-v2: D1 swaps the ten picture to ten.jpg through a new line-art fix table, D7 fills the hair of Pat in four week 6 pictures, B1 adds a fold-test PDF, B3 makes the picture frames solid, B4 makes the tear-out ticks 0.5 mm wide, and the nose part of A6 clips two nose pictures. It sends six other minors (A6 rest, C2, D2, D5, E22, F3) to Daniel's proof look, and it names the lane, the order, and the dates of one spec review, one Red, and one Green before the 2026-11-15 20:00 hand-off.",
+    "current_system": "The print modules build the student book, the readers, the card kit, and the teacher book from the week packages and the Forge picture batch. One function, resolveStorytimePictureFiles(folder, rows, kind), gives the file of each picture row to the readers, the student book, and the card kit after the manifest SHA-256 check. The student book CSS draws the picture frames dashed at 0.6 mm and the reader tear ticks 1 px wide, and the resolver has no repair hook. The pictures, the manifest, and the hashes stay byte equal, and the app media take the color files only."
+  }
+}
