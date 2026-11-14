@@ -449,3 +449,286 @@ Fixed in this batch: D1, D7, B1, B3, B4, and the nose part of A6. The note gives
 - AC9-A3: the compiled student book has solid picture frames, ticks of at least 0.5 mm (computed), and the clip mark on the nose boxes only.
 - AC9-A4: no file changes under `content/storytime/l2/media/`, `content/storytime/l2/print/pictures/`, or in `manifest.json`. The scope guard prints `outside: 0`.
 - AC9-A5: the r6-v2 hand-off holds the fold-test file and the open-minors list, and the PM re-audit (J1) finds D1, D7, B1, B3, B4, and the nose part of A6 fixed.
+
+## Addendum 2026-11-14 (2): C2, F3, the week 8 review pages, and the cast sheet
+
+Request: three PM orders of 2026-11-14. The PM stamp 20:45 ICT gave items 3 and 4 (exact words):
+
+> "3. Proof r6-v2 went to Daniel at 20:45 for his proof look. My defaults to him: FIX C2 (start-dot table for all lowercase letters) and F3 (teacher script order; Thai line to his check); KEEP D2, D5, A6, E22, and the numeral on the "ten" picture. Prepare C2 and F3 now as a plan entry, so the fix starts the moment he answers. 4. PR's note "Sam still has light hair on p108/p110" is a misreading: the fill was for Pat (black hair); Sam has light hair by the cast sheet. No change. Put the cast sheet into the next hand-off, so the auditor can check against it."
+
+The same message accepted the w08 default (no w08 app package; the hand-off has 7 folders: w01 r6, w02-w07 r5) and the Step B plan for 2026-11-16. The PM stamp 21:40 ICT gave order P1 after Daniel's words "Add review pages" (exact words):
+
+> "Week 8 student book: add ONE extra review page for each of days 2, 3, 4 and 5 (4 pages; the book goes 136 → 140 pages, still a multiple of 4). Each page reviews the two weeks of its day (day 2 = weeks 3-4, day 3 = weeks 5-6, day 4 = week 7, day 5 = mixed weeks 1-7): read the words and match them to pictures, and read one short decodable sentence. Use only taught sounds and tricky words; first-sound items only (E6/E7 rules). Use pictures already in the repo (no new generation). The day script of each day names the new page in its paper center step. Thai: only step titles and teacher lines, to Daniel's next Thai sitting. Run it through spec review, Red and Green as one batch with C2 and F3. New proof r6-v3, then PR's re-audit, then Daniel's proof look."
+
+This section adds one batch to the print track. It changes no earlier decision. It follows the form of the addendum above (decisions, gate commands, acceptance criteria, open questions with defaults).
+
+### Measured facts (2026-11-14, at HEAD 91012940)
+
+1. **A start table already exists.** `TRACE_START_EM` in `trace-words.ts` holds 18 lowercase letters (a b c d e f g h i k m n o p r s t y) and 6 uppercase letters (G H I P S T). Eight lowercase letters have no value: j, l, q, u, v, w, x, z. `traceLineLayout` throws `no trace start point` for a word that starts with one of them. The seven taught letters already agree with `LETTER_STROKES` (n, a, p, m, s, t, o).
+2. **The dots of r6-v1 sit on the table values.** Pixel centroids in the audit crops: the dot of "car" (c) is 0.434 em from the word start (table 0.4272), "saw" (s) 0.383 em (table 0.3801), "drum" (d) 0.383 em (table 0.3905). The largest distance is 0.06 mm. The code places each dot as its table says.
+3. **Ink measure of the table.** Method: Andika regular (`dashboard/assets/print-fonts/andika-regular.ttf`) rendered by `sharp` at 1000 px per em with a fontconfig file that names only that folder; a pixel below 128 is ink; the inset of a point is the distance to the nearest white pixel. All 24 table values lie on ink. The insets run from 0.022 em to 0.046 em (the stroke half-width is about 0.045 em), with two exceptions: **c has 0.004 em (0.03 mm)** and the capital S has 0.016 em (0.12 mm). The dot of c sits on the tip of the arm, with half of the dot outside the glyph. g has 0.022 em, d 0.030 em, s 0.024 em.
+4. **The reading "left middle" is not reproduced for s.** The measured dots of c, s, and d lie at the right end of their letters, not at the left. The audit finding C2 stays a minor: the table is incomplete (fact 1), the dot of c half leaves the stroke (fact 3), and the dot of d sits beside the stem, not on it.
+5. **Today's tests cannot see a wrong table value.** `D-all` and `D-letters` (`storytime-print-a48-part3a.test.ts`) compare each dot with `strokeStartEm(letter) ?? TRACE_START_EM[letter]`, so a dot is checked against the same table that placed it. No test compares a value with the glyph ink.
+6. **F3 by data.** The page order of the D4 block comes from `writingPage` (`student-book.ts`, line 507): prompt picture row, frame trace row, then the draw boxes, the choice words, and the word line (for a name line: the name line comes before the draw boxes). The D4 step is `scripts[3].steps[3]` in w02 to w07. The measured list is in P9-B6. The audit named three weeks (3, 6, 7). The data gives six (2, 3, 4, 5, 6, 7).
+7. **Week 8 pages.** Page 129 is blank (week 7 ends on page 128 and a week starts on a left page). Benchmark 1 holds pages 130 and 131. Review 1 to 5 hold pages 132 to 136. No page follows page 136, and the book has no end padding (136 = 34 × 4, `bindingPageMultiple` is 4). Week 8 has no `print` block. Its review data is `block.days[].paper` (three `circle-word` items and one `picture-sort`). The English of B1, C1, D1, and E1, line 5: "Paper: review page N in the student book, then one earlier review page that the child has not done."
+8. **Pictures for decodable words.** The repo has object pictures for three decodable words only: "ant" (check row of week 2), "pot" and "mop" (cards of week 7). Each of the 112 `story-page` rows of the readers has a line picture and a short sentence. The sentences of the decodable readers of weeks 2 to 7 pass the E2 check at their week. The decodable of week 1 is a sound book (exempt from the check).
+9. **Tests that pin the page count of 136 or the pages 132 to 136.** `storytime-print-a48-step2.test.ts` (`U2-count`, `U4-order`, `U4-chrome`), `storytime-print-binding-practice.test.ts` (line 25), `storytime-print-v15.test.ts` (`F1-numbers`, holds Thai), and `storytime-print-a48-part2.test.ts` (line 311, the page reference of E1; holds Thai). The tests `storytime-loops-content.test.ts` and `storytime-loops-share-content.test.ts` compare each week file with the baseline commit `23ad4cf8` and allow only the paths of `P14_PATHS`; a change of a D4 line or of w08 data fails them until a recorded pin edit adds the paths.
+10. **The cast sheet.** The seven files `content/storytime/l2/media/w01/forge/cast/sprout-<name>/front.png` exist (1024 x 1200 px; pat, sam, pip, nan, ben, may, mia). On the sheet, Pat has black hair and a green shirt. Sam has medium brown hair and a red striped shirt. In black-and-white line art, brown hair stays unfilled, so the PM's word "light" means "not black".
+
+### Decisions
+
+| Id | Decision | Default | Reason |
+|---|---|---|---|
+| P9-B1 | Trigger. The review pages need no answer. C2 and F3 start the Red role only when Daniel answers FIX at the proof look of `proof-books-r6-v2`. | The batch runs with C2 and F3 by the PM defaults to Daniel (FIX). A KEEP answer before Green removes that part: a Red retry removes its cases, and the task line records his exact words and the date. No answer: the batch runs as above. | PM 20:45 (defaults) and PM 21:40 (the review pages are ordered). |
+| P9-B2 | C2: the table stays in `trace-words.ts` as `TRACE_START_EM`. It gets the 8 missing lowercase letters. No second table. | Same export name, same form: x in em from the left end of the advance, y in em up from the baseline. | Three tests import this name (`step-system`, `a48-step2`, `a48-part3a`). A second table beside `LETTER_STROKES` would hold the same facts twice. |
+| P9-B3 | C2: the 26 values (below). Three lowercase values change (c, d, g). Eight are new. The 15 other lowercase values stay. The capital S also changes, because its inset fails the new test. | The table of P9-B3. | Facts 1 and 3. |
+| P9-B4 | C2: use of the table. A trace word takes the value of its first character. A lowercase letter without a value throws (as today). An uppercase letter keeps today's rule: the 6 values stay (S changes, P9-B3), and a missing uppercase letter throws. The 7 taught letters keep their values. | `LETTER_STROKES` and `S-all` do not change. No pin edit is expected in `S-all` ("the table has exactly the 7 letters" reads `LETTER_STROKES`). | The Red role checks with `grep` and records "no change". |
+| P9-B5 | C2: a new test compares each value with the glyph ink. | The inset of each of the 32 values is 0.02 em (0.155 mm at 7.76 mm per em) or more. The test renders the glyphs in a child process (method of fact 3). | Fact 5. The old value of c has 0.004 em and fails. |
+| P9-B6 | F3: the teacher script order changes to match the page. The measured list and the new lines are in P9-B6. | Weeks 2 to 7. Week 1 has no order difference. Week 8 has no D4. | PM default. The audit list had three weeks. The data has six. |
+| P9-B7 | F3 and Phase 13: the F3 content commit lands after the Step B build of 2026-11-16. | It lands earlier only when Daniel approves the F3 Thai lines in his check of 2026-11-16. The next package revision then carries F3. | Plan decision D-P13-H2: Step B never ships a Thai row that Daniel has not approved. The packages carry the week files. |
+| P9-B8 | Review pages: place. The 4 pages follow their day's review page. | Page numbers in the table of P9-B8. The book has 140 pages. | Page order stays equal to lesson order (audit F4 passes today). |
+| P9-B9 | Review pages: data and form. | A new optional strict field `paperMore` on `BlockDaySchema` (days 2 to 5 only). Each page holds 4 match pairs and 1 sentence. | Additive, like `paStage` of Phase 14. Fact 7. |
+| P9-B10 | Review pages: content. | The 4 pages of the table of P9-B10. The pictures are existing `story-page` line pictures. | Fact 8. No new picture row, no new generation. |
+| P9-B11 | Review pages: reuse and minimum new code. | One new page function `reviewMorePage`, one new page kind `review-more`, one schema entry, one step-map field, a short answer key in `manual.ts`, and about 15 lines of CSS. | List in P9-B11. |
+| P9-B12 | Review pages: scripts, step map, teacher book, app. | Line 5 of B1, C1, D1, and E1 names the page after the review page. The step map rows get `pageEnd`. The 7 app packages do not change. | P9-B12. |
+| P9-B13 | Red cases and mutants of the three parts. | Three new test files (below). | The orchestrator order, items 3, 4, 7. |
+| P9-B14 | Roles and lane. | Light lane of P9-A11. One Workbooks role at a time. | P9-B14. |
+| P9-B15 | The proof after the fixes. | `proof-books-r6-v3`. | P9-B15. |
+| P9-B16 | The cast sheet and the PR note. | The next hand-off holds `cast/` with 7 byte copies. | PM 20:45, item 4. |
+| P9-B17 | Q9-1, the numeral on the "ten" picture. | Record the PM default KEEP. Daniel decides. | PM 20:45, item 3. |
+| P9-B18 | Dates. | Table in P9-B18. Proof r6-v3 to the PM on 2026-11-16 20:00 ICT. The printer order stays 2026-11-25. | PM 21:40 and the slot rule. |
+| P9-B19 | Gates. | `RED_TEST_COMMAND_P9B` and `GREEN_TEST_COMMAND_P9B` in the plan. | Same form as `RED_TEST_COMMAND_P9A`. |
+
+### P9-B3: the 26 values of the trace start table
+
+The unit is em at the font size of the trace line (1 em = 7.76 mm). x counts from the left end of the advance. y counts up from the baseline. The rule of each group follows the handwriting model of the seven letters that exist: a and s start at the upper right of the bowl; n, p, m, and t start at the top of the stem; o starts at the top center.
+
+| Group and rule | Letter | x | y | Change | Inset (em) |
+|---|---|---|---|---|---|
+| Round letters. Stroke 1 starts at the upper right of the bowl. | a | 0.4217 | 0.4409 | none (taught) | 0.036 |
+| | c | 0.4000 | 0.4450 | changed (was 0.4272, 0.3873) | 0.042 |
+| | d | 0.4420 | 0.4410 | changed (was 0.3905, 0.4318) | 0.042 |
+| | g | 0.4200 | 0.4410 | changed (was 0.3837, 0.4318) | 0.046 |
+| | q | 0.4170 | 0.4410 | new | 0.046 |
+| | s | 0.3801 | 0.4536 | none (taught) | 0.024 |
+| | o | 0.2783 | 0.4691 | none (taught; top center) | 0.040 |
+| e: the left end of the bar | e | 0.0992 | 0.2545 | none | 0.042 |
+| Stems of the x-height. Stroke 1 starts on the top of the stem and goes down. | n | 0.1216 | 0.4609 | none (taught) | 0.026 |
+| | m | 0.1309 | 0.4609 | none (taught) | 0.028 |
+| | p | 0.1220 | 0.4609 | none (taught) | 0.028 |
+| | r | 0.1214 | 0.4609 | none | 0.026 |
+| | i | 0.1370 | 0.4182 | none | 0.046 |
+| | j | 0.1510 | 0.4182 | new | 0.046 |
+| | u | 0.1175 | 0.4400 | new | 0.046 |
+| Stems with an ascender. Stroke 1 starts on the top of the stem. | b | 0.1165 | 0.7445 | none | 0.038 |
+| | h | 0.1164 | 0.7445 | none | 0.038 |
+| | k | 0.1163 | 0.7445 | none | 0.038 |
+| | l | 0.1340 | 0.7445 | new | 0.038 |
+| | t | 0.1670 | 0.6073 | none (taught) | 0.036 |
+| | f | 0.2922 | 0.7545 | none (the top of the hook) | 0.038 |
+| Diagonals. Stroke 1 starts at the upper left. | v | 0.0850 | 0.4400 | new | 0.046 |
+| | w | 0.0835 | 0.4400 | new | 0.044 |
+| | x | 0.1300 | 0.4400 | new | 0.044 |
+| | y | 0.0679 | 0.4609 | none | 0.032 |
+| | z | 0.1100 | 0.4550 | new (the left end of the top bar) | 0.032 |
+
+The new values of d, g, and q follow the a rule: the start sits on the stem centre minus 0.016 em, at the join of bowl and stem. The new value of c lies on the arc just before its arm, at the height of the a start. The values of u, v, w, x, and z lie 0.05 em below the flat top of the letter, on the centre of the stroke. The measure of the insets is in fact 3; the Red role repeats it in the test. Uppercase: G (0.5740, 0.6318), H (0.1315, 0.6764), I (0.2326, 0.6764), P (0.1327, 0.6782), and T (0.3029, 0.6764) stay (insets 0.030 to 0.038 em). **S changes** from (0.4696, 0.6718), inset 0.016 em, to (0.4250, 0.6600), inset 0.046 em: the dot moves 0.4 mm to the left, onto the arc just before the end of the stroke, as for c. "Sam" starts the sentence of week 5 on page 77.
+
+### P9-B5: C2 Red cases (file `storytime-print-c2-start-table.test.ts`)
+
+Each case name goes into a PIN line in the file header, as in the r6-v2 batch.
+
+- **C2-keys:** `TRACE_START_EM` holds exactly the 26 lowercase letters a to z and the 6 uppercase letters G, H, I, P, S, T.
+- **C2-taught:** the 7 taught letters agree with the start of stroke 1 in `LETTER_STROKES` within 0.3 mm (distance in em times 7.76).
+- **C2-ink:** each of the 32 values has an inset of 0.02 em or more on the Andika glyph (child process, fact 3 method).
+- **C2-book:** in the compiled student book of weeks 1 to 7, each `trace-word-dot` lies within 0.3 mm of the table start of the first letter of its word. Positive cases: c, k, d in "car kite drum" (page 113); c in "can" and s in "see" (page 113); s in "saw" (page 77); d in "drum".
+- **C2-all-letters:** `traceLineLayout` gives a dot for a word that is one lowercase letter, for all 26 letters, and throws for a letter outside the table.
+- **C2-mutants:** (a) the old value of c (0.4272, 0.3873) and the old value of S (0.4696, 0.6718) each fail C2-ink; (b) a value at the left middle of a letter (x = 0.1, y = 0.25 for c, s, and d) fails C2-ink or C2-book; (c) a table with the letter u removed fails C2-keys; (d) the dot of "drum" moved 0.5 mm left fails C2-book.
+
+The Red role records with `grep` that `step-system`, `a48-step2`, and `a48-part3a` need no pin edit.
+
+### P9-B6: F3, the measured list and the fix
+
+For each week, the page order is the order of the D4 rows in `writingPage`. The script order is the order of the child actions in the English lines of the D4 step (before the fix).
+
+| Week | Page order | Script order | Differs | Step and keys (all in `scripts[3].steps[3]`) |
+|---|---|---|---|---|
+| 1 | trace, name line, draw box | trace, name line (the box is not named) | No order difference. | None. The script never names the draw box (open question Q9-8). |
+| 2 | look at the ducks, trace, draw, trace one word, write | trace, look at the ducks, draw, trace one word | Yes: items 1 and 2 | `en.teacherActions[1]`, `en.teacherLanguage[1]` and `[2]`, `en.studentActions[0]`, and the `th` twins |
+| 3 | color the apple, trace, draw, trace one word, write | trace, color the apple, draw, trace one word | Yes | same keys |
+| 4 | trace, draw (2 boxes), trace one word, write | trace, choose a word and trace it, draw (Part 1) | Yes: Part 1 | same keys (the text of `teacherLanguage[1]` and `[2]` changes) |
+| 5 | draw the eyes in the face, trace, draw, trace one word, write | trace, draw the eyes, draw, trace one word | Yes | same keys |
+| 6 | color the cat, trace, draw, trace one word, write | trace, color the cat, draw, trace one word | Yes | same keys |
+| 7 | color the ball (item 4), trace (item 5), draw, trace one word, write | trace, color the ball, draw, trace one word | Yes (the audit item) | same keys |
+| 8 | no writing page | no D4 step | Not applicable | None |
+
+The audit named weeks 3, 6, and 7. It marked week 5 as matching because it read the item number of the page only. The data adds weeks 2, 4, and 5.
+
+**New English lines** (the exact text; the Green content role may change a word only with a recorded reason). Part 2 lines (`teacherActions[3]` or `[4]`) already follow the page and stay.
+
+| Week | `en.teacherActions[1]` | `en.teacherLanguage[1]`, `[2]` | `en.studentActions[0]` |
+|---|---|---|---|
+| 2 | Children count the ducks in the picture: three. Then they trace "How many?" in the book. | "Count the ducks. How many? Three!", then "Trace the words: How many?" | Children count the ducks and trace the frame. |
+| 3 | Children color the apple red in the book. Then they trace "It is red." below it. | "Color the apple red.", then "Trace the words: It is red." | Children color the apple and trace the frame. |
+| 4 | Children trace "This is my" in the book. Then they draw one person in the first box, find that word under the boxes (mom, dad, brother, sister, grandma, grandpa, family), and trace it. | "Trace the words: This is my ...", then "Draw the person in the box. Now find your word and trace it." | Children trace the frame, draw a person, and find and trace that family word. |
+| 5 | Children draw their two eyes in the face. Then they trace "I have two eyes." below it. | "Draw your eyes in the face.", then "Trace the words: I have two eyes." | Children draw the eyes and trace the frame. |
+| 6 | Children color the cat. Then they trace "I can see a cat." below it. | "Color the cat.", then "Trace the words: I can see a cat." | Children color the cat and trace the frame. |
+| 7 | Children color the ball. Then they trace "Is it a ball?" below it. | "Color the ball.", then "Trace the words: Is it a ball?" | Children color the ball and trace the frame. |
+
+**Thai lines.** Changed text (a Claude draft, to Daniel's check): `th.teacherActions[1]` and `th.studentActions[0]` in weeks 2 to 7 (12 lines), and `th.teacherLanguage[1]` and `[2]` in week 4 (2 lines). Total: 14 lines. Moved only (the two lines change places, the text stays byte equal): `th.teacherLanguage[1]` and `[2]` in weeks 2, 3, 5, 6, and 7 (10 lines). The Green content role writes the list of the 24 lines (week, key, "changed" or "moved") into `p9b-thai-change-list.md` of the run folder; Daniel's check reads it. No non-Claude role reads a week file without the Thai filter.
+
+**F3 Red cases** (file `storytime-print-f3-script-order.test.ts`):
+
+- **F3-order:** for weeks 2 to 7, in the compiled student book the D4 rows stand in the order of the page (prompt row, frame trace, draw, choice words, word line); in the D4 step the English `teacherActions[1]`, `teacherLanguage[1..2]`, and `studentActions[0]` name the prompt action (count, color, or draw) before the trace of the frame (week 4: the draw of the first box before the choice of the word). The test fails now for the 6 measured weeks.
+- **F3-th-shape:** each `th` array has the length of its `en` array (as today). In weeks 2, 3, 5, 6, and 7 the lines `th.teacherLanguage[1]` and `[2]` equal the two baseline lines in swapped places. The baseline is the commit of the Red start (recorded in the header).
+- **F3-scope:** the D4 step changes only the keys of the table above. No other step, no `print` key, and no `approval` key of a week file changes.
+- **F3-mutants:** (a) one week with the old order fails F3-order; (b) a Thai line moved without its English twin fails F3-th-shape; (c) a change in `en.teacherActions[3]` fails F3-scope.
+
+**Pin edit (recorded, test-only).** The tests `storytime-loops-content.test.ts` and `storytime-loops-share-content.test.ts` need the new paths in their allowed list (a new constant `P9B_PATHS` beside `P14_PATHS`): `scripts.3.steps.3.en.teacherActions`, `.th.teacherActions`, `.en.teacherLanguage`, `.th.teacherLanguage`, `.en.studentActions`, `.th.studentActions` for weeks 2 to 7, and the w08 paths of P9-B9 and P9-B12.
+
+### P9-B7: F3 and the app packages
+
+F3 changes the week files of w02 to w07. The Phase 13 packages carry those files. Step B runs on 2026-11-16 and ships no Thai row that Daniel has not approved (D-P13-H2). The order is:
+
+1. Step A (2026-11-15) and Step B (2026-11-16) build from the week files as they are.
+2. The F3 content commit lands after the Step B build.
+3. Exception: Daniel approves the F3 Thai lines in his check of 2026-11-16 before the Step B build. The F3 commit then lands first, and Step B carries it.
+4. In case 2, the next package revision carries F3. The PM line says so. The w08 changes touch no package (D-P13-H3).
+
+### P9-B8: the review pages, place and page numbers
+
+The new page kind is `review-more`. It keeps the old indexing of the five `review` pages in `step-pages.ts` (`REVIEW_BLOCKS`) unchanged.
+
+| Page | Today | After | Moves |
+|---|---|---|---|
+| 129 (blank) | 129 | 129 | no |
+| Benchmark 1 (A1) | 130–131 | 130–131 | no |
+| Review 1 (A2, day 1) | 132 | 132 | no |
+| Review 2 (B1, day 2) | 133 | 133 | no |
+| More review 2 (new, weeks 3–4) | none | 134 | new |
+| Review 3 (C1, day 3) | 134 | 135 | +1 |
+| More review 3 (new, weeks 5–6) | none | 136 | new |
+| Review 4 (D1, day 4) | 135 | 137 | +2 |
+| More review 4 (new, week 7) | none | 138 | new |
+| Review 5 (E1, day 5) | 136 | 139 | +3 |
+| More review 5 (new, mixed) | none | 140 | new |
+
+The book has 140 pages (35 × 4). The week 8 head, the pages 1 to 131, and the pages of the readers do not move: week 7 ends on page 128, and no page follows week 8. The reader sides stay on the pages 9–20, 27–38, 45–56, 63–74, 81–92, 99–110, and 117–128, so the fold-test page formula of P9-A9 holds. Rejected: all four pages after page 136 (pages 137 to 140). That order breaks "page order = lesson order" (audit F4). The cost of the chosen order: three review pages change number, and the step map and the teacher book follow (P9-B12).
+
+### P9-B9: the data field and the page form
+
+- **Field.** `paperMore` on `BlockDaySchema` in `schema.ts`: optional, strict. It holds `pairs` (exactly 4 entries `{ text, picture }`), `pictureOrder` (a permutation of 0 to 3 with no fixed point: the picture column order), and `read` (`{ text, picture }`). `picture` is a picture row id of the print list (`l2-w04-story-page-pam-is-on-a-map`). `text` equals the `text` of that row. Days 2 to 5 of w08 carry it. Day 1 does not. The field holds no Thai.
+- **Page.** Head: `weekEightHead` with the title "Review N more" and the badge code of the day (B1, C1, D1, E1). Group head 1: icons read and pencil, the line "Read. Match to the picture." Four rows: the number and the printed text (16 pt, a dot at its right end) at the left; four picture boxes at the right in `pictureOrder` (a dot at the left edge of each). The child draws a line. Group head 2: the icon read and the line "Read it." Row 5: the sentence (20 pt) and its picture. The score strip is "__ / 4".
+- **Boxes.** The story pictures are landscape (4000 x 3000 px, size class A). Each box is 38 x 28.5 mm. Four boxes and the sentence picture fit on one A4 page (about 220 mm of the 250 mm of space). The Red role measures that no element leaves the page.
+- **No sound ask.** The page has no `position-mark`, no `sound-label`, and no `data-position`. Only reading and matching are asked.
+
+### P9-B10: the content of the 4 pages
+
+The "words" are the short decodable sentences of the readers, because the repo holds object pictures for three decodable words only (fact 8). Each pair is a sentence of a decodable reader with its own story picture (row id = `l2-wNN-story-page-` plus the slug). Each text passes the E2 check at the week of its reader.
+
+| Page (day, weeks) | Pairs (week: text, slug) | Sentence to read (week: text, slug) |
+|---|---|---|
+| 134, More review 2 (day 2, weeks 3–4) | w3: "Nan can get a pan." (`nan-can-get-a-pan`); w3: "A nap in the pan!" (`a-nap-in-the-pan`); w4: "Pam is on a map." (`pam-is-on-a-map`); w4: "This is the man!" (`this-is-the-man`) | w3: "Can I get the pan?" (`can-i-get-the-pan`) |
+| 136, More review 3 (day 3, weeks 5–6) | w5: "Sam saw Pam." (`sam-saw-pam`); w5: "Pam is off Sam!" (`pam-is-off-sam`); w6: "Pat can see a map." (`pat-can-see-a-map`); w6: "Pip sat on the mat!" (`pip-sat-on-the-mat`) | w6: "Sam can see a pan." (`sam-can-see-a-pan`) |
+| 138, More review 4 (day 4, week 7) | w7: "Tom can see a top." (`tom-can-see-a-top`); w7: "The top on a mat." (`the-top-on-a-mat`); w7: "The top is on Mom!" (`the-top-is-on-mom`); w7: "Run, Tom, run!" (`run-tom-run`) | w7: "The top on a pot!" (`the-top-on-a-pot`) |
+| 140, More review 5 (day 5, mixed) | w2: "Nan and I can!" (`nan-and-i-can`); w3: "A pan on Nan!" (`a-pan-on-nan`); w5: "Sam can get Pam." (`sam-can-get-pam`); w7: "Tom can get the top." (`tom-can-get-the-top`) | w4: "Pam can nap." (`pam-can-nap`) |
+
+- **Picture order.** Default `pictureOrder` values: day 2 `[2, 0, 3, 1]`, day 3 `[1, 3, 0, 2]`, day 4 `[3, 2, 1, 0]`, day 5 `[1, 0, 3, 2]`. Each is a permutation with no fixed point.
+- **Taught words.** Each sentence uses only letters and tricky words taught by the day's weeks. The name Pip comes from the `names` of the source reader (weeks 6 and 7). Nan, Pam, Sam, Pat, Tom, and Mom are decodable by the taught letters. All 20 texts are page texts of the decodable of their week (measured). Day 5 uses weeks 2 to 5 and 7. Week 1 has no decodable sentence that passes E2 ("Nan can nod!" has the untaught letter d, and the decodable of week 1 is an exempt sound book). Q9-9 holds the choice.
+- **No Sam sat on a mat.** The pictures "Sam sat on a mat." and "Pat sat on a mat." show the D5 look-alike pair of the audit. The default uses neither as a pair.
+- **No new picture.** `storytimePrintPictures(weeks)` does not change. `pictures/manifest.json`, `pictures-line-fix.json`, and every file under `l2/print/pictures/` stay byte equal.
+
+### P9-B11: reuse and minimum new code
+
+- **Reused:** `weekEightHead`, `groupHead`, `scoreStrip`, `pictureElement`, the `row-number` and `picture-box` rules, `STORYTIME_STEP_MAP`, `storytimeStepMapRows`, and the page range text of `manual.ts` (line 141: first–last).
+- **New:** (1) `reviewMorePage(week, dayIndex, allRows, o, files)` in `student-book.ts`, called by `reviewPages` after each review page of days 2 to 5; (2) the kind `review-more` and about 15 lines of CSS (`.more-match`, `.more-pic`, `.more-read`); (3) `paperMore` in `schema.ts`; (4) `extraBlock` on the four step-map entries of B1, C1, D1, and E1 in `step-map.ts` (the values `review-more-2` to `review-more-5`), and `entryPage` in `step-pages.ts` returns the review page as `first` and the `review-more` page as `last`; (5) a short answer key in `manual.ts` (the pairs as "text = picture caption" and the sentence); the heading reuses the existing review key heading with the suffix "more". No new Thai text in code.
+- **Not new:** no picture row, no manifest entry, no check in `checks.ts` (Q9-9), and no new file under `content/storytime/l2/print/`.
+
+### P9-B12: scripts, step map, teacher book, app
+
+- **Scripts.** Line 5 (`en.teacherActions[4]`) of B1, C1, D1, and E1 in `w08.json` becomes: "Paper: review page N and the page after it in the student book, then one earlier review page that the child has not done." (N = 2, 3, 4, 5). The `th` twin of each line is a Claude draft (4 Thai lines, to Daniel's next Thai sitting, rows marked "for Daniel" in `p9b-thai-change-list.md`). The step titles do not change (0 title lines). The Green content role reads the `materials` of each step and changes a line only when it names a page.
+- **Step map.** `content/storytime/l2/step-map-u1.json` is made again by `make-step-map.ts`. The week 8 rows become: A2 page 132; B1 page 133, `pageEnd` 134; C1 page 135, `pageEnd` 136; D1 page 137, `pageEnd` 138; E1 page 139, `pageEnd` 140. The rows of weeks 1 to 7 and the A1 row (130, 131) do not change. `U9-file` and `U9-book` hold.
+- **Teacher book.** The page reference is `first–last` from the step map, so B1 prints "133–134". The teacher book is built again for r6-v3 (TH-v4).
+- **App.** w08 has no app package (D-P13-H3). The review-page work changes no week file of w01 to w07 and none of the 7 app packages. F3 changes w02 to w07 (P9-B7). The step map rows of week 8 change: the PM line lists this under "facts changed" (the pages of A2, B1, C1, D1, and E1).
+- **Pin edits (recorded, test-only, by the Red role).** `storytime-print-a48-step2.test.ts` (`U2-count` and `U4-order` to 140 pages and the 9 kinds; `U4-chrome` to the new page list), `storytime-print-binding-practice.test.ts` (line 25 to 140 and the last page number), and `P9B_PATHS` (P9-B6). The two files that hold Thai (`storytime-print-v15.test.ts`, `F1-numbers`; `storytime-print-a48-part2.test.ts`, line 311) get a digit-only edit by the orchestrator (Claude) before Red: 136 to 140 in `F1-numbers`, and the E1 page 136 to 139 (and the ranges of B1, C1, D1) in line 311.
+
+### P9-B13: review page Red cases (file `storytime-print-review-more.test.ts`)
+
+- **RM-count:** the compiled student book has 140 pages, and 140 is a multiple of 4. There is no end padding.
+- **RM-order:** after page 131, the week 8 page kinds are, in order: review (132), review (133), review-more (134), review (135), review-more (136), review (137), review-more (138), review (139), review-more (140). The numbers equal the table of P9-B8.
+- **RM-stable:** the sections of kind `reader` stand on the pages of P9-A9 (84 sides: 9–20, 27–38, …, 117–128), and the pages 1 to 131 keep their kinds and numbers.
+- **RM-data:** `paperMore` is on days 2 to 5 and not on day 1; each has 4 pairs, a `pictureOrder` that is a permutation with no fixed point, a `read` entry that is not a pair, and each `text` equals the text of its picture row.
+- **RM-pictures:** each picture row id is in the print list, its line file is in the manifest, and the SHA-256 check passes. The rows of day 2 come from weeks 3 and 4, day 3 from weeks 5 and 6, day 4 from week 7, day 5 from at least 4 different weeks of 2 to 7.
+- **RM-decodable:** each of the 5 texts of each page has 0 untaught words in `decodability` (`checks.ts`), with `taughtTo` of the highest week of its row and the names of the source reader. Each tricky word is in `focus.trickyWords` of a week up to that week.
+- **RM-no-position:** the page has no `position-mark`, no `sound-label`, and no `data-position`; the E6 and E7 rows of `storytime-package-sound-stages.test.ts` (S4, S5, S8) still pass for w08.
+- **RM-steps:** line 5 of B1, C1, D1, and E1 says "and the page after it" with the right N; the step map rows have `pageEnd` equal to `page + 1`; the rows of A1 and A2 do not change; `U9-file`, `U9-book`, and the F6 tests hold; the teacher book page reference of each of the 4 steps equals the step map range.
+- **RM-no-picture:** `storytimePrintPictures(weeks)` equals its list before the change (same row ids), and no file under `l2/print/pictures/` or `l2/media/` changes.
+- **RM-fit:** no element of a `review-more` page leaves its page box.
+
+Mutants for Green (each caught, each restored with `cmp`): RM1 a pair text with an untaught word (RM-decodable); RM2 a picture row of a week outside the day (RM-pictures); RM3 `pictureOrder` as the identity (RM-data); RM4 a `position-mark` on the page (RM-no-position); RM5 `extraBlock` removed from one step-map entry (RM-steps); RM6 the four pages appended after page 136 (RM-order); RM7 a blank page added at the end (RM-count); RM8 the sentence equal to a pair (RM-data); RM9 `paperMore` on day 1 (RM-data); RM10 a changed byte in one line file (picture SHA check).
+
+### P9-B14: roles and lane
+
+- **Lane.** The light lane of P9-A11. One Workbooks role runs at a time. The Phase 13 task Packages (Step A on 2026-11-15, Step B on 2026-11-16) runs before the tasks of this batch when both wait for the slot. Step B within 1 hour after Daniel's Thai answers has priority over every task here.
+- **Spec review:** one `measure-spec-review` role of a family other than Anthropic; the Thai filter is its first command. It re-measures the C2 insets, the F3 list (by `grep` of the English lines), the picture row ids and texts of P9-B10, and the page arithmetic of P9-B8.
+- **Red:** a model other than Claude; the Thai filter first. It writes the three test files and the pin edits of P9-B12. Rule R1 applies: the three file names match the glob of `RED_TEST_COMMAND`. One file for each run, in the order C2, F3, review pages.
+- **Green, code:** a family other than the Red family. It writes the C2 table (`trace-words.ts`) and the review-page code (P9-B11). It changes no test file and no week file.
+- **Green, content (Claude):** F3 (w02 to w07) and the w08 content: `paperMore` for days 2 to 5, line 5 of B1, C1, D1, and E1, the Thai drafts, `p9b-thai-change-list.md`, and the step map file. The model is Claude because the work moves and writes Thai lines. The w08 commit does not wait. The F3 commit waits for the Step B build (P9-B7).
+
+### P9-B15: the proof r6-v3
+
+- **Folder:** `~/Desktop/print-ready/storytime/proof-books-r6-v3/`. A new folder; no file of any other folder changes.
+- **Content:** the student book v19 (140 pages, with C2 and the review pages); the teacher book TH-v4 (built again with F3, the new page references, and the w08 lines); the 2 r6 covers as byte copies; the fold-test file `fold-test/Storytime-Advantage-L2-U1-readers-fold-test-v19.pdf` made again by the commands of P9-A9 with the v19 file (86 pages; the text of its pages 3 to 86 equals the text of the v18 fold test: 0 differences); the contact sheets (the student book has 18 sheets of 8 pages; the teacher book count comes from the build); `cast/` (P9-B16); the note `p9b-proof-note.md`; and `MANIFEST.txt` in the `sha256sum -c` form that the PM accepted on 2026-11-14.
+- **Note content:** the fixes with their commits (C2, F3, review pages); the open minors (A6 rest, D2, D5, E22, and the numeral of Q9-1; C2 or F3 only when Daniel answered KEEP); the pages to open (student pages 113, 77, 95, 41 for C2 and F3; pages 132 to 140; the teacher book pages of D4 and of the five paper centers); and the PR note disposition of P9-B16.
+- **Code tests:** the three commands of `print-audit-code-tests.md` (`CODE_TESTS`, `CODE_TEST_LIVE`, `CODE_TEST_QR`) run on the v19 file. The QR report expects 28 codes (14 reader codes and 14 home-card codes): the review pages hold no QR code.
+- **After:** the PM spawns the re-audit (J1: each failed item and one full pass of sections C and D). Then Daniel looks at the proof.
+
+### P9-B16: the cast sheet and the PR note
+
+- **Cast sheet.** The `cast/` subfolder of `proof-books-r6-v3` holds byte copies of the 7 files `content/storytime/l2/media/w01/forge/cast/sprout-<name>/front.png`, named `pat.png`, `sam.png`, `pip.png`, `nan.png`, `ben.png`, `may.png`, and `mia.png`. `MANIFEST.txt` lists each file with its SHA-256. The note names the folder and says what to check: hair color and clothes of each child against the sheet. The measured hair colors: Pat black, Sam medium brown (fact 10).
+- **PR note disposition (exact):** the PR note "Sam still has light hair on p108/p110" has the disposition "no change: the fill was for Pat (black hair); Sam has light hair by the cast sheet (PM 2026-11-14 20:45)". The measured detail (fact 10): the sheet shows Sam with brown hair, and brown hair stays unfilled in line art.
+- **Rule for later hand-offs.** Each hand-off that asks for a look at the cast holds the `cast/` folder.
+
+### P9-B18: dates (ICT) and the slot rule
+
+| Task | Default window | Condition |
+|---|---|---|
+| Spec review | 2026-11-14, done by 23:00 | Before the Phase 13 Clips task (2026-11-14 23:00 to about 2026-11-15 06:00). The role writes only under `measure/runs/`. |
+| Red (3 runs, pin edits) | 2026-11-15, 13:00 to 17:00 | After the Phase 13 Review A round 2 and Step A of the packages. Rule R1. |
+| Green, code | 2026-11-15, 17:00 to 22:00 | After the Red commit. |
+| Green, content: w08 | 2026-11-15, 22:00 to 24:00 | After the Green code commit. |
+| Phase 13 Step B | 2026-11-16, within 1 hour after Daniel's Thai answers | Priority over every task here. |
+| Green, content: F3 | 2026-11-16, 13:00 to 15:00 | After the Step B build (P9-B7). |
+| Proof r6-v3 and code tests | 2026-11-16, 15:00 to 19:30 | After the last Green commit. |
+| Hand-off to the PM | 2026-11-16, 20:00 | The PM audit follows within 1 day. |
+| Printer order | 2026-11-25 | Unchanged. |
+
+Fallback: if the F3 commit does not land by 15:30 on 2026-11-16, the proof builds with the parts that landed, and the note says "next version" for F3. The same rule holds for each other part. The hand-off to the PM then moves to 2026-11-17. The last date for the r6-v3 hand-off is 2026-11-20 (the release proof task).
+
+### Gate commands
+
+```bash
+RED_TEST_COMMAND_P9B='cd dashboard && CI=true npx vitest run __tests__/storytime-print-c2-start-table.test.ts __tests__/storytime-print-f3-script-order.test.ts __tests__/storytime-print-review-more.test.ts __tests__/storytime-print-a48-step2.test.ts __tests__/storytime-print-binding-practice.test.ts __tests__/storytime-print-a48-part2.test.ts __tests__/storytime-print-v15.test.ts __tests__/storytime-loops-content.test.ts __tests__/storytime-loops-share-content.test.ts --maxWorkers=1'    # must fail after Red, before Green, only on the new cases and the recorded pin edits
+GREEN_TEST_COMMAND_P9B='cd dashboard && CI=true npx vitest run __tests__/storytime-print-c2-start-table.test.ts __tests__/storytime-print-f3-script-order.test.ts __tests__/storytime-print-review-more.test.ts __tests__/storytime-print-r6v2-fixes.test.ts __tests__/storytime-print-student-book.test.ts __tests__/storytime-print-student-book-adversarial.test.ts __tests__/storytime-print-student-book-adversarial-r2.test.ts __tests__/storytime-print-step-system.test.ts __tests__/storytime-print-a48-part2.test.ts __tests__/storytime-print-a48-part3a.test.ts __tests__/storytime-print-a48-step2.test.ts __tests__/storytime-print-binding-practice.test.ts __tests__/storytime-print-v15.test.ts __tests__/storytime-print-teacher-book.test.ts __tests__/storytime-print-teacher-book-adversarial.test.ts __tests__/storytime-print-weeks-2-8.test.ts __tests__/storytime-print-d4-prompt.test.ts __tests__/storytime-print-dictation-case.test.ts __tests__/storytime-loops-content.test.ts __tests__/storytime-loops-share-content.test.ts __tests__/storytime-loops-checks.test.ts __tests__/storytime-loops-schema.test.ts __tests__/storytime-loops-manual.test.ts __tests__/storytime-loops-teacher-book.test.ts __tests__/storytime-manual.test.ts __tests__/storytime-week.test.ts __tests__/storytime-package-sound-stages.test.ts --maxWorkers=1'    # must pass after the last Green commit of the batch
+```
+
+### Open questions (Daniel decides; the track uses the default)
+
+| Id | Question | Default |
+|---|---|---|
+| Q9-6 | C2 and F3 at the proof look: FIX or KEEP? | FIX for both (PM defaults). KEEP removes the part before Green (P9-B1). |
+| Q9-7 | The ink test runs the glyph render in a child process with a temporary fontconfig file. If that is not stable in the test run, may the test read a committed table of ink spans instead? | The child process. If it is not stable, a recorded Red retry decides. |
+| Q9-8 | The week 1 script never names the draw box that the page prints. Does the script name it? | No change. It is not an order difference. The audit did not flag it. |
+| Q9-9 | The review pages use sentences of the decodable readers as the "words" to match. Should the pairs be single words? | Sentences. The repo holds object pictures for three decodable words only (ant, pot, mop), and the order says no new generation. A new check `review-more` in `checks.ts` is not added; the Red test holds the E2 rule. |
+| Q9-10 | Review pages: should the four new pages follow page 136 (no number change for Review 3 to 5)? | No. They follow their day's page (P9-B8). |
+| Q9-11 | The Thai lines of the w08 step 5 lines and the 24 lines of F3: one sitting or two? | One list, one sitting: the next Thai sitting of Daniel (the F3 lines may go to his check of 2026-11-16). |
+
+### Acceptance criteria of this batch
+
+- AC9-B1: this section exists, and the PM has the place of each part in the track (the six task lines of Phase 9).
+- AC9-B2: `TRACE_START_EM` holds the 26 lowercase and 6 uppercase letters; the 7 taught letters agree with `LETTER_STROKES` within 0.3 mm; each value has an inset of 0.02 em or more; each trace-line dot of weeks 1 to 7 lies within 0.3 mm of its table start.
+- AC9-B3: for weeks 2 to 7, the D4 script order equals the page order; the Thai change list holds 14 changed lines and 10 moved lines for F3, and 4 changed lines for the w08 step 5 lines.
+- AC9-B4: the compiled student book has 140 pages with the pages of P9-B8; the reader sides stand on the pages of P9-A9; the step map and the teacher book agree with the pages.
+- AC9-B5: each of the 4 new pages passes RM-decodable and RM-no-position; no new picture row exists; no file under `l2/print/pictures/` or `l2/media/` changes (the scope guard prints `outside: 0`).
+- AC9-B6: `proof-books-r6-v3` holds the student book v19, the teacher book TH-v4, the 2 covers, the fold-test file v19, the contact sheets, `cast/`, the note, and `MANIFEST.txt` (`sha256sum -c` passes); the three code-test commands exit 0.
+- AC9-B7: the PM re-audit (J1) finds C2 and F3 fixed (or kept by Daniel's answer) and finds the cast sheet in the folder.
