@@ -1,0 +1,28 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-package-sound-stages.test.ts [2m([22m[2m52 tests[22m[2m)[22m[32m 265[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-practice-clips.test.ts [2m([22m[2m89 tests[22m[2m)[22m[33m 15130[2mms[22m[39m
+     [33m[2m✓[22m[39m makes only the book words without the flag, and the 15 words with it (week 3: cap) [33m 781[2mms[22m[39m
+     [33m[2m✓[22m[39m makes the 15 words in the order of the runs and sends no text for a word that has a row [33m 1690[2mms[22m[39m
+     [33m[2m✓[22m[39m writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 1131[2mms[22m[39m
+     [33m[2m✓[22m[39m applies the heard rule, the retake, and the 3-take note to a practice word, and counts every character [33m 500[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 336[2mms[22m[39m
+     [33m[2m✓[22m[39m gives pass or warn and never fail for the shipped w01 to w07, and no row for w08 [33m 610[2mms[22m[39m
+     [33m[2m✓[22m[39m makes one call for each sentence, in order, with the exact text, the voice of the book, and the speed 1 [33m 914[2mms[22m[39m
+     [33m[2m✓[22m[39m creates the sentences folder before the first synthesize call (R1) [33m 910[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s with the peak near -3 dBFS and 80 ms of quiet at each edge [33m 1168[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as other words, and keeps the take number [33m 1003[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars [33m 766[2mms[22m[39m
+     [33m[2m✓[22m[39m gives false for each clip that the maker makes, against a synthetic book mp3 that sits at the book audio path [33m 1276[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-step2.test.ts [2m([22m[2m39 tests[22m[2m)[22m[33m 5738[2mms[22m[39m
+     [33m[2m✓[22m[39m F1-geometry: the baseline of each trace line is the bottom of its SVG, where the rule line starts (within 0.5 mm) [33m 3096[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 512[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[32m192 passed[39m[22m[90m (192)[39m
+[2m   Start at [22m 13:10:32
+[2m   Duration [22m 28.79s[2m (transform 1.86s, setup 411ms, import 2.01s, tests 21.64s, environment 3.73s)[22m
+
+JSON report written to /home/daniebo/Desktop/Workbooks/measure/runs/storytime_week_package_20261022/p14-green-red.json
+exit: 0

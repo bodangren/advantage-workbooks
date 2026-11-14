@@ -1,0 +1,68 @@
+Phase 14 Green resume (measure-jr-green), storytime_week_package_20261022
+Route: claude-code/claude-opus-5-5[1m]#high (Anthropic family; Red and Red retry R1 were DeepSeek, the first Red also MiniMax)
+Start: 2026-11-14 13:10 ICT. End: 2026-11-14 13:56 ICT.
+Thai: no Thai text in this log. The captures mask each Thai run as [th].
+
+== What the role did ==
+1. Rule R4 (p14-green-r4b.txt): at HEAD f654adc7, git status --porcelain of schema.ts, sound-stages.ts, check-weeks.ts, content/storytime/l2/, content/storytime/words/, and dashboard/__tests__/ printed 0 lines (13:10 ICT). Before the git add (13:33 ICT), the status held only the files of the commit; dashboard/__tests__/ and content/storytime/words/ printed 0 lines.
+2. The code came back from /tmp/p14-green/wip/. git diff of schema.ts and check-weeks.ts was cmp equal to the saved code.patch. HEAD had no change in these files since 7415de92.
+3. p14-apply-check.py applied the content (p14-green-apply-run.txt: 114 field rows, 10 media rows). sha256sum -c of the saved content-sha256.txt gave OK for w01 to w08 (p14-green-content-sha.txt).
+4. Gates, each in one foreground heavy-run wrapper, with the vitest JSON reporter for the failure details:
+   - RED_TEST_COMMAND: exit 0; 4 files, 192 tests passed (p14-green-red.txt, .json).
+   - GREEN_TEST_COMMAND: exit 0; 11 files, 610 tests passed (p14-green-green.txt, .json).
+   - PROJECT_LINT: exit 0 (p14-green-lint.txt).
+   - PROJECT_CHECKS: exit 0; 8 packages, 0 failed checks, 8 warnings; tsc --noEmit passed (p14-green-checks.txt).
+   - PROJECT_TESTS before the commit: exit 1; 1 failed, 1774 passed (p14-green-project-pre.txt). The one failure was J18 (storytime-loops-share.test.ts line 582), the known work-tree case: the content folder held the uncommitted change.
+   - PROJECT_TESTS at a318b19: exit 0; 69 files, 1775 tests passed (p14-green-project.txt, .json).
+   - No storytime-print-* timeout happened. pnpm-lock.yaml did not change.
+5. Mutants (p14-green-mutants.txt), each with a unique pattern, each run on storytime-package-sound-stages.test.ts (52 tests), each restore cmp equal: M1 to M12 caught; the extra step-level M4b was caught too. mutants: 12, caught: 12.
+6. Live rows (p14-green-live.txt): sound-stage-mix, sound-stage-day1, and sound-stage-plan PASS for st2/1 to st2/8 (24 of 24). practice-clips PASS for st2/1 to st2/7 (w08 has no such row). phoneme-audio PASS for st2/1 to st2/8. FAIL rows: 0; FAIL rows other than published: 0.
+7. AC14-4 (p14-green-ac4.txt): grep -c '"paStage"' prints 1, and grep -c of the final-sound and medial-vowel tags prints 0, for each of w01 to w08.
+8. Apply check again (p14-green-apply.txt): rows applied 114; weeks equal 8 of 8; copies cmp equal 5 of 5; removed 5 of 5; exit 0. Form check again (p14-form-check.txt): whitespace-only changes 0 for each week; exit 0.
+9. One commit a318b19 (spec P14-D15): sound-stages.ts (new), schema.ts, check-weeks.ts, w01.json to w08.json, 5 copies, and 5 removals. Scope guard (p14-green-scope.txt): files: 21, outside: 0. ls lists sound-stages.ts; grep -c paStage schema.ts prints 1; grep -c sound-stage-plan check-weeks.ts prints 1.
+10. Plan commit b233b16e: the Green task line is [x] and ends with a318b19; one evidence sub-line holds the gates, the checks, the live rows, the mutants, AC14-4, the scope guard, and rule R1.
+11. /tmp/p14-green is removed after the commit of this log.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: storytime_week_package_20261022
+phase: P14 (Phase 14: Sound skill stages)
+phase_base_sha: 76fc13b0
+role_base_sha: f654adc7
+red_commits_in_range: e72c68b0 (Red) and 0fe6e269 (Red retry R1), both inside 76fc13b0..HEAD
+commits:
+  - a318b19 feat(storytime): the code, the content, and the media (21 files)
+  - b233b16e measure(plan): the Green task [x] with a318b19 and its evidence sub-line
+  - the commit of this log: the log and the p14-green-* and p14-form-check.txt captures of this run
+files_changed:
+  - dashboard/lib/storytime/sound-stages.ts (new), dashboard/lib/storytime/schema.ts, dashboard/scripts/storytime/check-weeks.ts
+  - content/storytime/l2/w01.json to w08.json
+  - content/storytime/l2/media/w02/words/wa-net.mp3, wa-nose.mp3; w03/words/wa-ant.mp3, wa-net.mp3; w04/words/wa-apple.mp3 (new byte copies of the bank files)
+  - content/storytime/l2/media/w03/words/wa-cup.mp3, wa-map.mp3; w04/words/wa-arm.mp3; w05/words/wa-dress.mp3; w07/words/wa-sock.mp3 (removed)
+  - measure/tracks/storytime_week_package_20261022/plan.md (the Green task line and one sub-line)
+  - measure/runs/storytime_week_package_20261022/: this log and the captures p14-green-r4b, -apply-run, -content-sha, -red (.txt, .json), -green (.txt, .json), -lint, -checks, -live, -ac4, -project-pre (.txt, .json), -project (.txt, .json), -mutants, -scope, -apply, and p14-form-check.txt
+gates:
+  - RED_TEST_COMMAND: exit 0 (4 files, 192 tests)
+  - GREEN_TEST_COMMAND: exit 0 (11 files, 610 tests)
+  - PROJECT_TESTS: exit 0 at a318b19 (69 files, 1775 tests); before the commit exit 1 with J18 only (the work-tree case)
+  - PROJECT_LINT: exit 0
+  - PROJECT_CHECKS: exit 0 (8 packages, 0 failed checks, 8 warnings)
+  - apply check: exit 0; form check: exit 0
+  - mutants: 12, caught: 12
+  - live rows: R14 rows 24 of 24 PASS; practice-clips and phoneme-audio PASS
+  - AC14-4: paStage 1 and stage-2 or stage-3 tags 0 in each week
+  - scope guard: files 21, outside 0
+deviations:
+  - PROJECT_TESTS ran two times: before the commit (J18 failed on the dirty work tree) and at a318b19 (exit 0). The plan evidence names both captures.
+  - The practice-clips row exists for st2/1 to st2/7 only; w08 has no opening map, so the row gives no row for w08 (the same as before Phase 14).
+  - The captures mask Thai runs as [th] (test titles and the usage text of other scripts).
+handoff: |
+  Green of Phase 14 is complete. The code and content commit is a318b19; the plan evidence commit is b233b16e.
+  - Tasks flipped to [x]: the Green task (a318b19). No task is [b].
+  - Rule R1: PROJECT_TESTS passes at a318b19, so the Phase 14 Red window is closed.
+  - Next roles: Review A (scope 76fc13b0..a318b19; it runs p14-apply-check.py check again on a filtered basis), the print fix batch, and the Print proof task (proof-books-r6-v2 by 2026-11-15 20:00 ICT, from a318b19 or a later commit with no change under content/storytime/l2/).
+  - The Phase 13 Clips task can start: the Phase 14 content commit is in place (P14-D13).
+  - New files for the reviewers: dashboard/lib/storytime/sound-stages.ts, the 5 media copies, and the captures of this run.
+  - Final HEAD at the end of the role: the commit of this log.
+END_MEASURE_AGENT_RESULT
