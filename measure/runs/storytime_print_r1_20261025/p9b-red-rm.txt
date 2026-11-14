@@ -1,0 +1,51 @@
+P9-B Red run 3a: the week 8 review pages (storytime_print_r1_20261025)
+File: dashboard/__tests__/storytime-print-review-more.test.ts
+Command: CI=true npx vitest run dashboard/__tests__/storytime-print-review-more.test.ts --maxWorkers=1 --reporter=json
+
+=== RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-count: the compiled student book has 140 pages, a multiple of 4, and no end padding ===
+failed
+first line: AssertionError: the pages of the compiled student book: expected 136 to be 140 // Object.is equality
+problems: 1
+
+=== RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-order: after page 131 the week 8 page kinds are review, review, review-more, review, review-more, review, review-more, review, review-more ===
+failed
+first line: AssertionError: the pages of the compiled student book: expected 136 to be greater than or equal to 140
+problems: 1
+
+=== RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-stable: the reader sides keep the pages of P9-A9 and the pages 1 to 131 keep their kind and number ===
+passed
+
+=== RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-data: days 2 to 5 hold paperMore with 4 pairs, a pictureOrder with no fixed point, and a read entry ===
+failed
+first line: AssertionError: day 2 has no paperMore field
+problems: 4
+
+=== RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-pictures: each picture row of a page is in the list, comes from a week of its day, and passes the SHA-256 check ===
+failed
+first line: AssertionError: day 2 has no picture rows to check
+problems: 4
+
+=== RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-decodable: each of the 5 texts of a page has 0 untaught words at the week of its reader ===
+passed
+
+=== RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-no-position: a review-more page asks no position mark and no sound label ===
+failed
+first line: AssertionError: page 134 is not a review-more page
+problems: 6
+
+=== RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-steps: line 5 of B1, C1, D1, and E1 names the page after it, and the step map rows carry pageEnd ===
+failed
+first line: AssertionError: line 5 of B1 does not name the page after the review page: "Paper: review page 2 in the student book, then one earlier review page that the child has not done."
+problems: 11
+
+=== RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-no-picture: the print list keeps the rows it has, and no review page adds a row ===
+passed
+
+=== RM: the four review pages of week 8 (P9-B8 to P9-B13) RM-fit: a review-more page holds 4 match rows, 1 read row, and a score strip of __ / 4, and they fit the page ===
+failed
+first line: AssertionError: page 134 has 0 picture boxes; the spec has 5
+problems: 8
+
+=== Total: 10 checks (PASS=3, FAIL=7) ===
+deviation: RM-steps covers the step map rows and the shipped file; the teacher book page reference stays with the F6 tests of the gate.
+exit: 1
