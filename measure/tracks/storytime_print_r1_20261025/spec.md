@@ -293,3 +293,158 @@ The pictures sit in frames on white pages, so they need no bleed. S19 also lets 
 14. **Classroom language card.** Design §8: "The same card is page 1 of the teacher book." The template has no such page, and the design gives no praise lines (P9).
 15. **Class set size.** Design §8: sets of 8 for pairs. The scripts: one book for each pair, in classes of 30 (P10). Resolved 2026-10-25: moot, because each child has the readers in the workbook (P10).
 16. **Recorded approvals.** Week 1 is published (4d78b21), and the monorepo plan records Daniel's Thai approvals of weeks 1 to 8. No week file records an approval, and the `published` check fails (P14). Resolved 2026-10-25 (D2 item 4): the week files record the approval sources (P14).
+
+## Addendum 2026-11-14: print audit gate, code tests, and the r6-v2 fix batch
+
+Request: the PM hand-off of 2026-11-14 (`~/Desktop/handoff/pr-print-audit-gate/workbooks-handoff.md`, version 0.2, SHA-256 `2c2638de…faec`, receipt sent 11:10 ICT) and the PM decisions of 2026-11-14 11:25 ICT on the PM print audit of `proof-books-r6-v1` (`~/Desktop/handoff/print-audit-r6-v1/Storytime-Advantage-L2-U1-books-r6-v1.audit.md`). The audit verdict is PASS: 0 blockers, 0 majors, 10 minors (A6, B1, B3, B4, C2, D1, D2, D5, D7, F3). The PM accepted six fixes. This addendum records the audit gate, the code-test list, and the fix batch. It changes no earlier decision.
+
+### Decisions
+
+| Id | Decision | Default | Reason |
+|---|---|---|---|
+| P9-A1 | The print track names the audit gate and its pass rule (text below). | The gate is the skill `print-curriculum-audit`. It sits after the code tests and before Daniel's look and the printer order. It passes only with 0 blockers and 0 majors. | PM ask 1 (T3.1). The plan already holds a short form of this text in the paragraph "Audit gate (PM 2026-11-04 …)" (plan line 30). This section adds the exact words. |
+| P9-A2 | The code-test list lives in the file `print-audit-code-tests.md` of this track folder. | The file holds the 11 rows of PM list version 0.2 (C1, C2, C3, C4, E2, E3, E6, E7, F6, H1, I1), each with the real input paths and the test that covers it. | PM ask 2 (T3.2). The first PM request said nine rows. Version 0.2 added E6 and E7, so the file holds eleven. |
+| P9-A3 | One line-art fix table replaces a line-art file for the print only. The table is `content/storytime/l2/print/pictures-line-fix.json`. Its code is the new module `dashboard/lib/storytime/print/line-art-fix.ts`. | `resolveStorytimePictureFiles(folder, rows, 'line')` in `picture-check.ts` calls the module after its SHA-256 check. The call changes the `file` of a result and keeps its `fileName`. D1 and D7 use the table. | All line-art users of the print pass this one function: `readers.ts` (lines 196 and 216), `student-book.ts` (line 767), and the card kit check (`card-kit.ts`, lines 589 and 597). The Forge files, `manifest.json`, and the batch hashes stay byte equal. Replacing the bytes in place would break the manifest SHA-256 check. A new Forge version needs a color file with the same version, and a manifest rewrite. |
+| P9-A4 | D1: the check picture for "ten" is `content/storytime/l2/media/w02/family/ten.jpg` (800 x 800 px JPEG: a black "10" over ten black dots). | The table entry for the row `l2-w06-check-row-ten` replaces its line art `l2-w06-check-row-ten-line-v2.png` with the file in place. The print only changes. The week package does not change. | The audit D1: the picture of ten apples makes a child say "apples", a word that starts with /a/. The teacher key needs "ten" as the /t/ answer (p96 item 2, p134 item 5). The row serves both pages, because a review word keeps the row of the earliest week (`student-book.ts`, line 589). The PM named the file. |
+| P9-A5 | D7: Pat gets a solid black hair fill in the line art of week 6. | Four table entries (below). A deterministic script makes the four filled files. The files go to `content/storytime/l2/print/pictures-fix/`. | The audit D7: Pat has black hair on the cast sheet and light, unfilled hair in Tap, Tap! pages 3 and 4 and in the A7 picture of page 94. In each of the four pictures, Pat is the left child. Sam is the right child with brown hair and a striped shirt. The PM decided the fill (D5: no new Forge picture). |
+| P9-A6 | B3: the picture frames of the practice and check pages are solid. | In `student-book.ts` the rule `.picture-box` (line 138) changes from `0.6mm dashed` to `0.6mm solid`. | The audit B3: a dashed frame suggests a cut that does not happen. The frames of the reader leaves are already solid. |
+| P9-A7 | B4: the tear-out ticks print 0.5 mm wide. | In `readers.ts` the rule `.tear-tick` (line 619) takes a border of `2px` (0.53 mm) in place of `0.4mm`. | The audit B4 measured 0.25 mm (3 px at 300 dpi). Chrome prints a border width in whole CSS pixels, rounded down, and 0.4 mm is 1.51 px, so it prints 1 px (0.26 mm). A value of `0.5mm` is 1.89 px and prints 1 px too. Only 2 px or more gives 0.5 mm. |
+| P9-A8 | A6 nose: the two nose line pictures clip inside the frame. | A table of two row ids in `student-book.ts` marks their picture boxes with `data-edge-ink="clip"`. One rule, `.picture-box[data-edge-ink] img { clip-path: inset(1.5mm); }`, leaves 1.5 mm of white between the stroke ends and the frame. | The audit A6: the nose picture runs through the frame at the top and the bottom. A measure of all 103 square line pictures (2026-11-14) shows ink in the outer pixel ring for these two files only: `l2-w01-check-row-nose-line-v2.png` and `l2-w01-practice-line-nose-line-v2.png` (50 dark pixels at the top and 52 at the bottom of each). |
+| P9-A9 | B1: the proof folder gets a fold-test PDF of the reader leaves. | The Phase 14 Print proof task makes `fold-test/Storytime-Advantage-L2-U1-readers-fold-test-v18.pdf` in `proof-books-r6-v2/` (command below). | The audit B1: the r6 hand-off had no fold-test file. The v15 fold test (86 pages) is for another file. |
+| P9-A10 | The hand-off note of `proof-books-r6-v2` lists the minors that stay open, with the reasons (below). | Six items go to Daniel's proof look: A6 rest, C2, D2, D5, E22, F3. | PM decision of 2026-11-14 11:25 ICT: "Minors left … go to Daniel's proof look of r6-v2 with your reasons. Put them in the r6-v2 hand-off note as one short list." |
+| P9-A11 | Lane, order, and dates (below). | One batch of one spec review, one Red, one Green, and the hand-off to the PM. The Phase 14 Print proof task builds `proof-books-r6-v2` from the batch. | Rule R1: no two Red windows of the print, loops, cover-options, and week package tracks at once. |
+
+### P9-A1: the gate text
+
+The track states three facts.
+
+1. The gate is the skill `print-curriculum-audit`. Its files are in `/home/daniebo/Desktop/advantage-pr/skills/print-curriculum-audit/`. Three links point to the folder: `~/.agents/skills/print-curriculum-audit`, `~/.claude/skills/print-curriculum-audit`, and `~/.config/opencode/skills/print-curriculum-audit`. The skill holds the checklist A1 to J1 in `references/checklist.md`. The checklist covers E6 and E7 (Daniel, 2026-11-14). A failed E6 or E7 is a blocker.
+2. The gate sits in the order of each print curriculum: (1) the maker builds the proof and runs its code tests (P9-A2); (2) the audit gate runs on the proof; (3) the maker fixes each fail, and the re-audit (J1) follows; (4) the PM checks sections C and D at zoom on several weeks; (5) Daniel looks at the proof; (6) the printer order goes out. The gate for the final Storytime print proof must pass before the printer order of 2026-11-25.
+3. The gate passes only with 0 blockers and 0 majors.
+
+The pass rule, quoted exactly from `SKILL.md` through the PM hand-off:
+
+> - Each item is pass, fail or n.a.
+> - Each result carries proof: a crop path or a test name. An item without proof is not a result.
+> - Severity: **blocker** (the page teaches the wrong thing), **major** (the page confuses), **minor** (the page is untidy).
+> - The gate passes only with 0 blockers and 0 majors.
+> - The minors go to Daniel with a default. The default: the print order goes ahead, and Daniel decides each minor.
+>
+> A missing proof is a fail, not a pass. An item skipped because a file was missing is an `n.a.` with the missing file named in the note.
+
+The independence rule, quoted exactly:
+
+> The auditor is never the session that built the book. The maker knows where the shortcut sits, and the shortcut is what the audit must find. The auditor must read images: text extraction misses a wrong stroke, a wrong picture, and a start dot in the wrong place.
+
+The Workbooks session builds the book, so it is the maker. It never runs the skill on its own build. The auditor takes no part in a fix batch. After a fix batch, the auditor re-checks every failed item and does one full pass of sections C and D (J1). The PM spawns the auditor. The route that passed calibration v13 is `claude-code/claude-sonnet-5-5#high`. The report is `<proof-file-name>.audit.md` with a `crops/` folder next to it, in the hand-off folder that the PM names. The PM sends the report to this track.
+
+Result of the audit of `proof-books-r6-v1` (2026-11-14): PASS, 0 blockers, 0 majors, 10 minors (the J1 re-check gave the same 10). The 10 minors go to Daniel with the default that the print order goes ahead.
+
+### P9-A2: the code tests
+
+The file [print-audit-code-tests.md](./print-audit-code-tests.md) holds the 11 rows. Each row gives the real input paths, the test that covers it today (file and test name, found with `grep`), the gap, and the planned test. The maker runs the list on each proof build, before the audit (plan Phase 9, task "Code tests on the r6-v2 proof"). The tests do not replace the page images.
+
+### P9-A3: the line-art fix table
+
+- **File and shape.** `content/storytime/l2/print/pictures-line-fix.json` is an object keyed by picture row id. Each entry has: `sourceFile` (the line-art name that the manifest gives), `sourceSha256`, `replacement` (a path relative to `content/storytime/`), `replacementSha256`, `reason` (`D1` or `D7`), and, for `D7` only, `fill` with `seed` (`[x, y]` in pixels), `areaPx`, and `bbox` (`[minX, minY, maxX, maxY]`).
+- **Rule.** After the SHA-256 check of the manifest, a `line` result for a row with an entry changes only when the SHA-256 of the source file equals `sourceSha256`. Then the module checks that the replacement file exists and has `replacementSha256`, and it returns the replacement path as `file`. A folder with other bytes (a scratch copy of a test) gets no change. A replacement that is missing or has another SHA-256 throws an error that starts with `line-art fix:`. A `color` result never changes.
+- **Not changed.** `pictures/manifest.json`, every file under `pictures/`, `pictures.json`, and `content/storytime/l2/media/`.
+- **Where the code goes.** The module reads the table with the same pattern as `art-edge-fill.ts` (a missing table file gives an empty table). Pins for the export names go into the header of the Red test file as PIN lines.
+
+### P9-A4: D1, the "ten" picture
+
+- **Entry.** Row `l2-w06-check-row-ten`. `sourceFile` is `l2-w06-check-row-ten-line-v2.png` with SHA-256 `b9647ab86cf41e1839877290f668e9f984c830307944fa8440433111d4b07e1e`. `replacement` is `l2/media/w02/family/ten.jpg` with SHA-256 `45548b692934a9ff1d9a39da120c214d77c8eeffc08bd582ff90a1bdc7285431`.
+- **Where it shows.** The row is the one picture of "ten" in the student book: the check row of week 6 (page 96, item 2) and the review rows of week 8 (page 134, item 5). Week 8 uses this row, so no second entry is needed.
+- **Print only.** The week package does not change. The week 2 family set (`set-family-pictures.ts`) keeps its file. The print reads the file in place, so a later change of that file stops the build with the SHA-256 error of P9-A3. This is the wanted behavior.
+- **Smallest change.** One table entry. No new Forge version, no new file, no code change besides P9-A3.
+- **Color.** The color file `l2-w06-check-row-ten-v2.png` stays the card and A3 picture. The card kit is not part of this fix (open question Q9-3).
+- **Print format.** The file is 800 x 800 px (about 780 ppi in the 26 mm frame), black on white. The existing `--k-only` step of the PDF/X build turns it to DeviceGray.
+
+### P9-A5: D7, the hair fill of Pat
+
+- **Scope: four pictures of week 6, one entry each.** In all four, Pat is the child at the left (the color files show black hair and a green shirt; Sam at the right has brown hair and a red striped shirt). The measured seeds and areas (2026-11-14, 4000 x 3000 px sources, open pixel = gray value 128 or more, 4-connected):
+
+| Row id | Source file (v1) | Seed (x, y) | areaPx | bbox |
+|---|---|---|---|---|
+| `l2-w06-story-page-pat-sat-on-a-mat` | `l2-w06-story-page-pat-sat-on-a-mat-line-v1.png` | 1550, 1420 | 157420 | 1195, 1297, 1896, 1733 |
+| `l2-w06-story-page-sam-sat-on-a-mat` | `l2-w06-story-page-sam-sat-on-a-mat-line-v1.png` | 1500, 1360 | 187021 | 1143, 1229, 1874, 1741 |
+| `l2-w06-story-page-pip-sat-on-the-mat` | `l2-w06-story-page-pip-sat-on-the-mat-line-v1.png` | 1270, 1360 | 186107 | 820, 1236, 1543, 1773 |
+| `l2-w06-cover-tap-tap` | `l2-w06-cover-tap-tap-line-v1.png` | 1485, 1422 | 214243 | 1115, 1283, 1834, 1820 |
+
+  The source SHA-256 values are the line-art values of `manifest.json` and the files: `78ece6ba9bbc269abb6aa726da348b4c2edb9474e29ccabd4671cc07b2d27bb2`, `8f930c72a36408f2042ac587b534866f7fe5e87ef3eb0ad6232b00993490b20f`, `f990e6ab90ad467954a1fbcecf0eb360245698c0ede720d1b18ba24c5e99058a`, and `48efe50b69efd80f5a712073efd6c4cca602e1347649941336a0149b782f42d0`.
+- **Where it shows.** Tap, Tap! reader pages 3, 4, and 10 (story pages 1, 2, and 8) and the cover leaf, and the A7 picture of student page 94, because the practice word "Pat" resolves to the row `l2-w06-story-page-pat-sat-on-a-mat`.
+- **Not in scope.** The row `l2-w06-story-page-pat-can-see-a-map` shows Pat with black hair already. The rows `l2-w06-story-page-tap-tap-tap` and `…-tap-tap-tap-b` show Sam (a striped shirt). Neither gets an entry. The Pat pictures of weeks 1 to 3 stay as they are (open question Q9-2).
+- **Method (deterministic).** A new script `dashboard/scripts/storytime/make-line-art-hair-fill.ts` (sharp 0.34.5, run in one `heavy-run.sh` wrapper) has two modes. `--write` reads each `D7` entry and writes `content/storytime/l2/print/pictures-fix/<source name without .png>-hair-v1.png` (an existing file stops the run). `--check` recomputes each fill from the source and compares the pixels of the committed file; it exits 1 on any difference. The fill function lives in `line-art-fix.ts`, so that a test can import it. The rule: (1) read the source as 8-bit gray; (2) refuse when the seed pixel is below 128; (3) flood fill (4-connected) all pixels of value 128 or more; (4) refuse when the region touches the image border, when its area is not `areaPx` exactly, or when its box is not `bbox` exactly; (5) set each pixel of the region to 0; (6) write an 8-bit gray PNG of the same size. The measured regions are closed: none touches the border, and each region is 1.3 to 1.8 percent of the picture. The fill has no dilation, because the line pixels are already 0.
+- **Checks (each a test, on the shipped files).** (a) Every pixel with a source value below 128 is equal in the replacement. (b) Each changed pixel has a source value of 128 or more, a replacement value of 0, and lies inside `bbox`. (c) The count of changed pixels equals `areaPx`. (d) The region is dark: the mean of the replacement over the changed pixels is 0. (e) The count of pixels with a value from 1 to 254 is the same in the source and the replacement (no new gray). (f) The replacement has the size 4000 x 3000 and 8 bits of gray. (g) The table has no entry for `l2-w06-story-page-pat-can-see-a-map`.
+- **App media impact: none.** The app media of week 6 (`content/storytime/l2/media/w06/books/…/pNN.jpg`) are color pictures from the color files (`set-book-pictures.ts` resolves `'color'` only), so a line-art change cannot reach them. The week 6 app package `r5` of Phase 13 holds those color files, so it stays as planned and needs no new revision. The Green scope guard proves this: `git diff --stat -- content/storytime/l2/media` and `git diff --stat -- content/storytime/l2/print/pictures` print no line.
+- **The orchestrator fact that needs a correction.** The week 6 JPG files `l2/media/w06/books/2-tap-tap/p01.jpg` onward are color renders. The print line art of Tap, Tap! is `content/storytime/l2/print/pictures/l2-w06-story-page-*-line-v*.png`.
+
+### P9-A6: B3, solid frames
+
+- `.picture-box` (`student-book.ts`, line 138) becomes `border: 0.6mm solid #000`. The same rule serves the practice, writing, check, and review pictures, so one change covers all of them.
+- Three dashed rules stay: `.perforation` (line 221, the home card cut edge), `.fold-line` (line 228 of `student-book.ts` and line 542 of `readers.ts`, the reader fold), and `.map-place` (line 93, the sticker places of the book map; open question Q9-4). `card-kit.ts` line 826 is a card kit rule and stays.
+- The test reads the compiled student book of weeks 1 to 8. It lists each CSS rule with `dashed` or `dotted` and expects exactly these selectors: `.map-place`, `.perforation`, and `.fold-line`. A page picture box has a solid border.
+
+### P9-A7: B4, the ticks
+
+- `readerLeafMarkCss` in `readers.ts` (line 619): `.tear-tick { position: absolute; left: -0.25mm; width: 0; height: 5mm; border-left: 2px solid #000; }`. The tick stays 5 mm long, at the top edge and the bottom edge, on the perforation line. The scissors mark and the label do not change.
+- The test computes the printed width of a border as the CSS width in pixels (millimeters x 96 / 25.4) rounded down, with a minimum of 1 px, and expects at least 0.5 mm minus 0.05 mm. The old value `0.4mm` gives 0.26 mm and fails. The value `0.5mm` also gives 0.26 mm and fails. The test `R-P6-F6a` of `storytime-print-reader-ink.test.ts` keeps its checks, because the tick keeps a solid border.
+- The same rule serves the readers build (`readers.ts`, `readerTearOutHtml`) and the student book.
+- The page proof: the Phase 14 Print proof task measures the tick on page 9 of the student book v18 at 300 dpi, as the audit did (column x = 142, rows 0 to 58). The expected width is 6 px (0.53 mm). A width of 3 px is a fail, and it means that the rule did not reach the PDF.
+
+### P9-A8: A6 nose clip
+
+- Data: a constant of two row ids in `student-book.ts`: `l2-w01-check-row-nose` and `l2-w01-practice-line-nose`. `pictureElement` adds `data-edge-ink="clip"` to the picture box of these rows only. The page CSS holds one rule `.picture-box[data-edge-ink] img { clip-path: inset(1.5mm); }`.
+- The nose strokes then stop 1.5 mm before the frame in each box (the check rows of week 1, the week 8 review rows, and the practice line of week 1). Chrome keeps a CSS clip path as a vector clip in the PDF.
+- A guard test measures the line pictures of class C (1500 x 1500 px, from `manifest.json`) with sharp: the files with a value below 128 in the outer pixel ring are exactly the two nose files. A new picture with edge ink then fails the test until it gets a decision.
+- Not in this fix: the room scenes and the two reader pictures that the frame cuts (A6 rest, P9-A10).
+
+### P9-A9: B1, the fold-test PDF
+
+- Output: `~/Desktop/print-ready/storytime/proof-books-r6-v2/fold-test/Storytime-Advantage-L2-U1-readers-fold-test-v18.pdf`, 86 pages: the 2 lead sheets (`make-fold-test-lead-pdf.ts`) and the 84 reader leaf sides of the student book v18, the same layout as the v15 file. The reader sides of week n are the pages 9 + 18 (n − 1) to 20 + 18 (n − 1) of the student book (weeks 1 to 7: 9–20, 27–38, 45–56, 63–74, 81–92, 99–110, 117–128). The audit default named the pages 9 to 20 only (week 1). The default here is all 14 readers, as in the v13 and v15 fold tests (PM rule).
+- Commands (the lead build in one `heavy-run.sh` wrapper; `pdfseparate` and `pdfunite` do not re-render, as in v13):
+  1. `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'mkdir -p /tmp/opencode/p9-fold && cd dashboard && npx tsx scripts/storytime/make-fold-test-lead-pdf.ts --out /tmp/opencode/p9-fold/lead.pdf'`
+  2. `for n in 1 2 3 4 5 6 7; do pdfseparate -f $((9+18*(n-1))) -l $((20+18*(n-1))) ~/Desktop/print-ready/storytime/proof-books-r6-v2/student/Storytime-Advantage-L2-U1-Student-Book-v18_PDFX-1a.pdf /tmp/opencode/p9-fold/s%d.pdf; done`
+  3. `mkdir -p ~/Desktop/print-ready/storytime/proof-books-r6-v2/fold-test && pdfunite /tmp/opencode/p9-fold/lead.pdf $(for n in 1 2 3 4 5 6 7; do for p in $(seq $((9+18*(n-1))) $((20+18*(n-1)))); do printf '/tmp/opencode/p9-fold/s%d.pdf ' $p; done; done) ~/Desktop/print-ready/storytime/proof-books-r6-v2/fold-test/Storytime-Advantage-L2-U1-readers-fold-test-v18.pdf`
+- Check: `pdfinfo` gives 86 pages and A4 (594.96 x 841.92 pts). The `pdftotext` text of the pages 3 to 86 equals the text of the 84 source pages (0 differences). The file is in `MANIFEST.txt`. The scratch folder `/tmp/opencode/p9-fold` is removed at the end.
+
+### P9-A10: the minors that stay open (text for the hand-off note)
+
+The note of `proof-books-r6-v2` (file `p14-proof-note.md`) holds this list, as "open, goes to Daniel's proof look", with the audit row and the reason:
+
+| Row | What stays | Reason |
+|---|---|---|
+| A6 rest | The room scenes (p22, p23, p40, p58, p76, p94, p112) and two reader pictures ("A neck.", "How many balls? Five!") are cut at the frame edge. | The fix is a look choice for each picture: a crop, or white bands. Daniel chooses. |
+| C2 | The start dots of c, s, and d in the sentence trace lines sit at the left middle. | The fix needs a start table for every lowercase letter. The tests of today cover the 7 taught letters. |
+| D2 | The picture word "ox" looks like a cow. | A new word is Daniel's choice. It changes 5 or more places and the audio. |
+| D5 | Tap, Tap! page 4 "Sam sat on a mat." shows two boys. | No new Forge picture now (PM). The D7 fill makes Pat and Sam two clear children. Daniel decides. |
+| E22 | The picture "A neck." (Nan Can Nod p7) shows a very large head on a thin neck. | The fix needs a new picture. |
+| F3 | The D4 script traces the sentence first and then colors the picture. The page puts the picture above the trace line. | A swap of the D4 items changes item numbers that the teacher book quotes, or adds Thai lines. |
+
+Fixed in this batch: D1, D7, B1, B3, B4, and the nose part of A6. The note gives "fixed in <commit>" for each.
+
+### P9-A11: lane, order, and dates
+
+- Lane: the light lane (no strategy role, no adversarial round). Roles in order: one spec review (a model family other than Anthropic; the Thai filter first; it writes only files under `measure/runs/`), Red (a model other than Claude; the Thai filter first), Green (a model family other than the Red family), and the hand-off of P9-A1 and P9-A2 to the PM. One role runs at a time. The routes are picked by `ra-quota` at spawn.
+- Order (PM, 2026-11-14 11:25): the Phase 14 Red first, then the fix plan, then the Red and Green pair. This batch's Red starts only after the Phase 14 Green commit closes the Phase 14 Red window (rule R1).
+- Dates (ICT): the spec review on 2026-11-14. Red on 2026-11-15 after the Phase 14 Green commit (the Phase 14 Green is due 12:00), done by 14:00. Green done by 16:30. The student book v18 build in the Phase 14 Print proof task starts at 16:30. The proof folder `proof-books-r6-v2` goes to the PM by 2026-11-15 20:00 (already sent to the PM; holds). The PM audit follows within 1 day. The J1 re-audit re-checks the failed items. The printer order is 2026-11-25.
+- Fallback: if the Green commit does not land by 16:30, the student book v18 builds with the fixes that landed. The note then says "next version" for each fix that did not land. The teacher book and the 8 drafts do not depend on this batch, so their steps can start right after the Phase 14 Green commit.
+- The Phase 14 Print proof task adds three things to its build: the fold-test PDF (P9-A9), the open-minors list (P9-A10), and the agent-opened pages of this batch: student pages 9 (ticks), 6 and 96 (frames and the "ten" picture), 94 (Pat), and 132 (nose).
+
+### Open questions (Daniel decides; the track uses the default)
+
+| Id | Question | Default |
+|---|---|---|
+| Q9-1 | The file `ten.jpg` prints a numeral "10". The Forge rules (FR-9) say "no letters, words, or numbers in the picture". Does the numeral stay? | The numeral stays. The PM named the file, and the rule governs Forge deliveries. Daniel decides at the proof look. |
+| Q9-2 | Does the hair fill extend to the Pat pictures of weeks 1 to 3? | No. Week 6 is the only week where Pat and Sam share a picture, and the audit passed weeks 1 to 3. |
+| Q9-3 | Does the card kit "ten" card change with D1? | No. The kit prints the color file. The Red role records with `grep` whether any card uses the row `l2-w06-check-row-ten`. The release proof rebuilds the card kit, and Daniel sees it. |
+| Q9-4 | Do the sticker places of the book map (`.map-place`) become solid? | No. They stay dashed. They are not picture frames. |
+| Q9-5 | Does the fold test hold all 14 readers? | Yes (84 sides + 2 lead sheets), as in v13 and v15. |
+
+### Acceptance criteria of the batch
+
+- AC9-A1: this section and the file `print-audit-code-tests.md` exist, and the PM has the place of each in the track (the plan task "PM hand-off").
+- AC9-A2: `resolveStorytimePictureFiles(…, 'line')` gives `ten.jpg` for the row of ten and the four filled files for the four Pat rows, and it gives the manifest file for every other row. The checks (a) to (g) of P9-A5 pass.
+- AC9-A3: the compiled student book has solid picture frames, ticks of at least 0.5 mm (computed), and the clip mark on the nose boxes only.
+- AC9-A4: no file changes under `content/storytime/l2/media/`, `content/storytime/l2/print/pictures/`, or in `manifest.json`. The scope guard prints `outside: 0`.
+- AC9-A5: the r6-v2 hand-off holds the fold-test file and the open-minors list, and the PM re-audit (J1) finds D1, D7, B1, B3, B4, and the nose part of A6 fixed.
