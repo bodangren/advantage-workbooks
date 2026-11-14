@@ -135,8 +135,9 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .practice-text { font-size: 20pt; line-height: 12mm; flex: 1; }
 .practice-text-rule { display: block; position: relative; overflow: hidden; }
 .practice-rule-line { position: absolute; left: 0; right: 0; height: 0; border-top: 0.4mm solid #000; }
-.picture-box { border: 0.6mm dashed #000; display: flex; align-items: center; justify-content: center; font-size: 9pt; }
+.picture-box { border: 0.6mm solid #000; display: flex; align-items: center; justify-content: center; font-size: 9pt; }
 .picture-box img { width: 100%; height: 100%; object-fit: contain; }
+.picture-box[data-edge-ink] img { clip-path: inset(1.5mm); }
 .dictation-rows { }
 .box-group { display: flex; gap: 4mm; }
 .letter-slot, .sound-box { display: block; flex: none; border: 0.6mm solid #000; }
@@ -246,6 +247,14 @@ const perforationMark = (pageNumber: number, profile: StorytimePrintProfile, kin
 };
 
 /**
+ * The picture rows whose line art runs to the edge of the file (audit A6, spec P9-A8): the nose
+ * check row and the nose practice picture of week 1. Their boxes get `data-edge-ink="clip"`, and
+ * the page CSS clips the image 1.5 mm inside the frame. A guard test lists the class C line
+ * pictures with edge ink, so a new picture with edge ink fails until it gets a decision.
+ */
+const NOSE_CLIP_ROWS = ['l2-w01-check-row-nose', 'l2-w01-practice-line-nose'];
+
+/**
  * The picture element of a picture-list row: a proof placeholder box, or (final mode) the picture
  * file that the folder manifest resolves into (FR-9: the workbook prints line art only). Final
  * mode loads the line art of the row, never the color file (B-P2-02). The source is a
@@ -260,15 +269,16 @@ const perforationMark = (pageNumber: number, profile: StorytimePrintProfile, kin
  * @throws Error When final mode holds no file for the row (FR-5.6).
  */
 function pictureElement(row: StorytimePictureRow, o: StorytimeStudentBookOptions, files: Map<string, StorytimePictureFile>, className: string): string {
+    const edgeInk = NOSE_CLIP_ROWS.includes(row.id) ? ' data-edge-ink="clip"' : '';
     if (o.mode === 'final') {
         if (o.pendingPictures?.includes(row.id)) {
-            return `<div class="picture-box ${className}" data-picture-id="${esc(row.id)}" data-picture-file="${esc(row.lineArtFileName)}">PICTURE MISSING</div>`;
+            return `<div class="picture-box ${className}" data-picture-id="${esc(row.id)}"${edgeInk} data-picture-file="${esc(row.lineArtFileName)}">PICTURE MISSING</div>`;
         }
         const entry = files.get(row.id);
         if (!entry) throw new Error(`picture missing: ${row.id} (${row.lineArtFileName})`);
-        return `<div class="picture-box ${className}" data-picture-id="${esc(row.id)}" data-picture-file="${esc(entry.fileName)}"><img src="${esc(pathToFileURL(entry.file).href)}" alt=""></div>`;
+        return `<div class="picture-box ${className}" data-picture-id="${esc(row.id)}"${edgeInk} data-picture-file="${esc(entry.fileName)}"><img src="${esc(pathToFileURL(entry.file).href)}" alt=""></div>`;
     }
-    return `<div class="picture-box ${className}" data-picture-id="${row.id}" data-picture-file="${row.lineArtFileName}">PICTURE MISSING</div>`;
+    return `<div class="picture-box ${className}" data-picture-id="${row.id}"${edgeInk} data-picture-file="${row.lineArtFileName}">PICTURE MISSING</div>`;
 }
 
 /** The icon key of page 1 (A-48): the 6 icons with their short line and Thai word, and the day letters A to E. */

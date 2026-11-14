@@ -616,7 +616,7 @@ export function readerLeafMarkCss(profile: StorytimePrintProfile): string {
     const foldTop = Math.round((profile.trim.heightMm / 2 - 1.5) * 10) / 10;
     const foldCentre = Math.round((profile.trim.heightMm / 2) * 10) / 10;
     return `.perforation.reader-tear { position: absolute; top: 0; width: 0; height: 100%; border: 0; }
-.tear-tick { position: absolute; left: -0.2mm; width: 0; height: 5mm; border-left: 0.4mm solid #000; }
+.tear-tick { position: absolute; left: -0.25mm; width: 0; height: 5mm; border-left: 2px solid #000; }
 .tear-tick-top { top: 0; }
 .tear-tick-bottom { bottom: 0; }
 .tear-label { position: absolute; top: 24mm; width: ${profile.perforationMm}mm; display: flex; flex-direction: column; align-items: center; gap: 2mm; }

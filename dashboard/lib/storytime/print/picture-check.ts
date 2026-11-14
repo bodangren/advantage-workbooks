@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import { applyStorytimeLineArtFixes } from './line-art-fix';
 
 /**
  * Stage 1 of the picture stages (spec FR-9, rule 6.6; plan Phase 4): the measurement check of one
@@ -602,7 +603,8 @@ function batchFileOf(batchFolder: string, relative: string, rowId: string): stri
  * with N equal to the selected version, and a path inside the folder. The check also reads the
  * file that the output prints: it must exist and hold the manifest SHA-256. The check does not
  * measure the pixel size or the color, because the folder holds the accepted files of the
- * manifest.
+ * manifest. A `line` result then passes through the line-art fix table (spec P9-A3): a row with an
+ * entry gets its replacement as `file` and keeps its `fileName`.
  * @param folder The picture folder of the level; it holds `manifest.json`.
  * @param rows The picture-list rows; the `id` of each row selects its job.
  * @param kind `color` for the color file of the row or `line` for its line art.
@@ -613,7 +615,7 @@ function batchFileOf(batchFolder: string, relative: string, rowId: string): stri
  */
 export function resolveStorytimePictureFiles(folder: string, rows: unknown[], kind: 'color' | 'line'): StorytimePictureFile[] {
     const manifest = readStorytimePictureManifest(folder);
-    return rows.map((row) => {
+    const resolved = rows.map((row) => {
         const rowId = requireString(requireObject(row, 'picture check: the row is not an object').id, 'row id');
         const entries = forgeManifestEntriesForRow(manifest, row);
         checkNameFormOf(entries, rowId, `${rowId}-line`, rowId, forgeJobForRow(manifest, rowId).selectedVersion);
@@ -628,6 +630,7 @@ export function resolveStorytimePictureFiles(folder: string, rows: unknown[], ki
         }
         return { rowId, fileName, file };
     });
+    return applyStorytimeLineArtFixes(resolved, kind);
 }
 
 /**
