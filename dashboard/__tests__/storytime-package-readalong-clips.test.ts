@@ -1222,6 +1222,26 @@ describe('N3 the skip rule and the per-clip write (M4, M5)', () => {
         expect(provenance.items.filter((item) => item.n !== 3), 'the other items keep their fixture values').toEqual(fixture.filter((item) => item.n !== 3));
     }, 120_000);
 
+    it('a done sentence whose item text differs from the book sentence is made again', async () => {
+        const tree = doneReadAlongTree();
+        const provenance = provenanceOf(tree);
+        const stale = provenance.items.map((item, index) => (index === 2 ? { ...item, text: `${item.text} stale` } : item));
+        writeProvenance(tree, { voice: provenance.voice, speed: provenance.speed, model: provenance.model }, stale);
+        const voice = fakeVoice();
+        const run = await runSentenceMaker(tree, voice, { kinds: ['readalong'] });
+        expect(run.error?.message, 'the run ends without an error').toBeUndefined();
+        const text = readAlongSentences(1)[2];
+        expect(voice.calls.map((call) => call.text), 'one call, for the sentence with the stale text').toEqual([text]);
+        expect(run.log.filter((line) => line.startsWith('call ')), 'the exact call line of that sentence')
+            .toEqual([`call 1\t${readAlongPath(1, 3)}\ttake 1\tchars ${text.length}\tsent ${text.length}`]);
+        const kept = readAlongSentences(1).map((_, index) => `kept\t${readAlongPath(1, index + 1)}\n`);
+        expect(run.log, 'no kept line for the sentence with the stale text').not.toContain(kept[2]);
+        expect(run.log.filter((line) => line.startsWith('kept')), 'the exact kept lines of the other done sentences')
+            .toEqual(kept.filter((_, index) => index !== 2));
+        expect(run.log[run.log.length - 1], 'the sent line is the last line').toBe(`sent: ${text.length}`);
+        expect(provenanceOf(tree).items[2].text, 'the remake writes the book text back').toBe(text);
+    }, 120_000);
+
     it('a fake that throws on call 5 leaves 4 finished items in the provenance file', async () => {
         const tree = freshSentenceTree();
         let calls = 0;
@@ -1411,7 +1431,7 @@ describe('N6 the log of the word maker (M6)', () => {
         expect(run.log, 'the same lines, in the same order').toEqual(run.value?.lines ?? []);
     }, 120_000);
 
-    it('a fake that throws on call 2 gives 1 call line and the failed sent line', async () => {
+    it('a fake that throws on call 2 gives 2 call lines and the failed sent line', async () => {
         const tree = wordMakerTree();
         const voice = fakeVoice({ throwsWhen: (text) => text === 'Hen' });
         const run = await runWordMaker(tree, voice);
@@ -1444,6 +1464,29 @@ describe('N7 main of both makers (M6, M3)', () => {
         expect(await captureOutput(() => sentenceMain(['--level', '2', '--week', '1', '--kind', 'readaong', '--dry-run'])).then((run) => run.value), 'the sentence maker').toBe(2);
         expect(await captureOutput(() => wordMain(['--level', '2', '--week', '1', '--kind', 'readaong', '--dry-run'])).then((run) => run.value), 'the word maker').toBe(2);
     });
+
+    it('--kind all plans both kinds: the decodable kept lines and the read-along call list', async () => {
+        const tree = phase12Tree();
+        const voice = fakeVoice();
+        const sentenceMain = await sentenceMaker('main');
+        const run = await captureOutput(() => sentenceMain(['--level', '2', '--week', '1', '--kind', 'all'], {
+            contentRoot: tree.contentRoot,
+            synthesize: voice.synthesize,
+            recognize: voice.recognize,
+        }));
+        expect(run.value, 'the exit code').toBe(0);
+        const texts = readAlongSentences(1);
+        const lens = texts.map((text) => text.length);
+        const expected: string[] = W01_DECODABLE.map((_, index) => `kept\t${decodablePath(index + 1)}\n`);
+        let sent = 0;
+        texts.forEach((text, index) => {
+            sent += lens[index];
+            expected.push(`call ${index + 1}\t${readAlongPath(1, index + 1)}\ttake 1\tchars ${lens[index]}\tsent ${sent}`);
+        });
+        expected.push(`sent: ${sent}`, 'made: 8');
+        expect(run.out, 'the exact stdout lines').toEqual(expected);
+        expect(voice.calls.map((call) => call.text), 'only the read-along sentences are called').toEqual(texts);
+    }, 120_000);
 
     it('a real run of the sentence maker ends with sent: <s> and then made: <n>, and stdout holds each line once', async () => {
         const tree = phase12Tree();
