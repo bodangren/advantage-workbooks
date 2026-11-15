@@ -1,0 +1,75 @@
+=== mutant: approvalCore skips no loops key (the D-P9B-R4 skip is removed) ===
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-f3-script-order.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 408[2mms[22m[39m
+     [32m✓[39m F3-order week 1: the D4 rows and the D4 script name the same items in one order[32m 248[2mms[22m[39m
+     [32m✓[39m F3-order week 2: the D4 rows and the D4 script name the same items in one order[32m 6[2mms[22m[39m
+     [32m✓[39m F3-order week 3: the D4 rows and the D4 script name the same items in one order[32m 6[2mms[22m[39m
+     [32m✓[39m F3-order week 4: the D4 rows and the D4 script name the same items in one order[32m 6[2mms[22m[39m
+     [32m✓[39m F3-order week 5: the D4 rows and the D4 script name the same items in one order[32m 6[2mms[22m[39m
+     [32m✓[39m F3-order week 6: the D4 rows and the D4 script name the same items in one order[32m 6[2mms[22m[39m
+     [32m✓[39m F3-order week 7: the D4 rows and the D4 script name the same items in one order[32m 6[2mms[22m[39m
+     [32m✓[39m F3-order week 8: the week has no D4 step and the book has no writing page for it[32m 5[2mms[22m[39m
+     [32m✓[39m F3-th-shape: each th array of the D4 step has the length of its en array[32m 14[2mms[22m[39m
+[31m     [31m×[31m F3-scope: only the four English keys of the D4 step and their th twins differ from the Red baseline[39m[32m 84[2mms[22m[39m
+[31m     [31m×[31m F3-mutants: the old order, a Thai line moved alone, and a change outside the keys each fail[39m[32m 21[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-f3-script-order.test.ts[2m > [22mF3: the D4 teacher script follows the page (P9-B6)[2m > [22mF3-scope: only the four English keys of the D4 step and their th twins differ from the Red baseline
+[31m[1mAssertionError[22m: an approval key other than thai or loops of week 1 changed
+an approval key other than thai or loops of week 2 changed
+an approval key other than thai or loops of week 3 changed
+an approval key other than thai or loops of week 4 changed
+an approval key other than thai or loops of week 5 changed
+an approval key other than thai or loops of week 6 changed
+an approval key other than thai or loops of week 7 changed: expected 7 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 7[39m
+
+[36m [2m❯[22m __tests__/storytime-print-f3-script-order.test.ts:[2m411:115[22m[39m
+    [90m409| [39m            for (const problem of scopeProblems(baselineWeek(weekNumbe…
+    [90m410| [39m        }
+    [90m411| [39m        expect(problems.length, problems.join('\n') || 'the week files…
+    [90m   | [39m                                                                                                                  [31m^[39m
+    [90m412| [39m    })[33m;[39m
+    [90m413| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-f3-script-order.test.ts[2m > [22mF3: the D4 teacher script follows the page (P9-B6)[2m > [22mF3-mutants: the old order, a Thai line moved alone, and a change outside the keys each fail
+[31m[1mAssertionError[22m: Guard: the current week file equals its baseline.: expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "an approval key other than thai or loops of week 2 changed",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-print-f3-script-order.test.ts:[2m444:106[22m[39m
+    [90m442| [39m        if (d4?.en?.teacherActions) d4.en.teacherActions[3] = 'A chang…
+    [90m443| [39m        expect(scopeProblems(baseline, changed, 2).length, 'Mutant c: …
+    [90m444| [39m        expect(scopeProblems(baseline, week(2), 2), 'Guard: the curren…
+    [90m   | [39m                                                                                                         [31m^[39m
+    [90m445| [39m
+    [90m446| [39m        // (d) D-P9B-R2 and D-P9B-R4: approval.thai and approval.loops…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m9 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 01:09:50
+[2m   Duration [22m 993ms[2m (transform 251ms, setup 43ms, import 364ms, tests 408ms, environment 0ms)[22m
+
+mutant run exit: 1 (expected 1: the mutant must fail)
+=== restore ===
+cmp backup and working file: identical
+exit: 0

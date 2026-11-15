@@ -1,0 +1,85 @@
+Mid Red report, P9-B Red retry R4 (storytime_print_r1_20261025)
+
+Role: measure-mid-red. Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash.
+Date: 2026-11-16.
+
+Baselines. The brief supplied one SHA, `role_base_sha` 70278a9beb8ef7314d98df80e0462892a0ca5019.
+That SHA resolves, and it equals HEAD before the edit. The brief named no separate `phase_base_sha`.
+The log records the supplied SHA as `baseline_sha` and as `role_base_sha`, as the R1, R2, and R3 logs
+of this batch did. The phase scope check needs no phase base: this retry moves no production file.
+
+Finding R4-1 (from the loops record role, checked by the orchestrator). Commit 70278a9b of
+storytime_teaching_loops_20261103 writes Daniel's "Approved" of 2026-11-15 into `approval.loops` of
+w01 to w08. The Red baseline commit d0660317 holds `approval.loops` as `{"status": "draft"}`, so the
+approval block of every week differs from the baseline. The `approvalCore` helper of
+`dashboard/__tests__/storytime-print-f3-script-order.test.ts` dropped only the `thai` key, so F3-scope
+failed 2 cases: the case at line 402 ("F3-scope: only the four English keys ...") and the Guard check
+at line 435 inside F3-mutants.
+
+Decision D-P9B-R4 (orchestrator, 2026-11-16). F3-scope also ignores `approval.loops`. The loops
+Phase 4 record task writes the key after Daniel's "Approved", and that write is not a scope change.
+Every other approval key and all of `print` stay guarded.
+
+Work: test-only, one file. Four edits in
+`dashboard/__tests__/storytime-print-f3-script-order.test.ts`:
+- the header PIN list holds a new PIN line for D-P9B-R4, in the style of the D-P9B-R2 line;
+- `approvalCore` drops the `loops` key as well as the `thai` key, and its JSDoc names both decisions;
+- the JSDoc of `scopeProblems` reads "an approval key other than `thai` or `loops`", and the problem
+  message reads "an approval key other than thai or loops of week ${weekNumber} changed";
+- the mutant (d) sets `approval.loops` after the `thai` step and expects `scopeProblems(...)` to
+  equal `[]` with the message "Mutant d: a change of approval.loops passes F3-scope (D-P9B-R4).".
+  The `approval.owner` step that must fail stays.
+No production code, no week file, and no other test file changed.
+
+Gates. Each command runs inside one heavy-run wrapper.
+- The F3 file: `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true
+  npx vitest run __tests__/storytime-print-f3-script-order.test.ts --maxWorkers=1'`. Exit 0.
+  Test Files 1 passed; Tests 11 passed. Capture:
+  `measure/runs/storytime_print_r1_20261025/p9b-red-r4.txt` (it ends with `exit: 0`).
+- Mutation proof: a copy of the file was saved, a python script removed the `loops` skip from
+  `approvalCore`, and the same heavy-run command ran again. The mutant run exits 1 with 2 failed and
+  9 passed: the failures are F3-scope and F3-mutants. The file was restored from the copy, and `cmp`
+  reports the two files identical. Capture:
+  `measure/runs/storytime_print_r1_20261025/p9b-red-r4-mut.txt` (it ends with `exit: 0`, and the
+  mutant run line reads `mutant run exit: 1`).
+- ESLint: `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx eslint
+  __tests__/storytime-print-f3-script-order.test.ts'` exits 0. Capture:
+  `measure/runs/storytime_print_r1_20261025/p9b-red-r4-lint.txt` (it ends with `exit: 0`).
+- The print glob: `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true
+  npx vitest run __tests__/storytime-print-*.test.ts --maxWorkers=1'` exits 0. Test Files 45 passed;
+  Tests 943 passed. Capture:
+  `measure/runs/storytime_print_r1_20261025/p9b-red-r4-print.txt` (it ends with `exit: 0`).
+  No other print test file failed on `approval.loops`.
+- `pnpm-lock.yaml` did not change in any gate.
+
+Scope. `git status --short` before the edit held two modified files of other sessions:
+`measure/tracks/storytime_teaching_loops_20261103/plan.md` (another role has an uncommitted edit
+there) and `video/storytime-song/scripts/render.mjs`. Both are unrelated to this task. Neither is
+staged and neither is touched. The other dirty paths are untracked run captures of other tracks.
+No file of `content/storytime/**` was written. Every read of a week file went through `git show` and
+a script that prints English fields only, and the first command of the role masked Thai; the Thai
+count of the test file is 0. Every vitest output went through `grep -v -P` before it reached a
+capture or this log.
+
+Commits.
+- 66e7268f test(storytime): F3-scope also ignores approval.loops, P9-B Red retry R4
+- e5e7fb34 measure(plan): the P9-B Red retry R4 sub-bullet for the F3 approval.loops scope
+- the commit of this log and the four captures
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_print_r1_20261025
+phase: P9, P9-B batch (Red retry R4)
+baseline_sha: 70278a9beb8ef7314d98df80e0462892a0ca5019
+role_base_sha: 70278a9beb8ef7314d98df80e0462892a0ca5019
+red_commit: 66e7268f
+plan_commit: e5e7fb34
+commits: 66e7268f test file; e5e7fb34 plan; the commit of this log and the four captures
+tests_run: heavy-run of the F3 file exits 0 with 11 passed; mutation proof catches the mutant (2 failed, 9 passed, exit 1) and the restore is identical; npx eslint exits 0; heavy-run of the print glob exits 0 with 45 files and 943 tests
+files_changed: dashboard/__tests__/storytime-print-f3-script-order.test.ts (4 edits); measure/tracks/storytime_print_r1_20261025/plan.md (1 sub-bullet); measure/runs/storytime_print_r1_20261025/p9b-red-r4.txt; p9b-red-r4-mut.txt; p9b-red-r4-lint.txt; p9b-red-r4-print.txt; this log
+plan_updates: one sub-bullet "Red retry R4" under the Red task of P9-B, after the R3 sub-bullet, with the commit SHA, decision D-P9B-R4, the finding, and the captures
+known_failures: none
+dispositions: R4-1=FIX
+handoff: The F3-scope guard now ignores approval.thai and approval.loops, and every other approval key and all of print stay guarded. The Green and review roles of the P9-B batch need no other change for this decision. The next Red-side risk is any later approval key: a new key in the approval block of a week file fails F3-scope unless the orchestrator adds it to the skip list of approvalCore. The proof r6-v3 build task of P9-B waits for the maker, and this role changed no production file.
+END_MEASURE_AGENT_RESULT
