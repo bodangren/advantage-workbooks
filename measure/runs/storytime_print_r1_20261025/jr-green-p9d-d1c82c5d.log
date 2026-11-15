@@ -1,0 +1,73 @@
+Role log: Green, plan task 3c of Phase 9 (the approval.print record, D-P9D-1)
+Track: storytime_print_r1_20261025
+Date: 2026-11-16
+Session name: Green - P9 P9-D 3c - storytime_print_r1
+Role: measure-jr-green, model opencode-go/deepseek-v4.1-flash (owner record commit)
+Substitution (orchestrator): the plan names a Claude role; the record writes no Thai, and the
+Claude 7-day window was above 80 %, so this role runs on DeepSeek with a script edit.
+Red of this task: MiniMax, commits 97b789d5 and 6eafaff4.
+phase_base_sha: 566657c0 (the start of the Phase 9 work of this track)
+role_base_sha: d830a09799daaf4f46742e80e09d31f56c14f885 (the HEAD this role started on)
+
+Thai filter (PM rule 2026-11-09): the first command printed the Thai line numbers of plan.md
+(326, 736, 739, 741, 750, 859, 887 to 892) and of spec.md (none). Every later read of the plan
+or the spec ran through /tmp/opencode/thai_filter.py, which replaces each Thai line by
+"<thai line removed>". Every printed output held 0 Thai characters (each block prints
+THAI_CHARS_IN_OUTPUT: 0). The week files were never printed: the edit script prints only the
+ASCII key names and the SHA-256 prefix of each file.
+
+Rule R4: `git status --porcelain content/storytime/l2 dashboard/__tests__` printed nothing
+before the edit and before `git add`.
+
+1. The Red rerun at role_base (before the record)
+   Command: bash heavy-run.sh -c 'cd dashboard && CI=true npx vitest run
+   __tests__/storytime-print-contract-v2.test.ts __tests__/storytime-print-f3-script-order.test.ts'
+   Result: exit 1. Worked as intended: the only failing case is the one record case of
+   storytime-print-contract-v2.test.ts ("records the week 1 audio and song approvals ... print
+   approvals of the release proof r6-v4"), which reported the week 1 print part of 2026-11-05
+   against the pinned record of 2026-11-16. Capture p9d-green-targeted-before.txt.
+
+2. The record (production content)
+   Script /tmp/opencode/edit_print.py is a text edit, not a JSON re-dump. It finds the approval
+   block by brace matching, then replaces the print part of w01, or inserts a print part before
+   the loops key of w02 to w08, at the 4-space key indent of the file. Fields are ASCII.
+   w01: {"status": "approved", "date": "2026-11-16", "words": "\"The book seems fine.\" (2026-11-05); \"Pass\" (2026-11-16, release proof r6-v4)"}
+   w02 to w08: {"status": "approved", "date": "2026-11-16", "words": "Pass"}
+   No source key. StorytimePrintApprovalSchema stays as it is (strict, status/date/words), so no
+   schema change and no production TypeScript change. Captures:
+   content/storytime/l2/w01.json sha256 prefix 3e42e460, w02 786536d6, w03 945d1bfd,
+   w04 29b546de, w05 c6926736, w06 bc573e97, w07 6ef0b70b, w08 d1b534b6.
+   git diff: 8 files, 37 insertions, 2 deletions; the added lines are the print part only.
+
+3. The targeted gate after the edit: exit 0, 2 files, 36 of 36 tests passed
+   (capture p9d-green-targeted.txt, after the content commit).
+
+4. Content commit d1c82c5dd8afcab7fcc34e29f3f2d04993a96904
+   "content(storytime): record Daniel's Pass of the r6-v4 release proof in approval.print of w01 to w08 (storytime_print_r1)"
+   Files: the 8 week files only.
+
+5. The gates, each inside one heavy-run.sh wrapper, after the content commit
+   targeted (contract-v2, f3-script-order): exit 0, 36 tests passed (p9d-green-targeted.txt)
+   PROJECT_TESTS: exit 0, 73 files, 1825 tests passed, 324 s (p9d-green-project.txt)
+   PROJECT_LINT: exit 0 (p9d-green-lint.txt)
+   PROJECT_CHECKS: exit 0, 8 packages, 0 failed checks, 1 warning (print-missing of the week 8
+     review week, as in P9-C), and tsc --noEmit clean (p9d-green-checks.txt)
+   normalized compare plus git show --stat: exit 0, 8 of 8 files equal without approval.print
+     (p9d-green-scope.txt)
+   Fast gate: grep -c "release proof r6-v4" content/storytime/l2/w01.json prints 1.
+
+6. Plan evidence commit 050ea4a0a4574eb7d3cd9366e822ab820ab6daa9
+   "docs(measure): the plan evidence of the Green record of D-P9D-1 (storytime_print_r1)"
+   task 3c is [x] with the content SHA, the gates, and the captures; the Owner gate task is [x]
+   with Daniel's exact word "Pass", 2026-11-16 05:40 ICT, Google Tasks, PM relay, proof r6-v4,
+   MANIFEST 9388dd6d7e7dc05cd70b705b0c5d4e0658c2ea410127e67b6b29eff37a664ec5, and the record
+   commit; task 3a holds the PM receipt sub-bullet in the exact words of the PM.
+
+7. Scope
+   Allowed paths: the 8 week files, the track plan, the captures p9d-green-* and this log.
+   The scope guard prints outside: 0 (p9d-green-guard.txt). No test, no production file, no file
+   of another track, no archive move, no closeout metadata. No pnpm. No push.
+
+Deviations: none. No build-graph update, because no structural TypeScript file changed.
+Residual risk: the week files go to Monorepo through the pin; the print part holds no new key,
+so the Monorepo parser sees the same three fields.

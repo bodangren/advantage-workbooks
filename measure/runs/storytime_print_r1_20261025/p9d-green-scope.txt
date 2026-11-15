@@ -1,0 +1,39 @@
+content/storytime/l2/w01.json normalized_equal(without approval.print)=True
+  old_print={"status": "approved", "date": "2026-11-05", "words": "The book seems fine."}
+  new_print={"status": "approved", "date": "2026-11-16", "words": "\"The book seems fine.\" (2026-11-05); \"Pass\" (2026-11-16, release proof r6-v4)"}
+content/storytime/l2/w02.json normalized_equal(without approval.print)=True
+  old_print=null
+  new_print={"status": "approved", "date": "2026-11-16", "words": "Pass"}
+content/storytime/l2/w03.json normalized_equal(without approval.print)=True
+  old_print=null
+  new_print={"status": "approved", "date": "2026-11-16", "words": "Pass"}
+content/storytime/l2/w04.json normalized_equal(without approval.print)=True
+  old_print=null
+  new_print={"status": "approved", "date": "2026-11-16", "words": "Pass"}
+content/storytime/l2/w05.json normalized_equal(without approval.print)=True
+  old_print=null
+  new_print={"status": "approved", "date": "2026-11-16", "words": "Pass"}
+content/storytime/l2/w06.json normalized_equal(without approval.print)=True
+  old_print=null
+  new_print={"status": "approved", "date": "2026-11-16", "words": "Pass"}
+content/storytime/l2/w07.json normalized_equal(without approval.print)=True
+  old_print=null
+  new_print={"status": "approved", "date": "2026-11-16", "words": "Pass"}
+content/storytime/l2/w08.json normalized_equal(without approval.print)=True
+  old_print=null
+  new_print={"status": "approved", "date": "2026-11-16", "words": "Pass"}
+ALL_8_EQUAL: True
+THAI_CHARS_IN_OUTPUT: 0
+--- git show --stat HEAD
+d1c82c5d content(storytime): record Daniel's Pass of the r6-v4 release proof in approval.print of w01 to w08 (storytime_print_r1)
+ content/storytime/l2/w01.json | 4 ++--
+ content/storytime/l2/w02.json | 5 +++++
+ content/storytime/l2/w03.json | 5 +++++
+ content/storytime/l2/w04.json | 5 +++++
+ content/storytime/l2/w05.json | 5 +++++
+ content/storytime/l2/w06.json | 5 +++++
+ content/storytime/l2/w07.json | 5 +++++
+ content/storytime/l2/w08.json | 5 +++++
+ 8 files changed, 37 insertions(+), 2 deletions(-)
+
+exit: 0
