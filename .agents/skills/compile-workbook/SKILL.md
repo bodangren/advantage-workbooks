@@ -10,33 +10,32 @@ Compile a workbook project into a full HTML document with title page, table of c
 
 ## What to do
 
-1. **Identify the project**: Ask which project to compile if not specified. List available projects:
+1. Identify the project. If the user names none, ask. Each project is a folder in `primary/` or `secondary/` at the repo root. List them:
    ```bash
-   ls /home/daniel-bo/Desktop/Workbooks/dashboard/projects/
+   ls primary secondary
    ```
 
-2. **Ensure the dashboard is running**: Check if the dev server is up:
+2. Check that the dashboard runs:
    ```bash
    curl -s http://localhost:3000 > /dev/null 2>&1 && echo "Running" || echo "Not running"
    ```
-   If not running, start it:
+   If it does not run, start it from the repo root and wait a few seconds:
    ```bash
-   cd /home/daniel-bo/Desktop/Workbooks/dashboard && npm run dev &
+   (cd dashboard && npm run dev &)
    ```
-   Wait a few seconds for it to be ready.
 
-3. **Compile via the API**: Hit the compile endpoint:
+3. Compile through the API:
    ```bash
    curl -s "http://localhost:3000/api/projects/<PROJECT_ID>/compile" -o compiled_output.html
    ```
 
-4. **Report the result**: Tell the user:
+4. Report to the user:
    - Whether compilation succeeded
    - How many lessons were compiled
    - The output file location
-   - Remind them to open in Chrome and use Print → Save as PDF with "Background graphics" enabled
+   - To open the file in Chrome and use Print → Save as PDF with "Background graphics" enabled
 
 ## Notes
-- The compile endpoint returns a full HTML document with Paged.js for print layout
-- Project IDs match the folder names under `dashboard/projects/`
-- For PDF generation, the user should open the compiled HTML in Chrome/Edge
+- The endpoint returns a full HTML document with Paged.js for print layout.
+- A project ID is the folder name under `primary/` or `secondary/`.
+- Open the compiled HTML in Chrome or Edge to make the PDF.

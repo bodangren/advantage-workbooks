@@ -9,32 +9,26 @@ Validate workbook lesson JSON files against the project's Zod schema.
 
 ## What to do
 
-1. Read the schema from `dashboard/lib/workbook-schema.ts` to understand the current data structure.
-2. Identify the target content files:
-   - If the user specifies files, validate those.
-   - If no files specified, find all `content_*.json` files in the project and all lesson JSON files under `dashboard/projects/*/`.
-3. For each file, read and parse the JSON content.
-4. Validate against the `WorkbookLessonSchema` (or `LessonContentSchema` for individual lessons).
-5. Report results clearly:
-   - List passing files.
-   - For failing files, show the specific validation errors with field paths (e.g., `activities.vocabulary[2].definition: Required`).
-6. Suggest fixes for common issues (missing required fields, wrong types, empty arrays).
-
-## Key schema location
-
-- **Zod schema**: `dashboard/lib/workbook-schema.ts`
-- **JSON schema**: `schema.json` (root directory)
-- **Template structure**: `template_data_structure.json` (root directory)
+1. Read the schema in `dashboard/lib/workbook-schema.ts`.
+2. Find the target files:
+   - If the user names files, validate those.
+   - Otherwise, validate the lesson files of each project folder in `primary/` and `secondary/`. A lesson file name starts with `content_` or ends with `_workbook.json`.
+3. Read and parse each file.
+4. Validate each lesson with `WorkbookLessonSchema`.
+5. Report the result:
+   - List the files that pass.
+   - For each failing file, show the validation errors with field paths (for example `activities.vocabulary[2].definition: Required`).
+6. Suggest fixes for common issues: missing required fields, wrong types, empty arrays.
 
 ## Validation approach
 
-Use `node -e` with the Zod schema to perform validation directly:
+The schema is TypeScript. Run it with `tsx` from the `dashboard` folder:
 
 ```bash
-cd /home/daniel-bo/Desktop/Workbooks/dashboard
-node -e "
-const { WorkbookLessonSchema } = require('./lib/workbook-schema');
-const fs = require('fs');
+cd dashboard
+npx tsx -e "
+import { WorkbookLessonSchema } from './lib/workbook-schema';
+import fs from 'fs';
 const data = JSON.parse(fs.readFileSync(process.argv[1], 'utf8'));
 const result = WorkbookLessonSchema.safeParse(data);
 if (!result.success) {
@@ -45,4 +39,4 @@ console.log('Valid');
 " <file-path>
 ```
 
-If the TypeScript import doesn't work directly, use the JSON schema at `schema.json` with a JSON schema validator instead.
+Give `<file-path>` relative to `dashboard`, or as an absolute path.
