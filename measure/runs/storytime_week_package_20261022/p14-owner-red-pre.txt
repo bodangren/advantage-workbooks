@@ -1,0 +1,24 @@
+--- the state before the Red retry (the two new lines of the test commit 4c317383 removed with a script) ---
+the run: the two additive compares fail on the approval.thai of the content commit 9f168a4e; 16 cases fail, 8 in the content test and 8 in the share test.
+⎯⎯⎯⎯⎯⎯ Failed Tests 16 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  __tests__/storytime-loops-content.test.ts > w01 content > w01 adds only the FR-1 fields to its baseline file (additive, spec D10)
+ FAIL  __tests__/storytime-loops-content.test.ts > w02 content > w02 adds only the FR-1 fields to its baseline file (additive, spec D10)
+ FAIL  __tests__/storytime-loops-content.test.ts > w03 content > w03 adds only the FR-1 fields to its baseline file (additive, spec D10)
+ FAIL  __tests__/storytime-loops-content.test.ts > w04 content > w04 adds only the FR-1 fields to its baseline file (additive, spec D10)
+ FAIL  __tests__/storytime-loops-content.test.ts > w05 content > w05 adds only the FR-1 fields to its baseline file (additive, spec D10)
+ FAIL  __tests__/storytime-loops-content.test.ts > w06 content > w06 adds only the FR-1 fields to its baseline file (additive, spec D10)
+ FAIL  __tests__/storytime-loops-content.test.ts > w07 content > w07 adds only the FR-1 fields to its baseline file (additive, spec D10)
+ FAIL  __tests__/storytime-loops-content.test.ts > w08 content > w08 adds only the FR-1 fields to its baseline file (additive, spec D10)
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w01 share content > w01 adds only share moments to its baseline file (additive, AC-14.5)
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w02 share content > w02 adds only share moments to its baseline file (additive, AC-14.5)
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w03 share content > w03 adds only share moments to its baseline file (additive, AC-14.5)
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w04 share content > w04 adds only share moments to its baseline file (additive, AC-14.5)
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w05 share content > w05 adds only share moments to its baseline file (additive, AC-14.5)
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w06 share content > w06 adds only share moments to its baseline file (additive, AC-14.5)
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w07 share content > w07 adds only share moments to its baseline file (additive, AC-14.5)
+ FAIL  __tests__/storytime-loops-share-content.test.ts > w08 share content > w08 adds only share moments to its baseline file (additive, AC-14.5)
+ Test Files  2 failed (2)
+      Tests  16 failed | 163 passed (179)
+   Start at  23:29:51
+   Duration  1.99s (transform 303ms, setup 78ms, import 348ms, tests 1.28s, environment 0ms)
+exit: 1

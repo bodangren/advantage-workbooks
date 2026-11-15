@@ -1,0 +1,23 @@
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 8 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-content.test.ts[2m > [22mw01 share content[2m > [22mw01 adds only share moments to its baseline file (additive, AC-14.5)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-content.test.ts[2m > [22mw02 share content[2m > [22mw02 adds only share moments to its baseline file (additive, AC-14.5)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-content.test.ts[2m > [22mw03 share content[2m > [22mw03 adds only share moments to its baseline file (additive, AC-14.5)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-content.test.ts[2m > [22mw04 share content[2m > [22mw04 adds only share moments to its baseline file (additive, AC-14.5)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-content.test.ts[2m > [22mw05 share content[2m > [22mw05 adds only share moments to its baseline file (additive, AC-14.5)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-content.test.ts[2m > [22mw06 share content[2m > [22mw06 adds only share moments to its baseline file (additive, AC-14.5)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-content.test.ts[2m > [22mw07 share content[2m > [22mw07 adds only share moments to its baseline file (additive, AC-14.5)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share-content.test.ts[2m > [22mw08 share content[2m > [22mw08 adds only share moments to its baseline file (additive, AC-14.5)
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m8 failed[39m[22m[2m | [22m[1m[32m67 passed[39m[22m[90m (75)[39m
+exit: 1
+
+--- mutation restore ---
+the mutation: the two new lines of dashboard/__tests__/storytime-loops-share-content.test.ts (the comment and `delete copy.approval.thai;`) were removed with a script, and the file was run alone.
+the run: 8 cases fail, the "wNN adds only share moments to its baseline file (additive, AC-14.5)" cases of w01 to w08; exit: 1.
+the restore: `git checkout -- dashboard/__tests__/storytime-loops-share-content.test.ts` (the test commit 4c317383 holds the line).
+`git diff --stat` after the restore:
+ video/storytime-song/scripts/render.mjs | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
+(the render.mjs change is pre-existing unrelated work of 2026-10-26; this role does not stage it)
+`git status --short -- dashboard/__tests__/storytime-loops-content.test.ts dashboard/__tests__/storytime-loops-share-content.test.ts` prints nothing.
+the restored line: dashboard/__tests__/storytime-loops-share-content.test.ts:154:        delete copy.approval.thai;

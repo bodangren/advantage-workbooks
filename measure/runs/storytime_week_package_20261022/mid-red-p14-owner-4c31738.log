@@ -1,0 +1,45 @@
+Measure Mid Red retry, Phase 14 (storytime_week_package_20261022), task "(Owner gate)" at plan.md line 696.
+
+This file was written first with a provisional status, then rewritten with the final status after the gates.
+
+Role: measure-mid-red (test-only retry).
+Route: minimax-cn-coding-plan/MiniMax-M3.1-Flash.
+Green family of this task: claude-code/claude-sonnet-5-5 (Anthropic). This role is a different family.
+Thai filter: the first command of the session. It printed both test files with every Thai line removed and proved 0 Thai characters in its own output. No week file was read directly. Every later read went through the same filter.
+
+Baselines:
+- phase_base_sha: 76fc13b0e03268b40f229d8311ae4662e85be1ba (the Phase 14 section commit; the value in every Phase 14 role log of this track). It resolves and it is an ancestor of HEAD.
+- role_base_sha: 7d38654cb60eab4861b429d8c22ccd02357b907a (HEAD at the start of the role; the value from the brief).
+
+Finding (from the Green log measure/runs/storytime_week_package_20261022/jr-green-p14-owner-9f168a4e.log, checked by the orchestrator):
+the content commit 9f168a4e records Daniel's "Ok" of 2026-11-15 in `approval.thai` of w01 to w08. The two additive compares drop `approval.loops`, `approval.print`, `approval.audio`, `approval.song`, and `approval.images`, but not `approval.thai`, so the additive cases failed at HEAD. The capture `p14-owner-red-pre.txt` shows the failing state: the "wNN adds only the FR-1 fields to its baseline file (additive, spec D10)" cases of w01 to w08 in the content test and the "wNN adds only share moments to its baseline file (additive, AC-14.5)" cases of w01 to w08 in the share test.
+
+Change (test only, no production code, no week file):
+- dashboard/__tests__/storytime-loops-content.test.ts: the comment and `delete copy.approval.thai;` after `delete copy.approval.images;` (lines 427 and 428).
+- dashboard/__tests__/storytime-loops-share-content.test.ts: the comment and `delete copy.approval.thai;` after `delete copy.approval.images;` (lines 153 and 154).
+The comment of each line: "Daniel approved the Thai of the Phase 14 rows on 2026-11-15, after the baseline commit; the owner approvals are not loops content."
+
+Commits:
+- 4c317383: the two test files.
+- 8931c2fe: the plan evidence, one sub-bullet "Red retry (approval.thai)" under the task at plan.md line 696 (now line 699). The task stays `[ ]`.
+
+Gates (each inside one heavy-run wrapper):
+- p14-owner-red.txt: `cd dashboard && CI=true npx vitest run __tests__/storytime-loops-content.test.ts __tests__/storytime-loops-share-content.test.ts __tests__/storytime-week.test.ts __tests__/storytime-package-*.test.ts --maxWorkers=1`, exit 0, 9 test files and 559 tests passed.
+- p14-owner-red-mut.txt: the two new lines of the share test removed with a script, the share test run alone, 8 cases fail, exit 1; the restore with `git checkout -- dashboard/__tests__/storytime-loops-share-content.test.ts` and the `git diff --stat` after it.
+- p14-owner-red-lint.txt: `cd dashboard && npx eslint __tests__/storytime-loops-content.test.ts __tests__/storytime-loops-share-content.test.ts`, exit 0.
+
+Scope: `git status --short` showed two dirty paths before this role and after. `video/storytime-song/scripts/render.mjs` is pre-existing unrelated user work of 2026-10-26, so this role left it alone and never staged it. `dashboard/raw.json` is untracked and was never staged. `pnpm-lock.yaml` did not change.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_week_package_20261022
+phase: Phase 14 (sound skill stages)
+baseline_sha: 76fc13b0e03268b40f229d8311ae4662e85be1ba
+commits: 4c317383, 8931c2fe
+tests_run: p14-owner-red.txt (9 files, 559 tests, exit 0); p14-owner-red-mut.txt (the share test without the new line, 8 cases fail, exit 1, then the restore); p14-owner-red-lint.txt (ESLint, exit 0); p14-owner-red-pre.txt (the failing state before the retry, exit 1)
+files_changed: dashboard/__tests__/storytime-loops-content.test.ts, dashboard/__tests__/storytime-loops-share-content.test.ts, measure/tracks/storytime_week_package_20261022/plan.md, measure/runs/storytime_week_package_20261022/p14-owner-red.txt, measure/runs/storytime_week_package_20261022/p14-owner-red-pre.txt, measure/runs/storytime_week_package_20261022/p14-owner-red-mut.txt, measure/runs/storytime_week_package_20261022/p14-owner-red-lint.txt, measure/runs/storytime_week_package_20261022/mid-red-p14-owner-4c31738.log
+plan_updates: one sub-bullet "Red retry (approval.thai)" under the Owner gate task (plan.md line 699) with the test commit, the finding, and the captures. The task stays `[ ]`.
+known_failures: none in the four test files of the gate. The Owner gate task stays open: the owner record of the 64 Thai rows is still open for the orchestrator.
+handoff: the Red retry of the approval.thai deleter is committed as 4c317383, and the plan evidence as 8931c2fe. The two additive compares now pass at HEAD with the content commit 9f168a4e. Next step for the orchestrator: run the owner-gate record of Daniel's "Ok" of 2026-11-15 into the task at plan.md line 696 and close the task. The Green role of this task can now run its record again on HEAD. The pre-existing dirty file video/storytime-song/scripts/render.mjs stays untouched.
+END_MEASURE_AGENT_RESULT
