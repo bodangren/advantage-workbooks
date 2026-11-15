@@ -1,0 +1,38 @@
+Green Jr log, Phase 13 Clips (storytime_week_package), role measure-jr-green, model route
+minimax-cn-coding-plan/MiniMax-M3.1-Flash (substitution: the Anthropic plans are out of quota until
+2026-11-21, so the Green 1 family could not run this role). role_base_sha 5cd01553,
+phase_base_sha c42918df. Green 1 is committed at 993d9642, inside phase_base_sha..HEAD.
+
+Thai filter (spec L15, plan Thai rule): the first command of this role was the plan filter on the
+lines 520 to 600 of plan.md; it printed 0 Thai characters. Every capture of this role goes through
+a filter that drops each line with a character from U+0E00 to U+0E7F, and every capture prints the
+Thai counts. The week files hold Thai text (the Phase 14 owner gate added approval.thai to w01 to
+w08), so no week file is printed; the week facts come from python scripts that print counts, paths,
+and ASCII fields only.
+
+Work plan (the brief of the Clips task, plan lines 570 to 586): the quota read, the dry runs of the
+7 weeks, the maker run of each week, the mapper run of each week twice, the heard check and the cut
+probe of each week, the character reconciliation, and one content commit per week. Each script run
+and each gate runs inside one heavy-run wrapper.
+
+Scripts of this role under measure/runs/storytime_week_package_20261022/ (not repository code):
+p13-cutprobe.ts (the cut proof of M10, a copy of p12-review-a-cutprobe.ts for the read-along books
+of book index 0, with the `--week` option), p13-heardcheck.ts (the heard check of M10, with the
+`--week` and `--listen` options), and p13-scope.py (the scope guard).
+
+The cross-correlation helper of the cut probe: the first run of the probe printed max-ncc values over
+1. The cause was my own edit of the product of the spectra: the correct product is conj(A) * B, with
+the real part ar*br + ai*bi and the imaginary part ar*bi - ai*br, the form of the Phase 12 helper and
+of the library function `looksLikeCut`. A scratch script compared the helper with a brute-force
+correlation on a synthetic cut: the correct form gives 1.000 at the true lag, the wrong form gives
+0.230. The probe was corrected and re-run; the control gives 1.000 and every clip gives at most
+0.221, far under the 0.98 line.
+
+Week w01 (content commit 105c4393): quota before the run: weekly 1 %, 5 h 8 % (the stop lines are
+97 % and 95 %). Dry run: chars 137, no kept line, no call. Maker run with --max-chars 411: 8 calls,
+all take 1, sent 137, made 8. Mapper run: 8 ok lines; the repeat run changes no byte (diff lines: 0).
+Heard check: 8 clips, 7 heard ok, 1 heard differs (b0-s02 "Hello, I am May." heard as "Mae."), so
+that clip is on the listen list. Cut probe: 8 clips, 0 cuts, positive controls 1 of 1 true, the
+highest max-ncc 0.221. F9 capture after the commit: FAIL rows other than published: 0. Gates:
+GREEN_TEST_COMMAND 9 files, 559 tests passed, exit 0; PROJECT_CHECKS exit 0. Scope guard of the
+content commit: files 10, outside 0.
