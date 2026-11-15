@@ -1,0 +1,139 @@
+# Red role log: the `approval.print` pins of D-P9D-1
+
+Track: storytime_print_r1_20261025, Phase 9: Release proof and print order
+Plan task: 3b (Red, approval.print pins), the plan line 1451
+Role: measure-mid-red, model minimax-cn-coding-plan/MiniMax-M3.1-Flash
+Date: 2026-11-16
+Role base: ddfb18a01c9b6e30b84744e08b21e21c7bddfd0e
+Session name: `Red · P9 P9-D 3b · storytime_print_r1`
+
+## The Thai filter (the first command)
+
+The first command of the role printed the Thai line numbers of `plan.md` and `spec.md` of the
+track, and of every test file that the role read. The files were read through a filter that
+replaces each Thai line by `<thai line removed>`. The role printed no week file, and every test
+output was piped through `grep -v -P '[\x{0E00}-\x{0E7F}]'`.
+
+- `measure/tracks/storytime_print_r1_20261025/plan.md`: 12 Thai lines (326, 736, 739, 741, 750,
+  859, 887, 888, 889, 890, 891, 892).
+- `measure/tracks/storytime_print_r1_20261025/spec.md`: 0 Thai lines.
+- `dashboard/__tests__/storytime-print-contract-v2.test.ts`: 0 Thai lines.
+- `dashboard/__tests__/storytime-print-f3-script-order.test.ts`: 0 Thai lines.
+- The Thai line numbers of the other test files of the run are in the shell history of the role.
+
+## The state of the work tree at the start
+
+`git status --short` at the role base:
+
+- `video/storytime-song/scripts/render.mjs` (modified): unrelated user work. The role did not
+  touch it and did not stage it.
+- `dashboard/raw.json` (untracked): unrelated. Not staged.
+- The untracked capture files of the other tracks under `measure/runs/`: generated files. Not
+  staged.
+- `git status --porcelain content/storytime/l2` printed nothing before the first probe.
+
+## The record of D-P9D-1 that the role pinned
+
+The record of the spec addendum "Addendum 2026-11-16 (2)", decision D-P9D-1, for the weeks 2 to 8:
+
+```json
+{"status": "approved", "date": "2026-11-16", "words": "Pass", "source": "Google Tasks, 2026-11-16 05:40 ICT, PM relay (proof r6-v4, MANIFEST 9388dd6d7e7dc05cd70b705b0c5d4e0658c2ea410127e67b6b29eff37a664ec5)"}
+```
+
+For week 1 the words keep the old words first:
+
+```
+"words": "\"The book seems fine.\" (2026-11-05); \"Pass\" (2026-11-16, release proof r6-v4)"
+```
+
+The old week 1 print approval had no `source` key. The role checked the file at HEAD and the
+twelve commits of its history: the key was never there. The spec joins the old source and the
+new source with `"; "`, so the old source of week 1 is empty and the record of week 1 holds the
+new source alone. The role pinned that reading and named it as finding 2.
+
+## The changed cases
+
+File `dashboard/__tests__/storytime-print-contract-v2.test.ts`:
+
+- The case "records the week 1 audio and song approvals of 2026-11-04, the print approvals of
+  the release proof r6-v4 (Daniel, 2026-11-16), and keeps the other approval parts and media
+  draft": the pin of the print part of every week. Week 1 holds the words of 2026-11-05 first
+  and the new source. The weeks 2 to 8 hold the words "Pass" and the new source. The old pin
+  held the approval of 2026-11-05 for week 1 and the draft for the weeks 2 to 8.
+- The new case "P9D: the print approval part keeps the source of the release proof record
+  (D-P9D-1)": the print approval part of the schema accepts a `source`.
+- The header of the file holds the PIN block of the decision and the names of the two cases, and
+  the new constant `PRINT_SOURCE` holds the source of the record.
+
+File `dashboard/__tests__/storytime-print-f3-script-order.test.ts`:
+
+- The helper `approvalCore` drops the `print` key of the approval block, with the PIN line
+  "D-P9D-1 (orchestrator, 2026-11-16)".
+- The message of the scope compare names the key.
+- The mutant case holds the new line "a change of approval.print passes F3-scope (D-P9D-1)".
+- The header of the file holds the PIN block of the decision.
+
+## The gates
+
+1. The two changed test files at HEAD, with the record not yet written:
+   `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd .../dashboard && CI=true npx
+   vitest run __tests__/storytime-print-contract-v2.test.ts
+   __tests__/storytime-print-f3-script-order.test.ts --maxWorkers=1'`. Exit 1. The only failing
+   cases are the two cases that pin the record. Capture: `p9d-red.txt`.
+2. The probe with the record written into the 8 week files, the full storytime run:
+   `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd .../dashboard && CI=true npx
+   vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts
+   __tests__/print-pdfx.test.ts --maxWorkers=1'`. Exit 1. Every failing case has one cause: the
+   strict print approval part of the schema rejects the `source` key of the record. Capture:
+   `p9d-red-probe.txt`. The week files were restored with `git checkout --` and
+   `git status --porcelain content/` printed nothing.
+3. The two changed test files with the record written into the 8 week files: the same command.
+   Exit 1, with the same cause. Capture: `p9d-red-probe2.txt`. The week files were restored
+   again, and `git status --porcelain content/` printed nothing.
+4. ESLint on the two changed files: `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c
+   'cd .../dashboard && npx eslint __tests__/storytime-print-contract-v2.test.ts
+   __tests__/storytime-print-f3-script-order.test.ts'`. Exit 0. Capture: `p9d-red-lint.txt`.
+5. The scope guard: `outside: 0`. Capture: `p9d-red-scope.txt`.
+
+## The findings
+
+Finding 1. The print approval part of `StorytimeWeekSchema`
+(`dashboard/lib/storytime/schema.ts`, `StorytimePrintApprovalSchema`) is strict and holds
+`status`, `date`, and `words` only. The record of D-P9D-1 carries a `source`, so the week files
+with the record do not parse. The probe shows the blast radius: every failing case of the run
+has that one cause. The fix is production code, and the Red role writes no production code. The
+allowed paths of task 3c name only the 8 week files, so they must hold
+`dashboard/lib/storytime/schema.ts` as well.
+
+Finding 2. The old week 1 print approval had no `source`. The record of week 1 holds the new
+source alone.
+
+## The scratch
+
+`/tmp/opencode/p9d/`: the record script, the capture builder, the scope script, and the raw run
+outputs. The scratch holds no week file content and no Thai.
+
+## The commits
+
+1. `97b789d`: the test commit, the two test files.
+2. `2fe553b9`: the plan evidence, the task line 1451 marked `[x]` with the SHA and the evidence
+   sub-bullet.
+3. The capture and log commit: the captures `p9d-red.txt`, `p9d-red-probe.txt`,
+   `p9d-red-probe2.txt`, `p9d-red-lint.txt`, `p9d-red-scope.txt`, and this log.
+
+No push. No week file changed in any commit. No production file changed.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red (the Red role of D-P9D-1), model minimax-cn-coding-plan/MiniMax-M3.1-Flash
+status: partial
+track: storytime_print_r1_20261025
+phase: Phase 9: Release proof and print order
+baseline_sha: ddfb18a01c9b6e30b84744e08b21e21c7bddfd0e
+commits: 97b789d (the test commit); 2fe553b9 (the plan evidence commit); the capture and log commit holds the captures and the role log
+tests_run: the two changed test files at HEAD, exit 1, and the only failing cases are the two cases that pin the record; the full storytime run with the record in the 8 week files, exit 1, and every failing case has the strict print approval part as its cause; the two changed test files with the record applied, exit 1, with the same cause; eslint on the two changed files, exit 0; the scope guard, outside 0
+files_changed: dashboard/__tests__/storytime-print-contract-v2.test.ts; dashboard/__tests__/storytime-print-f3-script-order.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/p9d-red.txt; measure/runs/storytime_print_r1_20261025/p9d-red-probe.txt; measure/runs/storytime_print_r1_20261025/p9d-red-probe2.txt; measure/runs/storytime_print_r1_20261025/p9d-red-lint.txt; measure/runs/storytime_print_r1_20261025/p9d-red-scope.txt; measure/runs/storytime_print_r1_20261025/mid-red-p9d-97b789d.log
+plan_updates: the plan line 1451 is [x] with the SHA 97b789d, and the evidence sub-bullet names the two changed cases, the gate results, the two findings, and the captures
+known_failures: the gate with the record applied exits 1, because the print approval part of StorytimeWeekSchema is strict and holds no source key. The fix is the production file dashboard/lib/storytime/schema.ts, which the allowed paths of task 3c do not hold.
+handoff: the Green task 3c needs one decision before it can pass. Question: does the allowed paths of task 3c hold dashboard/lib/storytime/schema.ts, so that the Green role adds the optional source key to StorytimePrintApprovalSchema next to the record? Option 1, the default: yes, the Green role changes the schema and writes the record as the Red pins hold it. Option 2: no, the plan opens a separate Green task for the schema and task 3c waits for it. The second item for the orchestrator: the record of week 1 holds the new source alone, because the old week 1 print approval had no source. The Red pins, the scope compare, and the probe captures are in place. The unrelated dirty work of the work tree (video/storytime-song/scripts/render.mjs and dashboard/raw.json) was not touched.
+dispositions: F1=ESCALATE(the print approval part of the week schema is strict and rejects the source key of the record, so the Green task needs dashboard/lib/storytime/schema.ts in its allowed paths. The default: the Green role adds the optional source key to StorytimePrintApprovalSchema and writes the record as the Red pins hold it); F2=ESCALATE(the old week 1 print approval had no source, so the spec joins an empty old source with the new source. The default: the record of week 1 holds the new source alone)
+END_MEASURE_AGENT_RESULT

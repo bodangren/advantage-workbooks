@@ -1,0 +1,1131 @@
+# p9d-red-probe: the D-P9D-1 record applied to the 8 week files, the targeted test run
+
+## The failing test files and the failing case names
+
+### __tests__/storytime-loops-audio.test.ts (13 failing cases)
+- storytime loops: the drill sounds in the phoneme bank (D1) > lists one field for each drill word of the loop-complete w02 copy, with its sounds in order
+- storytime loops: the drill sounds in the phoneme bank (D1) > finds the drill step by its place and not by the script index (A7)
+- storytime loops: the drill sounds in the phoneme bank (D1) > gives each word of w01 to w07 a list of bank paths with one path for each sound
+- storytime loops: the problems of the drill sounds (D2) > names a drill sound that the bank lacks, and lists no field for that word
+- storytime loops: the problems of the drill sounds (D2) > reports a drill field that is missing, for each word
+- storytime loops: the problems of the drill sounds (D2) > reports a drill field that differs, and no problem when every field holds its recording
+- storytime loops: a week without blendDrill keeps its fields (D3) > returns the same fields for the eight shipped weeks as the frozen baseline
+- storytime loops: a week without blendDrill keeps its fields (D3) > keeps every other field of a week when a drill is added
+- storytime loops: setPhonemeAudio writes the drill (D4) > sets the drill audio, then the problems are empty, and the other bytes stay equal
+- storytime loops: setPhonemeAudio writes the drill (D4) > writes the same values again on a second run (the set is stable)
+- storytime loops: an unresolved drill sound stops the set (D5) > makes setPhonemeAudio throw with the sound and its field, and changes nothing
+- storytime loops: an unresolved drill sound stops the set (D5) > gives the problem that check-weeks turns into a phoneme-audio fail
+- storytime loops: the drill audio paths for the app (G3 guard) > keeps every drill audio path of w01 to w07 safe and relative
+
+### __tests__/storytime-loops-book-pages.test.ts (4 failing cases)
+- B2 equality: the draft path with --book-pages builds the HTML of the print path > B2 equality w01: manualPdfHtml with bookPages equals compileStorytimeManual with the unit page list
+- B2 equality: the draft path with --book-pages builds the HTML of the print path > B2 equality w08: manualPdfHtml with bookPages equals compileStorytimeManual with the unit page list
+- B3 guard: without --book-pages the draft path output does not change > B3 guard w01: manualPdfHtml without bookPages equals compileStorytimeManual with no page list
+- B3 guard: without --book-pages the draft path output does not change > B3 guard w08: manualPdfHtml without bookPages equals compileStorytimeManual with no page list
+
+### __tests__/storytime-loops-checks.test.ts (33 failing cases)
+- the loop-complete copy of the teach weeks > parses, and passes the six loop checks on w01 to w07
+- the loop-complete copy of the teach weeks > passes loops-recall and loops-minutes on the review week w08, and runs no other loop check
+- the loop-complete copy of the teach weeks > runs no loop check on a Level 1 week
+- loops-blend > reports a teach week without blendDrill on A4, and a drill on A3 does not count
+- loops-blend > reports a drill word with a sound that the week did not teach and the opening does not name
+- loops-blend > passes oral-base sounds of the opening in w01 (Q1)
+- loops-blend > passes a taught sound that the opening does not name, and the bank alias of a label
+- loops-sound > reports a missing soundLoop on A1, on A2, and on A3
+- loops-sight > reports a missing sightWords on A6 and on D2
+- loops-sight > reports words in another order than focus.trickyWords
+- loops-sight > reports sightWords on a week without tricky words, and passes when both are absent
+- loops-questions > reports a read-along without questions and the order what, who, where
+- loops-questions > reports page 0 and a page past the last page, and passes page 1 and the last page
+- loops-questions > reads the answer page as pages[answer.page - 1] (G4: page 2 passes, page 3 fails)
+- loops-questions > reports a word that the page does not hold, and a substring of a word on the page
+- loops-recall > reports 4 and 6 items, and passes 5
+- loops-recall > keeps the count rule when the taught set and the other weeks are not given (Q4)
+- loops-recall > reports a repeated item in one day, and passes the same item on two days
+- loops-recall > reports an item of a later week, and passes an item of the file week
+- loops-recall > checks a sound and a tricky card against the taught set
+- loops-recall > checks a frame card against the frame of this week and of an earlier week
+- loops-recall > checks a word card against the text of earlier days and earlier weeks
+- loops-recall > applies the day 1 exception of week 1 and checks a recall that is present on that day
+- loops-minutes > passes a Level 2 week whose day sums to 30, and reports 29 and 31
+- loops-minutes > passes a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48
+- loops-minutes > does not count a moved step
+- loops-minutes > reports loopMinutes that differs from minutes on a step that is not a loop step, and passes an equal one
+- loops-minutes > reports a loop step with 1 minute and passes one with 2
+- the status of the loop checks (Q10) > gives each problem of a shipped teach week the status LOOP_CHECK_STATUS
+- the status of the loop checks (Q10) > reports the missing recall of the shipped review week w08
+- an unchecked loop part warns > gives a shipped week checked without the taught set the status warn for loops-blend and loops-recall, never pass
+- an unchecked loop part warns > keeps the published detail of st2/1 free of loops-blend and loops-recall when the taught set is not given
+- an unchecked loop part warns > still gives a drill sound outside the allowed set the status LOOP_CHECK_STATUS, with the sound named
+
+### __tests__/storytime-loops-content.test.ts (100 failing cases)
+- w01 content > w01 adds only the FR-1 fields to its baseline file (additive, spec D10)
+- w02 content > w02 adds only the FR-1 fields to its baseline file (additive, spec D10)
+- w03 content > w03 adds only the FR-1 fields to its baseline file (additive, spec D10)
+- w04 content > w04 adds only the FR-1 fields to its baseline file (additive, spec D10)
+- w05 content > w05 adds only the FR-1 fields to its baseline file (additive, spec D10)
+- w06 content > w06 adds only the FR-1 fields to its baseline file (additive, spec D10)
+- w07 content > w07 adds only the FR-1 fields to its baseline file (additive, spec D10)
+- w08 content > w08 adds only the FR-1 fields to its baseline file (additive, spec D10)
+- w01 content > w01 passes the six loop checks with the status pass
+- w02 content > w02 passes the six loop checks with the status pass
+- w03 content > w03 passes the six loop checks with the status pass
+- w04 content > w04 passes the six loop checks with the status pass
+- w05 content > w05 passes the six loop checks with the status pass
+- w06 content > w06 passes the six loop checks with the status pass
+- w07 content > w07 passes the six loop checks with the status pass
+- w08 content > w08 passes loops-recall and loops-minutes with the status pass
+- w01 content > w01 gives every new line English and Thai
+- w02 content > w02 gives every new line English and Thai
+- w03 content > w03 gives every new line English and Thai
+- w04 content > w04 gives every new line English and Thai
+- w05 content > w05 gives every new line English and Thai
+- w06 content > w06 gives every new line English and Thai
+- w07 content > w07 gives every new line English and Thai
+- w08 content > w08 gives every new line English and Thai
+- w01 content > w01 fills each day to the period with loopMinutes, and only the seven loop steps change
+- w02 content > w02 fills each day to the period with loopMinutes, and only the seven loop steps change
+- w03 content > w03 fills each day to the period with loopMinutes, and only the seven loop steps change
+- w04 content > w04 fills each day to the period with loopMinutes, and only the seven loop steps change
+- w05 content > w05 fills each day to the period with loopMinutes, and only the seven loop steps change
+- w06 content > w06 fills each day to the period with loopMinutes, and only the seven loop steps change
+- w07 content > w07 fills each day to the period with loopMinutes, and only the seven loop steps change
+- w08 content > w08 fills each day to the period with loopMinutes, and only the seven loop steps change
+- w01 content > w01 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+- w02 content > w02 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+- w03 content > w03 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+- w04 content > w04 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+- w05 content > w05 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+- w06 content > w06 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+- w07 content > w07 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+- w01 content > w01 repeats only short lines in class (12 words or less)
+- w02 content > w02 repeats only short lines in class (12 words or less)
+- w03 content > w03 repeats only short lines in class (12 words or less)
+- w04 content > w04 repeats only short lines in class (12 words or less)
+- w05 content > w05 repeats only short lines in class (12 words or less)
+- w06 content > w06 repeats only short lines in class (12 words or less)
+- w07 content > w07 repeats only short lines in class (12 words or less)
+- w08 content > w08 repeats only short lines in class (12 words or less)
+- w01 content > w01 says a pure sound and never a letter name in the new English lines
+- w02 content > w02 says a pure sound and never a letter name in the new English lines
+- w03 content > w03 says a pure sound and never a letter name in the new English lines
+- w04 content > w04 says a pure sound and never a letter name in the new English lines
+- w05 content > w05 says a pure sound and never a letter name in the new English lines
+- w06 content > w06 says a pure sound and never a letter name in the new English lines
+- w07 content > w07 says a pure sound and never a letter name in the new English lines
+- w08 content > w08 says a pure sound and never a letter name in the new English lines
+- w01 content > w01 keeps approval.loops draft, or approved with the words and the date
+- w02 content > w02 keeps approval.loops draft, or approved with the words and the date
+- w03 content > w03 keeps approval.loops draft, or approved with the words and the date
+- w04 content > w04 keeps approval.loops draft, or approved with the words and the date
+- w05 content > w05 keeps approval.loops draft, or approved with the words and the date
+- w06 content > w06 keeps approval.loops draft, or approved with the words and the date
+- w07 content > w07 keeps approval.loops draft, or approved with the words and the date
+- w08 content > w08 keeps approval.loops draft, or approved with the words and the date
+- w01 content > w01 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+- w02 content > w02 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+- w03 content > w03 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+- w04 content > w04 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+- w05 content > w05 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+- w06 content > w06 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+- w07 content > w07 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+- w08 content > w08 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+- w01 content > w01 puts a sound loop on A1, A2, and A3 that models the pure sound again
+- w02 content > w02 puts a sound loop on A1, A2, and A3 that models the pure sound again
+- w03 content > w03 puts a sound loop on A1, A2, and A3 that models the pure sound again
+- w04 content > w04 puts a sound loop on A1, A2, and A3 that models the pure sound again
+- w05 content > w05 puts a sound loop on A1, A2, and A3 that models the pure sound again
+- w06 content > w06 puts a sound loop on A1, A2, and A3 that models the pure sound again
+- w07 content > w07 puts a sound loop on A1, A2, and A3 that models the pure sound again
+- w01 content > w01 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+- w02 content > w02 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+- w03 content > w03 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+- w04 content > w04 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+- w05 content > w05 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+- w06 content > w06 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+- w07 content > w07 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+- w01 content > w01 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+- w02 content > w02 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+- w03 content > w03 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+- w04 content > w04 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+- w05 content > w05 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+- w06 content > w06 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+- w07 content > w07 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+- w01 content > w01 asks who, what, and where about the read-along, with an answer on a page
+- w02 content > w02 asks who, what, and where about the read-along, with an answer on a page
+- w03 content > w03 asks who, what, and where about the read-along, with an answer on a page
+- w04 content > w04 asks who, what, and where about the read-along, with an answer on a page
+- w05 content > w05 asks who, what, and where about the read-along, with an answer on a page
+- w06 content > w06 asks who, what, and where about the read-along, with an answer on a page
+- w07 content > w07 asks who, what, and where about the read-along, with an answer on a page
+- w08 content > w08 has the recall and nothing else (the review week, spec D11)
+
+### __tests__/storytime-loops-manual.test.ts (8 failing cases)
+- Storytime teaching loops in the manual > renders the shipped w01 and w02 to the same HTML with loops absent and with loops false
+- Storytime teaching loops in the manual > prints each routine in English and Thai for loop-complete w%02d
+- Storytime teaching loops in the manual > prints each routine in English and Thai for loop-complete w%02d
+- Storytime teaching loops in the manual > keeps loop-complete HTML unchanged when the option is absent or false
+- Storytime teaching loops in the manual > puts the routines in step order, and keeps recall in the day opening
+- Storytime teaching loops in the manual > gives the review strip heading its own content before the recall block (en)
+- Storytime teaching loops in the manual > gives the review strip heading its own content before the recall block (th)
+- Storytime teaching loops in the manual > escapes routine text and prints English when a routine has no Thai line
+
+### __tests__/storytime-loops-schema.test.ts (16 failing cases)
+- shipped weeks and the loops default > parses the eight shipped weeks
+- shipped weeks and the loops default > defaults approval.loops to draft when the key is absent
+- valid fields parse and keep their values > parses a w02 copy with every new field (L2)
+- bounds and strictness > bounds blendDrill.words to 3..5
+- bounds and strictness > bounds blendDrill.sounds to 2..4 labels
+- bounds and strictness > bounds blendDrill.repeats to 2..5
+- bounds and strictness > bounds sightWords.words to 1..3
+- bounds and strictness > bounds sightWords.seconds to 2..5
+- bounds and strictness > bounds loopMinutes to 0..20 and fails 21
+- bounds and strictness > parses answer.page 0 (the schema has no bound; Q2)
+- bounds and strictness > does not length-check recall.items (4 and 6 parse), and fails a card kind outside the four
+- published guard (the shipped st2/1 passes since 2026-11-04) > passes the shipped st2/1 published check, with no detail (audio and song approved 2026-11-04)
+- published guard (the shipped st2/1 passes since 2026-11-04) > passes published on a w01 copy with six approved parts and a draft loops part
+- published guard (the shipped st2/1 passes since 2026-11-04) > keeps the shipped published check passing with an explicit draft loops part
+- published guard (the shipped st2/1 passes since 2026-11-04) > still reports images not approved when only images is draft (the exclusion is not over-broad)
+- field-name contract for Hand-off 1 (L10) > pins the exact key set of each new object
+
+### __tests__/storytime-loops-share-book.test.ts (53 failing cases)
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w01 > T1 guard w01 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w01 > T1 guard w01 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w02 > T1 guard w02 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w02 > T1 guard w02 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w03 > T1 guard w03 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w03 > T1 guard w03 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w04 > T1 guard w04 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w04 > T1 guard w04 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w05 > T1 guard w05 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w05 > T1 guard w05 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w06 > T1 guard w06 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w06 > T1 guard w06 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w07 > T1 guard w07 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w07 > T1 guard w07 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w08 > T1 guard w08 th: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > w08 > T1 guard w08 en: with share absent or false, with loops off and on, the HTML equals the HTML without share fields
+- T1 guard: the share fields change no byte with the option off or absent (AC-14.8) > T1 non-vacuity: each shipped week holds 5 shares, the bare copy holds none, and the compare sees a changed step title
+- T2 icons: one icon element for each shot (AC-14.8) > T2 icons w01 'th' loops false: the week holds the icons of its shots, one in the block of each shot step
+- T2 icons: one icon element for each shot (AC-14.8) > T2 icons w01 'th' loops true: the week holds the icons of its shots, one in the block of each shot step
+- T2 icons: one icon element for each shot (AC-14.8) > T2 icons w01 'en' loops false: the week holds the icons of its shots, one in the block of each shot step
+- T2 icons: one icon element for each shot (AC-14.8) > T2 icons w01 'en' loops true: the week holds the icons of its shots, one in the block of each shot step
+- T2 icons: one icon element for each shot (AC-14.8) > T2 icons w08 'th' loops false: the week holds the icons of its shots, one in the block of each shot step
+- T2 icons: one icon element for each shot (AC-14.8) > T2 icons w08 'th' loops true: the week holds the icons of its shots, one in the block of each shot step
+- T2 icons: one icon element for each shot (AC-14.8) > T2 icons w08 'en' loops false: the week holds the icons of its shots, one in the block of each shot step
+- T2 icons: one icon element for each shot (AC-14.8) > T2 icons w08 'en' loops true: the week holds the icons of its shots, one in the block of each shot step
+- T2 icons: one icon element for each shot (AC-14.8) > T2 icons w01: day 4 holds a photo at D4 and a video at D5, and the song show D6 holds a video (paths 2 and 3)
+- T3 caption: the block of a shot step holds the caption of its day (AC-14.8) > T3 caption w01 th: the Thai book holds caption.th and then caption.en in each shot block
+- T3 caption: the block of a shot step holds the caption of its day (AC-14.8) > T3 caption w08 th: the Thai book holds caption.th and then caption.en in each shot block
+- T3 caption: the block of a shot step holds the caption of its day (AC-14.8) > T3 caption w01 en: the English manual holds caption.en and not caption.th in each shot block
+- T3 caption: the block of a shot step holds the caption of its day (AC-14.8) > T3 caption w08 en: the English manual holds caption.en and not caption.th in each shot block
+- T4 label: the label of the media prints at each shot > T4 label w01 'th': a photo block holds sharePhoto and a video block holds shareVideo
+- T4 label: the label of the media prints at each shot > T4 label w08 'th': a photo block holds sharePhoto and a video block holds shareVideo
+- T4 label: the label of the media prints at each shot > T4 label w01 'en': a photo block holds sharePhoto and a video block holds shareVideo
+- T4 label: the label of the media prints at each shot > T4 label w08 'en': a photo block holds sharePhoto and a video block holds shareVideo
+- T5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18) > T5 consent th: share off prints 0, one week prints 1, two weeks print 2
+- T5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18) > T5 consent en: share off prints 0, one week prints 1, two weeks print 2
+- T5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18) > T5 consent w01 'th': the lines sit in the block of the first shot of day 1 ('A3')
+- T5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18) > T5 consent w02 'th': the lines sit in the block of the first shot of day 1 ('A3')
+- T5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18) > T5 consent w08 'th': the lines sit in the block of the first shot of day 1 ('A2')
+- T5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18) > T5 consent w01 'en': the lines sit in the block of the first shot of day 1 ('A3')
+- T5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18) > T5 consent w02 'en': the lines sit in the block of the first shot of day 1 ('A3')
+- T5 consent: the consent line and the length line print once in each week part (D20, Q17, Q18) > T5 consent w08 'en': the lines sit in the block of the first shot of day 1 ('A2')
+- T7 escape: a caption prints escaped (AC-14.8) > T7 escape en: the caption of this language prints escaped in the book of this language
+- T7 escape: a caption prints escaped (AC-14.8) > T7 escape th: the caption of this language prints escaped in the book of this language
+- T8 icon colour: the icon is an inline SVG in black only (D22) > T8 icon colour th: each icon of w01 holds only black, none, or currentColor
+- T8 icon colour: the icon is an inline SVG in black only (D22) > T8 icon colour en: each icon of w01 holds only black, none, or currentColor
+- T9 edge: a week without share (Q18) > T9 edge: a week without share and the option on prints no icon and no consent line, and does not throw
+- T9 edge: a week without share (Q18) > T9 edge: a week without a day 1 share prints the consent line once, at its first shot (Q18)
+- T10 differential: the share option adds only the share texts and the icons > T10 differential 'th' loops false: after the removal of the share texts the visible text equals the share-off text
+- T10 differential: the share option adds only the share texts and the icons > T10 differential 'th' loops true: after the removal of the share texts the visible text equals the share-off text
+- T10 differential: the share option adds only the share texts and the icons > T10 differential 'en' loops false: after the removal of the share texts the visible text equals the share-off text
+- T10 differential: the share option adds only the share texts and the icons > T10 differential 'en' loops true: after the removal of the share texts the visible text equals the share-off text
+- T12 print path: the page list of the student book keeps the icons > T12 print path: compileStorytimeManual of w01 with share and studentBookPages holds the icons of w01
+
+### __tests__/storytime-loops-share-captions.test.ts (34 failing cases)
+- X5 function: one changed cell is one problem of its row id > X5 baseline: the unchanged list gives 44 rows and 0 problems
+- X5 function: one changed cell is one problem of its row id > X5 function: the English caption of SC-w03-d2 (cell 4) changed gives one problem that starts with the row id
+- X5 function: one changed cell is one problem of its row id > X5 function: the shots of SC-w02-d2 (cell 3) changed gives one problem that starts with the row id
+- X5 function: one changed cell is one problem of its row id > X5 function: the Thai caption of SC-w05-d4 (cell 5) changed gives one problem that starts with the row id
+- X5 function: one changed cell is one problem of its row id > X5 function: the Week cell of SC-w04-d1 (cell 1) changed gives one problem that starts with the row id
+- X5 function: one changed cell is one problem of its row id > X5 function: the Day cell of SC-w04-d1 (cell 2) changed gives one problem that starts with the row id
+- X5 function: one changed cell is one problem of its row id > X5 function: the SL English of SL-3 (cell 2) changed gives one problem that starts with the row id
+- X5 function: one changed cell is one problem of its row id > X5 function: the SL Thai of SL-4 (cell 3) changed gives one problem that starts with the row id
+- X5 function: one changed cell is one problem of its row id > X5 function: the SL key of SL-2 (cell 1) changed gives one problem that starts with the row id
+- X6 function: rows that are extra, repeated, malformed, or missing > X6 function: one extra row SC-w09-d1 gives 45 rows and one problem of its id
+- X6 function: rows that are extra, repeated, malformed, or missing > X6 function: one repeated row id gives 45 rows and one problem of that id
+- X6 function: rows that are extra, repeated, malformed, or missing > X6 function: the row SC-w04-d1 with 5 cells gives one problem of its id
+- X6 function: rows that are extra, repeated, malformed, or missing > X6 function: the row SL-2 with 3 cells gives one problem of its id
+- X6 function: rows that are extra, repeated, malformed, or missing > X6 function: one missing row gives 43 rows and one problem of the expected id
+- X6 function: rows that are extra, repeated, malformed, or missing > X6 function: a list with no rows gives 0 rows and one problem for each of the 44 expected ids
+- X7 to X9 function: the source side > X7 function: a source day without a share gives "<id>: the week file has no share" and does not throw
+- X7 to X9 function: the source side > X8 function: a week that does not parse gives one problem line that starts with its week id, and is never skipped
+- X7 to X9 function: the source side > X9 function: a source label that differs (en sharePhoto) gives one problem of SL-1
+- X7 to X9 function: the source side > X9 function: a source label that differs (th shareLength) gives one problem of SL-4
+- X10 to X12 function: the cell grammar > X10 function: a pipe in a caption is written as a backslash and a pipe, and reads back as a pipe
+- X10 to X12 function: the cell grammar > X10 function: the same caption written without the backslash gives one problem of its row
+- X10 to X12 function: the cell grammar > X10 function: a header line, a separator line, and prose are not rows
+- X10 to X12 function: the cell grammar > X11 function: the two-shot cell "D4 photo; D5 video" equals day 4, and the other order gives one problem
+- X10 to X12 function: the cell grammar > X12 function: a cell with outer spaces equals its source, and a cell with a changed inner space gives a problem
+- X1 to X4 command line: the exit codes (G5) > X1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems
+- X1 to X4 command line: the exit codes (G5) > X2 command line: one Thai caption plus one ASCII character exits 1 with one problem line that starts with the row id
+- X1 to X4 command line: the exit codes (G5) > X4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id
+- X1 to X4 command line: the exit codes (G5) > X3 command line: an unknown flag exits 2
+- X1 to X4 command line: the exit codes (G5) > X3 command line: a missing --list exits 2
+- X1 to X4 command line: the exit codes (G5) > X3 command line: a missing --level exits 2
+- X1 to X4 command line: the exit codes (G5) > X3 command line: --level without a value exits 2
+- X1 to X4 command line: the exit codes (G5) > X3 command line: --level 9 exits 2
+- X1 to X4 command line: the exit codes (G5) > X3 command line: both arguments missing exits 2
+- X1 to X4 command line: the exit codes (G5) > X3 command line: a list file that does not exist exits 2
+
+### __tests__/storytime-loops-share-content.test.ts (59 failing cases)
+- w01 share content > w01 has a share on each of its 5 scripts
+- w02 share content > w02 has a share on each of its 5 scripts
+- w03 share content > w03 has a share on each of its 5 scripts
+- w04 share content > w04 has a share on each of its 5 scripts
+- w05 share content > w05 has a share on each of its 5 scripts
+- w06 share content > w06 has a share on each of its 5 scripts
+- w07 share content > w07 has a share on each of its 5 scripts
+- w08 share content > w08 has a share on each of its 5 scripts
+- w01 share content > w01 shots equal the moment table of FR-14, step and media, in order
+- w02 share content > w02 shots equal the moment table of FR-14, step and media, in order
+- w03 share content > w03 shots equal the moment table of FR-14, step and media, in order
+- w04 share content > w04 shots equal the moment table of FR-14, step and media, in order
+- w05 share content > w05 shots equal the moment table of FR-14, step and media, in order
+- w06 share content > w06 shots equal the moment table of FR-14, step and media, in order
+- w07 share content > w07 shots equal the moment table of FR-14, step and media, in order
+- w08 share content > w08 shots equal the moment table of FR-14, step and media, in order
+- w01 share content > w01 passes share-moment with the status pass
+- w01 share content > w01 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+- w02 share content > w02 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+- w03 share content > w03 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+- w04 share content > w04 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+- w05 share content > w05 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+- w06 share content > w06 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+- w07 share content > w07 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+- w08 share content > w08 captions in English have 1 to 40 words and no pipe, angle bracket, or line break
+- w01 share content > w01 captions in Thai are present and hold a Thai-script character
+- w02 share content > w02 captions in Thai are present and hold a Thai-script character
+- w03 share content > w03 captions in Thai are present and hold a Thai-script character
+- w04 share content > w04 captions in Thai are present and hold a Thai-script character
+- w05 share content > w05 captions in Thai are present and hold a Thai-script character
+- w06 share content > w06 captions in Thai are present and hold a Thai-script character
+- w07 share content > w07 captions in Thai are present and hold a Thai-script character
+- w08 share content > w08 captions in Thai are present and hold a Thai-script character
+- w01 share content > w01 English captions differ from each other and from the captions of the other weeks
+- w02 share content > w02 English captions differ from each other and from the captions of the other weeks
+- w03 share content > w03 English captions differ from each other and from the captions of the other weeks
+- w04 share content > w04 English captions differ from each other and from the captions of the other weeks
+- w05 share content > w05 English captions differ from each other and from the captions of the other weeks
+- w06 share content > w06 English captions differ from each other and from the captions of the other weeks
+- w07 share content > w07 English captions differ from each other and from the captions of the other weeks
+- w08 share content > w08 English captions differ from each other and from the captions of the other weeks
+- w01 share content > w01 adds only share moments to its baseline file (additive, AC-14.5)
+- w02 share content > w02 adds only share moments to its baseline file (additive, AC-14.5)
+- w03 share content > w03 adds only share moments to its baseline file (additive, AC-14.5)
+- w04 share content > w04 adds only share moments to its baseline file (additive, AC-14.5)
+- w05 share content > w05 adds only share moments to its baseline file (additive, AC-14.5)
+- w06 share content > w06 adds only share moments to its baseline file (additive, AC-14.5)
+- w07 share content > w07 adds only share moments to its baseline file (additive, AC-14.5)
+- w08 share content > w08 adds only share moments to its baseline file (additive, AC-14.5)
+- w02 share content > w02 passes share-moment with the status pass
+- w03 share content > w03 passes share-moment with the status pass
+- w04 share content > w04 passes share-moment with the status pass
+- w05 share content > w05 passes share-moment with the status pass
+- w06 share content > w06 passes share-moment with the status pass
+- w07 share content > w07 passes share-moment with the status pass
+- w08 share content > w08 passes share-moment with the status pass
+- the share moments of the eight weeks together > hold 40 shares and 40 different English captions
+- the student book and the guard > is byte-equal with and without the share fields, and holds no caption marker (AC-14.7)
+- the student book and the guard > compares different student books as different (non-vacuity of the student book test)
+
+### __tests__/storytime-loops-share.test.ts (22 failing cases)
+- the share field of a script > J1: the eight shipped weeks parse, and no script of them has a share
+- the share field of a script > J2: a share-complete copy of each week parses, and the parsed share equals the sample
+- the share field of a script > J3: a moment holds one or two shots, and refuses zero and three
+- the share field of a script > J3: a shot holds the media photo or video, and refuses audio, Photo, and the empty string
+- the share field of a script > J3: a step id holds the form A1, and refuses the other forms
+- the share field of a script > J4: a share and a shot refuse an unknown key, and hold only their own keys
+- the share field of a script > J5: a caption holds English and Thai, and the English needs one character
+- the check share-moment > J6: a share-complete copy of each week passes the check
+- the check share-moment > J7: a day without a moment reports, and the detail names that day only
+- the check share-moment > J8: a shot names a step of its own script, or a moved step of the day before
+- the check share-moment > J9: a day needs one shot in the period of the day
+- the check share-moment > J10: two shots of a day name two different steps
+- the check share-moment > J11: a shot names no assessment step
+- the check share-moment > J12: a caption holds 1 to 40 English words and a Thai text
+- the check share-moment > J13: no caption string ends in a media file extension
+- the check share-moment > J14: every problem of the check has the status SHARE_CHECK_STATUS
+- the check share-moment > J15: a Level 1 week has no share-moment row, and a Level 3 week has one
+- the check share-moment > J16: the share-moment row comes before the published row
+- the check share-moment > J16: a published week with a broken moment blocks the publication at the status fail
+- the share moment and the lesson minutes > J17: the share field adds no minutes to any week
+- the share moment and the lesson minutes > J17: the compare of the minute rows can fail
+- the shipped week files > J18: the week files keep their hash, and the test writes nothing into the content folder
+
+### __tests__/storytime-loops-teacher-book.test.ts (1 failing cases)
+- Storytime teacher-book loop print flag > does not print loop headings for a shipped week when the option is on
+
+### __tests__/storytime-manual.test.ts (4 failing cases)
+- Storytime manual template > keeps A8 in day 2 recall, with the one-minute moved step and correct opening minutes
+- Storytime manual template > prints day 3 song step B7 with the opening song item, outside the one-minute recall
+- Storytime manual template > prints day 5 song step D6 with the opening song item and keeps D5 in recall
+- Storytime manual template > uses the Thai opening song item for B7 without adding a Thai label or minutes
+
+### __tests__/storytime-package-clips.test.ts (24 failing cases)
+- C5 the two optional schema fields (K15) > keeps the map in the parse output of a whole week
+- C6 the mapper on a copy of w01 (K3, K4, K5, Phase 12 L3 to L5) > writes the five maps, copies 30 clips, removes a stale clip, and changes only the closing lines (52 added, 5 changed)
+- C6 the mapper on a copy of w01 (K3, K4, K5, Phase 12 L3 to L5) > changes no byte and no modification time on a second run
+- C6 the mapper on a copy of w01 (K3, K4, K5, Phase 12 L3 to L5) > replaces only the wordClips block when the books change, and removes the clip that no key names
+- C9 checkWordClips (K12) > gives the exact id and label, and pass with no detail on the mapped copy
+- C9 checkWordClips (K12) > passes a clip that equals its bank mp3 although the row sha256 is the WAV hash (review F2)
+- C9 checkWordClips (K12) > warns "no clip: <keys>" with each key once, in document order, when the books have no map
+- C9 checkWordClips (K12) > warns for the keys that a map lacks, in document order
+- C9 checkWordClips (K12) > warns for a word that has no key in the map of its own book, although the other book maps it
+- C9 checkWordClips (K12) > warns for every key of a book that has no map
+- C9 checkWordClips (K12) > fails with "missing: <path>" when a clip file is absent
+- C9 checkWordClips (K12) > fails with "differs from bank: <path>" when a clip differs from the bank mp3
+- C9 checkWordClips (K12) > fails with "no bank row: <key>" when a key has no bank row
+- C9 checkWordClips (K12) > fails with "not a book word: <key>" for a key that no word of its book gives
+- C9 checkWordClips (K12) > fails with "bad path: <path>" for a value that is not the K3 path of its key
+- C9 checkWordClips (K12) > joins the five fail parts in the order of K12 with "; "
+- C9 checkWordClips (K12) > lets a fail win over a warn, and the detail of the fail holds no warn part
+- C9 checkWordClips (K12) > gives no row for a week with no book and for a week with no meta (review F1)
+- C9 checkWordClips (K12) > gives pass or warn and never fail for the shipped w01 to w07, and no row for w08
+- C9b checkWordClips with a bank mp3 that the bank folder does not hold (K12, review A F3) > fails and names the key when the week clip exists and the row names an absent bank mp3
+- C9b checkWordClips with a bank mp3 that the bank folder does not hold (K12, review A F3) > names each key whose bank mp3 is absent
+- C10 checkSongLeadIn (K14) > gives no row for a song with audio only, and for a week with no song
+- C12 the lead-in script on short files that ffmpeg makes (K13, FR 5) > adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte
+- C12 the lead-in script on short files that ffmpeg makes (K13, FR 5) > changes only the line videoLeadInSeconds when the field holds another value
+
+### __tests__/storytime-package-family.test.ts (11 failing cases)
+- the family picture script (Phase 10, Red 2) > R2-5 the script writes six pictures, six provenance lines, and six file lines
+- the family picture script (Phase 10, Red 2) > R2-5b the card JPEG and the Forge JPEG hold the H6 output rules
+- the family picture script (Phase 10, Red 2) > R2-5c the provenance file follows the H7 sort order
+- the family picture script (Phase 10, Red 2) > R2-6 the week file gains a file line after each caption and changes nothing else
+- the family picture script (Phase 10, Red 2) > R2-6b a caption that holds a JSON escape keeps its value
+- the family picture script (Phase 10, Red 2) > R2-8 a line file next to a color file does not stop the run
+- the family picture script (Phase 10, Red 2) > R2-9 the partial run skips a Forge word with no file and keeps the card rule
+- the family picture script (Phase 10, Red 2) > R2-10 the provenance keeps the lines of the words that a run skips
+- the family picture script (Phase 10, Red 2) > R2-12 the script changes a file line with another value and keeps a file line with the same value
+- the family picture script (Phase 10, Red 2) > R2-13 a second run changes no byte
+- the family picture script (Phase 10, Red 2) > R2-15 the live run of the color patches of week 3 writes seven pictures
+
+### __tests__/storytime-package-practice-clips.test.ts (31 failing cases)
+- D1 the four optional schema fields (L10) > keeps opening.wordClips, focus.family.wordClips, focus.trickyWordClips, and sentenceClips in the parse output
+- D1 the four optional schema fields (L10) > parses a week without the fields as before, and leaves each field undefined
+- D1 the four optional schema fields (L10) > refuses an upper-case key and an empty value in each of the three maps
+- D5 the word mapper with the three new maps on a copy of w01 (L5, L17) > writes the three new maps and the book maps in the L17 form, copies 30 clips, and changes only closing lines
+- D5 the word mapper with the three new maps on a copy of w01 (L5, L17) > changes no byte and no modification time on a second run
+- D5 the word mapper with the three new maps on a copy of w01 (L5, L17) > removes a stale clip and a file that is not a clip stays, and keeps each practice clip that no book names
+- D7 checkPracticeClips (L9) > gives the exact id and label, and pass with no detail on the mapped copy
+- D7 checkPracticeClips (L9) > warns "no clip: <keys>" for a key that its map lacks, and for a list that has no map
+- D7 checkPracticeClips (L9) > warns for a practice word that only a book map names
+- D7 checkPracticeClips (L9) > fails with "missing: <path>" when a clip file is absent
+- D7 checkPracticeClips (L9) > fails with "differs from bank: <path>" when a clip differs from the bank mp3
+- D7 checkPracticeClips (L9) > fails with "no bank file: <key>" when the bank mp3 is absent and the week clip exists
+- D7 checkPracticeClips (L9) > fails with "no bank row: <key>" when a key has no bank row
+- D7 checkPracticeClips (L9) > fails with "not a practice word: <key>" for a key that no word of its list gives
+- D7 checkPracticeClips (L9) > fails with "bad path: <path>" for a value that is not the K3 path of its key
+- D7 checkPracticeClips (L9) > joins the six fail parts in the order of L9 with "; "
+- D7 checkPracticeClips (L9) > lets a fail win over a warn, and the detail of the fail holds no warn part
+- D7 checkPracticeClips (L9) > gives no row for a week with no meta and for a week with no book (the review week w08)
+- D7 checkPracticeClips (L9) > gives pass or warn and never fail for the shipped w01 to w07, and no row for w08
+- D12 checkSentenceClips (L9) > gives the exact id and label, and pass with no detail
+- D12 checkSentenceClips (L9) > warns "no clips" when the decodable book has no field
+- D12 checkSentenceClips (L9) > fails with "count differs: <book>" when the array length is not the sentence count
+- D12 checkSentenceClips (L9) > fails with "text differs: <path>" when an item sentence is not the book sentence
+- D12 checkSentenceClips (L9) > fails with "missing: <path>" when a clip file is absent
+- D12 checkSentenceClips (L9) > fails with "bad path: <path>" for a value that is not the L7 path of its index
+- D12 checkSentenceClips (L9) > joins the four fail parts in the order of L9 with "; "
+- D12 checkSentenceClips (L9) > lets a fail win over a warn, and the detail of the fail holds no warn part
+- D12 checkSentenceClips (L9) > gives no row for a week with no decodable book
+- D12 checkSentenceClips (L9) > gives pass or warn and never fail for the shipped w01 to w07
+- D13 set-sentence-clips.ts (FR 6, L17) > writes the array form after the last key of the decodable audio object, and the new text parses with the schema
+- D13 set-sentence-clips.ts (FR 6, L17) > changes no byte and no modification time on a second run
+
+### __tests__/storytime-package-readalong-clips.test.ts (17 failing cases)
+- N8 set-sentence-clips.ts with kinds (M3, FR 4) > with kinds ["readalong"] the array form comes after the wordClips object of book 0, and the new text parses with the schema
+- N8 set-sentence-clips.ts with kinds (M3, FR 4) > the run adds 34 lines (4 for each of 8 items, plus 2), the closing } of wordClips gains a comma, and the decodable block is byte-equal
+- N8 set-sentence-clips.ts with kinds (M3, FR 4) > a second run changes no byte
+- N8 set-sentence-clips.ts with kinds (M3, FR 4) > a missing file or a differing hash in a decodable item does not stop a read-along run
+- N8 set-sentence-clips.ts with kinds (M3, FR 4) > a missing read-along file or a differing hash stops the run before any write
+- N8 set-sentence-clips.ts with kinds (M3, FR 4) > kinds ["readalong", "decodable"] edits both blocks
+- N9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5) > gives the exact id and label, and pass with no detail on the correct copy
+- N9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5) > warns "no clips" when the read-along book has no field
+- N9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5) > fails with "count differs: <book>" when the array length is not the sentence count
+- N9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5) > fails with "text differs: <path>" when an item sentence is not the book sentence
+- N9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5) > fails with "missing: <path>" when a clip file is absent
+- N9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5) > fails with "bad path: <path>" for a value that is not the M2 path of its index
+- N9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5) > joins the four fail parts in the order of L9 with "; "
+- N9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5) > lets a fail win over a warn, and the detail of the fail holds no warn part
+- N9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5) > gives no row for a week with no read-along book, for a week with no meta, and for the shipped w08
+- N9 checkReadAlongSentenceClips and the F7 rule (M7, FR 5) > the F7 rule: checkSentenceClips does not flag the field on a read-along book, and the read-along row does not read a decodable book
+- N10 the schema on a read-along book (M2, M14) > sentenceClips on a read-along book parses and the parse output keeps it
+
+### __tests__/storytime-package-sound-stages.test.ts (3 failing cases)
+- S8 the shipped weeks (FR14-5) > gives a pass for the three rows of every shipped week of Level 2
+- S8 the shipped weeks (FR14-5) > gives the stage-1 plan in the focus of every shipped week of Level 2
+- S8 the shipped weeks (FR14-5) > gives no new-sound part for w08, the week without a focus.element.sound
+
+### __tests__/storytime-print-a48-part2.test.ts (26 failing cases)
+- A-48 part 2, F3: the D4 trace text has the punctuation of the script > F3-data: weeks 3, 5, and 6 end their trace text with a full stop
+- A-48 part 2, F3: the D4 trace text has the punctuation of the script > F3-check: the trace text equals the sentence of the D4 teacher action, with the punctuation
+- A-48 part 2, F3: the D4 trace text has the punctuation of the script > F3-script: a D4 script with no "trace ..." action fails the check
+- A-48 part 2, F5: the label of the picture row > F5-schema: print.writing takes the optional promptAction look, color, or draw
+- A-48 part 2, F5: the label of the picture row > F5-data: week 2 looks, weeks 3, 6, and 7 color, week 5 draws
+- A-48 part 2, F5: the label of the picture row > F5-check: color needs the word "color" in D4 and draw needs the word "draw"
+- A-48 part 2, F5: the label of the picture row > F5-page: the label and the icon follow the action (Look. eye; Color. pencil)
+- A-48 part 2, F4: the picture row stands above the trace row of D4 > F4-order: week 2 prints the picture row before the trace row, and the numbers keep the page order
+- A-48 part 2, F4: the picture row stands above the trace row of D4 > F4-order: week 3 prints the picture row before the trace row, and the numbers keep the page order
+- A-48 part 2, F4: the picture row stands above the trace row of D4 > F4-order: week 6 prints the picture row before the trace row, and the numbers keep the page order
+- A-48 part 2, F4: the picture row stands above the trace row of D4 > F4-others: week 1 and the weeks without a prompt picture (week 4) keep the trace row first
+- A-48 part 2, U7: the check pictures axe and ostrich replace the alligator and the olive (E24, E26) > U7-data: week 2 row 3 is pig, bed, axe; week 7 row 3 is pen, bus, ostrich; week 8 names the axe
+- A-48 part 2, U7: the check pictures axe and ostrich replace the alligator and the olive (E24, E26) > U7-script: the row 3 lines of the week 2 and week 7 scripts say the new word in English and Thai, and the old word is gone from every check line
+- A-48 part 2, U7: the check pictures axe and ostrich replace the alligator and the olive (E24, E26) > U7-rows: the picture list has the rows axe (week 2) and ostrich (week 7), no alligator or olive row, and 196 rows (the ostrich row serves week 7 and week 8; the 2 d4-prompt rows of weeks 5 and 7 are in the 196)
+- A-48 part 2, U7: the check pictures axe and ostrich replace the alligator and the olive (E24, E26) > U7-nut: the nut pages keep the word nut (Forge draws a peanut)
+- A-48 part 2, E23: "Nan Can Nod" is a first-sound listening book > E23-data: week 1 keeps kind decodable and soundBook true; the C4 title says first-sound book
+- A-48 part 2, E23: "Nan Can Nod" is a first-sound listening book > E23-labels: the week 1 book says "The first sound in this book" and "Listen to the book"
+- A-48 part 2, E23: "Nan Can Nod" is a first-sound listening book > E23-others: the decodables of weeks 2 to 7 keep their labels
+- A-48 part 2, U8: the readers (B17, E52) and the question pages (E37) > E37-data: the questions that name a page use the printed page (story page 4 is printed page 6)
+- A-48 part 2, U8: the readers (B17, E52) and the question pages (E37) > B17-role: each reader cover has a role mark: listen and read, sound it out, or say the first sound
+- A-48 part 2, U8: the readers (B17, E52) and the question pages (E37) > E52-more: a page 11 list with a word that the story does not use is labeled "More words" (Hello!, How Many?, My Family); the other read-alongs keep the family name
+- A-48 part 2, U8: the teacher book (step badge, student book pages, questions in D3) > U8-badge: each step carries the grey badge of its code, and a part that two steps share carries both codes
+- <thai line removed>
+- A-48 part 2, U8: the teacher book (step badge, student book pages, questions in D3) > U8-questions: the read-along questions print in D3 with the printed page, and not in C5
+- A-48 part 2, U9: the step map file for the app (tasks 4.3 and 4.6) > U9-file: the committed file equals the rows that the code builds, with the shape {week, code, steps, pageKind, block, icons, page}
+- A-48 part 2, U9: the step map file for the app (tasks 4.3 and 4.6) > U9-book: each row points to the page of that kind in the built book, and the week check page is page 6, 24, 42, 60, 78, 96, 114
+
+### __tests__/storytime-print-a48-part3a.test.ts (12 failing cases)
+- A-48 part 3a, C1 and C3: the strokes follow the formation words > S-words-n: the table of the letter follows the formation words of week 1 (count, order, direction)
+- A-48 part 3a, C1 and C3: the strokes follow the formation words > S-words-a: the table of the letter follows the formation words of week 2 (count, order, direction)
+- A-48 part 3a, C1 and C3: the strokes follow the formation words > S-words-p: the table of the letter follows the formation words of week 3 (count, order, direction)
+- A-48 part 3a, C1 and C3: the strokes follow the formation words > S-words-m: the table of the letter follows the formation words of week 4 (count, order, direction)
+- A-48 part 3a, C1 and C3: the strokes follow the formation words > S-words-s: the table of the letter follows the formation words of week 5 (count, order, direction)
+- A-48 part 3a, C1 and C3: the strokes follow the formation words > S-words-t: the table of the letter follows the formation words of week 6 (count, order, direction)
+- A-48 part 3a, C1 and C3: the strokes follow the formation words > S-words-o: the table of the letter follows the formation words of week 7 (count, order, direction)
+- A-48 part 3a, C1 and C3: the strokes follow the formation words > S-words-mutants: a reversed stroke and two swapped strokes each fail, for every letter
+- A-48 part 3a, C4: the start dots of a letter sit at one place in the whole book > D-all: every dot of every letter, in every week and cell kind, is on the start of stroke 1 within 0.3 mm
+- A-48 part 3a, C4: the start dots of a letter sit at one place in the whole book > D-letters: the trace words of the same first letter share one place, in all weeks
+- A-48 part 3a, C4: the start dots of a letter sit at one place in the whole book > D-mutants: a dot moved in one week only, in one kind of cell, fails the check
+- A-48 part 3a, I1: a QR code decodes from an image > Q-expected: the expected codes are the song and book codes of each home card and the code of each reader, on the pages that print them
+
+### __tests__/storytime-print-a48-step2.test.ts (36 failing cases)
+- A-48 F1: every trace word sits on its rule line > F1-geometry: the baseline of each trace line is the bottom of its SVG, where the rule line starts (within 0.5 mm)
+- A-48 F2: a practice line with a full stop starts every sentence with a capital letter > F2-weeks: the rule exists and passes on the practice lines of weeks 1 to 7 (week 8 has no print block)
+- A-48 F2: a practice line with a full stop starts every sentence with a capital letter > F2-mutants: a line that starts in lower case, or a sentence after a stop that starts in lower case, fails; a line with no stop passes
+- A-48 part 1, check pages: a write-word item uses only the letters taught by its week > K-taught: every write-word item of weeks 1 to 7 is a word of taught letters (a check tests; it does not teach a trace)
+- A-48 U1: the sound pages (E49) > U1-E49: the formation words of all 7 weeks start with "Start at the dot.", on the data and on the page, and the print check of each week passes
+- A-48 U2: the write pages (E11 to E16) > U2-schema: print.writing takes the optional promptPicture and choiceWords, and rejects an empty value and an unknown key
+- A-48 U2: the write pages (E11 to E16) > U2-data: each week names its prompt picture and choice words from the D4 script, and week 3 keeps its draw box
+- A-48 U2: the write pages (E11 to E16) > U2-script: the week 3 D4 script has no balloon (decision 7), the week 2 script counts the ducks, and the print check of each week passes
+- A-48 U2: the write pages (E11 to E16) > U2-check: a choice word or a prompt picture word that the D4 script does not say fails the print check
+- A-48 U2: the write pages (E11 to E16) > U2-page: week 1 D4 block prints the prompt picture, the draw boxes, the choice words, and the numbered rows
+- A-48 U2: the write pages (E11 to E16) > U2-page: week 2 D4 block prints the prompt picture, the draw boxes, the choice words, and the numbered rows
+- A-48 U2: the write pages (E11 to E16) > U2-page: week 3 D4 block prints the prompt picture, the draw boxes, the choice words, and the numbered rows
+- A-48 U2: the write pages (E11 to E16) > U2-page: week 4 D4 block prints the prompt picture, the draw boxes, the choice words, and the numbered rows
+- A-48 U2: the write pages (E11 to E16) > U2-page: week 5 D4 block prints the prompt picture, the draw boxes, the choice words, and the numbered rows
+- A-48 U2: the write pages (E11 to E16) > U2-page: week 6 D4 block prints the prompt picture, the draw boxes, the choice words, and the numbered rows
+- A-48 U2: the write pages (E11 to E16) > U2-page: week 7 D4 block prints the prompt picture, the draw boxes, the choice words, and the numbered rows
+- A-48 U2: the write pages (E11 to E16) > U2-rows: the picture list has 196 rows (194 after U7, plus the 2 d4-prompt rows of weeks 5 and 7)
+- A-48 U2: the write pages (E11 to E16) > U2-count: the book keeps 140 pages
+- A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) > U4-order: the book keeps 140 pages; the benchmark takes pages 130 and 131 before Review 1 (page 132), and the 9 page kinds of pages 132 to 140 follow it, with no pad at the end (B23)
+- A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) > U4-chrome: each benchmark and review page has the week header, the page number, and the step badge (A1, A1, A2, B1, B1, C1, C1, D1, D1, E1, E1)
+- A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) > U4-bench1: rows 1 to 8 print 3 pictures each, numbered, with the first-sound or last-sound mark and a head for each group (B22, E43)
+- A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) > U4-bench2: boxes 9 to 15 are numbered and empty, with the listen-and-write head and a score strip for the letters (B22, E43)
+- A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) > U4-review1: the review page has the match rows and the picture rows, each a task that the child can do alone (E41, B20, B21)
+- A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) > U4-review2: the review page has the match rows and the picture rows, each a task that the child can do alone (E41, B20, B21)
+- A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) > U4-review3: the review page has the match rows and the picture rows, each a task that the child can do alone (E41, B20, B21)
+- A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) > U4-review4: the review page has the match rows and the picture rows, each a task that the child can do alone (E41, B20, B21)
+- A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) > U4-review5: the review page has the match rows and the picture rows, each a task that the child can do alone (E41, B20, B21)
+- A-48 U4: week 8, the benchmark on 2 pages before Review 1, and the reviews as real tasks (E41 to E43, B20 to B23) > U4-label: one label style for a sound in the whole book, /x/ (E42)
+- <thai line removed>
+- A-48 U5: the home cards (E44, E45, E47) > U5-qr: the two QR labels of the Thai card print in Thai, with the English line below
+- A-48 U5: the home cards (E44, E45, E47) > U5-margin: the text of a card keeps 6 mm from the cut line, 4 mm more than before (E47)
+- A-48 U5: the home cards (E44, E45, E47) > U5-number: the page number of a card keeps 6 mm from the cut line (A-48 part F F1)
+- A-48 U5: the home cards (E44, E45, E47) > U5-words: each home word of weeks 1 to 7 starts with the letter of its week (E44: cup is not a /p/ word)
+- A-48 U6: the book map and the title page (B19, B24, E51) > U6-title: the title has no comma after the unit (E51)
+- A-48 U6: the book map and the title page (B19, B24, E51) > U6-numbers: boxes 1 to 7 carry a big number, the unit box carries a star, one line says what to do (B19)
+- A-48 U6: the book map and the title page (B19, B24, E51) > U6-pages: each book-map page number equals the page printed in the book (B24)
+
+### __tests__/storytime-print-adversarial.test.ts (16 failing cases)
+- Adversarial: the text check normalization never masks a word change > fails print-picture-word when the case variant "Nest" names another line
+- Adversarial: the text check normalization never masks a word change > fails print-picture-word when the case variant "NEST" names another line
+- Adversarial: the text check normalization never masks a word change > fails print-picture-word when the case variant "nEsT" names another line
+- Adversarial: the text check normalization never masks a word change > fails print-practice when a plural ending hides behind punctuation ("A nest. A nets.")
+- Adversarial: the text check normalization never masks a word change > passes print-practice when only the punctuation case and quote style differ
+- Adversarial: the text check normalization never masks a word change > fails print-practice when a curly-quoted line changes one word
+- Adversarial: the text check normalization never masks a word change > fails print-practice when "alone" from the harder note of step A7 reaches the practice sheet
+- Adversarial: the text check normalization never masks a word change > fails print-practice when "only" from the easier note of step A7 reaches the practice sheet
+- Adversarial: the text check normalization never masks a word change > fails print-writing when the trace text comes from the harder note of step D4
+- Adversarial: the text check normalization never masks a word change > fails print-practice when a line holds only its picture word
+- Adversarial: repeated picture names never collide silently > suffixes every row of a second identical week with -b and keeps all names unique
+- Adversarial: repeated picture names never collide silently > suffixes two different repeated slugs of one week independently
+- Adversarial: repeated picture names never collide silently > throws a named repeat-limit error on the 27th identical page
+- Adversarial: week 8 and an empty book list > keeps shipped week 8 picture rows without books and gives an empty review copy no rows
+- Adversarial: week 8 and an empty book list > keeps the check and practice rows and the print checks when a teaching week loses its books
+- Adversarial: the strict approval parts fail closed > keeps the shipped week 1 published gate passing, with no detail (audio and song approved 2026-11-04)
+
+### __tests__/storytime-print-binding-practice.test.ts (3 failing cases)
+- Storytime print binding pad and practice rules > fills the 8-week book to 140 pages with the benchmark before Review 1 and no pad at the end (A-48 U4)
+- Storytime print binding pad and practice rules > keeps the week 1 book at 20 pages without an end pad
+- Storytime print binding pad and practice rules > draws a full-width rule for each practice-text line without one bottom border
+
+### __tests__/storytime-print-c2-start-table.test.ts (2 failing cases)
+- C2: the start table of the trace words (P9-B2 to P9-B5) > C2-taught: the 7 taught letters agree with the start of stroke 1 of the letter box within 0.3 mm
+- C2: the start table of the trace words (P9-B2 to P9-B5) > C2-book: every trace dot of weeks 1 to 7 sits at the absolute spec position within 0.3 mm
+
+### __tests__/storytime-print-c6-baseline.test.ts (1 failing cases)
+- Storytime print text on rules sits on the baseline (audit item C6) > C6: every printed rule lies on the baseline of its text within 0.5 mm, and the p of "p p p" goes below the rule (Chrome, Andika loaded)
+
+### __tests__/storytime-print-card-kit-adversarial-r2.test.ts (6 failing cases)
+- the stage 1 batch check: each row class of each week on its own > R2-1 fails a job whose id differs from the row id by a trailing space or by case
+- the stage 1 batch check: each row class of each week on its own > R2-2 requests both classes of week 1 when no job id equals a row id
+- the stage 1 batch check: each row class of each week on its own > R2-3 ignores a job of a week that --weeks does not request
+- the stage 1 batch check: each row class of each week on its own > R2-4 gives each class of each week a result line or a skip line for the book rows of week 1 and the card rows of week 2
+- the stage 1 batch check: each row class of each week on its own > R2-5 fails a missing week 2 card row beside complete week 1 books and counts it in the total
+- the match counts > R2-8 counts the lines of the shipped kit by source and the four counts add up
+
+### __tests__/storytime-print-card-kit-adversarial-r3.test.ts (1 failing cases)
+- the shipped match report > R3-3 counts the 106 cards of weeks 1 to 8 as picture 89, patch 8, dots 9, and none 0
+
+### __tests__/storytime-print-card-kit-adversarial.test.ts (5 failing cases)
+- the materials parser on hostile and edge input > X-P8-1 extra spaces, a trailing comma, and an upper-case kind word parse without a crash
+- the materials parser on hostile and edge input > X-P8-2 a duplicate label inside one line and across weeks gives one card
+- the materials parser on hostile and edge input > X-P8-3 an empty item list, an unknown kind, small books, and crayons add no card
+- the materials parser on hostile and edge input > X-P8-4 a missing week file does not crash the kit
+- the letter repeat rule > X-P8-5 a class-set line with three n in another week gives three n cards
+
+### __tests__/storytime-print-card-kit-match.test.ts (4 failing cases)
+- the PM picture match rule of 2026-11-05 > G-P8-M8 counts picture, patch, dots, and none source columns
+- the PM picture match rule of 2026-11-05 > G-P8-M5 the shipped weeks give 100 picture-type cards: 54 picture matches, 8 patches, 9 dots, 29 with no match
+- the PM picture match rule of 2026-11-05 > G-P8-M6 the shipped picture cards hold 91 distinct words: 45 picture rows, 17 patches or dots, and 29 none
+- the sticker materials line (Review C, C-P8-2) > G-P8-S1 a line with one quoted name and one unquoted name keeps both stickers
+
+### __tests__/storytime-print-card-kit-patches.test.ts (5 failing cases)
+- Phase 8 color patches and number dots > R-P8-P1 the eight named color words use their approved sRGB patch colors
+- Phase 8 color patches and number dots > R-P8-P2 the nine number cards show the numeral and exactly its number of round dots
+- Phase 8 color patches and number dots > R-P8-P3 all 17 special cards replace the empty box and all 29 unmatched cards retain it
+- Phase 8 color patches and number dots > R-P8-P4 the shipped match report gives 54 picture matches, 8 patches, 9 dots, and 29 none
+- Phase 8 color patches and number dots > R-P8-P5 falsifier: a dot count off by one fails the exact count assertion
+
+### __tests__/storytime-print-card-kit-stickers.test.ts (8 failing cases)
+- Phase 8 sticker pictures cover the 40 mm circle (owner request 2026-11-06) > R-P8-S1 the sticker sheet holds 8 stickers: the 7 decodable covers and unit 1
+- Phase 8 sticker pictures cover the 40 mm circle (owner request 2026-11-06) > R-P8-S2 the unit 1 sticker keeps its text and shows no picture
+- Phase 8 sticker pictures cover the 40 mm circle (owner request 2026-11-06) > R-P8-S3 the cut circle stays 40 mm and the sticker places stay as v2
+- Phase 8 sticker pictures cover the 40 mm circle (owner request 2026-11-06) > R-P8-S4 the picture of each picture sticker covers the whole 40 mm circle
+- Phase 8 sticker pictures cover the 40 mm circle (owner request 2026-11-06) > R-P8-S5 the cut line of every sticker stays visible above the picture
+- Phase 8 sticker pictures cover the 40 mm circle (owner request 2026-11-06) > R-P8-S7 the centre of every picture sticker is 50% 50%, unless the map names it
+- Phase 8 sticker pictures cover the 40 mm circle (owner request 2026-11-06) > R-P8-S8 a centre override moves one sticker only
+- Phase 8 sticker pictures cover the 40 mm circle (owner request 2026-11-06) > R-P8-S9 the pixels inside each picture circle hold almost no white
+
+### __tests__/storytime-print-card-kit.test.ts (11 failing cases)
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-1 the sound cards, the letter cards, and the frame cards of unit 1
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-2 the picture cards, the sound picture cards, and the family picture cards of unit 1
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-3 the tricky-word cards and the word cards of unit 1
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-4 no step of the 8 weeks names a symbol card
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-5 the letter strip holds the 26 letters of w08.json in order
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-6 the sound and symbol cards are A5; the picture and tricky-word cards are A6
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-7 the kit has two card sizes; the A5 cards are 2 on a sheet and the A6 cards are 4
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-9 the workmats, the sorting mats, and the word wall cards of unit 1
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-10 the sticker sheet holds 8 stickers: the 7 decodable covers and unit 1
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-12 only the letter cards of the class set and the workmats are class-set items
+- Storytime card kit, unit 1 (spec FR-7) > R-P8-11 mutant: one removed materials item changes the card list and fails the check
+
+### __tests__/storytime-print-card-pictures.test.ts (4 failing cases)
+- Phase 8 card picture rows: the card file and the picture list > CP-6: no card row names a color word or a number word
+- Phase 8 card picture rows: the card file and the picture list > CP-7: each card row carries the fields of a card picture row
+- Phase 8 card picture rows: the card file and the picture list > CP-8: the committed list is the 196 book rows and then the 31 card rows
+- Phase 8 card picture rows: the card file and the picture list > CP-9: the committed pictures.md says Version 7 and holds the card rows
+
+### __tests__/storytime-print-contract-r3.test.ts (40 failing cases)
+- Storytime print Red 3: exact counts (R15, R16) > R15: counts the shipped week 2 answer in "How many suns? One!"
+- Storytime print Red 3: exact counts (R15, R16) > R15: counts the shipped week 2 answer in "How many kites? Two!"
+- Storytime print Red 3: exact counts (R15, R16) > R15: counts the shipped week 2 answer in "How many ducks? Three!"
+- Storytime print Red 3: exact counts (R15, R16) > R15: counts the shipped week 2 answer in "How many birds? Four!"
+- Storytime print Red 3: exact counts (R15, R16) > R15: counts the shipped week 2 answer in "How many balls? Five!"
+- Storytime print Red 3: exact counts (R15, R16) > R15: counts the shipped week 2 answer in "How many friends? Six!"
+- Storytime print Red 3: exact counts (R15, R16) > R15: counts the shipped week 2 answer in "How many cakes? Seven!"
+- Storytime print Red 3: exact counts (R15, R16) > R15: gives no cake count for "Oh no, Pip!" because the text gives no number (FR-2.2)
+- Storytime print Red 3: exact counts (R15, R16) > R16: gives no ball count for the shipped negated question
+- Storytime print Red 3: exact counts (R15, R16) > R16: gives no doll count for the shipped negated question
+- Storytime print Red 3: exact counts (R15, R16) > R16: gives no car count for the shipped negated question
+- Storytime print Red 3: exact counts (R15, R16) > R16: gives no kite count for the shipped negated question
+- Storytime print Red 3: exact counts (R15, R16) > R16: gives no drum count for the shipped negated question
+- Storytime print Red 3: exact counts (R15, R16) > R16: gives no train count for the shipped negated question
+- Storytime print Red 3: exact counts (R15, R16) > R16: gives no teddy count for the shipped negated question
+- Storytime print Red 3: exact counts (R15, R16) > R16: counts the pan but excludes the non-object noun in "A nap in the pan!"
+- Storytime print Red 3: exact counts (R15, R16) > R16: gives the singular key foot for "I have two feet."
+- Storytime print Red 3: exact counts (R15, R16) > R16: uses only the exact singular key inventory across the shipped list
+- Storytime print Red 3: strict approvals (R18, R19) > R18: rejects the unknown key wrods on the text app approval part
+- Storytime print Red 3: strict approvals (R18, R19) > R18: rejects the unknown key wrods on the thai app approval part
+- Storytime print Red 3: strict approvals (R18, R19) > R18: rejects the unknown key wrods on the images app approval part
+- Storytime print Red 3: strict approvals (R18, R19) > R18: rejects the unknown key wrods on the audio app approval part
+- Storytime print Red 3: strict approvals (R18, R19) > R18: rejects the unknown key wrods on the song app approval part
+- Storytime print Red 3: strict approvals (R18, R19) > R18: rejects the unknown key wrods on the scripts app approval part
+- Storytime print Red 3: strict approvals (R18, R19) > R19: rejects the unknown key wrods on a draft print approval part
+- Storytime print Red 3: bounded suffixes (R20) > R20: uses -b for the second week 2 page "Nan can."
+- Storytime print Red 3: bounded suffixes (R20) > R20: uses -b for the second week 2 page "Can I?"
+- Storytime print Red 3: bounded suffixes (R20) > R20: uses -b for the second week 2 page "I can!"
+- Storytime print Red 3: bounded suffixes (R20) > R20: uses -b for the second week 6 page "Tap, tap, tap!"
+- Storytime print Red 3: bounded suffixes (R20) > R20: keeps all 29 week 1 ids equal to the committed v2 ids (A-48: the practice line "and" has moved to the tricky-word row)
+- Storytime print Red 3: bounded suffixes (R20) > R20: assigns base then -b through -z to the first 26 occurrences
+- Storytime print Red 3: bounded suffixes (R20) > R20: throws on the 27th occurrence instead of cycling suffixes
+- Storytime print Red 3: list version 7 (R21) > R21: uses level 2 as the level and the exported constant as Version 7
+- Storytime print Red 3: list version 7 (R21) > R21: uses level 3 as the level and the exported constant as Version 7
+- Storytime print Red 4b: week 8 picture list version 7 > R4b-1 exports picture-list version 7 and uses it in generated markdown
+- Storytime print Red 4b: week 8 picture list version 7 > R4b-2 includes the week 8 review picture words and the Benchmark 1 word drum
+- Storytime print Red 4b: week 8 picture list version 7 > R4b-3 reuses the earlier pen row instead of adding a week 8 row
+- Storytime print Red 4b: week 8 picture list version 7 > R4b-4 keeps the week 1 to 7 rows byte-equal to the version 3 list at c7739efb, less the dropped practice row of "and"
+- Storytime print Red 4b: week 8 picture list version 7 > R4b-5 keeps the committed picture list in sync with the list function
+- Storytime print Phase 7 content: practice picture reuse > R-P7-C1: a practice line of week 2 or later reuses a delivered row
+
+### __tests__/storytime-print-contract-v2.test.ts (24 failing cases)
+- Storytime print v2: line-art names of the picture list (R11) > gives every row the line-art name of FR-2.3 and FR-9
+- Storytime print v2: line-art names of the picture list (R11) > keeps the 195 color names and the 195 line-art names distinct across weeks 1 to 8
+- Storytime print v2: line-art names of the picture list (R11) > keeps colliding page slugs distinct, or throws with both ids (F13)
+- Storytime print v2: the FR-9 v1 pixel spec (R12) > gives every row the pixel size of its class, with the shipped counts by use
+- Storytime print v2: the picture-word rule (R13) > fails print-picture-word with "net" as the picture word of the "n n n" line
+- Storytime print v2: the picture-word rule (R13) > fails print-picture-word with "Net" as the picture word of the "n n n" line
+- Storytime print v2: the picture-word rule (R13) > fails print-picture-word with "zebra" as the picture word of the "n n n" line
+- Storytime print v2: the picture-word rule (R13) > allows a picture word on its own line (the rule is not over-broad)
+- Storytime print v2: the picture-word rule (R13) > passes the shipped week 1 after the F1 fix (pictureWord "nut")
+- Storytime print v2: the picture-word rule (R13) > wires the error into checkStorytimeWeek and the published gate
+- Storytime print v2: the P14 approval records (R14) > preserves source and words on each app part as parsed values (F9)
+- Storytime print v2: the P14 approval records (R14) > week 1 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 2 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 3 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 4 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 5 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 6 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 7 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 8 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 1 records the text and scripts approvals (decision S29)
+- Storytime print v2: the P14 approval records (R14) > records the week 1 audio and song approvals of 2026-11-04, the week 1 print approval (Daniel, 2026-11-05), and keeps the other print parts and media draft
+- Storytime print v2: the P14 approval records (R14) > the published gate of st2/1 passes when its audio and song are approved (Daniel, 2026-11-04)
+- Storytime print v2: the P14 approval records (R14) > the published gate of a st2/1 copy names exactly the one app part that is draft, and the print and loops parts stay out
+- Storytime print v2: the readable list drift guard (R10b) > keeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 7"
+
+### __tests__/storytime-print-contract.test.ts (31 failing cases)
+- Storytime print: shipped package characterization > parses shipped week 1 without changing its app contract
+- Storytime print: shipped package characterization > parses shipped week 2 without changing its app contract
+- Storytime print: shipped package characterization > parses shipped week 3 without changing its app contract
+- Storytime print: shipped package characterization > parses shipped week 4 without changing its app contract
+- Storytime print: shipped package characterization > parses shipped week 5 without changing its app contract
+- Storytime print: shipped package characterization > parses shipped week 6 without changing its app contract
+- Storytime print: shipped package characterization > parses shipped week 7 without changing its app contract
+- Storytime print: shipped package characterization > parses shipped week 8 without changing its app contract
+- Storytime print: schema and approvals > R2: preserves the full week 1 print block
+- Storytime print: exact text checks > R3: passes the complete week 1 block copied from the shipped scripts
+- Storytime print: exact text checks > R3: fails print-practice after this change: removed A7 word
+- Storytime print: exact text checks > R3: fails print-practice after this change: extra teacher-only words
+- Storytime print: exact text checks > FR-1.2: detects the A3 difference on a temporary copy
+- Storytime print: exact text checks > FR-1.2: detects the C3 difference on a temporary copy
+- Storytime print: exact text checks > FR-1.2: detects the D4 difference on a temporary copy
+- Storytime print: exact text checks > FR-1.2: detects the E5 difference on a temporary copy
+- Storytime print: exact text checks > R4: warns, without a print FAIL, when week 1 has no block
+- Storytime print: exact text checks > R4: warns, without a print FAIL, when week 2 has no block
+- Storytime print: exact text checks > R4: warns, without a print FAIL, when week 3 has no block
+- Storytime print: exact text checks > R4: warns, without a print FAIL, when week 4 has no block
+- Storytime print: exact text checks > R4: warns, without a print FAIL, when week 5 has no block
+- Storytime print: exact text checks > R4: warns, without a print FAIL, when week 6 has no block
+- Storytime print: exact text checks > R4: warns, without a print FAIL, when week 7 has no block
+- Storytime print: exact text checks > R4: warns, without a print FAIL, when week 8 has no block
+- Storytime print: exact text checks > R4: requires the shipped week 1 block and nonempty PASS checks
+- Storytime print: Forge picture list > R5: lists exactly 16 story pages, 2 covers, 9 check pictures, and each practice picture
+- Storytime print: Forge picture list > FR-2.2: preserves the shipped prompts, captions, page text, and explicit object counts
+- Storytime print: Forge picture list > R6: assigns A to story pages, B to covers, and C to check and practice pictures
+- Storytime print: Forge picture list > R7: gives unique ids and versioned file names across all eight shipped weeks
+- Storytime print: Forge picture list > R8: handles shipped week 8 with no books and no cover or story-page rows
+- Storytime print: Forge picture list > R10: keeps the committed picture list equal to the output on all shipped weeks
+
+### __tests__/storytime-print-covers-16books-adversarial.test.ts (7 failing cases)
+- Storytime covers adversarial Phase 1 > ADV-D12: approved-only values keep the week 1 story but lose every draft-week title, and the rule sees mixed source case
+- Storytime covers adversarial Phase 1 > ADV-TITLE: a reader title with an ASCII semicolon, even after a space, stops panel values and names the book and title
+- Storytime covers adversarial Phase 1 > ADV-TITLE: a reader title with a full-width semicolon builds, and the books field still splits into its items
+- Storytime covers adversarial Phase 1 > ADV-D12: the mock values strictly extend the approved values, so a passing print would render draft-week words
+- Storytime covers adversarial Phase 2 > ADV-P2-D12: with only week 3 back to draft, the printed back page carries no word that only week 3 supplies
+- Storytime covers adversarial Phase 2 round 2 > ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only
+- Storytime covers adversarial Phase 2 round 2 > ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged
+
+### __tests__/storytime-print-covers-16books.test.ts (8 failing cases)
+- Storytime 16-book covers > R20.2: the story words come from the student text of its source weeks, with no year and no word limit (D11, M17, replaces R3)
+- Storytime 16-book covers > R20.1 and R20.3 to R20.6: the five fields follow their shipped week and phonics sources
+- Storytime 16-book covers > R21: data week lists match the readable source weeks and stay inside each unit
+- Storytime 16-book covers > R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs
+- Storytime 16-book covers > R27: panel word case follows every source occurrence, without changing order or repeats (M23)
+- Storytime 16-book covers > R28: the shipped books field uses the semicolon separator and preserves item 12 (M24)
+- Storytime 16-book covers > R28 mutation: a copied Level 2 week title with a semicolon stops panel values and names its book and title
+- Storytime 16-book covers > R30: the shipped weeks 2 to 8 record the owner approval of the text (Daniel, 2026-11-01)
+
+### __tests__/storytime-print-covers-adversarial.test.ts (1 failing cases)
+- Adversarial: the reader build runs the cover check on the printed text > passes the reader cover check for the real covers and writes the print file
+
+### __tests__/storytime-print-covers.test.ts (1 failing cases)
+- Storytime week 1 covers > checks each shipped week 1 reader cover for no band word and catches a copied cover mutation
+
+### __tests__/storytime-print-d4-prompt.test.ts (6 failing cases)
+- A-48 D4 prompt pictures: the picture list > D4P-rows: the list has 196 rows and exactly the 2 d4-prompt rows face (week 5) and ball (week 7), size class C, 1500 x 1500
+- A-48 D4 prompt pictures: the picture list > D4P-json: the committed pictures.json holds the generated book list
+- A-48 D4 prompt pictures: the picture list > D4P-resolve: the prompt of week 5 and of week 7 resolves to its d4-prompt row, not to a story page; weeks 2, 3, and 6 keep their rows
+- A-48 D4 prompt pictures: the picture list > D4P-data: week 5 draws the face, week 7 colors the ball, and both print checks pass
+- A-48 D4 prompt pictures: the write pages > D4P-page: week 5 prints l2-w05-d4-prompt-face above the trace row with the label Draw. and one draw box
+- A-48 D4 prompt pictures: the write pages > D4P-page: week 7 prints l2-w07-d4-prompt-ball above the trace row with the label Color. and one draw box
+
+### __tests__/storytime-print-dictation-case.test.ts (2 failing cases)
+- Storytime print dictation case > accepts a capitalised dictated word that C3 says
+- Storytime print dictation case > rejects a dictated word that C3 does not say
+
+### __tests__/storytime-print-f3-script-order.test.ts (11 failing cases)
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 1: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 2: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 3: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 4: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 5: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 6: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 7: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 8: the week has no D4 step and the book has no writing page for it
+- F3: the D4 teacher script follows the page (P9-B6) > F3-th-shape: each th array of the D4 step has the length of its en array
+- F3: the D4 teacher script follows the page (P9-B6) > F3-scope: only the four English keys of the D4 step and their th twins differ from the Red baseline
+- F3: the D4 teacher script follows the page (P9-B6) > F3-mutants: the old order, a Thai line moved alone, and a change outside the keys each fail
+
+### __tests__/storytime-print-h1-classes.test.ts (26 failing cases)
+- A-48 H1: the six classes > H1-minutes: the A1 badge and minutes line is an A-42 routine; the reason names the badge and the minutes
+- A-48 H1: the six classes > H1-minutes-down: the A4 line, where the loop minutes are fewer, is an A-42 routine too
+- A-48 H1: the six classes > H1-badge: the A3 line, where only the badge changes, is an A-48 badge
+- A-48 H1: the six classes > H1-badge-tricky: the D2 line, where the badge is the code of the step map, is an A-48 badge
+- A-48 H1: the six classes > H1-page: the A3 materials line with a page reference is a page reference
+- A-48 H1: the six classes > H1-page-wrong: a page reference line with another word is a word change
+- A-48 H1: the six classes > H1-loop: a soundLoop line of week 1 is an A-42 routine, with and without its outer quotes
+- A-48 H1: the six classes > H1-loop-labels: the fixed loop labels and the seconds line are A-42 routines
+- A-48 H1: the six classes > H1-d3: the question lines of the read-along of week 1 and the D3 label are D3 questions
+- A-48 H1: the six classes > H1-word: the Start at the top line is a word change
+- A-48 H1: the six classes > H1-other: an added line that no rule knows is other, with the reason "added line"
+- A-48 H1: the six classes > H1-reflow: a removed line whose text stands in the new week text is other, with the reflow reason
+- A-48 H1: the six classes > H1-removed: a removed line that is not in the new week text is other, with the reason "removed line"
+- A-48 H1: the report > H1-sum: the class counts add up to the count of the report, and a lost or added row is a problem
+- A-48 H1: the report > H1-markdown: the list has the source report, its SHA-256, a summary whose total equals the count, and one row for each difference
+- A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-block-added: an added line under the heading B7 is an A-42 routine of LP-26 class B; under another heading it stays other
+- A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-block-d6: the heading D6 gives the same class as B7
+- A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-block-removed: a removed line under B7 in the draft is an A-42 routine, the old place of the song step, also when its text stands in the new text
+- A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-recall: the recall label, its ask lines, and its cards line are A-42 routines with the recall reason
+- A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-recall-first: a recall line under the heading B7 is a recall line, not a song line
+- A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-wrapped: a part of a printed loop line takes the class of the whole line; a short part does not
+- A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-pair-recall: the A1 title paired with the recall label is a position pair with the class of the recall
+- A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-pair-song: the B7 title paired with the C1 title is a position pair; the expected side is the old place of the song step
+- A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-pair-wrapped: a materials line whose expected text stands in the new text is a position pair of the class other
+- A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-edit: a real edit stays a word change, with the same step code or no code and an expected text that is not in the new text
+- A-48 H1: the scripts > H1-build: the teacher-book build has the h1 list in its output list, and a link at that path stops the build before it writes outside
+
+### __tests__/storytime-print-practice-rule.test.ts (1 failing cases)
+- Storytime print practice rules (fix 4) > R-P6-F4: each line of each practice text has one rule across the full width of the practice text box (Chrome, Andika loaded)
+
+### __tests__/storytime-print-r6v2-fixes.test.ts (5 failing cases)
+- X2: the ten picture in the compiled student book (P9-A4) > X2: every box of the row l2-w06-check-row-ten in weeks 6 and 8 loads ten.jpg and no box loads the line art
+- X5: the dashed rules of the student book CSS (P9-A6) > X5: .picture-box is solid and the dashed rules are exactly .map-place, .perforation, and .fold-line
+- X6: the printed tick width (P9-A7) > X6: the tick is 2px solid, 5 mm long, offset -0.25mm, and prints at least 0.45 mm by the whole-pixel rule
+- X7: the nose clip (P9-A8) > X7a: exactly the two nose picture boxes carry data-edge-ink=clip
+- X7: the nose clip (P9-A8) > X7b: the page CSS holds the one clip rule
+
+### __tests__/storytime-print-reader-howto.test.ts (17 failing cases)
+- A-47 the how-to "How to make a student book" > R-A47-1 the fixture agrees with the real sides of readers.ts (the data the diagrams read)
+- A-47 the how-to "How to make a student book" > R-A47-2 the steps are cut, fold, staple, in that order, and each has a diagram
+- A-47 the how-to "How to make a student book" > R-A47-3 the cut diagram and the fold diagram use the profile size: 198 x 297 after the cut, the fold at 148.5, the 12 mm strip
+- A-47 the how-to "How to make a student book" > R-A47-4 the page numbers and their turns in the diagrams equal the imposition of readers.ts
+- A-47 the how-to "How to make a student book" > R-A47-5 the diagrams follow the profile, not a retyped size
+- A-47 the how-to "How to make a student book" > R-A47-6 mutants: a back page turned, the pages of a front swapped, or page 12 turned again, fail the imposition check
+- A-47 the how-to "How to make a student book" > R-A47-7 there are 2 staples, both on the fold at the top of the closed reader
+- A-47 the how-to "How to make a student book" > R-A47-8 every English line has a Thai line before it, and every Thai line holds Thai
+- A-47 the how-to "How to make a student book" > R-A47-9 the copy names "Storytime Advantage" only: no CEFR level, no other brand, no year
+- A-47 the how-to "How to make a student book" > R-A47-10 two A4 portrait sheets, black and white, with the Sarabun and Andika print faces
+- A-47 the how-to "How to make a student book" > R-A47-12 the fold line is the only dashed line, and each fold line says "fold" at both ends
+- A-47 the how-to "How to make a student book" > R-A47-13 page 12 is the back cover: it prints upright, and the fold model reads it when the reader is turned over
+- A-47 the how-to "How to make a student book" > R-A47-14 each tick of step 1 is large and thick: at least 10 mm long and 1 mm thick on the sheet
+- <thai line removed>
+- A-47 the how-to "How to make a student book" > R-A47-16 the frames follow the v13 leaf: page 1 has its own frame, pages 2, 11, and 12 have none, and no rectangle runs around two pages
+- A-47 the how-to "How to make a student book" > R-A47-17 the leaf mark has the place and the orientation of the v13 leaf: 2 mm from the top, centered over the leaf, upright, not turned with a page
+- A-47 the how-to "How to make a student book" > R-A47-11 the leaf mark in the cut diagram is the mark of the real leaf
+
+### __tests__/storytime-print-reader-ink.test.ts (4 failing cases)
+- Storytime print reader leaves: only the fold line is dashed (fix 6) > R-P6-F6a: the 12 reader sides of the student book have a dashed fold line only, solid frames, tick-only tear-outs with the scissors label, and fold labels; the 2 home sides keep the dashed cut line
+- Storytime print reader leaves: only the fold line is dashed (fix 6) > R-P6-F6b: the 12 reader sides of the readers workbook build keep the same rules
+- Storytime print reader leaves: only the fold line is dashed (fix 6) > R-P6-F6c: the picture frames are solid 0.3 mm lines in the student book and the workbook, and print 0.3 mm in the A3 reader (CSS 0.15 mm at scale 2.0)
+- Storytime print reader leaves: only the fold line is dashed (fix 6) > R-P6-F6d: a dashed picture frame and a full-height perforation line are each caught (mutants on a copy)
+
+### __tests__/storytime-print-readers-adversarial.test.ts (2 failing cases)
+- Storytime picture CLI and reader preflight: adversarial cases > ADV-P4-A3-PREFLIGHT the final color A3 build stops on a missing color file, and no output folder is made
+- Storytime picture CLI and reader preflight: adversarial cases > ADV-P4-PICTURE-FILES lists the line-art names for the workbook and the color names for the A3 pages, for one reader or both
+
+### __tests__/storytime-print-readers.test.ts (31 failing cases)
+- Storytime readers: shipped week 1, P15 default > R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default)
+- Storytime readers: shipped week 1, P15 default > R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04)
+- Storytime readers: shipped week 1, P15 default > R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1)
+- Storytime readers: shipped week 1, P15 default > R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1)
+- Storytime readers: shipped week 1, P15 default > R-P4-2 imposes each reader on 3 leaves, the two readers of a week on 6 leaves, 2 upright or turned pages on each side (spec FR-5.1)
+- Storytime readers: shipped week 1, P15 default > R-P4-2e folds and nests the 3 leaves of a reader as paper does and reads 1 to 12 at the top fold, every page upright (spec FR-5.1, Daniel 2026-11-04)
+- Storytime readers: shipped week 1, P15 default > R-P4-2b prints a dashed fold line and no cut line, strip, or strip mark (spec FR-5.1)
+- Storytime readers: shipped week 1, P15 default > R-P4-2c marks each leaf side with the reader title and the leaf number 1 to 3, and perforates each side 12 mm from the spine (spec FR-5.1, P2 defaults)
+- Storytime readers: shipped week 1, P15 default > R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1)
+- Storytime readers: shipped week 1, P15 default > R-P4-3 preserves story text, decodable sounds, back words, and reader cover copy
+- Storytime readers: shipped week 1, P15 default > R-P4-4 makes two 12-page color A3 outputs and exposes proof placeholders
+- Storytime readers: shipped week 1, P15 default > R-P4-4a scales each color A3 reader page to 2.0 (396 × 297 mm) on an A3 landscape page, centered, with 12 mm of white at the left and the right (spec FR-5.8)
+- Storytime readers: shipped week 1, P15 default > R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8)
+- Storytime readers: shipped week 1, P15 default > R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8)
+- Storytime readers: shipped week 1, P15 default > R-P4-5 final mode rejects a missing image by picture id and proof mode keeps a placeholder
+- Storytime readers: shipped week 1, P15 default > R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry
+- Storytime two-output picture check > R-P8-F20 checks requested week 2 card rows after the book rows
+- Storytime two-output picture check > R-P8-F32a checks all 31 requested card rows without requesting book rows
+- Storytime two-output picture check > R-P8-F32b fails the missing requested week 1 card row
+- Storytime two-output picture check > R-P8-F32c checks a missing card row beside the complete week 1 book delivery
+- Storytime two-output picture check > R-P8-F40 prints the skip line for card rows in a book-only week 1 batch
+- Storytime two-output picture check > R-P8-F45 reports requested-row totals in card-only and book-only batches
+- Storytime two-output picture check > R-P8-F36 prints a clean error when duplicate words break the card list
+- Storytime two-output picture check > R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id
+- Storytime readers: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02) > R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output
+- Storytime readers: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02) > R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder
+- Storytime readers: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02) > R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder
+- Storytime readers: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02) > R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion
+- Storytime readers: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B) > R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output
+- Storytime readers: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B) > R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file
+- Storytime readers: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B) > R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path
+
+### __tests__/storytime-print-review-more.test.ts (13 failing cases)
+- RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-count: the compiled student book has 140 pages, a multiple of 4, and no end padding
+- RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-order: after page 131 the week 8 page kinds are review, review, review-more, review, review-more, review, review-more, review, review-more
+- RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-stable: the reader sides keep the pages of P9-A9 and the pages 1 to 131 keep their kind and number
+- RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-data: days 2 to 5 hold paperMore with 4 pairs, a pictureOrder with no fixed point, and a read entry
+- RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-pictures: each picture row of a page is in the list, comes from a week of its day, and passes the SHA-256 check
+- RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-decodable: each of the 5 texts of a page has 0 untaught words at the week of its reader
+- RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-no-position: a review-more page asks no position mark and no sound label
+- RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-steps: line 5 of B1, C1, D1, and E1 names the page after it, and the step map rows carry pageEnd
+- RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-no-picture: the print list keeps the rows it has, and no review page adds a row
+- RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-fit: a review-more page holds 4 match rows, 1 read row, and a score strip of __ / 4, and they fit the page
+- P9-C: the review-more dots and the answer key rows (D-P9C-1 and D-P9C-2) > P9C-dot: the sentence dot of every match row stands 2 mm or less after the right edge of its text
+- P9-C: the review-more dots and the answer key rows (D-P9C-1 and D-P9C-2) > P9C-gap: the gap between the sentence dot and the picture dot of every match row is 40 mm or more, and the picture dot stays at the left edge of its box
+- P9-C: the review-more dots and the answer key rows (D-P9C-1 and D-P9C-2) > P9C-key: the answer key gives every pair as "<text> = the picture in row <k>", and no line says "picture <N>"
+
+### __tests__/storytime-print-step-system.test.ts (43 failing cases)
+- A-48: the per-letter stroke data (E01 to E10) > S-weeks: the table holds the letter of each of the 7 teaching weeks, in order
+- A-48: the trace words (E11 to E14) > W-layout: every trace text of the 7 weeks lays out, with one dot for each word that starts with a letter
+- A-48: the step map, the badge, and the icons (B section 5) > M-icons: each icon is a black line SVG with no color, no transparency, and no gradient, 10 to 12 mm wide
+- A-48: the step map, the badge, and the icons (B section 5) > M-badge: the step badge is a grey box of 8 pt, and the new look uses only black, white, and grey (PRINT_GATE)
+- A-48: the step map, the badge, and the icons (B section 5) > M-key: page 1 carries the icon key: 6 icons with their Thai words, and the day letters A to E
+- A-48: the page templates of week 1 > P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word
+- A-48: the page templates of week 2 > P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word
+- A-48: the page templates of week 3 > P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word
+- A-48: the page templates of week 4 > P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word
+- A-48: the page templates of week 5 > P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word
+- A-48: the page templates of week 6 > P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word
+- A-48: the page templates of week 7 > P-sound: three framed step blocks, each with a badge and an icon; 6 formation cells; numbered lines; one card for each tricky word
+- A-48: the page templates of week 1 > P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace
+- A-48: the page templates of week 2 > P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace
+- A-48: the page templates of week 3 > P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace
+- A-48: the page templates of week 4 > P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace
+- A-48: the page templates of week 5 > P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace
+- A-48: the page templates of week 6 > P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace
+- A-48: the page templates of week 7 > P-write: two framed blocks, C3 with letter boxes, sound boxes, and the trace sentence, and D4 with the frame trace
+- A-48: the page templates of week 1 > P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip
+- A-48: the page templates of week 2 > P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip
+- A-48: the page templates of week 3 > P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip
+- A-48: the page templates of week 4 > P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip
+- A-48: the page templates of week 5 > P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip
+- A-48: the page templates of week 6 > P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip
+- A-48: the page templates of week 7 > P-check: numbered rows, an icon and one line for each row type, sound boxes for the word, no printed answer, and a score strip
+- A-48: the page templates of week 1 > P-chrome: the week header and the page number sit on the sound, write, and check pages
+- A-48: the page templates of week 2 > P-chrome: the week header and the page number sit on the sound, write, and check pages
+- A-48: the page templates of week 3 > P-chrome: the week header and the page number sit on the sound, write, and check pages
+- A-48: the page templates of week 4 > P-chrome: the week header and the page number sit on the sound, write, and check pages
+- A-48: the page templates of week 5 > P-chrome: the week header and the page number sit on the sound, write, and check pages
+- A-48: the page templates of week 6 > P-chrome: the week header and the page number sit on the sound, write, and check pages
+- A-48: the page templates of week 7 > P-chrome: the week header and the page number sit on the sound, write, and check pages
+- A-48: the page chrome and the shared look > C-pages: the page number is at the bottom right; the reader leaves carry no page number and no week header
+- A-48: the page chrome and the shared look > C-hostile: a hostile trace text and a hostile dictation word add no element and print only as text
+- A-48: the dictated word rule (C3 row 2) > T-weeks: the order table equals the letter of each week, and the C3 script of each week matches the rule
+- A-48: week 1 data (E17, E18) > D-w01: the practice line "and" moves to the tricky-word row, and line 2 shows the nest and the net
+- A-48: week 1 data (E17, E18) > D-checks: the text check accepts the A7 word "and" in the tricky-word row, and still fails a word that neither holds
+- A-48: week 1 data (E17, E18) > D-extra: an extra picture word that is not a word of its line fails the text check
+- A-48: Chrome draws the letters and the trace words where the vector model says > X-parity: the grey model letters and the trace lines match the Andika outline within 0.5 mm
+- A-48: Chrome draws the letters and the trace words where the vector model says > X-rule: the baseline of a trace word lies on its rule line in the PDF (A-48 F1, within 0.5 mm)
+- A-48: Chrome draws the letters and the trace words where the vector model says > X-fit: the 2 benchmark pages and the 5 review pages of week 8 print on 7 pages, and the circle words carry no drawn oval (A-48 U4)
+- A-48: Chrome draws the letters and the trace words where the vector model says > X-fit-write: each of the 7 write pages prints on one page (A-48 F4)
+
+### __tests__/storytime-print-student-book-adversarial-r2.test.ts (6 failing cases)
+- Adversarial guards r2: the strict QR rule of the Phase 2 student workbook > R2: stops the build when the song path holds an encoded attack
+- Adversarial guards r2: the strict QR rule of the Phase 2 student workbook > R2: stops the build when the read-along path holds a non-ASCII digit
+- Adversarial guards r2: the strict QR rule of the Phase 2 student workbook > R2: stops the build when the song path holds an empty part
+- Adversarial guards r2: the strict QR rule of the Phase 2 student workbook > R2: prints the exact address of a good non-shipped path
+- Adversarial guards r2: the strict QR rule of the Phase 2 student workbook > R2: prints one code when the read-along path is absent
+- Adversarial guards r2: the strict QR rule of the Phase 2 student workbook > R2: prints no code and still renders when both paths are absent
+
+### __tests__/storytime-print-student-book-adversarial.test.ts (18 failing cases)
+- Adversarial guards: the Phase 2 student workbook of week 1 > A1: keeps hostile week text out of the markup
+- Adversarial guards: the Phase 2 student workbook of week 1 > A1: prints hostile week text as literal text
+- Adversarial guards: the Phase 2 student workbook of week 1 > A1: keeps a hostile start point inside its attribute
+- Adversarial guards: the Phase 2 student workbook of week 1 > A1: keeps hostile Thai text as text and creates no element
+- Adversarial guards: the Phase 2 student workbook of week 1 > A1: catches a broken copy that injects the raw payload
+- Adversarial guards: the Phase 2 student workbook of week 1 > A1: prints the canonical S23 address for both codes of the home front
+- Adversarial guards: the Phase 2 student workbook of week 1 > A1: stops the build when the QR query is hostile
+- Adversarial guards: the Phase 2 student workbook of week 1 > A1: stops the build when the QR path is "https://evil.example/th/st/2/1"
+- Adversarial guards: the Phase 2 student workbook of week 1 > A1: stops the build when the QR path is "//evil.example/th/st/2/1"
+- Adversarial guards: the Phase 2 student workbook of week 1 > A2: never prints the answer of a check row
+- Adversarial guards: the Phase 2 student workbook of week 1 > A2: carries no answer element anywhere in the book
+- Adversarial guards: the Phase 2 student workbook of week 1 > A2: marks only the tear-out sides with a perforation
+- Adversarial guards: the Phase 2 student workbook of week 1 > A2: names the reader and the leaf number on every leaf mark, on all 12 reader sides (spec FR-5.1)
+- Adversarial guards: the Phase 2 student workbook of week 1 > A2: gives each reader the leaves 1, 2, and 3 over six sides, and no strip (spec FR-5.1)
+- Adversarial guards: the Phase 2 student workbook of week 1 > A2: fills each reader side with the R32 reader pages in two landscape halves and keeps both marks (spec FR-5.1)
+- Adversarial guards: the Phase 2 student workbook of week 1 > A2: prints the two QR codes on the home front and none on the back
+- Adversarial guards: the Phase 2 student workbook of week 1 > A2: keeps the blank aligner side empty
+- Adversarial guards: the Phase 2 student workbook of week 1 > A2: names only the line-art picture file in any attribute
+
+### __tests__/storytime-print-student-book.test.ts (47 failing cases)
+- Storytime student workbook: the shipped week 1 > R22: prints the page order and a left-page spread
+- Storytime student workbook: the shipped week 1 > R22: prints the week 1 student book as 20 A4 sides: 7 inside pages, 1 aligner, and 12 reader sides (spec FR-3)
+- Storytime student workbook: the shipped week 1 > R22: uses the P11 default title and the eight book-map places
+- Storytime student workbook: the shipped week 1 > R23: draws n with the top start dot, arrows, three trace copies, and one write space
+- Storytime student workbook: the shipped week 1 > R24: prints the two practice lines and their picture ids in data order
+- Storytime student workbook: the shipped week 1 > R25: prints the dictation, Hello, I am, the name line, and the picture box
+- Storytime student workbook: the shipped week 1 > R26: prints three unmarked check rows, nine picture ids, and one empty write-letter box
+- Storytime student workbook: the shipped week 1 > R27: prints the Thai home front, the sound, net nut nose, the frame, and the activity
+- Storytime student workbook: the shipped week 1 > R27: gives the two real QR generators the S23 song and read-along inputs (P4)
+- Storytime student workbook: the shipped week 1 > R27: prints the English home back and all 15 sung lines, not the lyric sheet
+- Storytime student workbook: the shipped week 1 > R35: keeps the QR deploy mark in proof mode and excludes it from final mode
+- Storytime student workbook: the shipped week 1 > R28: excludes the four forbidden labels and every CJK character from the HTML
+- Storytime student workbook: the shipped week 1 > R28: keeps Thai only on the home card, the week header, and the icon key, and keeps each Thai run unbroken
+- Storytime student workbook: the shipped week 1 > R28: selects the line-art file for every picture, including a proof placeholder
+- Storytime student workbook: the shipped week 1 > R29: loads only static Andika and Sarabun font faces with their OFL files
+- Storytime student workbook: the shipped week 1 > R34: uses valid CSS format hints for every font face
+- Storytime student workbook: the shipped week 1 > R30: renders the same week at 210 x 297 mm from one profile constant
+- Storytime student workbook: the shipped week 1 > R30: renders the same week at 210 x 285 mm from one profile constant
+- Storytime student workbook: the shipped week 1 > R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count
+- Storytime student workbook: the shipped week 1 > R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+- Storytime student workbook: the shipped week 1 > R43: rejects unsafe QR paths and keeps the shipped inputs on the checked URL contract
+- Storytime student workbook: the shipped week 1 > R44: final mode requires and selects line art, not the color file
+- Storytime student workbook: the shipped week 1 > R48: accepts the shipped song and read-along page paths of every level 2 week
+- Storytime student workbook: the shipped week 1 > R36: matches both printed PDF/X QR matrices to their labeled song and book addresses
+- Storytime student workbook: the shipped week 1 > R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch
+- Storytime student workbook: the shipped week 1 > R32: puts each reader and home perforation 12 mm from the parity-dependent spine (P2 default)
+- Storytime student workbook: the shipped week 1 > R32: registers the 12 reader sides as 6 duplex leaves of 2 landscape 198 x 148.5 mm pages each, in the spec imposition (spec FR-3, FR-5.1)
+- Storytime student workbook: the shipped week 1 > R32: prints 6 reader leaves for each teaching week, 3 for each reader, each with a front and a back, each side perforated 12 mm from the spine (spec FR-3, P2 defaults)
+- Storytime student workbook: the shipped week 1 > R32: prints a dashed fold line and a small leaf mark on each reader side, and no cut line or strip (spec FR-5.1)
+- Storytime student workbook: the shipped week 1 > R32: each leaf mark of the student book lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1)
+- Storytime student workbook: the shipped week 1 > R32: fails on a wrong imposition, a missing fold line, a wrong mark, a front page not turned, a back page turned, the old 90 degree turn, a portrait page, and a 99 x 140 mm page (mutants on a copy; spec FR-5.1)
+- Storytime student workbook: the shipped week 1 > R-P4-10: fills the twelve student-book reader sides with the R32 leaves and reader pages
+- Storytime student workbook: the shipped week 1 > R33: rejects a removed home leaf on a temporary HTML copy
+- Storytime student workbook: the shipped week 1 > R33: rejects an answer mark on a temporary HTML copy
+- Storytime student workbook: the shipped week 1 > R33: rejects a right-page spread on a temporary HTML copy
+- Storytime student workbook: the shipped week 1 > R38: gives every trace item a start dot (D2)
+- Storytime student workbook: the shipped week 1 > R38: prints each trace item in a K 20-40% gray, never solid black (D2)
+- Storytime student workbook: the shipped week 1 > R38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+- Storytime student workbook: the shipped week 1 > R38: prints a black start dot on each letter copy (D2)
+- Storytime student workbook: the shipped week 1 > R39: leaves the dictation letter lines empty write-in lines (D3)
+- Storytime student workbook: the shipped week 1 > R40: mirrors the horizontal fold line with the leaf parity and prints it across the middle of the leaf (D4, spec FR-5.1)
+- Storytime student workbook: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02) > R-P4-30 prints the line art of a redone row from the folder manifest and never the color file
+- Storytime student workbook: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02) > R-P4-31b final mode without manifest.json stops and names manifest.json and the folder
+- Storytime student workbook: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02) > R-P4-32b final mode with a line-art file that differs from the manifest SHA-256 stops and names the row id
+- Storytime student workbook: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02) > R-P4-33b final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion
+- Storytime student workbook: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B) > R-P4-40 a hostile folder prefix adds no attribute and no element, and a prefix with #, ?, %, a quote, or a space decodes to the resolved file
+- Storytime student workbook: the img source of a final picture is an encoded file URL (Red 4i, finding B-P4-1 of Review B) > R-P4-42 guard: a plain prefix and no prefix keep the file URL of the resolved path
+
+### __tests__/storytime-print-teacher-book-adversarial.test.ts (2 failing cases)
+- Storytime teacher-book adversarial: the CLI stops bad input before Chrome > passes a week gap through week validation and stops at the missing drafts
+- Storytime teacher-book adversarial: the CLI stops bad input before Chrome > stops at a missing draft with exit 1 before the folder is made
+
+### __tests__/storytime-print-teacher-book.test.ts (3 failing cases)
+- Storytime teacher-book print: Thai week 1 > renders each shipped week 1 step id and all four Thai teaching-note headings
+- Storytime teacher-book print: Thai week 1 > B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside
+- Storytime teacher-book print: Thai week 1 > B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside
+
+### __tests__/storytime-print-v15.test.ts (22 failing cases)
+- v15 E2/E23/B05: Nan Can Nod says "Listen and read." > E2-workbook: the leaf sides of Nan Can Nod print "Listen and read." with ear and read, not "Sound it out."
+- v15 E2/E23/B05: Nan Can Nod says "Listen and read." > E2-a3: the A3 color output of Nan Can Nod (cover included) prints "Listen and read."
+- v15 E2/E23/B05: Nan Can Nod says "Listen and read." > E2-qr: the QR label of Nan Can Nod stays "Listen to the book"
+- v15 E2/E23/B05: Nan Can Nod says "Listen and read." > E2-others: each decodable of weeks 2 to 7 still prints "Sound it out."
+- v15 E2/E23/B05: Nan Can Nod says "Listen and read." > E2-page4: the week 1 practice page A7 block says "Listen and read" with ear and read; weeks 2 to 7 say "Read it"
+- v15 F3: the week 8 teacher key names only the pictures that print > F3-key-en: for each review day and sound, the key names the target pictures that the student page prints in that row
+- v15 F3: the week 8 teacher key names only the pictures that print > F3-key-th: for each review day and sound, the key names the target pictures that the student page prints in that row
+- v15 F1/E50: each home-card page carries its page number > F1-numbers: the 14 home-card pages print their own page number; the book stays at 140 pages
+- v15 G6/B14: the check page has a read-the-word row and an oral-blend row > G6-schema: print.checkRows is an optional strict object of two non-empty strings
+- v15 G6/B14: the check page has a read-the-word row and an oral-blend row > G6-data: weeks 1 to 7 carry print.checkRows with the decided tricky and blend words
+- v15 G6/B14: the check page has a read-the-word row and an oral-blend row > G6-page: each check page adds the 2 rows after the items, with teacher ticks, and the score strip counts them
+- v15 G6/B14: the check page has a read-the-word row and an oral-blend row > G6-build-tricky: the build throws when the tricky word is not in focus.trickyWords
+- v15 G6/B14: the check page has a read-the-word row and an oral-blend row > G6-build-blend: the build throws when the blend word is not a word of the A4 blend drill
+- v15 G6/B14: the check page has a read-the-word row and an oral-blend row > G6-build-control: a valid checkRows copy of week 3 compiles
+- v15 G6/B14: the check page has a read-the-word row and an oral-blend row > G6-e5-en: step E5 has the Row lines of the 2 rows; the en and th notes keep equal line counts
+- v15 G6/B14: the check page has a read-the-word row and an oral-blend row > G6-e5-th: step E5 has the Row lines of the 2 rows; the en and th notes keep equal line counts
+- v15 G6/B14: the check page has a read-the-word row and an oral-blend row > G6-text-check: the print text check passes on weeks 1 to 7 and fails without the read-word Row line
+- v15 E46: the pronunciation note stays in the line, not in the activity > E46-none: no home.activity.th of weeks 1 to 7 holds the note
+- v15 E46: the pronunciation note stays in the line, not in the activity > E46-w02: the w02 activity is the exact decided Thai text
+- v15 E46: the pronunciation note stays in the line, not in the activity > E46-line: home.line.th of weeks 1 to 7 is the same as at the base commit
+- v15 E48: the lyric sheet is the text of song.lines > E48-text: the sheet lines, without tags and empty lines, equal song.lines exactly and in order
+- v15 E48: the lyric sheet is the text of song.lines > E48-tags: the [tag] lines of each sheet are the same as at the base commit
+
+### __tests__/storytime-print-weeks-2-8.test.ts (4 failing cases)
+- Storytime student book, weeks 1 to 8 > R-P7-1 compiles every teaching week and week 8 review pages in order
+- Storytime student book, weeks 1 to 8 > R-P7-2 renders all week 8 circle-picture rows, picture sorts, and seven empty letter boxes
+- Storytime student book, weeks 1 to 8 > R-P7-3 tests each week 2 to 7 reader plan and text across six A5 leaves
+- Storytime student book, weeks 1 to 8 > R-P7-5 uses placeholders only for named pending rows and still rejects an unnamed missing picture
+
+## The root cause of every failure
+
+The run names the unrecognized key 642 times.
+
+```
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "source"
+    ],
+    "path": [
+      "approval",
+      "print"
+    ],
+    "message": "Unrecognized key: \"source\""
+  }
+]
+```
+
+The print approval part of `StorytimeWeekSchema` is strict and holds no `source` key.
+
+## The summary of the run
+
+× U1-E49: the formation words of all 7 weeks start with "Start at the dot.", on the data and on the page, and the print check of each week passes 3ms
+× H1-word: the Start at the top line is a word change 0ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 948 ⎯⎯⎯⎯⎯⎯
+FAIL  __tests__/storytime-print-a48-step2.test.ts > A-48 U1: the sound pages (E49) > U1-E49: the formation words of all 7 weeks start with "Start at the dot.", on the data and on the page, and the print check of each week passes
+FAIL  __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-word: the Start at the top line is a word change
+Test Files  59 failed | 14 passed (73)
+Tests  948 failed | 870 passed (1818)
+Start at  06:03:17
+Duration  168.44s (transform 2.01s, setup 2.46s, import 7.67s, tests 140.06s, environment 12.02s)
+
+## The commands of the probe
+
+```
+python3 /tmp/opencode/p9d/apply-record.py        # the D-P9D-1 record into approval.print of w01 to w08
+bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1'
+```
+
+The exit code of the vitest command: 1.
+
+The record that the probe wrote (the `approval.print` block of each week file):
+
+```
+    "print": {
+      "status": "approved",
+      "date": "2026-11-16",
+      "words": "\"The book seems fine.\" (2026-11-05); \"Pass\" (2026-11-16, release proof r6-v4)",   (week 1)
+      "words": "Pass",                                                                                 (weeks 2 to 8)
+      "source": "Google Tasks, 2026-11-16 05:40 ICT, PM relay (proof r6-v4, MANIFEST 9388dd6d7e7dc05cd70b705b0c5d4e0658c2ea410127e67b6b29eff37a664ec5)"
+    },
+```
+
+## The restore of the week files
+
+```
+git checkout -- content/storytime/l2/w01.json content/storytime/l2/w02.json content/storytime/l2/w03.json content/storytime/l2/w04.json content/storytime/l2/w05.json content/storytime/l2/w06.json content/storytime/l2/w07.json content/storytime/l2/w08.json
+git status --porcelain content/
+```
+
+The output of `git status --porcelain content/` after the restore: empty. The content tree is clean.

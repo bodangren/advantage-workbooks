@@ -1,0 +1,105 @@
+# p9d-red-probe2: the changed test files with the record of D-P9D-1 applied to the 8 week files
+
+## The failing test files and the failing case names
+
+### __tests__/storytime-print-contract-v2.test.ts (25 failing cases)
+- Storytime print v2: line-art names of the picture list (R11) > gives every row the line-art name of FR-2.3 and FR-9
+- Storytime print v2: line-art names of the picture list (R11) > keeps the 195 color names and the 195 line-art names distinct across weeks 1 to 8
+- Storytime print v2: line-art names of the picture list (R11) > keeps colliding page slugs distinct, or throws with both ids (F13)
+- Storytime print v2: the FR-9 v1 pixel spec (R12) > gives every row the pixel size of its class, with the shipped counts by use
+- Storytime print v2: the picture-word rule (R13) > fails print-picture-word with "net" as the picture word of the "n n n" line
+- Storytime print v2: the picture-word rule (R13) > fails print-picture-word with "Net" as the picture word of the "n n n" line
+- Storytime print v2: the picture-word rule (R13) > fails print-picture-word with "zebra" as the picture word of the "n n n" line
+- Storytime print v2: the picture-word rule (R13) > allows a picture word on its own line (the rule is not over-broad)
+- Storytime print v2: the picture-word rule (R13) > passes the shipped week 1 after the F1 fix (pictureWord "nut")
+- Storytime print v2: the picture-word rule (R13) > wires the error into checkStorytimeWeek and the published gate
+- Storytime print v2: the P14 approval records (R14) > preserves source and words on each app part as parsed values (F9)
+- Storytime print v2: the P14 approval records (R14) > P9D: the print approval part keeps the source of the release proof record (D-P9D-1)
+- Storytime print v2: the P14 approval records (R14) > week 1 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 2 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 3 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 4 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 5 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 6 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 7 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 8 records the thai approval with its pinned source line
+- Storytime print v2: the P14 approval records (R14) > week 1 records the text and scripts approvals (decision S29)
+- Storytime print v2: the P14 approval records (R14) > records the week 1 audio and song approvals of 2026-11-04, the print approvals of the release proof r6-v4 (Daniel, 2026-11-16), and keeps the other approval parts and media draft
+- Storytime print v2: the P14 approval records (R14) > the published gate of st2/1 passes when its audio and song are approved (Daniel, 2026-11-04)
+- Storytime print v2: the P14 approval records (R14) > the published gate of a st2/1 copy names exactly the one app part that is draft, and the print and loops parts stay out
+- Storytime print v2: the readable list drift guard (R10b) > keeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 7"
+
+### __tests__/storytime-print-f3-script-order.test.ts (11 failing cases)
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 1: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 2: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 3: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 4: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 5: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 6: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 7: the D4 rows and the D4 script name the same items in one order
+- F3: the D4 teacher script follows the page (P9-B6) > F3-order week 8: the week has no D4 step and the book has no writing page for it
+- F3: the D4 teacher script follows the page (P9-B6) > F3-th-shape: each th array of the D4 step has the length of its en array
+- F3: the D4 teacher script follows the page (P9-B6) > F3-scope: only the four English keys of the D4 step and their th twins differ from the Red baseline
+- F3: the D4 teacher script follows the page (P9-B6) > F3-mutants: the old order, a Thai line moved alone, and a change outside the keys each fail
+
+## The root cause of every failure
+
+The run names the unrecognized key 18 times.
+
+```
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "source"
+    ],
+    "path": [
+      "approval",
+      "print"
+    ],
+    "message": "Unrecognized key: \"source\""
+  }
+]
+```
+
+The print approval part of `StorytimeWeekSchema` is strict and holds no `source` key.
+
+## The summary of the run
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 36 ⎯⎯⎯⎯⎯⎯⎯
+Test Files  2 failed (2)
+Tests  36 failed | 1 passed (37)
+Start at  06:10:26
+Duration  935ms (transform 254ms, setup 73ms, import 431ms, tests 190ms, environment 0ms)
+
+## The commands of the gate
+
+```
+python3 /tmp/opencode/p9d/apply-record.py
+bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-contract-v2.test.ts __tests__/storytime-print-f3-script-order.test.ts --maxWorkers=1'
+```
+
+The exit code of the vitest command: 1.
+
+## The finding of this gate
+
+The record of D-P9D-1 carries a `source` key. The print approval part of `StorytimeWeekSchema`
+(`dashboard/lib/storytime/schema.ts`, `StorytimePrintApprovalSchema`) is strict and holds
+`status`, `date`, and `words` only. The part rejects the `source` key, so the week files with the
+record do not parse, and every case that reads a shipped week fails with the ZodError of that key.
+
+The gate therefore does not pass. The fix is production code: the print approval part must accept
+a `source`, like the six app approval parts. The Red role writes no production code.
+
+The F3 scope compare needs no further change: the `print` key of the approval block is now in the
+skip list, so no scope problem appears. The F3 scope case fails with the ZodError of the schema,
+not with a scope message.
+
+## The restore of the week files
+
+```
+git checkout -- content/storytime/l2/w01.json content/storytime/l2/w02.json content/storytime/l2/w03.json content/storytime/l2/w04.json content/storytime/l2/w05.json content/storytime/l2/w06.json content/storytime/l2/w07.json content/storytime/l2/w08.json
+git status --porcelain content/
+```
+
+The output of `git status --porcelain content/` after the restore: empty. The content tree is clean.
