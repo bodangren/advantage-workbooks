@@ -1,0 +1,18 @@
+# P9-C proof r6-v4, track storytime_print_r1_20261025, 2026-11-16
+# maker model: opencode-go/deepseek-v4.1-flash; role base bf5d24dd; the P9-C code fix 6fe7a270; Red 274f7e55
+# the reader pages of v20 against v19 (p9c_pages.py, 100 dpi), and the lead page delta
+reader pages compared: 84 (v19 pages 9-20, 27-38, ..., 117-128 against v20)
+reader pages that differ: 0
+lead pages compared: 2
+lead pages that differ: 1
+lead deltas: [(1, 8), (2, 0)]
+RESULT: PAGES DIFFER
+
+<stdin>:6: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+lead page 1, fresh lead build against the r6-v3 fold test page 1 (100 dpi):
+page size: 827x1170 px
+differing pixels: 90 of 967590 (0.009301%)
+bbox of the difference: (151, 115, 167, 136)
+max grey delta: 8
+the extracted text of the r6-v3 lead page gives 'ip on long edge'; the new build gives 'flip on long edge' (the fl ligature map).
+lead page 2 differing pixels: 0

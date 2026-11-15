@@ -1,0 +1,25 @@
+# P9-C proof r6-v4, track storytime_print_r1_20261025, 2026-11-16
+# maker model: opencode-go/deepseek-v4.1-flash; role base bf5d24dd; the P9-C code fix 6fe7a270; Red 274f7e55
+# the fold test v20: lead build, pdfseparate + pdfunite of the 84 v20 reader sides, PDF/X conversion, text and page compares
+# lead build: bash heavy-run.sh -c 'make-fold-test-lead-pdf.ts --out /tmp/opencode/p9c-fold/lead.pdf'
+done  /tmp/opencode/p9c-fold/lead.pdf (2 pages)
+
+# PDF/X conversion: make-pdfx.ts /tmp/opencode/p9c-fold/fold-raw.pdf --out .../fold-pdfx.pdf --k-only
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh: line 1198: warning: command substitution: ignored null byte in input
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh: line 1198: warning: command substitution: ignored null byte in input
+Pre-converting to DeviceGray (K-only) ...
+Converting 86 pages with Ghostscript (fonts kept, K-only) ...
+Done in 7 s.
+../../../../../tmp/opencode/p9c-fold/fold-pdfx.pdf: 86 pages, 20.1 MB, PDF 1.3, PDF/X-1a:2001, 212 font(s)
+All checks pass.
+
+# text compares (p9c_text.py)
+v20 fold test pages 3-86 (84 pages) vs v19 fold test pages 3-86: different pages: 0
+v20 fold test pages 3-86 (84 pages) vs the 84 reader pages of v20: different pages: 0
+v20 pages 1-133 (133 pages) vs v19 pages 1-133: different pages: 0
+v20 pages 134-140 (7 pages) vs v19 pages 134-140: different pages: 0
+
+# page images (p9c_foldpix.py, 100 dpi): the 84 reader pages of the v20 fold test against the v19 fold test
+fold-test reader pages compared: 84 (pages 3-86)
+fold-test reader pages that differ: 0
+RESULT: 0 differing pages

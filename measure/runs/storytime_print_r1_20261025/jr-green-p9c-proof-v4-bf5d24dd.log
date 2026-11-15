@@ -1,0 +1,136 @@
+# jr-green P9-C proof r6-v4 (final log, 2026-11-16)
+
+Track: storytime_print_r1_20261025, Phase 9, task "Proof r6-v4". The handoff named line 1434;
+the task stands on plan line 1436 (line 1434 holds the Green task). Spec: "Addendum 2026-11-16:
+the P9-C fix batch (audit of r6-v3)" (spec.md line 739), decisions D-P9C-1 to D-P9C-4.
+Role: measure-jr-green (proof build maker). Model: opencode-go/deepseek-v4.1-flash.
+role_base_sha: bf5d24ddbf034d964650fec0cfe058a090e46bc6 (HEAD at the start).
+phase base of the batch: the Red commit 274f7e55 (plan line 1432). Code fix: 6fe7a270
+(2 files: `dashboard/lib/storytime/print/student-book.ts` and `dashboard/lib/storytime/manual.ts`;
+4 insertions, 4 deletions).
+
+## The Thai rule
+
+First command: the Thai line counts.
+- measure/tracks/storytime_print_r1_20261025/plan.md: 12 Thai lines
+- measure/tracks/storytime_print_r1_20261025/spec.md: 0 Thai lines
+Every later read of those files went through a filter that replaces each Thai line with
+"<thai line removed>". No image and no PDF page was opened or viewed. Every command output went
+through a Thai filter. Each capture, the note, and the MANIFEST hold 0 Thai characters.
+
+## Work tree
+
+HEAD bf5d24dd. One modified file, not mine and not touched:
+`video/storytime-song/scripts/render.mjs`. All other entries are untracked captures of other
+roles. This role staged no file of them.
+
+## The build (each command in one heavy-run wrapper)
+
+1. The 8 Thai drafts (`make-manual-pdf.ts --lang th --loops --share --book-pages`): 8 exit codes 0;
+   pages 27, 30, 30, 30, 30, 29, 30, 25 (`p9c-proof-drafts.txt`).
+2. The teacher book TH-v5 (`make-teacher-book-print.ts --version 5 --loops --share`): exit 0,
+   224 pages, PDF/X-1a:2001. The text gate prints 0 differences for each of the 8 weeks
+   (`p9c-proof-teacher.txt`).
+3. The student book v20 (`make-student-book-pdf.ts --final --version 20`): exit 0, 140 pages,
+   21.4 MB, PDF/X-1a:2001, 5 fonts (`p9c-proof-student.txt`).
+4. The 2 r6 covers: byte copies of `proof-books-r6-v3`; `cmp` equal for both (`p9c-proof-copy.txt`).
+5. `cast/`: 7 byte copies of `proof-books-r6-v3/cast`; `cmp` equal for 7 of 7; `ls ... | wc -l`
+   prints 7 (`p9c-proof-copy.txt`).
+6. The fold test: the lead build (2 pages), `pdfseparate` + `pdfunite` of the 84 v20 reader sides,
+   then `make-pdfx.ts --k-only` (86 pages, A4, PDF 1.3, PDF/X-1a:2001, "All checks pass.").
+   A byte copy of the r6-v3 file was not used: the lead page 1 differs (see the decisions below),
+   so the file is built from v20 (`p9c-proof-fold.txt`).
+7. The contact sheets: 48 sheets (1, 18, 1, 28), `RESULT: ALL OK` (`p9c-proof-contact.txt`).
+
+## The gates and their exit codes
+
+- `PRINT_GATE` (`make-pdfx.ts <file> --check`): EXIT=0 for each of the 5 print files, "All checks
+  pass.", A4 594.96 x 841.92 pts, pages 140, 2, 224, 2, 86 (`p9c-proof-gate.txt`).
+- The teacher text gate: 0 differences for each of the 8 weeks (`p9c-proof-teacher.txt`).
+- `sha256sum -c MANIFEST.txt`: exit 0, 72 of 72 OK. MANIFEST SHA-256
+  `ea59dbd91246bb7c625928c4442cc4e086195a481025d2cedff95821fea555c0`, 159 lines (14 header lines,
+  72 file lines, the "# sizes" marker, 72 size lines) (`p9c-proof-manifest.txt`).
+- The tree hash of the folders under `~/Desktop/print-ready/storytime/`: 40 before, 40 common
+  after, 1 new folder (`proof-books-r6-v4`), `diff lines: 0` (`p9c-proof-tree.txt`).
+- `ls .../proof-books-r6-v4/cast | wc -l` prints 7.
+
+## The extra proofs of this batch
+
+- The student text of pages 1 to 133 equals v19: 0 different pages. Pages 134 to 140 against v19:
+  0 different pages (the G4 fix moves dots, which are graphics, so the text is equal; the count is
+  reported as the task asks) (`p9c-proof-fold.txt`).
+- The 84 reader pages of v20 against v19 at 100 dpi: 0 differing pages (`p9c-proof-pages.txt`).
+- The fold test's 84 reader pages against the v19 fold test at 100 dpi: 0 differing pages
+  (`p9c-proof-fold.txt`). Its text of pages 3 to 86 equals the v19 fold test (0) and the 84 reader
+  pages of v20 (0).
+- The teacher pages: TH-v5 against TH-v4 differs on 1 page only, page 220 (the G2 key). TH-v4
+  against TH-v3 differs on 24 pages, and the 13 LP-08/LP-20 pages of D-P9C-3 (a) are among them
+  (13 of 13). All 13 keep their number in TH-v5 (`p9c-proof-teacher-pages.txt`).
+
+## The decision on the fold test (a byte copy or a build)
+
+The r6-v3 fold test holds a different lead page: its page 1 extracts as "ip on long edge", and a
+fresh lead build extracts as "flip on long edge" (the fl ligature has no ToUnicode map in the older
+file). The two rasters differ in 90 pixels at 100 dpi, at most 8 grey levels, inside one 16 x 21 px
+box (`p9c-proof-pages.txt`). So the byte copy of the r6-v3 fold test was not used. The file is
+built from the v20 book. This is not a defect of the print: both files print "flip".
+
+## The folder
+
+`~/Desktop/print-ready/storytime/proof-books-r6-v4/` (new; 73 files).
+- `student/Storytime-Advantage-L2-U1-Student-Book-v20_PDFX-1a.pdf`, 140 pages,
+  `32f60813f379e96a7f100d3dcf3a0b801c9c1c77ea1e6e3cd026edd86d754237`.
+- `student/...Student-Book-Cover-v4-alt-hlogo-r6_PDFX-1a.pdf`, 2 pages, byte copy of r6-v3.
+- `teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-v5_PDFX-1a.pdf`, 224 pages,
+  `dc6a3d4a955143bf35be9aea82b1c6e04940f205a9c7d0fb22c5ee390dce7942`.
+- `teacher/...Teachers-Book-TH-Cover-v2-alt-hlogo-r6_PDFX-1a.pdf`, 2 pages, byte copy of r6-v3.
+- `fold-test/Storytime-Advantage-L2-U1-readers-fold-test-v20.pdf`, 86 pages,
+  `c632250047ccfef42fa427289c7741993c738903a222376e28d449183ebd0c85`.
+- 8 drafts, 48 contact sheets, 7 cast files, `p9c-proof-note.md`, `MANIFEST.txt`, and the teacher
+  text-gate reports.
+
+## The note
+
+`p9c-proof-note.md` (English, 155 lines, 0 Thai characters): the files with pages and SHA-256, the
+source commit, the change against r6-v3, the pages to open, the two lists of D-P9C-3 (the 13
+teacher pages and the 7 app packages), the P9-C fixes, the open minors with their owners, the cast
+sheet rule, the open questions, and the deviations. It records "Contact sheet look: pending".
+
+## D-P9C-3 facts used in the note
+
+- (a) The 13 teacher pages of the LP-08/LP-20 commit `10a3de6e`: 46, 51, 75, 80, 104, 109, 133,
+  138, 161, 166, 190, 193, 195. All 13 differ from TH-v3 and keep their number in TH-v5.
+- (b) The 7 app packages: `w01-storytime-app-package-r6` and `w02` to `w07` as
+  `-storytime-app-package-r5`, built on 2026-11-16 from `e8549b2e`, in `~/Desktop/handoff/`.
+- (c) G4 in `6fe7a270` (the sentence dot 1.50 mm after its text, gap 74.44 to 91.37 mm on pages
+  134, 136, 138, 140) and G2 in `6fe7a270` (the key "= the picture in row k", teacher page 220).
+- (d) The open minors of the r6-v3 audit for Daniel: A6, B3, D1, D2, D5, F3, G1, G3, and the ff
+  text layer, each with the where and the owner of the audit table.
+
+## The scratch
+
+`/tmp/opencode/p9c-proof/` and `/tmp/opencode/p9c-fold/`: scratch removed (2026-11-16, after the
+MANIFEST and the tree check).
+
+## Commits
+
+1. The captures `p9c-proof-*.txt` and this log: this commit. The plan sub-bullet of line 1436
+   names its SHA.
+2. The plan evidence sub-bullet under line 1436, with the folder, the page counts, the gates, the
+   MANIFEST SHA-256, and "contact sheet look: pending (orchestrator)": the next commit.
+
+No push. The task line stays `[ ]`: the orchestrator looks at the contact sheets of student pages
+129 to 140 first.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green (proof build maker), model opencode-go/deepseek-v4.1-flash
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 9: Release proof and print order
+commits: the capture and log commit holds this file (SHA in the plan sub-bullet of line 1436); the plan evidence commit follows
+tests_run: PRINT_GATE on 5 print files exit 0 for each; teacher text gate 0 differences for each of the 8 weeks; student text pages 1-133 vs v19 0 different pages, pages 134-140 0 different pages; 84 reader pages of v20 vs v19 0 differing page images; the v20 fold test pages 3-86 text-equal to the v19 fold test (0) and its 84 reader pages pixel-equal (0); sha256sum -c 72 of 72 OK (exit 0); tree diff lines 0; cast count 7
+files_changed: new folder ~/Desktop/print-ready/storytime/proof-books-r6-v4/ (73 files); captures p9c-proof-{drafts,student,teacher,gate,fold,pages,contact,copy,teacher-pages,manifest,tree}.txt; this log; the plan sub-bullet of line 1436
+plan_updates: the evidence sub-bullet under line 1436 (the task stays [ ] until the orchestrator records the contact sheet look)
+known_failures: none. Deviations: the fold test is built from v20 and converted to PDF/X-1a --k-only (the r6-v3 lead page differs in 90 pixels at most 8 grey levels, so no byte copy); the drafts need --book-pages. Open minors recorded in the note: A6, B3, D1, D2, D5, F3, G1, G3, and the ff text layer
+handoff: the orchestrator looks at contact-sheets/student-book/sheet-129-136.png and sheet-137-140.png (student pages 129-140) and at contact-sheets/teacher-book/sheet-217-224.png (the G2 key, teacher page 220); then the task line can go [x], and the code tests on the r6-v4 proof task follows (the QR run on the v20 file)
+END_MEASURE_AGENT_RESULT

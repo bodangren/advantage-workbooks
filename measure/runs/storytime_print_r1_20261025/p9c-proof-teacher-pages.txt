@@ -1,0 +1,8 @@
+# P9-C proof r6-v4, track storytime_print_r1_20261025, 2026-11-16
+# maker model: opencode-go/deepseek-v4.1-flash; role base bf5d24dd; the P9-C code fix 6fe7a270; Red 274f7e55
+# the teacher pages that differ between TH-v3, TH-v4, and TH-v5 (p9c_teacher.py: per-page text compare; numbers only)
+pages: v3 224, v4 224, v5 224
+TH-v5 vs TH-v4: different pages: 1 [220]
+TH-v4 vs TH-v3: different pages: 24 [46, 50, 51, 75, 79, 80, 104, 108, 109, 133, 137, 138, 161, 165, 166, 190, 193, 194, 195, 207, 210, 213, 216, 220]
+the 13 LP-08/LP-20 pages differ v4 from v3: 13 of 13
+the 13 pages are equal in v5 and v4: 13 of 13
