@@ -760,10 +760,16 @@ Daniel passed the release proof r6-v4 on 2026-11-16 at 05:40 ICT (Google Tasks, 
 Daniel's "Pass" of 2026-11-16 05:40 ICT makes r6-v4 the release proof. The PM called the record "approval.proof". The schema and the plan name it `approval.print`, so the record goes into `approval.print` of `content/storytime/l2/w01.json` to `w08.json`:
 
 ```json
-{"status": "approved", "date": "2026-11-16", "words": "Pass", "source": "Google Tasks, 2026-11-16 05:40 ICT, PM relay (proof r6-v4, MANIFEST 9388dd6d7e7dc05cd70b705b0c5d4e0658c2ea410127e67b6b29eff37a664ec5)"}
+{"status": "approved", "date": "2026-11-16", "words": "Pass"}
 ```
 
-Week 1 holds an older `approval.print` (2026-11-05, "The book seems fine."). The new object replaces it. Its `words` keep the old words first: `"The book seems fine." (2026-11-05); "Pass" (2026-11-16, release proof r6-v4)`. Its `source` joins the old source and the new source with "; ".
+The record has no source key. `StorytimePrintApprovalSchema` (`dashboard/lib/storytime/schema.ts`) is strict: it holds `status`, `date`, and `words` only. The week files go to Monorepo through the pin, so a new key in a print approval part can break its parser too. Decision: no schema change.
+
+Week 1 holds an older `approval.print` (2026-11-05, "The book seems fine."). The new object replaces it. Its `words` keep both answers: `"The book seems fine." (2026-11-05); "Pass" (2026-11-16, release proof r6-v4)`.
+
+The source (Google Tasks, 2026-11-16 05:40 ICT, PM relay, proof r6-v4, MANIFEST 9388dd6d7e7dc05cd70b705b0c5d4e0658c2ea410127e67b6b29eff37a664ec5) stays in the plan evidence of the Owner gate task. This also closes F2: the old week 1 print approval had no source.
+
+Amended 2026-11-16 (orchestrator): no source key; StorytimePrintApprovalSchema is strict (Red finding F1 of task 3b).
 
 The record changes only `approval.print`. Tests of other tracks pin `approval` values (lesson of 2026-11-16). So a Red role first updates every test that pins `approval.print`. It finds them with a full `PROJECT_TESTS` run on a scratch copy of the record, or with a `grep` for `approval.print` and the "print" approval pins. Then the Green record commit runs the full `PROJECT_TESTS`.
 
