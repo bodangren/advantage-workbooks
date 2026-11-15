@@ -1,0 +1,174 @@
+Code tests on the r6-v4 proof
+
+Track: storytime_print_r1_20261025
+Phase: P9
+Task: Task (Code tests on the r6-v4 proof)
+HEAD: 744ae4dae68e5541e4ab5a8febd211e49d634099
+phase_base_sha: 566657c0b136c303dfb354ffee1faa441d9f7d3d
+role_base_sha: 744ae4dae68e5541e4ab5a8febd211e49d634099
+Proof PDF: /home/daniebo/Desktop/print-ready/storytime/proof-books-r6-v4/student/Storytime-Advantage-L2-U1-Student-Book-v20_PDFX-1a.pdf
+Proof SHA-256: 32f60813f379e96a7f100d3dcf3a0b801c9c1c77ea1e6e3cd026edd86d754237
+Proof pages: 140
+
+CODE_TESTS
+Command: cd dashboard && CI=true npx vitest run __tests__/storytime-print-a48-part3a.test.ts __tests__/storytime-print-step-system.test.ts __tests__/storytime-print-a48-part2.test.ts __tests__/storytime-print-a48-step2.test.ts __tests__/storytime-print-dictation-case.test.ts __tests__/storytime-print-h1-classes.test.ts __tests__/storytime-week.test.ts __tests__/storytime-package-sound-stages.test.ts __tests__/storytime-print-c2-start-table.test.ts __tests__/storytime-print-review-more.test.ts --maxWorkers=1
+The command of print-audit-code-tests.md names 8 test files. The P9-B batch added the C2 start table file, and the P9-C batch added the review-more file, so the run adds __tests__/storytime-print-c2-start-table.test.ts (6 cases) and __tests__/storytime-print-review-more.test.ts (13 cases). The row C2 names the first file, as the plan task asks.
+numTotalTests: 288
+numFailedTests: 0
+Per test file:
+- storytime-print-a48-part3a.test.ts: 16 passed, 0 failed
+- storytime-print-step-system.test.ts: 57 passed, 0 failed
+- storytime-print-a48-part2.test.ts: 27 passed, 0 failed
+- storytime-print-a48-step2.test.ts: 39 passed, 0 failed
+- storytime-print-dictation-case.test.ts: 2 passed, 0 failed
+- storytime-print-h1-classes.test.ts: 32 passed, 0 failed
+- storytime-week.test.ts: 44 passed, 0 failed
+- storytime-package-sound-stages.test.ts: 52 passed, 0 failed
+- storytime-print-c2-start-table.test.ts: 6 passed, 0 failed
+- storytime-print-review-more.test.ts: 13 passed, 0 failed
+
+CODE_TEST_LIVE
+Command: cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2
+- Summary: 8 package(s), 0 failed check(s), 1 warning(s).
+- The warning is the print-missing check of st2/8, the review week, which has no print block.
+- sound-stage-mix for st2/1 through st2/8: passed
+- sound-stage-day1 for st2/1 through st2/8: passed
+- sound-stage-plan for st2/1 through st2/8: passed
+
+CODE_TEST_QR
+Command: cd dashboard && npx tsx scripts/storytime/check-qr.ts /home/daniebo/Desktop/print-ready/storytime/proof-books-r6-v4/student/Storytime-Advantage-L2-U1-Student-Book-v20_PDFX-1a.pdf --level 2 --out measure/runs/storytime_print_r1_20261025/p9c-codetests-v4-qr-report.txt
+- Decoded codes: 28
+- Expected codes: 28
+- Matching codes: 28
+- Mismatches: 0
+- Reader codes: 14 (one on each of the 14 reader pages).
+- Home-card codes: 14 (two on each of the 7 home-card front pages: the song code and the read-along code).
+- The review pages of week 8 hold no code. The report lists 28 rows, all PASS.
+
+Rows
+C1
+- S-words-n: passed
+- S-words-a: passed
+- S-words-p: passed
+- S-words-m: passed
+- S-words-s: passed
+- S-words-t: passed
+- S-words-o: passed
+- S-words-mutants: passed
+- S-all: passed
+- S-weeks: passed
+C2
+- C2-keys: passed
+- C2-taught: passed
+- C2-ink: passed
+- C2-book: passed
+- C2-all-letters: passed
+- C2-mutants: passed
+- D-all: passed
+- D-letters: passed
+- D-mutants: passed
+- W-layout: passed
+C3
+- S-words-n: passed
+- S-words-a: passed
+- S-words-p: passed
+- S-words-m: passed
+- S-words-s: passed
+- S-words-t: passed
+- S-words-o: passed
+- S-words-mutants: passed
+- S-a-up: passed
+C4
+- S-all: passed
+- D-letters: passed
+E2
+- counts decodable, tricky, name, and untaught words (design §5.6): passed
+- fails a decodable under 90 percent or with an untaught word, lists names, allows the week 1 sound book, and warns with no level: passed
+E3
+- T-rule: passed
+- P-write: passed
+- K-taught: passed
+- accepts a capitalised dictated word that C3 says: passed
+- rejects a dictated word that C3 does not say: passed
+E6
+- gives a pass for a week that asks one position in each activity: passed
+- gives the exact detail for two mixed activities: passed
+- gives a pass for the three rows of every shipped week of Level 2: passed
+- sound-stage-mix for st2/1 through st2/8: passed
+E7
+- gives the untaught sound of a week-3 fixture: passed
+- gives a pass for a week-3 fixture with an earlier sound and the first position: passed
+- gives a pass for the three rows of every shipped week of Level 2: passed
+- sound-stage-day1 for st2/1 through st2/8: passed
+F6
+- U9-file: passed
+- U9-book: passed
+- U8-pages: passed
+- U4-map: passed
+- U6-pages: passed
+H1
+- H1-classes: passed
+- H1-minutes: passed
+- H1-minutes-down: passed
+- H1-badge: passed
+- H1-badge-tricky: passed
+- H1-page: passed
+- H1-page-wrong: passed
+- H1-loop: passed
+- H1-loop-labels: passed
+- H1-d3: passed
+- H1-word: passed
+- H1-other: passed
+- H1-reflow: passed
+- H1-removed: passed
+- H1-format: passed
+- H1-roundtrip: passed
+- H1-parse: passed
+- H1-sum: passed
+- H1-section: passed
+- H1-markdown: passed
+- H1r2-block-added: passed
+- H1r2-block-d6: passed
+- H1r2-block-removed: passed
+- H1r2-recall: passed
+- H1r2-recall-first: passed
+- H1r2-wrapped: passed
+- H1r2-pair-recall: passed
+- H1r2-pair-song: passed
+- H1r2-pair-wrapped: passed
+- H1r2-edit: passed
+- H1-script: passed
+- H1-build: passed
+- reports no text difference for identical layout text: not in CODE_TESTS
+I1
+- Q-roundtrip: passed
+- Q-mutant: passed
+- Q-two: passed
+- Q-compare: passed
+- Q-expected: passed
+- proof PDF decode: 28 of 28 passed, 0 mismatches
+
+Note, not one of the 11 rows: storytime-print-review-more.test.ts (the P9-C cases of the review-more pages)
+- RM-count: passed
+- RM-order: passed
+- RM-stable: passed
+- RM-data: passed
+- RM-pictures: passed
+- RM-decodable: passed
+- RM-no-position: passed
+- RM-steps: passed
+- RM-no-picture: passed
+- RM-fit: passed
+- P9C-dot: passed
+- P9C-gap: passed
+- P9C-key: passed
+
+Capture names: tests, live, qr, tests-summary, qr-report
+
+Deviations
+- The CODE_TESTS command of print-audit-code-tests.md names 8 test files. The run adds the C2 start table file of the P9-B batch and the review-more file of the P9-C batch. The plan task asks the row C2 to name the first file, and the second file holds the P9-C cases of the review-more pages, which no row of the 11 names.
+- The QR tool leaves an empty note column with trailing tabs. Only those trailing tabs are removed from the two committed QR captures. No other byte of the tool output changes.
+
+CODE_TESTS exit: 0
+CODE_TEST_LIVE exit: 0
+CODE_TEST_QR exit: 0

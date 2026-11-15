@@ -1,0 +1,133 @@
+CODE_TESTS JSON summary
+numTotalTests: 288
+numFailedTests: 0
+
+Per test file
+storytime-print-a48-part3a.test.ts | passed=16 failed=0
+storytime-print-step-system.test.ts | passed=57 failed=0
+storytime-print-a48-part2.test.ts | passed=27 failed=0
+storytime-print-a48-step2.test.ts | passed=39 failed=0
+storytime-print-dictation-case.test.ts | passed=2 failed=0
+storytime-print-h1-classes.test.ts | passed=32 failed=0
+storytime-week.test.ts | passed=44 failed=0
+storytime-package-sound-stages.test.ts | passed=52 failed=0
+storytime-print-c2-start-table.test.ts | passed=6 failed=0
+storytime-print-review-more.test.ts | passed=13 failed=0
+
+Rows
+C1
+  passed | S-words-n
+  passed | S-words-a
+  passed | S-words-p
+  passed | S-words-m
+  passed | S-words-s
+  passed | S-words-t
+  passed | S-words-o
+  passed | S-words-mutants
+  passed | S-all
+  passed | S-weeks
+C2
+  passed | C2-keys
+  passed | C2-taught
+  passed | C2-ink
+  passed | C2-book
+  passed | C2-all-letters
+  passed | C2-mutants
+  passed | D-all
+  passed | D-letters
+  passed | D-mutants
+  passed | W-layout
+C3
+  passed | S-words-n
+  passed | S-words-a
+  passed | S-words-p
+  passed | S-words-m
+  passed | S-words-s
+  passed | S-words-t
+  passed | S-words-o
+  passed | S-words-mutants
+  passed | S-a-up
+C4
+  passed | S-all
+  passed | D-letters
+E2
+  passed | counts decodable, tricky, name, and untaught words (design §5.6)
+  passed | fails a decodable under 90 percent or with an untaught word, lists names, allows the week 1 sound book, and warns with no level
+E3
+  passed | T-rule
+  passed | P-write
+  passed | K-taught
+  passed | accepts a capitalised dictated word that C3 says
+  passed | rejects a dictated word that C3 does not say
+E6
+  passed | gives a pass for a week that asks one position in each activity
+  passed | gives the exact detail for two mixed activities
+  passed | gives a pass for the three rows of every shipped week of Level 2
+  passed | sound-stage-mix for st2/1 through st2/8: passed
+E7
+  passed | gives the untaught sound of a week-3 fixture
+  passed | gives a pass for a week-3 fixture with an earlier sound and the first position
+  passed | gives a pass for the three rows of every shipped week of Level 2
+  passed | sound-stage-day1 for st2/1 through st2/8: passed
+F6
+  passed | U9-file
+  passed | U9-book
+  passed | U8-pages
+  passed | U4-map
+  passed | U6-pages
+H1
+  passed | H1-classes
+  passed | H1-minutes
+  passed | H1-minutes-down
+  passed | H1-badge
+  passed | H1-badge-tricky
+  passed | H1-page
+  passed | H1-page-wrong
+  passed | H1-loop
+  passed | H1-loop-labels
+  passed | H1-d3
+  passed | H1-word
+  passed | H1-other
+  passed | H1-reflow
+  passed | H1-removed
+  passed | H1-format
+  passed | H1-roundtrip
+  passed | H1-parse
+  passed | H1-sum
+  passed | H1-section
+  passed | H1-markdown
+  passed | H1r2-block-added
+  passed | H1r2-block-d6
+  passed | H1r2-block-removed
+  passed | H1r2-recall
+  passed | H1r2-recall-first
+  passed | H1r2-wrapped
+  passed | H1r2-pair-recall
+  passed | H1r2-pair-song
+  passed | H1r2-pair-wrapped
+  passed | H1r2-edit
+  passed | H1-script
+  passed | H1-build
+  not in CODE_TESTS | not in CODE_TESTS
+I1
+  passed | Q-roundtrip
+  passed | Q-mutant
+  passed | Q-two
+  passed | Q-compare
+  passed | Q-expected
+  passed | proof PDF decode: 28 of 28 passed, 0 mismatches
+
+Note, not one of the 11 rows: storytime-print-review-more.test.ts
+  passed | RM-count
+  passed | RM-order
+  passed | RM-stable
+  passed | RM-data
+  passed | RM-pictures
+  passed | RM-decodable
+  passed | RM-no-position
+  passed | RM-steps
+  passed | RM-no-picture
+  passed | RM-fit
+  passed | P9C-dot
+  passed | P9C-gap
+  passed | P9C-key

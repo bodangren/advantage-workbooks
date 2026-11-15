@@ -1,0 +1,40 @@
+Report: The three fixed commands ran on the r6-v4 student book proof. The proof SHA-256 matched the value in the plan evidence of the P9-C proof task. The code tests passed 288 of 288 tests in 10 test files. The live check passed 8 packages with 0 failed checks. The QR check decoded 28 of 28 expected codes with 0 mismatches. No code, test, content, or proof file changed. The plan task now has its capture SHA and evidence line.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: done
+track: storytime_print_r1_20261025
+phase: P9
+phase_base_sha: 566657c0b136c303dfb354ffee1faa441d9f7d3d
+role_base_sha: 744ae4dae68e5541e4ab5a8febd211e49d634099
+commits:
+- capture commit: named in the result block
+- plan evidence commit: named in the result block
+gates:
+- CODE_TESTS: exit 0
+- CODE_TEST_LIVE: exit 0
+- CODE_TEST_QR: exit 0
+code_tests: 288 total, 288 passed, 0 failed
+live_checks: 8 packages, 0 failed checks, 1 warning (the print-missing check of the week 8 review week, which has no print block)
+qr_decoded: 28
+qr_expected: 28
+qr_mismatches: 0
+qr_reader_codes: 14
+qr_home_card_codes: 14
+tasks:
+- flipped to [x]: Task (Code tests on the r6-v4 proof), capture commit named in the result block
+- flipped to [b]: none
+deviations:
+- The orchestrator handoff gave role_base_sha but no phase_base_sha. The role used the parent of the Red commit of the P9-C batch (274f7e55, the review-more file) as the immutable phase base: 566657c0. The Red commit is inside 566657c0..HEAD, and the role base 744ae4da is the HEAD at the start of the role.
+- The CODE_TESTS command of print-audit-code-tests.md names 8 test files. The run adds __tests__/storytime-print-c2-start-table.test.ts (6 cases) of the P9-B batch, because the plan task asks the row C2 to name that file, and __tests__/storytime-print-review-more.test.ts (13 cases) of the P9-C batch. No row of the 11 names the second file, so the capture names it in a note under the rows.
+- The QR tool left an empty note column with trailing tabs. The role removed only those trailing tabs from the two committed QR captures. No other byte of the tool output changed.
+new_files:
+- measure/runs/storytime_print_r1_20261025/p9c-codetests-v4.txt
+- measure/runs/storytime_print_r1_20261025/p9c-codetests-v4-tests.txt
+- measure/runs/storytime_print_r1_20261025/p9c-codetests-v4-tests-summary.txt
+- measure/runs/storytime_print_r1_20261025/p9c-codetests-v4-live.txt
+- measure/runs/storytime_print_r1_20261025/p9c-codetests-v4-qr.txt
+- measure/runs/storytime_print_r1_20261025/p9c-codetests-v4-qr-report.txt
+- measure/runs/storytime_print_r1_20261025/p9c-codetests-v4-green-744ae4da.log
+handoff: The PM can run the print audit on the r6-v4 proof. The code-test capture names the test of each of the 11 rows, and every row passed. The row C2 names storytime-print-c2-start-table.test.ts. The QR report decoded 28 codes: 14 reader codes and 14 home-card codes, with 0 mismatches. The final Green HEAD is the plan evidence commit, whose SHA the result block names. The maker did not audit the build.
+END_MEASURE_AGENT_RESULT
