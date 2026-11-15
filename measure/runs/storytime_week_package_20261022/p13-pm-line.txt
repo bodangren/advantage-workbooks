@@ -1,0 +1,41 @@
+Phase 13 package hand-off (Step B, 2026-11-16) — status line for the PM
+
+Folders (7, each with MANIFEST.txt and README.txt, source Workbooks commit
+e8549b2e, base path content/storytime/):
+- ~/Desktop/handoff/w01-storytime-app-package-r6
+- ~/Desktop/handoff/w02-storytime-app-package-r5
+- ~/Desktop/handoff/w03-storytime-app-package-r5
+- ~/Desktop/handoff/w04-storytime-app-package-r5
+- ~/Desktop/handoff/w05-storytime-app-package-r5
+- ~/Desktop/handoff/w06-storytime-app-package-r5
+- ~/Desktop/handoff/w07-storytime-app-package-r5
+
+Contract change: books[].audio.sentenceClips now holds on every book of the
+week: the read-along book (index 0) and the decodable book (index 1). Before
+this revision it held on the decodable book only. Each item is
+{ sentence, file }, in the order of audio.sentences; each file value is a
+path relative to content/storytime/. The decodable book items did not change.
+
+Request to Monorepo: mediaOf lists the 72 new paths
+l2/media/w<nn>/sentences/b0-s<jj>.mp3 (8/16/8/8/8/8/16 for w01 to w07), one
+per read-along sentence clip of book 0.
+
+Key rule (spec K2): normalise the word to NFC, change U+2018 and U+2019 to
+the straight apostrophe, change it to lower case, then remove each character
+other than a-z and the apostrophe from the start and the end. The key must
+match ^[a-z]+('[a-z]+)*$. One key serves the word in each letter case.
+
+Characters (MiniMax plan quota only, no credits): read-along sentences of
+w01 to w07, one-take text 927 characters; sent 927 characters; every clip is
+take 1; the phase limit 2,800 holds. The decodable sentences and the words
+did not change (Phase 12 total: 934 characters).
+
+Listen list (the one look point): w01 l2/media/w01/sentences/b0-s02.mp3
+take 1, the heard check on the shipped mp3 heard "Hello, I am Mae." for the
+text "Hello, I am May.". No other clip has a note, a take 3, or a heard
+differs.
+
+w08: no app package of w08 exists and Phase 13 builds none (D-P13-H3; the
+w08 changes are on the print pages only). A first w08 package is a new item.
+
+Facts changed: none expected.

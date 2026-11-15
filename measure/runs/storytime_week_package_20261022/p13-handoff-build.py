@@ -22,11 +22,11 @@ import subprocess
 import sys
 
 REPO = "/home/daniebo/Desktop/Workbooks"
-SRC = "6d9ab699766fde74f7c68a08c281615eff5f1f9b"
+SRC = "e8549b2e49cb7a29afdb11fd5b11d342273901fb"
 HANDOFF = os.path.expanduser("~/Desktop/handoff")
 OUT = sys.argv[1] if len(sys.argv) > 1 else HANDOFF
 PENDING = len(sys.argv) > 2 and sys.argv[2] == "--pending-chars"
-DATE = "2026-11-15"
+DATE = "2026-11-16"
 SENDER = "Workbooks session, storytime week package jr-green (Phase 13)"
 EXTS = ("mp3", "wav", "m4a", "aac", "ogg", "opus", "mp4", "m4v", "webm", "mov",
         "jpg", "jpeg", "png", "webp", "gif", "svg", "pdf")
@@ -39,19 +39,26 @@ REVISION = {1: ("r6", "r5"), 2: ("r5", "r4"), 3: ("r5", "r4"),
 SONG_FILES = ("l2/media/w01/song.mp4", "l2/media/w01/song-poster.jpg",
               "l2/media/w01/song-phone.mp4",
               "l2/media/w01/song-phone-poster.jpg")
-# Read-along Characters of each week, from p13-chars.txt (M12). None until
-# the Clips task wrote p13-chars.txt; Step A builds with --pending-chars.
-READALONG_CHARS = {n: {"one_take": None, "sent": None} for n in range(1, 8)}
-READALONG_TOTAL_SENT = None
+# Read-along Characters of each week, from p13-chars.txt (M12): (one_take,
+# sent). Step B (the Clips task is done): every clip is take 1, so the
+# one-take text and the sent values are equal; the phase total is 927.
+READALONG_CHARS = {1: {"one_take": 137, "sent": 137},
+                   2: {"one_take": 166, "sent": 166},
+                   3: {"one_take": 93, "sent": 93},
+                   4: {"one_take": 142, "sent": 142},
+                   5: {"one_take": 130, "sent": 130},
+                   6: {"one_take": 132, "sent": 132},
+                   7: {"one_take": 127, "sent": 127}}
+READALONG_TOTAL_SENT = 927
 LISTEN = {
-    1: [],
-    2: ["l2/media/w02/sentences/b1-s01.mp3 take 3"],
+    1: ["l2/media/w01/sentences/b0-s02.mp3 take 1, the heard check on the "
+        "shipped mp3 heard 'Hello, I am Mae.' for the text 'Hello, I am "
+        "May.'"],
+    2: [],
     3: [],
-    4: ["l2/media/w04/sentences/b1-s08.mp3 take 3, note: heard 'Nan and Pam "
-        "Knapp' in 3 takes"],
-    5: ["l2/media/w05/sentences/b1-s08.mp3 take 1, the re-heard check on the "
-        "shipped mp3 failed (heard 'Knap')"],
-    6: ["l2/media/w06/sentences/b1-s01.mp3 take 3"],
+    4: [],
+    5: [],
+    6: [],
     7: [],
 }
 KEY_RULE = ("Key rule (spec K2): normalise the word to NFC, change U+2018 and "

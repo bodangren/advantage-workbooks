@@ -2,11 +2,12 @@
 """Nine checks on the seven Phase 13 package folders, with the Phase 13 values.
 
 Usage: p13-handoff-check.py [output-root]
-  output-root: default ~/Desktop/handoff (Step A checks a /tmp staging root).
+  output-root: default ~/Desktop/handoff (Step A checked a /tmp staging root).
 The previous revision folders are always read from ~/Desktop/handoff/.
-Every check prints the measured value; a difference names its cause (the
-Phase 14 clip copies and removals of a318b199, and the missing read-along
-clips: the Clips task runs after 2026-11-15 23:00 ICT).
+Step B (2026-11-16, source e8549b2e, the last content commit): the read-along
+clips exist, so checks 3, 5, and 6 pass at the measured Phase 13 values; the
+remaining causes name the Phase 14 clip copies and removals of a318b199 (the
+word clip counts 30/38/27/31/33/27/32, the changed paths, and the removals).
 """
 import hashlib
 import json
@@ -16,7 +17,7 @@ import subprocess
 import sys
 
 REPO = "/home/daniebo/Desktop/Workbooks"
-SRC = "6d9ab699766fde74f7c68a08c281615eff5f1f9b"
+SRC = "e8549b2e49cb7a29afdb11fd5b11d342273901fb"
 HANDOFF = os.path.expanduser("~/Desktop/handoff")
 OUT = sys.argv[1] if len(sys.argv) > 1 else HANDOFF
 CLIP_PENDING = "the Clips task runs after 2026-11-15 23:00 ICT"
@@ -34,12 +35,15 @@ REVISION = {1: ("r6", "r5"), 2: ("r5", "r4"), 3: ("r5", "r4"),
 SONG_FILES = ("l2/media/w01/song.mp4", "l2/media/w01/song-poster.jpg",
               "l2/media/w01/song-phone.mp4",
               "l2/media/w01/song-phone-poster.jpg")
-EXPECTED_CLIPS = {1: 30, 2: 36, 3: 27, 4: 31, 5: 34, 6: 27, 7: 33}
+EXPECTED_CLIPS = {1: 30, 2: 38, 3: 27, 4: 31, 5: 33, 6: 27, 7: 32}
 EXPECTED_B0 = {1: 8, 2: 16, 3: 8, 4: 8, 5: 8, 6: 8, 7: 16}
 EXPECTED_B1 = {n: 8 for n in range(1, 8)}
-EXPECTED_CHANGED = {1: 10, 2: 18, 3: 10, 4: 10, 5: 10, 6: 10, 7: 18}
-EXPECTED_OLD = {1: 8, 2: 16, 3: 8, 4: 8, 5: 8, 6: 8, 7: 16}
-EXPECTED_PAYLOAD = {1: 98, 2: 115, 3: 94, 4: 94, 5: 103, 6: 93, 7: 108}
+EXPECTED_CHANGED = {1: 10, 2: 20, 3: 14, 4: 12, 5: 11, 6: 10, 7: 19}
+EXPECTED_OLD = {1: 8, 2: 18, 3: 10, 4: 9, 5: 8, 6: 8, 7: 16}
+# Removed paths (empty new-sha256 lines) from the Phase 14 clip copies and
+# removals of a318b199: w03 2, w04 1, w05 1, w07 1; the other weeks 0.
+EXPECTED_NEW_EMPTY = {1: 0, 2: 0, 3: 2, 4: 1, 5: 1, 6: 0, 7: 1}
+EXPECTED_PAYLOAD = {1: 98, 2: 117, 3: 94, 4: 94, 5: 102, 6: 93, 7: 107}
 TMP = "/tmp/opencode/p13-pkg"
 
 
@@ -333,7 +337,8 @@ def check_folder(n):
     new_sent = set(b[0] for b in blocks if not b[1] and sent_re5.match(b[0]))
     other = sorted(set(expected) - {week_rel} - new_clips - new_sent)
     ok5 = (diff_lines == 0 and len(expected) == EXPECTED_CHANGED[n]
-           and old_empty == EXPECTED_OLD[n] and new_empty == 0)
+           and old_empty == EXPECTED_OLD[n]
+           and new_empty == EXPECTED_NEW_EMPTY[n])
     cause5 = ""
     if not ok5:
         missing = max(0, EXPECTED_CHANGED[n] - len(expected))
@@ -349,7 +354,8 @@ def check_folder(n):
     record(5, ok5,
            f"changed paths expected: {len(expected)}, listed: {len(listed)}, "
            f"diff lines: {diff_lines}; old-sha256 empty {old_empty} equals new "
-           f"paths {new_paths}; new-sha256 empty {new_empty}; other tracks "
+           f"paths {new_paths}; new-sha256 empty {new_empty} "
+           f"(removed of {P14_CAUSE} where not 0); other tracks "
            f"changed: {', '.join(other) or 'none'}" + cause5)
 
     # check 6

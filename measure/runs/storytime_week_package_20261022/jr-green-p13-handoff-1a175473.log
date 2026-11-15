@@ -1,0 +1,81 @@
+BEGIN_MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_week_package_20261022
+phase: 13, D-P13-H1 Step B (the final build), task "[~] Task (Packages and the PM line)"
+route: kimi-code-plan-cn/kimi-for-coding#high
+status: pass
+phase_base_sha: c42918df
+role_base_sha: 196dc9507666f224618da51614bea020f4b04f69
+green_head_sha: 1a175473 (plan evidence commit; the runs commit follows this log)
+source_commit: e8549b2e49cb7a29afdb11fd5b11d342273901fb (the last content commit; content/ at HEAD equals e8549b2e)
+
+Thai filter (PM rule 2026-11-09, spec L15): the first command was the plan.md
+filter (lines 585-620, 0 Thai chars). Every read of plan.md, every build and
+check run, and every capture went through a Thai-dropping filter; each capture
+prints "thai chars in output: 0".
+
+Folders built (create-only, into ~/Desktop/handoff/; no existing folder was
+overwritten or deleted; the 29 pre-existing folders are unchanged, tree diff
+0):
+- ~/Desktop/handoff/w01-storytime-app-package-r6, MANIFEST sha256 c68a4bb1f19fa384a6b31e0df269095db0ad68f57940e169e47f7e60b3d45e82
+- ~/Desktop/handoff/w02-storytime-app-package-r5, MANIFEST sha256 5f6bf75732b3d3b4d0b68e3402a08d0f0e1f447a0083fd6720ec34e3cee7c3d2
+- ~/Desktop/handoff/w03-storytime-app-package-r5, MANIFEST sha256 86852820c374e49ca3f28acdcdbe7557cf2e00da19c231cce02e86595106310a
+- ~/Desktop/handoff/w04-storytime-app-package-r5, MANIFEST sha256 7d2790704a09e56131bad032a6a113d9ea3c17feb16a8865672e035f389539a1
+- ~/Desktop/handoff/w05-storytime-app-package-r5, MANIFEST sha256 440442c39429494b3390a4f5a8c2fafc41d1de5d5e6c532e5133c7ae496a12a6
+- ~/Desktop/handoff/w06-storytime-app-package-r5, MANIFEST sha256 b2e0a8fccc56ccbd18d73884dd2e12115c1f5d6ad12de116cfa0d1bfb94b3c08
+- ~/Desktop/handoff/w07-storytime-app-package-r5, MANIFEST sha256 2857cef7dad3959722326bfdf7db4ad347f2b6f14a47799674206bd0c7c597ca
+
+Checks (capture p13-handoff.txt; the targeted command is
+`python3 measure/runs/storytime_week_package_20261022/p13-handoff-check.py`
+in one heavy-run wrapper; exit 0; one labeled line per check per folder, all
+PASS, 63 of 63, plus the payload line and the README check of AC13-13 PASS on
+each folder):
+- checks 1, 2, 4, 7, 8, 9: pass on each folder (manifest/payload equality,
+  week file cmp with git show e8549b2e, changed-since header, source-commit
+  header and ancestor check, safe paths, every media string and each word map
+  and sentenceClips value present as a file).
+- check 3: pass on each folder; every word clip equals git show of the media
+  path and the bank, every b1 and b0 sentence clip equals git show, the
+  sentence manifest cmp holds, the w01 song files equal the r5 MANIFEST.
+- check 5: pass; changed paths expected equals listed with diff lines 0 on
+  each folder; measured 10, 20, 14, 12, 11, 10, 19 (spec M11 10, 18, 10, 10,
+  10, 10, 18 plus the Phase 14 clip copies and removals of a318b199); empty
+  old-sha256 lines 8, 18, 10, 9, 8, 8, 16 (the new paths); empty new-sha256
+  lines 0, 0, 2, 1, 1, 0, 1 (the removals of a318b199); each line names the
+  paths another track changed after the previous folder.
+- check 6: pass; word clip lines 30, 38, 27, 31, 33, 27, 32 (spec M11
+  30, 36, 27, 31, 34, 27, 33; w02 +2, w05 -1, w07 -1 of a318b199), b0 lines
+  8, 16, 8, 8, 8, 8, 16 (72 in all), b1 lines 8 each (56 in all).
+- payload files without MANIFEST and README: 98, 117, 94, 94, 102, 93, 107
+  (spec M11 98, 115, 94, 94, 103, 93, 108; the differences are the a318b199
+  word clip nets +2, -1, -1).
+Tree diff: p13-handoff-tree-before.txt vs p13-handoff-tree-after.txt,
+changed folders 0, diff lines 0; the only new folders are the 7 above.
+
+Script changes from Step A (commit 8ccb247), each recorded in the plan
+evidence: p13-handoff-build.py (SRC e8549b2e, DATE 2026-11-16, the Phase 13
+listen list, the p13-chars.txt character values); p13-handoff-check.py (SRC
+e8549b2e, the measured Phase 13 expectations, the Step B cause text).
+p13-handoff-tree.py is unchanged.
+
+PM line: written to p13-pm-line.txt (spec M13: the 7 folder paths, e8549b2e,
+the contract change in words, the request that Monorepo mediaOf lists the 72
+new paths b0-s<jj>.mp3, the K2 key rule, the character totals, the listen
+list, w08 with no app package per D-P13-H3, "Facts changed: none expected").
+The orchestrator sends it; the PM confirmation is not part of this commit.
+
+Tasks: the Review A task line is [x] (round 2 pass, F1 Nit accepted). The
+Packages task line is [~]: every Done-when item holds except the PM
+confirmation of the folders, which the orchestrator records later. No [b]
+items.
+
+New files in this commit: p13-handoff-build.txt, p13-handoff.txt,
+p13-handoff-tree-before.txt, p13-handoff-tree-after.txt,
+p13-handoff-tree-diff.txt, p13-pm-line.txt, jr-green-p13-handoff-1a175473.log,
+review-a-p13-r2-196dc950.json, review-a-p13-r2-196dc950.log,
+p13-ra2-thai-filter.py. The scratch folder p13-ra2-fixture/ was removed, not
+committed. The /tmp scratch folder /tmp/opencode/p13-stepb was removed; the
+last capture of this session prints "scratch removed".
+handoff: see the fields above; the orchestrator sends the PM line and records
+the PM confirmation, then flips the Packages task line to [x].
+END_MEASURE_AGENT_RESULT

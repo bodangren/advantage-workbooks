@@ -1,0 +1,77 @@
+Review A round 2, Phase 13 content (storytime_week_package), role measure-review-a-correctness
+Route: kimi-code-plan-cn/kimi-for-coding#high. Round 1 was at 234883a3 (findings F1-F4, closed: F1-F3 fixed in Red retry R2 1ecc2646, F4 accepted).
+
+Thai filter (PM rule 2026-11-09, spec L15): the first command was the plan filter on plan.md
+lines 520-620 (0 Thai chars in output). Every subsequent read of a capture, log, diff, or test
+output went through measure/runs/storytime_week_package_20261022/p13-ra2-thai-filter.py, which
+replaces a line holding a character from U+0E00 to U+0E7F with '<thai line removed>' and prints
+'thai chars in output: 0' on stderr. No week file, manifest, or the practice-clips test file was
+printed raw. The filter script stays in the runs folder as the evidence of the masking pipeline.
+
+Provenance: HEAD is 196dc9507666f224618da51614bea020f4b04f69 (git rev-parse), the audited head.
+Scope audited: c42918df..e8549b2e (the 7 content commits and their capture commits), plus the
+commits to HEAD (8a065306, 684cab4a, 640035c0, e0171ef2, 3a7ede22, 196dc950) and the in-range
+Phase 14 commits (9f168a4e, 4c317383, a318b199, 5cd01553, c623685a, 6f7b2e4b, 8931c2fe,
+7d38654c) only to confirm they change no Phase 13 code or clip.
+
+Checks and results (each command result is in the JSON evidence list):
+1. Scope of the 7 content commits: git show --name-only gives exactly each week's b0-s*.mp3,
+   sentences/manifest.json, and w0<n>.json (10/18/10/10/10/10/18 files), matching the scope
+   captures (outside: 0).
+2. AC13-4: no b1-* mp3 changed in c42918df..e8549b2e; fa47ca23 == c42918df for the manifests
+   (empty diff), so the proof's comparison base equals phase_base; the w01.json diff adds only
+   the sentenceClips array to book 0's audio (35 insertions, 1 deletion).
+3. M2 paths: the 72 clips follow l2/media/w0<n>/sentences/b0-s<jj>.mp3, 8/16/8/8/8/8/16 per week;
+   AC13-3 verified each week-file entry against the manifest text and the on-disk SHA-256
+   (books ok 14, bad 0, items 128); the F7 closure holds (checkSentenceClips never reads a
+   read-along book; the readalong row passes on st2/1-7, no row on st2/8).
+4. M6 log lines: my parse shows each capture's call-line chars sum equals its sent: line
+   (137/166/93/142/130/132/127), the running sent column is cumulative, made: equals the call
+   count, phase sum 927, all take 1, no kept and no failed line.
+5. p13-chars.txt: log sum 927 == provenance sum 927 == one-take sum 927, difference 0, take
+   values [1], under the 2,800 phase limit; p13-chars.py computes the exact quantity
+   (sum of len(text) * take over book-0 items).
+6. Cut probe rerun (one heavy-run wrapper, real book audio at HEAD): reproduced the committed
+   proof exactly - clips: 72, cuts: 0, highest max-ncc 0.342, positive controls: 7, true: 7,
+   scratch removed: true. The script's NCC is bounded to [-1,1] by normalisation with
+   sqrt(clip energy * window energy); the positive control (a re-encoded 1.5 s book window must
+   lookLikeCut) guards against a blind probe.
+7. Heard check: 72 lines, 71 ok, 1 differs (w01 b0-s02, 'Mae' for 'May'); matches the listen
+   list and the log; no take 3, no notes.
+8. L8 grep at HEAD on the 4 Phase 13 code files: only the week read, the take WAV read, output
+   existence checks, the allowed provenance parse, and the skip-rule hash of the clip; no book
+   mp3, no clip cache, no audio.file hit; the 4 files have no commit after 993d9642.
+9. Gates at HEAD: GREEN_TEST_COMMAND 9 files / 559 tests, exit 0; PROJECT_CHECKS exit 0. Both
+   match the per-commit captures.
+10. PROJECT_TESTS part-1 failure: 8 cases, all the R14 'records the thai approval' pins of
+    storytime-print-contract-v2.test.ts; the pre-existing capture shows the same 8 failures at
+    role base 5cd01553; e0171ef2 fixed the pins test-only and the P14 owner Red retry R2 capture
+    shows the file passing 25/25. Parts 2-5 exit 0.
+11. A4 fixture test (the one finding): with an F9 capture that holds no st2 rows, an empty cut
+    proof, and an empty heard list, p13-ac13.py prints 'heard lines: 0' and
+    'FAIL rows other than published: []' and still exits 0. The missing deliverable does not
+    fail sections AC13-5/AC13-6. AC13-1/2/3/8 do compute real 'holds' booleans from the live
+    tree, so a missing clip cannot yield a false 'holds: True', and the committed capture's
+    values are correct and were verified against raw files. Nit only; fix by labeled assertions
+    if the script is reused.
+
+Scratch: deletion commands are denied in this role, so the A4 fixture folder
+measure/runs/storytime_week_package_20261022/p13-ra2-fixture/ (three small stub captures) stays
+and is disclosed in the JSON changed_files for the orchestrator to remove at closeout. Nothing
+outside measure/runs/storytime_week_package_20261022/ was written; content/, dashboard/lib,
+dashboard/scripts, and pnpm-lock.yaml are clean after my runs.
+
+Verdict: PASS. One Nit (probe-script robustness, no Phase 13 code, test, or content impact).
+
+MEASURE_AGENT_RESULT
+role: review-a
+status: complete
+track: storytime_week_package_20261022
+phase: Phase 13: Read-along sentence clips and the log of the makers (round 2, content)
+commits: none (report-only; review-a-p13-r2-196dc950.json and .log written, not committed)
+tests_run: GREEN_TEST_COMMAND at HEAD (9 files, 559 tests, exit 0); PROJECT_CHECKS of plan line 534 (exit 0); cut probe rerun at HEAD (clips: 72, cuts: 0, controls 7/7, exit 0); p13-ac13.py fixture run (exits 0 on empty deliverables - the F1 Nit)
+files_changed: measure/runs/storytime_week_package_20261022/review-a-p13-r2-196dc950.json; measure/runs/storytime_week_package_20261022/review-a-p13-r2-196dc950.log; measure/runs/storytime_week_package_20261022/p13-ra2-thai-filter.py; measure/runs/storytime_week_package_20261022/p13-ra2-fixture/ (3 stub captures, deletion denied - remove at closeout)
+plan_updates: none (audit-only). The Review A task line can record: round 2 verdict pass, 0 Blockers, 1 Nit (F1 of round 2: p13-ac13.py soft checks; fix route: labeled assertions if reused; no Phase 13 change).
+known_failures: none of this audit. The 8 R14 approval.thai pin failures of the Clips PROJECT_TESTS part 1 are confirmed pre-existing at role base 5cd01553 and fixed in e0171ef2 (test-only).
+handoff: Verdict PASS. Route blockers: none. The Phase 13 content evidence (927 chars, 72 clips, 1 listen-list clip w01 b0-s02 'Mae' for 'May') is fully verified; Review A round 2 is done and the Packages task can proceed. Remove p13-ra2-fixture/ at closeout (deletion was denied for this role).
+END_MEASURE_AGENT_RESULT
