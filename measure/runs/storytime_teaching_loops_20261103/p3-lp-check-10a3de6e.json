@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "track": "storytime_teaching_loops_20261103",
+  "phase": "Phase 3: Content of w01 to w08 (2026-11-07 to 2026-11-16)",
+  "role": "lp-check-checker",
+  "model": "opencode-go/deepseek-v4.1-flash",
+  "phase_base_sha": "9344d1949f4ce1c14b863e1996ca2e30b2cd4123",
+  "role_base_sha": "79cd22fccb62e8e115333c9edbfcde4ebb492832",
+  "audited_head_sha": "fe3dfefad695b3354568e56f2dcf90082d13ee2f",
+  "summary": "The maker commit 10a3de6e passes the LP check. In w02 to w07, days 4 and 5 of the recall each swap exactly 2 cards: the week's sound card and the named tricky word come in, the 2 oldest cards of the day leave, and the 3 other cards and their list positions do not move. Days 1 to 3 and every recall of w01 and w08 do not change, and every ask line (English and Thai) stays. The w07 read-along question holds the approved text and still answers page 1, word 'ball'. A path-level compare of the whole week files finds no change outside the allowed paths, and `git show --stat` names only w02 to w07 and the one test file. The 6 checks pass and the optional gate passes with 11 files and 407 tests. Two nonblocking findings remain: the new test allow-list covers whole recall arrays, and one plan claim of 7 first-run failures has no capture.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "A-LP-1 | low | dashboard/__tests__/storytime-loops-share-content.test.ts:195-202 | the LP allow-list names whole paths `scripts.3.recall.items` and `scripts.4.recall.items`, so p14Align (lines 219-225) copies the whole shipped array over the baseline array; the compare then no longer guards the 3 cards that stay on days 4 and 5 of weeks 2 to 7, nor their order. Per-index paths (`scripts.3.recall.items.<index>`) would allow the same 12 changes and keep the guard. The changed indices (0-based) are 3 and 4 of w02; 2 and 3 of w03 and w05 and of w04 day 4, w06 day 4, w07 day 4; 1 and 2 of w04 day 5; and 1 and 3 of w06 day 5 and w07 day 5.",
+    "A-LP-2 | nit | measure/tracks/storytime_teaching_loops_20261103/plan.md:262 | the plan says the first test run had 7 failures, but the plan also says that capture was overwritten; the surviving capture p3-lp-green-precommit.txt shows 1 failure (J18) and is dated after the test fix, so the count 7 has no artifact. The need for the allow-list is still provable from the data: the baseline 10d5fcfc differs from the shipped recall items of w02 days 4 and 5.",
+    "A-LP-3 | nit | measure/tracks/storytime_teaching_loops_20261103/look-points-11-16.md:28 | the reason of LP-20 cites the pattern of w03 and w06, and those two asks name page 6 while their answers name page 4 (w03 'What color is the paint on page 6?' answers page 4, green; w06 'What can you see on page 6?' answers page 4, fish). The new w07 line is self-consistent (ask page 1, answer page 1). No action for this task: LP-07 keeps w03 and w06 by the owner decision of 2026-11-15. The note goes to Daniel's 11-16 check."
+  ],
+  "evidence": [
+    "THAI FILTER: the first command loaded content/storytime/l2/w02.json to w07.json at 10a3de6e and at 10a3de6e~1 through `git show`, dropped every `th` key and every string with a character of U+0E00 to U+0E7F, and wrote 12 filtered files under /tmp/opencode/lp-check/. Output: 'thai chars in output: 0'. Every later read of a week file used a filtered copy; the plan and look-points reads replaced each line with a Thai character by '<thai line removed>' or by '<thai cell>'.",
+    "CHECK 1 (the 12 swaps against the defaults): a python walk of the filtered old and new files, days 4 and 5 of w02 to w07, reports 0 errors against the 6 rules. Each day holds 5 items. Exactly 2 positions differ. In every day the out set equals the 2 oldest cards (earliest week; on a tie, the later position), and the in set is the week sound card plus the named tricky word: w02 d4 s a, t I; w02 d5 s a, t on; w03 d4 s p, t the; w03 d5 s p, t get; w04 d4 s m, t is; w04 d5 s m, t this; w05 d4 s s, t off; w05 d5 s s, t saw; w06 d4 s t, t he; w06 d5 s t, t put; w07 d4 s o, t from; w07 d5 s o, t run. The first tricky word of focus.trickyWords comes on day 4 and the second on day 5 (all 6 weeks hold 2 or more tricky words). Each new card sits at the index of a card that left. The 3 other items are byte-equal. No day repeats a card. The new sound card carries the audio path of focus.element.audio of its week; the new tricky card carries no audio.",
+    "CHECK 1b (against the maker's per-week list): the same walk builds the string of each day (out cards in list order, then in cards in list order) and compares it with plan.md lines 254 to 259: 12 of 12 match, e.g. w07 d5 out s p (w3) and t with (w5), in s o (w7) and t run (w7), and w04 d5 out s a (w2) and t on (w2), in s m (w4) and t this (w4).",
+    "CHECK 2 (days 1 to 3 and w01, w08): the whole recall object of scripts 1 to 3 is identical in the filtered old and new files of w02 to w07 (a full JSON equality, 0 differences). `git show --stat 10a3de6e` names no w01.json and no w08.json, so their recalls cannot change in this commit.",
+    "CHECK 3 (ask lines): `ask.en` of all 5 days of w02 to w07 is unchanged (0 differences). The Thai part is checked by structure, not by reading: the path walk of the raw old and new files finds no `th` key added or removed in any week file (217 `th` keys in each version of each file), and the only `th` value that changes is /books/0/questions/1/ask/th of w07, which is the approved LP-20 line.",
+    "CHECK 4 (LP-20): w07 books[0] is 'Is It a Ball?', questions[1] has kind 'what', ask.en is 'What is on page 1? Point and say it.' (was 'What is the first thing? Point to the picture.'), and answer is page 1, word 'ball' (unchanged). The same values hold at the audited HEAD fe3dfefa.",
+    "CHECK 5 (nothing else changed): a path-level walk of the raw old and new week files reports 11 to 13 changed paths per week, and every one of them lies under /scripts/3/recall/items, /scripts/4/recall/items, or /books/0/questions/1/ask. A normalized compare of the filtered old and new JSON with those paths removed is identical for all 6 weeks. `git show --stat 10a3de6e` lists only content/storytime/l2/w02.json to w07.json and dashboard/__tests__/storytime-loops-share-content.test.ts (7 files). `git show 10a3de6e -- content/storytime/l2 | grep -c '^[-+].*\"loops\"'` prints 0. `git show --numstat` matches plan.md:262 (15 insertions, 1 deletion in the test file).",
+    "CHECK 5b (the audited HEAD): `git rev-parse HEAD` is fe3dfefad695b3354568e56f2dcf90082d13ee2f, equal to audited_head_sha, and 10a3de6e is an ancestor of it. 9 later commits touch content/storytime/l2 (the F3 order commit 6c5d5b38, the approval.thai commit 9f168a4e, and 7 clip commits); a path-level compare of 10a3de6e against HEAD finds 12 diffs per week and none of them in a recall item or in books.0.questions.1.ask, so the verified state holds at HEAD.",
+    "CHECK 5c (the test change): the diff adds LP_PATHS (lines 195 to 202) and appends it to the P9B_PATHS loop in p14Align (line 219). The added paths are exactly the documented ones, so the change does not mask a path that the plan does not name. A-LP-1 records the breadth of the array paths. The compare at line 359 aligns both sides to the shipped week, so the test asserts no new content line.",
+    "CHECK 6 (gate): one heavy-run wrapper, `cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts --maxWorkers=1`, prints 'Test Files  11 passed (11)' and 'Tests  407 passed (407)' with no FAIL line and no x line.",
+    "PLAN CLAIMS: p3-lp-green.txt shows 11 files and 407 tests, EXIT=0; p3-lp-green-precommit.txt shows 1 failed (J18, the clean-content guard) and 406 passed; p3-lp-lint.txt shows LINT_EXIT=0; p3-lp-checks.txt shows 'Summary: 8 package(s), 0 failed check(s), 8 warning(s)' and CHECKS_EXIT=0 with `loops-recall PASS  Each day has 5 recall items, all taught to date` on all 8 weeks (lines 35, 88, 139, 190, 241, 292, 343, 376). These match plan.md lines 250 and 263; the only deviation is the unrepeated 7-failure count of A-LP-2.",
+    "FRAMEWORK CHECKS: the commit changes no orchestration script, no contract test, and no registry, so the framework-wide anti-pattern set is out of scope here. A4 holds for this audit: the absence of a target line fails check 1, check 3, and check 4 by construction (each compares an exact value). A3 holds: no count assertion of this commit uses a bare-digit match; the gate counts come from the vitest 'Tests  N passed (N)' line. A5 holds: every pass claim of plan.md lines 250 to 263 matches a named capture, except the overwritten first-run count (A-LP-2)."
+  ],
+  "commands": [
+    "python3 filter of content/storytime/l2/w02.json to w07.json at 10a3de6e and 10a3de6e~1 into /tmp/opencode/lp-check/ (drop `th` keys and Thai strings), print the Thai character count: 0",
+    "python3 plan and look-points reader, replacing each Thai line or Thai cell with '<thai line removed>' / '<thai cell>'",
+    "git show --stat 10a3de6e; git show --numstat 10a3de6e",
+    "git show 10a3de6e -- content/storytime/l2 | grep -c '^[-+].*\"loops\"'  -> 0",
+    "git show 10a3de6e -- dashboard/__tests__/storytime-loops-share-content.test.ts",
+    "git rev-parse HEAD; git merge-base --is-ancestor 10a3de6e HEAD",
+    "git log --oneline 10a3de6e..HEAD -- content/storytime/l2",
+    "python3 recall walk over the filtered files: 12 swaps, 0 errors; plan list match 12 of 12",
+    "python3 path-level diff of the raw old and new week files (paths only, no values)",
+    "python3 normalized compare of the filtered files outside scripts.3.recall.items, scripts.4.recall.items, and books.0.questions.1.ask",
+    "python3 path-level diff of 10a3de6e against HEAD for the recall and the question paths",
+    "bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts --maxWorkers=1 | grep -E \"Test Files|Tests |FAIL|x\"'",
+    "read of measure/runs/storytime_teaching_loops_20261103/p3-lp-green.txt, p3-lp-green-precommit.txt, p3-lp-lint.txt, p3-lp-checks.txt",
+    "rm -rf /tmp/opencode/lp-check"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_teaching_loops_20261103/p3-lp-check-10a3de6e.json",
+    "measure/runs/storytime_teaching_loops_20261103/p3-lp-check-10a3de6e.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/deepseek-v4.1-flash",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "All 12 day swaps match the 6 defaults and plan.md:254-259 in the filtered files; the w07 ask.en and its page-1 'ball' answer are exact (check 4)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "storytime-loops-checks.test.ts:439-516 asserts 5 cards, no repeat, and a taught card, but the LP allow-list at storytime-loops-share-content.test.ts:195-202 covers whole recall arrays (A-LP-1)."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git show --stat 10a3de6e names only w02.json to w07.json plus one test file, and the path walk finds no change outside the allowed paths."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Gates and exit codes carry captures (p3-lp-green.txt 407 passed, p3-lp-checks.txt CHECKS_EXIT=0), but the 7-failure first run has no capture (A-LP-2)."
+    }
+  ]
+}
