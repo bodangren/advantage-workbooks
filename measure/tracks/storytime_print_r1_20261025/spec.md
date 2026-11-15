@@ -750,3 +750,42 @@ The print audit of `proof-books-r6-v3` (audited head 95ff1930) gives the gate ve
 | D-P9C-4 | The other 10 minors of the audit (A6, B3, D1, D2, D5, F3, G1, G3, and the ff text layer of the teacher book) do not change in this batch. They go to Daniel's proof look as open minors, with the owner of each from the audit table. F3 and G1 change Thai script lines, so they need Daniel's words before a content role changes them. |
 
 The next proof is r6-v4: student book v20 and teacher book TH-v5, with the commands of the r6-v3 task; covers, fold test, and cast are byte copies from r6-v3 when their sources do not change (prove with `cmp`).
+
+## Addendum 2026-11-16 (2): the release proof record and the printer package
+
+Daniel passed the release proof r6-v4 on 2026-11-16 at 05:40 ICT (Google Tasks, exact word "Pass", PM relay). This addendum holds the record of that answer and the printer package of the passed files. It changes no earlier decision.
+
+### D-P9D-1: the release proof record
+
+Daniel's "Pass" of 2026-11-16 05:40 ICT makes r6-v4 the release proof. The PM called the record "approval.proof". The schema and the plan name it `approval.print`, so the record goes into `approval.print` of `content/storytime/l2/w01.json` to `w08.json`:
+
+```json
+{"status": "approved", "date": "2026-11-16", "words": "Pass", "source": "Google Tasks, 2026-11-16 05:40 ICT, PM relay (proof r6-v4, MANIFEST 9388dd6d7e7dc05cd70b705b0c5d4e0658c2ea410127e67b6b29eff37a664ec5)"}
+```
+
+Week 1 holds an older `approval.print` (2026-11-05, "The book seems fine."). The new object replaces it. Its `words` keep the old words first: `"The book seems fine." (2026-11-05); "Pass" (2026-11-16, release proof r6-v4)`. Its `source` joins the old source and the new source with "; ".
+
+The record changes only `approval.print`. Tests of other tracks pin `approval` values (lesson of 2026-11-16). So a Red role first updates every test that pins `approval.print`. It finds them with a full `PROJECT_TESTS` run on a scratch copy of the record, or with a `grep` for `approval.print` and the "print" approval pins. Then the Green record commit runs the full `PROJECT_TESTS`.
+
+### D-P9D-2: the printer package
+
+The printer package is the folder `~/Desktop/handoff/storytime-l2-u1-printer-package-r6-v4/`. It holds byte copies (`cmp` equal, SHA-256 equal to the r6-v4 MANIFEST) of the 4 printer files exactly as passed: student book v20, student cover r6, teacher book TH-v5, and teacher cover r6. No file is rebuilt.
+
+The fold test v20 is a check file for the reader leaves, not a printer job. It is not in the package, and the note says so. The teacher book file `TH-v5-chrome.pdf` is not PDF/X. It is not in the package.
+
+The package also holds `PRINT-ORDER.md` (the print order sheet: item, file, SHA-256, trim, pages, paper, binding, colors, quantity) and `MANIFEST.txt` in the `sha256sum -c` form.
+
+The settings come from spec P2 (lines 41 and 44) and the audit:
+
+| Item | Setting |
+|---|---|
+| Color | PDF/X-1a:2001, Japan Color 2001 Coated (JC200103). |
+| Student book | A4 portrait 210 x 297 mm, 140 pages, inside black only (K), both sides, 80 gsm uncoated, perfect binding, perforation 12 mm from the spine on every reader leaf and every home-card leaf, no bleed. |
+| Student cover | 2 pages, 4/0 color on 250 gsm card, matte lamination. |
+| Teacher book | A4, 224 pages, black only, 80 gsm, wire-o. |
+| Teacher cover | 2 pages, color. The default stock is the same as the student cover: 250 gsm card, matte lamination. Daniel confirms. |
+| Quantity | Daniel sets it with the printer (one student book for each child, one teacher book for each teacher). The plan names no number. |
+
+The A3 color reader PDFs and the card kit are not printer jobs of this package. The note says so.
+
+The note lists the 8 open minors for the next version (A6, B3, D1, D2, D5, F3, G1, G3; D-P9C-4). The 8 minors stay as they are: the print order goes ahead, and no minor is fixed for this print (PM default, 2026-11-16).
