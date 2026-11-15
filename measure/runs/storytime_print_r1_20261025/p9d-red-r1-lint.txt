@@ -1,0 +1,11 @@
+# p9d-red-r1-lint: eslint on the two changed test files
+
+## The command of the gate
+
+```
+bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && npx eslint __tests__/storytime-print-contract-v2.test.ts __tests__/storytime-print-f3-script-order.test.ts'
+```
+
+The exit code of the eslint command: 0.
+
+ESLint reported no diagnostic on the two changed test files.

@@ -1,0 +1,27 @@
+# p9d-red-r1-scope: the scope guard of the Red retry R1 commits of task 3b (2026-11-16)
+
+Track: storytime_print_r1_20261025, Phase 9, plan task 3b
+Base: ec8efbf9f5f30f7ccc462aa48d09c1a1b6388ff7
+Allowed paths: the changed test file, the plan file of the track, the captures
+`p9d-red-*` under `measure/runs/storytime_print_r1_20261025/`, and the role log
+`mid-red-p9d-r1-*.log`.
+
+6eafaff (1 files)
+  ok      dashboard/__tests__/storytime-print-contract-v2.test.ts
+  files: 1
+
+6afedecb (1 files)
+  ok      measure/tracks/storytime_print_r1_20261025/plan.md
+  files: 1
+
+The capture and log commit (this commit) holds:
+  ok      measure/runs/storytime_print_r1_20261025/mid-red-p9d-r1-6eafaff.log
+  ok      measure/runs/storytime_print_r1_20261025/p9d-red-r1-lint.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9d-red-r1-probe-inplace.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9d-red-r1-probe.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9d-red-r1-scope.txt
+  ok      measure/runs/storytime_print_r1_20261025/p9d-red-r1.txt
+  files: 6
+
+outside: 0
+exit: 0

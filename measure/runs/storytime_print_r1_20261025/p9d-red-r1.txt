@@ -1,0 +1,39 @@
+# p9d-red-r1: the changed test files at HEAD, the amended record of D-P9D-1 not yet written
+
+## The failing test files and the failing case names
+
+### __tests__/storytime-print-contract-v2.test.ts (1 failing cases)
+- Storytime print v2: the P14 approval records (R14) > records the week 1 audio and song approvals of 2026-11-04, the print approvals of the release proof r6-v4 (Daniel, 2026-11-16), and keeps the other approval parts and media draft
+
+## The summary of the run
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+Test Files  1 failed | 1 passed (2)
+Tests  1 failed | 35 passed (36)
+Start at  06:19:30
+Duration  1.36s (transform 242ms, setup 72ms, import 411ms, tests 629ms, environment 0ms)
+
+## The commands of the gate
+
+```
+bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-print-contract-v2.test.ts __tests__/storytime-print-f3-script-order.test.ts --maxWorkers=1'
+```
+
+The exit code of the vitest command: 1.
+
+The record is not in the week files at this gate. The one failing case is the case that pins the
+record of the amended D-P9D-1. Every other case of the two files passes.
+
+## The proof that the F3 scope compare needs the print key
+
+The F3 base commit: d0660317373a374a798cacd20453a0c10ef0f067
+The compared key: week 2, the approval block.
+
+The skip list of today (thai, loops):
+  the approval blocks are equal: False  -> a scope problem appears: True
+
+The skip list with the print key (thai, loops, print):
+  the approval blocks are equal: True  -> a scope problem appears: False
+
+The baseline week 2 has no approval.print key: True
+The record adds the approval.print key to the week: True

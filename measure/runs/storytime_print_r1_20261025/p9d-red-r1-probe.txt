@@ -1,0 +1,57 @@
+# p9d-red-r1-probe: the full storytime run with the amended record of D-P9D-1 in the 8 week files
+
+## The failing test files and the failing case names
+
+No failing case. The run passes.
+
+## The summary of the run
+
+Test Files  73 passed (73)
+Tests  1825 passed (1825)
+Start at  06:33:35
+Duration  322.57s (transform 2.03s, setup 2.40s, import 7.90s, tests 294.15s, environment 12.01s)
+
+## The commands of the gate
+
+```
+python3 /tmp/opencode/p9d/apply-record-r1.py
+git update-index --assume-unchanged content/storytime/l2/w01.json content/storytime/l2/w02.json content/storytime/l2/w03.json content/storytime/l2/w04.json content/storytime/l2/w05.json content/storytime/l2/w06.json content/storytime/l2/w07.json content/storytime/l2/w08.json
+bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1'
+```
+
+The exit code of the vitest command: 0.
+
+## The record that the probe wrote
+
+The amended D-P9D-1 record goes into the `approval.print` block of each week file:
+
+```
+    "print": {
+      "status": "approved",
+      "date": "2026-11-16",
+      "words": "\"The book seems fine.\" (2026-11-05); \"Pass\" (2026-11-16, release proof r6-v4)",   (week 1)
+      "words": "Pass",                                                                                 (weeks 2 to 8)
+    },
+```
+
+The record has no `source` key, so the strict print approval part of the schema parses the week
+files, and the pins of the Red role hold.
+
+## The flag and the restore
+
+The 8 week files carry the record and stay uncommitted. They are flagged `--assume-unchanged` for
+the run, so `git status --porcelain content/storytime` prints nothing and the J18 guard of the
+loops track sees the content folder as it is after the Green commit of the 8 week files. The flag
+is cleared with `git update-index --no-assume-unchanged` and the files are restored with
+`git checkout --` after the run.
+
+The output of `git status --porcelain content/` after the restore: empty. The content tree is clean.
+
+## The same run without the flag
+
+The capture `p9d-red-r1-probe-inplace.txt` holds the same run without the flag. It exits 1 with
+one failing case: J18, the guard that the content folder is clean. That case fails because the
+probe leaves the record in the work tree, not because of the record itself. The plan records the
+same case and the same cause in the evidence of the P9-A Green role (the plan line 1406): the
+first run failed J18 only because the new files were not yet committed, and it passed after the
+commit.

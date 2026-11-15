@@ -1,0 +1,137 @@
+# Red role log: the `approval.print` pins of the amended D-P9D-1 (Red retry R1)
+
+Track: storytime_print_r1_20261025, Phase 9: Release proof and print order
+Plan task: 3b (Red, approval.print pins), the plan line 1451, the "Red retry R1" sub-bullet
+Role: measure-mid-red, model minimax-cn-coding-plan/MiniMax-M3.1-Flash
+Date: 2026-11-16
+Role base: ec8efbf9f5f30f7ccc462aa48d09c1a1b6388ff7
+Session name: `Red · P9 P9-D 3b · storytime_print_r1` (retry R1)
+
+## The Thai filter (the first command)
+
+The first command of the role printed the Thai line numbers of `plan.md` and `spec.md` of the
+track, and of every test file that the role read. The files were read through a filter that
+replaces each Thai line by `<thai line removed>`. The role printed no week file, and every test
+output was piped through `grep -v -P '[\x{0E00}-\x{0E7F}]'`.
+
+- `measure/tracks/storytime_print_r1_20261025/plan.md`: 12 Thai lines (326, 736, 739, 741, 750,
+  859, 887, 888, 889, 890, 891, 892).
+- `measure/tracks/storytime_print_r1_20261025/spec.md`: 0 Thai lines.
+- `dashboard/__tests__/storytime-print-contract-v2.test.ts`: 0 Thai lines.
+- `dashboard/__tests__/storytime-print-f3-script-order.test.ts`: 0 Thai lines.
+
+## The decision that this retry follows
+
+The commit `ec8efbf9` amends D-P9D-1 (the spec lines 763 and 766 to 772): the print record has
+no `source` key, and no schema change. The escalation F1 and F2 of the Red role R0 are closed by
+that commit.
+
+- `approval.print` of w02 to w08 = `{"status": "approved", "date": "2026-11-16", "words": "Pass"}`.
+- `approval.print` of w01 = `{"status": "approved", "date": "2026-11-16", "words": "\"The book seems
+  fine.\" (2026-11-05); \"Pass\" (2026-11-16, release proof r6-v4)"}`.
+
+The source of the answer (Google Tasks, 2026-11-16 05:40 ICT, PM relay, proof r6-v4, MANIFEST
+9388dd6d7e7dc05cd70b705b0c5d4e0658c2ea410127e67b6b29eff37a664ec5) stays in the plan evidence of the
+Owner gate task.
+
+## The state of the work tree at the start
+
+`git status --short` at the role base:
+
+- `video/storytime-song/scripts/render.mjs` (modified): unrelated user work. The role did not
+  touch it and did not stage it.
+- `dashboard/raw.json` (untracked): unrelated. Not staged.
+- The untracked capture files of the other tracks under `measure/runs/`: generated files. Not
+  staged.
+- `git status --porcelain content/storytime/l2` printed nothing before the first probe.
+
+## The changed cases
+
+File `dashboard/__tests__/storytime-print-contract-v2.test.ts` (the only file that changes):
+
+- The case "records the week 1 audio and song approvals of 2026-11-04, the print approvals of
+  the release proof r6-v4 (Daniel, 2026-11-16), and keeps the other approval parts and media
+  draft" now pins the amended record. Week 1 holds the status "approved", the date 2026-11-16, and
+  the words "\"The book seems fine.\" (2026-11-05); \"Pass\" (2026-11-16, release proof r6-v4)". The
+  weeks 2 to 8 hold the status "approved", the date 2026-11-16, and the words "Pass". No `source`
+  key is in the record.
+- The constant `PRINT_SOURCE` goes, and the case "P9D: the print approval part keeps the source of
+  the release proof record (D-P9D-1)" goes with it.
+- The header of the file holds the amended PIN block and the name of the one case.
+
+File `dashboard/__tests__/storytime-print-f3-script-order.test.ts` stays as it is from the Red role
+R0: the `approvalCore` helper drops the `print` key of the approval block with the PIN line
+"D-P9D-1 (orchestrator, 2026-11-16)", the scope message names the key, and the mutant case holds
+the line "a change of approval.print passes F3-scope (D-P9D-1)".
+
+## The gates
+
+1. The two changed test files at HEAD, with the record not yet written:
+   `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd .../dashboard && CI=true npx
+   vitest run __tests__/storytime-print-contract-v2.test.ts
+   __tests__/storytime-print-f3-script-order.test.ts --maxWorkers=1'`. Exit 1. The one failing case
+   is the case that pins the record. Capture: `p9d-red-r1.txt`.
+2. The full storytime run with the amended record written into the 8 week files:
+   `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd .../dashboard && CI=true npx
+   vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts
+   __tests__/print-pdfx.test.ts --maxWorkers=1'`. Exit 0. Every test file and every test of the
+   run passes. Capture: `p9d-red-r1-probe.txt`. The 8 week files were restored with
+   `git checkout --` and `git status --porcelain content/` printed nothing.
+3. ESLint on the two changed test files: `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c
+   'cd .../dashboard && npx eslint __tests__/storytime-print-contract-v2.test.ts
+   __tests__/storytime-print-f3-script-order.test.ts'`. Exit 0. Capture: `p9d-red-r1-lint.txt`.
+4. The scope guard: `outside: 0`. Capture: `p9d-red-r1-scope.txt`.
+
+## The J18 guard of the probe
+
+The same full run without the index flag exits 1 with one failing case: J18 of
+`storytime-loops-share.test.ts`, "the content folder is clean". The case reads the git status of
+the content folder. The probe writes the record into the 8 week files and leaves them uncommitted,
+so the status is not empty. The failure is caused by the probe method, not by the record. The
+plan records the same case and the same cause in the evidence of the P9-A Green role (the plan
+line 1406): the first run failed J18 only because the new files were not yet committed, and it
+passed after the commit.
+
+The capture of that run is `p9d-red-r1-probe-inplace.txt`. The capture of the gate run
+(`p9d-red-r1-probe.txt`) holds the 8 week files with the flag `--assume-unchanged`, so the git
+status of the content folder is empty as it is after the Green commit. The flag is cleared with
+`git update-index --no-assume-unchanged` and the 8 week files are restored with `git checkout --`
+after the run. No week file is committed in this role.
+
+## The proof that the F3 scope compare needs the print key
+
+The approval block of the baseline week 2 (the F3 base commit `d0660317`) and the approval block
+of the current week 2 with the record differ, so a scope problem appears without the skip. With
+the `print` key in the skip list of `approvalCore`, the two blocks are equal and no scope problem
+appears. The proof is in the capture `p9d-red-r1.txt`.
+
+## The scratch
+
+`/tmp/opencode/p9d/`: the record script, the capture builder, the scope script, the proof script,
+and the raw run outputs. The scratch holds no week file content and no Thai. A git worktree at
+`/tmp/opencode/p9d/wt` was made for one probe and removed after it; it lacked the gitignored
+picture files and the sibling repositories, so that probe was not used as a gate.
+
+## The commits
+
+1. `6eafaff`: the test commit, the one test file.
+2. `6afedecb`: the plan evidence, appended to the "Red retry R1" sub-bullet of the plan line 1451.
+3. The capture and log commit: the captures `p9d-red-r1.txt`, `p9d-red-r1-probe.txt`,
+   `p9d-red-r1-probe-inplace.txt`, `p9d-red-r1-lint.txt`, `p9d-red-r1-scope.txt`, and this log.
+
+No push. No week file changed in any commit. No production file changed.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red (the Red retry R1 of D-P9D-1), model minimax-cn-coding-plan/MiniMax-M3.1-Flash
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 9: Release proof and print order
+baseline_sha: ec8efbf9f5f30f7ccc462aa48d09c1a1b6388ff7
+commits: 6eafaff (the test commit); 6afedecb (the plan evidence commit); the capture and log commit holds the captures and the role log
+tests_run: the two changed test files at HEAD, exit 1, and the one failing case is the case that pins the record; the full storytime run with the amended record in the 8 week files, exit 0, and every test file and every test passes; eslint on the two changed files, exit 0; the scope guard, outside 0
+files_changed: dashboard/__tests__/storytime-print-contract-v2.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/p9d-red-r1.txt; measure/runs/storytime_print_r1_20261025/p9d-red-r1-probe.txt; measure/runs/storytime_print_r1_20261025/p9d-red-r1-probe-inplace.txt; measure/runs/storytime_print_r1_20261025/p9d-red-r1-lint.txt; measure/runs/storytime_print_r1_20261025/p9d-red-r1-scope.txt; measure/runs/storytime_print_r1_20261025/mid-red-p9d-r1-6eafaff.log
+plan_updates: the "Red retry R1" sub-bullet of the plan line 1451 holds the test commit 6eafaff, the changed case, the gate results, and the captures
+known_failures: none. The full storytime run with the amended record exits 0. The same run without the index flag exits 1 with the one case J18 of the loops track, because the probe leaves the record uncommitted. The capture p9d-red-r1-probe.txt holds the run with the content folder in its post-commit state.
+handoff: the Green task 3c writes the amended record of D-P9D-1 into approval.print of the 8 week files, with no source key and no schema change, and commits the 8 week files. The pins of the Red role hold that record exactly, and the full storytime run passes with it. The F3 scope compare skips the print key of the approval block, so the Green commit of the 8 week files does not fail F3-scope. The Green role needs no other change in the test files. The unrelated dirty work of the work tree (video/storytime-song/scripts/render.mjs and dashboard/raw.json) was not touched.
+dispositions: F1=FIX; F2=FIX
+END_MEASURE_AGENT_RESULT

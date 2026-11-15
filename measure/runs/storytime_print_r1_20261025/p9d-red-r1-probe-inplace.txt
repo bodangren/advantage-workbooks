@@ -1,0 +1,42 @@
+# p9d-red-r1-probe-inplace: the full storytime run with the amended record of D-P9D-1, without the index flag
+
+## The failing test files and the failing case names
+
+### __tests__/storytime-loops-share.test.ts (1 failing cases)
+- the shipped week files > J18: the week files keep their hash, and the test writes nothing into the content folder
+
+## The summary of the run
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+Test Files  1 failed | 72 passed (73)
+Tests  1 failed | 1824 passed (1825)
+Start at  06:19:35
+Duration  320.57s (transform 1.93s, setup 2.41s, import 7.82s, tests 292.25s, environment 11.98s)
+
+## The commands of the gate
+
+```
+python3 /tmp/opencode/p9d/apply-record-r1.py
+bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd /home/daniebo/Desktop/Workbooks/dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1'
+```
+
+The exit code of the vitest command: 1.
+
+## The one failing case
+
+J18 of `storytime-loops-share.test.ts`: "the content folder is clean". The case reads the git
+status of the content folder. The probe writes the record into the 8 week files and leaves them
+uncommitted, so the status is not empty and the case fails. The hash part of the case compares
+each week file with itself, so it holds.
+
+The failure is caused by the probe method, not by the record. The capture `p9d-red-r1-probe.txt`
+holds the same run with the content folder in its post-commit state: it exits 0.
+
+## The restore of the week files
+
+```
+git checkout -- content/storytime/l2/w01.json content/storytime/l2/w02.json content/storytime/l2/w03.json content/storytime/l2/w04.json content/storytime/l2/w05.json content/storytime/l2/w06.json content/storytime/l2/w07.json content/storytime/l2/w08.json
+git status --porcelain content/
+```
+
+The output of `git status --porcelain content/` after the restore: empty. The content tree is clean.
