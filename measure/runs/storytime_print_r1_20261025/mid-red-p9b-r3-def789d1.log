@@ -1,0 +1,82 @@
+Mid Red report, P9-B Red retry R3 (storytime_print_r1_20261025)
+
+Role: measure-mid-red. Model: opencode-go/deepseek-v4.1-flash.
+Date: 2026-11-15.
+
+Baselines. The brief supplied one SHA, `role_base_sha` 5b9a0fb42e22f6aedf88c41bf9a00372574cf7e8.
+That SHA resolves, and it equals HEAD before the edit. The brief named no separate `phase_base_sha`.
+The log records the supplied SHA as `baseline_sha` and as `role_base_sha`, as the R1 and R2 logs of
+this batch did. The phase scope check needs no phase base: this retry moves no production file.
+
+Finding R3-1 (from the Green content role, verified by the orchestrator). In `NEW_LINES` of
+`dashboard/__tests__/storytime-print-f3-script-order.test.ts`, the 12 `teacherLanguage` pins lacked
+the quote characters. The spec table of P9-B6 writes each `teacherLanguage` line in double quote
+marks. Every `teacherLanguage` string of the shipped week files starts and ends with a double quote
+character. A pin without the quotes can never equal the data, so the file stays red after the
+content commit.
+
+Work: test-only, one file, 12 lines. Lines 99, 100, 105, 106, 111, 112, 117, 118, 123, 124, 129,
+and 130 now wrap each pin string in double quote characters. The `teacherActions` and
+`studentActions` pins do not change. No production code, no week file, and no other test file
+changed.
+
+The 12 strings before and after (before = the pin at 5b9a0fb; after = the pin at def789d1):
+
+| Week | Key | Before | After |
+|---|---|---|---|
+| 2 | teacherLanguage[1] | `Count the ducks. How many? Three!` | `"Count the ducks. How many? Three!"` |
+| 2 | teacherLanguage[2] | `Trace the words: How many?` | `"Trace the words: How many?"` |
+| 3 | teacherLanguage[1] | `Color the apple red.` | `"Color the apple red."` |
+| 3 | teacherLanguage[2] | `Trace the words: It is red.` | `"Trace the words: It is red."` |
+| 4 | teacherLanguage[1] | `Trace the words: This is my ...` | `"Trace the words: This is my ..."` |
+| 4 | teacherLanguage[2] | `Draw the person in the box. Now find your word and trace it.` | `"Draw the person in the box. Now find your word and trace it."` |
+| 5 | teacherLanguage[1] | `Draw your eyes in the face.` | `"Draw your eyes in the face."` |
+| 5 | teacherLanguage[2] | `Trace the words: I have two eyes.` | `"Trace the words: I have two eyes."` |
+| 6 | teacherLanguage[1] | `Color the cat.` | `"Color the cat."` |
+| 6 | teacherLanguage[2] | `Trace the words: I can see a cat.` | `"Trace the words: I can see a cat."` |
+| 7 | teacherLanguage[1] | `Color the ball.` | `"Color the ball."` |
+| 7 | teacherLanguage[2] | `Trace the words: Is it a ball?` | `"Trace the words: Is it a ball?"` |
+
+The compare with the spec table. A script read the "New English lines" table of spec P9-B6, removed
+the quote mark of each cell, and wrapped the cell text in double quote characters again. A second
+pass read the 12 pins of `NEW_LINES` from the test file. The 12 pins equal the quote-wrapped spec
+text, character for character; mismatches: 0. The script also confirmed that the shipped D4 lines
+of weeks 2 to 7 are quote-wrapped and still hold the old order and the old week 4 text; content
+commit 2 is not made.
+
+Gates.
+- Heavy-run gate, one wrapper: `bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-f3-script-order.test.ts --maxWorkers=1'`.
+  Exit 1. Tests: 6 failed, 5 passed, 11 total in 1 file. The 6 failures are F3-order weeks 2 to 7,
+  and each names the old order of the D4 step. Weeks 1 and 8 pass, F3-th-shape passes, F3-scope
+  passes, F3-mutants passes. Capture: `measure/runs/storytime_print_r1_20261025/p9b-red-r3.txt`
+  (it ends with `exit: 1`).
+- `cd dashboard && npx eslint __tests__/storytime-print-f3-script-order.test.ts` exits 0.
+
+Scope. `git status --short` before the edit: one modified file of another session,
+`video/storytime-song/scripts/render.mjs`, and many untracked run captures of other tracks. Both
+groups are unrelated to this task; neither is staged and neither is touched. No file of
+`content/storytime/**` was written. Every read of a week file went through a script that prints
+English fields only, and the first command of the role masked Thai; THAI_CHARS_IN_OUTPUT: 0.
+
+Commits.
+- def789d1 test(storytime): F3 pins keep the quote marks of teacherLanguage, P9-B Red retry R3
+- 87ab0a70 measure(plan): P9-B Red retry R3, the quote marks of the F3 teacherLanguage pins
+- the commit of this log and the capture `p9b-red-r3.txt`
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_print_r1_20261025
+phase: P9, P9-B batch (Red retry R3)
+baseline_sha: 5b9a0fb42e22f6aedf88c41bf9a00372574cf7e8
+role_base_sha: 5b9a0fb42e22f6aedf88c41bf9a00372574cf7e8
+red_commit: def789d1
+plan_commit: 87ab0a70
+commits: def789d1 test file; 87ab0a70 plan; the commit of this log and the capture
+tests_run: heavy-run of the F3 file exits 1 with 6 failed and 5 passed; the 6 failures are F3-order weeks 2 to 7; npx eslint exits 0
+files_changed: dashboard/__tests__/storytime-print-f3-script-order.test.ts (12 lines); measure/tracks/storytime_print_r1_20261025/plan.md (1 sub-bullet); measure/runs/storytime_print_r1_20261025/p9b-red-r3.txt; this log
+plan_updates: one sub-bullet "Red retry R3" under the Red task of P9-B, after the R2 sub-bullet, with the SHA, the finding, and the capture
+known_failures: F3-order weeks 2 to 7, the expected Red state until content commit 2
+dispositions: R3-1=FIX
+handoff: Green content commit 2 writes the D4 lines of w02 to w07. It must keep the outer double quote characters of every teacherLanguage line, because the pins compare the data byte for byte. After commit 2, the F3 file must pass 11 of 11, and GREEN_TEST_COMMAND_P9B must pass.
+END_MEASURE_AGENT_RESULT

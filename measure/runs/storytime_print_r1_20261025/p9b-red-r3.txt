@@ -1,0 +1,169 @@
+# Mid Red R3 gate, P9-B Red retry R3 (storytime_print_r1_20261025)
+# Model: opencode-go/deepseek-v4.1-flash
+# role_base_sha: 5b9a0fb42e22f6aedf88c41bf9a00372574cf7e8
+# HEAD before the run: 5b9a0fb42e22f6aedf88c41bf9a00372574cf7e8
+# command: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-print-f3-script-order.test.ts --maxWorkers=1'
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-f3-script-order.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m6 failed[39m[2m)[22m[33m 372[2mms[22m[39m
+     [32m✓[39m F3-order week 1: the D4 rows and the D4 script name the same items in one order[32m 227[2mms[22m[39m
+[31m     [31m×[31m F3-order week 2: the D4 rows and the D4 script name the same items in one order[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m F3-order week 3: the D4 rows and the D4 script name the same items in one order[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m F3-order week 4: the D4 rows and the D4 script name the same items in one order[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m F3-order week 5: the D4 rows and the D4 script name the same items in one order[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m F3-order week 6: the D4 rows and the D4 script name the same items in one order[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m F3-order week 7: the D4 rows and the D4 script name the same items in one order[39m[32m 6[2mms[22m[39m
+     [32m✓[39m F3-order week 8: the week has no D4 step and the book has no writing page for it[32m 5[2mms[22m[39m
+     [32m✓[39m F3-th-shape: each th array of the D4 step has the length of its en array[32m 14[2mms[22m[39m
+     [32m✓[39m F3-scope: only the four English keys of the D4 step and their th twins differ from the Red baseline[32m 67[2mms[22m[39m
+     [32m✓[39m F3-mutants: the old order, a Thai line moved alone, and a change outside the keys each fail[32m 17[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 6 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-f3-script-order.test.ts[2m > [22mF3: the D4 teacher script follows the page (P9-B6)[2m > [22mF3-order week 2: the D4 rows and the D4 script name the same items in one order
+[31m[1mAssertionError[22m: the D4 script of week 2 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+en.teacherActions[1] of week 2 is "Children trace \"How many?\" in the book. Then they count the ducks in the picture: three."; the line of P9-B6 is "Children count the ducks in the picture: three. Then they trace \"How many?\" in the book."
+en.teacherLanguage[1] of week 2 is "\"Trace the words: How many?\""; the line of P9-B6 is "\"Count the ducks. How many? Three!\""
+en.teacherLanguage[2] of week 2 is "\"Count the ducks. How many? Three!\""; the line of P9-B6 is "\"Trace the words: How many?\""
+en.studentActions[0] of week 2 is "Children trace the frame and count the ducks."; the line of P9-B6 is "Children count the ducks and trace the frame.": expected 5 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m __tests__/storytime-print-f3-script-order.test.ts:[2m367:112[22m[39m
+    [90m365| [39m        [35mif[39m ([33m![39mstep) [35mreturn[39m[33m;[39m
+    [90m366| [39m        const problems = [...orderProblems(weekNumber, step.en), ...te…
+    [90m367| [39m        expect(problems.length, problems.join('\n') || `the D4 script …
+    [90m   | [39m                                                                                                               [31m^[39m
+    [90m368| [39m    })[33m;[39m
+    [90m369| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-f3-script-order.test.ts[2m > [22mF3: the D4 teacher script follows the page (P9-B6)[2m > [22mF3-order week 3: the D4 rows and the D4 script name the same items in one order
+[31m[1mAssertionError[22m: the D4 script of week 3 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+en.teacherActions[1] of week 3 is "Children trace \"It is red.\" in the book. Then they color the apple above it red."; the line of P9-B6 is "Children color the apple red in the book. Then they trace \"It is red.\" below it."
+en.teacherLanguage[1] of week 3 is "\"Trace the words: It is red.\""; the line of P9-B6 is "\"Color the apple red.\""
+en.teacherLanguage[2] of week 3 is "\"Color the apple red.\""; the line of P9-B6 is "\"Trace the words: It is red.\""
+en.studentActions[0] of week 3 is "Children trace the frame and color the apple."; the line of P9-B6 is "Children color the apple and trace the frame.": expected 5 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m __tests__/storytime-print-f3-script-order.test.ts:[2m367:112[22m[39m
+    [90m365| [39m        [35mif[39m ([33m![39mstep) [35mreturn[39m[33m;[39m
+    [90m366| [39m        const problems = [...orderProblems(weekNumber, step.en), ...te…
+    [90m367| [39m        expect(problems.length, problems.join('\n') || `the D4 script …
+    [90m   | [39m                                                                                                               [31m^[39m
+    [90m368| [39m    })[33m;[39m
+    [90m369| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-f3-script-order.test.ts[2m > [22mF3: the D4 teacher script follows the page (P9-B6)[2m > [22mF3-order week 4: the D4 rows and the D4 script name the same items in one order
+[31m[1mAssertionError[22m: the D4 script of week 4 names "find the word" later than the item above it; the page order is trace, draw, choice, line
+en.teacherActions[1] of week 4 is "Children trace \"This is my\" in the book. Then they choose one word under the box (mom, dad, brother, sister, grandma, grandpa, family), trace it, and draw that person in the box."; the line of P9-B6 is "Children trace \"This is my\" in the book. Then they draw one person in the first box, find that word under the boxes (mom, dad, brother, sister, grandma, grandpa, family), and trace it."
+en.teacherLanguage[1] of week 4 is "\"Trace the words: This is my ... Now find your word and trace it.\""; the line of P9-B6 is "\"Trace the words: This is my ...\""
+en.teacherLanguage[2] of week 4 is "\"Draw the person in the box.\""; the line of P9-B6 is "\"Draw the person in the box. Now find your word and trace it.\""
+en.studentActions[0] of week 4 is "Children trace the frame, choose a family word, and draw that person."; the line of P9-B6 is "Children trace the frame, draw a person, and find and trace that family word.": expected 5 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m __tests__/storytime-print-f3-script-order.test.ts:[2m367:112[22m[39m
+    [90m365| [39m        [35mif[39m ([33m![39mstep) [35mreturn[39m[33m;[39m
+    [90m366| [39m        const problems = [...orderProblems(weekNumber, step.en), ...te…
+    [90m367| [39m        expect(problems.length, problems.join('\n') || `the D4 script …
+    [90m   | [39m                                                                                                               [31m^[39m
+    [90m368| [39m    })[33m;[39m
+    [90m369| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-f3-script-order.test.ts[2m > [22mF3: the D4 teacher script follows the page (P9-B6)[2m > [22mF3-order week 5: the D4 rows and the D4 script name the same items in one order
+[31m[1mAssertionError[22m: the D4 script of week 5 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+en.teacherActions[1] of week 5 is "Children trace \"I have two eyes.\" in the book. Then they draw their two eyes in the face above it."; the line of P9-B6 is "Children draw their two eyes in the face. Then they trace \"I have two eyes.\" below it."
+en.teacherLanguage[1] of week 5 is "\"Trace the words: I have two eyes.\""; the line of P9-B6 is "\"Draw your eyes in the face.\""
+en.teacherLanguage[2] of week 5 is "\"Draw your eyes in the face.\""; the line of P9-B6 is "\"Trace the words: I have two eyes.\""
+en.studentActions[0] of week 5 is "Children trace the frame and draw the eyes."; the line of P9-B6 is "Children draw the eyes and trace the frame.": expected 5 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m __tests__/storytime-print-f3-script-order.test.ts:[2m367:112[22m[39m
+    [90m365| [39m        [35mif[39m ([33m![39mstep) [35mreturn[39m[33m;[39m
+    [90m366| [39m        const problems = [...orderProblems(weekNumber, step.en), ...te…
+    [90m367| [39m        expect(problems.length, problems.join('\n') || `the D4 script …
+    [90m   | [39m                                                                                                               [31m^[39m
+    [90m368| [39m    })[33m;[39m
+    [90m369| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-f3-script-order.test.ts[2m > [22mF3: the D4 teacher script follows the page (P9-B6)[2m > [22mF3-order week 6: the D4 rows and the D4 script name the same items in one order
+[31m[1mAssertionError[22m: the D4 script of week 6 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+en.teacherActions[1] of week 6 is "Children trace \"I can see a cat.\" in the book. Then they color the cat above it."; the line of P9-B6 is "Children color the cat. Then they trace \"I can see a cat.\" below it."
+en.teacherLanguage[1] of week 6 is "\"Trace the words: I can see a cat.\""; the line of P9-B6 is "\"Color the cat.\""
+en.teacherLanguage[2] of week 6 is "\"Color the cat.\""; the line of P9-B6 is "\"Trace the words: I can see a cat.\""
+en.studentActions[0] of week 6 is "Children trace the frame and color the cat."; the line of P9-B6 is "Children color the cat and trace the frame.": expected 5 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m __tests__/storytime-print-f3-script-order.test.ts:[2m367:112[22m[39m
+    [90m365| [39m        [35mif[39m ([33m![39mstep) [35mreturn[39m[33m;[39m
+    [90m366| [39m        const problems = [...orderProblems(weekNumber, step.en), ...te…
+    [90m367| [39m        expect(problems.length, problems.join('\n') || `the D4 script …
+    [90m   | [39m                                                                                                               [31m^[39m
+    [90m368| [39m    })[33m;[39m
+    [90m369| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-f3-script-order.test.ts[2m > [22mF3: the D4 teacher script follows the page (P9-B6)[2m > [22mF3-order week 7: the D4 rows and the D4 script name the same items in one order
+[31m[1mAssertionError[22m: the D4 script of week 7 names "trace" later than the item above it; the page order is prompt, trace, draw, choice, line
+en.teacherActions[1] of week 7 is "Children trace \"Is it a ball?\" in the book. Then they color the ball above it."; the line of P9-B6 is "Children color the ball. Then they trace \"Is it a ball?\" below it."
+en.teacherLanguage[1] of week 7 is "\"Trace the words: Is it a ball?\""; the line of P9-B6 is "\"Color the ball.\""
+en.teacherLanguage[2] of week 7 is "\"Color the ball.\""; the line of P9-B6 is "\"Trace the words: Is it a ball?\""
+en.studentActions[0] of week 7 is "Children trace the frame and color the ball."; the line of P9-B6 is "Children color the ball and trace the frame.": expected 5 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m __tests__/storytime-print-f3-script-order.test.ts:[2m367:112[22m[39m
+    [90m365| [39m        [35mif[39m ([33m![39mstep) [35mreturn[39m[33m;[39m
+    [90m366| [39m        const problems = [...orderProblems(weekNumber, step.en), ...te…
+    [90m367| [39m        expect(problems.length, problems.join('\n') || `the D4 script …
+    [90m   | [39m                                                                                                               [31m^[39m
+    [90m368| [39m    })[33m;[39m
+    [90m369| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 18:56:15
+[2m   Duration [22m 897ms[2m (transform 219ms, setup 38ms, import 323ms, tests 372ms, environment 0ms)[22m
+
+exit: 1
