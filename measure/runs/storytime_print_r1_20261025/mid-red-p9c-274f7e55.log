@@ -1,0 +1,118 @@
+# Role log: measure-mid-red, P9-C fix batch (G4 and G2)
+
+Track: storytime_print_r1_20261025
+Phase: Phase 9, the P9-C fix batch (the audit of r6-v3)
+Role: measure-mid-red (test only), route opencode/minimax-m3.1-flash-free#high
+Role base SHA: 566657c0b136c303dfb354ffee1faa441d9f7d3d
+Date: 2026-11-16
+Thai filter: the first command of the session. It printed the Thai line numbers of `plan.md`,
+`spec.md`, the test file, `student-book.ts`, and `manual.ts`. Every later read went through a
+filter that replaces a Thai line with `<thai line removed>`. No week file and no page image was
+opened. Every test output was piped through `grep -v -P '[\x{0E00}-\x{0E7F}]'` before it reached
+the screen or a capture.
+
+## The scope
+
+The spec addendum "Addendum 2026-11-16: the P9-C fix batch (audit of r6-v3)" gives D-P9C-1 (the
+dots of the review-more pages) and D-P9C-2 (the answer key rows). The plan task at line 1432 is
+"Task (Red, G4 and G2)". The audit report `print-audit-r6-v3-95ff1930.md` gives G4 (major: the
+sentence dot stands about 100 mm from its text, right beside the picture dot) and G2 (minor: the
+key says "picture 2", but the pictures carry no numbers).
+
+## What the role wrote
+
+One test file: `dashboard/__tests__/storytime-print-review-more.test.ts` (the file of the P9-B
+batch, as the plan task asks). No production code changed.
+
+New cases, with the mutants named in the header of the file (M1 the sentence dot at the old place,
+M2 a gap below 40 mm, M3 the key says "picture N"):
+
+- P9C-dot: on the compiled pages 134, 136, 138, and 140, the sentence dot of each of the 4 match
+  rows stands with its left edge 2 mm or less after the right edge of the printed sentence text.
+- P9C-gap: in each match row, the horizontal gap between the sentence dot and the picture dot is
+  40 mm or more. The case also keeps the form of P9-B9: the picture dot stands at the left edge of
+  its picture box (the shipped gap is 2.0 mm; the case holds 3.0 mm or less and forbids the dot
+  inside the box).
+- P9C-key: the answer key of `manual.ts` gives each pair as "<text> = the picture in row <k>",
+  where k is 1 to 4 the row of the matching picture box counted from the top. The case asserts the
+  16 exact English lines of the P9-B10 texts with the default pictureOrder of P9-B10 (day 2
+  [2, 0, 3, 1], day 3 [1, 3, 0, 2], day 4 [3, 2, 1, 0], day 5 [1, 0, 3, 2]), the 4 unchanged read
+  sentences, and that no line holds "picture <N>".
+
+The derivation of k: the row j of the page shows the picture of the pair `pictureOrder[j]`, so the
+row of a pair is `pictureOrder.indexOf(pairIndex) + 1`. The derivation of each day is written in
+the comment of `KEY_PINS` in the test file.
+
+The positions come from the rendered page, not from CSS text: Chrome lays the compiled student book
+out, and the boxes of the rows are read in mm (the C6 method of the track). The tolerance of a
+measure is 0.3 mm, as in C2-book.
+
+## The gates (each inside one heavy-run wrapper)
+
+1. `cd dashboard && CI=true npx vitest run __tests__/storytime-print-review-more.test.ts --maxWorkers=1`
+   exits 1. The only failures are the new cases: P9C-dot (the sentence dot stands 74.53 mm after
+   the right edge of "Nan can get a pan." on page 134, row 1; the spec says 2 mm or less),
+   P9C-gap (the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or
+   more), and P9C-key (the key of day 2 says "Nan can get a pan. = picture 2"; the spec says
+   "Nan can get a pan. = the picture in row 2"). The cases of the P9-B batch pass. Capture:
+   `p9c-red.txt` (exit: 1).
+2. `cd dashboard && npx eslint __tests__/storytime-print-review-more.test.ts` exits 0. Capture:
+   `p9c-red-lint.txt` (exit: 0).
+3. `git status --porcelain dashboard/lib content/` prints nothing. Capture: `p9c-red-clean.txt`
+   (exit: 0).
+
+`npx tsc --noEmit` also exits 0, so the Green role keeps the checks of the batch green.
+
+## The commits
+
+- 274f7e55: the test file only.
+- 96596777: the plan evidence (the Red task at line 1432 flipped to [x], with one sub-bullet that
+  holds the test commit, the failing cases and their causes, and the captures).
+- The capture and log commit of this batch.
+
+No push. The dirty path `video/storytime-song/scripts/render.mjs` was the work of another
+session: it was not touched and not staged.
+
+## The 16 expected key lines (D-P9C-2)
+
+Nan can get a pan. = the picture in row 2
+A nap in the pan! = the picture in row 4
+Pam is on a map. = the picture in row 1
+This is the man! = the picture in row 3
+Sam saw Pam. = the picture in row 3
+Pam is off Sam! = the picture in row 1
+Pat can see a map. = the picture in row 4
+Pip sat on the mat! = the picture in row 2
+Tom can see a top. = the picture in row 4
+The top on a mat. = the picture in row 3
+The top is on Mom! = the picture in row 2
+Run, Tom, run! = the picture in row 1
+Nan and I can! = the picture in row 2
+A pan on Nan! = the picture in row 1
+Sam can get Pam. = the picture in row 4
+Tom can get the top. = the picture in row 3
+
+The read lines do not change: Can I get the pan? / Sam can see a pan. / Can Tom see the top? /
+Pam can nap.
+
+## For the Green role
+
+- M1 (the sentence dot at the old place) fails P9C-dot.
+- M2 (a gap below 40 mm) fails P9C-gap.
+- M3 (the key says "picture N") fails P9C-key.
+- The Green role changes `dashboard/lib/storytime/print/student-book.ts` and
+  `dashboard/lib/storytime/manual.ts` only. The picture dot and the picture box keep their place,
+  so the keep-check of P9C-gap stays green.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_print_r1_20261025
+phase: Phase 9, the P9-C fix batch (the audit of r6-v3), the task "Red, G4 and G2"
+commits: 274f7e55 (the tests), 96596777 (the plan evidence), and the capture and log commit of this batch
+tests_run: "cd dashboard && CI=true npx vitest run __tests__/storytime-print-review-more.test.ts --maxWorkers=1" -> exit 1 (the 3 new cases P9C-dot, P9C-gap, and P9C-key fail by design; the cases of the P9-B batch pass); "cd dashboard && npx eslint __tests__/storytime-print-review-more.test.ts" -> exit 0; "git status --porcelain dashboard/lib content/" -> empty; "cd dashboard && npx tsc --noEmit" -> exit 0
+files_changed: dashboard/__tests__/storytime-print-review-more.test.ts; measure/tracks/storytime_print_r1_20261025/plan.md; measure/runs/storytime_print_r1_20261025/p9c-red.txt; measure/runs/storytime_print_r1_20261025/p9c-red-lint.txt; measure/runs/storytime_print_r1_20261025/p9c-red-clean.txt; measure/runs/storytime_print_r1_20261025/mid-red-p9c-274f7e55.log
+plan_updates: the Red task at plan.md line 1432 is [x], with one evidence sub-bullet (the test commit, the failing cases and their causes, the captures)
+known_failures: P9C-dot (the sentence dot stands 74.53 mm after the text; the spec says 2 mm or less); P9C-gap (the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more); P9C-key (the key says "picture N"; the spec says "the picture in row N"). These are the Red state for the Green role.
+handoff: The Green role of the P9-C batch (a family other than MiniMax) changes student-book.ts and manual.ts. The 3 cases pass when the sentence dot moves after its text, the dot gap reaches 40 mm, and the key reads "the picture in row N". The mutants M1, M2, and M3 are named in the header of the test file.
+END_MEASURE_AGENT_RESULT

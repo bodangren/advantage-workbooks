@@ -1,0 +1,145 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-review-more.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 1658[2mms[22m[39m
+     [32m✓[39m RM-count: the compiled student book has 140 pages, a multiple of 4, and no end padding[32m 136[2mms[22m[39m
+     [32m✓[39m RM-order: after page 131 the week 8 page kinds are review, review, review-more, review, review-more, review, review-more, review, review-more[32m 0[2mms[22m[39m
+     [32m✓[39m RM-stable: the reader sides keep the pages of P9-A9 and the pages 1 to 131 keep their kind and number[32m 123[2mms[22m[39m
+     [32m✓[39m RM-data: days 2 to 5 hold paperMore with 4 pairs, a pictureOrder with no fixed point, and a read entry[32m 6[2mms[22m[39m
+     [32m✓[39m RM-pictures: each picture row of a page is in the list, comes from a week of its day, and passes the SHA-256 check[32m 38[2mms[22m[39m
+     [32m✓[39m RM-decodable: each of the 5 texts of a page has 0 untaught words at the week of its reader[32m 45[2mms[22m[39m
+     [32m✓[39m RM-no-position: a review-more page asks no position mark and no sound label[32m 200[2mms[22m[39m
+     [32m✓[39m RM-steps: line 5 of B1, C1, D1, and E1 names the page after it, and the step map rows carry pageEnd[32m 174[2mms[22m[39m
+     [32m✓[39m RM-no-picture: the print list keeps the rows it has, and no review page adds a row[32m 68[2mms[22m[39m
+     [32m✓[39m RM-fit: a review-more page holds 4 match rows, 1 read row, and a score strip of __ / 4, and they fit the page[32m 22[2mms[22m[39m
+[31m     [31m×[31m P9C-dot: the sentence dot of every match row stands 2 mm or less after the right edge of its text[39m[33m 837[2mms[22m[39m
+[31m     [31m×[31m P9C-gap: the gap between the sentence dot and the picture dot of every match row is 40 mm or more, and the picture dot stays at the left edge of its box[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m P9C-key: the answer key gives every pair as "<text> = the picture in row <k>", and no line says "picture <N>"[39m[32m 7[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-review-more.test.ts[2m > [22mP9-C: the review-more dots and the answer key rows (D-P9C-1 and D-P9C-2)[2m > [22mP9C-dot: the sentence dot of every match row stands 2 mm or less after the right edge of its text
+[31m[1mAssertionError[22m: page 134, row 1: the sentence dot stands 74.53 mm after the right edge of "Nan can get a pan."; the spec says 2 mm or less
+page 134, row 2: the sentence dot stands 78.71 mm after the right edge of "A nap in the pan!"; the spec says 2 mm or less
+page 134, row 3: the sentence dot stands 79.66 mm after the right edge of "Pam is on a map."; the spec says 2 mm or less
+page 134, row 4: the sentence dot stands 81.98 mm after the right edge of "This is the man!"; the spec says 2 mm or less
+page 136, row 1: the sentence dot stands 86.37 mm after the right edge of "Sam saw Pam."; the spec says 2 mm or less
+page 136, row 2: the sentence dot stands 83.61 mm after the right edge of "Pam is off Sam!"; the spec says 2 mm or less
+page 136, row 3: the sentence dot stands 74.68 mm after the right edge of "Pat can see a map."; the spec says 2 mm or less
+page 136, row 4: the sentence dot stands 73.97 mm after the right edge of "Pip sat on the mat!"; the spec says 2 mm or less
+page 138, row 1: the sentence dot stands 74.55 mm after the right edge of "Tom can see a top."; the spec says 2 mm or less
+page 138, row 2: the sentence dot stands 77.49 mm after the right edge of "The top on a mat."; the spec says 2 mm or less
+page 138, row 3: the sentence dot stands 73.49 mm after the right edge of "The top is on Mom!"; the spec says 2 mm or less
+page 138, row 4: the sentence dot stands 84.32 mm after the right edge of "Run, Tom, run!"; the spec says 2 mm or less
+page 140, row 1: the sentence dot stands 84.55 mm after the right edge of "Nan and I can!"; the spec says 2 mm or less
+page 140, row 2: the sentence dot stands 86.29 mm after the right edge of "A pan on Nan!"; the spec says 2 mm or less
+page 140, row 3: the sentence dot stands 77.29 mm after the right edge of "Sam can get Pam."; the spec says 2 mm or less
+page 140, row 4: the sentence dot stands 69.44 mm after the right edge of "Tom can get the top."; the spec says 2 mm or less: expected 16 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 16[39m
+
+[36m [2m❯[22m __tests__/storytime-print-review-more.test.ts:[2m745:117[22m[39m
+    [90m743| [39m            }
+    [90m744| [39m        }
+    [90m745| [39m        expect(problems.length, problems.join('\n') || 'the sentence d…
+    [90m   | [39m                                                                                                                    [31m^[39m
+    [90m746| [39m    }[33m,[39m [34m240_000[39m)[33m;[39m
+    [90m747| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-review-more.test.ts[2m > [22mP9-C: the review-more dots and the answer key rows (D-P9C-1 and D-P9C-2)[2m > [22mP9C-gap: the gap between the sentence dot and the picture dot of every match row is 40 mm or more, and the picture dot stays at the left edge of its box
+[31m[1mAssertionError[22m: page 134, row 1: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 134, row 2: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 134, row 3: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 134, row 4: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 136, row 1: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 136, row 2: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 136, row 3: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 136, row 4: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 138, row 1: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 138, row 2: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 138, row 3: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 138, row 4: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 140, row 1: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 140, row 2: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 140, row 3: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more
+page 140, row 4: the gap between the sentence dot and the picture dot is 4.00 mm; the spec says 40 mm or more: expected 16 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 16[39m
+
+[36m [2m❯[22m __tests__/storytime-print-review-more.test.ts:[2m767:103[22m[39m
+    [90m765| [39m            }
+    [90m766| [39m        }
+    [90m767| [39m        expect(problems.length, problems.join('\n') || 'the dots of ev…
+    [90m   | [39m                                                                                                      [31m^[39m
+    [90m768| [39m    }[33m,[39m [34m240_000[39m)[33m;[39m
+    [90m769| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-review-more.test.ts[2m > [22mP9-C: the review-more dots and the answer key rows (D-P9C-1 and D-P9C-2)[2m > [22mP9C-key: the answer key gives every pair as "<text> = the picture in row <k>", and no line says "picture <N>"
+[31m[1mAssertionError[22m: day 2, line 1: the key says "Nan can get a pan. = picture 2"; the spec says "Nan can get a pan. = the picture in row 2"
+day 2, line 2: the key says "A nap in the pan! = picture 4"; the spec says "A nap in the pan! = the picture in row 4"
+day 2, line 3: the key says "Pam is on a map. = picture 1"; the spec says "Pam is on a map. = the picture in row 1"
+day 2, line 4: the key says "This is the man! = picture 3"; the spec says "This is the man! = the picture in row 3"
+day 3, line 1: the key says "Sam saw Pam. = picture 3"; the spec says "Sam saw Pam. = the picture in row 3"
+day 3, line 2: the key says "Pam is off Sam! = picture 1"; the spec says "Pam is off Sam! = the picture in row 1"
+day 3, line 3: the key says "Pat can see a map. = picture 4"; the spec says "Pat can see a map. = the picture in row 4"
+day 3, line 4: the key says "Pip sat on the mat! = picture 2"; the spec says "Pip sat on the mat! = the picture in row 2"
+day 4, line 1: the key says "Tom can see a top. = picture 4"; the spec says "Tom can see a top. = the picture in row 4"
+day 4, line 2: the key says "The top on a mat. = picture 3"; the spec says "The top on a mat. = the picture in row 3"
+day 4, line 3: the key says "The top is on Mom! = picture 2"; the spec says "The top is on Mom! = the picture in row 2"
+day 4, line 4: the key says "Run, Tom, run! = picture 1"; the spec says "Run, Tom, run! = the picture in row 1"
+day 5, line 1: the key says "Nan and I can! = picture 2"; the spec says "Nan and I can! = the picture in row 2"
+day 5, line 2: the key says "A pan on Nan! = picture 1"; the spec says "A pan on Nan! = the picture in row 1"
+day 5, line 3: the key says "Sam can get Pam. = picture 4"; the spec says "Sam can get Pam. = the picture in row 4"
+day 5, line 4: the key says "Tom can get the top. = picture 3"; the spec says "Tom can get the top. = the picture in row 3"
+the key holds the old form "Nan can get a pan. = picture 2"
+the key holds the old form "A nap in the pan! = picture 4"
+the key holds the old form "Pam is on a map. = picture 1"
+the key holds the old form "This is the man! = picture 3"
+the key holds the old form "Sam saw Pam. = picture 3"
+the key holds the old form "Pam is off Sam! = picture 1"
+the key holds the old form "Pat can see a map. = picture 4"
+the key holds the old form "Pip sat on the mat! = picture 2"
+the key holds the old form "Tom can see a top. = picture 4"
+the key holds the old form "The top on a mat. = picture 3"
+the key holds the old form "The top is on Mom! = picture 2"
+the key holds the old form "Run, Tom, run! = picture 1"
+the key holds the old form "Nan and I can! = picture 2"
+the key holds the old form "A pan on Nan! = picture 1"
+the key holds the old form "Sam can get Pam. = picture 4"
+the key holds the old form "Tom can get the top. = picture 3": expected 32 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 32[39m
+
+[36m [2m❯[22m __tests__/storytime-print-review-more.test.ts:[2m796:101[22m[39m
+    [90m794| [39m            }
+    [90m795| [39m        }
+    [90m796| [39m        expect(problems.length, problems.join('\n') || 'the answer key…
+    [90m   | [39m                                                                                                    [31m^[39m
+    [90m797| [39m    })[33m;[39m
+    [90m798| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 03:43:49
+[2m   Duration [22m 2.31s[2m (transform 321ms, setup 39ms, import 444ms, tests 1.66s, environment 0ms)[22m
+
+exit: 1
