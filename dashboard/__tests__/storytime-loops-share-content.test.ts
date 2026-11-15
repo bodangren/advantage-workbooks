@@ -150,6 +150,8 @@ function withoutAllowList(week: Raw): Raw {
         delete copy.approval.audio;
         delete copy.approval.song;
         delete copy.approval.images;
+        // Daniel approved the Thai of the Phase 14 rows on 2026-11-15, after the baseline commit; the owner approvals are not loops content.
+        delete copy.approval.thai;
     }
     delete copy.print;
     return copy;

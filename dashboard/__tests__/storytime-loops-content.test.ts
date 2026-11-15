@@ -424,6 +424,8 @@ function withoutNewFields(week: Raw, dropTh = false): Raw {
         delete copy.approval.song;
         // The owner approved the images of weeks 2 to 7 on 2026-11-05, after the baseline commit; the media approvals are not loops content.
         delete copy.approval.images;
+        // Daniel approved the Thai of the Phase 14 rows on 2026-11-15, after the baseline commit; the owner approvals are not loops content.
+        delete copy.approval.thai;
     }
     delete copy.print;
     // The song video lead-in is the Phase 11 media of the song video (Phase 11, K15).
