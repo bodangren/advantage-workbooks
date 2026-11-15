@@ -128,3 +128,7 @@ Commits of this role, in order: 105c4393 (w01), 234a158f (w01 captures), ccda7c9
 c112a574 (w05), f6c708af (w05 captures), f411b9dd (w06), 087f452b (w06 captures), e8549b2e (w07),
 68ded721 (w07 captures); then the plan evidence commit, then the captures of the final proofs and
 this log, then the last capture with the scratch removal.
+
+The scratch folder /tmp/opencode/jr-green-p13-clips/ is removed after the captures of this role are
+committed (p13-scratch.txt prints `scratch removed: true`). The git status of content/storytime/ and
+of pnpm-lock.yaml prints nothing.
