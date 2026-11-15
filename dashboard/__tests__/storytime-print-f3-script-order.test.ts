@@ -51,6 +51,12 @@ import { compileStorytimeStudentBook } from '../lib/storytime/print/student-book
  *    "Approved" of 2026-11-15 (commit 70278a9b). That write is not a scope change. A change of
  *    `approval.loops` therefore passes F3-scope; a change of another `approval` key fails it.
  *
+ *  - PIN decision D-P9D-1 (orchestrator, 2026-11-16): F3-scope ignores `approval.print` and keeps
+ *    every other `approval` key and all of `print`. The Green record task of D-P9D-1 writes
+ *    `approval.print` of each week with the release proof record of Daniel's "Pass" of 2026-11-16
+ *    05:40 ICT. That write is not a scope change. A change of `approval.print` therefore passes
+ *    F3-scope; a change of another `approval` key fails it.
+ *
  * The file reads English lines and the shape of the `th` arrays. It holds no Thai string, prints no
  * Thai string, names no track folder, and writes no file.
  */
@@ -307,10 +313,11 @@ function allowedStep(step: unknown): unknown {
 }
 
 /**
- * The approval block with the `thai` and `loops` keys dropped: the Owner gate writes
- * `approval.thai` after Daniel's Thai check, and the loops Phase 4 record task writes
- * `approval.loops` after Daniel's approval. Neither write is a scope change (PIN, decisions
- * D-P9B-R2 and D-P9B-R4).
+ * The approval block with the `thai`, `loops`, and `print` keys dropped: the Owner gate writes
+ * `approval.thai` after Daniel's Thai check, the loops Phase 4 record task writes
+ * `approval.loops` after Daniel's approval, and the release proof record task writes
+ * `approval.print` after Daniel's "Pass" of the release proof r6-v4. None of the three writes is a
+ * scope change (PIN, decisions D-P9B-R2, D-P9B-R4, and D-P9D-1).
  */
 function approvalCore(approval: unknown): unknown {
     if (!approval || typeof approval !== 'object' || Array.isArray(approval)) return approval ?? null;
@@ -318,6 +325,7 @@ function approvalCore(approval: unknown): unknown {
     for (const [key, value] of Object.entries(approval as Record<string, unknown>)) {
         if (key === 'thai') continue;
         if (key === 'loops') continue;
+        if (key === 'print') continue;
         copy[key] = value;
     }
     return copy;
@@ -325,15 +333,15 @@ function approvalCore(approval: unknown): unknown {
 
 /**
  * The problems of a week file against the baseline: a change outside the four allowed keys of the
- * D4 step, a change of the `print` block, or a change of an `approval` key other than `thai` or
- * `loops`.
+ * D4 step, a change of the `print` block, or a change of an `approval` key other than `thai`,
+ * `loops`, or `print`.
  */
 function scopeProblems(baseline: unknown, current: unknown, weekNumber: number): string[] {
     const problems: string[] = [];
     const before = stripThai(baseline) as WeekJson;
     const after = stripThai(current) as WeekJson;
     if (JSON.stringify(approvalCore(before.approval)) !== JSON.stringify(approvalCore(after.approval))) {
-        problems.push(`an approval key other than thai or loops of week ${weekNumber} changed`);
+        problems.push(`an approval key other than thai, loops, or print of week ${weekNumber} changed`);
     }
     if (JSON.stringify(before.print) !== JSON.stringify(after.print)) problems.push(`the print block of week ${weekNumber} changed`);
     const beforeScripts = (before.scripts ?? []) as { steps?: unknown[] }[];
@@ -444,8 +452,8 @@ describe('F3: the D4 teacher script follows the page (P9-B6)', () => {
         expect(scopeProblems(baseline, changed, 2).length, 'Mutant c: a change in en.teacherActions[3] fails F3-scope.').toBeGreaterThan(0);
         expect(scopeProblems(baseline, week(2), 2), 'Guard: the current week file equals its baseline.').toEqual([]);
 
-        // (d) D-P9B-R2 and D-P9B-R4: approval.thai and approval.loops pass F3-scope, and another
-        // approval key fails it
+        // (d) D-P9B-R2, D-P9B-R4, and D-P9D-1: approval.thai, approval.loops, and approval.print
+        // pass F3-scope, and another approval key fails it
         const withThai = JSON.parse(JSON.stringify(baseline)) as WeekJson;
         const approval = withThai.approval as Record<string, unknown> | undefined;
         expect(approval, 'the baseline has an approval block of week 2').toBeDefined();
@@ -454,6 +462,8 @@ describe('F3: the D4 teacher script follows the page (P9-B6)', () => {
             expect(scopeProblems(baseline, withThai, 2), 'Mutant d: a change of approval.thai passes F3-scope (D-P9B-R2).').toEqual([]);
             approval.loops = 'recorded by the loops Phase 4 task';
             expect(scopeProblems(baseline, withThai, 2), 'Mutant d: a change of approval.loops passes F3-scope (D-P9B-R4).').toEqual([]);
+            approval.print = 'recorded by the release proof task';
+            expect(scopeProblems(baseline, withThai, 2), 'Mutant d: a change of approval.print passes F3-scope (D-P9D-1).').toEqual([]);
             approval.owner = 'another owner';
             expect(scopeProblems(baseline, withThai, 2).length, 'Mutant d: a change of another approval key fails F3-scope.').toBeGreaterThan(0);
         }
