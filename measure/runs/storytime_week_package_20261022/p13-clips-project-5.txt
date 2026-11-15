@@ -1,0 +1,61 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-print-covers-adversarial.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 18950[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symbolic link --out into an occupied print-ready folder and writes no file [33m 703[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a print-ready folder that holds any file [33m 707[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the gates for a new folder and for an empty folder in print-ready [33m 1412[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves a folder outside print-ready with its own rules [33m 707[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --out at the end and writes no folder [33m 701[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --band at the end after a full --out and writes no folder [33m 699[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --out followed by another flag and writes no folder [33m 714[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --version followed by --print and writes no folder [33m 703[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --front followed by another flag and writes no folder [33m 724[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a fully transparent front art file and writes nothing [33m 1735[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 and writes no file in --out when Ghostscript fails [33m 6475[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the reader cover check for the real covers and writes the print file [33m 3655[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-adversarial-r2.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 13721[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-1 fails a job whose id differs from the row id by a trailing space or by case [33m 461[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-3 ignores a job of a week that --weeks does not request [33m 4428[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-4 gives each class of each week a result line or a skip line for the book rows of week 1 and the card rows of week 2 [33m 4307[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5 fails a missing week 2 card row beside complete week 1 books and counts it in the total [33m 4221[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-step-system.test.ts [2m([22m[2m57 tests[22m[2m)[22m[33m 12933[2mms[22m[39m
+     [33m[2m✓[22m[39m M-icons: each icon is a black line SVG with no color, no transparency, and no gradient, 10 to 12 mm wide [33m 1345[2mms[22m[39m
+     [33m[2m✓[22m[39m X-parity: the grey model letters and the trace lines match the Andika outline within 0.5 mm [33m 5325[2mms[22m[39m
+     [33m[2m✓[22m[39m X-rule: the baseline of a trace word lies on its rule line in the PDF (A-48 F1, within 0.5 mm) [33m 1732[2mms[22m[39m
+     [33m[2m✓[22m[39m X-fit: the 2 benchmark pages and the 5 review pages of week 8 print on 7 pages, and the circle words carry no drawn oval (A-48 U4) [33m 1605[2mms[22m[39m
+     [33m[2m✓[22m[39m X-fit-write: each of the 7 write pages prints on one page (A-48 F4) [33m 1506[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-clips.test.ts [2m([22m[2m93 tests[22m[2m)[22m[33m 5284[2mms[22m[39m
+     [33m[2m✓[22m[39m measures 1.5 s within 0.002, prints one tab line for each video and "lead-in: <value>", and writes nothing [33m 418[2mms[22m[39m
+     [33m[2m✓[22m[39m adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte [33m 449[2mms[22m[39m
+     [33m[2m✓[22m[39m lists 12 made words for week 1 and prints "chars" for one take of each key [33m 576[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 416[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as another word, and keeps the take number [33m 571[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 566[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-reader-ink.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 2788[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6a: the 12 reader sides of the student book have a dashed fold line only, solid frames, tick-only tear-outs with the scissors label, and fold labels; the 2 home sides keep the dashed cut line [33m 1143[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6b: the 12 reader sides of the readers workbook build keep the same rules [33m 356[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6d: a dashed picture frame and a full-height perforation line are each caught (mutants on a copy) [33m 1015[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-captions.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 2586[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-step2.test.ts [2m([22m[2m39 tests[22m[2m)[22m[33m 2019[2mms[22m[39m
+     [33m[2m✓[22m[39m F1-geometry: the baseline of each trace line is the bottom of its SVG, where the rule line starts (within 0.5 mm) [33m 960[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-match.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 1533[2mms[22m[39m
+     [33m[2m✓[22m[39m G-P8-M8 counts picture, patch, dots, and none source columns [33m 1511[2mms[22m[39m
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-AdvSv4/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-ZShl7W/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+ [32m✓[39m __tests__/storytime-print-teacher-book.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 1258[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside [33m 364[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside [33m 358[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 482[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-f3-script-order.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 373[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-r3.test.ts [2m([22m[2m43 tests[22m[2m)[22m[33m 372[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-sound-stages.test.ts [2m([22m[2m52 tests[22m[2m)[22m[32m 120[2mms[22m[39m
+ [32m✓[39m __tests__/print-pdfx.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m14 passed[39m[22m[90m (14)[39m
+[2m      Tests [22m [1m[32m445 passed[39m[22m[90m (445)[39m
+[2m   Start at [22m 00:09:48
+[2m   Duration [22m 68.56s[2m (transform 987ms, setup 510ms, import 1.82s, tests 62.42s, environment 2.38s)[22m
+
+thai lines dropped: 0, thai chars in output: 0
+exit: 0

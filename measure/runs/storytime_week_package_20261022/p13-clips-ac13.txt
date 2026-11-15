@@ -1,0 +1,49 @@
+=== AC13-1: the read-along books and the one-take characters ===
+books: [(1, 0, 8, 137), (2, 0, 16, 166), (3, 0, 8, 93), (4, 0, 8, 142), (5, 0, 8, 130), (6, 0, 8, 132), (7, 0, 16, 127)]
+sentences: 72, one-take characters: 927
+AC13-1 holds: True
+=== AC13-2: the clip files and their format ===
+b0 clips: 72, all sentence clips: 128
+b0 per week: [8, 16, 8, 8, 8, 8, 16]
+formats: ['32000,1,128000']
+AC13-2 holds: True
+=== AC13-3: the week files and the provenance rows ===
+books ok 14 bad 0 items 128
+=== AC13-4: the Phase 12 items stay and the new items are sorted ===
+phase 12 items changed 0 read-along items 72 order bad 0
+the 56 Phase 12 mp3 files against fa47ca23: no change
+=== AC13-5: the proofs of M10 ===
+['clips: 72, cuts: 0, highest max-ncc: 0.342']
+['positive controls: 7, true: 7']
+heard lines: 72, heard differs: 1, take 3: 0
+listen: w01 l2/media/w01/sentences/b0-s02.mp3 take 1 heard differs 'Hello, I am Mae.'
+=== AC13-6: the check rows of check-weeks ===
+st2/1 sentence-clips pass: True, readalong-sentence-clips pass: True
+st2/2 sentence-clips pass: True, readalong-sentence-clips pass: True
+st2/3 sentence-clips pass: True, readalong-sentence-clips pass: True
+st2/4 sentence-clips pass: True, readalong-sentence-clips pass: True
+st2/5 sentence-clips pass: True, readalong-sentence-clips pass: True
+st2/6 sentence-clips pass: True, readalong-sentence-clips pass: True
+st2/7 sentence-clips pass: True, readalong-sentence-clips pass: True
+st2/8 sentence-clips pass: False, readalong-sentence-clips pass: False
+FAIL rows other than published: ['FAIL rows other than published: 0']
+=== AC13-7: the mapper repeat and the dry runs after the content commits ===
+w01 mapper repeat: ['diff lines: 0']
+w02 mapper repeat: ['diff lines: 0']
+w03 mapper repeat: ['diff lines: 0']
+w04 mapper repeat: ['diff lines: 0']
+w05 mapper repeat: ['diff lines: 0']
+w06 mapper repeat: ['diff lines: 0']
+w07 mapper repeat: ['diff lines: 0']
+dry runs after the content commits: kept lines 128, chars lines 14, all chars 0: True, call or sent lines: 0
+read-along kept lines: 72, decodable kept lines: 56
+=== AC13-8: the week file change of each content commit ===
+w01 105c4393 insertions 35 deletions 1, expected 35 and 1, holds: True
+w02 ccda7c98 insertions 67 deletions 1, expected 67 and 1, holds: True
+w03 36a80c60 insertions 35 deletions 1, expected 35 and 1, holds: True
+w04 af1e8187 insertions 35 deletions 1, expected 35 and 1, holds: True
+w05 c112a574 insertions 35 deletions 1, expected 35 and 1, holds: True
+w06 f411b9dd insertions 35 deletions 1, expected 35 and 1, holds: True
+w07 e8549b2e insertions 67 deletions 1, expected 67 and 1, holds: True
+thai lines dropped: 0, thai chars in output: 0
+exit: 0

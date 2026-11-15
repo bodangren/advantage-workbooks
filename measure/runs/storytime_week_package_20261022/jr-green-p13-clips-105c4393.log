@@ -36,3 +36,95 @@ that clip is on the listen list. Cut probe: 8 clips, 0 cuts, positive controls 1
 highest max-ncc 0.221. F9 capture after the commit: FAIL rows other than published: 0. Gates:
 GREEN_TEST_COMMAND 9 files, 559 tests passed, exit 0; PROJECT_CHECKS exit 0. Scope guard of the
 content commit: files 10, outside 0.
+
+Week w02 (content commit ccda7c98): quota before the run: weekly 1 %, 5 h 12 %. Maker run with
+--max-chars 498: 16 calls, all take 1, sent 166, made 16. Mapper run: 16 ok lines; the repeat run
+changes no byte (diff lines: 0). The first repeat attempt failed because the driver used the file
+name w2.json instead of w02.json; the driver was corrected and the repeat run again, then the heard
+check and the cut probe. Heard check: 16 clips, 0 heard differs, listen list 0. Cut probe: 16 clips,
+0 cuts, positive controls 1 of 1 true, the highest max-ncc 0.342. F9 capture after the commit: FAIL
+rows other than published: 0. Gates: GREEN_TEST_COMMAND 9 files, 559 tests passed, exit 0;
+PROJECT_CHECKS exit 0. Scope guard of the content commit: files 18, outside 0. The week file changed
+by 67 insertions and 1 deletion (AC13-8 for w02). The captures commit is 45e52a25.
+
+Week w03 (content commit 36a80c60): quota before the run: weekly 1 %, 5 h 15 %. Maker run with
+--max-chars 279: 8 calls, all take 1, sent 93, made 8. Mapper run: 8 ok lines; the repeat run
+changes no byte (diff lines: 0). Heard check: 8 clips, 0 heard differs, listen list 0. Cut probe:
+8 clips, 0 cuts, positive controls 1 of 1 true, the highest max-ncc 0.291. F9 capture after the
+commit: FAIL rows other than published: 0. Gates: GREEN_TEST_COMMAND 9 files, 559 tests passed,
+exit 0; PROJECT_CHECKS exit 0. Scope guard of the content commit: files 10, outside 0. The week file
+changed by 35 insertions and 1 deletion (AC13-8 for w03). The captures commit is 43df6875.
+
+Week w04 (content commit af1e8187): quota before the run: weekly 2 %, 5 h 17 %. Maker run with
+--max-chars 426: 8 calls, all take 1, sent 142, made 8. Mapper run: 8 ok lines; the repeat run
+changes no byte (diff lines: 0). Heard check: 8 clips, 0 heard differs, listen list 0. Cut probe:
+8 clips, 0 cuts, positive controls 1 of 1 true, the highest max-ncc 0.259. F9 capture after the
+commit: FAIL rows other than published: 0. Gates: GREEN_TEST_COMMAND 9 files, 559 tests passed,
+exit 0; PROJECT_CHECKS exit 0. Scope guard of the content commit: files 10, outside 0. The week file
+changed by 35 insertions and 1 deletion (AC13-8 for w04).
+
+Week w05 (content commit c112a574): quota before the run: weekly 2 %, 5 h 17 %. Maker run with
+--max-chars 390: 8 calls, all take 1, sent 130, made 8. Mapper run: 8 ok lines; the repeat run
+changes no byte (diff lines: 0). Heard check: 8 clips, 0 heard differs, listen list 0. Cut probe:
+8 clips, 0 cuts, positive controls 1 of 1 true, the highest max-ncc 0.318. F9 capture after the
+commit: FAIL rows other than published: 0. Gates: GREEN_TEST_COMMAND 9 files, 559 tests passed,
+exit 0; PROJECT_CHECKS exit 0. Scope guard of the content commit: files 10, outside 0. The week file
+changed by 35 insertions and 1 deletion (AC13-8 for w05).
+
+Week w06 (content commit f411b9dd): quota before the run: weekly 2 %, 5 h 18 %. Maker run with
+--max-chars 396: 8 calls, all take 1, sent 132, made 8. Mapper run: 8 ok lines; the repeat run
+changes no byte (diff lines: 0). Heard check: 8 clips, 0 heard differs, listen list 0. Cut probe:
+8 clips, 0 cuts, positive controls 1 of 1 true, the highest max-ncc 0.211. F9 capture after the
+commit: FAIL rows other than published: 0. Gates: GREEN_TEST_COMMAND 9 files, 559 tests passed,
+exit 0; PROJECT_CHECKS exit 0. Scope guard of the content commit: files 10, outside 0. The week file
+changed by 35 insertions and 1 deletion (AC13-8 for w06).
+
+Week w07 (content commit e8549b2e): quota before the run: weekly 2 %, 5 h 19 %. Maker run with
+--max-chars 381: 16 calls, all take 1, sent 127, made 16. Mapper run: 16 ok lines; the repeat run
+changes no byte (diff lines: 0). Heard check: 16 clips, 0 heard differs, listen list 0. Cut probe:
+16 clips, 0 cuts, positive controls 1 of 1 true, the highest max-ncc 0.253. F9 capture after the
+commit: FAIL rows other than published: 0. Gates: GREEN_TEST_COMMAND 9 files, 559 tests passed,
+exit 0; PROJECT_CHECKS exit 0. Scope guard of the content commit: files 18, outside 0. The week file
+changed by 67 insertions and 1 deletion (AC13-8 for w07).
+
+All 7 content commits are done: 105c4393 (w01), ccda7c98 (w02), 36a80c60 (w03), af1e8187 (w04),
+c112a574 (w05), f411b9dd (w06), e8549b2e (w07). The sent values are 137, 166, 93, 142, 130, 132,
+and 127; the sum is 927, under the phase limit of 2800. No run stopped and no run was rerun; the
+only rerun was the mapper repeat of w02, which failed on a wrong file name in the driver.
+
+After w07. The cut proof of the 7 weeks (p13-cut-proof.txt) ends with `clips: 72, cuts: 0, highest
+max-ncc: 0.342` and `positive controls: 7, true: 7`; every one of the 72 clips gives looksLikeCut
+false, and each control gives 1.000. The heard list (p13-sentences-heard.txt) holds 72 clip lines:
+71 heard ok, and 1 heard differs (w01 b0-s02, take 1, heard "Hello, I am Mae." for "Hello, I am
+May."). The listen list (p13-listen.txt) holds that one clip. No clip has a note, and no clip is
+take 3. The characters (p13-chars.txt): the log sum is 927, the provenance sum is 927, the one-take
+sum is 927, the difference is 0, and the take of every clip is 1. The phase limit of 2800 holds.
+
+AC13-1 to AC13-8 (p13-clips-ac13.txt) hold: 72 sentences and 927 one-take characters; 72 b0 clips
+and 128 sentence clips, every new clip 32000 Hz, mono, 128000 b/s; books ok 14, bad 0, items 128;
+the Phase 12 items changed 0, the read-along items 72, the order bad 0, and the 56 Phase 12 mp3
+files are byte-equal to fa47ca23; the cut proof and the heard list hold; the check rows give
+sentence-clips pass and readalong-sentence-clips pass for st2/1 to st2/7 and no row for st2/8; the
+mapper repeat gives diff lines 0 for the 7 weeks; the dry runs after the content commits give 128
+kept lines and chars: 0 with no call; the week file change of each content commit is 35 and 1, 67
+and 1, 35 and 1, 35 and 1, 35 and 1, 35 and 1, and 67 and 1 (AC13-8).
+
+The gates after the last content commit: PROJECT_LINT exit 0 (p13-clips-lint.txt). PROJECT_TESTS in
+5 parts by file list, each in one heavy-run wrapper: part 2 (15 files) exit 0, part 3 (15 files)
+exit 0, part 4 (14 files) exit 0, part 5 (14 files) exit 0, and part 1 (15 files) exit 1 with 8
+failures in __tests__/storytime-print-contract-v2.test.ts. Those 8 cases are the Phase 14
+approval.thai pins. The baseline proof (p13-clips-project-preexisting.txt): with the week files of
+the role base 5cd01553 in the work tree, the same 8 cases fail the same way, and the week files of
+HEAD are back in the work tree after the run (git status --porcelain content/storytime/l2/ prints
+nothing). This task changes no approval.thai value, so the failures are not of this task. The
+Phase 14 owner gate track holds the fix.
+
+Known failure: the 8 `approval.thai` pins of __tests__/storytime-print-contract-v2.test.ts. They
+fail at the role base and they belong to the Phase 14 owner gate track, not to the Phase 13 Clips
+task.
+
+Commits of this role, in order: 105c4393 (w01), 234a158f (w01 captures), ccda7c98 (w02), 45e52a25
+(w02 captures), 36a80c60 (w03), 43df6875 (w03 captures), af1e8187 (w04), e5d3941a (w04 captures),
+c112a574 (w05), f6c708af (w05 captures), f411b9dd (w06), 087f452b (w06 captures), e8549b2e (w07),
+68ded721 (w07 captures); then the plan evidence commit, then the captures of the final proofs and
+this log, then the last capture with the scratch removal.
