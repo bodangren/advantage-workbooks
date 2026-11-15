@@ -1,0 +1,10 @@
+# P9-B proof r6-v3, track storytime_print_r1_20261025, 2026-11-16
+# maker model: opencode-go/deepseek-v4.1-flash; role base 423d050b; Red base d0283eb3
+# contact sheets, 8 pages per sheet, one heavy-run wrapper
+# cmd: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'python3 -I p9b_r6v3_contact.py' (copy of p9_books_r6_contact.py with the r6-v3 paths)
+student-cover: pages=2 covered=2 sheets=1 expected_sheets=1 OK dir=/home/daniebo/Desktop/print-ready/storytime/proof-books-r6-v3/contact-sheets/student-cover
+student-book: pages=140 covered=140 sheets=18 expected_sheets=18 OK dir=/home/daniebo/Desktop/print-ready/storytime/proof-books-r6-v3/contact-sheets/student-book
+teacher-cover: pages=2 covered=2 sheets=1 expected_sheets=1 OK dir=/home/daniebo/Desktop/print-ready/storytime/proof-books-r6-v3/contact-sheets/teacher-cover
+teacher-book: pages=224 covered=224 sheets=28 expected_sheets=28 OK dir=/home/daniebo/Desktop/print-ready/storytime/proof-books-r6-v3/contact-sheets/teacher-book
+sheets in all: 48
+RESULT: ALL OK

@@ -1,0 +1,24 @@
+# P9-B proof r6-v3, track storytime_print_r1_20261025, 2026-11-16
+# maker model: opencode-go/deepseek-v4.1-flash; role base 423d050b; Red base d0283eb3
+# the fold test v19 (spec P9-A9 on the v19 file)
+# 1 lead build, one heavy-run wrapper: make-fold-test-lead-pdf.ts --out /tmp/opencode/p9-fold/lead.pdf
+done  /tmp/opencode/p9-fold/lead.pdf (2 pages)
+
+# 2 pdfseparate + pdfunite (no re-render), then make-pdfx.ts --out ... --k-only
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh: line 1198: warning: command substitution: ignored null byte in input
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh: line 1198: warning: command substitution: ignored null byte in input
+Pre-converting to DeviceGray (K-only) ...
+Converting 86 pages with Ghostscript (fonts kept, K-only) ...
+Done in 7 s.
+../../../../../tmp/opencode/p9-fold/fold-pdfx.pdf: 86 pages, 20.1 MB, PDF 1.3, PDF/X-1a:2001, 212 font(s)
+All checks pass.
+
+# 3 text compare by script (p9b_foldcmp.py; only page counts printed)
+v19 fold test pages 3-86 (84 pages) vs v18 fold test pages 3-86: different pages: 0
+v19 fold test pages 3-86 vs the 84 reader pages of the v19 book (9-20, 27-38, ..., 117-128): different pages: 0
+RESULT: 0 differences
+
+pdfinfo of the delivered file:
+Pages: 86
+Page size: 594.96 x 841.92 pts (A4)
+PDF version: 1.3

@@ -1,0 +1,13 @@
+# P9-B proof r6-v3, track storytime_print_r1_20261025, 2026-11-16
+# maker model: opencode-go/deepseek-v4.1-flash; role base 423d050b; Red base d0283eb3
+# covers (2 byte copies) and cast/ (7 byte copies), cmp against the source
+cmp equal: student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r6_PDFX-1a.pdf
+cmp equal: teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r6_PDFX-1a.pdf
+cmp equal: cast/pat.png
+cmp equal: cast/sam.png
+cmp equal: cast/pip.png
+cmp equal: cast/nan.png
+cmp equal: cast/ben.png
+cmp equal: cast/may.png
+cmp equal: cast/mia.png
+cast files: 7
