@@ -1,0 +1,37 @@
+MEASURE_AGENT_RESULT
+status: complete
+role: Measure Jr Green
+track: storytime_teaching_loops_20261103
+phase: P1
+phase_base_sha: a25fe053dffbe6338f40fac2d57df0c34cc2e889
+red_commit: 92bae3c4 (inside phase_base_sha..HEAD: yes)
+head: 9a549323 (final Green HEAD, plan-evidence commit)
+commits:
+  - 9f7a99f2 feat(storytime-loops): set the drill audio in the phoneme bank (code and script)
+  - 9a549323 measure(plan): record phase 1 drill audio green evidence of storytime_teaching_loops (plan.md only)
+flipped_tasks:
+  - Green 3 [~] -> [x], commit 9f7a99f2, Evidence: automated
+deferred_tasks: none
+tests:
+  - targeted RED command, before Green: 11 failed, 62 passed (73); failures match the Mid Red log
+  - GREEN_TEST_COMMAND (cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts): 73 passed (73), exit 0
+  - PROJECT_TESTS: 29 files, 710 tests passed, exit 0
+  - PROJECT_LINT: exit 0
+  - PROJECT_CHECKS: check-weeks --level 2 shows one FAIL, st2/1 published (allowed); phoneme-audio PASS; tsc --noEmit exit 0
+  - mutants (strategy 5.9, protocol 5.6): mutants: 7, caught: 7; control run 73 passed; restore cmp: ok
+files:
+  modified:
+    - dashboard/lib/storytime/phonemes.ts
+    - dashboard/scripts/storytime/set-phoneme-audio.ts
+    - measure/tracks/storytime_teaching_loops_20261103/plan.md
+  new: none
+evidence (untracked, not staged):
+  - measure/runs/storytime_teaching_loops_20261103/jr-green-335b7c1c-red-rerun.txt
+  - measure/runs/storytime_teaching_loops_20261103/jr-green-335b7c1c-green.txt
+  - measure/runs/storytime_teaching_loops_20261103/jr-green-335b7c1c-project.txt
+  - measure/runs/storytime_teaching_loops_20261103/jr-green-335b7c1c-lint.txt
+  - measure/runs/storytime_teaching_loops_20261103/jr-green-335b7c1c-checks.txt
+  - measure/runs/storytime_teaching_loops_20261103/jr-green-335b7c1c-mutants.txt
+remaining_failures: none in the targeted gates; the published check FAIL is expected until Phase 2 approvals
+handoff: Green 3 is complete. The Red tests in dashboard/__tests__/storytime-loops-audio.test.ts were not edited. The review roles can scope the audit to the two modified source files and the plan.
+END_MEASURE_AGENT_RESULT

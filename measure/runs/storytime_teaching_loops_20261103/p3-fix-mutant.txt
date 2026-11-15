@@ -1,0 +1,14 @@
+     ✓ renders the baseline-commit w01 and w02 to the recorded HTML hashes, with loops absent or off (renderer guard) 110ms
+     ✓ renders the shipped w01 and w02 to the same HTML with loops absent and with loops false 66ms
+     ✓ prints each routine in English and Thai for loop-complete w%02d 16ms
+     ✓ prints each routine in English and Thai for loop-complete w%02d 16ms
+     ✓ keeps loop-complete HTML unchanged when the option is absent or false 27ms
+     ✓ puts the routines in step order, and keeps recall in the day opening 9ms
+     × gives the review strip heading its own content before the recall block (en) 18ms
+     × gives the review strip heading its own content before the recall block (th) 9ms
+     ✓ escapes routine text and prints English when a routine has no Thai line 11ms
+     ✓ defines the five routine headings in both label sets 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed (1)
+      Tests  2 failed | 8 passed (10)
+MUT_VITEST_EXIT=1

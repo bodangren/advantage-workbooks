@@ -1,0 +1,247 @@
+
+ RUN  v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ❯ __tests__/storytime-loops-audio.test.ts (14 tests | 11 failed) 492ms
+     × lists one field for each drill word of the loop-complete w02 copy, with its sounds in order 55ms
+     × finds the drill step by its place and not by the script index (A7) 19ms
+     × gives each word of w01 to w07 a list of bank paths with one path for each sound 28ms
+     × names a drill sound that the bank lacks, and lists no field for that word 32ms
+     × reports a drill field that is missing, for each word 24ms
+     × reports a drill field that differs, and no problem when every field holds its recording 30ms
+     ✓ returns the same fields for the eight shipped weeks as the frozen baseline 133ms
+     ✓ keeps every other field of a week when a drill is added 82ms
+     × sets the drill audio, then the problems are empty, and the other bytes stay equal 17ms
+     × writes the same values again on a second run (the set is stable) 19ms
+     × makes setPhonemeAudio throw with the sound and its field, and changes nothing 14ms
+     × gives the problem that check-weeks turns into a phoneme-audio fail 13ms
+     × keeps every drill audio path of w01 to w07 safe and relative 10ms
+     ✓ keeps the SHA-256 of the eight shipped week files and of the bank manifest 9ms
+ ✓ __tests__/storytime-loops-schema.test.ts (27 tests) 482ms
+ ✓ __tests__/storytime-loops-checks.test.ts (32 tests) 1140ms
+     ✓ parses, and passes the six loop checks on w01 to w07  335ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: the drill sounds in the phoneme bank (D1) > lists one field for each drill word of the loop-complete w02 copy, with its sounds in order
+AssertionError: Drill fields: one for each of the 3 words: expected +0 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 0
+
+ ❯ __tests__/storytime-loops-audio.test.ts:135:75
+    133|         expect(unresolved, 'no drill sound is unresolved').toEqual([]);
+    134|         const drill = fields.filter((f) => f.path.includes('blendDrill…
+    135|         expect(drill.length, 'Drill fields: one for each of the 3 word…
+       |                                                                           ^
+    136|         expect(drill.map((f) => f.path)).toEqual([0, 1, 2].map(W2_PATH…
+    137|         expect(drill.map((f) => f.value)).toEqual(W2_AUDIO);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: the drill sounds in the phoneme bank (D1) > finds the drill step by its place and not by the script index (A7)
+AssertionError: Drill fields of w02: expected +0 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 0
+
+ ❯ __tests__/storytime-loops-audio.test.ts:148:53
+    146|         expect([scriptIndex, stepIndex], 'A4 is step 3 of script 0').t…
+    147|         const paths = drillFields(parse(raw), realBank()).map((f) => f…
+    148|         expect(paths.length, 'Drill fields of w02').toBe(3);
+       |                                                     ^
+    149|         expect(paths[0]?.slice(0, 4)).toEqual(['scripts', scriptIndex,…
+    150|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: the drill sounds in the phoneme bank (D1) > gives each word of w01 to w07 a list of bank paths with one path for each sound
+AssertionError: w01: one field for each drill word: expected +0 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 0
+
+ ❯ __tests__/storytime-loops-audio.test.ts:157:79
+    155|             const drill = SAMPLE_DRILLS[week];
+    156|             const fields = drillFields(parse(drillCopy(week)), bank);
+    157|             expect(fields.length, `w0${week}: one field for each drill…
+       |                                                                               ^
+    158|             fields.forEach((field, i) => {
+    159|                 const value = field.value as string[];
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: the problems of the drill sounds (D2) > names a drill sound that the bank lacks, and lists no field for that word
+AssertionError: Unresolved sounds of w02 with the drill: expected [] to deeply equal [ Array(1) ]
+
+- Expected
++ Received
+
+- [
+-   "/zh/ (scripts.0.steps.3.blendDrill.words.1.audio)",
+- ]
++ []
+
+ ❯ __tests__/storytime-loops-audio.test.ts:174:71
+    172|         const bank = realBank();
+    173|         const { fields, unresolved } = phonemeAudioFields(week, bank);
+    174|         expect(unresolved, 'Unresolved sounds of w02 with the drill').…
+       |                                                                       ^
+    175|         expect(fields.filter((f) => f.path.includes('blendDrill')).map…
+    176|         expect(phonemeAudioProblems(week, bank)).toContain(`no recordi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: the problems of the drill sounds (D2) > reports a drill field that is missing, for each word
+AssertionError: Problems of the drill: expected [] to deeply equal [ …(3) ]
+
+- Expected
++ Received
+
+- [
+-   "scripts.0.steps.3.blendDrill.words.0.audio: missing",
+-   "scripts.0.steps.3.blendDrill.words.1.audio: missing",
+-   "scripts.0.steps.3.blendDrill.words.2.audio: missing",
+- ]
++ []
+
+ ❯ __tests__/storytime-loops-audio.test.ts:181:91
+    179|     it('reports a drill field that is missing, for each word', () => {
+    180|         const problems = phonemeAudioProblems(parse(drillCopy(2)), rea…
+    181|         expect(problems.filter((p) => p.includes('blendDrill')), 'Prob…
+       |                                                                                           ^
+    182|     });
+    183| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: the problems of the drill sounds (D2) > reports a drill field that differs, and no problem when every field holds its recording
+AssertionError: Problems with one reversed word: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ __tests__/storytime-loops-audio.test.ts:191:61
+    189|         raw.scripts[0].steps[3].blendDrill.words[1].audio = [...W2_AUD…
+    190|         const problems = phonemeAudioProblems(parse(raw), bank);
+    191|         expect(problems, 'Problems with one reversed word').toHaveLeng…
+       |                                                             ^
+    192|         expect(problems[0]).toMatch(/^scripts\.0\.steps\.3\.blendDrill…
+    193|         expect(problems[0]).toContain(JSON.stringify(W2_AUDIO[1]));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: setPhonemeAudio writes the drill (D4) > sets the drill audio, then the problems are empty, and the other bytes stay equal
+AssertionError: Fields set on w02 with the drill: expected 9 to be 12 // Object.is equality
+
+- Expected
++ Received
+
+- 12
++ 9
+
+ ❯ __tests__/storytime-loops-audio.test.ts:229:57
+    227|         const before = copy(raw);
+    228|         const set = setPhonemeAudio(raw, bank);
+    229|         expect(set, 'Fields set on w02 with the drill').toBe(12);
+       |                                                         ^
+    230|         expect(phonemeAudioProblems(parse(raw), bank), 'Problems after…
+    231|         const words = raw.scripts[0].steps[3].blendDrill.words;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: setPhonemeAudio writes the drill (D4) > writes the same values again on a second run (the set is stable)
+AssertionError: expected 9 to be 12 // Object.is equality
+
+- Expected
++ Received
+
+- 12
++ 9
+
+ ❯ __tests__/storytime-loops-audio.test.ts:243:44
+    241|         setPhonemeAudio(raw, bank);
+    242|         const once = JSON.stringify(raw);
+    243|         expect(setPhonemeAudio(raw, bank)).toBe(12);
+       |                                            ^
+    244|         expect(JSON.stringify(raw)).toBe(once);
+    245|         expect(drillAudioOf(raw), 'Drill audio paths of w02').toHaveLe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: an unresolved drill sound stops the set (D5) > makes setPhonemeAudio throw with the sound and its field, and changes nothing
+AssertionError: expected [Function] to throw an error
+
+- Expected: 
+null
+
++ Received: 
+undefined
+
+ ❯ __tests__/storytime-loops-audio.test.ts:253:56
+    251|         const raw = unbankedCopy();
+    252|         const before = JSON.stringify(raw);
+    253|         expect(() => setPhonemeAudio(raw, realBank())).toThrow(/^no re…
+       |                                                        ^
+    254|         expect(JSON.stringify(raw), 'The raw copy after the throw').to…
+    255|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: an unresolved drill sound stops the set (D5) > gives the problem that check-weeks turns into a phoneme-audio fail
+AssertionError: Problems with a drill sound that the bank lacks: expected [] to deeply equal [ Array(1) ]
+
+- Expected
++ Received
+
+- [
+-   "no recording for /zh/ (scripts.0.steps.3.blendDrill.words.1.audio)",
+- ]
++ []
+
+ ❯ __tests__/storytime-loops-audio.test.ts:260:125
+    258|         // `check-weeks.ts` marks `phoneme-audio` as `fail` when `phon…
+    259|         const problems = phonemeAudioProblems(parse(unbankedCopy()), r…
+    260|         expect(problems.filter((p) => p.startsWith('no recording for')…
+       |                                                                                                                             ^
+    261|             `no recording for ${UNBANKED} (scripts.0.steps.3.blendDril…
+    262|         ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯
+
+ FAIL  __tests__/storytime-loops-audio.test.ts > storytime loops: the drill audio paths for the app (G3 guard) > keeps every drill audio path of w01 to w07 safe and relative
+AssertionError: w01: drill audio paths: expected +0 to be 9 // Object.is equality
+
+- Expected
++ Received
+
+- 9
++ 0
+
+ ❯ __tests__/storytime-loops-audio.test.ts:275:66
+    273|             setPhonemeAudio(raw, bank);
+    274|             const paths = drillAudioOf(raw);
+    275|             expect(paths.length, `w0${week}: drill audio paths`).toBe(…
+       |                                                                  ^
+    276|             for (const p of paths) {
+    277|                 expect(p, `w0${week}: ${p} has safe characters`).toMat…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  11 failed | 62 passed (73)
+   Start at  13:45:07
+   Duration  2.69s (transform 1.36s, setup 783ms, import 2.56s, tests 2.11s, environment 1ms)
+

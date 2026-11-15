@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "inconclusive",
+  "track": "storytime_teaching_loops_20261103",
+  "phase": "Phase 1: Schema and checks (2026-11-03 to 2026-11-05)",
+  "phase_base_sha": "ec109f9eb5da4df74e9b291390622b75ed8c7ccd",
+  "audited_head_sha": "9a549323a5cea5373a598792260c60f11ce11b3f",
+  "summary": "Provisional result. The audit is in progress.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": ["Provisional artifact written before the audit steps."],
+  "commands": ["git rev-parse 9a549323"],
+  "changed_files": ["dashboard/lib/storytime/schema.ts"],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_audit",
+  "confidence": "low",
+  "model": "claude-code/claude-opus-5-5[1m]#high"
+}

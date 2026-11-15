@@ -1,0 +1,23 @@
+Mid Red 3 of storytime_teaching_loops_20261103, phase P1. Role base a25fe053. Phase base ec109f9e.
+
+Work done:
+- Wrote dashboard/__tests__/storytime-loops-audio.test.ts (14 tests: D1 x3, D2 x3, D3 x2, D4 x2, D5 x2, G3 x1, file guard x1).
+- First Red run: 11 failed, one failed with a TypeError (A7 test) and two failed for the wrong reason (the sounds /h/ and /f/ also occur in the w02 opening lines). Fixed all three; the sound that the bank lacks is now /zh/ on word 1 of the copy.
+- Second Red run (the committed file): exit 1, 3 files, 73 tests, 11 failed, 62 passed. Failures only in the audio file, all failed assertions. No collection error.
+- D3 baseline SHA-256: 8370c711b093a3836cd1274f59d1b0751326532b0ba9266a7b604c6e3e1c2721 (w01 to w08, FR-1 fields removed, code at a25fe053; counts 4 9 14 14 19 19 19 26).
+- Evidence files: mid-red-a25fe053-red.txt (EXIT=1), -lint.txt (EXIT=0), -tsc.txt (EXIT=0).
+- pnpm-lock.yaml unchanged. No shipped week file, bank file, fixture, or lib file edited.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: Measure Mid Red
+track: storytime_teaching_loops_20261103
+phase: P1
+baseline_sha: a25fe053dffbe6338f40fac2d57df0c34cc2e889
+head: 335b7c1c19f9c2b190e16f5158e1152d58b120d4
+commits: 92bae3c4a0d25d3c673e2c33c860eea66216a1ca (Red tests); 335b7c1c19f9c2b190e16f5158e1152d58b120d4 (plan evidence)
+tests: red exit 1 (3 files, 73 tests: 11 failed, 62 passed; schema 27/27, checks 32/32, audio 3 pass and 11 fail, no collection error); lint exit 0; tsc --noEmit exit 0
+files: dashboard/__tests__/storytime-loops-audio.test.ts; measure/tracks/storytime_teaching_loops_20261103/plan.md; evidence in measure/runs/storytime_teaching_loops_20261103/ (mid-red-a25fe053-red.txt, -lint.txt, -tsc.txt, .log)
+remaining_failures: 11 tests in storytime-loops-audio.test.ts, all because phonemeAudioFields does not read blendDrill: D1 (3: field count/path/value, A4 place, w01-w07 lists), D2 (3: unresolved, missing, differs), D4 (2: set count 12 and round trip, stable second run), D5 (2: setPhonemeAudio throw, problems list), G3 (1: drill paths absent). Passing at Red (characterization): D3 baseline hash, "other fields stay", file guard.
+handoff: Green 3 must extend phonemeAudioFields in lib/storytime/phonemes.ts. For each step with blendDrill (script index s, step index t from the arrays, not from ids), for each word i: add a field with path ['scripts', s, 'steps', t, 'blendDrill', 'words', i, 'audio'] and value = list of bank paths of word.sounds in order (a string[] with one path per sound), using the same add(path, labels, true) helper. An unbanked sound goes to unresolved as "<sound> (scripts.0.steps.3.blendDrill.words.1.audio)" (path joined by '.', ends in 'audio'); that word gets no field. phonemeAudioProblems needs no new code if fields are added (it then reports "...audio: missing" and "...audio: <have>, expected <want>"). setPhonemeAudio needs no new code; it must return 12 for the w02 drill copy. set-phoneme-audio.ts calls setPhonemeAudio, so it probably needs no change; update only its USAGE text. Do not change the order of the existing fields (D3 hash covers the shipped weeks). Put the drill fields where they do not change the baseline for a week without blendDrill. Question and default: the plan says Green 3 extends set-phoneme-audio.ts; default is a USAGE text change only. The checks test file does not export its copy builder, so this test builds a drill-only copy from SAMPLE_DRILLS; no fixture change was made. The one unbanked sound used is /zh/; the test needs no bank change.
+END_MEASURE_AGENT_RESULT

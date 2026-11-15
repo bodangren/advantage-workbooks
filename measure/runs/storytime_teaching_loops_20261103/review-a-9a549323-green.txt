@@ -1,0 +1,16 @@
+Script started on 2026-11-03 15:38:53+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 433[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-audio.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 598[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 1192[2mms[22m[39m
+     [33m[2m✓[22m[39m parses, and passes the six loop checks on w01 to w07 [33m 353[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m73 passed[39m[22m[90m (73)[39m
+[2m   Start at [22m 15:48:09
+[2m   Duration [22m 2.78s[2m (transform 1.05s, setup 1.06s, import 2.39s, tests 2.22s, environment 1ms)[22m
+
+[?25h
+Script done on 2026-11-03 15:48:12+07:00 [COMMAND_EXIT_CODE="0"]

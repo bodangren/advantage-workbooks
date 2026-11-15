@@ -1,0 +1,34 @@
+Measure closeout log: storytime_teaching_loops_20261103
+Written 2026-11-16T05:46:42+0700 by the closeout role (route minimax-cn-coding-plan/MiniMax-M3.1-Flash).
+
+1. Provenance. The pre-closeout HEAD was f0c4c9293f3781f8796f50c0e6dc86ce0340c208. It equals the audited_head_sha of the final acceptance result measure/runs/storytime_teaching_loops_20261103/final-acceptance-f0c4c929.json (status pass, route bailian-token-plan/qwen3.8-max#high). The orchestrator role-gate printed "PASS: final-acceptance gate passed" on 2026-11-16.
+
+2. Task state. The archived plan.md holds 51 task lines, all [x]. No [~], no [ ] and no [b] task line remains. Every completed task line carries a commit SHA: 23 task lines had no SHA and now name a verified ancestor commit (the orchestrator checked the 23 SHA tags against the commit subjects and kept them). No [b] task line exists, so no deferred owner field was needed.
+
+3. Gates. The final acceptance ran the three configured gates at the same head f0c4c929: PROJECT_LINT exit 0 (final-acceptance-lint.txt), PROJECT_CHECKS exit 0 (final-acceptance-checks.txt; check-weeks --level 2 gives 8 packages, 0 failed checks, 1 warning; tsc --noEmit clean), PROJECT_TESTS exit 0 (final-acceptance-project.txt; 73 test files, 1825 tests, 324.51 s). The closeout did not rerun them. A partial PROJECT_TESTS capture written by this role held no test summary and was deleted before the commit.
+
+4. Archive. git mv measure/tracks/storytime_teaching_loops_20261103 measure/archive/storytime_teaching_loops_20261103. The archived metadata.json holds status done, completed 2026-11-16, updated_at 2026-11-16T05:46:42+0700, actual_tasks 51, and the deviation_notes extended with the Ark plan substitutions (Claude, DeepSeek, MiniMax, Kimi, MiMo, Qwen; the Ark plans were out of quota until 2026-11-21), FA-1, the two test-only Red retries for the owner records (approval.thai 4c317383 and e0171ef2 in storytime_week_package; approval.loops 66e7268f in storytime_print_r1), and the Hand-off 2 pin 70278a9beb8ef7314d98df80e0462892a0ca5019 with the PM receipt of 2026-11-16 02:1x.
+
+5. Registry. The active entry of measure/tracks.md was removed. The archived section now holds the track with the archive link, the metadata description, and a note that states the adversarial state: the strictness mutants S20b to S20g and mutant C26 survive and stay open as tech debt.
+
+6. Memory. measure/tech-debt.md gained one row for FA-3 and FA-4 together, and the two 2026-04-26 primary_compile_layout_papercuts rows were merged into one, so the file stays at 50 lines. measure/lessons-learned.md stays at 50 lines and was not changed: the track's lesson (an owner record commit must run the full PROJECT_TESTS before its plan evidence) is already there from the Phase 4 memory task.
+
+7. Findings FA-1 to FA-7 are listed in measure/archive/storytime_teaching_loops_20261103/automation-supervisor-closeout-manifest.json with their routes. FA-3 and FA-4 are the tech-debt rows. FA-2 is cured by the live gates at the audited head. FA-5, FA-6 and FA-7 are recorded there.
+
+8. A9 (archived-track path). The repository has no tests directory and no tests/*.sh, and no dashboard test reads a measure/tracks path for this track, so no test reference needed a fix. The other measure/tracks path strings in the dashboard tests are literal approval-source data of other tracks.
+
+9. Closeout check: PASS: closeout checks passed
+10. 50 measure/tech-debt.md
+
+MEASURE_AGENT_RESULT
+role: measure-closeout
+status: complete
+track: storytime_teaching_loops_20261103
+phase: closeout
+commits: the closeout commit of this log, message "measure(closeout): archive storytime_teaching_loops_20261103 after final acceptance PASS (f0c4c929)"; the pre-closeout head is f0c4c929
+tests_run: measure_interphase_checks.py closeout --repo . --track storytime_teaching_loops_20261103 -> PASS: closeout checks passed; wc -l measure/tech-debt.md -> 50 lines; PROJECT_TESTS, PROJECT_LINT and PROJECT_CHECKS were not rerun at closeout; the final acceptance ran them at the same head f0c4c929 (73 files, 1825 tests, exit 0)
+files_changed: measure/archive/storytime_teaching_loops_20261103/ (the archived track, the updated plan.md with 23 SHA tags, metadata.json, and automation-supervisor-closeout-manifest.json), measure/tracks.md, measure/tech-debt.md, measure/runs/storytime_teaching_loops_20261103/ (the untracked final acceptance files, the run captures, and this log)
+plan_updates: 23 completed task lines gained their commit SHA; no task state changed; the plan holds no false claim and no deferred task
+known_failures: none; the two surviving mutant groups S20b to S20g and C26 stay open as tech debt rows
+handoff: The track is archived and the closeout check passes. Two test gaps stay open in measure/tech-debt.md: the strictness mutants S20b to S20g and mutant C26. No push was made.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,66 @@
+Script started on 2026-11-03 12:05:53+07:00 [COMMAND="cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 407[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m32 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1343[2mms[22m[39m
+     [33m[2m✓[22m[39m parses, and passes the six loop checks on w01 to w07 [33m 309[2mms[22m[39m
+     [32m✓[39m passes loops-recall and loops-minutes on the review week w08, and runs no other loop check[32m 21[2mms[22m[39m
+     [32m✓[39m runs no loop check on a Level 1 week[32m 15[2mms[22m[39m
+     [32m✓[39m reports a teach week without blendDrill on A4, and a drill on A3 does not count[32m 31[2mms[22m[39m
+     [32m✓[39m reports a drill word with a sound that the week did not teach and the opening does not name[32m 15[2mms[22m[39m
+     [32m✓[39m passes oral-base sounds of the opening in w01 (Q1)[32m 15[2mms[22m[39m
+     [32m✓[39m passes a taught sound that the opening does not name, and the bank alias of a label[32m 38[2mms[22m[39m
+     [32m✓[39m reports a missing soundLoop on A1, on A2, and on A3[32m 44[2mms[22m[39m
+     [32m✓[39m reports a missing sightWords on A6 and on D2[32m 35[2mms[22m[39m
+     [32m✓[39m reports words in another order than focus.trickyWords[32m 17[2mms[22m[39m
+     [32m✓[39m reports sightWords on a week without tricky words, and passes when both are absent[32m 36[2mms[22m[39m
+     [32m✓[39m reports a read-along without questions and the order what, who, where[32m 28[2mms[22m[39m
+     [32m✓[39m reports page 0 and a page past the last page, and passes page 1 and the last page[32m 39[2mms[22m[39m
+     [32m✓[39m reads the answer page as pages[answer.page - 1] (G4: page 2 passes, page 3 fails)[32m 26[2mms[22m[39m
+     [32m✓[39m reports a word that the page does not hold, and a substring of a word on the page[32m 28[2mms[22m[39m
+     [32m✓[39m reports 4 and 6 items, and passes 5[32m 37[2mms[22m[39m
+     [32m✓[39m keeps the count rule when the taught set and the other weeks are not given (Q4)[32m 8[2mms[22m[39m
+     [32m✓[39m reports a repeated item in one day, and passes the same item on two days[32m 25[2mms[22m[39m
+     [32m✓[39m reports an item of a later week, and passes an item of the file week[32m 28[2mms[22m[39m
+[31m     [31m×[31m checks a sound and a tricky card against the taught set[39m[32m 62[2mms[22m[39m
+     [32m✓[39m checks a frame card against the frame of this week and of an earlier week[32m 39[2mms[22m[39m
+     [32m✓[39m checks a word card against the text of earlier days and earlier weeks[32m 58[2mms[22m[39m
+     [32m✓[39m applies the day 1 exception of week 1 and checks a recall that is present on that day[32m 51[2mms[22m[39m
+     [32m✓[39m passes a Level 2 week whose day sums to 30, and reports 29 and 31[32m 40[2mms[22m[39m
+     [32m✓[39m passes a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48[32m 52[2mms[22m[39m
+     [32m✓[39m does not count a moved step[32m 11[2mms[22m[39m
+     [32m✓[39m reports loopMinutes that differs from minutes on a step that is not a loop step, and passes an equal one[32m 25[2mms[22m[39m
+     [32m✓[39m reports a loop step with 1 minute and passes one with 2[32m 22[2mms[22m[39m
+     [32m✓[39m exports LOOP_CHECK_STATUS with the status of a problem, and not a pass[32m 1[2mms[22m[39m
+     [32m✓[39m gives each problem of a shipped teach week the status LOOP_CHECK_STATUS[32m 136[2mms[22m[39m
+     [32m✓[39m reports the missing recall of the shipped review week w08[32m 13[2mms[22m[39m
+     [32m✓[39m writes the copies only into the temporary folder and leaves the shipped weeks unchanged[32m 18[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-recall[2m > [22mchecks a sound and a tricky card against the taught set
+[31m[1mAssertionError[22m: loops-recall passes on the taught tricky word can: expected 'warn' to be 'pass' // Object.is equality[39m
+
+Expected: [32m"pass"[39m
+Received: [31m"warn"[39m
+
+[36m [2m❯[22m expectPass __tests__/storytime-loops-checks.test.ts:[2m167:91[22m[39m
+    [90m165| [39m[90m/** The check passes. */[39m
+    [90m166| [39mfunction expectPass(report: PackageReport, id: string, where = ''): vo…
+    [90m167| [39m    expect(check(report, id, where).status, `${id} passes${where ? ` o…
+    [90m   | [39m                                                                                          [31m^[39m
+    [90m168| [39m}
+    [90m169| [39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m487:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m58 passed[39m[22m[90m (59)[39m
+[2m   Start at [22m 12:05:59
+[2m   Duration [22m 3.20s[2m (transform 908ms, setup 933ms, import 1.88s, tests 1.75s, environment 0ms)[22m
+
+[?25h
+Script done on 2026-11-03 12:06:02+07:00 [COMMAND_EXIT_CODE="1"]

@@ -1,0 +1,104 @@
+MemAvailable at start: MemAvailable:    3812648 kB
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m38 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 1171[2mms[22m[39m
+     [32m✓[39m parses, and passes the six loop checks on w01 to w07[32m 232[2mms[22m[39m
+     [32m✓[39m passes loops-recall and loops-minutes on the review week w08, and runs no other loop check[32m 14[2mms[22m[39m
+     [32m✓[39m runs no loop check on a Level 1 week[32m 8[2mms[22m[39m
+     [32m✓[39m reports a teach week without blendDrill on A4, and a drill on A3 does not count[32m 26[2mms[22m[39m
+     [32m✓[39m reports a drill word with a sound that the week did not teach and the opening does not name[32m 10[2mms[22m[39m
+     [32m✓[39m passes oral-base sounds of the opening in w01 (Q1)[32m 9[2mms[22m[39m
+     [32m✓[39m passes a taught sound that the opening does not name, and the bank alias of a label[32m 27[2mms[22m[39m
+     [32m✓[39m reports a missing soundLoop on A1, on A2, and on A3[32m 43[2mms[22m[39m
+     [32m✓[39m reports a missing sightWords on A6 and on D2[32m 23[2mms[22m[39m
+     [32m✓[39m reports words in another order than focus.trickyWords[32m 12[2mms[22m[39m
+     [32m✓[39m reports sightWords on a week without tricky words, and passes when both are absent[32m 25[2mms[22m[39m
+     [32m✓[39m reports a read-along without questions and the order what, who, where[32m 28[2mms[22m[39m
+     [32m✓[39m reports page 0 and a page past the last page, and passes page 1 and the last page[32m 36[2mms[22m[39m
+     [32m✓[39m reads the answer page as pages[answer.page - 1] (G4: page 2 passes, page 3 fails)[32m 22[2mms[22m[39m
+     [32m✓[39m reports a word that the page does not hold, and a substring of a word on the page[32m 21[2mms[22m[39m
+     [32m✓[39m reports 4 and 6 items, and passes 5[32m 31[2mms[22m[39m
+     [32m✓[39m keeps the count rule when the taught set and the other weeks are not given (Q4)[32m 6[2mms[22m[39m
+     [32m✓[39m reports a repeated item in one day, and passes the same item on two days[32m 19[2mms[22m[39m
+     [32m✓[39m reports an item of a later week, and passes an item of the file week[32m 40[2mms[22m[39m
+     [32m✓[39m checks a sound and a tricky card against the taught set[32m 41[2mms[22m[39m
+     [32m✓[39m checks a frame card against the frame of this week and of an earlier week[32m 29[2mms[22m[39m
+     [32m✓[39m checks a word card against the text of earlier days and earlier weeks[32m 47[2mms[22m[39m
+     [32m✓[39m applies the day 1 exception of week 1 and checks a recall that is present on that day[32m 50[2mms[22m[39m
+     [32m✓[39m passes a Level 2 week whose day sums to 30, and reports 29 and 31[32m 32[2mms[22m[39m
+     [32m✓[39m passes a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48[32m 54[2mms[22m[39m
+     [32m✓[39m does not count a moved step[32m 11[2mms[22m[39m
+     [32m✓[39m reports loopMinutes that differs from minutes on a step that is not a loop step, and passes an equal one[32m 20[2mms[22m[39m
+     [32m✓[39m reports a loop step with 1 minute and passes one with 2[32m 23[2mms[22m[39m
+     [32m✓[39m exports LOOP_CHECK_STATUS with the status of a problem, and not a pass[32m 1[2mms[22m[39m
+     [32m✓[39m gives each problem of a shipped teach week the status LOOP_CHECK_STATUS[32m 80[2mms[22m[39m
+     [32m✓[39m reports the missing recall of the shipped review week w08[32m 12[2mms[22m[39m
+[31m     [31m×[31m gives a part that could not be tested the status warn at the status fail, with the "not checked" label[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m gives a real problem the given status, even when a part was also not checked[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m passes a part with no problem and nothing skipped, at any status[39m[32m 1[2mms[22m[39m
+     [32m✓[39m gives a shipped week checked without the taught set the status warn for loops-blend and loops-recall, never pass[32m 50[2mms[22m[39m
+     [32m✓[39m keeps the published detail of st2/1 free of loops-blend and loops-recall when the taught set is not given[32m 9[2mms[22m[39m
+     [32m✓[39m still gives a drill sound outside the allowed set the status LOOP_CHECK_STATUS, with the sound named[32m 11[2mms[22m[39m
+     [32m✓[39m writes the copies only into the temporary folder and leaves the shipped weeks unchanged[32m 40[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22man unchecked loop part warns[2m > [22mgives a part that could not be tested the status warn at the status fail, with the "not checked" label
+[31m[1mAssertionError[22m: Missing export: loopCheck: expected 'undefined' to be 'function' // Object.is equality[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m loopCheckFn __tests__/storytime-loops-checks.test.ts:[2m668:52[22m[39m
+    [90m666| [39m[35mfunction[39m [34mloopCheckFn[39m()[33m:[39m [33mLoopCheckFn[39m {
+    [90m667| [39m    const fn = (checksModule as unknown as Record<string, unknown>).lo…
+    [90m668| [39m    [34mexpect[39m([35mtypeof[39m fn[33m,[39m [32m'Missing export: loopCheck'[39m)[33m.[39m[34mtoBe[39m([32m'function'[39m)[33m;[39m
+    [90m   | [39m                                                   [31m^[39m
+    [90m669| [39m    [35mreturn[39m fn [35mas[39m [33mLoopCheckFn[39m[33m;[39m
+    [90m670| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m674:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22man unchecked loop part warns[2m > [22mgives a real problem the given status, even when a part was also not checked
+[31m[1mAssertionError[22m: Missing export: loopCheck: expected 'undefined' to be 'function' // Object.is equality[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m loopCheckFn __tests__/storytime-loops-checks.test.ts:[2m668:52[22m[39m
+    [90m666| [39m[35mfunction[39m [34mloopCheckFn[39m()[33m:[39m [33mLoopCheckFn[39m {
+    [90m667| [39m    const fn = (checksModule as unknown as Record<string, unknown>).lo…
+    [90m668| [39m    [34mexpect[39m([35mtypeof[39m fn[33m,[39m [32m'Missing export: loopCheck'[39m)[33m.[39m[34mtoBe[39m([32m'function'[39m)[33m;[39m
+    [90m   | [39m                                                   [31m^[39m
+    [90m669| [39m    [35mreturn[39m fn [35mas[39m [33mLoopCheckFn[39m[33m;[39m
+    [90m670| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m681:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22man unchecked loop part warns[2m > [22mpasses a part with no problem and nothing skipped, at any status
+[31m[1mAssertionError[22m: Missing export: loopCheck: expected 'undefined' to be 'function' // Object.is equality[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m loopCheckFn __tests__/storytime-loops-checks.test.ts:[2m668:52[22m[39m
+    [90m666| [39m[35mfunction[39m [34mloopCheckFn[39m()[33m:[39m [33mLoopCheckFn[39m {
+    [90m667| [39m    const fn = (checksModule as unknown as Record<string, unknown>).lo…
+    [90m668| [39m    [34mexpect[39m([35mtypeof[39m fn[33m,[39m [32m'Missing export: loopCheck'[39m)[33m.[39m[34mtoBe[39m([32m'function'[39m)[33m;[39m
+    [90m   | [39m                                                   [31m^[39m
+    [90m669| [39m    [35mreturn[39m fn [35mas[39m [33mLoopCheckFn[39m[33m;[39m
+    [90m670| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m689:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m35 passed[39m[22m[90m (38)[39m
+[2m   Start at [22m 05:06:33
+[2m   Duration [22m 2.75s[2m (transform 415ms, setup 110ms, import 635ms, tests 1.17s, environment 0ms)[22m
+
+MemAvailable at end: MemAvailable:    3852688 kB

@@ -1,0 +1,73 @@
+# Mid Red log: storytime_teaching_loops_20261103, Phase 1, Red 2
+
+Role base (`role_base_sha`): `eb37e8e2eb38c42b9f5105e48feb0d898edae2b6`.
+Phase base (`phase_base_sha`): `ec109f9eb5da4df74e9b291390622b75ed8c7ccd`.
+Model: opencode-go/deepseek-v4.1-flash. Green model: claude-code/claude-sonnet-5-5#high.
+Work tree at the start: `video/storytime-song/scripts/render.mjs` modified and `dashboard/raw.json` plus `measure/runs/**` untracked. These belong to other tracks. I did not stage them.
+
+## Task
+
+Red 2 of Phase 1 (plan line 83): `__tests__/storytime-loops-checks.test.ts` for the six loop checks, and the shared sample `__tests__/fixtures/storytime-loops-sample.ts`.
+
+## Work
+
+- The fixture holds the sample routines. Each teach week has a hand-written blend drill of 3 words. The sounds come from `taughtTo.graphemes` or from the same week's `opening.pa` labels (Q1). The fixture holds the sound loop, the sight-word step, the three questions, the 5 recall cards of each week, and the `loopMinutes` of each loop step.
+- The test removes the FR-1 fields from the shipped week (rule 11.3), writes the sample, and saves each copy in a folder from `fs.mkdtemp`. It reads the copy back and runs `checkStorytimeWeek` with `taughtTo` and with the earlier weeks (`others`).
+- The test reaches `LOOP_CHECK_STATUS` through a namespace import with a cast. A missing export is an assertion, not a type error (F11).
+- The test writes no shipped file. One guard test compares the SHA-256 of the eight week files before and after the run.
+- G4 case for the Monorepo app: `answer.word` "kites" is only on reader page 2. `answer.page` 2 passes and 3 fails. A 0-based reader of `pages[answer.page]` fails.
+- I fixed one test-file mistake before the commit: a stray `raw('B', 'B2')` call in the B2 minutes case.
+
+## Gates (one heavy-run wrapper each; `HEAVY_PREFLIGHT_WAIT_S=5400`)
+
+- `RED_TEST_COMMAND`: exit 1. 2 files, 59 tests: 30 failed, 29 passed. `storytime-loops-schema.test.ts` passes all 27 tests. No collection error. Evidence: `measure/runs/storytime_teaching_loops_20261103/mid-red-eb37e8e2-red.txt`.
+- `PROJECT_LINT` (with the fixture file added): exit 0. Evidence: `mid-red-eb37e8e2-lint.txt`.
+- `PROJECT_CHECKS` (plan line 28, one wrapper): exit 0. One FAIL: `published` of st2/1, detail `images not approved; audio not approved; song not approved`. `tsc --noEmit` clean. Evidence: `mid-red-eb37e8e2-checks.txt`.
+
+Lock note for the PM session: the first attempt printed `heavy-run: lock wait over 600 s` (holder PID 1770731, a storytime picture vitest run). The orchestrator stopped that attempt. The later runs held the lock normally.
+
+## Remaining failures (30; all are the missing checks, none is a test defect)
+
+- The six-check copy of w01 to w07: 1 test. Reason: `Missing check: loops-blend`.
+- w08 scope: 1 test. Reason: no loop id exists yet.
+- `loops-blend`: 4 tests. Reason: missing check.
+- `loops-sound`: 1 test. Reason: missing check.
+- `loops-sight`: 3 tests. Reason: missing check.
+- `loops-questions`: 4 tests. Reason: missing check.
+- `loops-recall`: 8 tests. Reason: missing check.
+- `loops-minutes`: 5 tests. Reason: missing check.
+- Status (Q10): 3 tests. Reason: `Missing export: LOOP_CHECK_STATUS`, and no loop id exists yet.
+
+Two tests pass at Red: "runs no loop check on a Level 1 week" and the temporary-folder guard. The plan note names them.
+
+## Handoff to Green 2
+
+Exports and signatures that Green must add to `lib/storytime/checks.ts`:
+
+1. `export const LOOP_CHECK_STATUS: CheckStatus` with the value `'warn'` now. Phase 3 sets `'fail'`.
+2. The six checks inside the existing `checkStorytimeWeek(input, taught?, graph?, others?)`. No new function signature is needed. `taught` is the `TaughtSet` of `taughtTo` (sound, tricky, and blend sounds). `others` holds the earlier weeks (frame and word recall).
+
+Check ids, in this order: `loops-blend`, `loops-sound`, `loops-sight`, `loops-questions`, `loops-recall`, `loops-minutes`. Push them before the `published` block (F2, C30).
+
+Problem shape: `PackageCheck` `{ id, label, status, detail? }`. A problem gives `status = LOOP_CHECK_STATUS` and `detail = problems.join('; ')`. No problem gives `status: 'pass'` and no detail. The test asserts `detail.length > 0` for each problem.
+
+Questions with the default that the test uses:
+
+- Question A: plan line 85, plan line 90, and strategy B12 say the shipped teach weeks show all six checks as `LOOP_CHECK_STATUS`. The FR-7 sum rule alone passes on a shipped week (6 + 24 = 30). Default in the test: the five routine checks must report. `loops-minutes` may be `pass` or `LOOP_CHECK_STATUS`. To reach "six warn", add a rule such as "each loop step of a teach week carries `loopMinutes`". The test accepts both forms.
+- Question B: Q4 says a skipped part "never reports pass for it". Default in the test: the count rule reports without `taught` (4 items report). The test does not assert the status of a complete copy without `taught`.
+
+The loop-complete sample sets `loopMinutes` on every loop step: A1, A2, A4, A6, C5, and D2 keep `minutes`; A3 loses 1 minute and A4 gains 1. Every day sums to `periodMinutes`.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: Measure Mid Red
+track: storytime_teaching_loops_20261103
+phase: P1
+baseline_sha: eb37e8e2eb38c42b9f5105e48feb0d898edae2b6
+head: 0b368463d0b47a5bd0141b8c0a6adb1f1b80a884
+commits: 8813eb4b (Red tests); 0b368463 (plan evidence)
+tests: red exit 1 (59 tests: 30 failed, 29 passed; the 27 schema tests pass); lint exit 0; checks exit 0 (one known FAIL `published` of st2/1, `tsc --noEmit` clean)
+files: dashboard/__tests__/storytime-loops-checks.test.ts; dashboard/__tests__/fixtures/storytime-loops-sample.ts; measure/tracks/storytime_teaching_loops_20261103/plan.md
+remaining_failures: 30 tests, all because the six checks and `LOOP_CHECK_STATUS` do not exist. Six-check copy 1, w08 scope 1, `loops-blend` 4, `loops-sound` 1, `loops-sight` 3, `loops-questions` 4, `loops-recall` 8, `loops-minutes` 5, status Q10 3.
+handoff: add `export const LOOP_CHECK_STATUS: CheckStatus` (`'warn'` now) and the six checks in `checkStorytimeWeek` before `published`. Ids: `loops-blend`, `loops-sound`, `loops-sight`, `loops-questions`, `loops-recall`, `loops-minutes`. Problem shape: `{ id, label, status: LOOP_CHECK_STATUS, detail: problems.join('; ') }`; pass has no detail. Use `taught` (TaughtSet) and `others` (earlier weeks). Question A default: the five routine checks must report on a shipped teach week; `loops-minutes` may pass or report, so add a loop-step `loopMinutes` rule if plan line 90 must show six warn. Question B default: the count rule reports without `taught`; the test does not assert a complete copy without `taught`. Report to the PM: `heavy-run: lock wait over 600 s` on the first Red attempt (holder PID 1770731).
+END_MEASURE_AGENT_RESULT

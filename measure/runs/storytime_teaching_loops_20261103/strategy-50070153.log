@@ -1,0 +1,22 @@
+strategy log, track storytime_teaching_loops_20261103, role_base_sha 5007015369609dd4bef5425c8f049633ce529772
+finished 2026-11-02 (the first session stopped at its step limit; a second session finished the role)
+
+Steps: read the spec, plan, spec review, anti-patterns, lessons, tech debt, the print track strategy, and the code of the plan.
+Measured: schema strictness (F1), published gate (F2), tests that read check status (F3, F4), shipped A4 versus the taught set (F6), minutes per day (F7), HTML hashes of w01 and w02 (F10), make-teacher-book-print limits (F9).
+Baseline: PROJECT_TESTS at role_base_sha in one heavy-run wrapper. Exit 1. Test Files 1 failed, 24 passed (25). Tests 4 failed, 613 passed (617). Duration 562.60 s (real 15m42s). Lock wait about 6 minutes.
+The 4 failures are all in the print track's uncommitted Red file dashboard/__tests__/storytime-print-covers.test.ts (Missing module: lib/storytime/print/teacher-book-cover.ts). This track's baseline without that file: 24 files, 613 tests, all pass.
+The strategy role did not edit or stage the print Red file. pnpm-lock.yaml: no change.
+Known text gaps in the strategy: about 20 sentences longer than 25 words remain (sections 5.5, 5.8, 5.10, 6.1, 6.2, 7); the L7 sentence in 5.4 is long.
+
+MEASURE_AGENT_RESULT
+role: strategy
+status: complete
+track: storytime_teaching_loops_20261103
+phase: Phase 1: Schema and checks (2026-11-03 to 2026-11-05)
+commits: ec109f9eb5da4df74e9b291390622b75ed8c7ccd (docs(measure): add the test strategy of storytime_teaching_loops)
+tests_run: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts' at 5007015369609dd4bef5425c8f049633ce529772: exit 1; Test Files 1 failed | 24 passed (25); Tests 4 failed | 613 passed (617); 562.60 s. All 4 failures are in the uncommitted print Red file storytime-print-covers.test.ts. Without that file: 24 files, 613 tests, all pass.
+files_changed: measure/tracks/storytime_teaching_loops_20261103/test-strategy.md (committed); measure/runs/storytime_teaching_loops_20261103/strategy-50070153.log and strategy-50070153-baseline.txt (not committed)
+plan_updates: P1 add rules R1 and R2, with the print Phase 5 Green as the start of the Phase 1 Red. P2 replace the Red 2 "temporary copy of checks.ts" with the in-tree mutant protocol, and allow the shared sample file under __tests__/fixtures in a Red commit. P3 add decisions Q1 to Q12 to Phase 1, especially Q1. P4 add the fixture upgrade and the switch dry-run list to the Phase 3 Red, and change "Change no test file" at the switch. P5 the Phase 3 Red asserts approval.loops as "draft, or approved with words and date". P6 the Phase 2 --loops build needs a loops draft for the text gate and a temporary HOME. P7 FR-13 acceptance: check each commit of this track, not a range diff. P8 exclude storytime-loops-content.test.ts from the print track PROJECT_TESTS from the Phase 3 Red to the switch. P9 spec FR-7 note: C5 and D2 cannot donate minutes under a per-day sum.
+known_failures: The 4 baseline failures belong to the print track's uncommitted Red file, not to this track. About 20 sentences in the strategy exceed 25 words (ASD-STE100). Mutants C29 and C30 cannot be caught before the Phase 3 switch (stated in the strategy).
+handoff: Capture phase_base_sha with git rev-parse HEAD right after commit ec109f9e (and red_base right before each Red role starts). Phase 1 role order: Red (non-Anthropic), Green (Sonnet), Red 2, Green 2, Red 3, Green 3, Hand-off 1, Manual Verification, role gate, Review A, B, C, adversarial, phase acceptance. Review A, B, C and adversarial all apply to Phase 1. UX and browser review: never; API review is inside Review C. Rule R1: the Phase 1 Red starts only after the print Phase 5 Green passes its gates; if it has not passed by 2026-11-04 12:00 ICT, use the fallback exclude of section 2.3. Answer or accept the defaults of Q1 to Q12 (section 5.2) before the first Red: Q1 loops-blend taught set = taughtTo graphemes plus the sounds named in the week's opening.pa, reading `sounds` and not `word` (strict taughtTo cannot be met by w01); Q2 answer.page is an integer with no schema bound; Q3 new objects are .strict(). D6 (day 1 recall of week 1) keeps the spec default: no recall on that day.
+END_MEASURE_AGENT_RESULT

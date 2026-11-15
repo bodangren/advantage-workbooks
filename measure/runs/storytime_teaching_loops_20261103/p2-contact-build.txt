@@ -1,0 +1,62 @@
+Script started on 2026-11-03 22:24:50+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'bash /tmp/opencode/p2-contact.sh'" <not executed on terminal>]
+⠙[1G[0Kst2/1 — Hello!   [../../../../../tmp/opencode/a42-repo.j3OZpy/content/storytime/l2/w01.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    song-frame      The frame 8 or more times in the song
+  WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 7: "Hello, I am, hello, I am" in the sheet, "Hello, who are you?" in the lines
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  WARN    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game — "nose": /o/, /z/ not taught and not in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  WARN    loops-minutes   The loop minutes fill the period; only loop steps change — A4: 0 min, a loop step has 2 or more; A: 6 + 19 = 25 with loopMinutes, not 30
+  FAIL    published       Published only when approved and clean — audio not approved; song not approved
+
+Summary: 1 package(s), 1 failed check(s), 3 warning(s).
+done  Level 2 (th): /tmp/opencode/a42-home.sjWqyu/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf (1 weeks, 25 pages; fonts: Sarabun-Regular, OpenSans-ExtraBold, Sarabun-SemiBold, OpenSans-SemiBold, Sarabun-Italic, OpenSans-Italic, OpenSans-Regular, Sarabun-Bold, OpenSans-Bold)
+⠙[1G[0K[1mnpm[22m [96mnotice[39m
+[1mnpm[22m [96mnotice[39m New [31mmajor[39m version of npm available! [31m11.17.0[39m -> [34m12.2.1[39m
+[1mnpm[22m [96mnotice[39m Changelog: [34mhttps://github.com/npm/cli/releases/tag/v12.2.1[39m
+[1mnpm[22m [96mnotice[39m To update run: [4mnpm install -g npm@12.2.1[24m
+[1mnpm[22m [96mnotice[39m
+⠙[1G[0K⠙[1G[0Kweek 1: 0 difference(s) against /tmp/opencode/a42-home.sjWqyu/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf
+Pre-converting to DeviceGray (K-only) ...
+Converting 25 pages with Ghostscript (fonts kept, K-only) ...
+Done in 3 s.
+../../../../../tmp/opencode/a42-home.sjWqyu/Desktop/print-ready/storytime/loops/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1_PDFX-1a.pdf: 25 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001, 9 font(s)
+All checks pass.
+done  Level 2 unit 1 (th, weeks 1): /tmp/opencode/a42-home.sjWqyu/Desktop/print-ready/storytime/loops/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1_PDFX-1a.pdf (25 pages)
+⠙[1G[0K⠙[1G[0K../../../../../tmp/opencode/a42-home.sjWqyu/Desktop/print-ready/storytime/loops/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1_PDFX-1a.pdf: 25 pages, 1.1 MB, PDF 1.3, PDF/X-1a:2001, 9 font(s)
+All checks pass.
+⠙[1G[0KCONTACT_PAGE_COUNT=25
+/home/daniebo/Desktop/Workbooks/measure/runs/storytime_teaching_loops_20261103/p2-sheets/contact-01.jpg
+/home/daniebo/Desktop/Workbooks/measure/runs/storytime_teaching_loops_20261103/p2-sheets/contact-02.jpg
+/home/daniebo/Desktop/Workbooks/measure/runs/storytime_teaching_loops_20261103/p2-sheets/contact-03.jpg
+/home/daniebo/Desktop/Workbooks/measure/runs/storytime_teaching_loops_20261103/p2-sheets/contact-04.jpg
+/home/daniebo/Desktop/Workbooks/measure/runs/storytime_teaching_loops_20261103/p2-sheets/contact-05.jpg
+
+Script done on 2026-11-03 22:28:26+07:00 [COMMAND_EXIT_CODE="0"]

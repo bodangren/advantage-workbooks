@@ -1,0 +1,105 @@
+Script started on 2026-11-03 01:29:50+07:00 [COMMAND="bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'python3 /tmp/opencode/green-7c25380d/mutants.py; echo EXIT=$?'" <not executed on terminal>]
+S1: CAUGHT; blendDrill.words max 5 to 6; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds blendDrill.words to 3..5
+S2: CAUGHT; blendDrill.words min 3 to 2; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds blendDrill.words to 3..5
+S3: CAUGHT; repeats max 5 to 6; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds blendDrill.repeats to 2..5
+S4: CAUGHT; repeats min 2 to 1; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds blendDrill.repeats to 2..5
+S5a: CAUGHT; sounds min 2 to 1; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds blendDrill.sounds to 2..4 labels
+S5b: CAUGHT; sounds max 4 to 5; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds blendDrill.sounds to 2..4 labels
+S6a: CAUGHT; sightWords.words min 1 to 0; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds sightWords.words to 1..3
+S6b: CAUGHT; sightWords.words max 3 to 4; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds sightWords.words to 1..3
+S7a: CAUGHT; seconds min 2 to 1; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds sightWords.seconds to 2..5
+S7b: CAUGHT; seconds max 5 to 6; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds sightWords.seconds to 2..5
+S8a: CAUGHT; loopMinutes max 20 to 21; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds loopMinutes to 0..20 and fails 21
+S8b: CAUGHT; loopMinutes min 0 to 1; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > bounds loopMinutes to 0..20 and fails 21
+S9: CAUGHT; questions length rule removed; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > fails a read-along with 2 or 4 questions, and a kind twice
+S10: CAUGHT; unique-kind refine removed; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > fails a read-along with 2 or 4 questions, and a kind twice
+S11: CAUGHT; loops default removed; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: shipped weeks and the loops default > defaults approval.loops to draft when the key is absent
+S12: CAUGHT; refine: date rule removed; vitest exit 1; restore cmp: ok
+    2 failed | 25 passed (27)
+    failed: StorytimeLoopsApprovalSchema refine > fails an approved loops part with an empty date or blank words
+    failed: StorytimeLoopsApprovalSchema refine > fails an approved loops part without date
+S13: CAUGHT; refine: words rule removed; vitest exit 1; restore cmp: ok
+    2 failed | 25 passed (27)
+    failed: StorytimeLoopsApprovalSchema refine > fails an approved loops part with an empty date or blank words
+    failed: StorytimeLoopsApprovalSchema refine > fails an approved loops part without words
+S14: CAUGHT; refine: trim removed; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: StorytimeLoopsApprovalSchema refine > fails an approved loops part with an empty date or blank words
+S15: CAUGHT; loops part not strict; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: StorytimeLoopsApprovalSchema refine > fails an unknown key in the loops part (strict)
+S16: CAUGHT; loops added to STORYTIME_APPROVAL_PARTS; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: approval guards (characterization, pass at Red) > keeps the six approval parts exactly, without loops
+S17: CAUGHT; published filter loses the loops exclusion; vitest exit 1; restore cmp: ok
+    4 failed | 23 passed (27)
+    failed: published guard (characterization, pass at Red) > keeps the shipped published detail with an explicit draft loops part
+    failed: published guard (characterization, pass at Red) > passes published on a w01 copy with six approved parts and a draft loops part
+    failed: published guard (characterization, pass at Red) > reports the shipped st2/1 published detail
+    failed: published guard (characterization, pass at Red) > still reports images not approved when only images is draft (the exclusion is not over-broad)
+S18: CAUGHT; published filter skips every draft part; vitest exit 1; restore cmp: ok
+    3 failed | 24 passed (27)
+    failed: published guard (characterization, pass at Red) > keeps the shipped published detail with an explicit draft loops part
+    failed: published guard (characterization, pass at Red) > reports the shipped st2/1 published detail
+    failed: published guard (characterization, pass at Red) > still reports images not approved when only images is draft (the exclusion is not over-broad)
+S19: CAUGHT; the refine is put on StorytimeAppApprovalSchema; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: approval guards (characterization, pass at Red) > parses an approved app part with status only (baseline; no refine on the app part)
+S20a: CAUGHT; BlendDrillSchema not strict; vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > fails an unknown key in a new object and a misspelled key (Q3, strict)
+S20b: NOT CAUGHT; blend drill word not strict; vitest exit 0; restore cmp: ok
+    27 passed (27)
+S20c: NOT CAUGHT; SoundLoopSchema not strict; vitest exit 0; restore cmp: ok
+    27 passed (27)
+S20d: NOT CAUGHT; SightWordsSchema not strict; vitest exit 0; restore cmp: ok
+    27 passed (27)
+S20e: NOT CAUGHT; BookQuestionSchema not strict; vitest exit 0; restore cmp: ok
+    27 passed (27)
+S20f: NOT CAUGHT; question answer not strict; vitest exit 0; restore cmp: ok
+    27 passed (27)
+S20g: NOT CAUGHT; RecallSchema not strict; vitest exit 0; restore cmp: ok
+    27 passed (27)
+S21: CAUGHT; answer.page gets a lower bound (Q2); vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > parses answer.page 0 (the schema has no bound; Q2)
+S22: CAUGHT; recall.items gets a length bound (Q3); vitest exit 1; restore cmp: ok
+    1 failed | 26 passed (27)
+    failed: bounds and strictness > does not length-check recall.items (4 and 6 parse), and fails a card kind outside the four
+mutants: 32, caught: 26
+uncaught: S20b, S20c, S20d, S20e, S20f, S20g
+final restore cmp: ok
+git status of lib/storytime: clean
+EXIT=0
+
+Script done on 2026-11-03 01:37:19+07:00 [COMMAND_EXIT_CODE="0"]

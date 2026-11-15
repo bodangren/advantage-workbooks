@@ -1,0 +1,36 @@
+
+ RUN  v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ✓ __tests__/storytime-loops-manual.test.ts (10 tests) 295ms
+ ✓ __tests__/storytime-loops-checks.test.ts (38 tests) 1175ms
+ ✓ __tests__/storytime-loops-content.test.ts (103 tests) 635ms
+ ✓ __tests__/storytime-loops-schema.test.ts (27 tests) 375ms
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+ ✓ __tests__/storytime-loops-teacher-book.test.ts (6 tests) 4794ms
+     ✓ documents --loops in the manual PDF help  2499ms
+     ✓ returns exit 2 for an unknown manual PDF flag  1888ms
+ ✓ __tests__/storytime-loops-audio.test.ts (14 tests) 477ms
+ ✓ __tests__/storytime-manual.test.ts (27 tests) 196ms
+
+ Test Files  7 passed (7)
+      Tests  225 passed (225)
+   Start at  10:33:42
+   Duration  7.08s (transform 1.06s, setup 664ms, import 3.11s, tests 7.95s, environment 2ms)
+
+VITEST_EXIT=0

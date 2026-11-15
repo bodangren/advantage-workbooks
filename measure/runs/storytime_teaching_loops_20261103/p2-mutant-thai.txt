@@ -1,0 +1,43 @@
+Script started on 2026-11-03 22:19:55+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'bash /tmp/opencode/p2-mutant-thai.sh'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m7 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m6 skipped[39m[2m)[22m[32m 26[2mms[22m[39m
+     [2m[90m↓[39m[22m keeps the shipped w01 and w02 HTML byte-equal with loops absent or off
+     [2m[90m↓[39m[22m prints each routine in English and Thai for loop-complete w%02d
+     [2m[90m↓[39m[22m prints each routine in English and Thai for loop-complete w%02d
+     [2m[90m↓[39m[22m keeps loop-complete HTML unchanged when the option is absent or false
+     [2m[90m↓[39m[22m puts the routines in step order, and keeps recall in the day opening
+     [2m[90m↓[39m[22m escapes routine text and prints English when a routine has no Thai line
+[31m     [31m×[31m defines the five routine headings in both label sets[39m[32m 16[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-manual.test.ts[2m > [22mStorytime teaching loops in the manual[2m > [22mdefines the five routine headings in both label sets
+[31m[1mAssertionError[22m: expected 'Blend drill' to match /[ก-๙]/[39m
+
+[32m- Expected:[39m 
+/[ก-๙]/
+
+[31m+ Received:[39m 
+"Blend drill"
+
+[36m [2m❯[22m __tests__/storytime-loops-manual.test.ts:[2m142:39[22m[39m
+    [90m140| [39m        for (const key of ['blendDrill', 'soundLoop', 'sightWords', 'q…
+    [90m141| [39m            [34mexpect[39m([34mlabels[39m([32m'en'[39m)[key])[33m.[39m[34mtoBeTruthy[39m()[33m;[39m
+    [90m142| [39m            [34mexpect[39m([34mlabels[39m([32m'th'[39m)[key])[33m.[39m[34mtoMatch[39m([36m/[ก-๙]/[39m)[33m;[39m
+    [90m   | [39m                                      [31m^[39m
+    [90m143| [39m        }
+    [90m144| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m6 skipped[39m[90m (7)[39m
+[2m   Start at [22m 22:19:57
+[2m   Duration [22m 1.35s[2m (transform 515ms, setup 99ms, import 754ms, tests 26ms, environment 0ms)[22m
+
+[?25hMUTANT caught; restore cmp: ok
+
+Script done on 2026-11-03 22:19:58+07:00 [COMMAND_EXIT_CODE="0"]

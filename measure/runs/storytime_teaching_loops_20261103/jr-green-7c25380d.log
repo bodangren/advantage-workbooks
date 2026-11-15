@@ -1,0 +1,69 @@
+Measure Jr Green log: storytime_teaching_loops_20261103, phase P1, task Green (schema).
+
+phase_base_sha: ec109f9eb5da4df74e9b291390622b75ed8c7ccd
+role_base_sha: 7c25380db2e295907108b11087c3271f8aa8d428
+Red commit 8e72293b is inside phase_base_sha..HEAD (git merge-base check: ok).
+
+Steps
+1. Read spec FR-1, plan, test strategy 5.4 to 5.6, and the Red test. Read the risk note of plan line 37:
+   storytime-week.test.ts and storytime-phonics.test.ts count warnings of checks. This task adds no check,
+   so no test that counts checks is affected.
+2. Added the fields to dashboard/lib/storytime/schema.ts and the loops exclusion to checks.ts.
+   First code commit 8e09bb81. GREEN_TEST_COMMAND passed 27 of 27.
+3. PROJECT_CHECKS then failed in tsc: __tests__/storytime-print-contract.test.ts:179 builds an approval
+   object without `loops` and assigns it to the parsed type. A required output key broke that older test.
+   Fix: `loops: StorytimeLoopsApprovalSchema.default(DRAFT).optional()`. A probe showed that the parse still
+   fills the draft default. The code commit was amended (not pushed) to 720fd34c.
+   All four gates and the mutants ran again on 720fd34c; the evidence files hold only these final runs.
+4. Mutant run: 32 mutants, 26 caught. The first run had a setup error on S11 (my pattern did not match
+   the final text); the pattern was fixed and the whole run was repeated.
+5. Plan evidence commit 0ed599c3: Green task [x] with commit 720fd34c, gate and mutant notes, and the two
+   fixes on the Red line (commit 8e72293b; baseline 25 files and 617 tests at 65e85255).
+
+Gates on 720fd34c (evidence files in this folder, each with the exit code)
+- GREEN_TEST_COMMAND: exit 0, 1 file, 27 of 27 tests (jr-green-7c25380d-green.txt)
+- PROJECT_TESTS: exit 0, 26 files, 644 tests, all pass (jr-green-7c25380d-project.txt)
+- PROJECT_LINT: exit 0 (jr-green-7c25380d-lint.txt)
+- PROJECT_CHECKS: exit 0; one FAIL, `published` of st2/1, detail "images not approved; audio not approved;
+  song not approved"; tsc --noEmit clean (jr-green-7c25380d-checks.txt)
+- pnpm-lock.yaml: unchanged. No test file changed. No file under video/ or print modules in my commits.
+
+Mutants (jr-green-7c25380d-mutants.txt; script /tmp/opencode/green-7c25380d/mutants.py; copy and cmp restore
+after each; final restore cmp: ok; git status of lib/storytime clean)
+mutants: 32, caught: 26
+S1,S2 blendDrill.words max/min: "bounds blendDrill.words to 3..5"
+S3,S4 repeats max/min: "bounds blendDrill.repeats to 2..5"
+S5a,S5b sounds min/max: "bounds blendDrill.sounds to 2..4 labels"
+S6a,S6b sightWords.words min/max: "bounds sightWords.words to 1..3"
+S7a,S7b seconds min/max: "bounds sightWords.seconds to 2..5"
+S8a,S8b loopMinutes max/min: "bounds loopMinutes to 0..20 and fails 21"
+S9,S10 questions length and unique kind: "fails a read-along with 2 or 4 questions, and a kind twice"
+S11 loops default removed: "defaults approval.loops to draft when the key is absent"
+S12 date rule removed: "fails an approved loops part without date"; "... with an empty date or blank words"
+S13 words rule removed: "fails an approved loops part without words"; "... with an empty date or blank words"
+S14 trim removed: "fails an approved loops part with an empty date or blank words"
+S15 loops part not strict: "fails an unknown key in the loops part (strict)"
+S16 loops in STORYTIME_APPROVAL_PARTS: "keeps the six approval parts exactly, without loops"
+S17 published filter loses the loops exclusion: 4 published-guard tests
+S18 published filter skips every draft part: 3 published-guard tests
+S19 refine on StorytimeAppApprovalSchema: "parses an approved app part with status only (baseline...)"
+S20a BlendDrillSchema not strict: "fails an unknown key in a new object and a misspelled key (Q3, strict)"
+S21 answer.page lower bound: "parses answer.page 0 (the schema has no bound; Q2)"
+S22 recall.items length bound: "does not length-check recall.items (4 and 6 parse)..."
+NOT caught (6, a Red coverage gap; Green cannot change a test): the strict marker removed from the drill
+word (S20b), SoundLoopSchema (S20c), SightWordsSchema (S20d), BookQuestionSchema (S20e), the question
+answer (S20f), RecallSchema (S20g). Test L4 tests an unknown key only on blendDrill.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: Measure Jr Green
+track: storytime_teaching_loops_20261103
+phase: P1
+baseline_sha: 7c25380db2e295907108b11087c3271f8aa8d428
+head: 0ed599c3
+commits: 720fd34c (Green code); 0ed599c3 (plan evidence)
+tests: green exit 0 (27 of 27); project exit 0 (26 files, 644 tests); lint exit 0; checks exit 0 (one FAIL published of st2/1, tsc clean)
+mutants: 32 run, 26 caught; all bounds, the loops default, the refine rules, S15, S16, S17, S18, S19, S20a, S21, S22 caught (test names above); 6 strictness mutants S20b to S20g not caught
+files: dashboard/lib/storytime/schema.ts; dashboard/lib/storytime/checks.ts; measure/tracks/storytime_teaching_loops_20261103/plan.md
+handoff: see the final reply
+END_MEASURE_AGENT_RESULT

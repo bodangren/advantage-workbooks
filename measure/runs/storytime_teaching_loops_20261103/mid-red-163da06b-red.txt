@@ -1,0 +1,483 @@
+Script started on 2026-11-03 12:33:41+07:00 [COMMAND="cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 391[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m32 tests[22m[2m | [22m[31m30 failed[39m[2m)[22m[33m 479[2mms[22m[39m
+[31m     [31m×[31m parses, and passes the six loop checks on w01 to w07[39m[32m 167[2mms[22m[39m
+[31m     [31m×[31m passes loops-recall and loops-minutes on the review week w08, and runs no other loop check[39m[32m 18[2mms[22m[39m
+     [32m✓[39m runs no loop check on a Level 1 week[32m 21[2mms[22m[39m
+[31m     [31m×[31m reports a teach week without blendDrill on A4, and a drill on A3 does not count[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m reports a drill word with a sound that the week did not teach and the opening does not name[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m passes oral-base sounds of the opening in w01 (Q1)[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m passes a taught sound that the opening does not name, and the bank alias of a label[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m reports a missing soundLoop on A1, on A2, and on A3[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m reports a missing sightWords on A6 and on D2[39m[32m 16[2mms[22m[39m
+[31m     [31m×[31m reports words in another order than focus.trickyWords[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m reports sightWords on a week without tricky words, and passes when both are absent[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m reports a read-along without questions and the order what, who, where[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m reports page 0 and a page past the last page, and passes page 1 and the last page[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m reads the answer page as pages[answer.page - 1] (G4: page 2 passes, page 3 fails)[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m reports a word that the page does not hold, and a substring of a word on the page[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m reports 4 and 6 items, and passes 5[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m keeps the count rule when the taught set and the other weeks are not given (Q4)[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m reports a repeated item in one day, and passes the same item on two days[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m reports an item of a later week, and passes an item of the file week[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m checks a sound and a tricky card against the taught set[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m checks a frame card against the frame of this week and of an earlier week[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m checks a word card against the text of earlier days and earlier weeks[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m applies the day 1 exception of week 1 and checks a recall that is present on that day[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m passes a Level 2 week whose day sums to 30, and reports 29 and 31[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m passes a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48[39m[32m 13[2mms[22m[39m
+[31m     [31m×[31m does not count a moved step[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m reports loopMinutes that differs from minutes on a step that is not a loop step, and passes an equal one[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m reports a loop step with 1 minute and passes one with 2[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m exports LOOP_CHECK_STATUS with the status of a problem, and not a pass[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m gives each problem of a shipped teach week the status LOOP_CHECK_STATUS[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m reports the missing recall of the shipped review week w08[39m[32m 7[2mms[22m[39m
+     [32m✓[39m writes the copies only into the temporary folder and leaves the shipped weeks unchanged[32m 11[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 30 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mthe loop-complete copy of the teach weeks[2m > [22mparses, and passes the six loop checks on w01 to w07
+[31m[1mAssertionError[22m: Missing check: loops-blend (w01): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectPass __tests__/storytime-loops-checks.test.ts:[2m167:12[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m268:40[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mthe loop-complete copy of the teach weeks[2m > [22mpasses loops-recall and loops-minutes on the review week w08, and runs no other loop check
+[31m[1mAssertionError[22m: expected [] to deeply equal [ 'loops-minutes', 'loops-recall' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "loops-minutes",[39m
+[32m-   "loops-recall",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m274:33[22m[39m
+    [90m272| [39m    it('passes loops-recall and loops-minutes on the review week w08, …
+    [90m273| [39m        [35mconst[39m report [33m=[39m [34mreportFor[39m([34mloopComplete[39m([33mREVIEW_WEEK[39m))[33m;[39m
+    [90m274| [39m        expect(loopIds(report)).toEqual(['loops-minutes', 'loops-recal…
+    [90m   | [39m                                [31m^[39m
+    [90m275| [39m        [34mexpectPass[39m(report[33m,[39m [32m'loops-recall'[39m[33m,[39m [32m'w08'[39m)[33m;[39m
+    [90m276| [39m        [34mexpectPass[39m(report[33m,[39m [32m'loops-minutes'[39m[33m,[39m [32m'w08'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-blend[2m > [22mreports a teach week without blendDrill on A4, and a drill on A3 does not count
+[31m[1mAssertionError[22m: Missing check: loops-blend (A4 without the drill): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m289:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-blend[2m > [22mreports a drill word with a sound that the week did not teach and the opening does not name
+[31m[1mAssertionError[22m: Missing check: loops-blend (an untaught /z/): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m303:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-blend[2m > [22mpasses oral-base sounds of the opening in w01 (Q1)
+[31m[1mAssertionError[22m: Missing check: loops-blend (the w01 oral drill): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectPass __tests__/storytime-loops-checks.test.ts:[2m167:12[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m308:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-blend[2m > [22mpasses a taught sound that the opening does not name, and the bank alias of a label
+[31m[1mAssertionError[22m: Missing check: loops-blend (taught /p/ in w05): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectPass __tests__/storytime-loops-checks.test.ts:[2m167:12[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m320:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-sound[2m > [22mreports a missing soundLoop on A1, on A2, and on A3
+[31m[1mAssertionError[22m: Missing check: loops-sound (A without A1): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m335:13[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-sight[2m > [22mreports a missing sightWords on A6 and on D2
+[31m[1mAssertionError[22m: Missing check: loops-sight (A6 without the step): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m344:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-sight[2m > [22mreports words in another order than focus.trickyWords
+[31m[1mAssertionError[22m: Missing check: loops-sight (the reversed order): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m356:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-sight[2m > [22mreports sightWords on a week without tricky words, and passes when both are absent
+[31m[1mAssertionError[22m: Missing check: loops-sight (no tricky words but sightWords): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m362:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-questions[2m > [22mreports a read-along without questions and the order what, who, where
+[31m[1mAssertionError[22m: Missing check: loops-questions (no questions): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m376:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-questions[2m > [22mreports page 0 and a page past the last page, and passes page 1 and the last page
+[31m[1mAssertionError[22m: Missing check: loops-questions (page 0): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m392:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-questions[2m > [22mreads the answer page as pages[answer.page - 1] (G4: page 2 passes, page 3 fails)
+[31m[1mAssertionError[22m: Missing check: loops-questions (kites on page 2): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectPass __tests__/storytime-loops-checks.test.ts:[2m167:12[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m414:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-questions[2m > [22mreports a word that the page does not hold, and a substring of a word on the page
+[31m[1mAssertionError[22m: Missing check: loops-questions (a word that is not on the page): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m428:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-recall[2m > [22mreports 4 and 6 items, and passes 5
+[31m[1mAssertionError[22m: Missing check: loops-recall (4 items): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m443:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-recall[2m > [22mkeeps the count rule when the taught set and the other weeks are not given (Q4)
+[31m[1mAssertionError[22m: Missing check: loops-recall (4 items without taught): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m455:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-recall[2m > [22mreports a repeated item in one day, and passes the same item on two days
+[31m[1mAssertionError[22m: Missing check: loops-recall (a repeated item on day 2): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m463:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-recall[2m > [22mreports an item of a later week, and passes an item of the file week
+[31m[1mAssertionError[22m: Missing check: loops-recall (a week 3 item in w01): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m475:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-recall[2m > [22mchecks a sound and a tricky card against the taught set
+[31m[1mAssertionError[22m: Missing check: loops-recall (the untaught sound z): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m489:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-recall[2m > [22mchecks a frame card against the frame of this week and of an earlier week
+[31m[1mAssertionError[22m: Missing check: loops-recall (the frame of w03 in w01): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m516:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-recall[2m > [22mchecks a word card against the text of earlier days and earlier weeks
+[31m[1mAssertionError[22m: Missing check: loops-recall (cat from day 1): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectPass __tests__/storytime-loops-checks.test.ts:[2m167:12[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m532:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-recall[2m > [22mapplies the day 1 exception of week 1 and checks a recall that is present on that day
+[31m[1mAssertionError[22m: Missing check: loops-recall (w01 day 1 without a recall): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectPass __tests__/storytime-loops-checks.test.ts:[2m167:12[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m560:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-minutes[2m > [22mpasses a Level 2 week whose day sums to 30, and reports 29 and 31
+[31m[1mAssertionError[22m: Missing check: loops-minutes (the sample of w02): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectPass __tests__/storytime-loops-checks.test.ts:[2m167:12[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m582:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-minutes[2m > [22mpasses a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48
+[31m[1mAssertionError[22m: Missing check: loops-minutes (a Level 3 sum of 49): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectPass __tests__/storytime-loops-checks.test.ts:[2m167:12[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m595:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-minutes[2m > [22mdoes not count a moved step
+[31m[1mAssertionError[22m: Missing check: loops-minutes (a moved step with 5 minutes): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectPass __tests__/storytime-loops-checks.test.ts:[2m167:12[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m607:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-minutes[2m > [22mreports loopMinutes that differs from minutes on a step that is not a loop step, and passes an equal one
+[31m[1mAssertionError[22m: Missing check: loops-minutes (B2 with 3 of 4 minutes): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m613:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mloops-minutes[2m > [22mreports a loop step with 1 minute and passes one with 2
+[31m[1mAssertionError[22m: Missing check: loops-minutes (A3 with 1 minute): expected undefined to be defined[39m
+[36m [2m❯[22m check __tests__/storytime-loops-checks.test.ts:[2m161:72[22m[39m
+    [90m159| [39mfunction check(report: PackageReport, id: string, where = ''): RawWeek…
+    [90m160| [39m    [35mconst[39m found [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m id)[33m;[39m
+    [90m161| [39m    expect(found, `Missing check: ${id}${where ? ` (${where})` : ''}`)…
+    [90m   | [39m                                                                       [31m^[39m
+    [90m162| [39m    [35mreturn[39m found[33m![39m[33m;[39m
+    [90m163| [39m}
+[90m [2m❯[22m expectProblem __tests__/storytime-loops-checks.test.ts:[2m172:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m624:9[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mthe status of the loop checks (Q10)[2m > [22mexports LOOP_CHECK_STATUS with the status of a problem, and not a pass
+[31m[1mAssertionError[22m: Missing export: LOOP_CHECK_STATUS: expected undefined to be defined[39m
+[36m [2m❯[22m loopStatus __tests__/storytime-loops-checks.test.ts:[2m155:56[22m[39m
+    [90m153| [39m    [35mconst[39m mod [33m=[39m checksModule [35mas[39m unknown [35mas[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m[33m;[39m
+    [90m154| [39m    [35mconst[39m value [33m=[39m mod[33m.[39m[33mLOOP_CHECK_STATUS[39m[33m;[39m
+    [90m155| [39m    [34mexpect[39m(value[33m,[39m [32m'Missing export: LOOP_CHECK_STATUS'[39m)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m   | [39m                                                       [31m^[39m
+    [90m156| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m157| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m635:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mthe status of the loop checks (Q10)[2m > [22mgives each problem of a shipped teach week the status LOOP_CHECK_STATUS
+[31m[1mAssertionError[22m: Missing export: LOOP_CHECK_STATUS: expected undefined to be defined[39m
+[36m [2m❯[22m loopStatus __tests__/storytime-loops-checks.test.ts:[2m155:56[22m[39m
+    [90m153| [39m    [35mconst[39m mod [33m=[39m checksModule [35mas[39m unknown [35mas[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m[33m;[39m
+    [90m154| [39m    [35mconst[39m value [33m=[39m mod[33m.[39m[33mLOOP_CHECK_STATUS[39m[33m;[39m
+    [90m155| [39m    [34mexpect[39m(value[33m,[39m [32m'Missing export: LOOP_CHECK_STATUS'[39m)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m   | [39m                                                       [31m^[39m
+    [90m156| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m157| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m641:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/30]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-checks.test.ts[2m > [22mthe status of the loop checks (Q10)[2m > [22mreports the missing recall of the shipped review week w08
+[31m[1mAssertionError[22m: expected [] to deeply equal [ 'loops-minutes', 'loops-recall' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "loops-minutes",[39m
+[32m-   "loops-recall",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-checks.test.ts:[2m654:33[22m[39m
+    [90m652| [39m    it('reports the missing recall of the shipped review week w08', ()…
+    [90m653| [39m        [35mconst[39m report [33m=[39m [34mreportFor[39m([34mstripLoops[39m([34mshippedWeek[39m([33mREVIEW_WEEK[39m)))[33m;[39m
+    [90m654| [39m        expect(loopIds(report)).toEqual(['loops-minutes', 'loops-recal…
+    [90m   | [39m                                [31m^[39m
+    [90m655| [39m        [34mexpectProblem[39m(report[33m,[39m [32m'loops-recall'[39m[33m,[39m [32m'the shipped w08'[39m)[33m;[39m
+    [90m656| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/30]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m30 failed[39m[22m[2m | [22m[1m[32m29 passed[39m[22m[90m (59)[39m
+[2m   Start at [22m 12:33:45
+[2m   Duration [22m 2.53s[2m (transform 948ms, setup 644ms, import 1.76s, tests 871ms, environment 0ms)[22m
+
+[?25h
+Script done on 2026-11-03 12:33:48+07:00 [COMMAND_EXIT_CODE="1"]

@@ -1,0 +1,21 @@
+Switch dry run of Phase 1 Green 2 (strategy 5.10). Code commit 059becf5, role base 824cd791.
+LOOP_CHECK_STATUS set to 'fail' in dashboard/lib/storytime/checks.ts (backup copy, restored; restore cmp: ok).
+PROJECT_TESTS with the switch: 28 files, 11 tests red, 685 passed, 696 in all. Full output: jr-green-824cd791-switch-full.txt.
+
+Group 1: the four fixture tests of F4 (fixtureWeek and fixtureReviewWeek carry no loop routines). The Phase 3 Red upgrade of the fixtures cures them.
+ - __tests__/storytime-week.test.ts > storytime review week checks (design §3.5) > passes the review fixture: the block, the benchmark, and no teaching-week rule
+ - __tests__/storytime-week.test.ts > storytime-week checks > fails a published week with a part not approved or a failed check
+ - __tests__/storytime-week.test.ts > storytime-week checks > lets a review week leave out the books, the song, and the family (it needs its block and benchmark instead)
+ - __tests__/storytime-week.test.ts > storytime-week checks > passes the fixture week with no failure
+
+Group 2: tests that read the published check of the shipped w01 or of a copy of w01 (the w01 content of Phase 3 cures them). Seven tests, four files.
+ - __tests__/storytime-loops-schema.test.ts > published guard (characterization, pass at Red) > keeps the shipped published detail with an explicit draft loops part
+ - __tests__/storytime-loops-schema.test.ts > published guard (characterization, pass at Red) > passes published on a w01 copy with six approved parts and a draft loops part
+ - __tests__/storytime-loops-schema.test.ts > published guard (characterization, pass at Red) > reports the shipped st2/1 published detail
+ - __tests__/storytime-loops-schema.test.ts > published guard (characterization, pass at Red) > still reports images not approved when only images is draft (the exclusion is not over-broad)
+ - __tests__/storytime-print-adversarial.test.ts > Adversarial: the strict approval parts fail closed > keeps the shipped week 1 published detail limited to the three media parts
+ - __tests__/storytime-print-contract-v2.test.ts > Storytime print v2: the P14 approval records (R14) > the published gate of st2/1 names only images, audio, and song
+ - __tests__/storytime-print-contract.test.ts > Storytime print: schema and approvals > R9/G5: keeps a draft print part outside the six-part app publication gate
+
+Tests outside the two groups: none.
+The 11 red tests are 4 + 7. All other tests of PROJECT_TESTS pass at the status fail.

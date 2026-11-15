@@ -1,0 +1,121 @@
+Script started on 2026-11-03 22:16:25+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-loops-manual.test.ts __tests__/storytime-loops-teacher-book.test.ts __tests__/storytime-manual.test.ts __tests__/storytime-print-teacher-book.test.ts'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 276[2mms[22m[39m
+[31m     [31m×[31m keeps the shipped w01 and w02 HTML byte-equal with loops absent or off[39m[32m 150[2mms[22m[39m
+     [32m✓[39m prints each routine in English and Thai for loop-complete w%02d[32m 44[2mms[22m[39m
+     [32m✓[39m prints each routine in English and Thai for loop-complete w%02d[32m 25[2mms[22m[39m
+     [32m✓[39m puts the routines in step order, and keeps recall in the day opening[32m 19[2mms[22m[39m
+     [32m✓[39m escapes routine text and prints English when a routine has no Thai line[32m 21[2mms[22m[39m
+     [32m✓[39m defines the five routine headings in both label sets[32m 2[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-manual.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 596[2mms[22m[39m
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-vcYo5Z/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-wlNXjj/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+ [32m✓[39m __tests__/storytime-print-teacher-book.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 4654[2mms[22m[39m
+     [33m[2m✓[22m[39m provides the teacher-book print CLI and a successful help response [33m 1403[2mms[22m[39m
+     [33m[2m✓[22m[39m R-F-P3-1 exports the exact K-only PDF/X flag list [33m 663[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside [33m 1385[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside [33m 931[2mms[22m[39m
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+ [31m❯[39m __tests__/storytime-loops-teacher-book.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 11057[2mms[22m[39m
+[31m     [31m×[31m /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts accepts --loops and passes it to the manual compiler[39m[32m 173[2mms[22m[39m
+[31m     [31m×[31m /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts accepts --loops and passes it to the manual compiler[39m[32m 77[2mms[22m[39m
+     [33m[2m✓[22m[39m documents --loops in the manual PDF help [33m 7385[2mms[22m[39m
+     [33m[2m✓[22m[39m returns exit 2 for an unknown manual PDF flag [33m 3318[2mms[22m[39m
+     [32m✓[39m does not print loop headings for a shipped week when the option is on[32m 86[2mms[22m[39m
+     [32m✓[39m keeps the print build arguments limited to the requested week and output folder[32m 12[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-manual.test.ts[2m > [22mStorytime teaching loops in the manual[2m > [22mkeeps the shipped w01 and w02 HTML byte-equal with loops absent or off
+[31m[1mAssertionError[22m: baseline commit 85fa353534ce4aa8676a70e3e766f9bdaa58a669, week 1: expected [ …(4) ] to deeply equal [ …(4) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   "1f7eac2980b924fd113ad59a1cb91496619fb7b15d391057d8c5082550b3050e",[39m
+[32m-   "07ec633988472c21c433ec3f564fcbe5cfb4b780dd2e2942bcf8e86ba1847375",[39m
+[32m-   "bcd736ca7a63ca4d82e68836ddc7b6fdf15e28a6b5b7d385c6270edf78d46ad8",[39m
+[32m-   "383aff95e45c39e6672e2f6dfa4aa7e4415d72d718eaad7aee15a6953b07e0d0",[39m
+[31m+   "5545b53e1531be2d81aad5f4b4cf2eb54911eb6dab53df0376728afb20f0b2fd",[39m
+[31m+   "125da330e9f45229148cd73cb3ffb8531a0c638c7dd02652747f3baecc102dca",[39m
+[31m+   "5b2a2bbd50cf328a2d632f6d9ff27b045b099efc139b0a194509fc0b2f7349a3",[39m
+[31m+   "d7b5606047371e7676262ea23fc56552e99101cf12317e7a2b522d6581141576",[39m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/storytime-loops-manual.test.ts:[2m79:87[22m[39m
+    [90m 77| [39m                renderStorytimeWeek(week, 'th'), renderStorytimeWeek(w…
+    [90m 78| [39m            ][33m;[39m
+    [90m 79| [39m            expect(html.map(digest), `baseline commit ${BASELINE_COMMI…
+    [90m   | [39m                                                                                      [31m^[39m
+    [90m 80| [39m            expect(compileStorytimeManual([week], { lang: 'en', loops:…
+    [90m 81| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-teacher-book.test.ts[2m > [22mStorytime teacher-book loop print flag[2m > [22m/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts accepts --loops and passes it to the manual compiler
+[31m[1mReferenceError[22m: property is not defined[39m
+[36m [2m❯[22m __tests__/storytime-loops-teacher-book.test.ts:[2m26:53[22m[39m
+    [90m 24| [39m                && arg.properties.some((property) => ts.isPropertyAssi…
+    [90m 25| [39m                    && property.name.getText(parsed) === 'loops' && pr…
+    [90m 26| [39m                || ts.isShorthandPropertyAssignment(property) && prope…
+    [90m   | [39m                                                    [31m^[39m
+    [90m 27| [39m        }
+    [90m 28| [39m        ts[33m.[39m[34mforEachChild[39m(node[33m,[39m visit)[33m;[39m
+[90m [2m❯[22m visit __tests__/storytime-loops-teacher-book.test.ts:[2m23:37[22m[39m
+[90m [2m❯[22m visitNode2 node_modules/typescript/lib/typescript.js:[2m32449:18[22m[39m
+[90m [2m❯[22m forEachChildInVariableDeclaration node_modules/typescript/lib/typescript.js:[2m32511:123[22m[39m
+[90m [2m❯[22m Object.forEachChild node_modules/typescript/lib/typescript.js:[2m32970:35[22m[39m
+[90m [2m❯[22m visit __tests__/storytime-loops-teacher-book.test.ts:[2m28:12[22m[39m
+[90m [2m❯[22m visitNodes node_modules/typescript/lib/typescript.js:[2m32457:22[22m[39m
+[90m [2m❯[22m forEachChildInVariableDeclarationList node_modules/typescript/lib/typescript.js:[2m32676:12[22m[39m
+[90m [2m❯[22m Object.forEachChild node_modules/typescript/lib/typescript.js:[2m32970:35[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-teacher-book.test.ts[2m > [22mStorytime teacher-book loop print flag[2m > [22m/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts accepts --loops and passes it to the manual compiler
+[31m[1mReferenceError[22m: property is not defined[39m
+[36m [2m❯[22m __tests__/storytime-loops-teacher-book.test.ts:[2m26:53[22m[39m
+    [90m 24| [39m                && arg.properties.some((property) => ts.isPropertyAssi…
+    [90m 25| [39m                    && property.name.getText(parsed) === 'loops' && pr…
+    [90m 26| [39m                || ts.isShorthandPropertyAssignment(property) && prope…
+    [90m   | [39m                                                    [31m^[39m
+    [90m 27| [39m        }
+    [90m 28| [39m        ts[33m.[39m[34mforEachChild[39m(node[33m,[39m visit)[33m;[39m
+[90m [2m❯[22m visit __tests__/storytime-loops-teacher-book.test.ts:[2m23:37[22m[39m
+[90m [2m❯[22m visitNode2 node_modules/typescript/lib/typescript.js:[2m32449:18[22m[39m
+[90m [2m❯[22m forEachChildInPropertyAccessExpression node_modules/typescript/lib/typescript.js:[2m32609:12[22m[39m
+[90m [2m❯[22m Object.forEachChild node_modules/typescript/lib/typescript.js:[2m32970:35[22m[39m
+[90m [2m❯[22m visit __tests__/storytime-loops-teacher-book.test.ts:[2m28:12[22m[39m
+[90m [2m❯[22m visitNode2 node_modules/typescript/lib/typescript.js:[2m32449:18[22m[39m
+[90m [2m❯[22m forEachChildInVariableDeclaration node_modules/typescript/lib/typescript.js:[2m32511:123[22m[39m
+[90m [2m❯[22m Object.forEachChild node_modules/typescript/lib/typescript.js:[2m32970:35[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m47 passed[39m[22m[90m (50)[39m
+[2m   Start at [22m 22:17:01
+[2m   Duration [22m 14.53s[2m (transform 2.33s, setup 2.69s, import 4.84s, tests 16.58s, environment 7.22s)[22m
+
+[?25h
+Script done on 2026-11-03 22:17:16+07:00 [COMMAND_EXIT_CODE="1"]

@@ -1,0 +1,45 @@
+Spec review of Amendment 1, track storytime_teaching_loops_20261103, phase track setup.
+Audited head: ffd9971c8a448d4e7287cc0f52da00ad1bea19fb. Confirmed equal to git rev-parse HEAD before the review.
+
+## Inputs read
+
+- measure/tracks/storytime_teaching_loops_20261103/spec.md and plan.md in full, with the Phase 3b section read in full.
+- git show ffd9971c (the amendment diff; spec.md, plan.md, spec-review.md only, 191 insertions and 1 deletion).
+- The review standard at ~/.agents/skills/measure/references/spec-review.md.
+- The owner source, read-only: advantage-pr measure/pm-log.md lines 2162, 2163, and 2167.
+- dashboard/lib/storytime/schema.ts, checks.ts, i18n.ts; dashboard/scripts/storytime/check-weeks.ts, make-manual-pdf.ts, make-teacher-book-print.ts.
+- dashboard/__tests__/storytime-loops-content.test.ts and the storytime-* test files that read the shipped weeks.
+- content/storytime/l2/w01.json and w08.json (step ids, titles, minutes, moved flags, unit).
+- Monorepo, read-only at HEAD f97fffbaf: apps/storytime/lib/contracts/week.ts, apps/storytime/scripts/receive-weeks.ts, apps/storytime/__tests__/phase3-media-coverage.test.ts, apps/primary-advantage/lib/storytime/week.ts.
+
+## Checks
+
+1. Paraphrase: possible for both halves. The moment table gives one caption per day and excludes the sticker step C7; the stack gives the add mode (ShareSchema, the check share-moment, the --share print option, the caption list).
+2. Zoom-out: the amendment answers Daniel's words of 2026-11-06. Each moment shows a child who uses English. The moment adds 0 minutes. The student book stays byte-equal (AC-14.7, FR-13). The Thai goes to Daniel only.
+3. Moment table against the week files: A3 Form it, B5 Frame practice 7 min, B6 Act it 1 min with moved next-opening, C4 read together, D4 Write it 10 min, D5 Share 1 min with moved next-opening, D6 Sing it 0 min with moved next-opening, C7 Sticker 3 min, E5 Check 3 min. w08 holds A1 Benchmark, A2 Centers with no rotation, B1, C1, D1 Centers rotation 1, and E3 Song show and unit sticker. The counts follow: 6 share icons for a teach week and 5 for w08.
+4. Check rules 2 and 3 hold on the data: D6 is a moved step of the day 4 script, so it sits in the day 5 period; D5 is the same, and the photo at D4 keeps one shot in the day 4 period.
+5. Zero-decision: field names, types, strict objects, media values, the step id regex, the shot bound, the 7 check rules, the constant, the check order, the option and flag names, the 4 label keys, the icon attribute, and the caption-list path and row form are fixed. D16 and D17 each carry a stated default.
+6. Monorepo contract claim: holds at HEAD f97fffbaf. scriptSchema is passthrough at lines 381 to 391. receiveWeek is at line 218, the parse at 222, and the unchanged source write at 237. The pin db3fc23d8 is a real commit dated 2026-11-07 00:45.
+7. Media limit: MEDIA_EXTENSION at receive-weeks.ts line 183, mediaPathsOf at 191, and phase3-media-coverage.test.ts fails on an uncovered media extension. Rule 7 of the check is the needed guard.
+8. Gate plan: check-weeks.ts exits 1 on a FAIL only, and WARN rows exit 0. The print track PROJECT_CHECKS has 0 FAIL tolerance (F52, since 67be5603). The warn window does not break it, and the switch is safe because the content task runs first. The Phase 3 delete step is right: withoutNewFields deletes script.recall at line 391, so delete script.share belongs there.
+9. Done-when gates are fast and falsifiable: git show --name-only with grep -vc, grep -c counts, the WARN and PASS rows, the SHARE_CHECK_STATUS grep, the ls of the PDFX file, the 40 and 4 row counts, and the Daniel answer grep. The amendment contradicts no accepted phase.
+
+## Verdict
+
+No Blocker. One Major (F1) and three Nits (F2, F3, F4). Status: pass.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+phase: track setup
+track: storytime_teaching_loops_20261103
+audited_head_sha: ffd9971c8a448d4e7287cc0f52da00ad1bea19fb
+status: complete
+result: pass
+commits: none
+tests_run: git rev-parse HEAD -> ffd9971c8a448d4e7287cc0f52da00ad1bea19fb; git show --stat ffd9971c -> spec.md, plan.md, spec-review.md (191 insertions, 1 deletion); grep of step ids, moved flags, minutes and unit in content/storytime/l2/w01.json and w08.json; read of check-weeks.ts exit logic -> 1 on a FAIL, 0 on a WARN; grep of PROJECT_CHECKS in measure/tracks/storytime_print_r1_20261025/plan.md line 23 -> 0 FAIL tolerance; grep of mediaPathsOf, receiveWeek and weekSchema.safeParse in Monorepo receive-weeks.ts -> lines 191, 218, 222; git log -1 db3fc23d8 -> 2026-11-07 00:45:27 +0700; python3 -I -m json.tool on the result JSON -> parses
+files_changed: measure/runs/storytime_teaching_loops_20261103/spec-review-ffd9971c.json; measure/runs/storytime_teaching_loops_20261103/spec-review-ffd9971c.log
+plan_updates: none (report-only)
+blocking_findings: none
+nonblocking_findings: F1 [Major] spec.md FR-14 "The caption list" and plan.md Phase 3b caption-list task (AC-14.10): the cross-check command is unnamed and no script file is named, so a second role cannot reproduce the gate that each row matches the week files and i18n.ts. Rationale: the plan says "Run a cross-check command that compares each row with the week files and the labels, and record the command and its exit code in this task", so the gate rests on a command that the maker writes at run time; AC-14.10 states "A cross-check command compares each row ... and it exits 0" without a path or a shape, and the reviewer or the orchestrator cannot re-run it from the track documents. | F2 [Nit] plan.md Phase 3b Red task (fixtures): the new file __tests__/fixtures/storytime-share-sample.ts is not covered by PROJECT_LINT, which reads only lib/storytime, scripts/storytime, and __tests__/storytime-loops-*.test.ts. Rationale: Phase 1 recorded the same gap and added its fixture to the lint run by hand (plan.md line 110), and this phase repeats no such step, so a lint error in the sample file reaches a commit unseen. | F3 [Nit] spec.md FR-14 rule 6: "caption.en has 1 to 40 words" names no word counter. Rationale: no word-count helper exists in dashboard/lib/storytime or dashboard/lib/text-profile at HEAD ffd9971c, so two implementers can count the same caption differently; the limit stays at the rule level and the Red author picks the counter in the test. | F4 [Nit] spec.md "Interface for the Storytime app (Monorepo)": the text names HEAD db3fc23d8, and the repository HEAD is f97fffbaf. Rationale: every claim rechecked at f97fffbaf (scriptSchema passthrough at lines 381 to 391, receiveWeek at line 218, the parse at 222, the unchanged write at 237, mediaPathsOf at 191, phase3-media-coverage.test.ts) holds at both commits, so the stale pin costs no work and only weakens the evidence line.
+dispositions: none
+END_MEASURE_AGENT_RESULT

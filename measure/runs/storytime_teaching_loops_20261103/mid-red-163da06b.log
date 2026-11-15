@@ -1,0 +1,49 @@
+Mid Red retry r2, track storytime_teaching_loops_20261103, phase P1. Status: done.
+
+## Scope
+
+- Two Red cases in dashboard/__tests__/storytime-loops-checks.test.ts (commit 8813eb4b) are fixed:
+  1. loops-recall, "checks a sound and a tricky card against the taught set": day 2 of w01 holds `can` once (Q6). Index 3 changed from `can` to `a`. The day now reads `[n, can, and, a, frame]`.
+  2. loops-minutes, "passes a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48": every day B to E of the Level 3 copy sums to 49 (FR-7). A helper pads the days. Day A keeps the cases apart.
+- Input: Green 2 log `jr-green-0b368463.log`.
+- No production file changed. No test file outside the checks file changed.
+
+## Steps
+
+1. Provisional log written.
+2. Two cases fixed in the checks file.
+3. RED_TEST_COMMAND run once: `mid-red-163da06b-red.txt`. Exit 1 recorded in `mid-red-163da06b-red.exit`.
+4. Commit a07a2212 holds the checks file only (21 insertions).
+5. PROJECT_LINT run through the heavy wrapper: exit 0, no findings (`mid-red-163da06b-lint.txt`). `pnpm-lock.yaml` unchanged.
+6. Commit 824cd791 holds plan.md only (one evidence sub-line under line 83).
+7. This log refined.
+
+## Evidence
+
+- Red run: 2 files, 59 tests. 30 failed, 29 passed. Schema file `storytime-loops-schema.test.ts`: 27 of 27 pass.
+- Checks file: 30 failed, 2 passed of 32. Both passing tests are the characterization tests of plan line 93.
+- No collection error. All 30 failures sit in the checks file. Failure messages by group:
+  - 26 `Missing check: <id> (<case>)`: loops-blend 5, loops-sound 1, loops-sight 3, loops-recall 8, loops-questions 4, loops-minutes 5.
+  - 2 `Missing export: LOOP_CHECK_STATUS`.
+  - 2 shipped-week cases: `expected [] to deeply equal ['loops-minutes', 'loops-recall']`.
+- Exit code correction: the first `.exit` file held `0`. That value recorded the wrong process. The same capture footer reads `COMMAND_EXIT_CODE="1"`. The `.exit` file now holds `1`. No second vitest run took place.
+- PROJECT_TESTS and PROJECT_CHECKS did not run in this retry. The brief did not ask for them.
+
+## Not yet proven
+
+- The two edited cases fail on `Missing check` before their data assertions run. The data fix is not yet proven by a run.
+- Green 2 adds the checks. The edited cases then reach their data assertions. That run proves the data fix.
+
+MEASURE_AGENT_RESULT
+status: done
+role: Measure Mid Red
+track: storytime_teaching_loops_20261103
+phase: P1
+baseline_sha: ec109f9eb5da4df74e9b291390622b75ed8c7ccd
+head: 824cd791
+commits: a07a2212 "test(storytime-loops): fix the repeat and the level 3 minutes data of the loop check red tests" (dashboard/__tests__/storytime-loops-checks.test.ts, 21 insertions); 824cd791 "measure(plan): record the phase 1 red 2 retry of storytime_teaching_loops" (measure/tracks/storytime_teaching_loops_20261103/plan.md, 1 insertion)
+tests: RED_TEST_COMMAND exit 1 (mid-red-163da06b-red.txt). 59 tests: 30 failed, 29 passed. Schema file 27 of 27 pass. Checks file 30 failed, 2 passed of 32. Failures: 26 Missing check, 2 Missing export LOOP_CHECK_STATUS, 2 shipped-week cases. PROJECT_LINT exit 0 (mid-red-163da06b-lint.txt).
+files: dashboard/__tests__/storytime-loops-checks.test.ts; measure/tracks/storytime_teaching_loops_20261103/plan.md. Uncommitted run evidence by design (measure/runs/**): mid-red-163da06b-red.txt, mid-red-163da06b-red.exit, mid-red-163da06b-lint.txt, mid-red-163da06b.log. Not staged: dashboard/raw.json, video/**, dashboard/lib/**, and unrelated dirty paths.
+remaining_failures: The 30 Red failures are expected until Green 2: 26 Missing check (loops-blend, loops-sound, loops-sight, loops-recall, loops-questions, loops-minutes), 2 Missing export LOOP_CHECK_STATUS, 2 shipped-week cases (expected [] to deeply equal ['loops-minutes', 'loops-recall']). Edited cases still failing before their data checks: "checks a sound and a tricky card against the taught set" (loops-recall) and "passes a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48" (loops-minutes). Their data assertions are not yet proven.
+handoff: (1) Spec note for Green 2: the loops-minutes rule follows FR-7 as written. Every day must sum to periodMinutes using loopMinutes ?? minutes for non-moved steps. A rule that sums only days with changed loopMinutes fails FR-7. Red follows FR-7. No user decision is needed unless the orchestrator wants a different rule, which needs a spec change first. (2) Green 2 note for defect 1: index 1 holds `can`, and index 3 now holds `a`. Setting index 3 alone to `a` is correct only with index 1 as `can`. (3) Exit recording: the first `.exit` value of 0 was wrong. Corrected to 1 from the COMMAND_EXIT_CODE footer of the same capture. No second run.
+END_MEASURE_AGENT_RESULT

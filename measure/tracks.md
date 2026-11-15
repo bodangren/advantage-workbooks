@@ -8,9 +8,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [ ] **Track: Storytime Advantage Level 2 Unit 2 (weeks 9 to 16): the week texts, the picture list for Forge, the Thai parts for Daniel's check, the unit scope change of the makers, the print build with the unit 1 makers, and the hand-offs; unit 1 first; print-ready 2026-12-08 (internal). Series plan: `measure/storytime-series-plan.md`.** *(Created: 2026-11-06)*
   *Link: [./tracks/storytime_l2_unit2_20261106/](./tracks/storytime_l2_unit2_20261106/)*
 
-- [ ] **Track: Storytime teaching loops: five teaching routines in the Level 2 week scripts (oral blend drill, correct-practise-retest loop, fast-way sight words, read-along question set, daily recall of 5), with checks, the Thai teacher book print, and the content of w01 to w08; Daniel's check by 2026-11-16, print order 2026-11-25.** *(Created: 2026-11-02)*
-  *Link: [./tracks/storytime_teaching_loops_20261103/](./tracks/storytime_teaching_loops_20261103/)*
-
 - [ ] **Track: Storytime Advantage release-1 print: the Level 2 unit 1 student book, the teacher book, the 7 read-along and 7 decodable books, the covers, and the card kit as PDF/X-1a; week 1 first; Daniel's approval by 2026-11-24, print order 2026-11-25.** *(Created: 2026-10-25)*
   *Link: [./tracks/storytime_print_r1_20261025/](./tracks/storytime_print_r1_20261025/)*
 
@@ -205,3 +202,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [x] **Track: The Storytime write-in workbook cover system: the shared cover module, the data of the 16 student books, the three mock covers on Google Drive for Daniel's check, and the Level 2 Unit 1 cover print file.** *(Completed: 2026-11-02)*
   *Link: [./archive/storytime_covers_20261027/](./archive/storytime_covers_20261027/)*
   *Note: Phase 3 (the covers of the other 13 books) is one deferred task, `deferred:daniel`, after release 1.*
+
+- [x] **Track: Storytime teaching loops: five teaching routines in the Level 2 week scripts (oral blend drill, correct-practise-retest loop, fast-way sight words, read-along question set, daily recall of 5), with checks, the Thai teacher book print, and the content of w01 to w08; Daniel's check by 2026-11-16, print order 2026-11-25.** *(Completed: 2026-11-16)*
+  *Link: [./archive/storytime_teaching_loops_20261103/](./archive/storytime_teaching_loops_20261103/)*
+  *Five teaching routines in the Storytime Advantage Level 2 week scripts (research item A-42): a scripted oral blend drill, the correct-practise-retest loop on each sound step, the fast-way sight-word step with a timed check, a fixed question set for each read-along, and a fixed daily recall of 5 items. New schema fields and checks, the teacher book template and Thai teacher book print, and the content of w01 to w08 in English and Thai. The day stays 30 minutes. Student book, readers, and covers unchanged. Daniel's check of w01 to w08 by 2026-11-16 for the print order of 2026-11-25.*
+  *Note: Final acceptance PASS at f0c4c929 (the orchestrator role-gate printed "PASS: final-acceptance gate passed" on 2026-11-16). Two test gaps stay open as tech debt: the strictness mutants S20b to S20g survive, and mutant C26 survives. No phase-acceptance JSON exists for the five phases; the PM light-lane order of 2026-11-03 closed them with manual verification tasks and checkpoints (deviation FA-1).*

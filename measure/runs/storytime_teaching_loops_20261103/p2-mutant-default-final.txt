@@ -1,0 +1,191 @@
+Script started on 2026-11-03 22:19:46+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'bash /tmp/opencode/p2-mutant-default.sh'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m7 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m6 skipped[39m[2m)[22m[32m 125[2mms[22m[39m
+     [2m[90m↓[39m[22m keeps the shipped w01 and w02 HTML byte-equal with loops absent or off
+     [2m[90m↓[39m[22m prints each routine in English and Thai for loop-complete w%02d
+     [2m[90m↓[39m[22m prints each routine in English and Thai for loop-complete w%02d
+[31m     [31m×[31m keeps loop-complete HTML unchanged when the option is absent or false[39m[32m 121[2mms[22m[39m
+     [2m[90m↓[39m[22m puts the routines in step order, and keeps recall in the day opening
+     [2m[90m↓[39m[22m escapes routine text and prints English when a routine has no Thai line
+     [2m[90m↓[39m[22m defines the five routine headings in both label sets
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-manual.test.ts[2m > [22mStorytime teaching loops in the manual[2m > [22mkeeps loop-complete HTML unchanged when the option is absent or false
+[31m[1mAssertionError[22m: expected '<!DOCTYPE html>\n<html lang="en">\n<h…' to be '<!DOCTYPE html>\n<html lang="en">\n<h…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -1182,10 +1182,11 @@[39m
+[2m      [22m
+[2m      <div class="st-opening">[22m
+[2m        <h4>Opening routine (6 min)</h4>[22m
+[2m        <ol><li>Greeting song and call-and-response: &quot;Hello, Sprouts!&quot; &quot;Hello, Teacher ___!&quot;</li><li>Sound game (1 min): &quot;Listen: nose. What is the first sound? Nnn! Listen: sun. What is the last sound? Nnn!&quot;</li><li>Song of the week with the actions.</li><li>Review strip: read the cards of the day (below).</li></ol>[22m
+[2m        <h5>Review strip</h5>[22m
+[31m+       <h5>Daily recall</h5><p>Recall the cards.</p><p><span class="st-card">recall1</span><span class="st-card">recall2</span><span class="st-card">recall3</span><span class="st-card">recall4</span><span class="st-card">recall5</span></p>[39m
+[2m        <p>No review cards today.</p>[22m
+[2m      </div>[22m
+[2m      [22m
+[2m      [22m
+[2m      <div class="st-step">[22m
+[33m@@ -1196,10 +1197,11 @@[39m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Actions</h5><ul class="tm-note-list"><li>Hold up one picture card at a time and say the word slowly.</li><li>Stretch the first sound: nnnest.</li><li>Mix n words with other words.</li><li>When the script says nnn, say the sound. When it says &quot;the letter n&quot;, say the letter name.</li></ul></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Language</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Listen. Nnnest. Nest.&quot;</p><p class="tm-language-quote">&quot;Is the first sound nnn? Thumbs up or thumbs down?&quot;</p><p class="tm-language-quote">&quot;Yes! Nnnest starts with nnn.&quot;</p><p class="tm-language-quote">&quot;Listen. Cat. Does cat start with nnn? No!&quot;</p></div></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">What Students Do</h5><ul class="tm-note-list"><li>Children say each word after the teacher.</li><li>Children show thumbs up for an n word and thumbs down for other words.</li></ul></div>[22m
+[2m          <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">Watch For</h5><ul class="tm-note-list tm-watch-list"><li>Children who copy a friend&#039;s thumbs: ask them alone with one more card.</li><li>Children who say &quot;nuh&quot;: the sound is n, with no &quot;uh&quot; at the end.</li></ul></div>[22m
+[2m        </div>[22m
+[31m+       <div class="st-loop"><h5>Sound loop</h5><p>Say the sound again.</p><p>Say it with me.</p><p>What sound?</p></div>[39m
+[2m        <div class="st-variants">[22m
+[2m          <p><strong>Easier:</strong> Use only three cards (nest, nose, cat) and say the first sound two times.</p>[22m
+[2m          <p><strong>Harder:</strong> Ask about the last sound too: &quot;Sun. Does sun end with nnn?&quot;</p>[22m
+[2m          <p><strong>Group:</strong> Pairs: you hold up a card; partner A says the word, and partner B shows the thumbs.</p>[22m
+[2m        </div>[22m
+[33m@@ -1212,10 +1214,11 @@[39m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Actions</h5><ul class="tm-note-list"><li>Show the sound card for the letter n and point to the letter.</li><li>Say the pure sound: lips a little apart, the tip of the tongue on the bump behind the top teeth, voice on, air out through the nose. It is the sound of the Thai letter น (the n in &quot;nok&quot;), with no vowel after it.</li><li>Do the action of the letter n: nod your head slowly, as for &quot;yes&quot;, and hum nnn.</li></ul></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Language</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Look. This is the letter n. It says nnn.&quot;</p><p class="tm-language-quote">&quot;Listen: nnn. Not &#039;nuh&#039;. Nnn.&quot;</p><p class="tm-language-quote">&quot;Watch me: nnn. Nod, nod, nod.&quot;</p><p class="tm-language-quote">&quot;Your turn. Say it and do it. Three times.&quot;</p></div></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">What Students Do</h5><ul class="tm-note-list"><li>Children say nnn and nod their heads slowly, three times.</li><li>Children point to the letter n on the card.</li></ul></div>[22m
+[2m          <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">Watch For</h5><ul class="tm-note-list tm-watch-list"><li>A pure sound: no &quot;uh&quot; at the end.</li><li>Every child does the action, not only the front rows.</li></ul></div>[22m
+[2m        </div>[22m
+[31m+       <div class="st-loop"><h5>Sound loop</h5><p>Say the sound again.</p><p>Say it with me.</p><p>What sound?</p></div>[39m
+[2m        <div class="st-variants">[22m
+[2m          <p><strong>Easier:</strong> Children put one finger on the nose and feel the hum while they say nnn.</p>[22m
+[2m          <p><strong>Harder:</strong> Show the cards for the letters n, m, and s in a mixed order. Children do the n action only for n.</p>[22m
+[2m          <p><strong>Group:</strong> Two halves: one half says the sound, and the other half does the action. Then the halves change.</p>[22m
+[2m        </div>[22m
+[33m@@ -1228,26 +1231,28 @@[39m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Actions</h5><ul class="tm-note-list"><li>Write a large letter n on the board and say the formation words while you write.</li><li>Write the letter n in the air with your back to the class, so your hand moves the same way as theirs.</li><li>Children write the letter n in the air, then trace it in the book three times.</li></ul></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Language</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Start at the top. Down. Up. Over the hill. Down.&quot;</p><p class="tm-language-quote">&quot;Fingers up. Write the letter n in the air with me.&quot;</p><p class="tm-language-quote">&quot;Open your book. Find the letter n. Trace it three times. Start at the dot.&quot;</p></div></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">What Students Do</h5><ul class="tm-note-list"><li>Children write the letter n in the air with one finger and say the formation words.</li><li>Children trace the letter n three times in the book, from the dot.</li></ul></div>[22m
+[2m          <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">Watch For</h5><ul class="tm-note-list tm-watch-list"><li>Children who start at the bottom: take their hand and start at the dot.</li><li>Children who write a big letter N: show the small letter n on the card.</li></ul></div>[22m
+[2m        </div>[22m
+[31m+       <div class="st-loop"><h5>Sound loop</h5><p>Say the sound again.</p><p>Say it with me.</p><p>What sound?</p></div>[39m
+[2m        <div class="st-variants">[22m
+[2m          <p><strong>Easier:</strong> Children trace the letter n in the book with a finger first. Then they trace it with the pencil.</p>[22m
+[2m          <p><strong>Harder:</strong> Write the letter n two more times on the empty line, with no dots.</p>[22m
+[2m          <p><strong>Group:</strong> Pairs: partner A writes n on partner B&#039;s back with a finger; partner B says nnn.</p>[22m
+[2m        </div>[22m
+[2m      </div>[22m
+[2m      <div class="st-step">[22m
+[32m-       <h4 class="st-step-title">A4 · Blend it <span class="st-min">5 min</span></h4>[39m
+[31m+       <h4 class="st-step-title">A4 · Blend it <span class="st-min">0 min</span></h4>[39m
+[2m        <p class="st-gloss"><strong>Materials:</strong> sound picture cards: net, nut, picture cards: nose</p>[22m
+[2m        [22m
+[2m        <div class="tm-teaching-notes">[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Actions</h5><ul class="tm-note-list"><li>Keep the picture cards net, nut, and nose face down.</li><li>Say the three sounds of a word with a short stop between them, then say them fast. Hold the n: nnn.</li><li>Show the picture after the class says the word.</li><li>Say the sounds, not the letter names: e as in &quot;egg&quot;, u as in &quot;up&quot;, o as in &quot;go&quot;, t with no &quot;uh&quot; after it.</li></ul></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Language</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Listen. Nnn - e - t. What is the word?&quot;</p><p class="tm-language-quote">&quot;Say it fast: net!&quot;</p><p class="tm-language-quote">&quot;Look. A net. Yes!&quot;</p><p class="tm-language-quote">&quot;Next one. Nnn - u - t.&quot;</p><p class="tm-language-quote">&quot;Last one. Nnn - o - zzz.&quot;</p></div></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">What Students Do</h5><ul class="tm-note-list"><li>Children listen to the three sounds and say the word.</li><li>Children clap once for each sound, then say the word.</li></ul></div>[22m
+[2m          <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">Watch For</h5><ul class="tm-note-list tm-watch-list"><li>Children who say only the first sound: say the three sounds again, closer together.</li><li>This week the blending is by ear only; the letters come in the next weeks.</li></ul></div>[22m
+[2m        </div>[22m
+[31m+       <div class="st-loop"><h5>Blend drill</h5><p>I say each sound.</p><p>Say the sounds with me.</p><p>Say the word.</p><p>net, nut, nose — 3×</p><p>Listen. I will say it again.</p></div>[39m
+[2m        <div class="st-variants">[22m
+[2m          <p><strong>Easier:</strong> Say the sounds closer together: nnne-t.</p>[22m
+[2m          <p><strong>Harder:</strong> Say a word; children say its three sounds: &quot;Nut.&quot; &quot;Nnn - u - t.&quot;</p>[22m
+[2m          <p><strong>Group:</strong> Pairs: partner A says the word, partner B points to the picture.</p>[22m
+[2m        </div>[22m
+[33m@@ -1276,10 +1281,11 @@[39m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Actions</h5><ul class="tm-note-list"><li>Show the cards a, and, can, one at a time.</li><li>Read the word. Show the letters that the class cannot sound out yet: all the letters except n. For &quot;a&quot;, that is the whole word.</li><li>Spell each word with letter names, then write it in the air.</li><li>Say a as in &quot;a cat&quot;: the short &quot;uh&quot; sound (the schwa), not the letter name &quot;ay&quot;. This is the only &quot;uh&quot; in the week.</li></ul></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Language</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;This word is a. A cat. A nest.&quot;</p><p class="tm-language-quote">&quot;This word is and. Pat and May.&quot;</p><p class="tm-language-quote">&quot;This word is can. I can jump!&quot;</p><p class="tm-language-quote">&quot;This is a tricky word. We remember it. Say it with me.&quot;</p></div></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">What Students Do</h5><ul class="tm-note-list"><li>Children read each card three times: loud, quiet, loud.</li><li>Children find the n in &quot;and&quot; and &quot;can&quot;.</li><li>Children write &quot;a&quot; in the air.</li></ul></div>[22m
+[2m          <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">Watch For</h5><ul class="tm-note-list tm-watch-list"><li>Children who read &quot;and&quot; as &quot;an&quot;: point to the d and read it again.</li></ul></div>[22m
+[2m        </div>[22m
+[31m+       <div class="st-loop"><h5>Read it the fast way</h5><p>a, and</p><p>Slide under each word. Read it the fast way.</p><p>Read each word in three seconds.</p><p>3 seconds per word</p></div>[39m
+[2m        <div class="st-variants">[22m
+[2m          <p><strong>Easier:</strong> Teach &quot;a&quot; and &quot;and&quot; today; &quot;can&quot; comes on the review strip tomorrow.</p>[22m
+[2m          <p><strong>Harder:</strong> Children say a sentence with &quot;can&quot;: &quot;I can jump.&quot;</p>[22m
+[2m          <p><strong>Group:</strong> Pairs: you show a card; partner A reads it to partner B. Then the partners change.</p>[22m
+[2m        </div>[22m
+[33m@@ -1291,10 +1297,11 @@[39m
+[2m      [22m
+[2m      <div class="st-opening">[22m
+[2m        <h4>Opening routine (6 min, incl. 1 min recall)</h4>[22m
+[2m        <ol><li>Greeting song and call-and-response: &quot;Hello, Sprouts!&quot; &quot;Hello, Teacher ___!&quot;</li><li>Sound game (1 min): &quot;Listen: nest. What is the first sound? Nnn! Listen: pen. What is the last sound? Nnn!&quot;</li><li>Song of the week with the actions.</li><li>Review strip: read the cards of the day (below).</li></ol>[22m
+[2m        <h5>Review strip</h5>[22m
+[31m+       <h5>Daily recall</h5><p>Recall the cards.</p><p><span class="st-card">recall1</span><span class="st-card">recall2</span><span class="st-card">recall3</span><span class="st-card">recall4</span><span class="st-card">recall5</span></p>[39m
+[2m        <p><strong>Sounds:</strong> <span class="st-card">n</span></p><p><strong>Tricky words:</strong> <span class="st-card">a</span><span class="st-card">and</span><span class="st-card">can</span></p>[22m
+[2m      </div>[22m
+[2m      <div class="st-moved-group"><h4>Recall from the last lesson (1 min each, inside the opening: the routine is shorter on these days)</h4>[22m
+[2m      <div class="st-step st-moved">[22m
+[2m        <h4 class="st-step-title">A7 · Read it <span class="st-min">1 min</span></h4>[22m
+[33m@@ -1432,10 +1439,11 @@[39m
+[2m          <p><strong>Harder:</strong> Children sing the verse without the video.</p>[22m
+[2m          <p><strong>Group:</strong> Whole class.</p>[22m
+[2m        </div>[22m
+[2m      </div></li><li>Review strip: read the cards of the day (below).</li></ol>[22m
+[2m        <h5>Review strip</h5>[22m
+[31m+       <h5>Daily recall</h5><p>Recall the cards.</p><p><span class="st-card">recall1</span><span class="st-card">recall2</span><span class="st-card">recall3</span><span class="st-card">recall4</span><span class="st-card">recall5</span></p>[39m
+[2m        <p><strong>Sounds:</strong> <span class="st-card">n</span></p><p><strong>Tricky words:</strong> <span class="st-card">a</span><span class="st-card">and</span><span class="st-card">can</span></p><p><strong>Frame:</strong> <span class="st-card">Hello, I am ___.</span></p>[22m
+[2m      </div>[22m
+[2m      <div class="st-moved-group"><h4>Recall from the last lesson (1 min each, inside the opening: the routine is shorter on these days)</h4>[22m
+[2m      <div class="st-step st-moved">[22m
+[2m        <h4 class="st-step-title">B6 · Act it <span class="st-min">1 min</span></h4>[22m
+[33m@@ -1526,10 +1534,11 @@[39m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Actions</h5><ul class="tm-note-list"><li>Ask two questions about the book. Children answer with a short sentence.</li></ul></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Language</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Look at page 2. Is it a nut? No! It is a net.&quot;</p><p class="tm-language-quote">&quot;Who can nod? Nan can nod!&quot;</p></div></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">What Students Do</h5><ul class="tm-note-list"><li>Children answer &quot;Yes&quot; or &quot;No&quot;, then the full sentence with the teacher.</li></ul></div>[22m
+[2m          <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">Watch For</h5><ul class="tm-note-list tm-watch-list"><li>Children who answer only &quot;yes&quot;: say the full sentence; the child says it after you.</li></ul></div>[22m
+[2m        </div>[22m
+[31m+       <div class="st-loop"><h5>Questions: point to the picture</h5><p>Ask who. — answer: Nan (page 1)</p><p>Ask what. — answer: Nan (page 1)</p><p>Ask where. — answer: Nan (page 1)</p></div>[39m
+[2m        <div class="st-variants">[22m
+[2m          <p><strong>Easier:</strong> Ask only yes or no questions.</p>[22m
+[2m          <p><strong>Harder:</strong> A child asks a question about a page: &quot;Is it a nut?&quot;</p>[22m
+[2m          <p><strong>Group:</strong> Pairs ask each other one question.</p>[22m
+[2m        </div>[22m
+[33m@@ -1557,10 +1566,11 @@[39m
+[2m      <div class="st-prep"><h4>Before this lesson</h4><ul><li>Write each child&#039;s English name on a name card.</li></ul></div>[22m
+[2m      <div class="st-opening">[22m
+[2m        <h4>Opening routine (6 min, incl. 1 min recall)</h4>[22m
+[2m        <ol><li>Greeting song and call-and-response: &quot;Hello, Sprouts!&quot; &quot;Hello, Teacher ___!&quot;</li><li>Sound game (1 min): &quot;Listen: nnn - /u/ - /t/. What is the word? Nut! Listen: sss - /u/ - nnn. What is the word? Sun!&quot;</li><li>Song of the week with the actions.</li><li>Review strip: read the cards of the day (below).</li></ol>[22m
+[2m        <h5>Review strip</h5>[22m
+[31m+       <h5>Daily recall</h5><p>Recall the cards.</p><p><span class="st-card">recall1</span><span class="st-card">recall2</span><span class="st-card">recall3</span><span class="st-card">recall4</span><span class="st-card">recall5</span></p>[39m
+[2m        <p>No review cards today.</p>[22m
+[2m      </div>[22m
+[2m      <div class="st-moved-group"><h4>Recall from the last lesson (1 min each, inside the opening: the routine is shorter on these days)</h4>[22m
+[2m      <div class="st-step st-moved">[22m
+[2m        <h4 class="st-step-title">C6 · Favorite page <span class="st-min">1 min</span></h4>[22m
+[33m@@ -1603,10 +1613,11 @@[39m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Actions</h5><ul class="tm-note-list"><li>Show the cards a, and, can fast.</li><li>Write &quot;and&quot; on the board, then erase one letter; children say the missing letter.</li></ul></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Language</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Read it fast! And. Can. A.&quot;</p><p class="tm-language-quote">&quot;Close your eyes. ... Open your eyes. What is missing?&quot;</p></div></div>[22m
+[2m          <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">What Students Do</h5><ul class="tm-note-list"><li>Children read the cards fast.</li><li>Children say the missing letter name.</li></ul></div>[22m
+[2m          <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">Watch For</h5><ul class="tm-note-list tm-watch-list"><li>Children who say the letter sound for the missing letter: accept it, then say the letter name.</li></ul></div>[22m
+[2m        </div>[22m
+[31m+       <div class="st-loop"><h5>Read it the fast way</h5><p>a, and</p><p>Slide under each word. Read it the fast way.</p><p>Read each word in three seconds.</p><p>3 seconds per word</p></div>[39m
+[2m        <div class="st-variants">[22m
+[2m          <p><strong>Easier:</strong> Show only &quot;a&quot; and &quot;and&quot;.</p>[22m
+[2m          <p><strong>Harder:</strong> Erase two letters of &quot;can&quot;.</p>[22m
+[2m          <p><strong>Group:</strong> Whole class.</p>[22m
+[2m        </div>[22m
+[33m@@ -1666,10 +1677,11 @@[39m
+[2m          <p><strong>Harder:</strong> The leaders sing the verse alone.</p>[22m
+[2m          <p><strong>Group:</strong> One table leads each week.</p>[22m
+[2m        </div>[22m
+[2m      </div></li><li>Review strip: read the cards of the day (below).</li></ol>[22m
+[2m        <h5>Review strip</h5>[22m
+[31m+       <h5>Daily recall</h5><p>Recall the cards.</p><p><span class="st-card">recall1</span><span class="st-card">recall2</span><span class="st-card">recall3</span><span class="st-card">recall4</span><span class="st-card">recall5</span></p>[39m
+[2m        <p>No review cards today.</p>[22m
+[2m      </div>[22m
+[2m      <div class="st-moved-group"><h4>Recall from the last lesson (1 min each, inside the opening: the routine is shorter on these days)</h4>[22m
+[2m      <div class="st-step st-moved">[22m
+[2m        <h4 class="st-step-title">D5 · Share <span class="st-min">1 min</span></h4>[22m
+
+[36m [2m❯[22m __tests__/storytime-loops-manual.test.ts:[2m113:73[22m[39m
+    [90m111| [39m        const stripped = StorytimeWeekSchema.parse(stripLoops(loopCopy…
+    [90m112| [39m        expect(renderStorytimeWeek(complete, 'en')).toBe(renderStoryti…
+    [90m113| [39m        expect(compileStorytimeManual([complete], { lang: 'en' }).html…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m114| [39m        expect(compileStorytimeManual([complete], { lang: 'en', loops:…
+    [90m115| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m6 skipped[39m[90m (7)[39m
+[2m   Start at [22m 22:19:48
+[2m   Duration [22m 1.61s[2m (transform 592ms, setup 108ms, import 896ms, tests 125ms, environment 0ms)[22m
+
+[?25hMUTANT caught; restore cmp: ok
+
+Script done on 2026-11-03 22:19:50+07:00 [COMMAND_EXIT_CODE="0"]

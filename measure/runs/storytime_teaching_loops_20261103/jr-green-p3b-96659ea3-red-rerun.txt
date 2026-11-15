@@ -1,0 +1,41 @@
+    [90m523| [39m        expect(levelOne.checks.map((c) => c.id), 'the check ids of a L…
+    [90m524| [39m        [35mconst[39m levelThree [33m=[39m [34mreportOf[39m([34mlevelThreeCopy[39m([34m1[39m))[33m;[39m
+    [90m525| [39m        expect(levelThree.checks.map((c) => c.id), 'the check ids of a…
+    [90m   | [39m                                                                                      [31m^[39m
+    [90m526| [39m    })[33m;[39m
+    [90m527| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share.test.ts[2m > [22mthe check share-moment[2m > [22mJ16: the share-moment row comes before the published row
+[31m[1mAssertionError[22m: w01 has a share-moment row: expected -1 to be greater than or equal to 0[39m
+[36m [2m❯[22m __tests__/storytime-loops-share.test.ts:[2m532:68[22m[39m
+    [90m530| [39m            const ids = reportOf(shippedWeek(week)).checks.map((c) => …
+    [90m531| [39m            [35mconst[39m shareIndex [33m=[39m ids[33m.[39m[34mindexOf[39m([33mSHARE_ID[39m)[33m;[39m
+    [90m532| [39m            expect(shareIndex, `w0${week} has a share-moment row`).toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m533| [39m            [35mconst[39m publishedIndex [33m=[39m ids[33m.[39m[34mindexOf[39m([32m'published'[39m)[33m;[39m
+    [90m534| [39m            if (publishedIndex >= 0) expect(shareIndex, `w0${week}: sh…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/18]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share.test.ts[2m > [22mthe check share-moment[2m > [22mJ16: a published week with a broken moment blocks the publication at the status fail
+[31m[1mAssertionError[22m: Missing export: SHARE_CHECK_STATUS: expected undefined to be defined[39m
+[36m [2m❯[22m shareStatus __tests__/storytime-loops-share.test.ts:[2m264:57[22m[39m
+    [90m262| [39m    [35mconst[39m mod [33m=[39m checksModule [35mas[39m unknown [35mas[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m[33m;[39m
+    [90m263| [39m    [35mconst[39m value [33m=[39m mod[33m.[39m[33mSHARE_CHECK_STATUS[39m[33m;[39m
+    [90m264| [39m    [34mexpect[39m(value[33m,[39m [32m'Missing export: SHARE_CHECK_STATUS'[39m)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m   | [39m                                                        [31m^[39m
+    [90m265| [39m    [35mreturn[39m value [35mas[39m string[33m;[39m
+    [90m266| [39m}
+[90m [2m❯[22m __tests__/storytime-loops-share.test.ts:[2m539:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/18]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m18 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (23)[39m
+[2m   Start at [22m 03:37:28
+[2m   Duration [22m 3.09s[2m (transform 509ms, setup 542ms, import 927ms, tests 1.17s, environment 0ms)[22m
+
+exit=1

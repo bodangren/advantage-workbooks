@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "track": "storytime_teaching_loops_20261103",
+  "phase": "Phase 3b: Parent-share moments (2026-11-07 to 2026-11-13)",
+  "phase_base_sha": "b6c297d95db941c8c2a055ef54e9751a716355fd",
+  "audited_head_sha": "ca837be6f58b422457f6482e8dc74814ef317486",
+  "summary": "The audit of Phase 3b at HEAD ca837be6 passes. The share schema, the share-moment check, the teacher book option, the caption cross-check, and the book-pages option match FR-14 and the defaults D16 to D28. The two gates pass. One nonblocking plan finding remains: four of the twelve completed task lines do not end with a commit SHA that measure-guard can read.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "A-P3b-1 | low | measure/tracks/storytime_teaching_loops_20261103/plan.md:284,302,310,312 | four [x] task lines of Phase 3b do not end with \" commit \" and 7 hex characters (8-hex SHAs at 284, 310, 312; text after the SHA at 302), so measure-guard reads no SHA"
+  ],
+  "evidence": [
+    "Q1: ShareShotSchema and ShareSchema are strict, with 1 to 2 shots, the step regex ^[A-Z]\\d{1,2}$, media photo or video, and a BiText caption; ScriptSchema.share is optional, so the change is additive; SHARE_CHECK_STATUS is 'fail' at HEAD (checks.ts:520); shareCheck runs before the published block (checks.ts:331 before :336), so a share problem fails the week and blocks a published week; the seven rules of FR-14 are implemented: a missing share, a step of the own script or a moved step of the day before, one shot in the period of the day, two different steps, no assessment step (E5 of a teach week, A1 of a review week), a caption of 1 to 40 words with a non-empty Thai caption, and no caption that ends in a media file extension.",
+    "Q2: with share off or absent the HTML equals the HTML without share fields byte for byte, with loops off and on (T1 guard, both languages, 8 weeks); the caption prints escaped (the MB8 and MB9 mutants are caught); the consent line and the length line print once in each week part, at the first shot of the first day that has a share (the MB12 to MB15 mutants are caught); make-manual-pdf.ts and make-teacher-book-print.ts pass share to compileStorytimeManual (the MB18, MB19, and MB20 mutants are caught); an unknown flag still exits 2 in both scripts.",
+    "Q3: the exit codes 0, 1, and 2 match FR-14; every problem line starts with the row id; the compare holds each cell as exact text after trim (the MX13 mutant is caught); the shots cell keeps the array order (the MX12 mutant is caught); a repeated row id reports '<id>: the row repeats' because lines 141 to 142 run before the no-share skip on line 146 and before the broken-week skip on line 153; a no-share id already carries '<id>: the week file has no share' on line 112, and a broken week carries 'wNN: the week file does not parse' on line 104, so both cases exit 1; the only silent skip is an empty week list, which the function documents as a default.",
+    "Q4: the draft path now builds the unit page list as make-teacher-book-print.ts builds it, from every week of the level, and passes it as studentBookPages to compileStorytimeManual (commit 40d51889); without the flag the helper output equals the old output byte for byte (B3 guard); the six mutants of the text-gate baseline, including the default-on form and the wrong-option-name form, each fail a test (mutants: 6, caught: 6).",
+    "Q5: every key test can fail; the mutant records in the captures match the plan text: MB mutants: 24, caught: 24, MX mutants: 13, caught: 13, tg mutants: 6, caught: 6, and the Green 1 record MS mutants: 12, caught: 12 with MC mutants: 23, caught: 20 and the survivors MC2 and MC3 that the plan names; no mutant-covered test passes for a wrong implementation; the two Green 1 survivors are the known gap of rule 2, which the plan records for a later Red task.",
+    "Q6: commit 14a8c5eb of the storytime_week_package track extends the allow-list of the share compare with books[].audio.wordClips and song.videoLeadInSeconds, the same keys that withoutNewFields of storytime-loops-content.test.ts removes, so the compare keeps the meaning of AC-14.5: a changed existing line still fails it, and the compare still removes scripts[].share from both sides; commit 69cd4db4 adds two optional fields to the schema and one check row; no other reader of StorytimeWeekSchema or StorytimeManualOptions breaks, because both new fields are optional and the option share has a default of false.",
+    "Q7: eight of the twelve [x] task lines of Phase 3b end with ' commit ' and 7 hex characters, and four do not (finding A-P3b-1); every capture that the Phase 3b plan names exists in measure/runs/storytime_teaching_loops_20261103, and its Test Files, Tests, mutants, and exit values match the plan text; the teacher book build task stays [ ] and its met parts at HEAD are the v2 build at commit ccf59077, PRINT_GATE exit 0 with All checks pass, 224 pages, 0 text-gate differences for each week, and the PM receipt of 2026-11-09; the open part is the contact sheet check by the orchestrator.",
+    "Q8: the scope guard count is 0 for all fourteen commits of the phase, which are the code commits ffe6e74a, e9946962, 678b4db4, ce41d8c, 61a3fc52, 56038c16, 1281d4af, 40d51889, 14a8c5eb, and 69cd4db4, the content commits 1d29e893 and 5b9457a1, and the list commits 9d05352d and 3ad26310; no commit touches lib/storytime/print/student-book.ts, readers.ts, picture-check.ts, pictures.ts, covers.ts, or the video folder.",
+    "Q9: A2 holds, the consent line prints with the icons and the Thai captions stay with Daniel; A3 holds, the counts of the phase are labeled integers such as 'mutants: 24, caught: 24', 'Tests  407 passed (407)', '44 rows, 0 problems', 'pages: 224', 'consent line count: 8', and 'caption occurrences: 47', and no count uses a bare digit match; A4 holds, the parse tests assert the parsed value, the checks are asserted by id and by status, and the plan records the exit codes of named captures; A5 holds, every pass claim of the Phase 3b plan lines matches the named capture, and the build records state the measured counts; A6 holds, no note claims the Thai captions approved before the words of Daniel; A7 holds, the allow-list of the compare holds named keys only and the media test is anchored; A9 holds, the tests of the phase read no measure/tracks path and read the shipped week files instead; A10 holds, the caption list names its source commit in the header and the cross-check detects a later change of the sources; A1 and A8 are retired, and the catalog holds no entry from A11 up.",
+    "GATE 1: the capture measure/runs/storytime_teaching_loops_20261103/review-a-p3b-ca837be6-green.txt, one heavy-run wrapper, exit 0, 'Test Files  11 passed (11)', 'Tests  407 passed (407)', duration 42.76 s; the command is CI=true npx vitest run __tests__/storytime-loops-*.test.ts --maxWorkers=1 in the dashboard folder.",
+    "GATE 2: the capture measure/runs/storytime_teaching_loops_20261103/review-a-p3b-ca837be6-lint.txt, one heavy-run wrapper, exit 0, ESLINT_EXIT=0 and TSC_EXIT=0; the command runs npx eslint on lib/storytime, scripts/storytime, the phase test files, and the three fixture files, then npx tsc --noEmit; pnpm-lock.yaml did not change.",
+    "F2 withdrawn: I read lines 126 to 157 of dashboard/scripts/storytime/check-share-captions.ts; lines 141 to 142 report '<id>: the row repeats' for every second copy of any id, because the seen test runs before the no-share skip on line 146 and before the broken-week skip on line 153; a no-share id already carries '<id>: the week file has no share' on line 112, and a broken week carries 'wNN: the week file does not parse' on line 104, so both cases still exit 1; the only silent skip left is an empty week list, which the function documents as a default; no input list remains that the code accepts with 0 problems and that FR-14 refuses."
+  ],
+  "commands": [
+    "cd /home/daniebo/Desktop/Workbooks && git rev-parse HEAD",
+    "python3 snapshot builder over the 21 named files and the 11 named commits, dropping every line that holds a Thai character, then a walk of the snapshot: thai chars: 0",
+    "HEAVY_PRIORITY=p1 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts --maxWorkers=1'",
+    "HEAVY_PRIORITY=p1 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-loops-*.test.ts __tests__/fixtures/storytime-share-sample.ts __tests__/fixtures/storytime-week-fixture.ts __tests__/fixtures/storytime-loops-sample.ts; npx tsc --noEmit'",
+    "git status --porcelain pnpm-lock.yaml",
+    "git show --name-only --format= <sha> for the fourteen phase commits, with the scope count of the P21 pattern",
+    "grep -n over the snapshot copies of schema.ts, checks.ts, manual.ts, i18n.ts, make-manual-pdf.ts, make-teacher-book-print.ts, and check-share-captions.ts",
+    "grep -n over the snapshot copies of the six phase test files for the count assertions",
+    "read of lines 126 to 157 of the snapshot copy of check-share-captions.ts for the contest of finding F2",
+    "rm -rf /tmp/opencode/rev3b-a"
+  ],
+  "changed_files": [
+    "dashboard/lib/storytime/schema.ts",
+    "dashboard/lib/storytime/checks.ts",
+    "dashboard/lib/storytime/manual.ts",
+    "dashboard/lib/storytime/i18n.ts",
+    "dashboard/scripts/storytime/make-manual-pdf.ts",
+    "dashboard/scripts/storytime/make-teacher-book-print.ts",
+    "dashboard/scripts/storytime/check-share-captions.ts",
+    "dashboard/__tests__/storytime-loops-share.test.ts",
+    "dashboard/__tests__/storytime-loops-share-content.test.ts",
+    "dashboard/__tests__/storytime-loops-share-book.test.ts",
+    "dashboard/__tests__/storytime-loops-share-captions.test.ts",
+    "dashboard/__tests__/storytime-loops-book-pages.test.ts",
+    "dashboard/__tests__/storytime-loops-content.test.ts",
+    "dashboard/__tests__/fixtures/storytime-share-sample.ts",
+    "dashboard/__tests__/fixtures/storytime-week-fixture.ts"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "medium",
+  "model": "minimax-cn-coding-plan/MiniMax-M3.1-Flash"
+}

@@ -1,0 +1,130 @@
+MemAvailable at start: MemAvailable:    3566388 kB
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 400[2mms[22m[39m
+     [32m✓[39m parses the eight shipped weeks[32m 99[2mms[22m[39m
+     [32m✓[39m defaults approval.loops to draft when the key is absent[32m 42[2mms[22m[39m
+     [32m✓[39m parses a w02 copy with every new field (L2)[32m 14[2mms[22m[39m
+     [32m✓[39m bounds blendDrill.words to 3..5[32m 39[2mms[22m[39m
+     [32m✓[39m bounds blendDrill.sounds to 2..4 labels[32m 21[2mms[22m[39m
+     [32m✓[39m bounds blendDrill.repeats to 2..5[32m 22[2mms[22m[39m
+     [32m✓[39m bounds sightWords.words to 1..3[32m 21[2mms[22m[39m
+     [32m✓[39m bounds sightWords.seconds to 2..5[32m 19[2mms[22m[39m
+     [32m✓[39m bounds loopMinutes to 0..20 and fails 21[32m 14[2mms[22m[39m
+     [32m✓[39m fails a read-along with 2 or 4 questions, and a kind twice[32m 15[2mms[22m[39m
+     [32m✓[39m fails a question kind outside who, what, where[32m 5[2mms[22m[39m
+     [32m✓[39m parses answer.page 0 (the schema has no bound; Q2)[32m 4[2mms[22m[39m
+     [32m✓[39m does not length-check recall.items (4 and 6 parse), and fails a card kind outside the four[32m 13[2mms[22m[39m
+     [32m✓[39m fails an unknown key in a new object and a misspelled key (Q3, strict)[32m 12[2mms[22m[39m
+     [32m✓[39m keeps the six approval parts exactly, without loops[32m 0[2mms[22m[39m
+     [32m✓[39m parses an approved app part with only status and date to an equal object[32m 0[2mms[22m[39m
+     [32m✓[39m parses an approved app part with status only (baseline; no refine on the app part)[32m 0[2mms[22m[39m
+     [32m✓[39m fails an approved loops part without words[32m 1[2mms[22m[39m
+     [32m✓[39m fails an approved loops part without date[32m 0[2mms[22m[39m
+     [32m✓[39m fails an approved loops part with an empty date or blank words[32m 0[2mms[22m[39m
+     [32m✓[39m fails an unknown key in the loops part (strict)[32m 0[2mms[22m[39m
+     [32m✓[39m parses an approved loops part with both, and a draft part without both[32m 0[2mms[22m[39m
+[31m     [31m×[31m reports the shipped st2/1 published detail[39m[32m 23[2mms[22m[39m
+[31m     [31m×[31m passes published on a w01 copy with six approved parts and a draft loops part[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m keeps the shipped published detail with an explicit draft loops part[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m still reports images not approved when only images is draft (the exclusion is not over-broad)[39m[32m 7[2mms[22m[39m
+     [32m✓[39m pins the exact key set of each new object[32m 5[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 1141[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-audio.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 470[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 264[2mms[22m[39m
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+ [32m✓[39m __tests__/storytime-loops-teacher-book.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 4286[2mms[22m[39m
+     [33m[2m✓[22m[39m documents --loops in the manual PDF help [33m 2045[2mms[22m[39m
+     [33m[2m✓[22m[39m returns exit 2 for an unknown manual PDF flag [33m 1836[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m103 tests[22m[2m)[22m[33m 566[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-schema.test.ts[2m > [22mpublished guard (characterization, pass at Red)[2m > [22mreports the shipped st2/1 published detail
+[31m[1mAssertionError[22m: expected 'audio not approved; song not approved…' to be 'audio not approved; song not approved' // Object.is equality[39m
+
+Expected: [32m"audio not approved; song not approved"[39m
+Received: [31m"audio not approved; song not approved[7m; loops-blend fails; loops-recall fails[27m"[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-schema.test.ts:[2m309:29[22m[39m
+    [90m307| [39m        [35mconst[39m pub [33m=[39m report[33m.[39mchecks[33m.[39m[34mfind[39m((c) [33m=>[39m c[33m.[39mid [33m===[39m [32m'published'[39m)[33m;[39m
+    [90m308| [39m        [34mexpect[39m(pub[33m?.[39mstatus)[33m.[39m[34mtoBe[39m([32m'fail'[39m)[33m;[39m
+    [90m309| [39m        [34mexpect[39m(pub[33m?.[39mdetail)[33m.[39m[34mtoBe[39m([33mPUBLISHED_DETAIL[39m)[33m;[39m
+    [90m   | [39m                            [31m^[39m
+    [90m310| [39m    })[33m;[39m
+    [90m311| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-schema.test.ts[2m > [22mpublished guard (characterization, pass at Red)[2m > [22mpasses published on a w01 copy with six approved parts and a draft loops part
+[31m[1mAssertionError[22m: expected 'fail' to be 'pass' // Object.is equality[39m
+
+Expected: [32m"pass"[39m
+Received: [31m"fail"[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-schema.test.ts:[2m318:73[22m[39m
+    [90m316| [39m        w[33m.[39mapproval[33m.[39mloops [33m=[39m { status[33m:[39m [32m'draft'[39m }[33m;[39m
+    [90m317| [39m        [35mconst[39m report [33m=[39m [34mcheckStorytimeWeek[39m(w)[33m;[39m
+    [90m318| [39m        expect(report.checks.find((c) => c.id === 'published')?.status…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m319| [39m    })[33m;[39m
+    [90m320| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-schema.test.ts[2m > [22mpublished guard (characterization, pass at Red)[2m > [22mkeeps the shipped published detail with an explicit draft loops part
+[31m[1mAssertionError[22m: expected 'audio not approved; song not approved…' to be 'audio not approved; song not approved' // Object.is equality[39m
+
+Expected: [32m"audio not approved; song not approved"[39m
+Received: [31m"audio not approved; song not approved[7m; loops-blend fails; loops-recall fails[27m"[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-schema.test.ts:[2m325:73[22m[39m
+    [90m323| [39m        w[33m.[39mapproval[33m.[39mloops [33m=[39m { status[33m:[39m [32m'draft'[39m }[33m;[39m
+    [90m324| [39m        [35mconst[39m report [33m=[39m [34mcheckStorytimeWeek[39m(w)[33m;[39m
+    [90m325| [39m        expect(report.checks.find((c) => c.id === 'published')?.detail…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m326| [39m    })[33m;[39m
+    [90m327| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-schema.test.ts[2m > [22mpublished guard (characterization, pass at Red)[2m > [22mstill reports images not approved when only images is draft (the exclusion is not over-broad)
+[31m[1mAssertionError[22m: expected 'images not approved; loops-blend fail…' to be 'images not approved' // Object.is equality[39m
+
+Expected: [32m"images not approved"[39m
+Received: [31m"images not approved[7m; loops-blend fails; loops-recall fails[27m"[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-schema.test.ts:[2m334:73[22m[39m
+    [90m332| [39m        w[33m.[39mapproval[33m.[39mimages [33m=[39m { status[33m:[39m [32m'draft'[39m }[33m;[39m
+    [90m333| [39m        [35mconst[39m report [33m=[39m [34mcheckStorytimeWeek[39m(w)[33m;[39m
+    [90m334| [39m        expect(report.checks.find((c) => c.id === 'published')?.detail…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m335| [39m    })[33m;[39m
+    [90m336| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (6)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m186 passed[39m[22m[90m (190)[39m
+[2m   Start at [22m 04:52:05
+[2m   Duration [22m 6.70s[2m (transform 1.24s, setup 881ms, import 3.08s, tests 7.13s, environment 2ms)[22m
+
+MemAvailable at end: MemAvailable:    3977348 kB

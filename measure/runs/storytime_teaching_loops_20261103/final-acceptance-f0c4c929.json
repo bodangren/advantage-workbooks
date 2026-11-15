@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "role": "measure-final-acceptance",
+  "status": "pass",
+  "track": "storytime_teaching_loops_20261103",
+  "phase": "final acceptance (whole track)",
+  "track_base_sha": "cc7808c541ca1cac810a7cd74f34520f748aef5b",
+  "role_base_sha": "f0c4c9293f3781f8796f50c0e6dc86ce0340c208",
+  "audited_head_sha": "f0c4c9293f3781f8796f50c0e6dc86ce0340c208",
+  "baseline_sha": "f0c4c9293f3781f8796f50c0e6dc86ce0340c208",
+  "head_current_at_start": true,
+  "head_current_at_completion_check": true,
+  "confidence": "high",
+  "summary": "Final acceptance passes at f0c4c929 with high confidence. Lineage: track base cc7808c5 is the parent of the first track commit d03d9e7d and equals the spec's named baseline; the audited HEAD equals current HEAD before and after the gates; every phase checkpoint (9a549323, 92a89ec2, 634efdc5) and every result head (Review A/B 9a549323, Review A p3b ca837be6, LP check fe3dfefa, gate evidence 6a936e75, record commit 70278a9b) is an ancestor of HEAD; the only commit after the latest phase result 634efdc5 is f0c4c929 and git diff --name-only 634efdc5 f0c4c929 lists only this track's plan.md (covered). Phase acceptance: no phase-acceptance JSON exists; under the PM light-lane order of 2026-11-03 recorded at plan.md line 126, each phase closed with an '[x] Measure - User Manual Verification' task, a checkpoint SHA in its heading, and independent artifacts (spec review GLM x3, Review A MiMo, Review B Kimi, Review A p3b MiniMax, LP check DeepSeek, content checks Kimi, English caption reviews, owner approvals). This substitution is recorded as deviation FA-1; all cited SHAs were verified and this role re-proved the final state with live gates. Gates at HEAD, each in one heavy-run wrapper with the exact plan.md lines 26-28 commands: PROJECT_LINT exit 0 (no findings); PROJECT_CHECKS exit 0 (check-weeks --level 2: 8 packages, 0 failed checks, 1 warning; tsc --noEmit clean); PROJECT_TESTS exit 0 (73 files, 1825 tests, 324.51 s). Tasks: 51 [x], zero [~]/[ ]/[b]; all 75 commit references resolve, are ancestors, and none touches an FR-13 forbidden path or video/. Record commit 70278a9b changes only approval.loops in w01-w08 (own normalized Thai-dropped compare: equal to parent without loops); approval.loops = approved / 2026-11-15 / 'Approved' / the Google Tasks source, identical at HEAD and quoted verbatim in the plan; Daniel's approvals and all five PM hand-off receipts are recorded with exact words and dates. No review result holds an open blocker. A5: every spot-checked count and 'All checks pass.' claim matches its capture. A6: the tracks.md entry makes no state claim. A9: no tests/*.sh exist and no test reads a measure/tracks path. tech-debt.md and lessons-learned.md are 50 lines each with this track's 2026-11-16 entries. Seven nonblocking findings carry forward (FA-1 to FA-7); none blocks closeout.",
+  "phase_results": [
+    {
+      "phase": "Phase 1: Schema and checks (2026-11-03 to 2026-11-05)",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": "9a549323a5cea5373a598792260c60f11ce11b3f",
+      "status": "manual_verification_light_lane",
+      "lineage": "No phase-acceptance JSON exists: the PM light-lane order of 2026-11-03 (plan.md line 126) closed Phase 1 on Review A (review-a-9a549323.json, opencode-go/mimo-v2.6-flash, pass, 0 blocking) and Review B (review-b-9a549323.json, kimi-code-plan-cn/kimi-for-coding#high, pass, 0 blocking); the orchestrator's [x] Manual Verification task records checkpoint 9a549323 (plan.md line 130), an ancestor of HEAD. The stopped Anthropic attempt (review-a-9a549323-opus-stopped.json) is honestly marked inconclusive and superseded."
+    },
+    {
+      "phase": "Phase 2: Teacher book template and print (2026-11-05 to 2026-11-07)",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": "92a89ec270cd0e40c4a37d53e5a17d63947f91b0",
+      "status": "manual_verification_light_lane",
+      "lineage": "Closed by the orchestrator's [x] Manual Verification task, commit 92a89ec2 (light lane). The close evidence honestly discloses the first full run at d67dcc52 (3 failed | 759 passed of 762; lint 1 error), the three causes, the fix commit 92a89ec2, the targeted reruns (3 files, 60 tests, exit 0), and the default-on mutant catch. 92a89ec2 is an ancestor of HEAD. Full-suite state re-proved afterwards by p3-switch2-project.txt (36 files, 872 tests, exit 0) and by this role's live PROJECT_TESTS at f0c4c929 (73 files, 1825 tests, exit 0)."
+    },
+    {
+      "phase": "Phase 3: Content of w01 to w08 (2026-11-07 to 2026-11-16)",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": "634efdc5eed9defd8164f75e29144369af105632",
+      "status": "manual_verification_light_lane",
+      "lineage": "Closed by the orchestrator's [x] Manual Verification task (plan.md lines 266-267, committed in 634efdc5): PROJECT_TESTS exit 0 at 6a936e75 (73 files, p4-record-project-r2.txt, verified), PROJECT_CHECKS exit 0 (p4-record-checks.txt), the independent LP check pass (p3-lp-check-10a3de6e.json, opencode-go/deepseek-v4.1-flash, audited head fe3dfefa), the per-week independent content reviews (kimi-for-coding, p3-content-check-39e2172c.md, 8 errors fixed in 0a33add3), and Daniel's owner approval 'Approved' 2026-11-15 18:37 ICT. 6a936e75, fe3dfefa, and 634efdc5 are ancestors of HEAD; the only later commit f0c4c929 changes only this track's plan.md. Finding FA-2 notes that print-track commits between 6a936e75 and 634efdc5 touched shared files, cured by this role's live gates."
+    },
+    {
+      "phase": "Phase 3b: Parent-share moments (2026-11-07 to 2026-11-13)",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": "634efdc5eed9defd8164f75e29144369af105632",
+      "status": "manual_verification_light_lane",
+      "lineage": "Closed by the orchestrator's [x] Manual Verification task (plan.md lines 397-408, committed in 634efdc5) with the same automated evidence as Phase 3, plus Review A p3b (review-a-p3b-ca837be6.json, minimax-cn-coding-plan/MiniMax-M3.1-Flash, pass, 0 blocking), the independent English caption reviews (p3b-share-english-review-1d29e893.md and recheck 5b9457a1.md, English pack only, P20 audit 0 reads of content/storytime), the teacher book build v2 (224 pages, PRINT_GATE 'All checks pass.', text gate 0 differences), the caption list (44 rows, 0 problems), and Daniel's approval of the Thai captions 'Approved' 2026-11-15. ca837be6 is an ancestor of HEAD."
+    },
+    {
+      "phase": "Phase 4: Report and release (2026-11-16 to 2026-11-20)",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": "634efdc5eed9defd8164f75e29144369af105632",
+      "status": "manual_verification_light_lane",
+      "lineage": "Closed by the orchestrator's [x] Manual Verification task (plan.md lines 427-428, committed in 634efdc5): the same automated evidence plus the PM receipts of Hand-off 2 (pin 70278a9beb8ef7314d98df80e0462892a0ca5019, routed to Monorepo 2026-11-16 02:1x), Hand-off 3 (--loops --share for the 2026-11-20 release proof), and the report (report.md at 423d050b), each quoted word for word. The record commit 70278a9b is an ancestor of HEAD and was independently re-verified by this role (only approval.loops changed in the 8 week files)."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "FA-1 [process deviation, Major] No formal measure-phase-acceptance result JSON exists for any of the five phases. The phases were closed by the orchestrator's '[x] Measure - User Manual Verification' tasks under the PM light-lane order of 2026-11-03 recorded at plan.md line 126, with checkpoint SHAs in the phase headings, independent review artifacts (spec-review GLM 3 rounds; Review A MiMo P1; Review B Kimi P1; Review A MiniMax P3b; LP check DeepSeek P3a; content checks Kimi; English caption reviews), and the recorded owner approvals. Every checkpoint and evidence SHA was verified as an ancestor of HEAD, and this role re-ran all three configured gates live at HEAD. Route: the orchestrator records the deviation in the closeout manifest.",
+    "FA-2 [stale gate evidence at checkpoint, cured live, Medium] The Phase 3/3b/4 manual verification cites PROJECT_TESTS at 6a936e75, but later commits before checkpoint 634efdc5 (print-track P9-C: 274f7e55, 6fe7a270, and companions) changed shared files including dashboard/lib/storytime/manual.ts and dashboard/lib/storytime/print/student-book.ts without a fresh full-suite run at the checkpoint. Cured by this role's live PROJECT_TESTS at f0c4c929: 73 files, 1825 tests, exit 0.",
+    "FA-3 [carried test gap, Medium] Strictness mutants S20b-S20g survive: the unknown-key tests cover only blendDrill (dashboard/__tests__/storytime-loops-schema.test.ts:246) and the loops approval part (:288). The plan line 129 follow-up 'for the Phase 3 Red task' never landed and the gap is not in tech-debt.md. Review A (A-P1-4) and Review B (B-P1-1) rated it nonblocking; Review B verified the schema objects are strict in code. Route: add one unknown-key case per strict object (drill word, soundLoop, sightWords, question, answer, recall) at the next test change, or add a tech-debt row.",
+    "FA-4 [carried test gap, Low] Mutant C26 (a minute transfer between two non-loop steps keeps the day sum) survives; the Phase 3 content test asserts the loopMinutes placement only on shipped weeks. Disclosed at plan.md line 109. Route: a later Red case.",
+    "FA-5 [evidence thinness, Low] p4-record-checks.txt holds only the line 'exit: 0' with no check-weeks output, and jr-green-335b7c1c-lint.txt is 0 bytes (Review A A-P1-3). Corroborated by this role's live PROJECT_CHECKS (check-weeks summary 8/0/1 plus clean tsc) and PROJECT_LINT at HEAD.",
+    "FA-6 [process note, Low] The phase checkpoints carry no git notes (workflow.md step 10.3); the checkpoints are recorded in the plan headings instead. Light-lane deviation, nonblocking.",
+    "FA-7 [bookkeeping, not this role's scope] metadata.json still has status 'new', no lane key, and no completion date; measure/tracks.md still lists the track as open. These belong to measure-closeout."
+  ],
+  "evidence": [
+    "PROVENANCE: git rev-parse HEAD = f0c4c9293f3781f8796f50c0e6dc86ce0340c208 at role start and again after all gates; equal to the brief's immutable audited HEAD. role_base_sha = audited_head_sha = current HEAD.",
+    "TRACK BASE: git log --reverse -- measure/tracks/storytime_teaching_loops_20261103 gives d03d9e7d (2026-11-02, 'open storytime_teaching_loops_20261103') as the first track commit; git rev-parse d03d9e7d^ = cc7808c541ca1cac810a7cd74f34520f748aef5b, which is also the spec's named week-file baseline (spec.md Terms).",
+    "ANCESTRY: git merge-base --is-ancestor <sha> HEAD returned yes for 9a549323, 92a89ec2, 634efdc5, 6a936e75, ca837be6, fe3dfefa, 70278a9b, d03d9e7d, 7c7a4682, ffd9971c, cc7808c5, 423d050b, 10a3de6e, 3ad26310, and for all 75 commit references extracted from plan.md.",
+    "PATH-DIFF COVERAGE: command 'git diff --name-only 634efdc5 f0c4c929' output: measure/tracks/storytime_teaching_loops_20261103/plan.md (exactly one path; the track plan file; covered). Command 'git show --stat --format=%h f0c4c929' output: plan.md, 1 file changed, 3 insertions(+), 3 deletions(-) (the three checkpoint markers). Command 'git diff --name-only 6a936e75 f0c4c929' output includes dashboard/lib/storytime/manual.ts, dashboard/lib/storytime/print/student-book.ts, and print-track runs files (basis of finding FA-2; cured by the live gates). Audited HEAD f0c4c929 equals current HEAD, so no later commit exists after it.",
+    "TASKS: a python scan of plan.md task lines gives markers {x: 51}; no [~], [ ], or [b] task line exists. All 75 distinct commit references in plan.md resolve, are ancestors of HEAD, and 'git show --name-only --format=' of each lists none of dashboard/lib/storytime/print/{student-book,readers,picture-check,pictures,covers}.ts and nothing under video/ (FR-13/AC-13).",
+    "RECORD COMMIT: git show --stat 70278a9beb8ef7314d98df80e0462892a0ca5019 lists exactly content/storytime/l2/w01.json to w08.json (8 files, 32 insertions, 8 deletions). Own normalized compare (python JSON filter that drops th keys and Thai strings; approval.loops removed from both sides; sorted-key JSON): all 8 files equal their parent ('equal-without-loops=True' x8, 'ALL OK'). approval.loops at 70278a9b and at HEAD, all 8 files identical: {status: approved, date: 2026-11-15, words: 'Approved', source: 'Google Tasks, PM item YVJYeDVt, subtask bnJWSW5yUDNOVllzLWpvcA'}; the source string appears verbatim in plan.md; 0 Thai characters in this role's output.",
+    "OWNER APPROVALS: plan.md line 245 and line 396 quote Daniel's 'Approved' of 2026-11-15 18:37 ICT (Google Tasks subtask bnJWSW5yUDNOVllzLWpvcA under PM item YVJYeDVt, PM relay); share-captions-11-16.md last line reads 'Daniel's answer: \"Approved\" (date 2026-11-15)'; spec.md records the track approval, Daniel's 'Ok' of 2026-11-02 15:50 ICT (also in metadata.json deviation_notes).",
+    "GATE PROJECT_LINT: one heavy-run wrapper, exact plan.md line 27 command 'cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-loops-*.test.ts', exit 0, no eslint findings. Capture: final-acceptance-lint.txt (COMMAND_EXIT_CODE=0, 'exit: 0').",
+    "GATE PROJECT_CHECKS: one heavy-run wrapper, exact plan.md line 28 command (check-weeks FAIL-count guard + published-only guard + tsc --noEmit), exit 0. Capture: final-acceptance-checks.txt (COMMAND_EXIT_CODE=0, 'exit: 0'). Visibility run of check-weeks.ts --level 2 (wrapper): 'Summary: 8 package(s), 0 failed check(s), 1 warning(s)', CHECK_WEEKS_EXIT=0; the only warning is the known print-missing row; the accepted st2/1 published FAIL no longer exists because the remaining approval parts were since approved by other tracks, which satisfies the gate's '<=1 FAIL, published only' condition a fortiori. tsc is incremental (dashboard/tsconfig.json:15) with a warm tsbuildinfo, explaining the 3 s runtime.",
+    "GATE PROJECT_TESTS: one heavy-run wrapper, exact plan.md line 26 command 'cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts', exit 0: 'Test Files 73 passed (73)', 'Tests 1825 passed (1825)', Duration 324.51 s. Capture: final-acceptance-project.txt (658 lines, COMMAND_EXIT_CODE=0, 'exit: 0'). The 1825 vs 1822 at 6a936e75 is the print-track P9-C test additions committed between; no test failed.",
+    "A5: every spot-checked plan claim matches its capture exactly: 696/28 files (jr-green-824cd791-project.txt), 872/36 (p3-switch2-project.txt), 1471/63 (jr-green-p3b-switch-project.txt), 1396/62 (p3b-content-project-r2.txt), 1570/65 (jr-green-p3b-book-project.txt), 1581/66 (jr-green-p3b-tg-project.txt), 1254/59 (jr-green-p3b-96659ea3-project-r3.txt), 1822/73 exit 0 (p4-record-project-r2.txt), and the honestly disclosed Phase 2 close failure '3 failed | 759 passed (762)' (p3-p2close-project.txt). All four 'All checks pass.' claims (plan lines 233, 235, 380, 394) appear in p3-pagecount-build.txt, p3-pagecount-r2-build.txt, p3b-build-pdfx.txt, p3b-v2-pdfx.txt. The plan line 386 fast gate 'Defaults: 28 look points' prints 1 at the recorded commit (git show 9d05352d:measure/tracks/storytime_teaching_loops_20261103/look-points-11-16.md | grep -c) and the line was later legitimately updated to 'Defaults: 29 look points' after LP-29 and Daniel's answers; LP-28 row present at HEAD.",
+    "A6: the detection regex over measure/tracks.md gives no hit; the loops entry (lines 11-12) is an open '[ ]' scope-and-date line with no resolved/pass/adversarial claim. Accurate.",
+    "A9: no tests/ directory and no tests/*.sh exist in the repository (detection grep rc=2, no match); no dashboard test reads a measure/tracks path — the occurrences in storytime-loops-content.test.ts and storytime-print-contract-v2.test.ts are literal approval-source data strings, not file reads. Vacuous pass with the data-string note.",
+    "MEMORY LIMIT: wc -l gives measure/tech-debt.md 50 and measure/lessons-learned.md 50 (limit 50); tech-debt holds the 2026-11-16 loops row (A-LP-1 allow-list growth, skip-list growth); lessons holds the 2026-11-16 loops lesson (owner record commits must run the full PROJECT_TESTS first).",
+    "SWITCH STATE: dashboard/lib/storytime/checks.ts:353 'export const LOOP_CHECK_STATUS: CheckStatus = \\'fail\\';' and :521 'export const SHARE_CHECK_STATUS: CheckStatus = \\'fail\\';' (spec D12, AC-14.6, AC-8).",
+    "REVIEW RESULTS: spec-review round 1 fail (1 Blocker F1 at d03d9e7d) then round 2 pass (7c7a4682) and Amendment 1 pass (ffd9971c); spec-review.md records F1-F10 all FIXed; review-a-9a549323.json pass 0 blocking; review-a-9a549323-opus-stopped.json inconclusive (stopped attempt, retry_audit, superseded by the MiMo run); review-b-9a549323.json pass 0 blocking; review-a-p3b-ca837be6.json pass 0 blocking (A-P3b-1 since addressed: the named task lines now end with resolving 'commit <sha>' forms); p3-lp-check-10a3de6e.json pass 0 blocking (A-LP-1 routed to tech-debt, verified present). No open blocker anywhere.",
+    "HAND-OFFS/CONTRACTS (FR-12, changed callers): Hand-off 1 field names (plan line 124, PM receipt 2026-11-03), page-count note (line 237, PM receipt word for word), Hand-off 2 pin 70278a9b (line 420, PM receipt: routed to Monorepo 02:1x), Hand-off 3 --loops --share (line 423, PM receipt word for word), report receipt (line 426, word for word). Monorepo contract passthrough verified twice at spec review (db3fc23d8 author, f97fffbaf reviewer recheck, spec.md 'Interface for the Storytime app').",
+    "INTERPHASE: measure_interphase_checks.py status lists the track as closeout candidate [C6] with no incomplete phase; closeout lists only the expected pre-closeout failures (archive move, this final-acceptance JSON, registry state, manifest).",
+    "DOCTOR: measure/doctor.sh and measure/generate.sh do not exist in this repository (ls: No such file); plan.md line 15 records that the doctor step of each phase is the PROJECT_CHECKS gate, which this role ran live at HEAD with exit 0.",
+    "INDEPENDENCE: this role ran on bailian-token-plan/qwen3.8-max#high (Qwen family), other than every family that wrote or audited this track (Claude author/maker, GLM spec review, MiMo and MiniMax Review A, Kimi Review B and content checks, DeepSeek LP check) and other than the orchestrator that performed the manual verifications.",
+    "THAI RULE: the first command was the Thai-line scan of the track .md files (index 0, look-points 42, plan 6, share-captions 44, spec-review 0, spec 0, test-strategy 1 Thai lines); every subsequent read of those files, of the memory files, of the result JSONs, and of the captures went through a Thai-dropping filter; week-file reads used a JSON filter dropping th keys and Thai strings; all test/check output shown to this role passed through grep -v -P '[\\x{0E00}-\\x{0E7F}]'; this result JSON and the role log contain 0 Thai characters.",
+    "WORKTREE HYGIENE: pre-existing uncommitted items (video/storytime-song/scripts/render.mjs modified, dashboard/raw.json untracked, other tracks' measure/runs files) belong to other sessions and were not touched. No commit, push, install, or build occurred. This role wrote only final-acceptance-f0c4c929.json, final-acceptance-f0c4c929.log, and the three gate captures under measure/runs/storytime_teaching_loops_20261103/."
+  ],
+  "commands": [
+    "python3 Thai-line scan of measure/tracks/storytime_teaching_loops_20261103/*.md (first command of the role)",
+    "python3 Thai-dropping filter reads of plan.md (lines 1-428), report.md, tech-debt.md, lessons-learned.md, test-strategy.md sections, and all result JSONs (th keys dropped)",
+    "git rev-parse HEAD (start and completion check); git status --porcelain; git log --oneline",
+    "python3 measure_interphase_checks.py status --repo . ; closeout --repo . --track storytime_teaching_loops_20261103",
+    "git log --reverse -- measure/tracks/storytime_teaching_loops_20261103 ; git rev-parse d03d9e7d^",
+    "git merge-base --is-ancestor for every checkpoint, result head, record commit, and all 75 plan-referenced SHAs",
+    "git diff --name-only 634efdc5 f0c4c929 ; git diff --name-only 6a936e75 f0c4c929 ; git show --stat f0c4c929 70278a9b",
+    "python3 normalized compare of the 8 week files at 70278a9b vs parent with approval.loops removed (Thai-dropping JSON filter); approval.loops extraction at record commit and HEAD",
+    "python3 plan task-marker scan and FR-13 name-only audit over the 75 extracted commit SHAs",
+    "grep A5/A6/A9 detections from measure/anti-patterns.md; sed+grep capture count comparisons (10 captures)",
+    "git show 9d05352d:measure/tracks/storytime_teaching_loops_20261103/look-points-11-16.md | grep -c 'Defaults: 28 look points'",
+    "git notes show 9a549323 / 92a89ec2 / 634efdc5 (no notes; FA-6)",
+    "script -q -e -c 'bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c <exact plan line 27 command>' final-acceptance-lint.txt (exit 0)",
+    "script -q -e -c 'bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c <exact plan line 28 command>' final-acceptance-checks.txt (exit 0)",
+    "bash heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2' (visibility run: 8 packages, 0 failed, 1 warning, exit 0)",
+    "script -q -e -c 'bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c <exact plan line 26 command>' final-acceptance-project.txt (exit 0; 73 files; 1825 tests)",
+    "python3 append of the 'exit: 0' line to the three captures (no shell redirection used anywhere)"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_teaching_loops_20261103/final-acceptance-f0c4c929.json",
+    "measure/runs/storytime_teaching_loops_20261103/final-acceptance-f0c4c929.log",
+    "measure/runs/storytime_teaching_loops_20261103/final-acceptance-lint.txt",
+    "measure/runs/storytime_teaching_loops_20261103/final-acceptance-checks.txt",
+    "measure/runs/storytime_teaching_loops_20261103/final-acceptance-project.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "route": "bailian-token-plan/qwen3.8-max#high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "All FR-1 to FR-14 acceptance criteria map to passing evidence and the three live gates at f0c4c929 pass (PROJECT_TESTS 73 files/1825 tests exit 0; check-weeks 8 packages/0 failed; eslint clean), with the record commit re-verified byte-level and checks.ts:353/521 at 'fail'."},
+    {"axis": "test_meaning", "score": 4, "evidence": "Failing-first Red proofs and mutant tables throughout (e.g. p3b-red-content.txt: 50 failed before Green; 35 schema/check mutants plus MB 24/24 and MX 13/13 caught), but strictness survivors S20b-g (storytime-loops-schema.test.ts:246) and C26 never received their planned follow-up tests."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "All 75 plan-referenced commits pass the FR-13 name-only audit (no student-book/readers/picture-check/pictures/covers.ts, no video/), and record commit 70278a9b touches only approval.loops of the 8 week files per own normalized compare."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "Every spot-checked plan count matches its capture exactly (696/872/1471/1396/1570/1581/1254/1822 and the disclosed 3-failed Phase 2 close), all four 'All checks pass.' claims verified in the PDF/X captures, and PM/owner receipts are quoted word for word with dates and item ids."}
+  ],
+  "reviewer_ratings": [
+    {"reviewer_role": "review-a", "reviewer_route": "opencode-go/mimo-v2.6-flash", "agreed": true, "score": 5, "evidence": "review-a-9a549323.json pass with 4 nonblocking findings; I re-checked A-P1-4 at HEAD: storytime-loops-schema.test.ts still tests unknown keys only on blendDrill (line 246), so the finding was accurate, correctly rated, and its survival is carried as FA-3."},
+    {"reviewer_role": "review-a", "reviewer_route": "claude-code/claude-opus-5-5[1m]#high", "agreed": true, "score": 3, "evidence": "review-a-9a549323-opus-stopped.json is an honestly marked inconclusive stopped attempt (retry_recommendation retry_audit, 0 findings); it raised no false blocker and the MiMo run on the same head superseded it."},
+    {"reviewer_role": "review-a", "reviewer_route": "minimax-cn-coding-plan/MiniMax-M3.1-Flash", "agreed": true, "score": 4, "evidence": "review-a-p3b-ca837be6.json pass, 0 blocking; its A-P3b-1 (four task lines without machine-readable SHAs) is addressed in the current plan — the lines now end with 'commit e994696', 'commit 678b4db', 'commit ffe6e74', etc., and all resolve as ancestor commits in my 75-SHA audit."},
+    {"reviewer_role": "review-b", "reviewer_route": "kimi-code-plan-cn/kimi-for-coding#high", "agreed": true, "score": 5, "evidence": "review-b-9a549323.json pass, 0 blocking; B-P1-1 (strictness covers blendDrill only) independently re-confirmed at HEAD and correctly rated medium/nonblocking because the schema objects are strict in code and the loop checks catch a missing routine."}
+  ],
+  "handoff": "Final acceptance PASSES at f0c4c929 with high confidence. The three configured gates pass live at current HEAD (LINT exit 0; CHECKS exit 0 with 8 packages/0 failed checks/1 warning and clean tsc; TESTS exit 0 with 73 files/1825 tests). All 51 tasks are [x] with SHA or named evidence class; ancestry, coverage, record-commit scope, owner approvals, hand-off receipts, A5/A6/A9, and the 50-line memory limits all hold. Seven nonblocking findings carry forward: FA-1 (the PM-ordered light-lane substitution of manual verification for phase-acceptance artifacts — record it in the closeout manifest), FA-2 (stale checkpoint evidence, cured by the live gates), FA-3/FA-4 (carried test gaps S20b-g and C26 — route to the next test change or tech-debt), FA-5 (thin captures), FA-6 (no git notes on checkpoints), FA-7 (closeout bookkeeping: metadata status, registry line, archive move — all owned by measure-closeout, not this role). The track is ready for measure-closeout. This role committed nothing and edited nothing outside measure/runs/storytime_teaching_loops_20261103/."
+}

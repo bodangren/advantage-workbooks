@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "role": "measure-spec-review",
+  "track": "storytime_teaching_loops_20261103",
+  "phase": "track setup",
+  "round": 2,
+  "role_base_sha": "7c7a468278cf551f580bc7d138c6411d7e953008",
+  "audited_head_sha": "7c7a468278cf551f580bc7d138c6411d7e953008",
+  "model": "coding-plan/glm-5.3-flash#high",
+  "status": "pass",
+  "summary": "All nine round 1 findings are fixed in the committed text. F1: the published check now skips the `loops` part as its one code change, and the st2/1 detail stays fixed. F2: `loops-minutes` compares with `meta.periodMinutes`, and the plan adds the 49-minute Level 3 case. F3: FR-6 now defines the taught set per card kind, and the plan adds one pass and one fail case for each kind. F4: the print track paragraph states the serialization rule, and Phase 2 Green waits for the print track proof commit. F5: the refine `StorytimeLoopsApprovalSchema` needs `words` and `date` on an approved part, with four refine cases. F6 to F9 are fixed as responded. The code citations check out: the published filter (checks.ts lines 319-323) excludes only `print`; `taughtTo` (lines 54-63) holds graphemes, tricky, and programWeek; the app part has no refine; `StripCardSchema` matches the recall shape; `BookPageSchema.text` grounds the `answer.word` rule; `SCRIPT_IDS_LEVEL1` matches FR-8. Every teach week w01 to w07 has tricky words and the steps A6 and D2, so FR-4 applies as written. One new Major: FR-6 leaves the term 'the text of a day' undefined for `word` cards, so the pass set of `loops-recall` for word cards is an open implementer decision. No CONTEST items exist; all nine responses were FIX.",
+  "paraphrase": {
+    "proposes": "The track adds five teaching routines from research item A-42 to the Storytime Level 2 weeks: an oral blend drill on step A4, a correct-practise-retest loop on the sound steps A1 to A3, a fast-way sight-word step with a timed check on A6 and D2, a fixed set of three questions on each read-along, and a daily recall of five cards in the opening. New optional schema fields carry the routines, and the new approval part `loops` gets its own refine that needs `words` and `date` on an approved part. Six new checks gate the routines with the status warn until the content of weeks 1 to 8 lands, then fail; the checks compare the day total with `meta.periodMinutes`, and they skip Level 1. The published check skips the `loops` part like the `print` part, so the accepted FAIL detail of st2/1 stays as it is. The teacher manual prints the routines only with the new `--loops` option, so the approved week 1 proof of 2026-11-05 stays byte-equal. Daniel approves the English and Thai text before the release proof of 2026-11-20, and the loops take their minutes from the donor steps so the day stays 30 minutes.",
+    "current_system": "A week file holds meta, focus, books, song, five daily scripts with steps, review strips, the Friday check, and approvals (schema.ts). checkStorytimeWeek (checks.ts) runs the rules and receives the known weeks, and check-weeks.ts prints the reports per level. The published check iterates every approval part except `print` (checks.ts lines 319-323), so the one accepted FAIL today is the published row of st2/1 with the detail `images not approved; audio not approved; song not approved`. `taughtTo` (lines 54-63) holds the taught graphemes, the tricky words, and the program week of the week and its earlier weeks. manual.ts renders the teacher book HTML from the week, and make-manual-pdf.ts and make-teacher-book-print.ts build the Thai teacher book PDF; make-teacher-book-print.ts exits 2 on an unknown flag. The opening is a fixed 6-minute routine, and the recall of a day prints the moved steps of the day before. Only Level 2 weeks (w01 to w08) exist in content today."
+  },
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F10 [Major] spec FR-6 (word cards): Comprehension gap: FR-6 says a `word` card \"appears in the text of an earlier day of the same week, or in the text of an earlier week\", but no section defines \"the text of a day\". The plan repeats the phrase in its word-card test cases (plan Phase 1 Red 2), so the check author must decide which strings count: the English lines of the day's steps only, or also the prep lines, the Thai lines, or the reader page text that the day's read-along step reads. The two readings give different pass sets for `loops-recall`, so this leaves an implementer decision open. The author reads it as the English lines of the day's steps; that reading needs one sentence in FR-6 (and it decides that reader page text does not count). Rationale: an undefined project-specific term that decides the check result."
+  ],
+  "evidence": [
+    "git rev-parse HEAD = 7c7a468278cf551f580bc7d138c6411d7e953008, equal to audited_head_sha and role_base_sha.",
+    "Round 2 diff d03d9e7d..7c7a4682 touches only spec.md, plan.md, and spec-review.md of this track; the nine fixes of F1 to F9 are all present in the diff.",
+    "F1 fixed: spec FR-1 states the published check skips `loops` as the only code change and the st2/1 detail stays; plan Phase 1 Red adds the guard (published) and Green changes the filter with a mutant. checks.ts lines 319-323: the filter excludes only STORYTIME_PRINT_PART today, so the code change is real and needed.",
+    "F2 fixed: spec FR-7 compares with `meta.periodMinutes` and names 30 and 49; plan Phase 1 Red 2 minutes cases build a Level 3 copy with periodMinutes 49.",
+    "F3 fixed: spec FR-6 lists the taught set per card kind with a new acceptance line; plan Phase 1 Red 2 has one pass and one fail case for `sound`, `tricky`, `frame`, and `word`. checks.ts lines 54-63 confirm `taughtTo` holds graphemes, tricky, and programWeek only, and it receives the earlier weeks, so the `frame` and `word` rules of earlier weeks are checkable through the same `weeks` input.",
+    "F4 fixed: spec Ownership print-track paragraph adds the serialization rule, the Phase 2 file list, and the wait for the print track proof commit; plan Phase 2 Green carries the precondition and Green 2 inherits it.",
+    "F5 fixed: spec FR-1 names the refine `StorytimeLoopsApprovalSchema` with four acceptance lines; FR-11 cites it; plan Phase 1 Red has the four refine cases and Green adds the refine. schema.ts lines 438-451 show the print refine as the model; lines 458-462 show the app part without a refine today.",
+    "F6 fixed: spec Terms moves the opening out of the donor list and names it a host with no minutes (D7).",
+    "F7 fixed: spec FR-10 and plan Phase 3 Red now parse both files, delete the FR-1 fields, and compare the normalized `JSON.stringify` output.",
+    "F8 fixed: spec FR-12 now lists five messages, named as in the plan (Hand-off 1, page-count note, Hand-off 2, Hand-off 3, the report).",
+    "F9 fixed: plan Phase 3 Daniel task names the new Thai headings of `StorytimeLabels` in i18n.ts, and Phase 2 Green names the heading keys in the commit message.",
+    "schema.ts line 21: SCRIPT_IDS_LEVEL1 is ['L','M','S','V','P']; line 31 maps level 1 to it. FR-8's Level 1 skip is grounded.",
+    "schema.ts lines 281-289: StripCardSchema is { kind, text, week, audio? } with kind enum sound, tricky, frame, word; FR-1's recall shape reuses it as stated. Lines 122-125: BookPageSchema.text grounds the FR-5 rule that `answer.word` is in the page text.",
+    "phonemes.ts lines 51 and 82: `bankSound` and `phonemeAudioFields` exist; FR-2's reuse claim is grounded.",
+    "Week data: w01 to w07 all have non-empty `focus.trickyWords` and the steps A6 and D2; w08 has no tricky words and the step ids A1-A3, B1-B3, C1-C3, D1-D3, E1-E3, so D11 (recall and loops-minutes only) matches the data. Only content/storytime/l2/w01.json to w08.json exist; no Level 1, 3, or 4 week files exist today.",
+    "measure/tracks/storytime_print_r1_20261025/plan.md Phase 9 (lines 687-693): no byte-equal clause conflicts with a `--loops` rebuild of the teacher book; the print file freshness rule reads the source commits, and Hand-off 3 of this track carries the `--loops` notice.",
+    "measure/tracks/storytime_week_package_20261022/plan.md: the open tasks ([~]) touch content, book audio, and gesture pictures, not schema.ts or checks.ts; the ownership claim of the spec holds.",
+    "No CONTEST items exist in the Author Response; all nine responses are FIX, so no item needs a withdraw or keep decision."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git status --porcelain",
+    "git diff d03d9e7da1d1e0b50b82b9170400c8ddc7a2b806 7c7a468278cf551f580bc7d138c6411d7e953008 -- measure/tracks/storytime_teaching_loops_20261103/spec.md measure/tracks/storytime_teaching_loops_20261103/plan.md",
+    "sed -n '50,66p' and '315,330p' dashboard/lib/storytime/checks.ts",
+    "grep and sed on dashboard/lib/storytime/schema.ts (SCRIPT_IDS_LEVEL1, BookPageSchema, StripCardSchema, StorytimePrintApprovalSchema, StorytimeAppApprovalSchema, STORYTIME_APPROVAL_PARTS)",
+    "grep on dashboard/lib/storytime/phonemes.ts (bankSound, phonemeAudioFields)",
+    "jq on content/storytime/l2/w01.json to w08.json (focus.trickyWords, step ids)",
+    "glob content/storytime/*/*.json",
+    "sed -n '687,695p' measure/tracks/storytime_print_r1_20261025/plan.md",
+    "grep '[~]' measure/tracks/storytime_week_package_20261022/plan.md"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_teaching_loops_20261103/spec-review-7c7a4682.json",
+    "measure/runs/storytime_teaching_loops_20261103/spec-review-7c7a4682.log"
+  ],
+  "round1_fixes": [
+    "F1 fixed (spec FR-1 published-check exclusion and st2/1 detail; plan Phase 1 Red guard (published) and Green filter change plus mutant).",
+    "F2 fixed (spec FR-7 compares with meta.periodMinutes; plan Phase 1 Red 2 minutes cases with the 49-minute Level 3 copy).",
+    "F3 fixed (spec FR-6 taught-set list per card kind with the new acceptance line; plan Phase 1 Red 2 recall cases per kind).",
+    "F4 fixed (spec Ownership print-track paragraph: serialization rule, Phase 2 file list, wait for the proof commit; plan Phase 2 Green precondition, Green 2 inherits).",
+    "F5 fixed (spec FR-1 refine StorytimeLoopsApprovalSchema with four acceptance lines; FR-11 cites it; plan Phase 1 Red refine cases, Green adds the refine).",
+    "F6 fixed (spec Terms: the opening leaves the donor list; it hosts the recall and gives no minutes, D7).",
+    "F7 fixed (spec FR-10 and plan Phase 3 Red: parse, delete the FR-1 fields, compare the normalized JSON.stringify output).",
+    "F8 fixed (spec FR-12: five messages to the PM session, named as in the plan).",
+    "F9 fixed (plan Phase 3 Daniel task names the new Thai headings of StorytimeLabels; plan Phase 2 Green names the heading keys in the commit message)."
+  ],
+  "retry_recommendation": "none",
+  "confidence": "high"
+}

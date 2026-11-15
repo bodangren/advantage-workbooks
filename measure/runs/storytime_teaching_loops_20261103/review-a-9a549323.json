@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "track": "storytime_teaching_loops_20261103",
+  "phase": "Phase 1: Schema and checks (2026-11-03 to 2026-11-05)",
+  "phase_base_sha": "ec109f9eb5da4df74e9b291390622b75ed8c7ccd",
+  "audited_head_sha": "9a549323a5cea5373a598792260c60f11ce11b3f",
+  "summary": "Phase 1 adds the FR-1 schema fields, the six loop checks with status warn, and the drill audio fields. The audited diff matches spec FR-1 to FR-8 and decisions Q1 to Q12. GREEN_TEST_COMMAND passed 73 of 73 tests; PROJECT_LINT exited 0. Plan claims match the evidence files. Four nonblocking test-coverage gaps remain; each has a recorded follow-up.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "A-P1-1 | medium | dashboard/lib/storytime/checks.ts:minutesCheck | Mutant C26 (any step may differ) survives. The per-day sum catches every net change; only a transfer between two non-loop steps of one day escapes. No shipped week has loopMinutes. Phase 3 content test asserts the rule on shipped weeks. Recorded in plan Green 2 with a follow-up.",
+    "A-P1-2 | medium | dashboard/lib/storytime/checks.ts:loopCheck | Mutant C31b (a skipped part reports pass) survives. Strategy 5.7 row B15 has no test that asserts the 'not checked' label. Gate paths of check-weeks.ts always pass taught and others, so the skipped branch cannot fire in a gate; the probe shows the real code reports warn with the skip detail. Recorded in plan Green 2 with a follow-up.",
+    "A-P1-3 | low | measure/tracks/storytime_teaching_loops_20261103/plan.md | The Green 3 task line has commit and evidence class but no gate evidence sub-lines, unlike Green 1 and Green 2. The evidence exists in jr-green-335b7c1c.log and its files. The lint file jr-green-335b7c1c-lint.txt is 0 bytes and shows no exit code; this audit's own lint run exited 0.",
+    "A-P1-4 | medium | dashboard/__tests__/storytime-loops-schema.test.ts | Strictness mutants S20b to S20g survive: only blendDrill has an unknown-key test. Same gap as Review B finding B-P1-1. A stray extra key beside valid required keys is stripped, and the loop checks catch a missing routine. Recorded in plan Green 1 with a follow-up."
+  ],
+  "evidence": [
+    "HEAD is ddd3c15b40264675f70d08ffd107103430efc2fb; 9a549323 is an ancestor of HEAD. The audit covers exactly ec109f9e..9a549323; later commits belong to other tracks.",
+    "GREEN_TEST_COMMAND: cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts, one heavy-run wrapper captured with script to review-a-9a549323-green.txt; 3 files, 73 tests passed, exit 0.",
+    "PROJECT_LINT: cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-loops-*.test.ts, one heavy-run wrapper captured with script to review-a-9a549323-lint.txt; exit 0.",
+    "C26 judgment: nonblocking. The day sum catches every net minute change; only an intra-day transfer between two non-loop steps escapes. The Phase 3 content test asserts the rule on shipped weeks. No shipped week has loopMinutes. The plan records the gap and a follow-up.",
+    "C31b judgment: nonblocking. check-weeks.ts always passes taught and others, so the skipped branch cannot fire in a gate. The A4 probe shows the real code reports warn with the not-checked detail, never pass. The gap is test coverage only. The plan records the gap and a follow-up.",
+    "S20b to S20g judgment: nonblocking, same as Review B B-P1-1 (medium). A stray extra key beside valid required keys is stripped by the non-strict object; the loop checks catch a missing routine. The plan records the gap and a follow-up.",
+    "C29 and C30 judgment: planned Phase 3 gaps per strategy 5.10 and 6.2. The Phase 1 switch dry run already proves the loop checks are pushed before the published block: 11 red tests at status fail, 4 F4 fixture tests plus 7 published-detail tests, nothing outside those groups (switch-dryrun.txt).",
+    "Question A judgment: nonblocking. The orchestrator decided FR-7 on 2026-11-03: every day of Levels 2 to 4 is summed, only loop steps may differ, and a 2-minute floor applies. minutesCheck implements this. Live proof (jr-green-824cd791-live.txt) shows loops-minutes PASS and five warn checks per shipped teach week, 49 WARN and one FAIL in all. The plan records the difference from strategy line 216.",
+    "Green 3 judgment: nonblocking documentation gap. The plan line holds commit 9f7a99f2 and evidence class automated, which satisfies the plan rule. jr-green-335b7c1c.log records all four gates and mutants 7 of 7. jr-green-335b7c1c-lint.txt is 0 bytes; this audit's own lint run exited 0.",
+    "A4 probe (measure/runs/storytime_teaching_loops_20261103/review-a-9a549323-a4-probe.ts): missing deliverables on shipped w01 give warn on loops-blend, loops-sound, loops-sight, loops-questions, and loops-recall, and pass on loops-minutes because the day sums to 30. A loop-complete w02 copy passes all six. published with the loops key absent passes per FR-1, and the falsifier (draft images) still fails with images not approved.",
+    "Plan claims match the evidence files: Red 1 19 failed and 8 passed of 27; Red 2 and its retry 30 failed and 29 passed of 59; Red 3 11 failed and 62 passed of 73; Green 1 27 of 27 and PROJECT_TESTS 26 files and 644 tests; Green 2 59 of 59 and 28 files and 696 tests; Green 3 73 of 73 and 29 files and 710 tests; mutants S 32 run and 26 caught, C 32 run and 30 caught with C20 caught on rerun, A 7 of 7; live proof 49 warnings and one FAIL; all lint and checks gates exit 0.",
+    "FR-13: the seven code and test commits of this track touch only schema.ts, checks.ts, phonemes.ts, set-phoneme-audio.ts, storytime-loops-schema.test.ts, storytime-loops-checks.test.ts, storytime-loops-audio.test.ts, and fixtures/storytime-loops-sample.ts. None touch video/, student-book.ts, readers.ts, picture-check.ts, pictures.ts, or covers.ts.",
+    "Q1 to Q12 all match the implementation, checked against the code and the tests. The test data is hand-written in fixtures/storytime-loops-sample.ts and does not copy the checker. Data mutants run on copies in fs.mkdtemp folders. The G4 one-based page case and the G3 path guard are present. Count assertions use labeled integers.",
+    "Callers verified: check-weeks.ts passes taught and others; make-manual-pdf.ts passes taught without others; set-phoneme-audio.ts only extends its usage text and writes the drill fields through phonemeAudioFields. The print track tests that read published keep the detail images not approved; audio not approved; song not approved."
+  ],
+  "commands": [
+    "HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts' (captured with script to review-a-9a549323-green.txt; 73 of 73 passed, exit 0)",
+    "HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-loops-*.test.ts' (captured with script to review-a-9a549323-lint.txt; exit 0)"
+  ],
+  "changed_files": [
+    "dashboard/lib/storytime/schema.ts",
+    "dashboard/lib/storytime/checks.ts",
+    "dashboard/lib/storytime/phonemes.ts",
+    "dashboard/scripts/storytime/set-phoneme-audio.ts",
+    "dashboard/__tests__/storytime-loops-schema.test.ts",
+    "dashboard/__tests__/storytime-loops-checks.test.ts",
+    "dashboard/__tests__/storytime-loops-audio.test.ts",
+    "dashboard/__tests__/fixtures/storytime-loops-sample.ts",
+    "measure/tracks/storytime_teaching_loops_20261103/plan.md",
+    "measure/tracks/storytime_teaching_loops_20261103/spec.md",
+    "measure/tracks/storytime_teaching_loops_20261103/test-strategy.md",
+    "measure/tracks/storytime_teaching_loops_20261103/spec-review.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "model": "opencode-go/mimo-v2.6-flash"
+}

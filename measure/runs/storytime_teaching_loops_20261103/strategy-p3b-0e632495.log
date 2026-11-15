@@ -1,0 +1,30 @@
+Phase 3b test strategy for storytime_teaching_loops_20261103, written at role base 0e632495 and committed as ddfcf327.
+
+The new sections are 9 (Phase 3b in full, 9.1 to 9.17) and 10 (plan_updates P10 to P24) of test-strategy.md. Section 9 follows the form of section 5: task order and owners, decisions to pin (Q13 to Q26), Red proof, Red and Green per task, mutant tables (MS, MC, MN, MB, MX), rule R3 and its end, two switch dry runs, the teacher book build and PRINT_GATE evidence, anti-pattern coverage, artifact and live tests, and the intentionally red windows.
+
+Spec review F1 (caption cross-check): closed in the documents. The script path, the two arguments, the exit codes 0, 1, and 2, and the owning tasks (Red 3 tests it, Green 3 writes it, the caption list task runs it) are all named. Five gaps remain and the strategy closes them with defaults (9.10): G1 the missing-level exit-2 cases, G2 no source-side tests (the command line reads the shipped files only, so an exported function is needed), G3 the open row grammar and cell formats, G4 the meaning of the row count in the last line, G5 the cost of command-line cases in vitest.
+
+Known gap of the author (fixture file not in PROJECT_LINT): closed by LINT_3B, which adds storytime-share-sample.ts, storytime-week-fixture.ts, and storytime-loops-sample.ts to the lint list of every Phase 3b Red and Green (P11).
+
+Findings that need the orchestrator now:
+1. PROJECT_TESTS is red at the role base for a reason outside this track. The print track test "M-icons" (storytime-print-step-system.test.ts) times out at 5000 ms (5104 ms in the full run, 6314 ms alone). The full run gave 58 files and 1230 tests, 7 failed, all in print-track files. A rerun of those 6 files alone left 1 failed test, M-icons. Decision Q26 reads the gate with that one named exception. The print session should raise the timeout of that test.
+2. The plan says "only the accepted published FAIL". That FAIL ended on 2026-11-04. check-weeks.ts --level 2 at the role base gives exit 0, 0 FAIL rows, and 1 WARN row (print-missing of st2/8). The print track accepts 0 FAIL rows. P11 corrects the gate.
+3. The globs of RED_TEST_COMMAND and GREEN_TEST_COMMAND include storytime-loops-share-content.test.ts, so those two commands are red in the R3 window by design (P19).
+4. The manual prints a step through three paths (main, moved group, opening song). Shots D5 and D6 take the last two. The icon count test (6 and 5) and the per-step placement test catch a Green that fixes one path only.
+
+Commands run: PROJECT_TESTS baseline (heavy-run wrapper, exit 1, see above); rerun of the 6 failed files (exit 1, M-icons only); check-weeks.ts --level 2 (exit 0). pnpm-lock.yaml did not change.
+
+MEASURE_AGENT_RESULT
+role: measure-strategy
+phase: P3b
+track: storytime_teaching_loops
+role_base_sha: 0e632495e8e90494e94fbb85698062f9af1f19a7
+status: complete
+commits: ddfcf3273615b2951c36077b4efc38b4334693fd
+files_changed: measure/tracks/storytime_teaching_loops_20261103/test-strategy.md
+tests_run: PROJECT_TESTS baseline at 0e632495 exit 1 (58 files, 1230 tests, 7 failed, all print track timeouts); rerun of the 6 failed files exit 1 (1 failed, M-icons 5000 ms timeout); check-weeks.ts --level 2 exit 0 (0 FAIL, 1 WARN)
+plan_updates: P10 to P24 in test-strategy.md section 10 (decisions Q13 to Q26; PROJECT_CHECKS zero-FAIL rule and LINT_3B; content, caption list, Red 3, Green 1, Red 2, switch, and build task done-when additions; R3 glob note; English-only review pack; FR-13 loop; optional spec sentence for the caption list grammar; Q26 note for the M-icons timeout)
+review_gates: Review A yes (once after Green 3); Review B yes (escape, consent line A2, no child name or media path, English-only pack); Review C yes (Monorepo passthrough, StorytimeLabels readers, published order, print gates at 0 FAIL, R3 end, FR-13 per commit; API review inside); adversarial yes (once after the switch and Green 3); UX and browser review not applicable (UX_REQUIRED=never, visual check is the contact sheets and LP-28)
+handoff: phase_base_sha is not embedded: capture git rev-parse HEAD right after ddfcf327 and before the Red 1 role, and record red_base before each of the three Red roles. Owner questions with defaults (no stop needed): Q17 consent text pattern if Daniel changes D20; D16 B5 or B6 and D17 for week 8 stay at the spec defaults. Action for the orchestrator: ask the print session to raise the 5000 ms timeout of the M-icons test, or accept Q26.
+dispositions: none
+END_MEASURE_AGENT_RESULT

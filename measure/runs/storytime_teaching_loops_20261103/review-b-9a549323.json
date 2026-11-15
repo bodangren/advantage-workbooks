@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-b",
+  "track": "storytime_teaching_loops_20261103",
+  "phase": "Phase 1: Schema and checks (2026-11-03 to 2026-11-05)",
+  "phase_base_sha": "ec109f9eb5da4df74e9b291390622b75ed8c7ccd",
+  "role_base_sha": "9a549323a5cea5373a598792260c60f11ce11b3f",
+  "audited_head_sha": "9a549323a5cea5373a598792260c60f11ce11b3f",
+  "model": "kimi-code-plan-cn/kimi-for-coding#high",
+  "status": "pass",
+  "summary": "Phase 1 of storytime_teaching_loops_20261103 passes the security and data audit. The new Zod boundary is strict on all seven new objects and every FR-1 bound holds. answer.page is an integer with no schema bound, and the check loops-questions owns page 0 and pages past the end. The loops approval refine enforces a consent record: an approved part needs a date and non-blank words. The published gate excludes only the print and loops parts, by constants, and the exclusion is tested as not over-broad. Drill audio paths are bank-relative, use only safe characters, and never escape the content root. set-phoneme-audio.ts writes only the week file it reads, and only when the bytes change. Tests write only under fs.mkdtemp and a SHA-256 guard proves the shipped weeks are unchanged. No secret, no personal data of private people, no network call, and no paid call exist in the change. One nonblocking finding: the strictness mutants S20b to S20g are not caught by any test; the code is strict at this SHA, so this is a regression-detection gap, not a live hole.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "B-P1-1 | medium | dashboard/__tests__/storytime-loops-schema.test.ts:246 | The L4 strictness test rejects an unknown key only on blendDrill. Six strictness mutants pass all tests: the drill word entry (S20b), SoundLoopSchema (S20c), SightWordsSchema (S20d), BookQuestionSchema (S20e), the question answer (S20f), and RecallSchema (S20g) (jr-green-7c25380d-mutants.txt lines 81 to 91). The schema at the audited SHA is .strict() on all seven new objects, so no live validation hole exists. The gap hides a future regression that drops strictness from one object. Add one unknown-key case per object in a later Red task; plan.md line 81 names the same fix."
+  ],
+  "evidence": [
+    "Provenance: git rev-parse 9a549323 gives 9a549323a5cea5373a598792260c60f11ce11b3f. The repo HEAD is 1738692b with uncommitted changes of other tracks. git log 9a549323..HEAD over the track paths is empty, so the audited HEAD is the current state of the track. The audit read every file with git show 9a549323:<path>, so the working tree does not affect the audit. The phase range ec109f9e..9a549323 holds only this track's loops commits plus print-track commits; the audit used the path scope of test-strategy.md section 2.4.",
+    "Zod boundary (schema.ts at 9a549323): BookQuestionSchema, BlendDrillSchema, its word entries, SoundLoopSchema, SightWordsSchema, and RecallSchema are each .strict(). StorytimeAppApprovalSchema is an .extend().strict() of ApprovalSchema, and StorytimePrintApprovalSchema is strict with its own refine. Verified by direct read of the full file at the audited SHA.",
+    "FR-1 bounds hold: blendDrill.words 3..5, word.sounds 2..4, repeats 2..5, sightWords.words 1..3, seconds 2..5, loopMinutes 0..20, questions exactly 3 with a unique-kind refine. The schema test asserts a pass and a fail at each bound edge (test groups 'bounds and strictness').",
+    "answer.page is z.number().int() with no bound (Q2). The check loops-questions owns the range: page < 1 or page > pages.length reports a problem, and the word must be a whole word of that page (padded stem match, so 'cat' does not match 'catch'). Tests cover page 0, page 9 of 8, page 1, and page 8, and a word on another page.",
+    "Loops approval refine: StorytimeLoopsApprovalSchema.superRefine fails an approved part without a date, without words, with an empty date, or with blank words (trim), and the part is strict. A draft part needs neither. Tests cover all five cases plus an unknown key. This is the consent record for the routines (A2).",
+    "A2 (consent-blind publish gate): the tests that flip a copy to published go through the published check, which requires the six app parts approved and no failed check. The diff excludes only STORYTIME_PRINT_PART and STORYTIME_LOOPS_PART by constant. The loops part is not a publish gate; it gates the app display of routines, and it carries the words-and-date consent record. The shipped st2/1 published detail stays 'images not approved; audio not approved; song not approved', and a draft images part still reports (the exclusion is not over-broad; mutants S17 and S18 were caught). No named real subject is published: the phase changes no week content, and the SHA-256 guard proves it.",
+    "G3 audio paths: phonemeAudioFields builds drill paths as phonemes/daniel/<mp3> from the bank manifest. The audio test asserts every drill path of w01 to w07 matches ^[A-Za-z0-9._/-]+$, has no leading slash, has no '..' part, starts with the bank dir, and exists in the bank folder. The manifest holds 45 items of the form NN-slug.mp3 with safe names (read in full). setPhonemeAudio writes the path strings into the week JSON; it never writes to the path itself.",
+    "File writes: set-phoneme-audio.ts reads a week file and writes only that same file, and only when the output differs from the input. setPhonemeAudio throws before any mutation when a sound has no recording (test D5 proves the raw copy is unchanged after the throw). Both audio and checks tests write only into folders from fs.mkdtemp under os.tmpdir, removed in afterAll, and a SHA-256 guard over the eight shipped weeks and the manifest proves they are unchanged at the end of the run.",
+    "No secret, no personal data of private people, no network call, no paid call: the four changed source files import only zod, fs, path, and local modules. The grep for fetch, http, process.env, and child_process over the changed files finds nothing. The manifest names Daniel as the speaker of the product recordings, which is already public content.",
+    "Error handling: phonemeBankFrom throws on an empty manifest. loopCheck names each skipped part in the label and never reports pass for a part it could not test (Q4; test B15). The CLI exits non-zero on a throw, and a batch failure leaves earlier files unchanged but the tool is idempotent (test D4 second run).",
+    "S20b to S20g judgment (known open point): the Green 1 log records six uncaught strictness mutants, and plan.md line 81 records them verbatim with the fix owner ('a later Red task can add one unknown-key case for each'). The strategy table 5.10 says the mutant tables are complete except C29 and C30, so this is a stated closeout deviation. I judge it a regression-detection gap, not a validation risk: the audited code is strict on all seven objects, and a dropped strict marker would fail only a hypothetical future edit, which the app-side approval gate (approval.loops approved by Daniel) still catches before display. Nonblocking finding B-P1-1 filed.",
+    "A6 (registry overstatement): measure/tracks.md lists the track unchecked and claims no security state. The plan, the Green logs, and the test-strategy record the same evidence I checked (73 tests pass; mutants 26 of 32 caught in Green 1 with the six uncaught named; Green 2 and Green 3 logs consistent). No marketing copy outruns the implementation.",
+    "Migration safety: the schema change is additive and optional. All eight shipped weeks parse, and approval.loops defaults to draft when absent (test group 'shipped weeks and the loops default'). The approvals container gains the loops draft default; the parse fills it, and the output type stays optional for existing constructors.",
+    "GREEN_TEST_COMMAND rerun in one heavy-run wrapper: 3 test files passed, 73 tests passed, 0 failed (review-b-9a549323-tests.txt)."
+  ],
+  "commands": [
+    "git rev-parse 9a549323; git log --oneline ec109f9e..9a549323; git log --oneline 9a549323..HEAD -- <track paths> (empty)",
+    "git diff ec109f9e..9a549323 -- dashboard/lib/storytime/schema.ts dashboard/lib/storytime/checks.ts (phase-scoped source diff)",
+    "git show 9a549323:dashboard/lib/storytime/{schema,checks,phonemes}.ts and dashboard/scripts/storytime/set-phoneme-audio.ts (audit reads at the audited SHA)",
+    "git show 9a549323:dashboard/__tests__/storytime-loops-{schema,checks,audio}.test.ts and fixtures/storytime-loops-sample.ts",
+    "read of content/storytime/phonemes/daniel/manifest.json (45 items, safe names)",
+    "read of jr-green-7c25380d-mutants.txt (S20b to S20g NOT CAUGHT, lines 81 to 91), plan.md lines 80 to 81 and 96 to 102, measure/tracks.md line 5",
+    "grep for fetch|http|process.env|child_process over the changed dashboard files (no hit in scope)",
+    "HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts' (3 files, 73 tests, all passed)"
+  ],
+  "changed_files": [
+    "dashboard/lib/storytime/schema.ts",
+    "dashboard/lib/storytime/checks.ts",
+    "dashboard/lib/storytime/phonemes.ts",
+    "dashboard/scripts/storytime/set-phoneme-audio.ts",
+    "dashboard/__tests__/storytime-loops-schema.test.ts",
+    "dashboard/__tests__/storytime-loops-checks.test.ts",
+    "dashboard/__tests__/storytime-loops-audio.test.ts",
+    "dashboard/__tests__/fixtures/storytime-loops-sample.ts",
+    "measure/tracks/storytime_teaching_loops_20261103/plan.md",
+    "measure/tracks/storytime_teaching_loops_20261103/spec.md",
+    "measure/tracks/storytime_teaching_loops_20261103/test-strategy.md",
+    "measure/tracks/storytime_teaching_loops_20261103/spec-review.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high"
+}

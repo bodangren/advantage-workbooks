@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "role": "measure-closeout",
+  "track": "storytime_teaching_loops_20261103",
+  "short_id": "storytime_teaching_loops",
+  "closed_at": "2026-11-16T05:45:23+0700",
+  "timezone": "Asia/Bangkok",
+  "model": "minimax-cn-coding-plan/MiniMax-M3.1-Flash",
+  "model_deviation": "The Ark plans were out of quota until 2026-11-21. The track ran on the Claude, DeepSeek, MiniMax, Kimi, MiMo, and Qwen routes; every substitution is recorded in the plan and in the run artifacts.",
+  "pre_closeout_head_sha": "f0c4c9293f3781f8796f50c0e6dc86ce0340c208",
+  "final_acceptance": {
+    "result_file": "measure/runs/storytime_teaching_loops_20261103/final-acceptance-f0c4c929.json",
+    "status": "pass",
+    "audited_head_sha": "f0c4c9293f3781f8796f50c0e6dc86ce0340c208",
+    "route": "bailian-token-plan/qwen3.8-max#high",
+    "blocking": 0,
+    "nonblocking": 7,
+    "audited_head_equals_pre_closeout_head": true,
+    "role_gate": "PASS: final-acceptance gate passed (2026-11-16, the orchestrator's role-gate)",
+    "gates_at_head": {
+      "PROJECT_LINT": "exit 0 (final-acceptance-lint.txt)",
+      "PROJECT_CHECKS": "exit 0 (final-acceptance-checks.txt); check-weeks --level 2: 8 packages, 0 failed checks, 1 warning; tsc --noEmit clean",
+      "PROJECT_TESTS": "exit 0 (final-acceptance-project.txt); 73 test files, 1825 tests, 324.51 s"
+    }
+  },
+  "phase_acceptances": [],
+  "phase_closure": "Light lane (PM order of 2026-11-03, plan.md line 126): no measure-phase-acceptance JSON exists for any of the five phases. Each phase closed with an '[x] Measure - User Manual Verification' task, a checkpoint SHA in the phase heading, and independent review artifacts. Recorded as deviation FA-1.",
+  "checkpoints": {
+    "phase_1": "9a549323a5cea5373a598792260c60f11ce11b3f",
+    "phase_2": "92a89ec270cd0e40c4a37d53e5a17d63947f91b0",
+    "phase_3": "634efdc5eed9defd8164f75e29144369af105632",
+    "phase_3b": "634efdc5eed9defd8164f75e29144369af105632",
+    "phase_4": "634efdc5eed9defd8164f75e29144369af105632",
+    "owner_record_commit": "70278a9beb8ef7314d98df80e0462892a0ca5019"
+  },
+  "final_acceptance_findings": [
+    {
+      "id": "FA-1",
+      "severity": "Major",
+      "route": "closeout manifest and metadata.json deviation_notes: the PM light-lane order of 2026-11-03 substituted manual verification for phase-acceptance artifacts. Recorded as a deviation.",
+      "state": "recorded"
+    },
+    {
+      "id": "FA-2",
+      "severity": "Medium",
+      "route": "cured by the live PROJECT_TESTS at the audited head f0c4c929 (73 files, 1825 tests, exit 0; final-acceptance-project.txt).",
+      "state": "cured"
+    },
+    {
+      "id": "FA-3",
+      "severity": "Medium",
+      "route": "tech debt row in measure/tech-debt.md (2026-11-16, storytime_teaching_loops_20261103): the strictness mutants S20b to S20g survive; the plan line 129 follow-up never landed. Add one unknown-key case per strict object at the next test change.",
+      "state": "open tech debt"
+    },
+    {
+      "id": "FA-4",
+      "severity": "Low",
+      "route": "tech debt row in measure/tech-debt.md (2026-11-16, same row as FA-3): mutant C26 (a minute transfer between two non-loop steps) survives; a later Red case closes it.",
+      "state": "open tech debt"
+    },
+    {
+      "id": "FA-5",
+      "severity": "Low",
+      "route": "the closeout cites the final acceptance live gates at the audited head (final-acceptance-lint.txt, final-acceptance-checks.txt, final-acceptance-project.txt) as the evidence for the thin captures. No new capture was written.",
+      "state": "recorded"
+    },
+    {
+      "id": "FA-6",
+      "severity": "Low",
+      "route": "light-lane deviation: the phase checkpoints carry no git notes; the checkpoints are recorded in the plan headings. No note was added at closeout.",
+      "state": "recorded"
+    },
+    {
+      "id": "FA-7",
+      "severity": "bookkeeping",
+      "route": "this closeout: metadata.json status done, completed 2026-11-16, actual_tasks 51; the track moved to measure/archive; the registry entry moved to the archived section of measure/tracks.md.",
+      "state": "closed by this role"
+    }
+  ],
+  "deferred": [],
+  "owner_approvals": "Daniel's 'Approved' of 2026-11-15 18:37 ICT (Google Tasks subtask bnJWSW5yUDNOVllzLWpvcA under PM item YVJYeDVt, PM relay) for the w01 to w08 English and Thai check, the 40 Thai share captions, and the 4 Thai labels; recorded in the week files by commit 70278a9beb8ef7314d98df80e0462892a0ca5019.",
+  "hand_offs": {
+    "hand_off_2_pin": "70278a9beb8ef7314d98df80e0462892a0ca5019",
+    "hand_off_2_pm_receipt": "2026-11-16 02:1x ICT, routed to Monorepo",
+    "hand_off_3_pm_receipt": "2026-11-16 03:1x ICT",
+    "report_pm_receipt": "2026-11-16 03:1x ICT, report.md at 423d050b"
+  },
+  "test_only_red_retries": [
+    "approval.thai 4c317383 and e0171ef2 (storytime_week_package)",
+    "approval.loops 66e7268f (storytime_print_r1)"
+  ],
+  "commands": [
+    "git mv measure/tracks/storytime_teaching_loops_20261103 measure/archive/storytime_teaching_loops_20261103",
+    "python3 scripts (metadata.json, tech-debt.md, this manifest)",
+    "git add measure/runs/storytime_teaching_loops_20261103",
+    "git commit -m 'measure(closeout): archive storytime_teaching_loops_20261103 after final acceptance PASS (f0c4c929)'",
+    "python3 ~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py closeout --repo . --track storytime_teaching_loops_20261103",
+    "wc -l measure/tech-debt.md"
+  ],
+  "anti_patterns": {
+    "A5": "pass: the plan holds no false claim; the final acceptance spot-checked every count and the four 'All checks pass.' claims against their captures.",
+    "A6": "pass: the archived registry note states the adversarial state; the two surviving mutants (S20b to S20g, C26) are named and open in tech debt.",
+    "A9": "pass: the repository has no tests directory and no tests/*.sh; no dashboard test reads a measure/tracks path for this track, so no test reference needed a fix."
+  },
+  "test_references_fixed": [],
+  "artifact_cleanup": "None. The orchestrator named no bulky run artifact for deletion. The partial PROJECT_TESTS capture written by this role (closeout-f0c4c929-project.txt) held no test summary and was deleted before the commit; the gate evidence of the final acceptance at the same head stays.",
+  "retained_evidence": "measure/runs/storytime_teaching_loops_20261103/ (all files, tracked and untracked, including the final acceptance JSON, its log, the three gate captures, and the closeout log closeout-f0c4c929.log)",
+  "notes": "No push. The final acceptance ran PROJECT_TESTS, PROJECT_LINT, and PROJECT_CHECKS at the audited head f0c4c929; the closeout did not rerun them."
+}

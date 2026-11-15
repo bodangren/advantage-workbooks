@@ -1,0 +1,457 @@
+MemAvailable at start: MemAvailable:    3506828 kB
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 347[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m103 tests[22m[2m | [22m[31m61 failed[39m[2m)[22m[33m 617[2mms[22m[39m
+     [32m✓[39m counts words: "don't" is one word, punctuation is not a word, and 13 words are more than 12[32m 2[2mms[22m[39m
+     [32m✓[39m compares the baseline with itself and finds a real change (falsifiers on copies)[32m 112[2mms[22m[39m
+[31m     [31m×[31m has the loop checks at the status fail[39m[32m 13[2mms[22m[39m
+     [32m✓[39m w01 adds only the FR-1 fields to its baseline file (additive, spec D10)[32m 22[2mms[22m[39m
+[31m     [31m×[31m w01 passes the six loop checks with the status pass[39m[32m 63[2mms[22m[39m
+[31m     [31m×[31m w01 gives every new line English and Thai[39m[32m 2[2mms[22m[39m
+     [32m✓[39m w01 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 18[2mms[22m[39m
+[31m     [31m×[31m w01 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w01 repeats only short lines in class (12 words or less)[32m 1[2mms[22m[39m
+     [32m✓[39m w01 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w01 keeps approval.loops draft, or approved with the words and the date[32m 1[2mms[22m[39m
+[31m     [31m×[31m w01 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m w01 puts a sound loop on A1, A2, and A3 that models the pure sound again[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m w01 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w01 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w01 asks who, what, and where about the read-along, with an answer on a page[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w02 adds only the FR-1 fields to its baseline file (additive, spec D10)[32m 21[2mms[22m[39m
+[31m     [31m×[31m w02 passes the six loop checks with the status pass[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m w02 gives every new line English and Thai[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w02 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 13[2mms[22m[39m
+[31m     [31m×[31m w02 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w02 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w02 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w02 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+[31m     [31m×[31m w02 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w02 puts a sound loop on A1, A2, and A3 that models the pure sound again[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m w02 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w02 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w02 asks who, what, and where about the read-along, with an answer on a page[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w03 adds only the FR-1 fields to its baseline file (additive, spec D10)[32m 28[2mms[22m[39m
+[31m     [31m×[31m w03 passes the six loop checks with the status pass[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m w03 gives every new line English and Thai[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w03 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 17[2mms[22m[39m
+[31m     [31m×[31m w03 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w03 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w03 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w03 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+[31m     [31m×[31m w03 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w03 puts a sound loop on A1, A2, and A3 that models the pure sound again[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w03 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w03 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w03 asks who, what, and where about the read-along, with an answer on a page[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w04 adds only the FR-1 fields to its baseline file (additive, spec D10)[32m 20[2mms[22m[39m
+[31m     [31m×[31m w04 passes the six loop checks with the status pass[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m w04 gives every new line English and Thai[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w04 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 13[2mms[22m[39m
+[31m     [31m×[31m w04 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w04 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w04 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w04 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+[31m     [31m×[31m w04 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w04 puts a sound loop on A1, A2, and A3 that models the pure sound again[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w04 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w04 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w04 asks who, what, and where about the read-along, with an answer on a page[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w05 adds only the FR-1 fields to its baseline file (additive, spec D10)[32m 24[2mms[22m[39m
+[31m     [31m×[31m w05 passes the six loop checks with the status pass[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m w05 gives every new line English and Thai[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w05 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 13[2mms[22m[39m
+[31m     [31m×[31m w05 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w05 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w05 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w05 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+[31m     [31m×[31m w05 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w05 puts a sound loop on A1, A2, and A3 that models the pure sound again[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w05 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w05 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w05 asks who, what, and where about the read-along, with an answer on a page[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w06 adds only the FR-1 fields to its baseline file (additive, spec D10)[32m 28[2mms[22m[39m
+[31m     [31m×[31m w06 passes the six loop checks with the status pass[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m w06 gives every new line English and Thai[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w06 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 15[2mms[22m[39m
+[31m     [31m×[31m w06 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w06 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w06 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w06 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+[31m     [31m×[31m w06 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w06 puts a sound loop on A1, A2, and A3 that models the pure sound again[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w06 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w06 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w06 asks who, what, and where about the read-along, with an answer on a page[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w07 adds only the FR-1 fields to its baseline file (additive, spec D10)[32m 21[2mms[22m[39m
+[31m     [31m×[31m w07 passes the six loop checks with the status pass[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m w07 gives every new line English and Thai[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w07 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 12[2mms[22m[39m
+[31m     [31m×[31m w07 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w07 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w07 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w07 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+[31m     [31m×[31m w07 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w07 puts a sound loop on A1, A2, and A3 that models the pure sound again[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w07 puts the blend drill on A4 only, with 3 repeats and a recording for each sound[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w07 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w07 asks who, what, and where about the read-along, with an answer on a page[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w08 adds only the FR-1 fields to its baseline file (additive, spec D10)[32m 16[2mms[22m[39m
+[31m     [31m×[31m w08 passes loops-recall and loops-minutes with the status pass[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m w08 gives every new line English and Thai[39m[32m 1[2mms[22m[39m
+     [32m✓[39m w08 fills each day to the period with loopMinutes, and only the seven loop steps change[32m 9[2mms[22m[39m
+     [32m✓[39m w08 repeats only short lines in class (12 words or less)[32m 0[2mms[22m[39m
+     [32m✓[39m w08 says a pure sound and never a letter name in the new English lines[32m 0[2mms[22m[39m
+     [32m✓[39m w08 keeps approval.loops draft, or approved with the words and the date[32m 0[2mms[22m[39m
+[31m     [31m×[31m w08 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m w08 has the recall and nothing else (the review week, spec D11)[39m[32m 3[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 1162[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-audio.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 428[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 288[2mms[22m[39m
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+ [32m✓[39m __tests__/storytime-loops-teacher-book.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 5781[2mms[22m[39m
+     [33m[2m✓[22m[39m documents --loops in the manual PDF help [33m 3706[2mms[22m[39m
+     [33m[2m✓[22m[39m returns exit 2 for an unknown manual PDF flag [33m 1681[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 61 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mthe content test itself[2m > [22mhas the loop checks at the status fail
+[31m[1mAssertionError[22m: expected 'warn' to be 'fail' // Object.is equality[39m
+
+Expected: [32m"fail"[39m
+Received: [31m"warn"[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m160:35[22m[39m
+    [90m158| [39m
+    [90m159| [39m    [34mit[39m([32m'has the loop checks at the status fail'[39m[33m,[39m () [33m=>[39m {
+    [90m160| [39m        [34mexpect[39m([33mLOOP_CHECK_STATUS[39m)[33m.[39m[34mtoBe[39m([32m'fail'[39m)[33m;[39m
+    [90m   | [39m                                  [31m^[39m
+    [90m161| [39m    })[33m;[39m
+    [90m162| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw01 content[2m > [22mw01 passes the six loop checks with the status pass
+[31m[1mAssertionError[22m: expected [ …(5) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "loops-blend: warn A4 has no blendDrill",[39m
+[31m+   "loops-sound: warn A1 has no soundLoop; A2 has no soundLoop; A3 has no soundLoop",[39m
+[31m+   "loops-sight: warn A6 has no sightWords; D2 has no sightWords",[39m
+[31m+   "loops-questions: warn the read-along has no questions",[39m
+[31m+   "loops-recall: warn day 2: no recall; day 3: no recall; day 4: no recall; day 5: no recall",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m176:116[22m[39m
+    [90m174| [39m            [35mconst[39m checks [33m=[39m [34mloopReport[39m(n)[33m;[39m
+    [90m175| [39m            expect(checks.map((c) => c.id)).toEqual(teach ? SIX_CHECKS…
+    [90m176| [39m            expect(checks.filter((c) => c.status !== 'pass').map((c) =…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m177| [39m        })[33m;[39m
+    [90m178| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw01 content[2m > [22mw01 gives every new line English and Thai
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw02 content[2m > [22mw02 gives every new line English and Thai
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw03 content[2m > [22mw03 gives every new line English and Thai
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw04 content[2m > [22mw04 gives every new line English and Thai
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw05 content[2m > [22mw05 gives every new line English and Thai
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw06 content[2m > [22mw06 gives every new line English and Thai
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw07 content[2m > [22mw07 gives every new line English and Thai
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw08 content[2m > [22mw08 gives every new line English and Thai
+[31m[1mAssertionError[22m: the week has new lines: expected 0 to be greater than 0[39m
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m181:60[22m[39m
+    [90m179| [39m        [34mit[39m([32m`[39m[36m${[39mname[36m}[39m[32m gives every new line English and Thai`[39m[33m,[39m () [33m=>[39m {
+    [90m180| [39m            [35mconst[39m lines [33m=[39m [34mnewBiTexts[39m([34mshippedWeek[39m(n))[33m;[39m
+    [90m181| [39m            expect(lines.length, 'the week has new lines').toBeGreater…
+    [90m   | [39m                                                           [31m^[39m
+    [90m182| [39m            expect(lines.filter((l) => !l.bi.en.trim() || !l.bi.th.tri…
+    [90m183| [39m        })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw01 content[2m > [22mw01 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw02 content[2m > [22mw02 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw03 content[2m > [22mw03 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw04 content[2m > [22mw04 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw05 content[2m > [22mw05 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw06 content[2m > [22mw06 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw07 content[2m > [22mw07 takes the loop minutes from the donors A4 and A6 of day 1 (spec Terms, D8)
+[31m[1mAssertionError[22m: A4 loopMinutes: expected undefined to be defined[39m
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m212:67[22m[39m
+    [90m210| [39m                [35mfor[39m ([35mconst[39m id [35mof[39m [[32m'A4'[39m[33m,[39m [32m'A6'[39m]) {
+    [90m211| [39m                    [35mconst[39m step [33m=[39m steps[33m.[39m[34mfind[39m((s) [33m=>[39m s[33m.[39mid [33m===[39m id)[33m![39m[33m;[39m
+    [90m212| [39m                    expect(step.loopMinutes, `${id} loopMinutes`).toBe…
+    [90m   | [39m                                                                  [31m^[39m
+    [90m213| [39m                    expect(step.loopMinutes!, `${id} gives at least on…
+    [90m214| [39m                }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw01 content[2m > [22mw01 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+[31m[1mAssertionError[22m: B recall items: expected undefined to be 5 // Object.is equality[39m
+
+[32m- Expected:[39m 
+5
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m256:82[22m[39m
+    [90m254| [39m                    [35mcontinue[39m[33m;[39m
+    [90m255| [39m                }
+    [90m256| [39m                expect(script.recall?.items.length, `${script.id} reca…
+    [90m   | [39m                                                                                 [31m^[39m
+    [90m257| [39m                const unknown = script.recall!.items.filter((c) => !po…
+    [90m258| [39m                expect(unknown.map((c) => `${script.id}: ${c.kind} ${c…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw01 content[2m > [22mw01 puts a sound loop on A1, A2, and A3 that models the pure sound again
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw02 content[2m > [22mw02 puts a sound loop on A1, A2, and A3 that models the pure sound again
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw03 content[2m > [22mw03 puts a sound loop on A1, A2, and A3 that models the pure sound again
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw04 content[2m > [22mw04 puts a sound loop on A1, A2, and A3 that models the pure sound again
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw05 content[2m > [22mw05 puts a sound loop on A1, A2, and A3 that models the pure sound again
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw06 content[2m > [22mw06 puts a sound loop on A1, A2, and A3 that models the pure sound again
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw07 content[2m > [22mw07 puts a sound loop on A1, A2, and A3 that models the pure sound again
+[31m[1mAssertionError[22m: expected [] to deeply equal [ 'A1', 'A2', 'A3' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "A1",[39m
+[32m-   "A2",[39m
+[32m-   "A3",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m265:83[22m[39m
+    [90m263| [39m            it(`${name} puts a sound loop on A1, A2, and A3 that model…
+    [90m264| [39m                [35mconst[39m week [33m=[39m [34mshippedWeek[39m(n)[33m;[39m
+    [90m265| [39m                expect(stepsOf(week).filter((s) => s.soundLoop).map((s…
+    [90m   | [39m                                                                                  [31m^[39m
+    [90m266| [39m                for (const step of stepsOf(week).filter((s) => s.sound…
+    [90m267| [39m                    expect(step.soundLoop!.correct.en.toLowerCase(), `…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw01 content[2m > [22mw01 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw02 content[2m > [22mw02 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw03 content[2m > [22mw03 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw04 content[2m > [22mw04 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw05 content[2m > [22mw05 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw06 content[2m > [22mw06 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw07 content[2m > [22mw07 puts the blend drill on A4 only, with 3 repeats and a recording for each sound
+[31m[1mAssertionError[22m: expected [] to deeply equal [ 'A4' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "A4",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m273:84[22m[39m
+    [90m271| [39m            it(`${name} puts the blend drill on A4 only, with 3 repeat…
+    [90m272| [39m                [35mconst[39m week [33m=[39m [34mshippedWeek[39m(n)[33m;[39m
+    [90m273| [39m                expect(stepsOf(week).filter((s) => s.blendDrill).map((…
+    [90m   | [39m                                                                                   [31m^[39m
+    [90m274| [39m                const drill = stepsOf(week).find((s) => s.id === 'A4')…
+    [90m275| [39m                [34mexpect[39m(drill[33m.[39mrepeats)[33m.[39m[34mtoBe[39m([34m3[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw01 content[2m > [22mw01 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw02 content[2m > [22mw02 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw03 content[2m > [22mw03 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw04 content[2m > [22mw04 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw05 content[2m > [22mw05 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw06 content[2m > [22mw06 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw07 content[2m > [22mw07 puts the sight words on A6 and D2 only when the week has tricky words, 3 seconds each
+[31m[1mAssertionError[22m: expected [] to deeply equal [ 'A6', 'D2' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "A6",[39m
+[32m-   "D2",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m294:33[22m[39m
+    [90m292| [39m                    [35mreturn[39m[33m;[39m
+    [90m293| [39m                }
+    [90m294| [39m                [34mexpect[39m(holders)[33m.[39m[34mtoEqual[39m([[32m'A6'[39m[33m,[39m [32m'D2'[39m])[33m;[39m
+    [90m   | [39m                                [31m^[39m
+    [90m295| [39m                for (const step of stepsOf(week).filter((s) => s.sight…
+    [90m296| [39m                    [35mconst[39m sight [33m=[39m step[33m.[39msightWords[33m![39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw01 content[2m > [22mw01 asks who, what, and where about the read-along, with an answer on a page
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw02 content[2m > [22mw02 asks who, what, and where about the read-along, with an answer on a page
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw03 content[2m > [22mw03 asks who, what, and where about the read-along, with an answer on a page
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw04 content[2m > [22mw04 asks who, what, and where about the read-along, with an answer on a page
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw05 content[2m > [22mw05 asks who, what, and where about the read-along, with an answer on a page
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw06 content[2m > [22mw06 asks who, what, and where about the read-along, with an answer on a page
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw07 content[2m > [22mw07 asks who, what, and where about the read-along, with an answer on a page
+[31m[1mAssertionError[22m: expected undefined to deeply equal [ 'who', 'what', 'where' ][39m
+
+[32m- Expected:[39m 
+[
+  "who",
+  "what",
+  "where",
+]
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m309:65[22m[39m
+    [90m307| [39m                [35mconst[39m week [33m=[39m [34mshippedWeek[39m(n)[33m;[39m
+    [90m308| [39m                const readAlong = week.books.find((b) => b.kind === 'r…
+    [90m309| [39m                expect(readAlong.questions?.map((q) => q.kind)).toEqua…
+    [90m   | [39m                                                                [31m^[39m
+    [90m310| [39m                [35mfor[39m ([35mconst[39m q [35mof[39m readAlong[33m.[39mquestions[33m![39m) {
+    [90m311| [39m                    expect(q.answer.page, `${q.kind} page`).toBeGreate…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw02 content[2m > [22mw02 passes the six loop checks with the status pass
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw03 content[2m > [22mw03 passes the six loop checks with the status pass
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw04 content[2m > [22mw04 passes the six loop checks with the status pass
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw05 content[2m > [22mw05 passes the six loop checks with the status pass
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw06 content[2m > [22mw06 passes the six loop checks with the status pass
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw07 content[2m > [22mw07 passes the six loop checks with the status pass
+[31m[1mAssertionError[22m: expected [ …(5) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "loops-blend: warn A4 has no blendDrill",[39m
+[31m+   "loops-sound: warn A1 has no soundLoop; A2 has no soundLoop; A3 has no soundLoop",[39m
+[31m+   "loops-sight: warn A6 has no sightWords; D2 has no sightWords",[39m
+[31m+   "loops-questions: warn the read-along has no questions",[39m
+[31m+   "loops-recall: warn day 1: no recall; day 2: no recall; day 3: no recall; day 4: no recall; day 5: no recall",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m176:116[22m[39m
+    [90m174| [39m            [35mconst[39m checks [33m=[39m [34mloopReport[39m(n)[33m;[39m
+    [90m175| [39m            expect(checks.map((c) => c.id)).toEqual(teach ? SIX_CHECKS…
+    [90m176| [39m            expect(checks.filter((c) => c.status !== 'pass').map((c) =…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m177| [39m        })[33m;[39m
+    [90m178| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw02 content[2m > [22mw02 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw03 content[2m > [22mw03 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw04 content[2m > [22mw04 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw05 content[2m > [22mw05 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw06 content[2m > [22mw06 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw07 content[2m > [22mw07 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw08 content[2m > [22mw08 puts the recall cards in every script (day 1 of week 1 has none), copied from existing strip cards
+[31m[1mAssertionError[22m: A recall items: expected undefined to be 5 // Object.is equality[39m
+
+[32m- Expected:[39m 
+5
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m256:82[22m[39m
+    [90m254| [39m                    [35mcontinue[39m[33m;[39m
+    [90m255| [39m                }
+    [90m256| [39m                expect(script.recall?.items.length, `${script.id} reca…
+    [90m   | [39m                                                                                 [31m^[39m
+    [90m257| [39m                const unknown = script.recall!.items.filter((c) => !po…
+    [90m258| [39m                expect(unknown.map((c) => `${script.id}: ${c.kind} ${c…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw08 content[2m > [22mw08 passes loops-recall and loops-minutes with the status pass
+[31m[1mAssertionError[22m: expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   "loops-recall: warn day 1: no recall; day 2: no recall; day 3: no recall; day 4: no recall; day 5: no recall",[39m
+[31m+ ][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m176:116[22m[39m
+    [90m174| [39m            [35mconst[39m checks [33m=[39m [34mloopReport[39m(n)[33m;[39m
+    [90m175| [39m            expect(checks.map((c) => c.id)).toEqual(teach ? SIX_CHECKS…
+    [90m176| [39m            expect(checks.filter((c) => c.status !== 'pass').map((c) =…
+    [90m   | [39m                                                                                                                   [31m^[39m
+    [90m177| [39m        })[33m;[39m
+    [90m178| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/61]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-content.test.ts[2m > [22mw08 content[2m > [22mw08 has the recall and nothing else (the review week, spec D11)
+[31m[1mAssertionError[22m: expected [ undefined, undefined, …(3) ] to deeply equal [ 5, 5, 5, 5, 5 ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   5,[39m
+[32m-   5,[39m
+[32m-   5,[39m
+[32m-   5,[39m
+[32m-   5,[39m
+[31m+   undefined,[39m
+[31m+   undefined,[39m
+[31m+   undefined,[39m
+[31m+   undefined,[39m
+[31m+   undefined,[39m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/storytime-loops-content.test.ts:[2m328:73[22m[39m
+    [90m326| [39m                }
+    [90m327| [39m                for (const book of week.books) expect(book.questions).…
+    [90m328| [39m                expect(week.scripts.map((s) => s.recall?.items.length)…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m329| [39m            })[33m;[39m
+    [90m330| [39m        }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/61]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (6)[39m
+[2m      Tests [22m [1m[31m61 failed[39m[22m[2m | [22m[1m[32m129 passed[39m[22m[90m (190)[39m
+[2m   Start at [22m 04:45:24
+[2m   Duration [22m 8.66s[2m (transform 1.10s, setup 544ms, import 2.85s, tests 8.62s, environment 1ms)[22m
+
+MemAvailable at end: MemAvailable:    3411076 kB

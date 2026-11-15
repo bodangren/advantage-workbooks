@@ -1,0 +1,63 @@
+# Spec review round 2 log: storytime_teaching_loops_20261103
+
+Date: 2026-11-02. Reviewer: measure-spec-review, model coding-plan/glm-5.3-flash#high.
+Audited commit: 7c7a468278cf551f580bc7d138c6411d7e953008. `git rev-parse HEAD` matched it at start.
+
+## Inputs read
+
+- `~/.agents/skills/measure/references/spec-review.md` (the standard).
+- `measure/tracks/storytime_teaching_loops_20261103/spec.md`, `plan.md`, `spec-review.md` (round 1 and the Author Response).
+- `measure/runs/storytime_teaching_loops_20261103/spec-review-d03d9e7d.json` (round 1 result, F1 to F9).
+- The revision diff `d03d9e7d..7c7a4682` of the track files.
+- Code: `dashboard/lib/storytime/schema.ts`, `checks.ts`, `phonemes.ts`, `files.ts`; week files `content/storytime/l2/w01.json` to `w08.json`; `measure/tracks/storytime_print_r1_20261025/plan.md` (Phase 9); `measure/tracks/storytime_week_package_20261022/plan.md` (open tasks).
+
+## Step 1: the round 1 fixes
+
+All nine responses were FIX; no CONTEST items existed, so no withdraw or keep decision was needed.
+
+- F1 (Blocker) fixed. Spec FR-1 now says the published check skips the `loops` part as its only code change, and the st2/1 detail stays `images not approved; audio not approved; song not approved`. Plan Phase 1 Red has the guard (published), and Green changes the filter with a mutant. checks.ts lines 319-323 confirm the filter excludes only `print` today, so the one code change is real and needed. The two commitments of round 1 no longer contradict.
+- F2 (Major) fixed. FR-7 compares the day total with `meta.periodMinutes` and names 30 (Level 2) and 49 (Levels 3 and 4). Plan Phase 1 Red 2 has the minutes cases with the 49-minute Level 3 copy.
+- F3 (Major) fixed. FR-6 defines the taught set per card kind: `sound` and `tricky` in `taughtTo`, `frame` as a `focus.frame` to date, `word` in the text of an earlier day or week. Plan Phase 1 Red 2 has one pass and one fail case per kind. `taughtTo` (checks.ts lines 54-63) receives the earlier weeks, so the rules of earlier weeks are checkable through the same input.
+- F4 (Major) fixed. The print track paragraph states the serialization rule and the wait for the print track proof commit of 2026-11-05. Plan Phase 2 Green carries the precondition; Green 2 inherits it.
+- F5 (Major) fixed. FR-1 names the refine `StorytimeLoopsApprovalSchema`; an approved part needs `words` and `date`; four acceptance lines and four plan refine cases exist. The print refine (schema.ts lines 438-451) is the stated model, and the app part (lines 458-462) has no refine today.
+- F6 (Nit) fixed. The Terms section moves the opening out of the donor list; it hosts the recall and gives no minutes (D7).
+- F7 (Nit) fixed. FR-10 and plan Phase 3 Red parse both files, delete the FR-1 fields, and compare the normalized `JSON.stringify` output.
+- F8 (Nit) fixed. FR-12 lists five messages, named as in the plan.
+- F9 (Nit) fixed. The Phase 3 Daniel task names the new Thai headings of `StorytimeLabels`; Phase 2 Green names the heading keys in the commit message.
+
+## Step 2: the full re-review
+
+Paraphrase: both sections hold against the revised text. The published-check exclusion, the refine, and the `periodMinutes` rule fit the paraphrase of round 1 with small updates.
+
+Zoom-out check: root problem (the five research gaps), no speculative feature (FSRS stays out), no premature optimization, reuse cited with file and symbol (`StripCardSchema`, `taughtTo`, `phonemeAudioFields`, `bankSound`, `StorytimeLabels`, `PRINT_GATE`), placement in the files that already own the concern, and the text stays at the requirement level.
+
+Grounding checks that passed:
+
+- schema.ts line 21: `SCRIPT_IDS_LEVEL1` is `['L','M','S','V','P']`; FR-8's Level 1 skip is grounded.
+- `StripCardSchema` (schema.ts lines 281-289) matches the FR-1 recall shape; `BookPageSchema.text` (lines 122-125) grounds the FR-5 `answer.word` rule.
+- Week data: w01 to w07 all have tricky words and the steps A6 and D2, so FR-4 applies as written. w08 has no tricky words and no A4, A6, or C5; D11 matches the data.
+- Only Level 2 week files exist in content today, so the Level 3 and 4 scope of FR-8 is future-facing; the checks define the standard for those weeks, which is consistent with the spec.
+- Print track plan Phase 9 (lines 687-693) has no byte-equal clause that conflicts with a `--loops` rebuild; Hand-off 3 carries the notice.
+- The week package track's open tasks touch content, book audio, and gesture pictures, not schema.ts or checks.ts.
+
+Zero-decision check: each phase names its files, its normal and edge cases, and its mutants, and each phase leaves the repository testable. The revised sections close the choices of round 1. One choice stayed open; see the finding below.
+
+## Step 3: the open point on FR-6 (task item 3)
+
+FR-6 says a `word` card "appears in the text of an earlier day of the same week, or in the text of an earlier week". No section defines "the text of a day". The author reads it as the English lines of the day's steps. Decision: yes, this leaves an implementer decision open. The check author must decide which strings count: the English lines of the day's steps only, or also the prep lines, the Thai lines, or the reader page text of the day's read-along. The readings give different pass sets for `loops-recall`. The plan repeats the phrase in its word-card test cases, so the plan does not close it either. Classification: Major (an undefined project-specific term that decides the check result), consistent with round 1 F3 and F5. Finding F10 records it. The fix is one sentence in FR-6, or the user accepts the ambiguity.
+
+## Verdict
+
+No Blocker findings remain. One Major finding (F10) is new. Status: pass. The handoff states the next step.
+
+MEASURE_AGENT_RESULT
+status: complete
+role: measure-spec-review
+track: storytime_teaching_loops_20261103
+phase: track setup
+round: 2
+audited_head_sha: 7c7a468278cf551f580bc7d138c6411d7e953008
+verdict: pass
+findings: 0 Blocker, 1 Major, 0 Nit
+handoff: All round 1 findings F1 to F9 are fixed and verified; F10 (Major) is new: FR-6 leaves "the text of a day" undefined for word cards. Next step: the author adds one sentence to FR-6 that defines the text of a day (default: the English text of the day's steps, and reader page text does not count), or the user accepts F10 as a risk. The orchestrator checks the one-line fix; no third review round is needed. Then the track starts Phase 1.
+END_MEASURE_AGENT_RESULT

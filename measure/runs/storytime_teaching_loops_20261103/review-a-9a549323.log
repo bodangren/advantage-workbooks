@@ -1,0 +1,51 @@
+Measure Review A (correctness and architecture) — storytime_teaching_loops_20261103, phase P1.
+Model: opencode-go/mimo-v2.6-flash. Audit only; no production file changed.
+
+Scope. HEAD is ddd3c15b40264675f70d08ffd107103430efc2fb. The audited head 9a549323 is an ancestor of
+HEAD. The audit covers exactly ec109f9e..9a549323. Later commits belong to other tracks.
+
+Commands. GREEN_TEST_COMMAND ran once inside one heavy-run wrapper, captured with script to
+review-a-9a549323-green.txt: 3 files, 73 tests passed, exit 0. PROJECT_LINT ran once inside one
+heavy-run wrapper, captured with script to review-a-9a549323-lint.txt: exit 0.
+
+Spec fit. The schema diff adds the FR-1 fields with the stated bounds, the strict objects, the
+refine StorytimeLoopsApprovalSchema, and the STORYTIME_LOOPS_PART constant. The published filter
+gains only the loops exclusion, as FR-1 states. checks.ts adds LOOP_CHECK_STATUS, loopChecks,
+recallCheck, and minutesCheck. The six checks match FR-2 to FR-8 and decisions Q1 to Q12. minutesCheck
+sums every day of Levels 2 to 4, allows only loop steps to differ, and keeps the 2-minute floor, which
+is the orchestrator decision of 2026-11-03. phonemes.ts lists the drill fields, and
+setPhonemeAudio writes them.
+
+Callers. check-weeks.ts passes taught and others. make-manual-pdf.ts passes taught without others.
+set-phoneme-audio.ts changes only its usage text. The print track tests that read published keep the
+detail images not approved; audio not approved; song not approved.
+
+Test meaning. The sample fixture is hand-written data and does not copy the checker. Data mutants run
+on copies in fs.mkdtemp folders. The G4 one-based page case and the G3 path guard are present. Count
+assertions use labeled integers. The A4 probe shows a missing deliverable gives warn, not pass, and the
+published falsifier still fails on a draft images part.
+
+Plan evidence. All recorded numbers match the evidence files: the four Red runs, the three Green runs,
+the mutant tables, the live proof of 49 warnings and one FAIL, and the switch dry run of 11 red tests.
+FR-13 holds: this track commits touch only its own code, test, and plan files.
+
+Open points, judged nonblocking with reasons in the JSON: C26 survives (the day sum catches net
+changes; Phase 3 asserts the rule on content); C31b survives (gate paths supply taught and others; the
+real code reports warn with the skip label; strategy row B15 has no label assertion); S20b to S20g
+survive (same as Review B B-P1-1); C29 and C30 are planned Phase 3 gaps; Question A is the recorded
+orchestrator decision; the Green 3 plan line lacks gate evidence sub-lines, and its lint file is 0
+bytes, while its log holds the gates and this audit's lint run exited 0.
+
+Verdict: pass. 0 blocking, 4 nonblocking findings. retry_recommendation: none.
+
+MEASURE_AGENT_RESULT
+status: pass
+role: Measure Review A
+track: storytime_teaching_loops_20261103
+phase: P1
+baseline_sha: 9a549323a5cea5373a598792260c60f11ce11b3f
+head: 9a549323a5cea5373a598792260c60f11ce11b3f
+result_file: measure/runs/storytime_teaching_loops_20261103/review-a-9a549323.json
+findings: 0 blocking; 4 nonblocking
+retry_recommendation: none
+END_MEASURE_AGENT_RESULT

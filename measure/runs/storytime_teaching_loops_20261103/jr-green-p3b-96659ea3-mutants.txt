@@ -1,0 +1,43 @@
+MS1: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MS2: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MS3: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MS4: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MS5: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MS6: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MS7: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MS8: caught (exit 1; 15 failed, 8 passed); restore cmp: ok
+MS9: caught (exit 1; 19 failed, 4 passed); restore cmp: ok
+MS10: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MS11: caught (exit 1; no test summary (load or type error)); restore cmp: ok
+MS12: caught (exit 1; 19 failed, 4 passed); restore cmp: ok
+MC1: caught (exit 1; 2 failed, 21 passed); restore cmp: ok
+MC2: SURVIVOR (exit 0; 0 failed, 23 passed); restore cmp: ok
+MC3: SURVIVOR (exit 0; 0 failed, 23 passed); restore cmp: ok
+MC4: caught (exit 1; 4 failed, 19 passed); restore cmp: ok
+MC5: caught (exit 1; 2 failed, 21 passed); restore cmp: ok
+MC6: caught (exit 1; 2 failed, 21 passed); restore cmp: ok
+MC7: caught (exit 1; 3 failed, 20 passed); restore cmp: ok
+MC8: caught (exit 1; 2 failed, 21 passed); restore cmp: ok
+MC9: caught (exit 1; 2 failed, 21 passed); restore cmp: ok
+MC10: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC11: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC12: caught (exit 1; 2 failed, 21 passed); restore cmp: ok
+MC13: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC14: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC15: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC16: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC17: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC18: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC19: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC20: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC21: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MC22: SURVIVOR (exit 0; 0 failed, 23 passed); restore cmp: ok
+MC22 at the status fail: caught (exit 1; 9 failed, 14 passed); restore cmp: ok
+MC23: caught (exit 1; 1 failed, 22 passed); restore cmp: ok
+MS mutants: 12, caught: 12
+MC mutants: 23, caught: 20
+survivor: MC2
+survivor: MC3
+survivor: MC22
+final restore cmp: ok
+exit=0

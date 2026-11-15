@@ -1,0 +1,195 @@
+diff --git a/dashboard/lib/storytime/checks.ts b/dashboard/lib/storytime/checks.ts
+index 78fe0f67..832c4f3d 100644
+--- a/dashboard/lib/storytime/checks.ts
++++ b/dashboard/lib/storytime/checks.ts
+@@ -1,8 +1,9 @@
+ import { schemaFailure, type PackageCheck, type PackageReport } from '../lesson-package/checks';
+ import type { CheckStatus } from '../text-profile/check';
++import { bankSound, soundLabels } from './phonemes';
+ import { programWeek, wordNeed, type PhonicsGraph } from './phonics';
+ import { checkStorytimePrintText } from './print/text-check';
+-import { GESTURES, NoteSchema, STORYTIME_LOOPS_PART, STORYTIME_PRINT_PART, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeCheckItem, type StorytimeNote, type StorytimeWeek } from './schema';
++import { GESTURES, NoteSchema, STORYTIME_LOOPS_PART, STORYTIME_PRINT_PART, StorytimeWeekSchema, scriptIdsOf, storytimeKey, type StorytimeCheckItem, type StorytimeNote, type StorytimeStep, type StorytimeWeek } from './schema';
+ 
+ /** The headings of a step note, in print order. */
+ const HEADINGS = Object.keys(NoteSchema.shape) as (keyof StorytimeNote)[];
+@@ -315,6 +316,10 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
+     // for their blocks (Phase 7).
+     checks.push(...checkStorytimePrintText(w));
+ 
++    // The teaching loops (loops FR-8): Levels 2 to 4 only. They come before the published block, so that
++    // a loop check with the status `fail` (the Phase 3 switch) also blocks a published week.
++    if (level >= 2) checks.push(...loopChecks(w, taught, others));
++
+     // A published week is on the public page: every app part approved, no failed check. The
+     // print part stays out (rule G5): the print approval is its own later gate. The loops part
+     // stays out too: it gates the routines in the app, not the publication of the week.
+@@ -329,6 +334,168 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
+     return { lesson: w.meta.key, title: w.meta.title, checks };
+ }
+ 
++/**
++ * The status of a loop check that finds a problem (loops FR-8, D12): `warn` from Phase 1 to Phase 3, so
++ * that the shipped weeks do not fail the gate. The Phase 3 switch task sets it to `fail`.
++ */
++export const LOOP_CHECK_STATUS: CheckStatus = 'warn';
++
++/** The steps that hold a routine (loops spec Terms: "loop step"). Only these may change their minutes. */
++const LOOP_STEP_IDS = ['A1', 'A2', 'A3', 'A4', 'A6', 'C5', 'D2'];
++/** The fewest minutes of a loop step (loops FR-7). */
++const LOOP_STEP_MIN = 2;
++/** The recall items of one day (loops FR-6). */
++const RECALL_COUNT = 5;
++
++/**
++ * A loop check. A part that the check could not test (a missing argument) is named in the label. Such a
++ * part never passes: when nothing else is wrong, the check reports "not checked".
++ */
++function loopCheck(id: string, label: string, problems: string[], skipped: string[] = []): PackageCheck {
++    const note = skipped.length ? `not checked: ${skipped.join('; ')}` : '';
++    return check(id, note ? `${label} (${note})` : label, problems.length || !note ? problems : [note], LOOP_CHECK_STATUS);
++}
++
++/** The English text of a step, as the loops spec defines "the text of a day". */
++const stepText = (st: StorytimeStep): string[] => [st.title.en, ...HEADINGS.flatMap((h) => st.en[h]), st.easier.en, st.harder.en, st.group.en];
++
++/** The stemmed text of a list of lines, with a space at each end, so that ` word ` matches a whole word. */
++const padded = (lines: string[]): string => ` ${stem(lines.join(' '))} `;
++
++/**
++ * The six loop checks of a week (loops FR-2 to FR-7). A teach week runs all six. A review week runs
++ * `loops-recall` and `loops-minutes` only (loops D11).
++ * @param w The parsed week of Level 2 to 4.
++ * @param taught The graphemes and tricky words taught to the week; without it, the sound rules are not tested.
++ * @param others The other weeks of the level and of earlier levels; without them, the frames and words of earlier weeks are not tested.
++ * @returns The checks, in the order of the loops spec.
++ */
++function loopChecks(w: StorytimeWeek, taught?: TaughtSet, others?: StorytimeWeek[]): PackageCheck[] {
++    const steps = w.scripts.flatMap((s) => s.steps);
++    const stepOf = (id: string) => steps.find((st) => st.id === id);
++    const out: PackageCheck[] = [];
++
++    if (w.meta.kind === 'teach') {
++        // FR-2: the drill sits on A4; each drill sound is a taught grapheme or a sound of the opening game (Q1).
++        const drill = stepOf('A4')?.blendDrill;
++        const blendProblems: string[] = [];
++        const blendSkipped: string[] = [];
++        if (!drill) blendProblems.push('A4 has no blendDrill');
++        else if (!taught) blendSkipped.push('the drill sounds, because the taught set is not given');
++        else {
++            const allowed = new Set([...taught.graphemes, ...(w.opening?.pa.flatMap((line) => soundLabels(line.en)) ?? [])].map(bankSound));
++            for (const { word, sounds } of drill.words) {
++                const untaught = sounds.filter((s) => !allowed.has(bankSound(s)));
++                if (untaught.length) blendProblems.push(`"${word}": ${untaught.join(', ')} not taught and not in the opening game`);
++            }
++        }
++        out.push(loopCheck('loops-blend', 'A4 has a blend drill; each drill sound is taught or in the opening game', blendProblems, blendSkipped));
++
++        // FR-3: a soundLoop on each sound step.
++        out.push(loopCheck('loops-sound', 'A1, A2, and A3 have a sound loop', ['A1', 'A2', 'A3'].filter((id) => !stepOf(id)?.soundLoop).map((id) => `${id} has no soundLoop`)));
++
++        // FR-4: sightWords on A6 and D2 equal the tricky words, in order; no tricky word, no sightWords.
++        const tricky = w.focus.trickyWords;
++        const sightProblems = ['A6', 'D2'].flatMap((id) => {
++            const sight = stepOf(id)?.sightWords;
++            if (!tricky.length) return sight ? [`${id} has sightWords, and the week has no tricky words`] : [];
++            if (!sight) return [`${id} has no sightWords`];
++            return sight.words.join(',') === tricky.join(',') ? [] : [`${id}: sight words (${sight.words.join(', ')}) are not the tricky words (${tricky.join(', ')}) in order`];
++        });
++        out.push(loopCheck('loops-sight', 'A6 and D2 have the sight words of the week, in order', sightProblems));
++
++        // FR-5: three questions in the order who, what, where; the answer is a whole word of the 1-based page.
++        const readAlong = w.books.find((b) => b.kind === 'readalong');
++        const questionProblems: string[] = [];
++        if (!readAlong) questionProblems.push('no read-along book');
++        else if (!readAlong.questions) questionProblems.push('the read-along has no questions');
++        else {
++            const kinds = readAlong.questions.map((q) => q.kind);
++            if (kinds.join(',') !== 'who,what,where') questionProblems.push(`the questions are ${kinds.join(', ')}, not who, what, where`);
++            for (const q of readAlong.questions) {
++                const { page, word } = q.answer;
++                if (page < 1 || page > readAlong.pages.length) questionProblems.push(`${q.kind}: page ${page} of ${readAlong.pages.length}`);
++                else if (!padded([readAlong.pages[page - 1].text]).includes(` ${stem(word)} `)) questionProblems.push(`${q.kind}: "${word}" is not a word of page ${page}`);
++            }
++        }
++        out.push(loopCheck('loops-questions', 'The read-along has who, what, and where questions with an answer on a page', questionProblems));
++    }
++
++    out.push(recallCheck(w, taught, others));
++    out.push(minutesCheck(w, steps));
++    return out;
++}
++
++/**
++ * The check `loops-recall` (loops FR-6): 5 items a day, no repeat in a day, no item from a later week, and each
++ * item in the taught set of its kind. Day 1 of Level 2 week 1 needs no recall (D6), but a recall there is tested.
++ */
++function recallCheck(w: StorytimeWeek, taught?: TaughtSet, others?: StorytimeWeek[]): PackageCheck {
++    const { level, week } = w.meta;
++    const earlier = (others ?? []).filter((o) => o.meta.level >= 2 && (o.meta.level < level || (o.meta.level === level && o.meta.week < week)));
++    const graphemes = new Set((taught?.graphemes ?? []).map((g) => g.toLowerCase()));
++    const trickyWords = new Set((taught?.tricky ?? []).map((t) => t.toLowerCase()));
++    const frames = new Set([w.focus.frame, ...earlier.map((o) => o.focus.frame)].map(stem));
++    const earlierWeeks = padded(earlier.flatMap((o) => o.scripts.flatMap((s) => s.steps.flatMap(stepText))));
++    const problems: string[] = [];
++    const skipped = new Set<string>();
++
++    for (const script of w.scripts) {
++        const day = `day ${script.day}`;
++        if (!script.recall) {
++            if (!(level === 2 && week === 1 && script.day === 1)) problems.push(`${day}: no recall`);
++            continue;
++        }
++        const { items } = script.recall;
++        if (items.length !== RECALL_COUNT) problems.push(`${day}: ${items.length} recall items, not ${RECALL_COUNT}`);
++        const earlierDays = padded(w.scripts.filter((s) => s.day < script.day).flatMap((s) => s.steps.flatMap(stepText)));
++        const seen = new Set<string>();
++        for (const item of items) {
++            const name = `${day}: "${item.text}" (${item.kind})`;
++            const key = `${item.kind}|${stem(item.text)}`;
++            if (seen.has(key)) problems.push(`${name} repeats`);
++            seen.add(key);
++            if (item.week > week) problems.push(`${name} is from week ${item.week}, after week ${week}`);
++            if (item.kind === 'sound' || item.kind === 'tricky') {
++                if (!taught) skipped.add('the sound and tricky cards, because the taught set is not given');
++                else if (!(item.kind === 'sound' ? graphemes : trickyWords).has(item.text.toLowerCase())) problems.push(`${name} is not taught to date`);
++            } else if (item.kind === 'frame') {
++                if (frames.has(stem(item.text))) continue;
++                if (others) problems.push(`${name} is not the frame of this week or an earlier week`);
++                else skipped.add('the frame cards of earlier weeks, because the other weeks are not given');
++            } else {
++                const needle = ` ${stem(item.text)} `;
++                if (earlierDays.includes(needle)) continue;
++                if (others && !earlierWeeks.includes(needle)) problems.push(`${name} is not in the text of an earlier day or week`);
++                else if (!others) skipped.add('the word cards of earlier weeks, because the other weeks are not given');
++            }
++        }
++    }
++    return loopCheck('loops-recall', `Each day has ${RECALL_COUNT} recall items, all taught to date`, problems, [...skipped]);
++}
++
++/**
++ * The check `loops-minutes` (loops FR-7). Only a loop step may carry a `loopMinutes` that differs from its
++ * minutes, and a loop step has 2 minutes or more. A day that holds such a change must still fill the period:
++ * the opening plus the steps that are not moved, at `loopMinutes ?? minutes`, equal `periodMinutes`. A day with
++ * no changed step keeps the check `minutes`.
++ */
++function minutesCheck(w: StorytimeWeek, steps: StorytimeStep[]): PackageCheck {
++    const { periodMinutes, openingMinutes } = w.meta;
++    const problems: string[] = [];
++    for (const st of steps) {
++        if (st.loopMinutes !== undefined && st.loopMinutes !== st.minutes && !LOOP_STEP_IDS.includes(st.id)) problems.push(`${st.id}: loopMinutes ${st.loopMinutes}, minutes ${st.minutes}; only a loop step may differ`);
++        const minutes = st.loopMinutes ?? st.minutes;
++        if (LOOP_STEP_IDS.includes(st.id) && !st.moved && minutes < LOOP_STEP_MIN) problems.push(`${st.id}: ${minutes} min, a loop step has ${LOOP_STEP_MIN} or more`);
++    }
++    for (const s of w.scripts) {
++        if (!s.steps.some((st) => st.loopMinutes !== undefined && st.loopMinutes !== st.minutes)) continue;
++        const main = s.steps.filter((st) => !st.moved).reduce((n, st) => n + (st.loopMinutes ?? st.minutes), 0);
++        if (openingMinutes + main !== periodMinutes) problems.push(`${s.id}: ${openingMinutes} + ${main} = ${openingMinutes + main} with loopMinutes, not ${periodMinutes}`);
++    }
++    return loopCheck('loops-minutes', 'The loop minutes fill the period; only loop steps change', problems);
++}
++
+ /** The circle items whose answer is not one of their choices, and the sorts with a picture in two columns, as "item n: ..." lines. */
+ function wrongAnswers(items: StorytimeCheckItem[]): string[] {
+     return items.flatMap((item, i) => {

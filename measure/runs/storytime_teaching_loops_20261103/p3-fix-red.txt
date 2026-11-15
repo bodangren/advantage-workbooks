@@ -1,0 +1,46 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m10 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 327[2mms[22m[39m
+     [32m✓[39m renders the baseline-commit w01 and w02 to the recorded HTML hashes, with loops absent or off (renderer guard)[32m 129[2mms[22m[39m
+     [32m✓[39m renders the shipped w01 and w02 to the same HTML with loops absent and with loops false[32m 68[2mms[22m[39m
+     [32m✓[39m prints each routine in English and Thai for loop-complete w%02d[32m 17[2mms[22m[39m
+     [32m✓[39m prints each routine in English and Thai for loop-complete w%02d[32m 16[2mms[22m[39m
+     [32m✓[39m keeps loop-complete HTML unchanged when the option is absent or false[32m 30[2mms[22m[39m
+     [32m✓[39m puts the routines in step order, and keeps recall in the day opening[32m 8[2mms[22m[39m
+[31m     [31m×[31m gives the review strip heading its own content before the recall block (en)[39m[32m 25[2mms[22m[39m
+[31m     [31m×[31m gives the review strip heading its own content before the recall block (th)[39m[32m 11[2mms[22m[39m
+     [32m✓[39m escapes routine text and prints English when a routine has no Thai line[32m 8[2mms[22m[39m
+     [32m✓[39m defines the five routine headings in both label sets[32m 1[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-manual.test.ts[2m > [22mStorytime teaching loops in the manual[2m > [22mgives the review strip heading its own content before the recall block (en)
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-manual.test.ts[2m > [22mStorytime teaching loops in the manual[2m > [22mgives the review strip heading its own content before the recall block (th)
+[31m[1mAssertionError[22m: day 1: the strip content follows the strip heading: expected '\n      ' to match /^\s*<p>/[39m
+
+[32m- Expected:[39m 
+/^\s*<p>/
+
+[31m+ Received:[39m 
+"
+      "
+
+[36m [2m❯[22m __tests__/storytime-loops-manual.test.ts:[2m163:95[22m[39m
+    [90m161| [39m            expect(recallAt, `day ${i + 1} has the recall heading insi…
+    [90m162| [39m            [35mconst[39m stripContent [33m=[39m opening[33m.[39m[34mslice[39m([34m0[39m[33m,[39m recallAt)[33m;[39m
+    [90m163| [39m            expect(stripContent, `day ${i + 1}: the strip content foll…
+    [90m   | [39m                                                                                              [31m^[39m
+    [90m164| [39m            expect(stripContent, `day ${i + 1}: no heading between the…
+    [90m165| [39m            [35mconst[39m recallBlock [33m=[39m opening[33m.[39m[34mslice[39m(recallAt)[33m;[39m
+[90m [2m❯[22m __tests__/storytime-loops-manual.test.ts:[2m155:14[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m8 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m 10:33:24
+[2m   Duration [22m 2.22s[2m (transform 502ms, setup 296ms, import 852ms, tests 327ms, environment 0ms)[22m
+
+EXIT=1

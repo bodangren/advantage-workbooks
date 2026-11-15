@@ -1,0 +1,86 @@
+Script started on 2026-11-03 12:48:08+07:00 [COMMAND="python3 -I /tmp/jr-green-mut/run.py" <not executed on terminal>]
+C1: caught | A4 rule dropped (any step with a drill counts) | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports a teach week without blendDrill on A4, and a drill on A3 does not count
+C2: caught | untaught-sound rule dropped | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports a drill word with a sound that the week did not teach and the opening does not name
+C3: caught | labels compared as raw strings, not bankSound | exit 1 | 3 failed | 29 passed (32) | restore cmp: ok
+      red: parses, and passes the six loop checks on w01 to w07
+      red: passes a taught sound that the opening does not name, and the bank alias of a label
+      red: passes oral-base sounds of the opening in w01 (Q1)
+C4: caught | loops-sight checks A6 only | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports a missing sightWords on A6 and on D2
+C5: caught | word order ignored (sorted compare) | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports words in another order than focus.trickyWords
+C6: caught | a week without tricky words may hold sightWords | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports sightWords on a week without tricky words, and passes when both are absent
+C7: caught | loops-sound checks A1 only | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports a missing soundLoop on A1, on A2, and on A3
+C8: caught | question order ignored | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports a read-along without questions and the order what, who, where
+C9: caught | page 0 accepted | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports page 0 and a page past the last page, and passes page 1 and the last page
+C10: caught | page > length replaced by page > length + 1 | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports page 0 and a page past the last page, and passes page 1 and the last page
+C11: caught | answer.word searched in all pages | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reads the answer page as pages[answer.page - 1] (G4: page 2 passes, page 3 fails)
+C12: caught | answer.word matched as a substring | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports a word that the page does not hold, and a substring of a word on the page
+C13: caught | !== 5 replaced by < 5 | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports 4 and 6 items, and passes 5
+C14a: caught | day 1 exception widened to every day 1 | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: applies the day 1 exception of week 1 and checks a recall that is present on that day
+C14b: caught | day 1 exception widened to all of week 1 | exit 1 | 2 failed | 30 passed (32) | restore cmp: ok
+      red: applies the day 1 exception of week 1 and checks a recall that is present on that day
+      red: gives each problem of a shipped teach week the status LOOP_CHECK_STATUS
+C15: caught | item.week <= week replaced by < | exit 1 | 8 failed | 24 passed (32) | restore cmp: ok
+      red: applies the day 1 exception of week 1 and checks a recall that is present on that day
+      red: checks a frame card against the frame of this week and of an earlier week
+      red: checks a sound and a tricky card against the taught set
+      red: checks a word card against the text of earlier days and earlier weeks
+C16: caught | sound set uses the current week only | exit 1 | 6 failed | 26 passed (32) | restore cmp: ok
+      red: checks a frame card against the frame of this week and of an earlier week
+      red: checks a sound and a tricky card against the taught set
+      red: checks a word card against the text of earlier days and earlier weeks
+      red: parses, and passes the six loop checks on w01 to w07
+C17: caught | frame set uses the current frame only | exit 1 | 2 failed | 30 passed (32) | restore cmp: ok
+      red: checks a frame card against the frame of this week and of an earlier week
+      red: passes loops-recall and loops-minutes on the review week w08, and runs no other loop check
+C18: caught | word set includes reader page text | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: checks a word card against the text of earlier days and earlier weeks
+C19: caught | word set includes the same day | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: checks a word card against the text of earlier days and earlier weeks
+C20: ERROR the old text occurs 2 times: '        const seen = new Set<string>();\n'
+C21: caught | the sum uses minutes | exit 1 | 2 failed | 30 passed (32) | restore cmp: ok
+      red: passes a Level 2 week whose day sums to 30, and reports 29 and 31
+      red: passes a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48
+C22: caught | the sum compares with 30 | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: passes a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48
+C23: caught | moved steps counted | exit 1 | 6 failed | 26 passed (32) | restore cmp: ok
+      red: does not count a moved step
+      red: parses, and passes the six loop checks on w01 to w07
+      red: passes a Level 2 week whose day sums to 30, and reports 29 and 31
+      red: passes a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48
+C24: caught | the opening left out | exit 1 | 7 failed | 25 passed (32) | restore cmp: ok
+      red: does not count a moved step
+      red: parses, and passes the six loop checks on w01 to w07
+      red: passes a Level 2 week whose day sums to 30, and reports 29 and 31
+      red: passes a Level 3 week with periodMinutes 49 and a sum of 49, and reports 30 and 48
+C25: caught | loop step floor 2 replaced by 1 | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: reports a loop step with 1 minute and passes one with 2
+C26: SURVIVED | any step may differ | exit 0 | 32 passed (32) | restore cmp: ok
+C27: caught | the checks run on Level 1 | exit 1 | 1 failed | 31 passed (32) | restore cmp: ok
+      red: runs no loop check on a Level 1 week
+C28: caught | the review week runs all six | exit 1 | 2 failed | 30 passed (32) | restore cmp: ok
+      red: passes loops-recall and loops-minutes on the review week w08, and runs no other loop check
+      red: reports the missing recall of the shipped review week w08
+C31a: caught | loops-blend reports pass when A4 has no drill | exit 1 | 2 failed | 30 passed (32) | restore cmp: ok
+      red: gives each problem of a shipped teach week the status LOOP_CHECK_STATUS
+      red: reports a teach week without blendDrill on A4, and a drill on A3 does not count
+C31b: SURVIVED | a skipped part is reported as pass (the not-checked note dropped) | exit 0 | 32 passed (32) | restore cmp: ok
+C31c: caught | loops-questions reports pass when the read-along has no questions | exit 1 | 2 failed | 30 passed (32) | restore cmp: ok
+      red: gives each problem of a shipped teach week the status LOOP_CHECK_STATUS
+      red: reports a read-along without questions and the order what, who, where
+mutants: 32, caught: 29, survived: ['C26', 'C31b'], errors: ['C20']
+final restore cmp: ok
+
+Script done on 2026-11-03 12:49:50+07:00 [COMMAND_EXIT_CODE="0"]

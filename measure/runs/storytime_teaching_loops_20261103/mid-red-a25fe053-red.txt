@@ -1,0 +1,251 @@
+Script started on 2026-11-03 13:15:19+07:00 [COMMAND="bash -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-loops-*.test.ts; echo EXIT=$?'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-loops-audio.test.ts [2m([22m[2m14 tests[22m[2m | [22m[31m11 failed[39m[2m)[22m[33m 585[2mms[22m[39m
+[31m     [31m×[31m lists one field for each drill word of the loop-complete w02 copy, with its sounds in order[39m[32m 60[2mms[22m[39m
+[31m     [31m×[31m finds the drill step by its place and not by the script index (A7)[39m[32m 18[2mms[22m[39m
+[31m     [31m×[31m gives each word of w01 to w07 a list of bank paths with one path for each sound[39m[32m 24[2mms[22m[39m
+[31m     [31m×[31m names a drill sound that the bank lacks, and lists no field for that word[39m[32m 22[2mms[22m[39m
+[31m     [31m×[31m reports a drill field that is missing, for each word[39m[32m 26[2mms[22m[39m
+[31m     [31m×[31m reports a drill field that differs, and no problem when every field holds its recording[39m[32m 40[2mms[22m[39m
+     [32m✓[39m returns the same fields for the eight shipped weeks as the frozen baseline[32m 136[2mms[22m[39m
+     [32m✓[39m keeps every other field of a week when a drill is added[32m 114[2mms[22m[39m
+[31m     [31m×[31m sets the drill audio, then the problems are empty, and the other bytes stay equal[39m[32m 19[2mms[22m[39m
+[31m     [31m×[31m writes the same values again on a second run (the set is stable)[39m[32m 33[2mms[22m[39m
+[31m     [31m×[31m makes setPhonemeAudio throw with the sound and its field, and changes nothing[39m[32m 29[2mms[22m[39m
+[31m     [31m×[31m gives the problem that check-weeks turns into a phoneme-audio fail[39m[32m 20[2mms[22m[39m
+[31m     [31m×[31m keeps every drill audio path of w01 to w07 safe and relative[39m[32m 17[2mms[22m[39m
+     [32m✓[39m keeps the SHA-256 of the eight shipped week files and of the bank manifest[32m 14[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 666[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 1505[2mms[22m[39m
+     [33m[2m✓[22m[39m parses, and passes the six loop checks on w01 to w07 [33m 450[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 11 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: the drill sounds in the phoneme bank (D1)[2m > [22mlists one field for each drill word of the loop-complete w02 copy, with its sounds in order
+[31m[1mAssertionError[22m: Drill fields: one for each of the 3 words: expected +0 to be 3 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 3[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m135:75[22m[39m
+    [90m133| [39m        [34mexpect[39m(unresolved[33m,[39m [32m'no drill sound is unresolved'[39m)[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m134| [39m        const drill = fields.filter((f) => f.path.includes('blendDrill…
+    [90m135| [39m        expect(drill.length, 'Drill fields: one for each of the 3 word…
+    [90m   | [39m                                                                          [31m^[39m
+    [90m136| [39m        expect(drill.map((f) => f.path)).toEqual([0, 1, 2].map(W2_PATH…
+    [90m137| [39m        [34mexpect[39m(drill[33m.[39m[34mmap[39m((f) [33m=>[39m f[33m.[39mvalue))[33m.[39m[34mtoEqual[39m([33mW2_AUDIO[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: the drill sounds in the phoneme bank (D1)[2m > [22mfinds the drill step by its place and not by the script index (A7)
+[31m[1mAssertionError[22m: Drill fields of w02: expected +0 to be 3 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 3[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m148:53[22m[39m
+    [90m146| [39m        expect([scriptIndex, stepIndex], 'A4 is step 3 of script 0').t…
+    [90m147| [39m        const paths = drillFields(parse(raw), realBank()).map((f) => f…
+    [90m148| [39m        [34mexpect[39m(paths[33m.[39mlength[33m,[39m [32m'Drill fields of w02'[39m)[33m.[39m[34mtoBe[39m([34m3[39m)[33m;[39m
+    [90m   | [39m                                                    [31m^[39m
+    [90m149| [39m        expect(paths[0]?.slice(0, 4)).toEqual(['scripts', scriptIndex,…
+    [90m150| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: the drill sounds in the phoneme bank (D1)[2m > [22mgives each word of w01 to w07 a list of bank paths with one path for each sound
+[31m[1mAssertionError[22m: w01: one field for each drill word: expected +0 to be 3 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 3[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m157:79[22m[39m
+    [90m155| [39m            [35mconst[39m drill [33m=[39m [33mSAMPLE_DRILLS[39m[week][33m;[39m
+    [90m156| [39m            [35mconst[39m fields [33m=[39m [34mdrillFields[39m([34mparse[39m([34mdrillCopy[39m(week))[33m,[39m bank)[33m;[39m
+    [90m157| [39m            expect(fields.length, `w0${week}: one field for each drill…
+    [90m   | [39m                                                                              [31m^[39m
+    [90m158| [39m            fields[33m.[39m[34mforEach[39m((field[33m,[39m i) [33m=>[39m {
+    [90m159| [39m                [35mconst[39m value [33m=[39m field[33m.[39mvalue [35mas[39m string[][33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: the problems of the drill sounds (D2)[2m > [22mnames a drill sound that the bank lacks, and lists no field for that word
+[31m[1mAssertionError[22m: Unresolved sounds of w02 with the drill: expected [] to deeply equal [ Array(1) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "/zh/ (scripts.0.steps.3.blendDrill.words.1.audio)",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m174:71[22m[39m
+    [90m172| [39m        [35mconst[39m bank [33m=[39m [34mrealBank[39m()[33m;[39m
+    [90m173| [39m        [35mconst[39m { fields[33m,[39m unresolved } [33m=[39m [34mphonemeAudioFields[39m(week[33m,[39m bank)[33m;[39m
+    [90m174| [39m        expect(unresolved, 'Unresolved sounds of w02 with the drill').…
+    [90m   | [39m                                                                      [31m^[39m
+    [90m175| [39m        expect(fields.filter((f) => f.path.includes('blendDrill')).map…
+    [90m176| [39m        expect(phonemeAudioProblems(week, bank)).toContain(`no recordi…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: the problems of the drill sounds (D2)[2m > [22mreports a drill field that is missing, for each word
+[31m[1mAssertionError[22m: Problems of the drill: expected [] to deeply equal [ …(3) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "scripts.0.steps.3.blendDrill.words.0.audio: missing",[39m
+[32m-   "scripts.0.steps.3.blendDrill.words.1.audio: missing",[39m
+[32m-   "scripts.0.steps.3.blendDrill.words.2.audio: missing",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m181:91[22m[39m
+    [90m179| [39m    [34mit[39m([32m'reports a drill field that is missing, for each word'[39m[33m,[39m () [33m=>[39m {
+    [90m180| [39m        const problems = phonemeAudioProblems(parse(drillCopy(2)), rea…
+    [90m181| [39m        expect(problems.filter((p) => p.includes('blendDrill')), 'Prob…
+    [90m   | [39m                                                                                          [31m^[39m
+    [90m182| [39m    })[33m;[39m
+    [90m183| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: the problems of the drill sounds (D2)[2m > [22mreports a drill field that differs, and no problem when every field holds its recording
+[31m[1mAssertionError[22m: Problems with one reversed word: expected [] to have a length of 1 but got +0[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m191:61[22m[39m
+    [90m189| [39m        raw.scripts[0].steps[3].blendDrill.words[1].audio = [...W2_AUD…
+    [90m190| [39m        [35mconst[39m problems [33m=[39m [34mphonemeAudioProblems[39m([34mparse[39m(raw)[33m,[39m bank)[33m;[39m
+    [90m191| [39m        expect(problems, 'Problems with one reversed word').toHaveLeng…
+    [90m   | [39m                                                            [31m^[39m
+    [90m192| [39m        expect(problems[0]).toMatch(/^scripts\.0\.steps\.3\.blendDrill…
+    [90m193| [39m        [34mexpect[39m(problems[[34m0[39m])[33m.[39m[34mtoContain[39m([33mJSON[39m[33m.[39m[34mstringify[39m([33mW2_AUDIO[39m[[34m1[39m]))[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: setPhonemeAudio writes the drill (D4)[2m > [22msets the drill audio, then the problems are empty, and the other bytes stay equal
+[31m[1mAssertionError[22m: Fields set on w02 with the drill: expected 9 to be 12 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 12[39m
+[31m+ 9[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m229:57[22m[39m
+    [90m227| [39m        [35mconst[39m before [33m=[39m [34mcopy[39m(raw)[33m;[39m
+    [90m228| [39m        [35mconst[39m [35mset[39m [33m=[39m [34msetPhonemeAudio[39m(raw[33m,[39m bank)[33m;[39m
+    [90m229| [39m        [34mexpect[39m([35mset[39m[33m,[39m [32m'Fields set on w02 with the drill'[39m)[33m.[39m[34mtoBe[39m([34m12[39m)[33m;[39m
+    [90m   | [39m                                                        [31m^[39m
+    [90m230| [39m        expect(phonemeAudioProblems(parse(raw), bank), 'Problems after…
+    [90m231| [39m        [35mconst[39m words [33m=[39m raw[33m.[39mscripts[[34m0[39m][33m.[39msteps[[34m3[39m][33m.[39mblendDrill[33m.[39mwords[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: setPhonemeAudio writes the drill (D4)[2m > [22mwrites the same values again on a second run (the set is stable)
+[31m[1mAssertionError[22m: expected 9 to be 12 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 12[39m
+[31m+ 9[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m243:44[22m[39m
+    [90m241| [39m        [34msetPhonemeAudio[39m(raw[33m,[39m bank)[33m;[39m
+    [90m242| [39m        [35mconst[39m once [33m=[39m [33mJSON[39m[33m.[39m[34mstringify[39m(raw)[33m;[39m
+    [90m243| [39m        [34mexpect[39m([34msetPhonemeAudio[39m(raw[33m,[39m bank))[33m.[39m[34mtoBe[39m([34m12[39m)[33m;[39m
+    [90m   | [39m                                           [31m^[39m
+    [90m244| [39m        [34mexpect[39m([33mJSON[39m[33m.[39m[34mstringify[39m(raw))[33m.[39m[34mtoBe[39m(once)[33m;[39m
+    [90m245| [39m        expect(drillAudioOf(raw), 'Drill audio paths of w02').toHaveLe…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: an unresolved drill sound stops the set (D5)[2m > [22mmakes setPhonemeAudio throw with the sound and its field, and changes nothing
+[31m[1mAssertionError[22m: expected [Function] to throw an error[39m
+
+[32m- Expected:[39m 
+null
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m253:56[22m[39m
+    [90m251| [39m        [35mconst[39m raw [33m=[39m [34munbankedCopy[39m()[33m;[39m
+    [90m252| [39m        [35mconst[39m before [33m=[39m [33mJSON[39m[33m.[39m[34mstringify[39m(raw)[33m;[39m
+    [90m253| [39m        expect(() => setPhonemeAudio(raw, realBank())).toThrow(/^no re…
+    [90m   | [39m                                                       [31m^[39m
+    [90m254| [39m        expect(JSON.stringify(raw), 'The raw copy after the throw').to…
+    [90m255| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: an unresolved drill sound stops the set (D5)[2m > [22mgives the problem that check-weeks turns into a phoneme-audio fail
+[31m[1mAssertionError[22m: Problems with a drill sound that the bank lacks: expected [] to deeply equal [ Array(1) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   "no recording for /zh/ (scripts.0.steps.3.blendDrill.words.1.audio)",[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m260:125[22m[39m
+    [90m258| [39m        // `check-weeks.ts` marks `phoneme-audio` as `fail` when `phon…
+    [90m259| [39m        const problems = phonemeAudioProblems(parse(unbankedCopy()), r…
+    [90m260| [39m        expect(problems.filter((p) => p.startsWith('no recording for')…
+    [90m   | [39m                                                                                                                            [31m^[39m
+    [90m261| [39m            `no recording for ${UNBANKED} (scripts.0.steps.3.blendDril…
+    [90m262| [39m        ])[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-audio.test.ts[2m > [22mstorytime loops: the drill audio paths for the app (G3 guard)[2m > [22mkeeps every drill audio path of w01 to w07 safe and relative
+[31m[1mAssertionError[22m: w01: drill audio paths: expected +0 to be 9 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 9[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-audio.test.ts:[2m275:66[22m[39m
+    [90m273| [39m            [34msetPhonemeAudio[39m(raw[33m,[39m bank)[33m;[39m
+    [90m274| [39m            [35mconst[39m paths [33m=[39m [34mdrillAudioOf[39m(raw)[33m;[39m
+    [90m275| [39m            expect(paths.length, `w0${week}: drill audio paths`).toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m276| [39m            [35mfor[39m ([35mconst[39m p [35mof[39m paths) {
+    [90m277| [39m                expect(p, `w0${week}: ${p} has safe characters`).toMat…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m11 failed[39m[22m[2m | [22m[1m[32m62 passed[39m[22m[90m (73)[39m
+[2m   Start at [22m 13:15:22
+[2m   Duration [22m 3.33s[2m (transform 1.33s, setup 481ms, import 2.67s, tests 2.76s, environment 1ms)[22m
+
+[?25hEXIT=1
+
+Script done on 2026-11-03 13:15:25+07:00 [COMMAND_EXIT_CODE="0"]

@@ -1,0 +1,35 @@
+Measure Review A log: correctness, architecture, callers, and test meaning.
+Track: storytime_teaching_loops_20261103.
+Phase: Phase 3b: Parent-share moments (2026-11-07 to 2026-11-13).
+Baseline: ca837be6f58b422457f6482e8dc74814ef317486. The phase base is b6c297d95db941c8c2a055ef54e9751a716355fd.
+
+The audit ran at HEAD ca837be6. The Thai filter ran first. The snapshot holds 0 Thai characters in every file. No path under content/storytime was read.
+
+The two gates pass. The test gate gives 11 files and 407 tests, exit 0. The lint gate gives ESLINT_EXIT=0 and TSC_EXIT=0, exit 0. The lock file did not change.
+
+The code answers FR-14. The schema holds strict objects and an optional field, so the change stays additive. The check share-moment runs before the published block and holds the status fail, so a broken moment fails the week and blocks a published week. The teacher book prints the icon, the label, and the escaped caption, and it prints the consent line and the length line once in each week part. The caption cross-check keeps the exit codes of FR-14, and the draft path now builds the unit page list as the print build does.
+
+The scope guard holds. The count is 0 for all fourteen commits of the phase. No commit touches the student book, the readers, the picture check, the pictures, the covers, or the video folder.
+
+One nonblocking finding stays. Four of the twelve completed task lines of the phase do not end with a commit SHA that measure-guard can read.
+
+The contest of the second finding ends in a withdrawal. The code reports every second copy of any row id, before the no-share skip and before the broken-week skip. Both of those cases already carry their own problem line, so the command exits 1. No input list remains that the code accepts and that FR-14 refuses.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: complete
+track: storytime_teaching_loops_20261103
+phase: Phase 3b: Parent-share moments (2026-11-07 to 2026-11-13)
+baseline_sha: ca837be6f58b422457f6482e8dc74814ef317486
+head: ca837be6f58b422457f6482e8dc74814ef317486
+result_file: measure/runs/storytime_teaching_loops_20261103/review-a-p3b-ca837be6.json
+audit_status: pass
+findings: 0 blocking; 1 nonblocking
+commits: none
+tests_run: the test gate (vitest storytime-loops-*.test.ts, --maxWorkers=1) exit 0, Test Files 11 passed (11), Tests 407 passed (407), capture review-a-p3b-ca837be6-green.txt; the lint gate (eslint plus tsc --noEmit) exit 0, ESLINT_EXIT=0, TSC_EXIT=0, capture review-a-p3b-ca837be6-lint.txt
+files_changed: the result JSON, the log, and the two captures
+plan_updates: none
+known_failures: none
+retry_recommendation: none
+handoff: The contest of finding F2 is withdrawn, because lines 141 to 142 report every second copy of any row id before the no-share skip and the broken-week skip, so no input list remains that the code accepts and that FR-14 refuses; the only finding is A-P3b-1, the four task lines whose commit SHA measure-guard cannot read.
+END_MEASURE_AGENT_RESULT
