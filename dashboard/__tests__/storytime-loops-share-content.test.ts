@@ -185,6 +185,20 @@ const P9B_PATHS: Record<number, string[]> = {
         'scripts.4.steps.0.en.teacherActions', 'scripts.4.steps.0.th.teacherActions'],
 };
 
+/**
+ * The LP allow list of the additive compare (loops Phase 3, LP-08 group and LP-20, Daniel's "Approved" of
+ * 2026-11-15): the recall cards of days 4 and 5 in weeks 2 to 7, and the `what` question of the read-along
+ * of week 7. A path that the shipped week does not hold is skipped, as for `P9B_PATHS`.
+ */
+const LP_PATHS: Record<number, string[]> = {
+    2: ['scripts.3.recall.items', 'scripts.4.recall.items'],
+    3: ['scripts.3.recall.items', 'scripts.4.recall.items'],
+    4: ['scripts.3.recall.items', 'scripts.4.recall.items'],
+    5: ['scripts.3.recall.items', 'scripts.4.recall.items'],
+    6: ['scripts.3.recall.items', 'scripts.4.recall.items'],
+    7: ['scripts.3.recall.items', 'scripts.4.recall.items', 'books.0.questions.1.ask'],
+};
+
 
 /**
  * The Phase 14 alignment of the additive compare (Red retry R1, D-R1-2): at each changed path of the change
@@ -200,7 +214,7 @@ function p14Align(week: Raw, shipped: Raw, n: number): Raw {
         const parent = parts.slice(0, -1).reduce<Record<string, unknown>>((node, key) => node[key] as Record<string, unknown>, copy);
         parent[parts[parts.length - 1]] = structuredClone(shippedValue);
     }
-    for (const path of P9B_PATHS[n] ?? []) {
+    for (const path of [...(P9B_PATHS[n] ?? []), ...(LP_PATHS[n] ?? [])]) {
         const shippedValue = path.split('.').reduce<unknown>((node, key) => (node == null ? undefined : (node as Record<string, unknown>)[key]), shipped);
         if (shippedValue === undefined) continue;
         const parts = path.split('.');
