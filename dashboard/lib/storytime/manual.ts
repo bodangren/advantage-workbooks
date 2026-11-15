@@ -340,7 +340,7 @@ function paperItem(item: StorytimeCheckItem, l: StorytimeLabels): string {
 function moreKey(day: NonNullable<StorytimeWeek['block']>['days'][number], l: StorytimeLabels): string {
     const more = day.paperMore;
     if (!more) return '';
-    const items = more.pairs.map((pair, index) => `<li>${escapeHtml(pair.text)} = picture ${more.pictureOrder.indexOf(index) + 1}</li>`).join('');
+    const items = more.pairs.map((pair, index) => `<li>${escapeHtml(pair.text)} = the picture in row ${more.pictureOrder.indexOf(index) + 1}</li>`).join('');
     return `<p><strong>${escapeHtml(l.reviewPage(day.day))} more</strong></p><ol>${items}<li>${escapeHtml(more.read.text)}</li></ol>`;
 }
 

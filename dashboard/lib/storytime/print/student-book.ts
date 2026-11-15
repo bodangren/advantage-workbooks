@@ -201,10 +201,10 @@ body { font-family: 'Andika', sans-serif; font-weight: 400; color: #b0b0b0; back
 .match-target { display: block; flex: none; min-width: 28mm; border: 0.6mm solid #000; padding: 2mm 5mm; font-size: 18pt; text-align: center; }
 .match-choices { display: flex; gap: 8mm; margin-left: 4mm; padding-left: 8mm; border-left: 0.6mm dotted #000; }
 /* The more review pages of week 8 (P9-B9): the sentence at the left, the picture at the right, a dot at the end of each so that the child draws a line. */
-.more-row { display: flex; align-items: center; gap: 4mm; margin-top: 4mm; }
-.more-text { display: block; flex: 1; font-size: 16pt; }
+.more-row { display: flex; align-items: center; gap: 1.5mm; margin-top: 4mm; }
+.more-text { display: block; flex: none; font-size: 16pt; }
 .more-read .more-text { font-size: 20pt; }
-.more-pic { display: flex; flex: none; align-items: center; gap: 2mm; }
+.more-pic { display: flex; flex: none; align-items: center; gap: 2mm; margin-left: auto; }
 .more-pic .picture-box { width: 38mm; height: 28.5mm; }
 .more-dot { display: block; flex: none; width: 1.8mm; height: 1.8mm; border-radius: 50%; background: #000; }
 .benchmark-boxes { display: flex; flex-wrap: wrap; gap: 8mm 12mm; margin-top: 8mm; }
