@@ -1,11 +1,14 @@
 // @vitest-environment node
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { STORYTIME_ROOT, storytimeWeekFile } from '../lib/storytime/files';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../lib/storytime/schema';
 import { decodability, taughtTo } from '../lib/storytime/checks';
+import { compileStorytimeManual } from '../lib/storytime/manual';
 import { resolveStorytimePictureFiles } from '../lib/storytime/print/picture-check';
 import { storytimePrintPictures } from '../lib/storytime/print/pictures';
 import { STORYTIME_PRINT_PROFILE } from '../lib/storytime/print/profile';
@@ -56,6 +59,30 @@ import { storytimeStepMapRows, storytimeStudentBookPages } from '../lib/storytim
  *    one score strip, a div with `data-part="score-strip"` whose `score-blank` span is followed by
  *    the visible text ` / 4`; a `data-score` attribute does not stand for the visible text, and a
  *    page with a second strip, or a strip of ` / 5`, fails RM-fit.
+ *
+ * Phase 9, P9-C Red run: the review-more dots and the answer key rows (spec addendum "Addendum
+ * 2026-11-16: the P9-C fix batch (audit of r6-v3)", decisions D-P9C-1 and D-P9C-2; plan task
+ * "Red, G4 and G2"). The audit of r6-v3 gives G4 (major) and G2 (minor): the sentence dot of a
+ * match row stands at the right end of the row, about 74 mm after its text and right beside the
+ * picture dot, and the answer key says "picture 2" while the picture boxes carry no numbers.
+ *
+ *  - PIN the three case names of this batch: P9C-dot, P9C-gap, and P9C-key.
+ *  - PIN the D-P9C-1 measures: the sentence dot of a match row stands with its left edge 2 mm or
+ *    less after the right edge of the printed sentence text, and the horizontal gap between the
+ *    sentence dot and the picture dot is 40 mm or more. The positions come from the rendered page
+ *    (Chrome lays the compiled student book out and the boxes are read in mm), as for C2-book. The
+ *    tolerance of a measure is 0.3 mm, as in C2-book.
+ *  - PIN the picture dot of a match row stands at the left edge of its picture box. The shipped form
+ *    leaves a gap of 2.0 mm between the dot and the box; the case holds a gap of 3.0 mm or less and
+ *    forbids the dot inside the box, so the form of P9-B9 does not change.
+ *  - PIN the D-P9C-2 key form: each pair line reads "<text> = the picture in row <k>", where k is the
+ *    row of the matching picture box counted from the top. The 16 pair lines come from the texts and
+ *    the default pictureOrder of P9-B10 (pinned below in `KEY_PINS`, with the derivation). No line
+ *    holds "picture <N>".
+ *  - PIN the mutants of the P9-C batch (the plan task "Red, G4 and G2"): M1 the sentence dot at the
+ *    old place (the right end of the row, about 74 mm after the text); M2 a gap below 40 mm between
+ *    the sentence dot and the picture dot; M3 the answer key says "picture N" in place of "the
+ *    picture in row N".
  *
  * The file reads English keys and writes no file. It holds no Thai string and prints no Thai string.
  */
@@ -487,5 +514,285 @@ describe('RM: the four review pages of week 8 (P9-B8 to P9-B13)', () => {
         const used = 5 * BOX_MM.height + 20;
         if (used > CONTENT_MM) problems.push(`the 5 rows use ${used} mm of the ${CONTENT_MM} mm of a page`);
         expect(problems.length, problems.join('\n') || 'the 4 pages fit their page box').toBe(0);
+    });
+});
+
+// ---------------------------------------------------------------------------------------------
+// P9-C: the review-more dots and the answer key rows (D-P9C-1 and D-P9C-2)
+// ---------------------------------------------------------------------------------------------
+
+/** The tolerance of a position measure, in mm (as C2-book). */
+const TOLERANCE_MM = 0.3;
+
+/** D-P9C-1: the sentence dot stands 2 mm or less after the right edge of the sentence text. */
+const SENTENCE_DOT_MAX_MM = 2;
+
+/** D-P9C-1: the gap between the sentence dot and the picture dot is 40 mm or more. */
+const DOT_GAP_MIN_MM = 40;
+
+/** The picture dot stands at the left edge of its picture box. The shipped gap is 2.0 mm. */
+const PICTURE_DOT_GAP_MAX_MM = 3;
+
+/** The 4 pages of the review-more kind (P9-B8). */
+const MORE_PAGES = [134, 136, 138, 140];
+
+/** One day of the answer key: its pair texts, its pictureOrder, and its read sentence. */
+interface KeyPin {
+    day: number;
+    pairs: readonly string[];
+    order: readonly number[];
+    read: string;
+}
+
+/**
+ * PIN the 4 days of the answer key (P9-B10): the 4 pair texts in their data order, the default
+ * pictureOrder, and the read sentence.
+ *
+ * The rule of D-P9C-2: the row k of a pair is the row of the matching picture box counted from the
+ * top, so k = pictureOrder.indexOf(pairIndex) + 1, because the row j of the page shows the picture
+ * of the pair pictureOrder[j]. The derivation of each day:
+ *  - Day 2, pictureOrder [2, 0, 3, 1]: the row 1 shows the pair 3, the row 2 the pair 1, the row 3
+ *    the pair 4, the row 4 the pair 2. The pairs 1 to 4 stand in the rows 2, 4, 1, and 3.
+ *  - Day 3, pictureOrder [1, 3, 0, 2]: the row 1 shows the pair 2, the row 2 the pair 4, the row 3
+ *    the pair 1, the row 4 the pair 3. The pairs 1 to 4 stand in the rows 3, 1, 4, and 2.
+ *  - Day 4, pictureOrder [3, 2, 1, 0]: the row 1 shows the pair 4, the row 2 the pair 3, the row 3
+ *    the pair 2, the row 4 the pair 1. The pairs 1 to 4 stand in the rows 4, 3, 2, and 1.
+ *  - Day 5, pictureOrder [1, 0, 3, 2]: the row 1 shows the pair 2, the row 2 the pair 1, the row 3
+ *    the pair 4, the row 4 the pair 3. The pairs 1 to 4 stand in the rows 2, 1, 4, and 3.
+ */
+const KEY_PINS: readonly KeyPin[] = [
+    {
+        day: 2,
+        pairs: ['Nan can get a pan.', 'A nap in the pan!', 'Pam is on a map.', 'This is the man!'],
+        order: [2, 0, 3, 1],
+        read: 'Can I get the pan?',
+    },
+    {
+        day: 3,
+        pairs: ['Sam saw Pam.', 'Pam is off Sam!', 'Pat can see a map.', 'Pip sat on the mat!'],
+        order: [1, 3, 0, 2],
+        read: 'Sam can see a pan.',
+    },
+    {
+        day: 4,
+        pairs: ['Tom can see a top.', 'The top on a mat.', 'The top is on Mom!', 'Run, Tom, run!'],
+        order: [3, 2, 1, 0],
+        read: 'Can Tom see the top?',
+    },
+    {
+        day: 5,
+        pairs: ['Nan and I can!', 'A pan on Nan!', 'Sam can get Pam.', 'Tom can get the top.'],
+        order: [1, 0, 3, 2],
+        read: 'Pam can nap.',
+    },
+];
+
+/** PIN the 16 expected pair lines and the 4 read lines of the answer key (D-P9C-2). */
+const EXPECTED_KEY_LINES: readonly string[] = [
+    'Nan can get a pan. = the picture in row 2',
+    'A nap in the pan! = the picture in row 4',
+    'Pam is on a map. = the picture in row 1',
+    'This is the man! = the picture in row 3',
+    'Can I get the pan?',
+    'Sam saw Pam. = the picture in row 3',
+    'Pam is off Sam! = the picture in row 1',
+    'Pat can see a map. = the picture in row 4',
+    'Pip sat on the mat! = the picture in row 2',
+    'Sam can see a pan.',
+    'Tom can see a top. = the picture in row 4',
+    'The top on a mat. = the picture in row 3',
+    'The top is on Mom! = the picture in row 2',
+    'Run, Tom, run! = the picture in row 1',
+    'Can Tom see the top?',
+    'Nan and I can! = the picture in row 2',
+    'A pan on Nan! = the picture in row 1',
+    'Sam can get Pam. = the picture in row 4',
+    'Tom can get the top. = the picture in row 3',
+    'Pam can nap.',
+];
+
+/** The 20 expected lines of the key, derived from the pins by the rule of D-P9C-2. */
+function derivedKeyLines(): string[] {
+    return KEY_PINS.flatMap((pin) => [
+        ...pin.pairs.map((text, index) => `${text} = the picture in row ${pin.order.indexOf(index) + 1}`),
+        pin.read,
+    ]);
+}
+
+/** One match row of a review-more page, as the browser lays it out, in mm. */
+interface MoreRowMeasure {
+    page: number;
+    row: number;
+    text: string;
+    /** The right edge of the printed sentence text, in mm. */
+    textRightMm: number;
+    /** The left edge of the sentence dot, in mm. */
+    sentenceDotLeftMm: number;
+    /** The right edge of the sentence dot, in mm. */
+    sentenceDotRightMm: number;
+    /** The left edge of the picture dot, in mm. */
+    pictureDotLeftMm: number;
+    /** The right edge of the picture dot, in mm. */
+    pictureDotRightMm: number;
+    /** The left edge of the picture box, in mm. */
+    pictureBoxLeftMm: number;
+}
+
+/** Replaces every Thai character with "?", so that no Thai reaches a failure message. */
+function noThai(text: string): string {
+    return text.replace(/[\u0e00-\u0e7f]/g, '?');
+}
+
+let cachedMeasures: Promise<MoreRowMeasure[]> | undefined;
+
+/**
+ * The measures of the match rows of the 4 review-more pages, read from the rendered page: Chrome
+ * lays the compiled student book out, and the boxes of the rows are read in mm.
+ */
+function moreRowMeasures(): Promise<MoreRowMeasure[]> {
+    if (!cachedMeasures) cachedMeasures = measureMoreRows();
+    return cachedMeasures;
+}
+
+/** Renders the compiled student book in Chrome and reads the boxes of the match rows, in mm. */
+async function measureMoreRows(): Promise<MoreRowMeasure[]> {
+    const { chromium } = await import('@playwright/test');
+    const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-p9c-'));
+    const file = path.join(folder, 'student.html');
+    fs.writeFileSync(file, bookHtml());
+    const browser = await chromium.launch({ channel: 'chrome', timeout: 60_000 });
+    try {
+        const context = await browser.newContext({ viewport: { width: 900, height: 1200 } });
+        const page = await context.newPage();
+        await page.goto(pathToFileURL(file).href);
+        await page.evaluate(() => document.fonts.ready);
+        const loaded = await page.evaluate(() => document.fonts.check('16px Andika'));
+        if (!loaded) throw new Error('the Andika print font did not load in the browser, so the text boxes are not measured');
+        return await page.evaluate((pageNumbers) => {
+            const MM = 25.4 / 96;
+            const found: {
+                page: number;
+                row: number;
+                text: string;
+                textRightMm: number;
+                sentenceDotLeftMm: number;
+                sentenceDotRightMm: number;
+                pictureDotLeftMm: number;
+                pictureDotRightMm: number;
+                pictureBoxLeftMm: number;
+            }[] = [];
+            for (const number of pageNumbers) {
+                const section = document.querySelector(`[data-page-number="${number}"]`);
+                if (!section) continue;
+                const rows = Array.from(section.querySelectorAll('[data-part="more-row"]'));
+                rows.forEach((row, index) => {
+                    const text = row.querySelector('[data-part="more-text"]');
+                    const sentenceDot = row.querySelector(':scope > [data-part="more-dot"]');
+                    const picture = row.querySelector('[data-part="more-pic"]');
+                    const pictureDot = picture?.querySelector(':scope > [data-part="more-dot"]');
+                    const box = picture?.querySelector('.picture-box');
+                    if (!text || !sentenceDot || !pictureDot || !box) return;
+                    const range = document.createRange();
+                    range.selectNodeContents(text);
+                    const textRect = range.getBoundingClientRect();
+                    const sentenceRect = sentenceDot.getBoundingClientRect();
+                    const pictureDotRect = pictureDot.getBoundingClientRect();
+                    const boxRect = box.getBoundingClientRect();
+                    found.push({
+                        page: number,
+                        row: index + 1,
+                        text: (text.textContent ?? '').trim(),
+                        textRightMm: textRect.right * MM,
+                        sentenceDotLeftMm: sentenceRect.left * MM,
+                        sentenceDotRightMm: sentenceRect.right * MM,
+                        pictureDotLeftMm: pictureDotRect.left * MM,
+                        pictureDotRightMm: pictureDotRect.right * MM,
+                        pictureBoxLeftMm: boxRect.left * MM,
+                    });
+                });
+            }
+            return found;
+        }, MORE_PAGES);
+    } finally {
+        await browser.close();
+        fs.rmSync(folder, { recursive: true, force: true });
+    }
+}
+
+/** The answer key lines of the teacher book of week 8, one list per day. */
+function teacherKeyLines(): string[][] {
+    const { html } = compileStorytimeManual([week(8)], { lang: 'en' });
+    const blocks = [...html.matchAll(/more<\/strong><\/p><ol>([\s\S]*?)<\/ol>/g)];
+    return blocks.map((block) => [...block[1].matchAll(/<li>([\s\S]*?)<\/li>/g)].map((item) => noThai(item[1])));
+}
+
+describe('P9-C: the review-more dots and the answer key rows (D-P9C-1 and D-P9C-2)', () => {
+    it('P9C-dot: the sentence dot of every match row stands 2 mm or less after the right edge of its text', async () => {
+        const problems: string[] = [];
+        const rows = await moreRowMeasures();
+        if (rows.length !== MORE_PAGES.length * 4) {
+            problems.push(`the browser read ${rows.length} match rows; the 4 pages hold ${MORE_PAGES.length * 4}`);
+        }
+        for (const row of rows) {
+            const distance = row.sentenceDotLeftMm - row.textRightMm;
+            if (distance > SENTENCE_DOT_MAX_MM + TOLERANCE_MM) {
+                problems.push(`page ${row.page}, row ${row.row}: the sentence dot stands ${distance.toFixed(2)} mm after the right edge of "${row.text}"; the spec says ${SENTENCE_DOT_MAX_MM} mm or less`);
+            }
+            if (distance < -TOLERANCE_MM) {
+                problems.push(`page ${row.page}, row ${row.row}: the sentence dot stands ${Math.abs(distance).toFixed(2)} mm before the right edge of "${row.text}"`);
+            }
+        }
+        expect(problems.length, problems.join('\n') || 'the sentence dot of every match row stands after its text').toBe(0);
+    }, 240_000);
+
+    it('P9C-gap: the gap between the sentence dot and the picture dot of every match row is 40 mm or more, and the picture dot stays at the left edge of its box', async () => {
+        const problems: string[] = [];
+        const rows = await moreRowMeasures();
+        if (rows.length !== MORE_PAGES.length * 4) {
+            problems.push(`the browser read ${rows.length} match rows; the 4 pages hold ${MORE_PAGES.length * 4}`);
+        }
+        for (const row of rows) {
+            const gap = row.pictureDotLeftMm - row.sentenceDotRightMm;
+            if (gap < DOT_GAP_MIN_MM - TOLERANCE_MM) {
+                problems.push(`page ${row.page}, row ${row.row}: the gap between the sentence dot and the picture dot is ${gap.toFixed(2)} mm; the spec says ${DOT_GAP_MIN_MM} mm or more`);
+            }
+            const boxGap = row.pictureBoxLeftMm - row.pictureDotRightMm;
+            if (boxGap < -TOLERANCE_MM) {
+                problems.push(`page ${row.page}, row ${row.row}: the picture dot stands ${Math.abs(boxGap).toFixed(2)} mm inside its picture box; it stands at the left edge`);
+            }
+            if (boxGap > PICTURE_DOT_GAP_MAX_MM) {
+                problems.push(`page ${row.page}, row ${row.row}: the picture dot stands ${boxGap.toFixed(2)} mm left of its picture box; the form of P9-B9 keeps it at the left edge`);
+            }
+        }
+        expect(problems.length, problems.join('\n') || 'the dots of every match row stand far apart').toBe(0);
+    }, 240_000);
+
+    it('P9C-key: the answer key gives every pair as "<text> = the picture in row <k>", and no line says "picture <N>"', () => {
+        const problems: string[] = [];
+        const derived = derivedKeyLines();
+        if (derived.join('\n') !== EXPECTED_KEY_LINES.join('\n')) {
+            problems.push(`the derivation of D-P9C-2 gives ${derived.length} lines that differ from the 20 pinned lines`);
+        }
+        const blocks = teacherKeyLines();
+        if (blocks.length !== KEY_PINS.length) {
+            problems.push(`the teacher book holds ${blocks.length} review-more answer keys; the spec has ${KEY_PINS.length}`);
+        }
+        KEY_PINS.forEach((pin, index) => {
+            const block = blocks[index] ?? [];
+            const expected = EXPECTED_KEY_LINES.slice(index * 5, index * 5 + 5);
+            if (block.length !== expected.length) {
+                problems.push(`day ${pin.day}: the answer key holds ${block.length} lines; the spec has ${expected.length}`);
+            }
+            expected.forEach((line, lineIndex) => {
+                const found = block[lineIndex] ?? '';
+                if (found !== line) problems.push(`day ${pin.day}, line ${lineIndex + 1}: the key says "${found}"; the spec says "${line}"`);
+            });
+        });
+        for (const block of blocks) {
+            for (const line of block) {
+                if (/picture\s+\d/.test(line)) problems.push(`the key holds the old form "${line}"`);
+            }
+        }
+        expect(problems.length, problems.join('\n') || 'the answer key of the 4 review-more pages').toBe(0);
     });
 });
