@@ -240,21 +240,21 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
     it.each(weekNumbers)('week %i records the thai approval with its pinned source line', (week) => {
         const approval = parsed(shipped(week)).approval;
         if (week <= 7) {
-            // The owner approved the Thai of the color-own-book lines on 2026-11-05.
-            expect(approval.thai, `Week ${week}: the thai record holds the owner answer of 2026-11-05.`).toEqual({
+            // The owner approved the Thai of the color-own-book lines on 2026-11-05 and the 64 Thai rows of the Phase 14 change list on 2026-11-15.
+            expect(approval.thai, `Week ${week}: the thai record holds the owner answers of 2026-11-05 and 2026-11-15.`).toEqual({
                 status: 'approved',
-                date: '2026-11-05',
-                words: '"Approved" (2026-11-05 21:4x ICT; the 3 color-own-book Thai lines)',
-                source: `${thaiSource(week)} (2026-10-22); PM relay of 2026-11-05 (owner answer on the color-own-book Thai lines, ~/Desktop/handoff/storytime-color-own-book/lines-2026-11-05.md)`,
+                date: '2026-11-15',
+                words: '"Approved" (2026-11-05 21:4x ICT; the 3 color-own-book Thai lines); "Ok" (2026-11-15 19:43 ICT; the 64 Thai rows of the Phase 14 change list)',
+                source: `${thaiSource(week)} (2026-10-22); PM relay of 2026-11-05 (owner answer on the color-own-book Thai lines, ~/Desktop/handoff/storytime-color-own-book/lines-2026-11-05.md); Google Tasks reply of Daniel, 2026-11-15 19:43 ICT, PM relay (THAI item: p14-change-list.md, 64 rows)`,
             });
             return;
         }
-        expect(approval.thai, `Week ${week}: record (a) of P14 with line ${THAI_SOURCE_LINE[week]}.`).toEqual({
+        expect(approval.thai, `Week ${week}: the thai record holds the owner answer of 2026-11-15 with line ${THAI_SOURCE_LINE[week]}.`).toEqual({
             status: 'approved',
-            date: '2026-10-22',
-            source: thaiSource(week),
+            date: '2026-11-15',
+            words: '"Ok" (2026-11-15 19:43 ICT; the 64 Thai rows of the Phase 14 change list)',
+            source: `${thaiSource(week)}; Google Tasks reply of Daniel, 2026-11-15 19:43 ICT, PM relay (THAI item: p14-change-list.md, 64 rows)`,
         });
-        expect(approval.thai, 'The thai record carries no words key.').not.toHaveProperty('words');
     });
 
     it('week 1 records the text and scripts approvals (decision S29)', () => {
