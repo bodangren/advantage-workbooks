@@ -736,3 +736,17 @@ GREEN_TEST_COMMAND_P9B='cd dashboard && CI=true npx vitest run __tests__/storyti
 - AC9-B5: each of the 4 new pages passes RM-decodable and RM-no-position; no new picture row exists; no file under `l2/print/pictures/` or `l2/media/` changes (the scope guard prints `outside: 0`).
 - AC9-B6: `proof-books-r6-v3` holds the student book v19, the teacher book TH-v4, the 2 covers, the fold-test file v19, the contact sheets, `cast/`, the note, and `MANIFEST.txt` (`sha256sum -c` passes); the three code-test commands exit 0.
 - AC9-B7: the PM re-audit (J1) finds C2 and F3 fixed (or kept by Daniel's answer) and finds the cast sheet in the folder.
+## Addendum 2026-11-16: the P9-C fix batch (audit of r6-v3)
+
+The print audit of `proof-books-r6-v3` (audited head 95ff1930) gives the gate verdict FAIL: 1 major (G4) and 11 minors, 0 blockers. The report is `measure/runs/storytime_print_r1_20261025/print-audit-r6-v3-95ff1930.md`. This section holds the decisions of the fix batch. It changes no earlier decision except where a decision below says so.
+
+### Decisions
+
+| Id | Decision |
+|---|---|
+| D-P9C-1 (G4) | The dot of each sentence row stands right after the end of its printed text: its left edge 2 mm or less after the right edge of the text box. The picture dot stays at the left edge of each picture box. In each of the four rows, the horizontal gap between the sentence dot and the picture dot is 40 mm or more. The form of P9-B9 does not change: G4 is an implementation defect against P9-B9, not a new form, so Daniel chooses nothing here. The Red role measures both values on the compiled pages 134, 136, 138, and 140 (positions from the rendered page, as for C2-book). |
+| D-P9C-2 (G2) | The answer key gives each pair as "<text> = the picture in row <k>", where k (1 to 4) is the row of the matching picture box, counted from the top. The sentence line does not change. No new Thai text in code (the key heading reuses the existing heading). |
+| D-P9C-3 (H1 and B6) | The proof note of the next proof lists (a) the teacher pages that changed by the Daniel-approved LP-08 and LP-20 commit 10a3de6e (teacher p46, 51, 75, 80, 104, 109, 133, 138, 161, 166, 190, 193, 195) and (b) the 7 app packages whose D4 script lines changed (spec P9-B7; w01-storytime-app-package-r6 and w02 to w07-storytime-app-package-r5, built on 2026-11-16 from e8549b2e). |
+| D-P9C-4 | The other 10 minors of the audit (A6, B3, D1, D2, D5, F3, G1, G3, and the ff text layer of the teacher book) do not change in this batch. They go to Daniel's proof look as open minors, with the owner of each from the audit table. F3 and G1 change Thai script lines, so they need Daniel's words before a content role changes them. |
+
+The next proof is r6-v4: student book v20 and teacher book TH-v5, with the commands of the r6-v3 task; covers, fold test, and cast are byte copies from r6-v3 when their sources do not change (prove with `cmp`).
