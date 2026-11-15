@@ -1,0 +1,98 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-loops-share.test.ts [2m([22m[2m23 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 852[2mms[22m[39m
+     [32m✓[39m J1: the eight shipped weeks parse, and no script of them has a share[32m 62[2mms[22m[39m
+     [32m✓[39m J2: a share-complete copy of each week parses, and the parsed share equals the sample[32m 33[2mms[22m[39m
+     [32m✓[39m J3: a moment holds one or two shots, and refuses zero and three[32m 16[2mms[22m[39m
+     [32m✓[39m J3: a shot holds the media photo or video, and refuses audio, Photo, and the empty string[32m 18[2mms[22m[39m
+     [32m✓[39m J3: a step id holds the form A1, and refuses the other forms[32m 39[2mms[22m[39m
+     [32m✓[39m J4: a share and a shot refuse an unknown key, and hold only their own keys[32m 59[2mms[22m[39m
+     [32m✓[39m J5: a caption holds English and Thai, and the English needs one character[32m 17[2mms[22m[39m
+     [32m✓[39m J6: a share-complete copy of each week passes the check[32m 79[2mms[22m[39m
+     [32m✓[39m J7: a day without a moment reports, and the detail names that day only[32m 27[2mms[22m[39m
+     [32m✓[39m J8: a shot names a step of its own script, or a moved step of the day before[32m 25[2mms[22m[39m
+     [32m✓[39m J9: a day needs one shot in the period of the day[32m 14[2mms[22m[39m
+     [32m✓[39m J10: two shots of a day name two different steps[32m 9[2mms[22m[39m
+     [32m✓[39m J11: a shot names no assessment step[32m 22[2mms[22m[39m
+     [32m✓[39m J12: the caption of the sample holds 12 English words[32m 13[2mms[22m[39m
+     [32m✓[39m J12: a caption holds 1 to 40 English words and a Thai text[32m 43[2mms[22m[39m
+     [32m✓[39m J13: no caption string ends in a media file extension[32m 173[2mms[22m[39m
+     [32m✓[39m J14: every problem of the check has the status SHARE_CHECK_STATUS[32m 33[2mms[22m[39m
+     [32m✓[39m J15: a Level 1 week has no share-moment row, and a Level 3 week has one[32m 11[2mms[22m[39m
+     [32m✓[39m J16: the share-moment row comes before the published row[32m 41[2mms[22m[39m
+     [32m✓[39m J16: a published week with a broken moment blocks the publication at the status fail[32m 5[2mms[22m[39m
+     [32m✓[39m J17: the share field adds no minutes to any week[32m 87[2mms[22m[39m
+     [32m✓[39m J17: the compare of the minute rows can fail[32m 8[2mms[22m[39m
+[31m     [31m×[31m J18: the week files keep their hash, and the test writes nothing into the content folder[39m[32m 16[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-content.test.ts [2m([22m[2m75 tests[22m[2m)[22m[33m 732[2mms[22m[39m
+     [33m[2m✓[22m[39m is byte-equal with and without the share fields, and holds no caption marker (AC-14.7) [33m 396[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-book.test.ts [2m([22m[2m65 tests[22m[2m)[22m[33m 3301[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring: the manual PDF help names --share [33m 716[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 1432[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 426[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-book-pages.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 3035[2mms[22m[39m
+     [33m[2m✓[22m[39m B1 wiring: --help exits 0 and names --book-pages [33m 756[2mms[22m[39m
+     [33m[2m✓[22m[39m B1 wiring: the flag --book-pages is accepted, and an unknown flag still exits 2 [33m 1432[2mms[22m[39m
+     [33m[2m✓[22m[39m B2 equality w01: manualPdfHtml with bookPages equals compileStorytimeManual with the unit page list [33m 645[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-captions.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 2367[2mms[22m[39m
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops] [--share] [--book-pages]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+  --share   Print the draft parent-share moments
+  --book-pages   Print the unit page list of the student book, as the teacher-book build does (default off)
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+ [32m✓[39m __tests__/storytime-loops-teacher-book.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 1581[2mms[22m[39m
+     [33m[2m✓[22m[39m documents --loops in the manual PDF help [33m 720[2mms[22m[39m
+     [33m[2m✓[22m[39m returns exit 2 for an unknown manual PDF flag [33m 713[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 455[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m104 tests[22m[2m)[22m[33m 426[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-audio.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 193[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 134[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 128[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-share.test.ts[2m > [22mthe shipped week files[2m > [22mJ18: the week files keep their hash, and the test writes nothing into the content folder
+[31m[1mAssertionError[22m: the content folder is clean: expected ' M content/storytime/l2/w02.json\n M …' to be '' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[31m+  M content/storytime/l2/w02.json[39m
+[31m+  M content/storytime/l2/w03.json[39m
+[31m+  M content/storytime/l2/w04.json[39m
+[31m+  M content/storytime/l2/w05.json[39m
+[31m+  M content/storytime/l2/w06.json[39m
+[31m+  M content/storytime/l2/w07.json[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/storytime-loops-share.test.ts:[2m582:64[22m[39m
+    [90m580| [39m            expect(hash, `the hash of w0${week}`).toBe(SHIPPED_HASHES.…
+    [90m581| [39m        }
+    [90m582| [39m        expect(contentStatus(), 'the content folder is clean').toBe(''…
+    [90m   | [39m                                                               [31m^[39m
+    [90m583| [39m    })[33m;[39m
+    [90m584| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (11)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m406 passed[39m[22m[90m (407)[39m
+[2m   Start at [22m 18:48:05
+[2m   Duration [22m 16.51s[2m (transform 552ms, setup 380ms, import 1.93s, tests 13.20s, environment 1ms)[22m
+
