@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: jr-green
+status: blocked
+track: storytime_week_package_20261022
+phase: Phase 14 p14-sound-stages, Task (Owner gate), 2026-11-16
+commits: 9f168a4e (content, approval.thai of w01 to w08 only); the captures and this log in a later commit; the plan task stays [ ]
+tests_run: PROJECT_CHECKS (heavy-run wrapper) exit 0 (p14-owner-checks.txt); vitest of the 9 named test files exit 1: 16 failed, 543 passed (p14-owner-tests.txt); normalized compare exit 0, 8 of 8 files differ only in approval.thai (p14-owner-scope.txt)
+files_changed: content/storytime/l2/w01.json to w08.json (approval.thai only: date 2026-11-15, words, source)
+plan_updates: none. The task line 696 stays [ ] because the gate fails.
+known_failures: 16 failed cases, 8 in dashboard/__tests__/storytime-loops-content.test.ts (case "wNN adds only the FR-1 fields to its baseline file (additive, spec D10)", test at line 587; the baseline patch table pins the old approval.thai blocks at lines 90, 152, 198, 228, 261, 294, 332) and 8 in dashboard/__tests__/storytime-loops-share-content.test.ts (case "wNN adds only share moments to its baseline file (additive, AC-14.5)", lines 355 to 357; the compare drops approval.loops, print, audio, song, and images at lines 147 to 152 but not approval.thai). Both tests compare the shipped week file to a baseline commit and so pin the old approval.thai values (w01 to w07 date 2026-11-05, w08 date 2026-10-22). The rule says: do not change tests. The tests fail only because of this content commit.
+handoff: Green stopped. Decision for the orchestrator: route a Mid Red retry that lets both tests drop approval.thai from the shipped file and the baseline (the same way as approval.images at line 426 of the content test and line 152 of the share test), then run this record again. The content commit 9f168a4e is local and not pushed; it is correct by itself (normalized compare: 0 mismatches). Option: revert 9f168a4e until the tests change, so HEAD stays green. Default if no answer: keep 9f168a4e and wait for the Red retry. Owner record, ready for the plan evidence once the gate passes: Daniel "Ok", 2026-11-15 19:43 ICT, source Google Tasks reply, PM relay (THAI item, p14-change-list.md, 64 rows). Role substitution: Claude role by the PM order of 2026-11-14 21:20 (Ark plans out of quota). phase_base_sha not given in the brief; role_base_sha 87ca3b62a9c7ecd36ac25366f2447def0624e5a4.
+END_MEASURE_AGENT_RESULT
