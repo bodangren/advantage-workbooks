@@ -1,0 +1,95 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-review-more.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 1655[2mms[22m[39m
+     [32m✓[39m RM-count: the compiled student book has 140 pages, a multiple of 4, and no end padding[32m 151[2mms[22m[39m
+     [32m✓[39m RM-order: after page 131 the week 8 page kinds are review, review, review-more, review, review-more, review, review-more, review, review-more[32m 0[2mms[22m[39m
+     [32m✓[39m RM-stable: the reader sides keep the pages of P9-A9 and the pages 1 to 131 keep their kind and number[32m 129[2mms[22m[39m
+     [32m✓[39m RM-data: days 2 to 5 hold paperMore with 4 pairs, a pictureOrder with no fixed point, and a read entry[32m 6[2mms[22m[39m
+     [32m✓[39m RM-pictures: each picture row of a page is in the list, comes from a week of its day, and passes the SHA-256 check[32m 39[2mms[22m[39m
+     [32m✓[39m RM-decodable: each of the 5 texts of a page has 0 untaught words at the week of its reader[32m 43[2mms[22m[39m
+     [32m✓[39m RM-no-position: a review-more page asks no position mark and no sound label[32m 197[2mms[22m[39m
+     [32m✓[39m RM-steps: line 5 of B1, C1, D1, and E1 names the page after it, and the step map rows carry pageEnd[32m 167[2mms[22m[39m
+     [32m✓[39m RM-no-picture: the print list keeps the rows it has, and no review page adds a row[32m 61[2mms[22m[39m
+     [32m✓[39m RM-fit: a review-more page holds 4 match rows, 1 read row, and a score strip of __ / 4, and they fit the page[32m 19[2mms[22m[39m
+[31m     [31m×[31m P9C-dot: the sentence dot of every match row stands 2 mm or less after the right edge of its text[39m[33m 834[2mms[22m[39m
+[31m     [31m×[31m P9C-gap: the gap between the sentence dot and the picture dot of every match row is 40 mm or more, and the picture dot stays at the left edge of its box[39m[32m 0[2mms[22m[39m
+     [32m✓[39m P9C-key: the answer key gives every pair as "<text> = the picture in row <k>", and no line says "picture <N>"[32m 7[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-review-more.test.ts[2m > [22mP9-C: the review-more dots and the answer key rows (D-P9C-1 and D-P9C-2)[2m > [22mP9C-dot: the sentence dot of every match row stands 2 mm or less after the right edge of its text
+[31m[1mAssertionError[22m: page 134, row 1: the sentence dot stands 79.54 mm after the right edge of "Nan can get a pan."; the spec says 2 mm or less
+page 134, row 2: the sentence dot stands 83.71 mm after the right edge of "A nap in the pan!"; the spec says 2 mm or less
+page 134, row 3: the sentence dot stands 84.66 mm after the right edge of "Pam is on a map."; the spec says 2 mm or less
+page 134, row 4: the sentence dot stands 86.98 mm after the right edge of "This is the man!"; the spec says 2 mm or less
+page 136, row 1: the sentence dot stands 91.37 mm after the right edge of "Sam saw Pam."; the spec says 2 mm or less
+page 136, row 2: the sentence dot stands 88.61 mm after the right edge of "Pam is off Sam!"; the spec says 2 mm or less
+page 136, row 3: the sentence dot stands 79.69 mm after the right edge of "Pat can see a map."; the spec says 2 mm or less
+page 136, row 4: the sentence dot stands 78.97 mm after the right edge of "Pip sat on the mat!"; the spec says 2 mm or less
+page 138, row 1: the sentence dot stands 79.55 mm after the right edge of "Tom can see a top."; the spec says 2 mm or less
+page 138, row 2: the sentence dot stands 82.50 mm after the right edge of "The top on a mat."; the spec says 2 mm or less
+page 138, row 3: the sentence dot stands 78.49 mm after the right edge of "The top is on Mom!"; the spec says 2 mm or less
+page 138, row 4: the sentence dot stands 89.32 mm after the right edge of "Run, Tom, run!"; the spec says 2 mm or less
+page 140, row 1: the sentence dot stands 89.55 mm after the right edge of "Nan and I can!"; the spec says 2 mm or less
+page 140, row 2: the sentence dot stands 91.29 mm after the right edge of "A pan on Nan!"; the spec says 2 mm or less
+page 140, row 3: the sentence dot stands 82.29 mm after the right edge of "Sam can get Pam."; the spec says 2 mm or less
+page 140, row 4: the sentence dot stands 74.44 mm after the right edge of "Tom can get the top."; the spec says 2 mm or less: expected 16 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 16[39m
+
+[36m [2m❯[22m __tests__/storytime-print-review-more.test.ts:[2m745:117[22m[39m
+    [90m743| [39m            }
+    [90m744| [39m        }
+    [90m745| [39m        expect(problems.length, problems.join('\n') || 'the sentence d…
+    [90m   | [39m                                                                                                                    [31m^[39m
+    [90m746| [39m    }[33m,[39m [34m240_000[39m)[33m;[39m
+    [90m747| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-review-more.test.ts[2m > [22mP9-C: the review-more dots and the answer key rows (D-P9C-1 and D-P9C-2)[2m > [22mP9C-gap: the gap between the sentence dot and the picture dot of every match row is 40 mm or more, and the picture dot stays at the left edge of its box
+[31m[1mAssertionError[22m: page 134, row 1: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 134, row 2: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 134, row 3: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 134, row 4: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 136, row 1: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 136, row 2: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 136, row 3: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 136, row 4: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 138, row 1: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 138, row 2: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 138, row 3: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 138, row 4: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 140, row 1: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 140, row 2: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 140, row 3: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more
+page 140, row 4: the gap between the sentence dot and the picture dot is 1.50 mm; the spec says 40 mm or more: expected 16 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 16[39m
+
+[36m [2m❯[22m __tests__/storytime-print-review-more.test.ts:[2m767:103[22m[39m
+    [90m765| [39m            }
+    [90m766| [39m        }
+    [90m767| [39m        expect(problems.length, problems.join('\n') || 'the dots of ev…
+    [90m   | [39m                                                                                                      [31m^[39m
+    [90m768| [39m    }[33m,[39m [34m240_000[39m)[33m;[39m
+    [90m769| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m11 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 03:59:26
+[2m   Duration [22m 2.30s[2m (transform 331ms, setup 42ms, import 445ms, tests 1.65s, environment 0ms)[22m
+
+exit: 1

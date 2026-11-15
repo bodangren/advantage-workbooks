@@ -1,0 +1,11 @@
+# P9-C Green mutants: the review-more dots and the key rows (D-P9C-1, D-P9C-2)
+# Base: the Green code (dot gap 1.5 mm, sentence dot after the text, key "the picture in row k").
+# Each mutant is applied by a python3 script, the review-more file runs in one heavy-run wrapper,
+# the file is restored from a saved copy, and cmp proves the restore.
+
+M1 the sentence dot at the old place (more-text flex 1): 16 dot failures, e.g. page 134 row 1 at 79.54 mm; exit 1; caught.
+M2 a gap below 40 mm (no margin-left auto; the picture follows the dot): 16 gap failures at 1.50 mm; exit 1; caught.
+M3 the key says "picture N": the P9C-key case fails on the 16 pair lines and the old-form check; exit 1; caught.
+
+restore: cmp equal for student-book.ts after M1 and M2, and for manual.ts after M3.
+mutants: 3, caught: 3
