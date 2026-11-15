@@ -101,4 +101,4 @@ Defaults: 29 look points: 26 keep; 2 changes after Daniel's OK (LP-08 group: the
 
 Material for the check: the week 1 part of teacher book v3 (pages 2 to 23) goes into the same check, next to the loops pages (PM answer 2 of 2026-11-04: "The week 1 part of teacher book v3 (pages 2-23) goes into the same 11-16 check, next to the loops pages.").
 
-Daniel's answer: ____ (date ____)
+Daniel's answer: "Approved" (date 2026-11-15)

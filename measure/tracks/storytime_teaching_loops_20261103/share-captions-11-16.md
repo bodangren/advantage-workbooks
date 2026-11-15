@@ -71,4 +71,4 @@ The pages of the icon line above hold the share icon in the teacher book. Table 
 The Thai captions and the Thai labels are drafts for Daniel's check only.
 No model and no other person checks the Thai. The Thai teacher book prints the Thai caption and the English caption under it.
 
-Daniel's answer: ____ (date ____)
+Daniel's answer: "Approved" (date 2026-11-15)
