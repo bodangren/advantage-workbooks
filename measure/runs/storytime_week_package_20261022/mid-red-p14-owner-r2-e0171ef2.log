@@ -1,0 +1,44 @@
+Measure Mid Red retry R2, Phase 14 (storytime_week_package_20261022), task "(Owner gate)" at plan.md line 697.
+
+This file was written first with a provisional status, then rewritten with the final status after the gates.
+
+Role: measure-mid-red (test-only retry R2).
+Route: minimax-cn-coding-plan/MiniMax-M3.1-Flash.
+Green family of this task: Anthropic (the owner record). This role is a different family.
+Thai filter: the first command of the session. It read the test file and printed 0 Thai characters. No week file was read. Every vitest output went through `grep -v -P '[\x{0E00}-\x{0E7F}]'` before it reached a capture or the screen.
+
+Baselines:
+- phase_base_sha: 76fc13b0e03268b40f229d8311ae4662e85be1ba (the Phase 14 section commit; the value in every Phase 14 role log of this track). It resolves and it is an ancestor of HEAD.
+- role_base_sha: 8a0653068fb3c096855031ad0e827a94e6257e6c (HEAD at the start of the role; the value from the brief).
+
+Finding (from the brief, checked against the plan and the test file):
+the content commit 9f168a4e records Daniel's "Ok" of 2026-11-15 in `approval.thai` of w01 to w08. The R14 thai pins of `dashboard/__tests__/storytime-print-contract-v2.test.ts` still hold the older owner records, so the owner-record cases fail at HEAD. The capture `p13-clips-project-*.txt` of the Phase 13 Clips task names the failing file.
+
+Change (test only, no production code, no week file):
+- dashboard/__tests__/storytime-print-contract-v2.test.ts: the R14 thai pin block of the case "week %i records the thai approval with its pinned source line" (lines 240 to 258). The weeks 1 to 7 hold the owner answers of 2026-11-05 and 2026-11-15. The week 8 holds the owner answer of 2026-11-15. The assertion "The thai record carries no words key." is gone, because the week 8 record holds words now. The comment and the two message strings name the owner answers of 2026-11-05 and 2026-11-15.
+
+Commits:
+- e0171ef2: the test file.
+- 3a7ede22: the plan evidence, one sub-bullet "Red retry R2 (approval.thai, print-contract-v2)" under the task at plan.md line 697 (now line 702). The task stays `[x]`.
+
+Gates (each inside one heavy-run wrapper):
+- p14-owner-red-r2.txt: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-contract-v2.test.ts --maxWorkers=1`, exit 0.
+- p14-owner-red-r2-mut.txt: the date pin of the weeks 1 to 7 block changed to 2026-11-05 with a python script, the file run alone, the owner-record cases of the weeks fail, exit 1; the restore from the saved copy with `cmp` equal; the gate exits 0.
+- p14-owner-red-r2-lint.txt: `cd dashboard && npx eslint __tests__/storytime-print-contract-v2.test.ts`, exit 0.
+- p14-owner-red-r2-print.txt: `cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --maxWorkers=1`, exit 0. No other print test file fails.
+
+Scope: `git status --short` showed one dirty tracked path before this role and after. `video/storytime-song/scripts/render.mjs` is pre-existing unrelated user work, so this role left it alone and never staged it. `dashboard/raw.json` and the files of the other tracks were never staged. `pnpm-lock.yaml` did not change.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: storytime_week_package_20261022
+phase: Phase 14 (the owner gate task, the R14 thai pins)
+baseline_sha: 76fc13b0e03268b40f229d8311ae4662e85be1ba
+commits: e0171ef2, 3a7ede22, (the runs commit of this log and the captures)
+tests_run: p14-owner-red-r2.txt (the print contract v2 file, exit 0); p14-owner-red-r2-mut.txt (the date pin mutated, the weeks fail, exit 1, then the restore with cmp equal, the gate exit 0); p14-owner-red-r2-lint.txt (ESLint, exit 0); p14-owner-red-r2-print.txt (the print suite, exit 0)
+files_changed: dashboard/__tests__/storytime-print-contract-v2.test.ts, measure/tracks/storytime_week_package_20261022/plan.md, measure/runs/storytime_week_package_20261022/p14-owner-red-r2.txt, measure/runs/storytime_week_package_20261022/p14-owner-red-r2-mut.txt, measure/runs/storytime_week_package_20261022/p14-owner-red-r2-lint.txt, measure/runs/storytime_week_package_20261022/p14-owner-red-r2-print.txt, measure/runs/storytime_week_package_20261022/mid-red-p14-owner-r2-e0171ef2.log
+plan_updates: one sub-bullet "Red retry R2 (approval.thai, print-contract-v2)" under the Owner gate task (plan.md line 702) with the test commit, the finding, and the captures. The task stays `[x]`.
+known_failures: none in the print contract tests. The Owner gate task keeps its `[x]` mark from the owner record of 2026-11-15.
+handoff: the test commit is e0171ef2 and the plan evidence is 3a7ede22. The R14 thai pins now hold Daniel's owner answers of 2026-11-05 and 2026-11-15, so the print contract tests pass at HEAD with the content commit 9f168a4e. Next step for the orchestrator: the phase acceptance task of Phase 14. The pre-existing dirty file video/storytime-song/scripts/render.mjs stays untouched.
+END_MEASURE_AGENT_RESULT
