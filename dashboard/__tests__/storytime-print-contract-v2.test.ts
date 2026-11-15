@@ -18,19 +18,17 @@ import type { PackageCheck } from '../lib/lesson-package/checks';
  */
 
 /**
- * PIN decision D-P9D-1 (orchestrator, 2026-11-16): `approval.print` of every week holds the
- * release proof record of Daniel's "Pass" of 2026-11-16 05:40 ICT (spec "Addendum 2026-11-16 (2)",
- * decision D-P9D-1). The record of week 1 keeps the words of 2026-11-05 first. The old week 1 print
- * approval had no `source`, so the record of week 1 holds the new source alone; the spec joins an
- * old source and the new source with "; ", and the old source of week 1 is empty.
+ * PIN decision D-P9D-1 (orchestrator, 2026-11-16, amended the same day): `approval.print` of every
+ * week holds the release proof record of Daniel's "Pass" of 2026-11-16 05:40 ICT (spec "Addendum
+ * 2026-11-16 (2)", decision D-P9D-1). The record has no `source` key: `StorytimePrintApprovalSchema`
+ * is strict and holds `status`, `date`, and `words` only, so the week files parse as they ship.
+ * The record of week 1 keeps the words of 2026-11-05 first. The source of the answer stays in the
+ * plan evidence of the Owner gate task.
  *
- * The case names of this file that the decision touches:
+ * The case name of this file that the decision touches:
  *  - 'records the week 1 audio and song approvals of 2026-11-04, the print approvals of the release
  *    proof r6-v4 (Daniel, 2026-11-16), and keeps the other approval parts and media draft': the
  *    print part of every week holds the record.
- *  - 'P9D: the print approval part keeps the source of the release proof record (D-P9D-1)': the
- *    print approval part of the schema accepts a `source`, like the six app approval parts. The
- *    strict part of today rejects the key, so the record of the shipped weeks does not parse.
  */
 const weekNumbers = [1, 2, 3, 4, 5, 6, 7, 8];
 const storytimeModuleRoot = fileURLToPath(new URL('../lib/storytime/', import.meta.url));
@@ -46,9 +44,6 @@ const THAI_SOURCE_LINE: Record<number, number> = { 1: 67, 2: 80, 3: 80, 4: 80, 5
 
 const thaiSource = (week: number) =>
     `reading-advantage-monorepo 2ae13a4c6 measure/tracks/storytime_advantage_program_20261021/plan.md line ${THAI_SOURCE_LINE[week]}`;
-
-/** The pinned source of the release proof record of the print approval part (decision D-P9D-1). */
-const PRINT_SOURCE = 'Google Tasks, 2026-11-16 05:40 ICT, PM relay (proof r6-v4, MANIFEST 9388dd6d7e7dc05cd70b705b0c5d4e0658c2ea410127e67b6b29eff37a664ec5)';
 
 interface V2PictureRow {
     id: string;
@@ -256,23 +251,6 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
         expect(parsed(minimal).approval.text, 'No new rule: status and date alone still parse.').toEqual({ status: 'approved', date: '2026-10-23' });
     });
 
-    it('P9D: the print approval part keeps the source of the release proof record (D-P9D-1)', () => {
-        const record = {
-            status: 'approved',
-            date: '2026-11-16',
-            words: 'Pass',
-            source: PRINT_SOURCE,
-        };
-        const week = copyWeek(shipped(1), (copy) => {
-            copy.approval = { ...(copy.approval ?? {}), print: { ...record } };
-        });
-        const result = StorytimeWeekSchema.safeParse(week);
-        expect(result.success, 'The print approval part accepts the source of the record (D-P9D-1).').toBe(true);
-        if (result.success) {
-            expect(result.data.approval.print, 'The print approval part keeps the source of the record.').toEqual(record);
-        }
-    });
-
     it.each(weekNumbers)('week %i records the thai approval with its pinned source line', (week) => {
         const approval = parsed(shipped(week)).approval;
         if (week <= 7) {
@@ -332,14 +310,12 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
                     status: 'approved',
                     date: '2026-11-16',
                     words: '"The book seems fine." (2026-11-05); "Pass" (2026-11-16, release proof r6-v4)',
-                    source: PRINT_SOURCE,
                 });
             } else {
                 expect(approval.print, `Week ${week}: the print part records the release proof r6-v4 of 2026-11-16.`).toEqual({
                     status: 'approved',
                     date: '2026-11-16',
                     words: 'Pass',
-                    source: PRINT_SOURCE,
                 });
             }
             if (week === 1) continue;
