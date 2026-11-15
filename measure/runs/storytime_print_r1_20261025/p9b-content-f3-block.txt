@@ -1,0 +1,12 @@
+F3 content commit 2: BLOCKED before any commit (no content commit made).
+Tree: HEAD 5b9a0fb42e22f6aedf88c41bf9a00372574cf7e8. R4 check before the edit: empty (clean).
+Change list SHA-256: 9073ae81d024ecc7ecc3a8dd3f6415ca9d82e0f6a3b2839a0077916be1d03911 (matches).
+Attempt: p9b-content-f3-apply.py.txt (a script that reads spec P9-B6 and the change list, checks each old
+value against the data, edits the lines of the D4 step in place, and proves by a JSON compare that only the
+24 Thai rows and the 24 English lines changed). 48 line edits over w02 to w07, 8 per week (4 en, 4 th).
+Result of F3 test file with the attempt in place: 5 pass, 6 fail (F3-order weeks 2 to 7).
+Cause of every one of the 6 failures: en.teacherLanguage[1] and [2] are compared WITHOUT the outer quote
+characters, for example expected: Count the ducks. How many? Three!
+data (all 1438 teacherLanguage lines of l2 are quoted, 0 unquoted): "Count the ducks. How many? Three!" (with quotes).
+The order check, the th-shape check, and the scope check pass with the quoted lines.
+The attempt was restored with git checkout of w02 to w07 (tree clean again).

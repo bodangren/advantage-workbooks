@@ -1,0 +1,80 @@
+import json, re, sys, copy
+ROOT='/home/daniebo/Desktop/Workbooks/'
+spec=open(ROOT+'measure/tracks/storytime_print_r1_20261025/spec.md',encoding='utf-8').read()
+cl=open(ROOT+'measure/runs/storytime_print_r1_20261025/p9b-thai-change-list.md',encoding='utf-8').read()
+# English table
+i=spec.index('**New English lines**')
+j=spec.index('**Thai lines.**')
+en_new={}
+for line in spec[i:j].splitlines():
+    m=re.match(r'^\| ([2-7]) \| (.*) \| (.*) \| (.*) \|$',line)
+    if not m: continue
+    w=int(m.group(1)); ta=m.group(2); tl=m.group(3); sa=m.group(4)
+    assert tl.startswith('"') and tl.endswith('"')
+    parts=tl.split('", then "')
+    assert len(parts)==2
+    tl1='"'+parts[0].lstrip('"')+'"'; tl2='"'+parts[1].rstrip('"')+'"'
+    en_new[w]={'teacherActions[1]':ta,'teacherLanguage[1]':tl1,'teacherLanguage[2]':tl2,'studentActions[0]':sa}
+assert sorted(en_new)==[2,3,4,5,6,7]
+# Thai rows
+rows=[]
+for line in cl.splitlines():
+    m=re.match(r'^\| T(\d+) \| w0(\d) \| .*? \| .*? \| `scripts\[3\]\.steps\[3\]\.th\.(\w+)\[(\d)\]` \| (changed|moved) \| (.*?) \| (.*?) \| (.*?) \| for Daniel \|$',line)
+    if m:
+        rows.append(dict(id=int(m.group(1)),w=int(m.group(2)),key=m.group(3),idx=int(m.group(4)),kind=m.group(5),en=m.group(6),old=m.group(7),new=m.group(8)))
+assert len(rows)==24, len(rows)
+assert sum(r['kind']=='changed' for r in rows)==14 and sum(r['kind']=='moved' for r in rows)==10
+report=[]
+for w in range(2,8):
+    p=ROOT+f'content/storytime/l2/w0{w}.json'
+    raw=open(p,encoding='utf-8').read()
+    orig=json.loads(raw)
+    step=orig['scripts'][3]['steps'][3]
+    assert step['id']=='D4'
+    lines=raw.split('\n')
+    idl=[k for k,l in enumerate(lines) if l=='          "id": "D4",']
+    assert len(idl)==1,(w,idl)
+    s0=idl[0]
+    # block end: next line at indent 8 '        }'
+    e0=next(k for k in range(s0,len(lines)) if lines[k] in ('        },','        }'))
+    def arr_line(lang,key,idx):
+        lg=[k for k in range(s0,e0) if lines[k]==f'          "{lang}": {{']
+        assert len(lg)>=1
+        # en: first, th: last (title's en/th are at indent 12)
+        base=lg[0] if lang=='en' else lg[-1]
+        ak=[k for k in range(base,e0) if lines[k]==f'            "{key}": [']
+        return ak[0]+1+idx
+    edits={}  # lineno -> (old,new)
+    def plan(lang,key,idx,new):
+        ln=arr_line(lang,key,idx)
+        txt=lines[ln].strip()
+        comma=txt.endswith(',')
+        if comma: txt=txt[:-1]
+        old=json.loads(txt)
+        assert old==step[lang][key][idx],(w,lang,key,idx)
+        edits[ln]=(old,new,comma)
+    for k,v in en_new[w].items():
+        key,idx=re.match(r'(\w+)\[(\d)\]',k).groups()
+        plan('en',key,int(idx),v)
+    wrows=[r for r in rows if r['w']==w]
+    for r in wrows:
+        plan('th',r['key'],r['idx'],r['new'])
+        # verify table old equals data old
+        assert step['th'][r['key']][r['idx']]==r['old'],(w,r['id'],'old mismatch')
+        if r['kind']=='moved':
+            other=[x for x in wrows if x['kind']=='moved' and x['idx']!=r['idx']][0]
+            assert r['new']==other['old']
+    for ln,(old,new,comma) in edits.items():
+        lines[ln]=lines[ln][:len(lines[ln])-len(lines[ln].lstrip())]+json.dumps(new,ensure_ascii=False)+(',' if comma else '')
+    newraw='\n'.join(lines)
+    nd=json.loads(newraw)
+    # scope: only D4 keys changed
+    exp=copy.deepcopy(orig)
+    st=exp['scripts'][3]['steps'][3]
+    for k,v in en_new[w].items():
+        key,idx=re.match(r'(\w+)\[(\d)\]',k).groups(); st['en'][key][int(idx)]=v
+    for r in wrows: st['th'][r['key']][r['idx']]=r['new']
+    assert nd==exp
+    open(p,'w',encoding='utf-8').write(newraw)
+    report.append((w,len(edits),len(wrows)))
+print('weeks edited (week, line edits, thai rows):',report)
