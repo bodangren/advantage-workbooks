@@ -153,7 +153,7 @@ _Blast radius: `renderStorytimeWeek` (2 files: `lib/storytime/manual.ts`, `__tes
     - Fix commit 92a89ec2 (two test files). Rerun (one wrapper): the 2 changed files and the cover file, 3 files and 60 tests, all pass, exit 0. `PROJECT_LINT` exit 0 (`p3-p2fix-lint.txt`). The other 759 passes of the full run stand, because the fix changed only these 2 test files.
     - Mutant (`p3-p2fix-mutant.txt`): the default-on mutant (loops true by default in `renderStorytimeWeek` and `compileStorytimeManual`) is caught: 1 test fails, "keeps loop-complete HTML unchanged when the option is absent or false". The two changed tests do not catch it, because the baseline weeks hold no routines. Restore `cmp` ok.
 
-## Phase 3: Content of w01 to w08 (2026-11-07 to 2026-11-16)
+## Phase 3: Content of w01 to w08 (2026-11-07 to 2026-11-16) [checkpoint: 634efdc]
 
 _Blast radius: `content/storytime/l2/w01.json` to `w08.json` (the app reads them through the Monorepo pin; the pin of 2026-11-02 stays); `lib/storytime/checks.ts` (the `LOOP_CHECK_STATUS` switch); `lib/storytime/files.ts` (`readLevelWeeks`). The change to the week files is additive (spec D10)._
 
@@ -266,7 +266,7 @@ _Blast radius: `content/storytime/l2/w01.json` to `w08.json` (the app reads them
 - [x] Task: Measure - User Manual Verification 'Phase 3: Content of w01 to w08' (Protocol in workflow.md). Owner: the orchestrator. The phase has an owner gate: Daniel's check.
     - Evidence (orchestrator verification of 2026-11-16): automated: PROJECT_TESTS exit 0 at 6a936e75 with 73 files (capture measure/runs/storytime_teaching_loops_20261103/p4-record-project-r2.txt), PROJECT_CHECKS exit 0 (p4-record-checks.txt), the LP check pass (p3-lp-check-10a3de6e.json); user confirmation: Daniel's "Approved" of 2026-11-15 18:37 ICT (the owner gates of these phases, recorded at the Phase 3 and 3b owner tasks).
 
-## Phase 3b: Parent-share moments (2026-11-07 to 2026-11-13)
+## Phase 3b: Parent-share moments (2026-11-07 to 2026-11-13) [checkpoint: 634efdc]
 
 Spec: FR-14 and the defaults D16 to D28 (Amendment 1, 2026-11-07). The order of done: the field and its tests, the teacher book build, and the caption list in the 11-16 folder by 2026-11-13. Daniel checks the Thai captions on 2026-11-16, so the phase closes after that date.
 
@@ -407,7 +407,7 @@ Decisions pinned before Red 1 (P10; `test-strategy.md` section 9.5 holds the ful
     - Green 3: `manual.ts`, `i18n.ts`, `make-manual-pdf.ts`, `make-teacher-book-print.ts`, and `check-share-captions.ts`.
     - Caption list: the list, `look-points-11-16.md`, and `plan.md` of this track.
 
-## Phase 4: Report and release (2026-11-16 to 2026-11-20)
+## Phase 4: Report and release (2026-11-16 to 2026-11-20) [checkpoint: 634efdc]
 
 _Blast radius: the eight week files change only in `approval.loops` (Daniel's approval). No code changes. The print track Phase 9 and the Monorepo pin use the result._
 
