@@ -1,0 +1,17 @@
+# P9-D printer package, track storytime_print_r1_20261025, 2026-11-16
+# role base 6bb16de44bb8cb27efdc9410259bf2e656dd2b63; maker minimax-cn-coding-plan/MiniMax-M3.1-Flash
+# cmp of each byte copy against its source in proof-books-r6-v4
+cmp equal: student/Storytime-Advantage-L2-U1-Student-Book-v20_PDFX-1a.pdf
+  sha256 copy: 32f60813f379e96a7f100d3dcf3a0b801c9c1c77ea1e6e3cd026edd86d754237
+  sha256 r6-v4 MANIFEST line: 32f60813f379e96a7f100d3dcf3a0b801c9c1c77ea1e6e3cd026edd86d754237
+cmp equal: student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r6_PDFX-1a.pdf
+  sha256 copy: 03b5b18ab12ec54153f9c46dc6ae36c2477ebef716354d86e148ccfae53542e2
+  sha256 r6-v4 MANIFEST line: 03b5b18ab12ec54153f9c46dc6ae36c2477ebef716354d86e148ccfae53542e2
+cmp equal: teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-v5_PDFX-1a.pdf
+  sha256 copy: dc6a3d4a955143bf35be9aea82b1c6e04940f205a9c7d0fb22c5ee390dce7942
+  sha256 r6-v4 MANIFEST line: dc6a3d4a955143bf35be9aea82b1c6e04940f205a9c7d0fb22c5ee390dce7942
+cmp equal: teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r6_PDFX-1a.pdf
+  sha256 copy: a21a20d447fa75e8a8794bb5ac7c4d99e8d664ff040286c665bd6b277e45c163
+  sha256 r6-v4 MANIFEST line: a21a20d447fa75e8a8794bb5ac7c4d99e8d664ff040286c665bd6b277e45c163
+copy failures: 0
+exit: 0

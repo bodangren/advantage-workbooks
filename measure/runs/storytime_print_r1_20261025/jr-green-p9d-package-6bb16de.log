@@ -1,0 +1,61 @@
+# Role log: Green · P9 printer package · storytime_print_r1_20261025
+# Date: 2026-11-16
+# Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash (not a Claude model; the Thai filter was the first command)
+# role_base_sha (immutable): 6bb16de44bb8cb27efdc9410259bf2e656dd2b63
+# Task: plan.md task 3a "Task 3a (Printer package, maker)"; spec.md addendum 2026-11-16 (2), decision D-P9D-2
+# Package folder: ~/Desktop/handoff/storytime-l2-u1-printer-package-r6-v4/
+# Source proof: ~/Desktop/print-ready/storytime/proof-books-r6-v4/ (MANIFEST SHA-256 9388dd6d7e7dc05cd70b705b0c5d4e0658c2ea410127e67b6b29eff37a664ec5)
+#
+# --- Thai rule ---
+# The first command of this role printed the Thai line numbers of the plan and the spec
+# (plan.md: 326 736 739 741 750 859 887 888 889 890 891 892; spec.md: none).
+# Every read of a track file went through `grep -v -P '[\x{0E00}-\x{0E7F}]'`.
+# No page image and no PDF text was opened. The pdfinfo run read only Pages, Page size, and Page rot.
+#
+# --- Package build ---
+# Folder (new): /home/daniebo/Desktop/handoff/storytime-l2-u1-printer-package-r6-v4/
+# It did not exist before the build. Subfolders student/ and teacher/ were kept from the source proof.
+# Source: /home/daniebo/Desktop/print-ready/storytime/proof-books-r6-v4/ (MANIFEST SHA-256 9388dd6d7e7dc05cd70b705b0c5d4e0658c2ea410127e67b6b29eff37a664ec5)
+# The source MANIFEST hash was checked with sha256sum before the copy and it matched.
+# cp made the 4 copies. cmp made each copy equal to its source (p9d-package-copy.txt).
+# No file was rebuilt. The fold test, the -chrome.pdf file, the drafts, and the contact sheets were not copied.
+#
+# The 4 files and their SHA-256 (equal to the r6-v4 MANIFEST lines):
+# student/Storytime-Advantage-L2-U1-Student-Book-v20_PDFX-1a.pdf
+#   32f60813f379e96a7f100d3dcf3a0b801c9c1c77ea1e6e3cd026edd86d754237  140 pages
+# student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r6_PDFX-1a.pdf
+#   03b5b18ab12ec54153f9c46dc6ae36c2477ebef716354d86e148ccfae53542e2  2 pages
+# teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-v5_PDFX-1a.pdf
+#   dc6a3d4a955143bf35be9aea82b1c6e04940f205a9c7d0fb22c5ee390dce7942  224 pages
+# teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r6_PDFX-1a.pdf
+#   a21a20d447fa75e8a8794bb5ac7c4d99e8d664ff040286c665bd6b277e45c163  2 pages
+# Page counts come from pdfinfo of the copies (p9d-package-pages.txt). Each page size is 594.96 x 841.92 pts (A4), Page rot 0.
+#
+# --- The package files ---
+# PRINT-ORDER.md: one row per printer job (item, file, SHA-256, trim, pages, paper, binding, colors, quantity),
+#   the settings table of D-P9D-2 in its exact wording, the "Not in this package" list, the open minors of the
+#   audit section 5 with N1, N2, and the ff and fl text layer, and the approval line.
+# MANIFEST.txt: sha256sum -c form over the 4 PDFs and PRINT-ORDER.md (two spaces, relative paths).
+# Package MANIFEST SHA-256: 042c52e3ea78cae6238b7f1b314ac7cfff470c9a19decab0d8ed87f5c73e50ba
+#
+# --- Gates (captures under measure/runs/storytime_print_r1_20261025/) ---
+# p9d-package-copy.txt     exit: 0   (cmp equal for the 4 copies; each SHA-256 equals the r6-v4 MANIFEST line)
+# p9d-package-gate.txt     exit: 0   (PRINT_GATE on the 4 copies, each in one heavy-run.sh wrapper; "All checks pass." 4 of 4)
+# p9d-package-pages.txt    exit: 0   (pdfinfo: 140, 2, 224, 2 pages; A4; Page rot 0)
+# p9d-package-manifest.txt exit: 0   (sha256sum -c MANIFEST.txt: 5 of 5 OK)
+# p9d-package-tree.txt     exit: 0   (126 folders under ~/Desktop/handoff/ and ~/Desktop/print-ready/; diff lines: 0)
+#
+# --- Deviations ---
+# 1. The plan fast gate of task 3a reads `ls <package>/*.pdf | wc -l` and expects 4.
+#    The brief of this role asks for the subfolders student/ and teacher/, so the 4 PDFs sit one level down.
+#    The gate glob prints 0. The recursive count prints 4:
+#    `find <package> -name '*.pdf' | wc -l` prints 4, and
+#    `ls <package>/student/*.pdf <package>/teacher/*.pdf | wc -l` prints 4.
+#    The role kept the subfolders as the brief asks. No PDF sits at the top level, so the printer cannot print a file twice.
+# 2. The heavy-run.sh wrapper printed a shell warning ("ignored null byte in input") on each run. The gate result was not changed.
+# 3. The maker read no page and no contact sheet. The proof look of r6-v4 is on record in the plan.
+#
+# --- Scope ---
+# Changed files in the repo: the 5 captures and this log. The plan evidence commit touches only plan.md.
+# No file under ~/Desktop/print-ready/ changed. No other folder under ~/Desktop/handoff/ changed.
+# No repo code, test file, week file, or picture changed.
