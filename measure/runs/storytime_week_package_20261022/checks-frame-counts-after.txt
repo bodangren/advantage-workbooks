@@ -1,0 +1,10 @@
+Script started on 2026-11-03 21:55:10+07:00 [COMMAND="cd dashboard && npx tsx -e 'import fs from "node:fs"; import path from "node:path"; import { frameCount } from "./lib/storytime/checks"; for (let week=1; week<=7; week++) { const file=path.join("..","content","storytime","l2","w"+String(week).padStart(2,"0")+".json"); const w=JSON.parse(fs.readFileSync(file,"utf8")); console.log("st2/"+week+": "+frameCount(w.focus.frame,w.song.lines.map((line:any)=>line.text))); }'" <not executed on terminal>]
+⠙[1G[0Kst2/1: 8
+st2/2: 9
+st2/3: 9
+st2/4: 10
+st2/5: 12
+st2/6: 9
+st2/7: 10
+⠙[1G[0K
+Script done on 2026-11-03 21:55:11+07:00 [COMMAND_EXIT_CODE="0"]

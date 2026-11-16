@@ -1,0 +1,106 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-14 the script refuses a week with nothing to map
+[22m[39mfamily picture: nothing to map
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+ [31m❯[39m __tests__/storytime-package-family.test.ts [2m([22m[2m27 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 25158[2mms[22m[39m
+     [32m✓[39m R2-1 the mapping table of the spec gives the source of every word[32m 174[2mms[22m[39m
+     [32m✓[39m R2-2 the source rule takes the patch, then the dots, then the card, then the Forge file[32m 1[2mms[22m[39m
+     [32m✓[39m R2-3 the Forge rule takes one color file of the week and refuses the rest[32m 1[2mms[22m[39m
+     [32m✓[39m R2-4 the package path of a family picture follows the path rule[32m 3[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5 the script writes six pictures, six provenance lines, and six file lines [33m 2688[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6 the week file gains a file line after each caption and changes nothing else [33m 870[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a card file that the manifest does no…'[32m 160[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a card file whose hash differs from t…'[32m 168[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a JPEG named as a PNG'[32m 243[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a PNG with an alpha channel'[32m 248[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a PNG of 16 bits'[32m 279[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a grey PNG'[32m 269[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a PNG of 1499 x 1500 pixels'[32m 242[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a Forge folder with only the line fil…'[32m 229[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'two color files for one Forge word'[32m 242[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a manifest line with a hostile name'[32m 234[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-8 a line file next to a color file does not stop the run [33m 515[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-9 the partial run skips a Forge word with no file and keeps the card rule [33m 721[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-10 the provenance keeps the lines of the words that a run skips [33m 982[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-11 the check mode prints one line per word and writes nothing [33m 757[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-12 the script changes a file line with another value and keeps a file line with the same value [33m 1326[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-13 a second run changes no byte [33m 597[2mms[22m[39m
+     [32m✓[39m R2-14 the script refuses a week with nothing to map[32m 17[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-15 the live run of the color patches of week 3 writes seven pictures [33m 13963[2mms[22m[39m
+     [32m✓[39m R2-16 the usage errors of the script return the exit code 2[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-17 the check gives pass, warn, and fail[39m[32m 187[2mms[22m[39m
+     [32m✓[39m R2-18 the tests write no shipped file and name no track path[32m 12[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture check (Phase 10, Red 2)[2m > [22mR2-17 the check gives pass, warn, and fail
+[31m[1mAssertionError[22m: the status of a word with no file: expected 'pass' to be 'warn' // Object.is equality[39m
+
+Expected: [32m"warn"[39m
+Received: [31m"pass"[39m
+
+[36m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1395:67[22m[39m
+    [90m1393| [39m        [35mdelete[39m week[33m.[39mfocus[33m.[39mfamily[33m.[39mwords[[34m2[39m][33m.[39mimage[33m.[39mfile[33m;[39m
+    [90m1394| [39m        [35mconst[39m warn [33m=[39m [34mcheck[39m(week[33m,[39m contentRoot)[33m;[39m
+    [90m1395| [39m        expect(warn?.status, 'the status of a word with no file').toBe…
+    [90m   | [39m                                                                  [31m^[39m
+    [90m1396| [39m        expect(warn?.detail, 'the detail of a word with no file').toBe…
+    [90m1397| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m26 passed[39m[22m[90m (27)[39m
+[2m   Start at [22m 08:30:16
+[2m   Duration [22m 27.22s[2m (transform 849ms, setup 458ms, import 1.18s, tests 25.16s, environment 0ms)[22m
+
+exit: 1

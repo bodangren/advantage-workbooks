@@ -1,0 +1,48 @@
+Script started on 2026-11-03 21:46:06+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-book-pictures.test.ts __tests__/storytime-loops-schema.test.ts __tests__/storytime-print-contract-v2.test.ts __tests__/storytime-print-adversarial.test.ts __tests__/storytime-print-contract.test.ts'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m24 tests[22m[2m)[22m[33m 788[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract.test.ts [2m([22m[2m47 tests[22m[2m)[22m[33m 968[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 545[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-adversarial.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 5202[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a missing --level [33m 535[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level without a value [33m 591[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 9 (outside 1 to 4) [33m 539[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 0 [33m 586[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level -1 [33m 556[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level ../x (path traversal) [33m 576[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level=2 (the equals form is not accepted) [33m 462[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a level with more digits than a safe integer [33m 420[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a valid level with no week files and writes nothing [33m 516[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-book-pictures.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 5932[2mms[22m[39m
+     [33m[2m✓[22m[39m sets the 18 app pictures with valid JPEGs and complete provenance [33m 836[2mms[22m[39m
+     [32m✓[39m fails the picture check when a named file is missing[32m 3[2mms[22m[39m
+     [32m✓[39m rejects a zero match before it writes files[32m 9[2mms[22m[39m
+     [32m✓[39m rejects a two matches before it writes files[32m 5[2mms[22m[39m
+     [32m✓[39m rejects a resolver error before it writes files[32m 62[2mms[22m[39m
+[31m     [31m×[31m runs the week command successfully on the shipped w01[39m[33m 5011[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-book-pictures.test.ts[2m > [22mStorytime app book pictures[2m > [22mruns the week command successfully on the shipped w01
+[31m[1mError[22m: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m __tests__/storytime-book-pictures.test.ts:[2m99:5[22m[39m
+    [90m 97| [39m    })[33m;[39m
+    [90m 98| [39m
+    [90m 99| [39m    it('runs the week command successfully on the shipped w01', async …
+    [90m   | [39m    [31m^[39m
+    [90m100| [39m        [34mexpect[39m([35mawait[39m [34mmain[39m([[32m'--level'[39m[33m,[39m [32m'2'[39m[33m,[39m [32m'--week'[39m[33m,[39m [32m'1'[39m]))[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m101| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m141 passed[39m[22m[90m (142)[39m
+[2m   Start at [22m 21:46:08
+[2m   Duration [22m 8.17s[2m (transform 1.53s, setup 552ms, import 2.97s, tests 13.44s, environment 901ms)[22m
+
+[?25h
+Script done on 2026-11-03 21:46:17+07:00 [COMMAND_EXIT_CODE="1"]

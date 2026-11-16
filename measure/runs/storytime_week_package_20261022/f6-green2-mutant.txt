@@ -1,0 +1,20 @@
+Script started on 2026-11-03 21:46:45+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'bash /tmp/opencode/f6-post.sh'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-manual.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 220[2mms[22m[39m
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-7yrxPt/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-1AOFXL/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+ [32m✓[39m __tests__/storytime-print-teacher-book.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 2208[2mms[22m[39m
+     [33m[2m✓[22m[39m provides the teacher-book print CLI and a successful help response [33m 455[2mms[22m[39m
+     [33m[2m✓[22m[39m R-F-P3-1 exports the exact K-only PDF/X flag list [33m 550[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside [33m 534[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside [33m 529[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m38 passed[39m[22m[90m (38)[39m
+[2m   Start at [22m 21:46:47
+[2m   Duration [22m 4.33s[2m (transform 1.14s, setup 206ms, import 1.47s, tests 2.43s, environment 919ms)[22m
+
+[?25h
+Script done on 2026-11-03 21:46:53+07:00 [COMMAND_EXIT_CODE="0"]

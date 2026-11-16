@@ -1,0 +1,23 @@
+P13 Review A round 1 mutants, test command: cd dashboard && CI=true npx vitest run __tests__/storytime-package-readalong-clips.test.ts --maxWorkers=1
+M1 planSentenceClips ignores kinds and plans the decodable books only (dashboard/lib/storytime/sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  24 failed | 27 passed (51), cmp after restore: same
+M2 the default kinds holds both kinds (dashboard/lib/storytime/sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  2 failed | 49 passed (51), cmp after restore: same
+M3 the sentence maker replaces the provenance file with its own items (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  3 failed | 48 passed (51), cmp after restore: same
+M4 the merged items are not sorted (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  2 failed | 49 passed (51), cmp after restore: same
+M5 the skip rule is off (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  5 failed | 46 passed (51), cmp after restore: same
+M6 the skip rule ignores the SHA-256 (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  2 failed | 49 passed (51), cmp after restore: same
+M7 the provenance file is written once at the end of the run (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  2 failed | 49 passed (51), cmp after restore: same
+M8 the header guard is off (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  3 failed | 48 passed (51), cmp after restore: same
+M9 the call line is added after the call (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  3 failed | 48 passed (51), cmp after restore: same
+M10 the line sent: <s> (run failed) is not added when the run throws (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  4 failed | 47 passed (51), cmp after restore: same
+M11 the sent sum leaves out the characters of the retakes (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  2 failed | 49 passed (51), cmp after restore: same
+M12 the word maker adds no call line (dashboard/scripts/storytime/make-word-bank.ts): caught, exit 1, Test Files  1 failed (1); Tests  2 failed | 49 passed (51), cmp after restore: same
+M13 the mapper with kinds readalong also edits the decodable block (dashboard/scripts/storytime/set-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  5 failed | 46 passed (51), cmp after restore: same
+M14 checkReadAlongSentenceClips skips the text compare (dashboard/scripts/storytime/check-weeks.ts): caught, exit 1, Test Files  1 failed (1); Tests  2 failed | 49 passed (51), cmp after restore: same
+M15 checkSentenceClips reads a read-along book (dashboard/scripts/storytime/check-weeks.ts): caught, exit 1, Test Files  1 failed (1); Tests  1 failed | 50 passed (51), cmp after restore: same
+mutants: 15, caught: 15
+R1 the kept line loses its trailing newline (M6 exact bytes) (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  3 failed | 48 passed (51), cmp after restore: same
+R2 the flag --kind all maps to readalong only (M3) (dashboard/scripts/storytime/make-sentence-clips.ts): SURVIVED, exit 0, Test Files  1 passed (1); Tests  51 passed (51), cmp after restore: same
+R3 main of the sentence maker prints result.lines again (M6 stdout, one copy) (dashboard/scripts/storytime/make-sentence-clips.ts): caught, exit 1, Test Files  1 failed (1); Tests  1 failed | 50 passed (51), cmp after restore: same
+R4 the skip rule drops the text compare (M5 same text) (dashboard/scripts/storytime/make-sentence-clips.ts): SURVIVED, exit 0, Test Files  1 passed (1); Tests  51 passed (51), cmp after restore: same
+own mutants: 4, caught: 2
+all mutants: 19, caught: 17

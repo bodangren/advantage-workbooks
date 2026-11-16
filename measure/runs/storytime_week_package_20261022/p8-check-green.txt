@@ -1,0 +1,23 @@
+Script started on 2026-11-05 14:19:50+07:00 [COMMAND="HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-manual.test.ts __tests__/storytime-print-teacher-book.test.ts __tests__/storytime-week.test.ts __tests__/storytime-loops-checks.test.ts __tests__/storytime-phonics.test.ts --maxWorkers=1'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-MKczxS/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-WfNSTw/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+ [32m✓[39m __tests__/storytime-print-teacher-book.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 4467[2mms[22m[39m
+     [33m[2m✓[22m[39m provides the teacher-book print CLI and a successful help response [33m 1462[2mms[22m[39m
+     [33m[2m✓[22m[39m R-F-P3-1 exports the exact K-only PDF/X flag list [33m 762[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside [33m 1013[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside [33m 1054[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 1198[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-week.test.ts [2m([22m[2m44 tests[22m[2m)[22m[32m 274[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-manual.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 215[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonics.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 56[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[32m127 passed[39m[22m[90m (127)[39m
+[2m   Start at [22m 14:19:55
+[2m   Duration [22m 16.07s[2m (transform 1.96s, setup 765ms, import 3.17s, tests 6.21s, environment 3.77s)[22m
+
+[?25h
+Script done on 2026-11-05 14:20:11+07:00 [COMMAND_EXIT_CODE="0"]

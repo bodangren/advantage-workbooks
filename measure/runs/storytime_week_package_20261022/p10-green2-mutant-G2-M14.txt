@@ -1,0 +1,171 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-14 the script refuses a week with nothing to map
+[22m[39mfamily picture: nothing to map
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+ [31m❯[39m __tests__/storytime-package-family.test.ts [2m([22m[2m27 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 26037[2mms[22m[39m
+     [32m✓[39m R2-1 the mapping table of the spec gives the source of every word[32m 129[2mms[22m[39m
+     [32m✓[39m R2-2 the source rule takes the patch, then the dots, then the card, then the Forge file[32m 1[2mms[22m[39m
+     [32m✓[39m R2-3 the Forge rule takes one color file of the week and refuses the rest[32m 2[2mms[22m[39m
+     [32m✓[39m R2-4 the package path of a family picture follows the path rule[32m 3[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5 the script writes six pictures, six provenance lines, and six file lines [33m 1450[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-6 the week file gains a file line after each caption and changes nothing else [33m 1322[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a card file that the manifest does no…'[32m 179[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a card file whose hash differs from t…'[32m 240[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a JPEG named as a PNG'[32m 242[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a PNG with an alpha channel'[32m 210[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-7 the script stops before any write: 'a PNG of 16 bits' [33m 330[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a grey PNG'[32m 282[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a PNG of 1499 x 1500 pixels'[32m 260[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a Forge folder with only the line fil…'[32m 193[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'two color files for one Forge word'[32m 279[2mms[22m[39m
+     [32m✓[39m R2-7 the script stops before any write: 'a manifest line with a hostile name'[32m 243[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-8 a line file next to a color file does not stop the run [33m 440[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-9 the partial run skips a Forge word with no file and keeps the card rule [33m 725[2mms[22m[39m
+[31m     [31m×[31m R2-10 the provenance keeps the lines of the words that a run skips[39m[33m 604[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-11 the check mode prints one line per word and writes nothing [33m 723[2mms[22m[39m
+[31m     [31m×[31m R2-12 the script changes a file line with another value and keeps a file line with the same value[39m[33m 1119[2mms[22m[39m
+[31m     [31m×[31m R2-13 a second run changes no byte[39m[33m 747[2mms[22m[39m
+     [32m✓[39m R2-14 the script refuses a week with nothing to map[32m 8[2mms[22m[39m
+[31m     [31m×[31m R2-15 the live run of the color patches of week 3 writes seven pictures[39m[33m 15992[2mms[22m[39m
+     [32m✓[39m R2-16 the usage errors of the script return the exit code 2[32m 3[2mms[22m[39m
+     [32m✓[39m R2-17 the check gives pass, warn, and fail[32m 256[2mms[22m[39m
+     [32m✓[39m R2-18 the tests write no shipped file and name no track path[32m 9[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-10 the provenance keeps the lines of the words that a run skips
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 3441 (line 101 column 13)[39m
+[36m [2m❯[22m setFamilyPictures scripts/storytime/set-family-pictures.ts:[2m464:23[22m[39m
+    [90m462| [39mexport async function setFamilyPictures(options: SetFamilyPicturesOpti…
+    [90m463| [39m    [35mconst[39m weekText [33m=[39m fs[33m.[39m[34mreadFileSync[39m(options[33m.[39mweekFile[33m,[39m [32m'utf8'[39m)[33m;[39m
+    [90m464| [39m    [35mconst[39m week [33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(weekText)[33m;[39m
+    [90m   | [39m                      [31m^[39m
+    [90m465| [39m    [35mconst[39m level [33m=[39m [33mNumber[39m(week[33m.[39mmeta[33m.[39mlevel)[33m;[39m
+    [90m466| [39m    [35mconst[39m weekNumber [33m=[39m [33mNumber[39m(week[33m.[39mmeta[33m.[39mweek)[33m;[39m
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1186:29[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-12 the script changes a file line with another value and keeps a file line with the same value
+[31m[1mAssertionError[22m: one line is removed: expected [] to have a length of 1 but got +0[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1276:53[22m[39m
+    [90m1274| [39m        [35mconst[39m second [33m=[39m fs[33m.[39m[34mreadFileSync[39m(tree[33m.[39mweekFile[33m,[39m [32m'utf8'[39m)[33m;[39m
+    [90m1275| [39m        [35mconst[39m diff [33m=[39m [34mlineDiff[39m(changed[33m.[39m[34msplit[39m([32m'\n'[39m)[33m,[39m second[33m.[39m[34msplit[39m([32m'\n'[39m))[33m;[39m
+    [90m1276| [39m        [34mexpect[39m(diff[33m.[39mremoved[33m,[39m [32m'one line is removed'[39m)[33m.[39m[34mtoHaveLength[39m([34m1[39m)[33m;[39m
+    [90m   | [39m                                                    [31m^[39m
+    [90m1277| [39m        [34mexpect[39m(diff[33m.[39madded[33m,[39m [32m'one line is added'[39m)[33m.[39m[34mtoHaveLength[39m([34m1[39m)[33m;[39m
+    [90m1278| [39m        expect(diff.added[0], 'the line holds the right value').toCont…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-13 a second run changes no byte
+[31m[1mAssertionError[22m: the second run changes no byte: expected { …(8) } to deeply equal { …(8) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -4,7 +4,7 @@[39m
+[2m    "l2/media/w01/family/girl.jpg": "83c67333e017c1cfadc7baf55c89127a91df0c31aac72883c82dfe79ae0330df",[22m
+[2m    "l2/media/w01/family/goodbye.jpg": "83c67333e017c1cfadc7baf55c89127a91df0c31aac72883c82dfe79ae0330df",[22m
+[2m    "l2/media/w01/family/hello.jpg": "83c67333e017c1cfadc7baf55c89127a91df0c31aac72883c82dfe79ae0330df",[22m
+[2m    "l2/media/w01/family/pictures.sha256": "bbe1d778977188103a7ea95618632798be5bf3e8290180d9f052692f8944ee52",[22m
+[2m    "l2/media/w01/family/teacher.jpg": "83c67333e017c1cfadc7baf55c89127a91df0c31aac72883c82dfe79ae0330df",[22m
+[32m-   "l2/w01.json": "d5b6f7ccdf1b1e7374261b61a2d4321659e8537fc6d7c622e9a98ebc8b99c0f2",[39m
+[31m+   "l2/w01.json": "379ebc93c5219acbc4d39aa119336b757dfa12e10e35cd0d04d4f73b8a07932f",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1293:80[22m[39m
+    [90m1291| [39m        [35mconst[39m result [33m=[39m [35mawait[39m [34msetter[39m([34mrunOptions[39m(tree))[33m;[39m
+    [90m1292| [39m        [34mexpect[39m(result[33m.[39mmapped[33m,[39m [32m'mapped pictures: 6'[39m)[33m.[39m[34mtoBe[39m([34m6[39m)[33m;[39m
+    [90m1293| [39m        expect(treeHashes(tree.contentRoot), 'the second run changes n…
+    [90m   | [39m                                                                               [31m^[39m
+    [90m1294| [39m    })[33m;[39m
+    [90m1295| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-15 the live run of the color patches of week 3 writes seven pictures
+[31m[1mAssertionError[22m: the second run changes no byte: expected { …(9) } to deeply equal { …(9) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -5,7 +5,7 @@[39m
+[2m    "l2/media/w03/family/pictures.sha256": "f45bbf7cb00bcd5cca2b8341600fd26230fac2a2d8c8a5dff805cf5eecdb6ff4",[22m
+[2m    "l2/media/w03/family/pink.jpg": "83154b299583f8b68acb968f7484f16ff862f368d4be6494728fcc92d986b22e",[22m
+[2m    "l2/media/w03/family/purple.jpg": "700325b1f44d3b729c29a4494ce69002c798d3eadf36f93fefeaa60d4baaa5d1",[22m
+[2m    "l2/media/w03/family/red.jpg": "62582b4443f776362361e33918aed90c27bbd44bc3c9a73db42e0df9a7dccf83",[22m
+[2m    "l2/media/w03/family/yellow.jpg": "d144890b31b59bfa03c0fc289b2475b271fcf3d9110e6b606e06f7065f890b1f",[22m
+[32m-   "l2/w03.json": "22dc1ab79c4116e526c10c508bae80d9672ec7f13a9f2bdea7254a9686960b14",[39m
+[31m+   "l2/w03.json": "0a5ee2d9fcab4d2293c167347af8ba1916f191a4a5d4bde14d0d634ed9048f42",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1355:80[22m[39m
+    [90m1353| [39m            cardRowsFile[33m:[39m tree[33m.[39mcardRowsFile[33m,[39m
+    [90m1354| [39m        })[33m;[39m
+    [90m1355| [39m        expect(treeHashes(tree.contentRoot), 'the second run changes n…
+    [90m   | [39m                                                                               [31m^[39m
+    [90m1356| [39m    }[33m,[39m [34m240_000[39m)[33m;[39m
+    [90m1357| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m23 passed[39m[22m[90m (27)[39m
+[2m   Start at [22m 08:19:07
+[2m   Duration [22m 27.28s[2m (transform 736ms, setup 104ms, import 676ms, tests 26.04s, environment 0ms)[22m
+
+exit: 1

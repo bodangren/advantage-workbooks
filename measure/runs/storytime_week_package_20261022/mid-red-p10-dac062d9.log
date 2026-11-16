@@ -1,0 +1,68 @@
+# Mid Red log, Phase 10 review remediation (r4, type fix of R2-6b)
+# Track: storytime_week_package_20261022
+# Role base: dac062d98b3e10d95ac7536d07cb34ce71264317 (verified as HEAD at start)
+# Red base of this window: 33440959f13af6bec03000ee136bd229d45e8f4c
+
+## Worktree classification (git status --short at start)
+- `M dashboard/scripts/storytime/set-family-pictures.ts` — relevant. The Green fix was uncommitted here. I reverse-applied the saved patch to restore the Red state.
+- `M video/storytime-song/scripts/render.mjs` — unrelated user work. I did not touch it and did not stage it.
+- 1357 untracked paths, mostly `measure/runs/**` of other tracks — generated/ignorable. I did not stage them.
+
+## Step 2, restore the Red state
+- `git apply -R --check measure/runs/storytime_week_package_20261022/p10-green3-blocked-impl.patch` -> exit 0.
+- `git apply -R measure/runs/storytime_week_package_20261022/p10-green3-blocked-impl.patch` -> exit 0.
+- `git diff --exit-code -- dashboard/scripts/storytime/set-family-pictures.ts` -> exit 0.
+- The patch file stays in place for the Green role.
+
+## Step 3, the type-only edit
+- Line 1212 of `dashboard/__tests__/storytime-package-family.test.ts` changed from `expect(schemaHello.image?.caption, ...` to `expect(schemaHello?.image?.caption, ...`. The message and `.toBe('a "b" c')` are unchanged. `git diff` shows one changed line in one file. Case R2-6b and its runtime assertion stay the same.
+
+## Step 4, type check (capture `p10-red4-tsc.txt`)
+- Command: `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsc --noEmit; echo "exit: $?"'`
+- Result: 1 error line, exit 2. The only `error TS` line is `__tests__/quest-cover-template.test.ts(81,37): error TS2307: Cannot find module '../lib/storytime/print/cover-quest'`. That is the bounded gate exception of the cover-options track (commit 6605bd17). No `storytime-package-family.test.ts` error.
+
+## Step 5, Red run (capture `p10-red4.txt`)
+- First run (tool output): exit 1. My tool did not save the output to a file, so I re-ran the same heavy command with `tee` inside heavy-run to write the capture. Both runs gave the same labeled lines.
+- Labeled lines: `Test Files  1 failed | 1 passed (2)` and `Tests  3 failed | 45 passed (48)`.
+- Capture ends with `exit: 1`.
+- 3 ` FAIL ` lines, all in `storytime-package-family.test.ts`. `grep ' FAIL ' <capture> | grep -v storytime-package-family` prints 0 lines.
+- Failed tests:
+  1. `R2-6b a caption that holds a JSON escape keeps its value` — the caption of hello reads `a \"b\" c` and not `a "b" c`.
+  2. `R2-6c the script parses the new week text before it writes` — the run writes and does not throw.
+  3. `R2-7 the script stops before any write: 'a Forge file that the manifest does not list'` — the run writes and does not throw.
+- No `No test files found`, no `SyntaxError`, no failure in another file.
+
+## Step 6, lint (capture `p10-red4-lint.txt`)
+- Command: `cd dashboard && npx eslint __tests__/storytime-package-family.test.ts`
+- Result: exit 0. Capture holds `exit: 0`.
+
+## Step 7, commit
+- `git commit -m "test(storytime): R2-6b guards the find result for the type check (storytime_week_package)" -- dashboard/__tests__/storytime-package-family.test.ts` -> exit 0.
+- SHA: `da0934f0f33523596d2d76361e21b18250f39c90`, `1 file changed, 1 insertion(+), 1 deletion(-)`.
+- `git show --name-only --format= HEAD` lists only `dashboard/__tests__/storytime-package-family.test.ts`.
+- Scope capture `p10-red4-scope.txt`: `files: 1`, `outside: 0`.
+
+## Step 8, plan
+- I did not edit `plan.md`. The Green role writes the plan line and its evidence.
+
+## Step 9, final worktree check
+- After the commit, `git diff --exit-code -- dashboard/scripts/storytime/set-family-pictures.ts` -> exit 0.
+- The only tracked modification left is `video/storytime-song/scripts/render.mjs` (unrelated user work, preserved).
+- `git status --porcelain` shows no staged path.
+
+MEASURE_AGENT_RESULT
+role: mid-red
+phase: P10
+task: review remediation (r4, type fix of R2-6b)
+track: storytime_week_package_20261022
+role_base_sha: dac062d98b3e10d95ac7536d07cb34ce71264317
+red_base: 33440959f13af6bec03000ee136bd229d45e8f4c
+status: done
+commits: da0934f0f33523596d2d76361e21b18250f39c90 (test file only)
+files_changed: dashboard/__tests__/storytime-package-family.test.ts (line 1212)
+worktree: patch reverse-applied (apply --check exit 0, apply exit 0, diff exit 0), set-family-pictures.ts equals HEAD (diff exit 0 after the commit)
+tests_run: tsc p10-red4-tsc.txt (1 error: quest-cover-template.test.ts(81,37) TS2307, the bounded gate exception; exit 2); RED p10-red4.txt (2 files, 3 failed/48, exit 1, failed: R2-6b a caption that holds a JSON escape keeps its value, R2-6c the script parses the new week text before it writes, R2-7 the script stops before any write: 'a Forge file that the manifest does not list'); lint p10-red4-lint.txt (exit 0)
+scope: p10-red4-scope.txt (files: 1, outside: 0)
+handoff: Green applies measure/runs/storytime_week_package_20261022/p10-green3-blocked-impl.patch again (git apply, then git diff --exit-code -- dashboard/scripts/storytime/set-family-pictures.ts must exit 0), writes the plan line and its evidence, runs the four gates (GREEN_TEST_COMMAND, PROJECT_TESTS, PROJECT_LINT, PROJECT_CHECKS), and commits the script fix. Note: PROJECT_CHECKS still holds the TS2307 of quest-cover-template.test.ts until the cover-options track closes its Red window.
+dispositions: none
+END_MEASURE_AGENT_RESULT

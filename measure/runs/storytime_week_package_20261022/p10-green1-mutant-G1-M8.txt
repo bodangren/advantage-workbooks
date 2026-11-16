@@ -1,0 +1,80 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 21003[2mms[22m[39m
+     [32m✓[39m R1-1 the picture markup of the app equals the picture element of the card kit[32m 92[2mms[22m[39m
+     [32m✓[39m R1-1b the card kit holds the 8 patch values and the 9 dot counts (characterization)[32m 12[2mms[22m[39m
+     [32m✓[39m R1-2 the app dot table holds the nine card counts and the count of ten[32m 2[2mms[22m[39m
+     [32m✓[39m R1-3 the card of ten holds the numeral 10 and ten dots in two rows of five[32m 12[2mms[22m[39m
+[31m     [31m×[31m R1-4 the page holds the white background, the print face, and the picture markup[39m[32m 69[2mms[22m[39m
+     [32m✓[39m R1-5 a hostile word is escaped in the picture markup and in the page[32m 2[2mms[22m[39m
+     [32m✓[39m R1-6 the source name of a patch and of a number card follows the provenance form[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 5663[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of purple is a progressive JPEG of 800 x 800 [33m 1987[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of one is a progressive JPEG of 800 x 800 [33m 2273[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of ten is a progressive JPEG of 800 x 800 [33m 2477[2mms[22m[39m
+[31m     [31m×[31m R1-8 the patch fills the area with its hex value and keeps the rounded corners[39m[32m 40[2mms[22m[39m
+     [32m✓[39m R1-9 the number cards keep a white background at the corner[32m 85[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 3622[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 4639[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-raster.test.ts[2m > [22mthe family picture markup (Phase 10, Red 1)[2m > [22mR1-4 the page holds the white background, the print face, and the picture markup
+[31m[1mAssertionError[22m: the page holds the safe margin: expected '<!doctype html>\n<html lang="en">\n<h…' to contain '4mm'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 4mm[39m
+[31m+ <!doctype html>[39m
+[31m+ <html lang="en">[39m
+[31m+ <head>[39m
+[31m+ <meta charset="utf-8">[39m
+[31m+ <title>Storytime family picture: red</title>[39m
+[31m+ <style>[39m
+[31m+ @font-face { font-family: 'Andika'; font-weight: 400; font-style: normal; src: url('file:///home/daniebo/Desktop/Workbooks/dashboard/assets/print-fonts/andika-regular.ttf') format('truetype'); }[39m
+[31m+ @font-face { font-family: 'Andika'; font-weight: 700; font-style: normal; src: url('file:///home/daniebo/Desktop/Workbooks/dashboard/assets/print-fonts/andika-bold.ttf') format('truetype'); }[39m
+[31m+ @font-face { font-family: 'Sarabun'; font-weight: 400; font-style: normal; src: url('file:///home/daniebo/Desktop/Workbooks/dashboard/assets/print-fonts/sarabun-thai-400-normal.woff2') format('woff2'); unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC; }[39m
+[31m+ @page { size: 400px 400px; margin: 0; }[39m
+[31m+ * { box-sizing: border-box; margin: 0; padding: 0; }[39m
+[31m+ html, body { background: #FFFFFF; }[39m
+[31m+ body { width: 400px; height: 400px; padding: 0mm; display: flex; flex-direction: column; overflow: hidden; font-family: 'Andika', sans-serif; font-weight: 400; color: #000; }[39m
+[31m+ .card-picture { flex: 1; width: 100%; min-height: 0; display: flex; align-items: center; justify-content: center; }[39m
+[31m+ </style>[39m
+[31m+ </head>[39m
+[31m+ <body>[39m
+[31m+ <div class="card-picture card-patch-picture"><div class="card-color-patch" data-card-patch="red" data-shape="rounded-rectangle" data-color="#E53935" style="background-color:#E53935;width:100%;height:100%;align-self:stretch;border-radius:6mm"></div></div>[39m
+[31m+ </body>[39m
+[31m+ </html>[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/storytime-package-raster.test.ts:[2m425:56[22m[39m
+    [90m423| [39m        expect(page, 'the page holds the print face').toContain(fontFa…
+    [90m424| [39m        [34mexpect[39m(page[33m,[39m [32m'the page holds its size'[39m)[33m.[39m[34mtoContain[39m([32m'400px'[39m)[33m;[39m
+    [90m425| [39m        expect(page, 'the page holds the safe margin').toContain('4mm'…
+    [90m   | [39m                                                       [31m^[39m
+    [90m426| [39m        expect(page, 'the page holds the picture markup').toContain(mo…
+    [90m427| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-raster.test.ts[2m > [22mthe raster export of a family picture (Phase 10, Red 1)[2m > [22mR1-8 the patch fills the area with its hex value and keeps the rounded corners
+[31m[1mAssertionError[22m: the rounded corner of red is white: 229,57,53: expected 202 to be less than or equal to 8[39m
+[36m [2m❯[22m __tests__/storytime-package-raster.test.ts:[2m531:102[22m[39m
+    [90m529| [39m            expect(channelGap(corner, WHITE), `the corner of ${word} i…
+    [90m530| [39m            [35mconst[39m outside [33m=[39m [34mpixelAt[39m(pixels[33m,[39m [34m34[39m[33m,[39m [34m34[39m)[33m;[39m
+    [90m531| [39m            expect(channelGap(outside, WHITE), `the rounded corner of …
+    [90m   | [39m                                                                                                     [31m^[39m
+    [90m532| [39m            [35mconst[39m inside [33m=[39m [34mpixelAt[39m(pixels[33m,[39m [34m76[39m[33m,[39m [34m76[39m)[33m;[39m
+    [90m533| [39m            expect(channelGap(inside, rgb), `the inside of the corner …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m13 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m 06:11:40
+[2m   Duration [22m 24.35s[2m (transform 1.48s, setup 408ms, import 2.08s, tests 21.00s, environment 1ms)[22m
+
+exit: 1

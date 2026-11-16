@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "track": "storytime_week_package_20261022",
+  "phase": "track setup",
+  "audited_head_sha": "c74ffabd2692077a4163e6ae3b92baa66e443c18",
+  "summary": "Second (short) review of the Phase 7 revision c74ffabd. All round-1 findings F1 to F7 are closed in spec.md and plan.md. F1 verified against code and data: resolveStorytimePictureFiles (dashboard/lib/storytime/print/picture-check.ts:614) reads the Forge manifest by row id, and content/storytime/l2/print/pictures/manifest.json selects version 2 for the rows a-net, a-nose, and nan-can-nod, so the three approved v2 color files resolve. Phase 7 has no open maker decision left. Phase 8 can run without a decision under the PM context (F5 by design; F6 default keeps A8 in place; F1 counts a/an as the frame word, 'I can see!' does not count; tech-debt triggers pinned). One Nit: the Phase 8 PROJECT_LINT list omits the changed manual and teacher-book test files.",
+  "paraphrase": {
+    "proposes": "Phase 7 (revised): ship the 18 approved week-1 book pictures to the Monorepo app by 2026-11-06. The source of each picture is now the resolver resolveStorytimePictureFiles(folder, rows, 'color'), which reads the Forge manifest and picks the selected version per row (v2 for a-net, a-nose, nan-can-nod). The script writes 1600 px JPEGs of 400 KB or less at quality 82 (re-encode at 75 or more if needed, quality recorded), writes provenance with output and resolved source SHA-256 plus quality and sharp version, and adds image.file lines to w01.json. approval.images becomes approved with the exact D7 words; audio and song stay draft; the published detail becomes 'audio not approved; song not approved' and stays the one accepted FAIL. Four pinned test files change. The hand-off folder keeps paths relative to content/storytime/ exactly as w01.json names them, with a workbooks-commit MANIFEST line and a byte-for-byte git show equality rule. Phase 8 (new): two maker tasks from the 2026-11-03 cloud review (the manual recall group fix F6; checks.ts F1 frame-word counting with a/an equal and F2 soundBook gating, plus mutants 62 and 74), one checker, PROJECT_TESTS once, and tech-debt entries with triggers.",
+    "current_system": "Unchanged from round 1: no shipped week has image.file on a reader page or a cover, so the week-1 app route answers 404. The published check lists each non-approved app part as '<part> not approved' joined with '; ' in key order images, audio, song. The color print pictures live in the git-ignored folder content/storytime/l2/print/pictures/, selected by the committed Forge manifest.json; pictures.json stays pinned to the v1 names by print tests R4b-4 and R4b-5."
+  },
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F9 | Nit | plan.md Phase 8 gate block | F9 [Nit] Phase 8 PROJECT_LINT omits the changed test files: the F6 maker task changes __tests__/storytime-manual.test.ts (and the storytime-print-teacher-book tests), but PROJECT_LINT lints only lib/storytime, scripts/storytime, storytime-loops-*.test.ts, and storytime-book-pictures.test.ts. Rationale: Phase 7 lint had the same shape for its own changed files; impact is small. | default: none needed; optionally add __tests__/storytime-manual.test.ts and __tests__/storytime-print-teacher-book*.test.ts to the Phase 8 PROJECT_LINT list"
+  ],
+  "evidence": [
+    "git diff 6cbd2827 c74ffabd -- measure/tracks/storytime_week_package_20261022/: only spec.md and plan.md changed; Phase 8 added.",
+    "F1 closed: spec D3 now names resolveStorytimePictureFiles; the resolver is committed at c74ffabd (picture-check.ts, since 9bc0ae53) and its export sits at line 614; it reads manifest.json by row id, checks the name form, existence, and the manifest SHA-256.",
+    "F1 verified on data: manifest.json selects version 2 for l2-w01-story-page-a-net, l2-w01-story-page-a-nose, and l2-w01-story-page-nan-can-nod; candidate version 2 names the color file l2-w01-story-page-a-net-v2.png that exists on disk; AC3 now requires the resolved source name, never fileName directly and never line art.",
+    "F2 closed: the hand-off task now says paths relative from content/storytime/ exactly as w01.json names them (l2/media/w01/..., phonemes/daniel/...).",
+    "F3 closed: the hand-off task now pins commit-first, the byte-for-byte git show equality of the folder w01.json, and MANIFEST.txt with workbooks-commit: <full sha>.",
+    "F4 closed: RED_TEST_COMMAND and GREEN_TEST_COMMAND and spec FR6 now name storytime-print-contract.test.ts as the 4th file.",
+    "F5 closed: D7 pins the exact words string; AC5 references D7 exactly.",
+    "F6 closed: D4 pins the quality-75-or-more re-encode fallback and the per-file quality record.",
+    "F7 closed: D4 pins sharp defaults (no mozjpeg, 4:2:0); D5 adds the quality and sharp version fields; the maker task records the sharp version.",
+    "F8 (git-ignored sources, accepted risk): needs no spec change; the committed JPEGs, pictures.sha256, and the contact sheet mitigate. Treated as closed.",
+    "Phase 8: both maker tasks carry their rules (manual recall group a-d with the A8 in-place default; F1 a/an equivalence and 'I can see!' exclusion per the orchestrator default sent to the PM; F2 Level 2 week 1 gating; mutant 62 and 74 tests; before/after frame-count record). No open decision found."
+  ],
+  "commands": [
+    "git diff 6cbd2827 c74ffabd -- measure/tracks/storytime_week_package_20261022/spec.md",
+    "git diff 6cbd2827 c74ffabd -- measure/tracks/storytime_week_package_20261022/plan.md",
+    "git show c74ffabd:dashboard/lib/storytime/print/picture-check.ts | grep -c resolveStorytimePictureFiles",
+    "sed -n 590,635p dashboard/lib/storytime/print/picture-check.ts (resolver body)",
+    "jq selectedVersion and candidates of the a-net, a-nose, nan-can-nod jobs in content/storytime/l2/print/pictures/manifest.json"
+  ],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "model": "kimi-code-plan-cn/kimi-for-coding#high"
+}

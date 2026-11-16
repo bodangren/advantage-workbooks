@@ -1,0 +1,94 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-manual.test.ts [2m([22m[2m27 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m26 skipped[39m[2m)[22m[32m 58[2mms[22m[39m
+     [2m[90m↓[39m[22m keeps A8 in day 2 recall, with the one-minute moved step and correct opening minutes
+[31m     [31m×[31m prints day 3 song step B7 with the opening song item, outside the one-minute recall[39m[32m 55[2mms[22m[39m
+     [2m[90m↓[39m[22m prints day 5 song step D6 with the opening song item and keeps D5 in recall
+     [2m[90m↓[39m[22m uses the Thai opening song item for B7 without adding a Thai label or minutes
+     [2m[90m↓[39m[22m gives a week header and five day sections, each with its script, period, and steps
+     [2m[90m↓[39m[22m shows the four headings and the Easier, Harder, and Group lines for every step
+     [2m[90m↓[39m[22m puts the opening routine and the strip of the day at the start of each day
+     [2m[90m↓[39m[22m moves the moved steps to the next day, and the day 5 ones to the next opening
+     [2m[90m↓[39m[22m shows the facts of the week in the header
+     [2m[90m↓[39m[22m prints the Thai action, listening skill, and family name in the Thai header, and the English without Thai
+     [2m[90m↓[39m[22m prints the Thai notes, with the teacher English kept and the Thai gloss under it
+     [2m[90m↓[39m[22m compiles a level into one A4 document with the product name and no CJK or CEFR
+     [2m[90m↓[39m[22m sorts the weeks and refuses weeks of two levels
+     [2m[90m↓[39m[22m lists the materials of the week once, with the words of one kind merged
+     [2m[90m↓[39m[22m keeps the heading of the moved steps in one block with the steps
+     [2m[90m↓[39m[22m prints the prep box at the top of the day and the recall minutes in the opening
+     [2m[90m↓[39m[22m prints the sound game of the day as opening item 2, and the calendar without it
+     [2m[90m↓[39m[22m prints the choreography sheet after day 5: parts, lines, actions, notes, start and end
+     [2m[90m↓[39m[22m prints the Thai gesture name after the English one in the Thai book only
+     [2m[90m↓[39m[22m gives the English book the Thai print font when a step has Thai text
+     [2m[90m↓[39m[22m escapes the package text
+     [2m[90m↓[39m[22m prints the block, the day plan, and the benchmark in the header, and the medley of the day as opening item 3
+     [2m[90m↓[39m[22m prints the benchmark page: the paper items with the position and the dictated sound, the sitting, the strip, the cards, and the blend words
+     [2m[90m↓[39m[22m prints the answer key of the review pages after the benchmark: the circle-word rows and the sort columns
+     [2m[90m↓[39m[22m prints the class record sheet with 30 rows and the counts, and one reading form per decodable with each word marked
+     [2m[90m↓[39m[22m prints the Thai labels and the Thai sitting in the Thai book
+     [2m[90m↓[39m[22m prints no benchmark pages for a teaching week
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-manual.test.ts[2m > [22mStorytime manual template[2m > [22mprints day 3 song step B7 with the opening song item, outside the one-minute recall
+[31m[1mAssertionError[22m: expected 'Recall from the last lesson (1 min ea…' not to contain 'B7'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- B7[39m
+[31m+ Recall from the last lesson (1 min each, inside the opening: the routine is shorter on these days)</h4>[39m
+[31m+     <div class="st-step st-moved">[39m
+[31m+       <h4 class="st-step-title">B6 · Act it <span class="st-min">1 min</span></h4>[39m
+[31m+       <p class="st-gloss"><strong>Materials:</strong> big book or screen: &quot;How Many?&quot;</p>[39m
+[31m+       [39m
+[31m+       <div class="tm-teaching-notes">[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Actions</h5><ul class="tm-note-list"><li>The whole class acts the book. Say each page; the class says it after you and shows the number with their fingers.</li><li>On the last page, the class licks their lips like Pip. Then the class points at Pip in the book and says: &quot;Oh no, Pip!&quot;</li></ul></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Language</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Say it with me: How many suns? One!&quot;</p><p class="tm-language-quote">&quot;Lick the cream like Pip! Now point at Pip: Oh no, Pip!&quot;</p></div></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">What Students Do</h5><ul class="tm-note-list"><li>The class says each page and shows the numbers. On the last page, the children act Pip.</li></ul></div>[39m
+[31m+         <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">Watch For</h5><ul class="tm-note-list tm-watch-list"><li>Children who only watch: count with them on your fingers.</li></ul></div>[39m
+[31m+       </div>[39m
+[31m+       <div class="st-variants">[39m
+[31m+         <p><strong>Easier:</strong> The class says only the numbers; you say &quot;How many&quot;.</p>[39m
+[31m+         <p><strong>Harder:</strong> Children say the pages with other things in the room: &quot;How many chairs?&quot;</p>[39m
+[31m+         <p><strong>Group:</strong> Whole class.</p>[39m
+[31m+       </div>[39m
+[31m+     </div></div>[39m
+[31m+     <div class="st-step st-moved">[39m
+[31m+       <h4 class="st-step-title">B7 · Sing it</h4>[39m
+[31m+       <p class="st-gloss"><strong>Materials:</strong> karaoke videos: &quot;How Many? One, Two!&quot;</p>[39m
+[31m+       [39m
+[31m+       <div class="tm-teaching-notes">[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Actions</h5><ul class="tm-note-list"><li>In the opening, play the karaoke video as the song of the week (item 3). The words are on the screen.</li></ul></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">Teacher Language</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Sing with the words on the screen. Point to the words!&quot;</p></div></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">What Students Do</h5><ul class="tm-note-list"><li>Children sing and point to the words on the screen.</li></ul></div>[39m
+[31m+         <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">Watch For</h5><ul class="tm-note-list tm-watch-list"><li>Children who only watch: give them the gesture to do (count fingers, clap).</li></ul></div>[39m
+[31m+       </div>[39m
+[31m+       <div class="st-variants">[39m
+[31m+         <p><strong>Easier:</strong> Sing only the chorus.</p>[39m
+[31m+         <p><strong>Harder:</strong> Children sing the verse without the video.</p>[39m
+[31m+         <p><strong>Group:</strong> Whole class.</p>[39m
+[31m+       </div>[39m
+[31m+     </div>[39m
+[31m+     [39m
+[31m+     [39m
+
+[36m [2m❯[22m __tests__/storytime-manual.test.ts:[2m52:28[22m[39m
+    [90m 50| [39m        [35mconst[39m recall [33m=[39m [34mrecallGroup[39m(day3)[33m;[39m
+    [90m 51| [39m        [34mexpect[39m(recall)[33m.[39m[34mtoContain[39m([32m'B6 · Act it'[39m)[33m;[39m
+    [90m 52| [39m        [34mexpect[39m(recall)[33m.[39mnot[33m.[39m[34mtoContain[39m([32m'B7'[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m 53| [39m        expect(day3).toContain('Opening routine (6 min, incl. 1 min re…
+    [90m 54| [39m        expect(day3).toContain('B7 · Song of the week with the actions…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m26 skipped[39m[90m (27)[39m
+[2m   Start at [22m 21:46:52
+[2m   Duration [22m 1.32s[2m (transform 514ms, setup 101ms, import 737ms, tests 58ms, environment 0ms)[22m
+
+Mutant caught: the day 3 B7 case failed with the old recall filter.

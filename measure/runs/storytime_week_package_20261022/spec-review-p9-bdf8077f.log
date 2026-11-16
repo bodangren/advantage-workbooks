@@ -1,0 +1,68 @@
+# Spec review of Phase 9, track storytime_week_package_20261022
+
+Date: 2026-11-05
+Reviewer: spec-review subagent, DeepSeek V4.1 Flash
+Head: bdf8077f8dc52a0acb76f7e620f0d7783d234919 (equals .git/refs/heads/master)
+Spec: spec.md lines 105 to 169, addendum 2026-11-05 (Author model: MiniMax-M3.1-Flash)
+Plan: plan.md Phase 9, lines 106 to 130
+
+## Verdict
+
+fail: 1 Blocker (F1), 2 Major (F2, F3), 1 Nit (F4). retry_recommendation: escalate_human.
+
+## Paraphrase
+
+### What this track proposes
+
+The addendum makes one app package for each of weeks 2 to 7. It runs the Phase 7 book-picture script on 6 weeks and writes 108 JPEGs and 6 provenance files. It writes 18 image.file lines into each week file and keeps every approval draft. It adds one test on a temporary copy of a week and drops image.file in the loops-content compare. It sends 6 hand-off folders to the PM by 2026-11-16 and puts the owner items on the 11-16 list.
+
+### How the current system works, per this spec
+
+Weeks 2 to 7 are draft packages. Their text and Thai approvals are approved; the images, audio, song, scripts and loops approvals are draft. No book cover or page of these weeks names a picture. The Phase 7 script matches pictures.json rows by week, use and text, resolves the COLOR file through the Forge manifest, writes 1600 px JPEGs and a provenance file, and adds image.file lines. The book-pictures check reads those paths. Week 1 is published and its 18 pictures are set.
+
+## Findings
+
+- F1 [Blocker] Addendum 2026-11-05 Overview and FR 1: the claim that the Phase 7 script "works for any week, because it matches the rows by week.meta.week" is false for w02 and w06. Rationale: w02 decodable pages 1 to 6 repeat "Nan can.", "Can I?" and "I can!"; w06 decodable pages 3 and 6 both say "Tap, tap, tap!"; pictures.json holds a second week 2 row for each of the three texts (nan-can-b, can-i-b, i-can-b) and a second week 6 row (tap-tap-tap-b); set-book-pictures.ts line 51 filters by week, use and text, so each repeated page gets 2 candidates and line 52 exits 1 before any write; E2 and D3 forbid a change to the match, and the addendum gives no rule for which row to take and no rule for the file to change; the fallback "unless a defect shows; the maker reports it then" names no decision.
+- F2 [Major] FR 6 and E7: the new test names no file path, no week and no assertion. Rationale: the blast radius says "the new test file of E7" but gives no path, and the RED and GREEN commands name only the existing storytime-book-pictures.test.ts and storytime-loops-content.test.ts; the existing test already covers the failure modes on temporary copies and the success case on the shipped w01; the maker must guess the file name, the week, and the checks.
+- F3 [Major] E5 and E3: the order between the 11-16 hand-off and the later approval.images edit is not defined. Rationale: E5 requires the week file to be byte-equal to a commit and one line to the PM; E3 puts the words edit in a later task; the addendum does not say which commit the folder takes or whether a second folder follows the edit.
+- F4 [Nit] Blast radius: "Any test that counts the check rows of weeks 2 to 7 changes too. The maker greps for them and lists them." leaves the changed test set to a grep and names no test. Rationale: other tests read every week, so the maker must find the set and the pattern.
+
+## Zero-decision check: places where the maker must guess
+
+1. Which row to take for w02 pages 1, 2, 3 and 4, 5, 6, and for w06 pages 3 and 6 (F1); and which file to change to remove the ambiguity.
+2. The file path, week and assertions of the E7 test (F2).
+3. Which commit the hand-off week file takes, and whether a second folder or PM line follows the approval edit (F3).
+4. The changed test set for weeks 2 to 7 (F4).
+
+## Zoom-out check
+
+The addendum solves the root problem (the app has no pictures for weeks 2 to 7). It adds no speculative feature and no premature optimization. It reuses set-book-pictures.ts, checkBookPictures and resolveStorytimePictureFiles. It puts the work in the Phase 7 place. It stays at the requirement level, except the test detail of F2. It meets the PM order: one package per week, the same contract and checks as week 1, Daniel items on the 11-16 list, not a stop.
+
+## Facts checked
+
+- HEAD equals audited_head_sha.
+- Covers, pages and audio: 6 weeks, 2 books x (1 cover + 8 pages); each book has audio.file and slowFile.
+- Cover rows and story-page rows: exactly one for every cover and for 104 of the 108 pages; 4 pages (w02 p1 to p6 share 3 texts, w06 p3 and p6) have 2 rows each. No item has zero rows.
+- No image.file on weeks 2 to 7; w01 has its 18.
+- Approvals of weeks 2 to 7 match the addendum.
+- The one accepted FAIL stays: only w01 is published and its approval.loops is draft.
+- book-pictures check matches the addendum.
+- E5 model folder w01 exists and matches the E5 form.
+- Not verified: the v15 proof, the print approval of weeks 2 to 7, the media path counts of w03 to w07.
+
+## Commands
+
+None. The instruction forbids a script, a test and a build run. The shell tool was denied, so the review used file reads only.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+status: complete
+track: storytime_week_package_20261022
+phase: Phase 9: App packages, weeks 2 to 7 (2026-11-05 to 2026-11-16)
+commits: none
+tests_run: none
+files_changed: measure/runs/storytime_week_package_20261022/spec-review-p9-bdf8077f.json, measure/runs/storytime_week_package_20261022/spec-review-p9-bdf8077f.log
+plan_updates: none
+known_failures: F1 Blocker: w02 and w06 repeat a page text and pictures.json repeats the row, so the unchanged script exits 1.
+handoff: verdict fail; 1 Blocker (F1), 2 Major (F2, F3), 1 Nit (F4). Question for the owner: how must the maker resolve the repeated picture rows of w02 (pages 1 to 6) and w06 (pages 3 and 6)? Options: (a) take the first row of the week with that text, by id order; (b) take the row whose id ends in -b for the later page; (c) give each repeated page its own row text (a week file content change); (d) subtract the row from the duplicate pair in pictures.json (a tracked data change). Default: (a) is unsafe because the two rows hold different prompts and give different pictures; the reviewer recommends a decision in the spec, not a default. Second question: which commit does the E5 folder take when Daniel's word arrives before 2026-11-16, and does a second folder follow the approval edit? Default: the folder takes the content commit, and a second folder (-v2) follows the approval edit.
+END_MEASURE_AGENT_RESULT

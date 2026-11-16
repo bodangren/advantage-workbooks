@@ -1,0 +1,75 @@
+# Review A log · Phase 13 round 1 (code) · storytime_week_package_20261022
+# Route: kimi-code-plan-cn/kimi-for-coding#high
+# Session: Review A · P13 · storytime_week_package
+
+## Provenance
+- phase_base_sha: c42918df
+- role_base_sha: 234883a3406297302810a992604c973184250959
+- audited_head_sha: 234883a3406297302810a992604c973184250959
+- HEAD confirmed at 234883a3 by `git rev-parse HEAD`.
+- Range c42918df..234883a3: the P13 spec review, Red 1 (1e2f0573, d9a1e363, 1f4d9fb6 R1), the F2 fix (4b78edab), Green 1 (993d9642, 6 files), the gate/measure commits, and two print-track commits of storytime_print_r1 (cover-quest.ts leaf mark, allowed by the plan; outside this audit).
+
+## Decision D-P13-RA1 (orchestrator, 2026-11-14 04:4x)
+Review A runs in 2 rounds. Round 1 (this role) reviews the code and the tests now: a code fault then gets its Red and Green fix before any clip is made. The Clips task cannot run before the MiniMax reset of 2026-11-15 23:00 ICT. Round 2 runs after the Clips task and covers only the content points: the M2 rules on the 72 shipped clips, the sent: lines against the captures, p13-chars.txt, and the cut probe on the real audio.
+
+## Thai filter (PM rule 2026-11-09, spec L15)
+First command: the script failed once with FileNotFoundError because /tmp/opencode/p12-accept/ did not exist. After `mkdir -p /tmp/opencode/p12-accept`, `python3 -I -B measure/runs/storytime_week_package_20261022/p12-accept-thai_filter.py` printed `THAI_CHARS_IN_OUTPUT: 0` twelve times. Filtered copies (w01.json to w08.json, plan.md, spec.md, tech-debt.md, lessons-learned.md) were read from /tmp/opencode/p12-accept/ only. The practice-clips test file holds 1 Thai line; it was touched only through grep with no Thai line read. Every other non-listed file was Thai-counted before the read (anti-patterns.md 0, test-strategy.md 0, p13-green1-mutants.py 0, p12-chars-compute.py 0, the readalong test file 0).
+
+## L8 grep (point 7), every hit judged
+`grep -n 'readFileSync|existsSync|\.clips|audio\.file' dashboard/scripts/storytime/make-sentence-clips.ts dashboard/scripts/storytime/make-word-bank.ts dashboard/lib/storytime/sentence-clips.ts`:
+- make-sentence-clips.ts:174 the SHA-256 of the mp3 the run writes; :185 the venv check; :203/:235 the mmx and the ffmpeg output checks; :295 the take WAV the run wrote; :330 the week JSON; :338-339 the one allowed parse of sentences/manifest.json (M3, M4); :346 the M5 skip-rule stat and hash of the clip itself. No book mp3, no clip cache, no audio.file read.
+- make-word-bank.ts:142 the hash of the file it writes; :177-178 and :238-239 the week reads for the bank rows; :255 the venv check; :272/:304 the output checks; :351 the take WAV; :381 the week JSON; :388 the bank manifest. No book mp3, no clip cache.
+- sentence-clips.ts (lib): no hit; the module is pure.
+
+## Reads
+- The 6 code diffs of 993d9642 (sentence-clips.ts, schema.ts, check-weeks.ts, set-sentence-clips.ts, make-sentence-clips.ts, make-word-bank.ts) and the full current files where needed.
+- The full test file storytime-package-readalong-clips.test.ts (1813 lines): header PINs, helpers, N1 to N12, the guards.
+- p13-green1-mutants.py (read before the copy), p13-green1-live.py, the captures p13-green1-{green,project-a,project-b1,project-b2,project-b3,lint,checks,mutants,live,scope}.txt, p13-red1-r1.txt, p13-chars-p12.txt, measure/anti-patterns.md (A3 to A5), measure/tracks/storytime_week_package_20261022/test-strategy.md.
+
+## Evidence (reruns and checks)
+1. Baseline: one heavy-run call, p13-review-a-baseline.py -> p13-review-a-baseline.txt: `Test Files 1 passed (1)`, `Tests 51 passed (51)`, `BASELINE exit 0` at HEAD 234883a3.
+2. Mutants: `git status --porcelain dashboard/lib dashboard/scripts` printed nothing BEFORE and nothing AFTER (both recorded). One heavy-run call, p13-review-a-mutants.py -> p13-review-a-mutants.txt:
+   - M1 caught (24 failed), M2 (2), M3 (3), M4 (2), M5 (5), M6 (2), M7 (2), M8 (3), M9 (3), M10 (4), M11 (2), M12 (2), M13 (5), M14 (2), M15 (1). `mutants: 15, caught: 15`; every `cmp after restore: same`. Matches the Green capture (15 of 15).
+   - R1 (kept line without its newline) caught, 3 failed: the exact-bytes kept tests of N3/N5 are not vacuous.
+   - R2 (--kind all to readalong only) SURVIVED, 51 passed: no unit case runs main with --kind all; caught by the committed live proof (p13-green1-live.py lines 76-86 require 8 kept decodable lines for the all dry run; live.txt lines 17-23 hold the pass).
+   - R3 (main prints result.lines a second time) caught, 1 failed: the N7 each-line-once stdout test is not vacuous.
+   - R4 (skip rule drops the text compare, make-sentence-clips.ts:344) SURVIVED, 51 passed, no committed proof anywhere -> the F1 Blocker. `own mutants: 4, caught: 2`; `all mutants: 19, caught: 17`.
+3. F2 fix: `python3 -I -B measure/runs/storytime_week_package_20261022/p12-chars-compute.py` prints `takes parsed: 56`, `sentence one-take sum: 779`, `sentence sent sum (with failed calls 14): 887`, `total chars: 934`, equal to p13-chars-p12.txt.
+4. PROJECT_TESTS parts: p13-review-a-ptcheck.py - glob expansion 68 files; parts a/b1/b2/b3 = 27/15/15/11 files; union 68; no miss, no file twice, MATCH True; test counts 825+223+283+390 = 1721 as the plan claims.
+5. A5 against the plan Green 1 evidence: p13-green1-green.txt `Test Files 8 passed (8)`, `Tests 505 passed (505)`, exit 0; p13-green1-lint.txt exit 0; p13-green1-checks.txt exit 0 (sentence-clips PASS, readalong-sentence-clips WARN no clips on st2/1 to st2/7, no row on st2/8, tsc clean per the plan line); p13-red1-r1.txt `Tests 45 failed | 6 passed (51)`, EXIT=1. Each claim matches.
+6. M2 paths: sentenceClipPath (sentence-clips.ts:63-71) builds `l<level>/media/w<nn>/sentences/b<book>-s<jj>.mp3`, 2-digit jj; N1 pins the b0 paths and the hand 72/927 counts.
+7. F7 closure: check-weeks.ts sentenceClipsRow (290-321) filters by the row kind twice and compares the item text (line 313); M14/M15 caught; the N9 F7 case asserts both directions.
+8. M6 lines: call line before each call (maker 381-388), `sent: <s>` before `made:` (main 480, added at 426), `sent: <s> (run failed)` then rethrow (430-433); word maker same form (424-441) and refuses --kind with exit 2 (499-503), usage names make-sentence-clips.ts; the unit case N7 covers both makers; the live capture lacks the word-maker --kind line (accepted: the unit case closes it).
+9. AC13-4 for the code: default kinds decodable (N1, M2 caught), decodable paths b1-s<jj> (N1), old items parsed-equal and old mp3s byte-equal (N2), header guard (N2 keys, N4), decodable week block byte-equal (N8), Phase 12 files pass unmodified in GREEN_TEST_COMMAND.
+10. Scope: p13-green1-scope.txt `files: 6`, `outside: 0`; schema.ts JSDoc only; Red commits hold only the test file.
+11. No A3 digit-only count in the captures or this result; no A4 vacuous pass found in the log tests, the skip rule, the check row, the kinds default, or the cut guard (N11 holds a positive and a negative control).
+
+## Findings
+- F1 [Major] FIX (test, Red retry before the Clips task). The M5 'same text' half of the skip rule has no failing-first test; mutant R4 survives all 51 tests. One N3 case closes it: a done sentence whose item text differs is made again. No code change, no shipped file change. This is the only Blocker.
+- F2 [Nit] accept. --kind all is live-covered at the same commit (p13-green1-live.txt); a unit case can ride the F1 retry.
+- F3 [Nit] FIX (cosmetic, same ride). N6 it name at test line 1414 says 1 call line; the body asserts 2 per M6.
+- F4 [Nit] accept. test-strategy.md has no Phase 13 section; the plan carries the phase.
+
+## Deferred to round 2
+M2 on the 72 shipped clips; sent lines against captures; p13-chars.txt; cut probe on real audio.
+
+## Verdict
+fail, 1 Blocker (a test gap, fix by one Red retry case). Code itself is correct against FR 1 to FR 7; all 15 Green mutants caught on the rerun; baseline green at HEAD.
+
+MEASURE_AGENT_RESULT
+role: review-a
+status: done
+track: storytime_week_package_20261022
+phase: Phase 13 (round 1, code)
+phase_base_sha: c42918df
+role_base_sha: 234883a3406297302810a992604c973184250959
+audited_head_sha: 234883a3406297302810a992604c973184250959
+verdict: fail, 1
+result: measure/runs/storytime_week_package_20261022/review-a-p13-234883a3.json
+mutants: 15, caught: 15; own mutants: 4, caught: 2
+findings: F1 Major FIX test (Red retry: pin the M5 text compare, mutant R4 survives), F2 Nit accept (--kind all live-covered), F3 Nit FIX cosmetic (N6 it name), F4 Nit accept (strategy file not refreshed)
+deferred to round 2: M2 on the 72 clips; sent lines against captures; p13-chars.txt; cut probe on real audio
+files_changed: measure/runs/storytime_week_package_20261022/p13-review-a-mutants.py, p13-review-a-mutants.txt, p13-review-a-baseline.py, p13-review-a-baseline.txt, p13-review-a-ptcheck.py, review-a-p13-234883a3.json, review-a-p13-234883a3.log
+retry_recommendation: retry_tests
+handoff: One Blocker, and it is a test gap, not a code fault. My rerun of the 15 Green mutants catches all 15, and my own probes R1 (kept-line bytes) and R3 (stdout once) are caught, but R4 (the skip rule of make-sentence-clips.ts drops the text compare of spec M5) survives all 51 tests: no case pins the 'same text' half of M5. The code is correct today; a regression would silently keep a stale clip for a changed sentence text and the check row would fail later, so no wrong package ships. Fix with one Red retry case in N3 (a done sentence whose text differs is made again); Green needs no code change. Do this before the Clips task so the paid runs start with the rule pinned. R2 (--kind all) survives the unit file too but is caught by the committed live proof of the same commit; accept or add a unit case on the same ride. Also rename the stale N6 it name. Round 2 items stay deferred per D-P13-RA1.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,45 @@
+Spec review of Phase 10 (family-word pictures for the app), track storytime_week_package_20261022, phase P10.
+Audited head: 890016dd4e66414330ff40ec03621502cecc066a. Confirmed equal to git rev-parse HEAD before the review.
+
+## Inputs read
+
+- measure/tracks/storytime_week_package_20261022/spec.md (the Phase 10 addendum and the E5 amendment) and plan.md (Phase 10), in full through git show 890016dd.
+- The review standard at ~/.agents/skills/measure/references/spec-review.md.
+- The owner source, read-only: advantage-pr measure/pm-log.md line 2222 (the PM request) and line 2122 (Daniel's "Go").
+- content/storytime/l2/w01.json to w08.json; content/storytime/l2/print/card-pictures.json; the card folder MANIFEST and files.
+- dashboard/lib/storytime/schema.ts, checks.ts, print/card-kit.ts, print/print-fonts.ts, print/manual.ts and readers.ts; dashboard/scripts/storytime/check-weeks.ts, set-book-pictures.ts.
+- dashboard/__tests__/storytime-print-v15.test.ts, storytime-loops-content.test.ts, media-clips-sha256.test.ts.
+- Monorepo, read-only at HEAD 84e356bdf: apps/storytime/lib/contracts/week.ts, apps/storytime/scripts/receive-weeks.ts, apps/storytime/app/[locale]/teacher/[level]/[week]/week-view.tsx, apps/storytime/lib/readiness.ts.
+- measure/tracks/storytime_teaching_loops_20261103/test-strategy.md section 2.2 and plan.md rule R3; the print track PROJECT_TESTS.
+
+## Checks
+
+1. Paraphrase: possible for both halves. The mapping table gives 51 words (card 15, patch 7, dots 10, Forge 19), and the stack gives the path, the output form, and the hand-off.
+2. Facts: the 51 image objects are present (6, 10, 7, 7, 7, 7, 7) with no file, every caption equals its word, and w08 holds 18 words and no image object. The claim holds.
+3. Source mapping: the 15 card files exist as 1500 x 1500 RGB PNG files named l2-w<NN>-card-<word>-v1.png. card-pictures.json holds 31 rows and no row for the 19 Forge words, so H3 gives Forge. The counts sum to 51.
+4. Zero-decision: the path and edit form (H2), the source order (H3), the ten default (H4), the markup and page (H5), the output form (H6), the provenance (H7), the delivery check (H8), the check rules and details (H9), the approval rule (H10), the late rule (H11), the revision names and Changed since form (H12), and the test files (H14) are pinned. Four Nits remain.
+5. Monorepo: every cited line is correct at HEAD 84e356bdf. The app shows the picture at 96 x 96 px and the family word does not block readiness.
+6. Print: the card kit does not change, and the print modules read only the word text, so the print output stays byte-equal. The 5 AX-lines of w02 move by 10 as the plan states.
+7. Hand-off: the prior folders are w01 r2 and w02 to w07 plain, equal to the H12 names. The w01 r2 MANIFEST holds the Changed since section at line 51. H12 says a new file has old-sha256: none, and that folder writes an empty value (F2).
+8. Gate plan: the shared PROJECT_TESTS glob holds the new names, and rule R1 applies and is restated. Rule R3 adds the exclude to the print and loops plans only, so this track's PROJECT_TESTS can fail during the loops window (F1).
+9. Done-when gates: fast and falsifiable, except the literal w0N substitution (F3).
+
+## Verdict
+
+No Blocker. One Major (F1) and four Nits (F2 to F5). Status: pass.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+phase: P10
+track: storytime_week_package_20261022
+audited_head_sha: 890016dd4e66414330ff40ec03621502cecc066a
+status: complete
+result: pass
+commits: none
+tests_run: git rev-parse HEAD -> 890016dd4e66414330ff40ec03621502cecc066a (equal to audited_head_sha); git show --stat 890016dd -> spec.md, plan.md, spec-review.md, index.md (207 insertions); jq counts over content/storytime/l2/w01.json to w08.json -> 51 image objects, 0 with file, w08 0; jq over card-pictures.json -> 31 rows; file over two card PNGs -> 1500 x 1500, 8-bit RGB; grep of the cited lines in Monorepo week.ts and receive-weeks.ts -> 26, 41, 84, 191, 80, 121-129, 180, 191 all correct; grep of PROJECT_TESTS in the print and loops plans -> __tests__/storytime-*.test.ts; read of test-strategy.md section 2.2 and plan.md line 255 -> rule R3 covers two tracks; sed of the w01 r2 MANIFEST -> Changed since at line 51, empty old-sha256 at line 68; python3 -I -m json.tool on the result JSON -> parses
+files_changed: measure/runs/storytime_week_package_20261022/spec-review-890016dd.json; measure/runs/storytime_week_package_20261022/spec-review-890016dd.log
+plan_updates: none (report-only)
+blocking_findings: none
+nonblocking_findings: F1 [Major] plan.md Phase 10 gate block (PROJECT_TESTS) and Phase 10 verification task: this track's PROJECT_TESTS reads the glob __tests__/storytime-*.test.ts of the print and loops tracks, and it has no exclude for the loops track's red-by-design file storytime-loops-share-content.test.ts (loops rule R3 covers the print track and the loops track only). Rationale: the plan applies rule R1 to Red 1 and Red 2, but R1 governs the start of a Red window; Green 1, Green 2, the Forge delivery task, and the Phase 10 verification task can run while the loops Phase 3b R3 window is open, and at that time the package PROJECT_TESTS fails on a file of another track, so a phase gate can be red for a reason outside this phase and the plan records no exclude rule for this track. | F2 [Nit] spec.md H12 (the MANIFEST "Changed since" form): H12 cites the w01 r2 MANIFEST lines 51 to 63 as the form and states that a new file has old-sha256: none, but that folder writes an empty old-sha256: value for the new provenance file (line 68). Rationale: H12 is explicit, so the implementer builds none, while the cited record shows an empty value; the difference costs no work and only weakens the evidence line. | F3 [Nit] plan.md Phase 10 Package build task (Done when): the gate grep uses the literal path segment w0N, so the command prints 0 until the week number is put in its place. Rationale: a gate that needs a hand substitution is easy to run vacuously, and the intended loop over weeks 1 to 7 is clear from the family counts that follow. | F4 [Nit] spec.md H9 (the family-pictures check): H9 pins the id, the three statuses, and the detail strings, but it names no label for the check row. Rationale: every other row of check-weeks.ts carries a label, so the implementer picks the visible text and no test pins it. | F5 [Nit] spec.md H3 and H8 (the Forge source): H3 and H8 pin the Forge file name l2-w<NN>-card-<word>-v<k>.png and the MANIFEST line form, and no cited record fixes that name with the Forge side. Rationale: the PM request of 2026-11-07 names only the folder, so a different Forge name stops the script at H8 and costs a PM round trip under H11 (default: wait for Forge); Red and Green do not depend on the name.
+dispositions: none
+END_MEASURE_AGENT_RESULT

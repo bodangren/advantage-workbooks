@@ -1,0 +1,4 @@
+Script started on 2026-11-03 21:47:11+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && out=; test "" -le 1 && ! printf "%s\n" "" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit'" <not executed on terminal>]
+/usr/bin/bash: line 1: test: : integer expected
+
+Script done on 2026-11-03 21:47:12+07:00 [COMMAND_EXIT_CODE="2"]

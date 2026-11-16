@@ -1,0 +1,25 @@
+Review A, B, and C of Phase 10 (storytime_week_package_20261022) at HEAD 33440959.
+
+The review found no Blocker. The code of the four Red and Green commits obeys H2 to H9 for the shipped data. The plan claims of Red 1, Green 1, Red 2, and Green 2 match their captures. The mutant records (10 of 10 and 20 of 20) agree with the plan.
+
+Section A found three Major findings. F2: no test checks the H6 facts of a card or Forge JPEG. F3: R2-9 checks the skip line only when a line prints. F4 to F7 are Nit findings: a broad hostile case, an untested sort order, a latent caption escape fault, and unused rule tokens.
+
+Section B found one Nit (F8): the Forge folder has no scan for unlisted files. The path rules, the MANIFEST name rule, and the HTML escape hold. No source PNG is in git.
+
+Section C found one Major and one Nit. F1: the Maker commit will break R2-6 of storytime-package-family.test.ts, and the Forge commit will break R2-6 and R2-9. The Maker change list does not name that file. F9: a content commit without its family JPEGs gives a FAIL row in the check-weeks gates of three other tracks. The Monorepo receiver contract accepts the new paths. storytime-loops-content.test.ts and storytime-print-v15.test.ts break at the Maker commit, as the plan says.
+
+The harness refused the shell call of the GREEN command, so the reviewer did not run it. The reviewer used the Green 2 capture.
+
+MEASURE_AGENT_RESULT
+role: review-a
+phase: P10
+track: storytime_week_package_20261022
+audited_head_sha: 33440959f13af6bec03000ee136bd229d45e8f4c
+status: complete
+result: pass (0 Blocker, 3 Major, 6 Nit); measure/runs/storytime_week_package_20261022/review-p10-33440959.json
+blocking_findings: none
+nonblocking_findings: F1 [Major] review-a: Section C, R2-6 and R2-9 of storytime-package-family.test.ts break at the Maker and Forge commits; F2 [Major] review-a: Section A, no test of the H6 facts of card and Forge JPEGs; F3 [Major] review-a: Section A, the R2-9 skip-line assertion has a condition (vacuous pass); F4 [Nit] review-a: Section A, the R2-7 hostile case mixes two names; F5 [Nit] review-a: Section A, no direct test of the H7 sort order; F6 [Nit] review-a: Section A, editFamilyBlock adds a second escape to an escaped caption and does not parse before the write (latent); F7 [Nit] review-a: Section A, unused rule tokens; F8 [Nit] review-a: Section B, no unlisted-file scan of the Forge folder; F9 [Nit] review-a: Section C, a content commit without its family JPEGs breaks three check-weeks gates
+retry_recommendation: none
+handoff: Give F1, F2, and F3 a disposition before the Maker task. DECLINE is not valid for a Major finding. F1 must be fixed before or inside the Maker commit, because the file is in GREEN_TEST_COMMAND and in PROJECT_TESTS of the print and loops tracks. F2 and F3 are test changes to storytime-package-family.test.ts for the test owner. The reviewer did not run GREEN_TEST_COMMAND, because the harness refused the shell call. No owner question.
+dispositions: none
+END_MEASURE_AGENT_RESULT

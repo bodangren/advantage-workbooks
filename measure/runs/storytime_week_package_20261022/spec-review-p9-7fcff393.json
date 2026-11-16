@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "track": "storytime_week_package_20261022",
+  "phase": "Phase 9: App packages, weeks 2 to 7 (2026-11-05 to 2026-11-16)",
+  "audited_head_sha": "7fcff3933823e9e54a937e99d8519bad8e0e906f",
+  "summary": "Round 2 of the Phase 9 review. The amendment closes the one Blocker and the three other r1 findings: E9 gives the positional rule for the repeated page texts, E7 names the test file and its three cases, E3 and E5 fix the approval order and the folder commit, and the blast radius gives the test grep. One Major and two Nit findings stay nonblocking; none of them stops the maker. Status pass, retry_recommendation none.",
+  "paraphrase": {
+    "proposes": "The addendum makes one app package for each of weeks 2 to 7. It runs the Phase 7 book-picture script on 6 weeks and writes 108 JPEGs and 6 provenance files. It writes 18 image.file lines into each week file. A separate commit after the picture content sets approval.images of each week from the owner answer of 2026-11-05. The match step of the script changes to the positional rule E9. Three test cases go into the existing book-pictures test file, and the loops-content compare drops image.file. It sends 6 hand-off folders to the PM by 2026-11-16 and keeps the other owner items on the 11-16 list.",
+    "current_system": "Weeks 2 to 7 are draft packages. Their text and Thai approvals are approved; the images, audio, song, scripts and loops approvals are draft. No book cover or page of these weeks names a picture, so the app route answers 404. The Phase 7 script matches pictures.json rows by week, use and text, requires exactly one row for each book picture, resolves the COLOR file through the Forge manifest, writes 1600 px JPEGs and one provenance file, and adds image.file lines. Week 1 is published, its 18 pictures are set, and the book-pictures check reads them."
+  },
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F5 [Major] E7 case (c) and AC3: the sentence \"The case (c) passes before the change\" is false, and AC3 names only the cases (a) and (b) as the new assertions. Rationale: remove the row l2-w02-story-page-nan-can-b and the current script finds exactly one candidate for \"Nan can.\", gives that row to page 1 and page 4, and exits 0 (set-book-pictures.ts line 51 filters the rows and line 52 tests the count; resolveStorytimePictureFiles returns one file for each requested row, picture-check.ts line 616); the case (c) assertion fails before the change and passes only after the count rule of E9 line 144; the Red gate then shows 3 failing cases, not the 2 that AC3 names.",
+    "F6 [Nit] E7 and FR 6 (also the plan blast radius): the rule \"No test writes into content/storytime/\" is not true for the whole test file. Rationale: dashboard/__tests__/storytime-book-pictures.test.ts lines 99 to 101 run main --level 2 --week 1 on the shipped w01, and set-book-pictures.ts lines 111 to 117 write the 18 JPEGs and pictures.sha256 into content/storytime/l2/media/w01/books with the same bytes; a maker who reads the rule as absolute can remove that case and lose the only CLI test; write \"no new case writes\" instead.",
+    "F7 [Nit] Blast radius (also the plan blast radius): \"the two tests that read every week\" is a wrong count. Rationale: at least ten test files read all eight shipped weeks, for example storytime-print-weeks-2-8.test.ts line 21, storytime-print-d4-prompt.test.ts line 21, and storytime-print-v15.test.ts line 35; the named pair is right for the tests that compare the whole week, and the phase-end PROJECT_TESTS catches a break, so the risk is low; the wording can make the maker skip a test."
+  ],
+  "evidence": [
+    "HEAD check: git rev-parse HEAD gives 7fcff3933823e9e54a937e99d8519bad8e0e906f. It equals audited_head_sha. git show --stat 7fcff393 lists spec.md and plan.md only.",
+    "No CONTEST item came to this round. The amendment commit answers the r1 findings, so the review judged each r1 finding again from the amended text and the files.",
+    "F1 withdrawn: E9 (spec.md lines 140 to 145) gives the positional rule; the match step of set-book-pictures.ts is lines 50 to 54; rowsByBook is readers.ts lines 142 to 153; storytimePrintPictures (pictures.ts lines 215 to 218) emits each book's pages in order and then its cover, so file order equals page order; pictures.json lines 586, 600, 614, 628, 642, 656, 2276 and 2322 hold the stated ids; the w02 decodable pages 1 to 6 and the w06 decodable pages 3 and 6 hold the stated texts; the stems are 2-can-i and 2-tap-tap. Closed.",
+    "F2 withdrawn: E7 names dashboard/__tests__/storytime-book-pictures.test.ts and gives the three cases; plan lines 115 and 116 put the file in the RED and GREEN commands; the existing file lines 76 to 97 already run setBookPictures on temp folders with a rowsFile. Closed.",
+    "F3 withdrawn: E3 puts the approval.images edit in one commit after the content commit; E5 says the folder takes the commit that holds both and that no second folder follows; plan lines 127, 129 and 130 match. Closed.",
+    "F4 withdrawn: the blast radius gives the exact grep, names the two whole-week compare tests (storytime-print-covers-16books.test.ts line 443, storytime-loops-content.test.ts line 264), and asks for a changes or no change list. Closed.",
+    "Paraphrase check: the amended section can be paraphrased; no Comprehension gap.",
+    "Zoom-out: one package for each week 2 to 7; it reuses set-book-pictures.ts, checkBookPictures and resolveStorytimePictureFiles, and the rule copies rowsByBook; it adds no speculative feature and no premature optimization; it stays at the requirement level.",
+    "Zero-decision check: the plan names the schema (no change), the CLI (no change), the dependency (sharp, already present), the edge cases (E9, the count rule of line 144, w01 byte-equal) and every file. One gap stays in the test plan: F5.",
+    "E7 facts: the w02 decodable stem is 2-can-i (w02.json line 1097); the w06 decodable stem is 2-tap-tap (w06.json line 1005); the local manifest holds jobs for the -b rows (manifest.json lines 2619 to 2667 and 8635 onward), so cases (a) and (b) can resolve.",
+    "E8 facts: withoutNewFields (storytime-loops-content.test.ts lines 297 to 319) drops approval.audio and approval.song and no image.file; the change that E8 names is coherent.",
+    "The approvals of weeks 2 to 7 match the addendum: meta.status draft; text and thai approved; images, audio, song, scripts and loops draft.",
+    "The one accepted FAIL stays: only w01 is published and its approval.loops is draft.",
+    "Not verified: the media path counts 23, 22, 18, 24, 21 and 22; the v15 proof and the A3 reader page pictures; the owner quotes. The local proof folder holds PDFs only, so the review cannot check them.",
+    "Checked, not a finding: E4 says the w01 web pictures wait for Dev's v15 word and plan Phase 7 line 69 says proof v14. v15 supersedes v14 and w01 is out of scope, so the two lines do not change this phase."
+  ],
+  "commands": [],
+  "changed_files": [
+    "measure/runs/storytime_week_package_20261022/spec-review-p9-7fcff393.json",
+    "measure/runs/storytime_week_package_20261022/spec-review-p9-7fcff393.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high"
+}

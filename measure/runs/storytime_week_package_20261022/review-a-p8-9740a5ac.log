@@ -1,0 +1,43 @@
+# Review A · P8 · storytime_week_package (final)
+
+Role: measure-review-a-correctness. Audited HEAD: 9740a5ac303ea77c4ad19819ce1bb28a15c0623e (confirmed == HEAD). Run 2; this file replaces the provisional run 1 artifacts.
+
+## Scope read
+
+- Plan Phase 8 section, lines 74 to 99.
+- Sources: wb-storytime-checks-review.md (findings 1, 2, 6) and wb-storytime-checks-mutants.md (mutants 62, 74), base cc7808c5.
+- Diffs: be9fb7262e (F6 tests), 06e866e1 (F6 code), ae3ff150 (checks tests), e31391ac (checks code).
+- Later commits on the two files: eb0d85dd, 15de863c, e3056f3a, f192b2e8, f435ead5, 5d6523a2.
+
+## Verdicts
+
+- F6 code does rules (a) to (d) and nothing else. Every step still prints once. The header minutes stay correct.
+- F6 tests pin each rule and failed on the old code (f6-red.txt: 4 failed, 23 passed). Expectations are literal.
+- F1 and F2 code match the findings and the task text. The four review frame examples are pinned.
+- Mutant 62 and 74 tests pin the boundaries and catch the mutants (checks-mutants-final.txt, exit=1 each).
+- Later commits keep all rules at HEAD.
+- Plan evidence matches the captures, except the F6 tests commit sha (see F1 below).
+
+## Findings
+
+- F1 [Major, nonblocking]: the plan records the F6 tests commit as be9fb726c5d5c3e1e34d5eed2ec447aee31c0ee9; that object does not exist. The real commit is be9fb7262e68948182a66d72153136bebe7e861c. Same prefix, message, and diff.
+- F2 [Nit, nonblocking]: the last-day moved song-step path (E6 case) has no test; no shipped week exercises it.
+
+## Test run (once)
+
+Command: the Phase 8 GREEN_TEST_COMMAND with --maxWorkers=1 in one heavy-run wrapper, captured to p8-check-green.txt.
+Result: exit 0. Test Files 5 passed (5). Tests 127 passed (127). Duration 16.07s.
+git status --porcelain after the run: only the pre-existing modification video/storytime-song/scripts/render.mjs. The run changed no tracked file.
+
+MEASURE_AGENT_RESULT
+role: review-a-correctness
+status: complete
+track: storytime_week_package_20261022
+phase: Phase 8: Fixes from the cloud review of 2026-11-03 (2026-11-04 to 2026-11-06)
+commits: none
+tests_run: heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-manual.test.ts __tests__/storytime-print-teacher-book.test.ts __tests__/storytime-week.test.ts __tests__/storytime-loops-checks.test.ts __tests__/storytime-phonics.test.ts --maxWorkers=1'; exit 0; 5 files, 127 passed
+files_changed: measure/runs/storytime_week_package_20261022/review-a-p8-9740a5ac.json, measure/runs/storytime_week_package_20261022/review-a-p8-9740a5ac.log, measure/runs/storytime_week_package_20261022/p8-check-green.txt
+plan_updates: none
+known_failures: none
+handoff: pass. No open error. Two nonblocking findings: the plan records a wrong full sha for the F6 tests commit (real: be9fb7262e68948182a66d72153136bebe7e861c); the last-day moved song-step path (E6) has no test. The pre-existing modification video/storytime-song/scripts/render.mjs is not from this run.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,287 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-11 the check mode prints one line per word and writes nothing
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+ [31m❯[39m __tests__/storytime-package-family.test.ts [2m([22m[2m27 tests[22m[2m | [22m[31m21 failed[39m[2m)[22m[33m 3450[2mms[22m[39m
+     [32m✓[39m R2-1 the mapping table of the spec gives the source of every word[32m 205[2mms[22m[39m
+     [32m✓[39m R2-2 the source rule takes the patch, then the dots, then the card, then the Forge file[32m 1[2mms[22m[39m
+     [32m✓[39m R2-3 the Forge rule takes one color file of the week and refuses the rest[32m 1[2mms[22m[39m
+     [32m✓[39m R2-4 the package path of a family picture follows the path rule[32m 3[2mms[22m[39m
+[31m     [31m×[31m R2-5 the script writes six pictures, six provenance lines, and six file lines[39m[33m 2872[2mms[22m[39m
+[31m     [31m×[31m R2-6 the week file gains a file line after each caption and changes nothing else[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R2-7 the script stops before any write: 'a card file that the manifest does no…'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-7 the script stops before any write: 'a card file whose hash differs from t…'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-7 the script stops before any write: 'a JPEG named as a PNG'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-7 the script stops before any write: 'a PNG with an alpha channel'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-7 the script stops before any write: 'a PNG of 16 bits'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-7 the script stops before any write: 'a grey PNG'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-7 the script stops before any write: 'a PNG of 1499 x 1500 pixels'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-7 the script stops before any write: 'a Forge folder with only the line fil…'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-7 the script stops before any write: 'two color files for one Forge word'[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R2-7 the script stops before any write: 'a manifest line with a hostile name'[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-8 a line file next to a color file does not stop the run[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-9 the partial run skips a Forge word with no file and keeps the card rule[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-10 the provenance keeps the lines of the words that a run skips[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-11 the check mode prints one line per word and writes nothing[39m[32m 221[2mms[22m[39m
+[31m     [31m×[31m R2-12 the script changes a file line with another value and keeps a file line with the same value[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R2-13 a second run changes no byte[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-14 the script refuses a week with nothing to map[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R2-15 the live run of the color patches of week 3 writes seven pictures[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R2-16 the usage errors of the script return the exit code 2[32m 3[2mms[22m[39m
+[31m     [31m×[31m R2-17 the check gives pass, warn, and fail[39m[32m 111[2mms[22m[39m
+     [32m✓[39m R2-18 the tests write no shipped file and name no track path[32m 8[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 10261[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 4795[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of purple is a progressive JPEG of 800 x 800 [33m 980[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of one is a progressive JPEG of 800 x 800 [33m 808[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of ten is a progressive JPEG of 800 x 800 [33m 945[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 961[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 1668[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 21 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-5 the script writes six pictures, six provenance lines, and six file lines
+[31m[1mAssertionError[22m: the script exports the setter: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m familyPictureSetter __tests__/storytime-package-family.test.ts:[2m598:68[22m[39m
+    [90m596| [39masync function familyPictureSetter(): Promise<(options: SetFamilyPictu…
+    [90m597| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [34msetFamilyPictures[39m()[33m;[39m
+    [90m598| [39m    expect(mod.setFamilyPictures, 'the script exports the setter').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m599| [39m    return mod.setFamilyPictures as (options: SetFamilyPicturesOptions…
+    [90m600| [39m}
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1005:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-6 the week file gains a file line after each caption and changes nothing else
+[31m[1mAssertionError[22m: the script exports the setter: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m familyPictureSetter __tests__/storytime-package-family.test.ts:[2m598:68[22m[39m
+    [90m596| [39masync function familyPictureSetter(): Promise<(options: SetFamilyPictu…
+    [90m597| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [34msetFamilyPictures[39m()[33m;[39m
+    [90m598| [39m    expect(mod.setFamilyPictures, 'the script exports the setter').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m599| [39m    return mod.setFamilyPictures as (options: SetFamilyPicturesOptions…
+    [90m600| [39m}
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1033:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-7 the script stops before any write: 'a card file that the manifest does no…'
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-7 the script stops before any write: 'a card file whose hash differs from t…'
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-7 the script stops before any write: 'a JPEG named as a PNG'
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-7 the script stops before any write: 'a PNG with an alpha channel'
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-7 the script stops before any write: 'a PNG of 16 bits'
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-7 the script stops before any write: 'a grey PNG'
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-7 the script stops before any write: 'a PNG of 1499 x 1500 pixels'
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-7 the script stops before any write: 'a Forge folder with only the line fil…'
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-7 the script stops before any write: 'two color files for one Forge word'
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-7 the script stops before any write: 'a manifest line with a hostile name'
+[31m[1mAssertionError[22m: the script exports the setter: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m familyPictureSetter __tests__/storytime-package-family.test.ts:[2m598:68[22m[39m
+    [90m596| [39masync function familyPictureSetter(): Promise<(options: SetFamilyPictu…
+    [90m597| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [34msetFamilyPictures[39m()[33m;[39m
+    [90m598| [39m    expect(mod.setFamilyPictures, 'the script exports the setter').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m599| [39m    return mod.setFamilyPictures as (options: SetFamilyPicturesOptions…
+    [90m600| [39m}
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1095:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-8 a line file next to a color file does not stop the run
+[31m[1mAssertionError[22m: the script exports the setter: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m familyPictureSetter __tests__/storytime-package-family.test.ts:[2m598:68[22m[39m
+    [90m596| [39masync function familyPictureSetter(): Promise<(options: SetFamilyPictu…
+    [90m597| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [34msetFamilyPictures[39m()[33m;[39m
+    [90m598| [39m    expect(mod.setFamilyPictures, 'the script exports the setter').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m599| [39m    return mod.setFamilyPictures as (options: SetFamilyPicturesOptions…
+    [90m600| [39m}
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1115:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-9 the partial run skips a Forge word with no file and keeps the card rule
+[31m[1mAssertionError[22m: the script exports the setter: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m familyPictureSetter __tests__/storytime-package-family.test.ts:[2m598:68[22m[39m
+    [90m596| [39masync function familyPictureSetter(): Promise<(options: SetFamilyPictu…
+    [90m597| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [34msetFamilyPictures[39m()[33m;[39m
+    [90m598| [39m    expect(mod.setFamilyPictures, 'the script exports the setter').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m599| [39m    return mod.setFamilyPictures as (options: SetFamilyPicturesOptions…
+    [90m600| [39m}
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1130:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-10 the provenance keeps the lines of the words that a run skips
+[31m[1mAssertionError[22m: the script exports the setter: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m familyPictureSetter __tests__/storytime-package-family.test.ts:[2m598:68[22m[39m
+    [90m596| [39masync function familyPictureSetter(): Promise<(options: SetFamilyPictu…
+    [90m597| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [34msetFamilyPictures[39m()[33m;[39m
+    [90m598| [39m    expect(mod.setFamilyPictures, 'the script exports the setter').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m599| [39m    return mod.setFamilyPictures as (options: SetFamilyPicturesOptions…
+    [90m600| [39m}
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1163:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-11 the check mode prints one line per word and writes nothing
+[31m[1mAssertionError[22m: the check run of a complete week exits 0: expected 2 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1208:66[22m[39m
+    [90m1206| [39m            ])[33m;[39m
+    [90m1207| [39m        })[33m;[39m
+    [90m1208| [39m        expect(code, 'the check run of a complete week exits 0').toBe(…
+    [90m   | [39m                                                                 [31m^[39m
+    [90m1209| [39m        const lines = printed.split('\n').filter((line) => line.trim()…
+    [90m1210| [39m        expect(lines, 'the check run prints six lines').toHaveLength(6…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-12 the script changes a file line with another value and keeps a file line with the same value
+[31m[1mAssertionError[22m: the script exports the setter: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m familyPictureSetter __tests__/storytime-package-family.test.ts:[2m598:68[22m[39m
+    [90m596| [39masync function familyPictureSetter(): Promise<(options: SetFamilyPictu…
+    [90m597| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [34msetFamilyPictures[39m()[33m;[39m
+    [90m598| [39m    expect(mod.setFamilyPictures, 'the script exports the setter').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m599| [39m    return mod.setFamilyPictures as (options: SetFamilyPicturesOptions…
+    [90m600| [39m}
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1263:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-13 a second run changes no byte
+[31m[1mAssertionError[22m: the script exports the setter: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m familyPictureSetter __tests__/storytime-package-family.test.ts:[2m598:68[22m[39m
+    [90m596| [39masync function familyPictureSetter(): Promise<(options: SetFamilyPictu…
+    [90m597| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [34msetFamilyPictures[39m()[33m;[39m
+    [90m598| [39m    expect(mod.setFamilyPictures, 'the script exports the setter').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m599| [39m    return mod.setFamilyPictures as (options: SetFamilyPicturesOptions…
+    [90m600| [39m}
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1287:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-14 the script refuses a week with nothing to map
+[31m[1mAssertionError[22m: the script exports the setter: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m familyPictureSetter __tests__/storytime-package-family.test.ts:[2m598:68[22m[39m
+    [90m596| [39masync function familyPictureSetter(): Promise<(options: SetFamilyPictu…
+    [90m597| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [34msetFamilyPictures[39m()[33m;[39m
+    [90m598| [39m    expect(mod.setFamilyPictures, 'the script exports the setter').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m599| [39m    return mod.setFamilyPictures as (options: SetFamilyPicturesOptions…
+    [90m600| [39m}
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1297:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture script (Phase 10, Red 2)[2m > [22mR2-15 the live run of the color patches of week 3 writes seven pictures
+[31m[1mAssertionError[22m: the script exports the setter: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m familyPictureSetter __tests__/storytime-package-family.test.ts:[2m598:68[22m[39m
+    [90m596| [39masync function familyPictureSetter(): Promise<(options: SetFamilyPictu…
+    [90m597| [39m    [35mconst[39m mod [33m=[39m [35mawait[39m [34msetFamilyPictures[39m()[33m;[39m
+    [90m598| [39m    expect(mod.setFamilyPictures, 'the script exports the setter').toB…
+    [90m   | [39m                                                                   [31m^[39m
+    [90m599| [39m    return mod.setFamilyPictures as (options: SetFamilyPicturesOptions…
+    [90m600| [39m}
+[90m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1318:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/21]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-family.test.ts[2m > [22mthe family picture check (Phase 10, Red 2)[2m > [22mR2-17 the check gives pass, warn, and fail
+[31m[1mAssertionError[22m: the check script exports the family check: expected undefined to be type of 'function'[39m
+
+Expected: [32m"[7mf[27mun[7mction[27m"[39m
+Received: [31m"un[7mdefined[27m"[39m
+
+[36m [2m❯[22m __tests__/storytime-package-family.test.ts:[2m1370:86[22m[39m
+    [90m1368| [39m    [34mit[39m([32m'R2-17 the check gives pass, warn, and fail'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m1369| [39m        [35mconst[39m mod [33m=[39m [35mawait[39m [34mcheckWeeks[39m()[33m;[39m
+    [90m1370| [39m        expect(mod.checkFamilyPictures, 'the check script exports the …
+    [90m   | [39m                                                                                     [31m^[39m
+    [90m1371| [39m        const check = mod.checkFamilyPictures as (week: any, contentRo…
+    [90m1372| [39m        [35mconst[39m contentRoot [33m=[39m [34mtempFolder[39m([32m'storytime-family-check-'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/21]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m21 failed[39m[22m[2m | [22m[1m[32m21 passed[39m[22m[90m (42)[39m
+[2m   Start at [22m 07:33:43
+[2m   Duration [22m 16.48s[2m (transform 774ms, setup 580ms, import 1.45s, tests 13.71s, environment 1ms)[22m
+
+exit: 1

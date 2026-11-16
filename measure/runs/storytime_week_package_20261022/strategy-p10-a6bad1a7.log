@@ -1,0 +1,36 @@
+# Strategy role, Phase 10 (storytime_week_package_20261022)
+
+Role: measure-strategy. role_base_sha: a6bad1a7d055cd07a337549ca5a3640f21dc58d0.
+
+I wrote `measure/tracks/storytime_week_package_20261022/test-strategy.md` (471 lines) and committed it as `bbfd25b8`. The commit holds that file only. I staged no other path.
+
+The file holds: sources and 15 measured facts; the rules R1 (three tracks), R3 and a new rule R4 (shared week files); risk and review gates; evidence classes; Phase 10 in full (task order, decisions S1 to S20 with defaults, the Red proof, 11 Red 1 tests, 10 Green 1 mutants, 19 Red 2 tests, 20 Green 2 mutants, the Maker run, the Forge delivery check, the contact-sheet check, the package build and MANIFEST checks, the scope guard, anti-pattern coverage, artifact and live tests, intentionally red, `phase_base_sha`); earlier phases (one line each); plan_updates P1 to P11; and the PROJECT_TESTS baseline.
+
+Risk of Phase 10: high. Gates: Review A, B, and C apply as one role with three sections, after Green 2. One limited adversarial round applies, before the Maker run. UX and browser review do not apply (`UX_REQUIRED=never`). The spec lane H15 names fewer checkers, so plan_updates P2 asks the orchestrator to pin the two added roles.
+
+Findings that change the plan:
+
+- The plan grep `image\.file` misses `storytime-loops-content.test.ts` (it reads `image?.file`). That file must change in the Maker commit, because `withoutNewFields` does not drop `focus.family.words[].image.file`. The new pattern is in plan_updates P3.
+- The parity test of H5 compares the card element only. A mutant in `STORYTIME_CARD_COLOR_PATCH` changes both sides, and the page CSS is private to the card kit. So Red 1 needs a hand-written hex table, pixel tests, and a render-level dot count (R1-8, R1-10).
+- `friend` has no entry in `card-pictures.json`. `family` has an entry but no file in the card MANIFEST. Both fall to Forge by H3.
+- A bare `family/` match finds the book folder `w04/books/1-my-family/`. All path rules anchor on `/family/`.
+- The spec leaves some names open (script options, check export, error text, `--check` line form). Decisions S8 to S12 pin defaults.
+
+Baseline (no new full run): the loops Phase 3b Green 1 run, capture `measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-96659ea3-project.txt`, at HEAD `96659ea3` plus the uncommitted loops Green 1 edits, with the loops window open: exit 1, 59 files, 1254 tests, 1 failed (a 5 s timeout in `storytime-print-weeks-2-8.test.ts`, passes alone on rerun). Older run at `0e632495`: 58 files, 1230 tests, 7 failed.
+
+I ran no test and no heavy job. I only read files and measured counts with `ls`, `grep`, `git`, and `python3 -I`.
+
+MEASURE_AGENT_RESULT
+role: measure-strategy
+phase: P10
+track: storytime_week_package_20261022
+role_base_sha: a6bad1a7d055cd07a337549ca5a3640f21dc58d0
+status: complete
+commits: bbfd25b8a74a2e9dd3dee0a643a3816653ce247d
+files_changed: measure/tracks/storytime_week_package_20261022/test-strategy.md
+tests_run: none (read-only measurement; baseline cited from measure/runs/storytime_teaching_loops_20261103/jr-green-p3b-96659ea3-project.txt: 59 files, 1254 tests, 1 failed load timeout, passes alone)
+plan_updates: P1 pin S1-S20 task and strategy line; P2 add one review role (A,B,C) and one limited adversarial round after Green 2, before Maker; P3 replace Red 2 grep pattern with image\??\.file and cover\??\.file, Maker re-runs it; P4 add rule R4 and window messages to the print and loops sessions; P5 mutant counts 10 (Green 1) and 20 (Green 2) plus live proofs; P6 add R1-10 and R1-11 to Red 1; P7 pin export names, error tokens, --check form, check details in spec FR 2 and FR 5; P8 verification task writes the A9 dependency to tech-debt and the grep lesson to lessons-learned; P9 Forge delivery pre-checks, ok lines 34, partial counts; P10 package build done-when = nine checks of section 5.11 plus tree-hash proof; P11 scope guard on each commit task
+review_gates: risk high; Review A yes (one role, after Green 2); Review B yes limited (same role); Review C yes limited (same role); adversarial yes (one limited round before Maker); UX/browser not applicable (UX_REQUIRED=never); API review inside Review C; phase_base_sha = git rev-parse HEAD right after commit bbfd25b8 and before Red 1; red_base before each Red; Red 1 waits for the loops Phase 3b Green 1 commit (rule R1)
+handoff: Owner questions, with defaults. Q1 (H4): confirm that the app card "ten" shows the numeral 10 with 10 dots in two rows of 5; default: yes, as the PM line says. Q2: the strategy adds one review role and one adversarial round that spec H15 does not name; default: keep both, cut the adversarial round first if the schedule fails. Q3: the print FR-9 class C PNG rules must equal decision S15 (png, sRGB, 3 channels, 8-bit, no alpha, 1500 x 1500); default: S15 as written. No question blocks the start. The orchestrator pins S1 to S20 before Red 1 and asks the loops session to confirm the Green 1 commit before W1 opens.
+dispositions: none
+END_MEASURE_AGENT_RESULT

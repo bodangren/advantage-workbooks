@@ -1,0 +1,36 @@
+== live proof 1: cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2
+exit 1: 0
+WARN family-pictures rows: 7
+FAIL family-pictures rows: 0
+FAIL rows in all: 0
+WARN rows in all: 16
+st2/8 family-pictures rows: 0
+Summary: 8 package(s), 0 failed check(s), 16 warning(s).
+baseline FAIL rows of the Green 1 capture: 0
+baseline WARN rows of the Green 1 capture: 9
+FAIL names:
+family rows:
+    WARN    family-pictures The family-word pictures named in the package exist — no file: hello, goodbye, boy, girl, friend, teacher
+    WARN    family-pictures The family-word pictures named in the package exist — no file: one, two, three, four, five, six, seven, eight, nine, ten
+    WARN    family-pictures The family-word pictures named in the package exist — no file: red, blue, yellow, green, orange, pink, purple
+    WARN    family-pictures The family-word pictures named in the package exist — no file: mom, dad, brother, sister, grandma, grandpa, family
+    WARN    family-pictures The family-word pictures named in the package exist — no file: eyes, ears, nose, hands, arms, legs, feet
+    WARN    family-pictures The family-word pictures named in the package exist — no file: cat, dog, bird, fish, frog, duck, horse
+    WARN    family-pictures The family-word pictures named in the package exist — no file: ball, doll, car, kite, drum, train, teddy
+
+== live proof 2: set-family-pictures.ts --level 2 --week 1 --cards ~/Desktop/handoff/storytime-l2-card-pictures --check
+exit 2: 1
+check lines:
+  hello	card	l2-w01-card-hello-v1.png	ok
+  goodbye	card	l2-w01-card-goodbye-v1.png	ok
+  boy	card	l2-w01-card-boy-v1.png	ok
+  girl	card	l2-w01-card-girl-v1.png	ok
+  friend	forge		no color file
+  teacher	card	l2-w01-card-teacher-v1.png	ok
+ok lines: 5
+not-ok lines: 1
+the friend line fails with no color file: 1
+Forge folder present: yes
+content changes after the check run: 0
+dashboard changes after the check run: 2
+exit: 0

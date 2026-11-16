@@ -1,0 +1,57 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 11952[2mms[22m[39m
+     [32m✓[39m R1-1 the picture markup of the app equals the picture element of the card kit[32m 40[2mms[22m[39m
+     [32m✓[39m R1-1b the card kit holds the 8 patch values and the 9 dot counts (characterization)[32m 4[2mms[22m[39m
+[31m     [31m×[31m R1-2 the app dot table holds the nine card counts and the count of ten[39m[32m 22[2mms[22m[39m
+     [32m✓[39m R1-3 the card of ten holds the numeral 10 and ten dots in two rows of five[32m 5[2mms[22m[39m
+     [32m✓[39m R1-4 the page holds the white background, the print face, and the picture markup[32m 1[2mms[22m[39m
+     [32m✓[39m R1-5 a hostile word is escaped in the picture markup and in the page[32m 2[2mms[22m[39m
+     [32m✓[39m R1-6 the source name of a patch and of a number card follows the provenance form[32m 1[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 5151[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of purple is a progressive JPEG of 800 x 800 [33m 1038[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of one is a progressive JPEG of 800 x 800 [33m 997[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of ten is a progressive JPEG of 800 x 800 [33m 888[2mms[22m[39m
+     [32m✓[39m R1-8 the patch fills the area with its hex value and keeps the rounded corners[32m 33[2mms[22m[39m
+     [32m✓[39m R1-9 the number cards keep a white background at the corner[32m 40[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 1393[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 2330[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-raster.test.ts[2m > [22mthe family picture markup (Phase 10, Red 1)[2m > [22mR1-2 the app dot table holds the nine card counts and the count of ten
+[31m[1mAssertionError[22m: the app dot counts: expected { one: 1, two: 2, three: 3, …(7) } to deeply equal { one: 1, two: 2, three: 3, …(7) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -4,9 +4,9 @@[39m
+[2m    "four": 4,[22m
+[2m    "nine": 9,[22m
+[2m    "one": 1,[22m
+[2m    "seven": 7,[22m
+[2m    "six": 6,[22m
+[32m-   "ten": 10,[39m
+[31m+   "ten": 9,[39m
+[2m    "three": 3,[22m
+[2m    "two": 2,[22m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-package-raster.test.ts:[2m383:69[22m[39m
+    [90m381| [39m        expect(Object.keys(mod.STORYTIME_APP_NUMBER_DOTS), 'the app do…
+    [90m382| [39m            [33m.[39m[34mtoEqual[39m([33mObject[39m[33m.[39m[34mkeys[39m([33mAPP_DOTS[39m))[33m;[39m
+    [90m383| [39m        expect(mod.STORYTIME_APP_NUMBER_DOTS, 'the app dot counts').to…
+    [90m   | [39m                                                                    [31m^[39m
+    [90m384| [39m        const firstNine = Object.fromEntries(Object.entries(mod.STORYT…
+    [90m385| [39m        expect(firstNine, 'the first nine app entries equal the card c…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m14 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m 06:09:42
+[2m   Duration [22m 13.31s[2m (transform 496ms, setup 98ms, import 893ms, tests 11.95s, environment 0ms)[22m
+
+exit: 1

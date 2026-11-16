@@ -1,0 +1,57 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 11440[2mms[22m[39m
+[31m     [31m×[31m R1-1 the picture markup of the app equals the picture element of the card kit[39m[32m 41[2mms[22m[39m
+     [32m✓[39m R1-1b the card kit holds the 8 patch values and the 9 dot counts (characterization)[32m 3[2mms[22m[39m
+     [32m✓[39m R1-2 the app dot table holds the nine card counts and the count of ten[32m 2[2mms[22m[39m
+     [32m✓[39m R1-3 the card of ten holds the numeral 10 and ten dots in two rows of five[32m 6[2mms[22m[39m
+     [32m✓[39m R1-4 the page holds the white background, the print face, and the picture markup[32m 1[2mms[22m[39m
+     [32m✓[39m R1-5 a hostile word is escaped in the picture markup and in the page[32m 2[2mms[22m[39m
+     [32m✓[39m R1-6 the source name of a patch and of a number card follows the provenance form[32m 2[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 3281[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of purple is a progressive JPEG of 800 x 800 [33m 974[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of one is a progressive JPEG of 800 x 800 [33m 1606[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of ten is a progressive JPEG of 800 x 800 [33m 1828[2mms[22m[39m
+[31m     [31m×[31m R1-8 the patch fills the area with its hex value and keeps the rounded corners[39m[32m 21[2mms[22m[39m
+     [32m✓[39m R1-9 the number cards keep a white background at the corner[32m 70[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 1512[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 2086[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-raster.test.ts[2m > [22mthe family picture markup (Phase 10, Red 1)[2m > [22mR1-1 the picture markup of the app equals the picture element of the card kit
+[31m[1mAssertionError[22m: the patch markup of red: expected '<div class="card-picture card-patch-p…' to be '<div class="card-picture card-patch-p…' // Object.is equality[39m
+
+Expected: [32m"<div class="card-picture card-patch-picture"><div class="card-color-patch" data-card-patch="red" data-shape="rounded-rectangle" data-color="#E53935" style="background-color:#E53935;width:100%;height:100%;align-self:stretch;border-radius:[7m6[27mmm"></div></div>"[39m
+Received: [31m"<div class="card-picture card-patch-picture"><div class="card-color-patch" data-card-patch="red" data-shape="rounded-rectangle" data-color="#E53935" style="background-color:#E53935;width:100%;height:100%;align-self:stretch;border-radius:[7m0[27mmm"></div></div>"[39m
+
+[36m [2m❯[22m __tests__/storytime-package-raster.test.ts:[2m355:18[22m[39m
+    [90m353| [39m            const source: PatchSource = { kind: 'patch', word, hex: PA…
+    [90m354| [39m            expect(mod.familyCardPictureHtml(source), `the patch marku…
+    [90m355| [39m                [33m.[39m[34mtoBe[39m([34mcardPictureElement[39m(word))[33m;[39m
+    [90m   | [39m                 [31m^[39m
+    [90m356| [39m        }
+    [90m357| [39m        [35mfor[39m ([35mconst[39m word [35mof[39m [33mObject[39m[33m.[39m[34mkeys[39m([33mCARD_DOTS[39m)) {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-raster.test.ts[2m > [22mthe raster export of a family picture (Phase 10, Red 1)[2m > [22mR1-8 the patch fills the area with its hex value and keeps the rounded corners
+[31m[1mAssertionError[22m: the rounded corner of red is white: 229,57,53: expected 202 to be less than or equal to 8[39m
+[36m [2m❯[22m __tests__/storytime-package-raster.test.ts:[2m531:102[22m[39m
+    [90m529| [39m            expect(channelGap(corner, WHITE), `the corner of ${word} i…
+    [90m530| [39m            [35mconst[39m outside [33m=[39m [34mpixelAt[39m(pixels[33m,[39m [34m34[39m[33m,[39m [34m34[39m)[33m;[39m
+    [90m531| [39m            expect(channelGap(outside, WHITE), `the rounded corner of …
+    [90m   | [39m                                                                                                     [31m^[39m
+    [90m532| [39m            [35mconst[39m inside [33m=[39m [34mpixelAt[39m(pixels[33m,[39m [34m76[39m[33m,[39m [34m76[39m)[33m;[39m
+    [90m533| [39m            expect(channelGap(inside, rgb), `the inside of the corner …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m13 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m 06:10:33
+[2m   Duration [22m 13.63s[2m (transform 830ms, setup 210ms, import 1.28s, tests 11.44s, environment 0ms)[22m
+
+exit: 1

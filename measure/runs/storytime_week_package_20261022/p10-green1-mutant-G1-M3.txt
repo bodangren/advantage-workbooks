@@ -1,0 +1,73 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 14702[2mms[22m[39m
+[31m     [31m×[31m R1-1 the picture markup of the app equals the picture element of the card kit[39m[32m 51[2mms[22m[39m
+     [32m✓[39m R1-1b the card kit holds the 8 patch values and the 9 dot counts (characterization)[32m 3[2mms[22m[39m
+     [32m✓[39m R1-2 the app dot table holds the nine card counts and the count of ten[32m 2[2mms[22m[39m
+[31m     [31m×[31m R1-3 the card of ten holds the numeral 10 and ten dots in two rows of five[39m[32m 9[2mms[22m[39m
+     [32m✓[39m R1-4 the page holds the white background, the print face, and the picture markup[32m 1[2mms[22m[39m
+     [32m✓[39m R1-5 a hostile word is escaped in the picture markup and in the page[32m 2[2mms[22m[39m
+     [32m✓[39m R1-6 the source name of a patch and of a number card follows the provenance form[32m 1[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 2588[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of purple is a progressive JPEG of 800 x 800 [33m 1897[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of one is a progressive JPEG of 800 x 800 [33m 2158[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the card of ten is a progressive JPEG of 800 x 800 [33m 2080[2mms[22m[39m
+     [32m✓[39m R1-8 the patch fills the area with its hex value and keeps the rounded corners[32m 41[2mms[22m[39m
+     [32m✓[39m R1-9 the number cards keep a white background at the corner[32m 59[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 2266[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 3538[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-raster.test.ts[2m > [22mthe family picture markup (Phase 10, Red 1)[2m > [22mR1-1 the picture markup of the app equals the picture element of the card kit
+[31m[1mAssertionError[22m: the dots markup of one: expected '<div class="card-picture card-number-…' to be '<div class="card-picture card-number-…' // Object.is equality[39m
+
+Expected: [32m"<div class="card-picture card-number-picture"><div class="card-number" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3mm"><div class="card-numeral" data-card-numeral style="font-size:60pt;line-height:1;font-weight:700">1</div><svg class="card-number-dots" viewBox="0 0 100 22" style="width:100%;height:auto;max-height:50%" aria-hidden="true"><circle data-number-dot="1" data-row="0" cx="50" cy="1[7m1[27m" r="[7m7[27m"/></svg></div></div>"[39m
+Received: [31m"<div class="card-picture card-number-picture"><div class="card-number" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3mm"><div class="card-numeral" data-card-numeral style="font-size:60pt;line-height:1;font-weight:700">1</div><svg class="card-number-dots" viewBox="0 0 100 22" style="width:100%;height:auto;max-height:50%" aria-hidden="true"><circle data-number-dot="1" data-row="0" cx="50" cy="1[7m2[27m" r="[7m8[27m"/></svg></div></div>"[39m
+
+[36m [2m❯[22m __tests__/storytime-package-raster.test.ts:[2m361:18[22m[39m
+    [90m359| [39m            const source: DotsSource = { kind: 'dots', word, count: CA…
+    [90m360| [39m            expect(mod.familyCardPictureHtml(source), `the dots markup…
+    [90m361| [39m                [33m.[39m[34mtoBe[39m([34mcardPictureElement[39m(word))[33m;[39m
+    [90m   | [39m                 [31m^[39m
+    [90m362| [39m        }
+    [90m363| [39m        [34mexpect[39m(parityWords[33m,[39m [32m'parity words: 17'[39m)[33m.[39m[34mtoHaveLength[39m([34m17[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-package-raster.test.ts[2m > [22mthe family picture markup (Phase 10, Red 1)[2m > [22mR1-3 the card of ten holds the numeral 10 and ten dots in two rows of five
+[31m[1mAssertionError[22m: the x centres of the first row of ten: expected [ 10, 30, 50, 70, 90 ] to deeply equal [ 14, 32, 50, 68, 86 ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   14,[39m
+[32m-   32,[39m
+[31m+   10,[39m
+[31m+   30,[39m
+[2m    50,[22m
+[32m-   68,[39m
+[32m-   86,[39m
+[31m+   70,[39m
+[31m+   90,[39m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/storytime-package-raster.test.ts:[2m406:73[22m[39m
+    [90m404| [39m        expect(html.match(/viewBox="([^"]*)"/)?.[1], 'the view box of …
+    [90m405| [39m        const cx = circles.map((circle) => Number(circle.match(/cx="([…
+    [90m406| [39m        expect(cx.slice(0, 5), 'the x centres of the first row of ten'…
+    [90m   | [39m                                                                        [31m^[39m
+    [90m407| [39m        expect(cx.slice(5, 10), 'the x centres of the second row of te…
+    [90m408| [39m        const cy = circles.map((circle) => Number(circle.match(/cy="([…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m13 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m 06:10:14
+[2m   Duration [22m 16.28s[2m (transform 547ms, setup 116ms, import 847ms, tests 14.70s, environment 0ms)[22m
+
+exit: 1

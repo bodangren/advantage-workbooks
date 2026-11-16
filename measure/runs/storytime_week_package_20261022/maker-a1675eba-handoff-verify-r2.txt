@@ -1,0 +1,47 @@
+Script started on 2026-11-03 21:50:34+07:00 [COMMAND="grep -E '^[a-f0-9]{64}  [A-Za-z0-9._/-]+$' /home/daniebo/Desktop/handoff/w01-storytime-app-package/MANIFEST.txt | (cd /home/daniebo/Desktop/handoff/w01-storytime-app-package && sha256sum -c) && git show cf30bb2eee55806bf8830b3a3e69e4f6044847e6:content/storytime/l2/w01.json | cmp - /home/daniebo/Desktop/handoff/w01-storytime-app-package/l2/w01.json && find /home/daniebo/Desktop/handoff/w01-storytime-app-package -type f | wc -l" <not executed on terminal>]
+l2/w01.json: OK
+l2/media/w01/books/1-hello-slow.mp3: OK
+l2/media/w01/books/1-hello.mp3: OK
+l2/media/w01/books/1-hello/cover.jpg: OK
+l2/media/w01/books/1-hello/p01.jpg: OK
+l2/media/w01/books/1-hello/p02.jpg: OK
+l2/media/w01/books/1-hello/p03.jpg: OK
+l2/media/w01/books/1-hello/p04.jpg: OK
+l2/media/w01/books/1-hello/p05.jpg: OK
+l2/media/w01/books/1-hello/p06.jpg: OK
+l2/media/w01/books/1-hello/p07.jpg: OK
+l2/media/w01/books/1-hello/p08.jpg: OK
+l2/media/w01/books/2-nan-can-nod-slow.mp3: OK
+l2/media/w01/books/2-nan-can-nod.mp3: OK
+l2/media/w01/books/2-nan-can-nod/cover.jpg: OK
+l2/media/w01/books/2-nan-can-nod/p01.jpg: OK
+l2/media/w01/books/2-nan-can-nod/p02.jpg: OK
+l2/media/w01/books/2-nan-can-nod/p03.jpg: OK
+l2/media/w01/books/2-nan-can-nod/p04.jpg: OK
+l2/media/w01/books/2-nan-can-nod/p05.jpg: OK
+l2/media/w01/books/2-nan-can-nod/p06.jpg: OK
+l2/media/w01/books/2-nan-can-nod/p07.jpg: OK
+l2/media/w01/books/2-nan-can-nod/p08.jpg: OK
+l2/media/w01/song-lines/clap.jpg: OK
+l2/media/w01/song-lines/hands-out.jpg: OK
+l2/media/w01/song-lines/nod.jpg: OK
+l2/media/w01/song-lines/point-forward.jpg: OK
+l2/media/w01/song-lines/point-to-self.jpg: OK
+l2/media/w01/song-lines/wave.jpg: OK
+l2/media/w01/song-phone-poster.jpg: OK
+l2/media/w01/song-phone.mp4: OK
+l2/media/w01/song-poster.jpg: OK
+l2/media/w01/song.mp3: OK
+l2/media/w01/song.mp4: OK
+phonemes/daniel/01-s.mp3: OK
+phonemes/daniel/02-t.mp3: OK
+phonemes/daniel/03-p.mp3: OK
+phonemes/daniel/04-n.mp3: OK
+phonemes/daniel/10-h.mp3: OK
+phonemes/daniel/12-f.mp3: OK
+phonemes/daniel/26-a-short.mp3: OK
+phonemes/daniel/27-e-short.mp3: OK
+phonemes/daniel/30-u-short.mp3: OK
+44
+
+Script done on 2026-11-03 21:50:35+07:00 [COMMAND_EXIT_CODE="0"]

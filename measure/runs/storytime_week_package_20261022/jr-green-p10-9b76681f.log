@@ -1,0 +1,109 @@
+# Green 1 of Phase 10: the family picture raster export (storytime_week_package)
+
+Outcome: pass. The module and the render are committed, the four gates pass, and the 10 mutants
+are caught. This Green closes the Phase 10 Red 1 window (rule R1), because `PROJECT_TESTS` passes
+with no exclude.
+
+## Base points
+
+- role_base_sha: 9b76681f863b12114031f33638c0444bbc5c8df4
+- red_base: de0d4c352449261e1fe9afdac38db3a4dc317484
+- phase_base_sha: bbfd25b8a74a2e9dd3dee0a643a3816653ce247d (the strategy commit of Phase 10)
+- The Red 1 commit ae68a01f sits inside phase_base_sha..HEAD. It changes one file: the raster test.
+- HEAD moved twice during the role, because other sessions committed in this checkout
+  (ce5b90ba, 60951cbe, 9d6f1b83). The role changed no file of another session.
+
+## Work
+
+1. The Green 1 task line went to `[~]`. measure-guard refused the edit, because the heading of
+   Phase 9 holds no `[checkpoint: <sha>]`. The same edit went in through the shell, as the Red 1
+   role did. The block belongs to the Phase 9 checkpoint task.
+2. `dashboard/lib/storytime/family-pictures.ts` (new, 235 lines) holds every export of spec FR 1.
+3. `dashboard/scripts/storytime/set-family-pictures.ts` (new, 129 lines) holds `renderFamilyCardJpeg`,
+   the encode, `USAGE`, a usage-only `main`, and the entry guard. The full option set arrives with
+   Green 2 (spec FR 2).
+4. Commit ad767a78 (code), then commit 14b39927 (plan evidence).
+5. card-kit.ts, print-fonts.ts, the test files, `content/`, and `video/` did not change.
+   `git diff --stat HEAD -- dashboard/lib/storytime/print/ dashboard/__tests__/ content/` was empty
+   before the commit.
+
+## Gates (each one heavy-run job)
+
+- GREEN_TEST_COMMAND: `p10-green1-green.txt` gives `Test Files  2 passed (2)` and
+  `Tests  24 passed (24)` (raster 15, book pictures 9). Last line `exit: 0`.
+- PROJECT_TESTS: `p10-green1-project.txt` gives `Test Files  60 passed (60)` and
+  `Tests  1269 passed (1269)`. Last line `exit: 0`. No exclude: the R3 window is closed, because
+  `dashboard/__tests__/storytime-loops-share-content.test.ts` does not exist.
+- PROJECT_LINT: `p10-green1-lint.txt` gives `exit: 0`.
+- PROJECT_CHECKS: `p10-green1-checks.txt` gives `Summary: 8 package(s), 0 failed check(s),
+  9 warning(s).`, `fail rows: 0`, and `exit: 0`. The plan accepted one `published` FAIL row or none;
+  the run gives 0. The first run failed on `tsc --noEmit` with one Buffer type error; that capture
+  stays at `p10-green1-checks-tsc1.txt`, and a type annotation is the only change after it.
+- The live renders: R1-7 to R1-11 start Chrome in the gate run and pass.
+- The Red rerun: `p10-green1-red-rerun.txt` gives `Tests  15 passed (15)`, last line `exit: 0`. The
+  Red proof stays at the Red commit: `p10-red1.txt` gives `14 failed | 1 passed (15)`, `exit: 1`.
+
+## Mutants (G1-M1 to G1-M10)
+
+One backup copy, one mutant, the raster file only, restore, and `cmp` against the backup. The log
+gives `mutants: 10, caught: 10`. Each capture `p10-green1-mutant-G1-M*.txt` ends with `exit: 1`.
+
+| Id | Change | Caught by |
+|---|---|---|
+| G1-M1 | `ten` in the app table is 9 | R1-2 |
+| G1-M2 | the red hex ends in 36 in the markup path | R1-1, R1-6 |
+| G1-M3 | dot radius 7 to 8 | R1-1, R1-3 |
+| G1-M4 | patch radius 6 mm to 0 | R1-1, R1-8 |
+| G1-M5 | device scale 2 to 1 | R1-7 (x4), R1-8, R1-10 |
+| G1-M6 | `progressive: true` removed | R1-7 (x4) |
+| G1-M7 | chroma subsampling 4:4:4 | R1-7 (x4) |
+| G1-M8 | page margin 4 mm to 0 | R1-4, R1-8 |
+| G1-M9 | the escape removed | R1-5 |
+| G1-M10 | the hex name in lower case | R1-6 |
+
+Two notes for the review roles:
+
+- G1-M1 fails R1-2 only. R1-3 and R1-10 pass the hand count `10` and never read the app table, so
+  the detector list of `test-strategy.md` section 5.5 is wider than the test. The mutant is caught.
+  R1-2 pins the app table, and Red 2 pins the mapping that reads it.
+- G1-M2 and G1-M8 break a second case, because the hex helper is shared with the source name and
+  the page string holds `4mm`.
+
+## Scope guard
+
+`p10-green1-scope.txt` gives `files: 2` and `outside: 0` for commit ad767a78. The plan commit
+14b39927 holds `measure/tracks/storytime_week_package_20261022/plan.md` only.
+
+## Plan updates
+
+- Task (Red 1): `[x]`, with `commit ae68a01f` on the task line.
+- Task (Green 1): `[x]`, with `commit ad767a78` on the task line, and 12 evidence sub-bullets.
+
+## Handoff to the review roles
+
+- The module is complete for FR 1. Red 1 covers the markup, the page, the names, and the render.
+  `storytimeFamilyPicturePath` and `storytimeFamilyPictureSource` have no Red 1 case; Red 2 pins them
+  (R2-1 to R2-4).
+- The script `main` is a usage-only stub at this commit. Do not read it as the FR 2 command-line
+  contract; Green 2 writes the option set, the source checks, and the writes.
+- The first PROJECT_TESTS run failed on `storytime-loops-share.test.ts` J18, because another
+  session held uncommitted edits under `content/storytime/drafts/l2/`. That session committed them
+  (60951cbe), and the rerun passed. This role changed no content file.
+- Red 2 may open now: the Red 1 window is closed.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+phase: P10
+task: T2
+track: storytime_week_package_20261022
+role_base_sha: 9b76681f863b12114031f33638c0444bbc5c8df4
+red_base: de0d4c352449261e1fe9afdac38db3a4dc317484
+status: pass
+commits: ad767a78 (code), 14b39927 (plan evidence)
+files_changed: dashboard/lib/storytime/family-pictures.ts (new, 235 lines); dashboard/scripts/storytime/set-family-pictures.ts (new, 129 lines); measure/tracks/storytime_week_package_20261022/plan.md (evidence)
+tests_run: GREEN_TEST_COMMAND 2 files 24 passed exit 0; PROJECT_TESTS 60 files 1269 passed exit 0; PROJECT_LINT exit 0; PROJECT_CHECKS 0 failed 9 warnings exit 0; Red rerun 15 passed exit 0
+mutants: 10, caught: 10
+plan_updates: Red 1 task [x] with commit ae68a01f; Green 1 task [x] with commit ad767a78 and 12 evidence sub-bullets; no archive, registry, or metadata change
+handoff: pass. The Phase 10 Red 1 window is closed by rule R1, because PROJECT_TESTS passes with no exclude. Red 2 may open. The script main is a usage-only stub until Green 2; the module implements all of FR 1, and storytimeFamilyPicturePath and storytimeFamilyPictureSource wait for Red 2 (R2-1 to R2-4). G1-M1 is caught by R1-2 only, not by R1-3 and R1-10; the detector list of test-strategy section 5.5 is wider than the test, and the mutant does not survive. The first PROJECT_TESTS run failed on a foreign dirty content folder; the owning session committed (60951cbe) and the rerun passed.
+dispositions: none
+END_MEASURE_AGENT_RESULT

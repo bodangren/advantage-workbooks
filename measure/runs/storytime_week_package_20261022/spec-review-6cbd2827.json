@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "status": "fail",
+  "track": "storytime_week_package_20261022",
+  "phase": "track setup",
+  "audited_head_sha": "6cbd2827b51e091134546ff3b99d61fa807a3999",
+  "summary": "The addendum and the plan are consistent with the decided context (approvals, published detail, checks) and the week-1 data matches the match rules. One blocker: three color sources named in pictures.json were redone at v2 under print PM option A, the list keeps the v1 names, and the v1 files do not exist on disk, so the D3 source check stops the script on 3 of 18 pictures and the maker cannot finish without a decision the context does not give. Plus nonblocking findings: the plan hand-off path error, the MANIFEST omissions, a 4th pinned test file, and small defaults.",
+  "paraphrase": {
+    "proposes": "Phase 7 ships the 18 approved week-1 book pictures (2 covers, 16 pages) to the Monorepo Storytime app by 2026-11-06. A new script finds each picture's color print source by text match, writes 1600 px JPEGs of 400 KB or less, writes a SHA-256 provenance file, and adds image.file lines to w01.json without reformatting it. A book-pictures check is added to check-weeks.ts. approval.images becomes approved with Daniel's three quotes; audio and song stay draft, so the published check detail becomes 'audio not approved; song not approved' and stays FAIL. Pinned published-detail tests in other tracks change, and a hand-off folder with w01.json and every named media file goes to the PM.",
+    "current_system": "Per the spec and checks.ts at HEAD: no shipped week has image.file on a reader page or a cover, so the app route of week 1 answers 404. The published check lists each approval part that is not approved as '<part> not approved', joined with '; ', in the approval key order images, audio, song; today that detail is 'images not approved; audio not approved; song not approved'. Print approval of a picture covers the app (Daniel, 2026-11-03). The color print pictures live in the git-ignored content/storytime/l2/print/pictures/; pictures.json is tracked and pinned by print tests R4b-4 and R4b-5."
+  },
+  "blocking_findings": [
+    "F1 | Blocker | spec.md:53,66,81 vs print plan:511 | F1 [Blocker] D3 source rule vs v2 redo files: three week-1 rows (R11 a-net, R13 a-nose, R17 nan-can-nod) were redone at v2 under print PM option A; pictures.json keeps the v1 names (pinned byte-equal by print tests R4b-4/R4b-5) and the v1 color files do not exist on disk, so the D3 source check stops the script with exit 1 on 3 of 18 pictures before any write and the maker cannot finish. Rationale: print plan line 511 (Red 4f): 'Forge redoes a failed picture under a new version number N... The list keeps -v1'; R-P4-23 passes the v2 files with selectedVersion 2; Daniel's 'Looks good' (2026-11-02 14:28) approved the v2 rows. Default: resolve the color source by row id: if pictures/<fileName> is missing, take the unique '<row id>-v<N>.png' (never a -line- file) with the highest N in the folder; zero or multiple candidates stop with exit 1 as D3 says; pictures.sha256 records the resolved source name and its SHA-256; AC3 gets one added clause 'or the resolved redo name (print option A)'. | default: row-id resolution with highest version, provenance records the resolved name"
+  ],
+  "nonblocking_findings": [
+    "F2 | Major | plan.md:55 | F2 [Major] hand-off path error: 'with the same relative paths under content/storytime/l2/' contradicts the decided rule; w01.json names paths relative to content/storytime/ (l2/media/w01/..., phonemes/daniel/...). Rationale: known PM error, plan fix follows; the PM check enforces the decided rule. | default: replace with 'with the same relative paths under content/storytime/, exactly as w01.json names them'",
+    "F3 | Major | plan.md:55 | F3 [Major] MANIFEST.txt omissions: the task omits the decided 'workbooks-commit: <full sha>' line and the byte-for-byte rule (the folder w01.json must equal 'git show <sha>:content/storytime/l2/w01.json'; commit first, then copy). Rationale: the PM check of the hand-off folder requires both; without them the PM check fails on 2026-11-06. | default: add both sentences to the hand-off task",
+    "F4 | Major | spec.md:74, plan.md:43-44 | F4 [Major] pinned test list incomplete: FR6 and the plan name 3 test files; the A-42 dry run lists 7 published tests in 4 files; the 4th file __tests__/storytime-print-contract.test.ts (R9/G5) also reads the shipped published detail. Rationale: a missed file fails PROJECT_TESTS at the phase end. | default: add storytime-print-contract.test.ts to RED_TEST_COMMAND and GREEN_TEST_COMMAND and update its published detail assertion",
+    "F5 | Nit | spec.md:60 | F5 [Nit] approval words format open: existing approval records use a plain string for words; D7 does not pin the format for three quotes with times. Rationale: AC5 needs the three quotes exactly; one format avoids drift. | default: one string in time order: '\"Both ok\" (2026-11-02 07:00 ICT); \"Looks good\" (2026-11-02 14:28 ICT); \"Yes\" (2026-11-03 11:54 ICT)'; source names Tasks id TFBDbWRFTEItTy1kZGUzdw and the print Phase 4 git note on 2e3272e9",
+    "F6 | Nit | spec.md:57 | F6 [Nit] 400 KB conflict open: if a 1600 px quality-82 JPEG exceeds 400 KB, D4 pins both values and gives no fallback. Rationale: AC2 requires only the long side 1600 px and 400 KB or less. | default: re-encode only that file at a lower quality (down to 75) to meet 400 KB and record the deviation in the maker task line",
+    "F7 | Nit | spec.md:57,71 | F7 [Nit] sharp settings open: chroma subsampling and mozjpeg are not pinned; FR3 needs byte-equal repeat runs. Rationale: encoder settings decide the bytes. | default: sharp defaults (no mozjpeg, 4:2:0); record the sharp version in the maker task line",
+    "F8 | Nit | spec.md:53 | F8 [Nit] git-ignored sources: the 18 color sources live in the git-ignored print folder; a fresh clone cannot rebuild the JPEGs. Rationale: D3 pins that folder as the only source; the committed JPEGs, pictures.sha256, and the contact sheet mitigate. | default: none; keep pictures.sha256 committed and mention the local source in the task line"
+  ],
+  "evidence": [
+    "HEAD equals audited_head_sha 6cbd2827b51e091134546ff3b99d61fa807a3999 (git rev-parse).",
+    "spec.md addendum and plan.md Phase 7 read at HEAD with git show; scope limited to spec lines 39-102 and plan lines 34-56.",
+    "w01.json: books 'Hello!' and 'Nan Can Nod', 8 pages each; audio files 1-hello.mp3 and 2-nan-can-nod.mp3; page texts match the 16 week-1 story-page entries of pictures.json one to one, no duplicate page text; cover texts 'Hello!' and 'Nan Can Nod' match the 2 cover entries; captions are '' on pages and 'Hello!' on cover 1.",
+    "checks.ts lines 326-331: published detail is '<part> not approved' per draft approval part (print and loops parts excluded), joined with '; '; approval key order images, audio, song gives the old detail of D8 and the new detail 'audio not approved; song not approved'.",
+    "Disk check: pictures/<fileName> missing for l2-w01-story-page-a-net-v1.png, -a-nose-v1.png, -nan-can-nod-v1.png; the approved v2 color files exist; .gitignore line 37 ignores the print pictures folder; pictures.json and pictures.md are tracked.",
+    "Print track plan line 511 (Red 4f, PM option A): the list keeps -v1, redone rows carry -v2 files with selectedVersion 2; R-P4-23 stages exactly these week-1 rows; line 431 records Daniel's 'Looks good' over rows R11, R27, R13, R17 at v2.",
+    "Print tests R4b-4 (byte-equal weeks 1-7 vs c7739efb) and R4b-5 (committed list equals generator output) pin pictures.json; editing the three fileName values would break the print track.",
+    "switch-dryrun.txt lines 11-18: 7 published tests in 4 files; the 4th file is storytime-print-contract.test.ts (R9/G5).",
+    "w01.json names 16 media paths under l2/media/w01/ plus phonemes/daniel/04-n.mp3, all relative to content/storytime/, so the plan line 'under content/storytime/l2/' is wrong.",
+    "Existing approval records in w01.json use words as a plain string ('publish week 1')."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git show 6cbd2827b51e091134546ff3b99d61fa807a3999:measure/tracks/storytime_week_package_20261022/spec.md",
+    "git show 6cbd2827b51e091134546ff3b99d61fa807a3999:measure/tracks/storytime_week_package_20261022/plan.md",
+    "jq page texts, cover texts, audio file names, and media path list of content/storytime/l2/w01.json",
+    "ls content/storytime/l2/print/pictures/ and per-entry existence check of the 18 week-1 fileName values",
+    "git check-ignore -v content/storytime/l2/print/pictures/ and git ls-files content/storytime/l2/print/",
+    "grep of checks.ts for the published check and of dashboard tests for pictures.json pins and the 4th published-detail test file"
+  ],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "model": "kimi-code-plan-cn/kimi-for-coding#high"
+}

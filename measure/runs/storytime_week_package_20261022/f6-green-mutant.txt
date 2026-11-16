@@ -1,0 +1,210 @@
+Script started on 2026-11-03 21:46:22+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'bash /tmp/opencode/f6-post.sh'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-manual.test.ts [2m([22m[2m27 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 393[2mms[22m[39m
+     [32m✓[39m keeps A8 in day 2 recall, with the one-minute moved step and correct opening minutes[32m 68[2mms[22m[39m
+     [32m✓[39m prints day 3 song step B7 with the opening song item, outside the one-minute recall[32m 16[2mms[22m[39m
+     [32m✓[39m prints day 5 song step D6 with the opening song item and keeps D5 in recall[32m 13[2mms[22m[39m
+[31m     [31m×[31m uses the Thai opening song item for B7 without adding a Thai label or minutes[39m[32m 110[2mms[22m[39m
+     [32m✓[39m gives a week header and five day sections, each with its script, period, and steps[32m 9[2mms[22m[39m
+     [32m✓[39m shows the four headings and the Easier, Harder, and Group lines for every step[32m 10[2mms[22m[39m
+     [32m✓[39m puts the opening routine and the strip of the day at the start of each day[32m 4[2mms[22m[39m
+     [32m✓[39m moves the moved steps to the next day, and the day 5 ones to the next opening[32m 5[2mms[22m[39m
+     [32m✓[39m shows the facts of the week in the header[32m 6[2mms[22m[39m
+     [32m✓[39m prints the Thai action, listening skill, and family name in the Thai header, and the English without Thai[32m 13[2mms[22m[39m
+     [32m✓[39m prints the Thai notes, with the teacher English kept and the Thai gloss under it[32m 8[2mms[22m[39m
+     [32m✓[39m compiles a level into one A4 document with the product name and no CJK or CEFR[32m 15[2mms[22m[39m
+     [32m✓[39m sorts the weeks and refuses weeks of two levels[32m 17[2mms[22m[39m
+     [32m✓[39m lists the materials of the week once, with the words of one kind merged[32m 2[2mms[22m[39m
+     [32m✓[39m keeps the heading of the moved steps in one block with the steps[32m 10[2mms[22m[39m
+     [32m✓[39m prints the prep box at the top of the day and the recall minutes in the opening[32m 5[2mms[22m[39m
+     [32m✓[39m prints the sound game of the day as opening item 2, and the calendar without it[32m 17[2mms[22m[39m
+     [32m✓[39m prints the choreography sheet after day 5: parts, lines, actions, notes, start and end[32m 4[2mms[22m[39m
+     [32m✓[39m prints the Thai gesture name after the English one in the Thai book only[32m 6[2mms[22m[39m
+     [32m✓[39m gives the English book the Thai print font when a step has Thai text[32m 12[2mms[22m[39m
+     [32m✓[39m escapes the package text[32m 2[2mms[22m[39m
+     [32m✓[39m prints the block, the day plan, and the benchmark in the header, and the medley of the day as opening item 3[32m 10[2mms[22m[39m
+     [32m✓[39m prints the benchmark page: the paper items with the position and the dictated sound, the sitting, the strip, the cards, and the blend words[32m 6[2mms[22m[39m
+     [32m✓[39m prints the answer key of the review pages after the benchmark: the circle-word rows and the sort columns[32m 5[2mms[22m[39m
+     [32m✓[39m prints the class record sheet with 30 rows and the counts, and one reading form per decodable with each word marked[32m 3[2mms[22m[39m
+     [32m✓[39m prints the Thai labels and the Thai sitting in the Thai book[32m 4[2mms[22m[39m
+     [32m✓[39m prints no benchmark pages for a teaching week[32m 3[2mms[22m[39m
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-CuXTI8/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-fpXmrr/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+ [32m✓[39m __tests__/storytime-print-teacher-book.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 2312[2mms[22m[39m
+     [33m[2m✓[22m[39m provides the teacher-book print CLI and a successful help response [33m 560[2mms[22m[39m
+     [33m[2m✓[22m[39m R-F-P3-1 exports the exact K-only PDF/X flag list [33m 561[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside [33m 518[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside [33m 528[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-manual.test.ts[2m > [22mStorytime manual template[2m > [22muses the Thai opening song item for B7 without adding a Thai label or minutes
+[31m[1mAssertionError[22m: expected ' id="week-2-day-3">\n    <h3 class="s…' to contain 'ในช่วงเปิดคาบ ให้เปิดวิดีโอคาราโอเกะเ…'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- ในช่วงเปิดคาบ ให้เปิดวิดีโอคาราโอเกะเป็นเพลงประจำสัปดาห์ (ข้อ 3)[39m
+[31m+  id="week-2-day-3">[39m
+[31m+     <h3 class="st-day-title">วันที่ 3 · บทสอน C: สะกดและอ่าน <span class="st-min">30 นาที</span></h3>[39m
+[31m+     <div class="st-prep"><h4>ก่อนเริ่มคาบ</h4><ul><li>ใส่บัตรตัวอักษร n 2 ใบ และบัตรตัวอักษร a 1 ใบ ในชุดบัตรตัวอักษรของเด็กแต่ละคน</li></ul></div>[39m
+[31m+     <div class="st-opening">[39m
+[31m+       <h4>กิจวัตรเปิดคาบ (6 นาที รวมทบทวน 1 นาที)</h4>[39m
+[31m+       <ol><li>ร้องเพลงทักทายและพูดโต้ตอบ: &quot;Hello, Sprouts!&quot; &quot;Hello, Teacher ___!&quot;</li><li>เกมเสียง (1 นาที): &quot;ฟัง: /k/ - /a/ - /t/ คำนี้คือคำอะไร? Cat! ฟัง: /h/ - /a/ - /t/ คำนี้คือคำอะไร? Hat!&quot;</li><li>ร้องเพลงประจำสัปดาห์พร้อมท่าทาง[39m
+[31m+     <div class="st-step st-moved">[39m
+[31m+       <h4 class="st-step-title">B7 · ร้องเพลงประจำสัปดาห์พร้อมท่าทาง</h4>[39m
+[31m+       <p class="st-gloss"><strong>สื่อการสอน:</strong> karaoke videos: &quot;How Many? One, Two!&quot;</p>[39m
+[31m+       [39m
+[31m+       <div class="tm-teaching-notes">[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่ครูทำ</h5><ul class="tm-note-list"><li>ในช่วงเปิดคาบ เปิดวิดีโอคาราโอเกะเป็นเพลงประจำสัปดาห์ (ข้อ 3 ของกิจวัตรเปิดคาบ) เนื้อเพลงอยู่บนจอ</li></ul></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">ภาษาที่ครูใช้</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Sing with the words on the screen. Point to the words!&quot;</p><p class="st-gloss">&quot;ร้องตามเนื้อเพลงบนจอ ชี้ที่คำ!&quot;</p></div></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่นักเรียนทำ</h5><ul class="tm-note-list"><li>เด็ก ๆ ร้องเพลงและชี้ที่คำบนจอ</li></ul></div>[39m
+[31m+         <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">สิ่งที่ต้องสังเกต</h5><ul class="tm-note-list tm-watch-list"><li>เด็กที่ดูอย่างเดียว: ให้เด็กทำท่าประกอบเพลง (นับนิ้ว ปรบมือ)</li></ul></div>[39m
+[31m+       </div>[39m
+[31m+       <div class="st-variants">[39m
+[31m+         <p><strong>ง่ายขึ้น:</strong> ร้องเฉพาะท่อนฮุก (chorus)</p>[39m
+[31m+         <p><strong>ท้าทายขึ้น:</strong> เด็ก ๆ ร้องท่อนเวิร์ส (verse) โดยไม่ใช้วิดีโอ</p>[39m
+[31m+         <p><strong>คู่หรือกลุ่ม:</strong> ทั้งชั้น</p>[39m
+[31m+       </div>[39m
+[31m+     </div></li><li>แถบทบทวน: อ่านบัตรของวันนี้ (ด้านล่าง)</li></ol>[39m
+[31m+       <h5>แถบทบทวน</h5>[39m
+[31m+       <p><strong>เสียง:</strong> <span class="st-card">a</span><span class="st-card">n</span></p><p><strong>คำที่ต้องจำ:</strong> <span class="st-card">I</span><span class="st-card">in</span><span class="st-card">on</span><span class="st-card">a</span><span class="st-card">and</span><span class="st-card">can</span></p><p><strong>กรอบประโยค:</strong> <span class="st-card">How many? One, two...</span><span class="st-card">Hello, I am ___.</span></p>[39m
+[31m+     </div>[39m
+[31m+     <div class="st-moved-group"><h4>ทบทวนจากคาบที่แล้ว (ข้อละ 1 นาที อยู่ในช่วงเปิดคาบ: วันที่มีการทบทวน ให้ย่อกิจวัตรเปิดคาบให้สั้นลง)</h4>[39m
+[31m+     <div class="st-step st-moved">[39m
+[31m+       <h4 class="st-step-title">B6 · แสดงตามเรื่อง <span class="st-en">(Act it)</span> <span class="st-min">1 นาที</span></h4>[39m
+[31m+       <p class="st-gloss"><strong>สื่อการสอน:</strong> big book or screen: &quot;How Many?&quot;</p>[39m
+[31m+       [39m
+[31m+       <div class="tm-teaching-notes">[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่ครูทำ</h5><ul class="tm-note-list"><li>ทั้งชั้นแสดงตามหนังสือ พูดแต่ละหน้า ทั้งชั้นพูดตามและชูนิ้วบอกจำนวน</li><li>ที่หน้าสุดท้าย ทั้งชั้นเลียริมฝีปากเหมือน Pip จากนั้นทั้งชั้นชี้ที่ Pip ในหนังสือและพูดว่า: &quot;Oh no, Pip!&quot;</li></ul></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">ภาษาที่ครูใช้</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Say it with me: How many suns? One!&quot;</p><p class="st-gloss">&quot;พูดพร้อมครู: How many suns? One!&quot;</p><p class="tm-language-quote">&quot;Lick the cream like Pip! Now point at Pip: Oh no, Pip!&quot;</p><p class="st-gloss">&quot;เลียครีมเหมือน Pip! ทีนี้ชี้ที่ Pip: Oh no, Pip!&quot;</p></div></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่นักเรียนทำ</h5><ul class="tm-note-list"><li>ทั้งชั้นพูดแต่ละหน้าและชูนิ้วบอกจำนวน ที่หน้าสุดท้าย เด็ก ๆ แสดงเป็น Pip</li></ul></div>[39m
+[31m+         <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">สิ่งที่ต้องสังเกต</h5><ul class="tm-note-list tm-watch-list"><li>เด็กที่ดูอย่างเดียว: นับนิ้วพร้อมเด็ก</li></ul></div>[39m
+[31m+       </div>[39m
+[31m+       <div class="st-variants">[39m
+[31m+         <p><strong>ง่ายขึ้น:</strong> ทั้งชั้นพูดเฉพาะตัวเลข ส่วนครูพูด &quot;How many&quot;</p>[39m
+[31m+         <p><strong>ท้าทายขึ้น:</strong> เด็ก ๆ พูดแต่ละหน้าโดยเปลี่ยนเป็นสิ่งของอื่นในห้อง: &quot;How many chairs?&quot; (มีเก้าอี้กี่ตัว)</p>[39m
+[31m+         <p><strong>คู่หรือกลุ่ม:</strong> ทั้งชั้น</p>[39m
+[31m+       </div>[39m
+[31m+     </div></div>[39m
+[31m+     [39m
+[31m+     <div class="st-step">[39m
+[31m+       <h4 class="st-step-title">C1 · ทบทวนเสียง <span class="st-en">(Sound review)</span> <span class="st-min">2 นาที</span></h4>[39m
+[31m+       <p class="st-gloss"><strong>สื่อการสอน:</strong> sound cards: a, n</p>[39m
+[31m+       [39m
+[31m+       <div class="tm-teaching-notes">[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่ครูทำ</h5><ul class="tm-note-list"><li>ชูบัตรตัวอักษร a และ n อย่างรวดเร็ว แบบสลับลำดับ</li><li>เด็ก ๆ ออกเสียงและทำท่าประจำเสียงของบัตรนั้น</li></ul></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">ภาษาที่ครูใช้</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;What sound? /a/! Apple bite!&quot;</p><p class="st-gloss">&quot;เสียงอะไร? /a/! กัดแอปเปิล!&quot;</p><p class="tm-language-quote">&quot;What sound? Nnn! Nod!&quot;</p><p class="st-gloss">&quot;เสียงอะไร? Nnn! พยักหน้า!&quot;</p><p class="tm-language-quote">&quot;Again, faster!&quot;</p><p class="st-gloss">&quot;อีกครั้ง เร็วขึ้น!&quot;</p></div></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่นักเรียนทำ</h5><ul class="tm-note-list"><li>เด็ก ๆ พูด /a/ หรือ nnn และทำท่าประจำเสียง</li></ul></div>[39m
+[31m+         <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">สิ่งที่ต้องสังเกต</h5><ul class="tm-note-list tm-watch-list"><li>เสียง /a/ สั้น ๆ แบบใน &quot;apple&quot; ไม่ใช่ &quot;ay&quot;</li></ul></div>[39m
+[31m+       </div>[39m
+[31m+       <div class="st-variants">[39m
+[31m+         <p><strong>ง่ายขึ้น:</strong> ชูบัตรแต่ละใบ 2 ครั้งตามลำดับเดิมก่อนรอบเร็ว</p>[39m
+[31m+         <p><strong>ท้าทายขึ้น:</strong> ชูบัตรเพียงช่วงสั้น ๆ แล้วซ่อน</p>[39m
+[31m+         <p><strong>คู่หรือกลุ่ม:</strong> ทั้งชั้น</p>[39m
+[31m+       </div>[39m
+[31m+     </div>[39m
+[31m+     <div class="st-step">[39m
+[31m+       <h4 class="st-step-title">C2 · บัตรตัวอักษร <span class="st-en">(Letter cards)</span> <span class="st-min">5 นาที</span></h4>[39m
+[31m+       <p class="st-gloss"><strong>สื่อการสอน:</strong> workmats (class set), letter cards (class set): a, n, n</p>[39m
+[31m+       [39m
+[31m+       <div class="tm-teaching-notes">[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่ครูทำ</h5><ul class="tm-note-list"><li>เด็กแต่ละคนมีแผ่นรองกิจกรรม 1 แผ่น และบัตรตัวอักษร a และ n (บัตรตัวอักษร n 2 ใบ)</li><li>ต่อคำทีละขั้น โดยเพิ่มหรือเอาบัตรออกครั้งละ 1 ใบ: เสียง /a/ แล้วคำ an แล้ว Nan แล้วกลับเป็น an อีกครั้ง</li><li>เด็ก ๆ เลื่อนบัตรเข้าช่องทีละใบ ใบละ 1 เสียง และออกเสียงนั้น แล้วอ่านคำ</li></ul></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">ภาษาที่ครูใช้</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Push the letter a card into the first box. Say it: /a/.&quot;</p><p class="st-gloss">&quot;เลื่อนบัตรตัวอักษร a ไปที่ช่องแรก พูดว่า: /a/&quot;</p><p class="tm-language-quote">&quot;Now make an. /a/ - nnn. Which card comes next? Push the letter n card.&quot;</p><p class="st-gloss">&quot;ทีนี้ต่อคำ an /a/ - nnn บัตรไหนมาต่อ? เลื่อนบัตรตัวอักษร n&quot;</p><p class="tm-language-quote">&quot;Now make Nan. Put an n card at the start. Nnn - /a/ - nnn. Read it: Nan!&quot;</p><p class="st-gloss">&quot;ทีนี้ต่อคำ Nan วางบัตรตัวอักษร n ไว้ข้างหน้า Nnn - /a/ - nnn อ่าน: Nan!&quot;</p><p class="tm-language-quote">&quot;Take away the first n card. What is the word now? An!&quot;</p><p class="st-gloss">&quot;เอาบัตรตัวอักษร n ใบแรกออก ตอนนี้เป็นคำอะไร? An!&quot;</p></div></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่นักเรียนทำ</h5><ul class="tm-note-list"><li>เด็ก ๆ เลื่อนบัตร ออกเสียง และอ่านแต่ละคำ</li></ul></div>[39m
+[31m+         <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">สิ่งที่ต้องสังเกต</h5><ul class="tm-note-list tm-watch-list"><li>เด็กที่วางบัตรตัวอักษร n ไว้ข้างหน้าสำหรับคำ &quot;an&quot;: พูดคำนั้นช้า ๆ แล้วถามว่า: &quot;What is the first sound? /a/.&quot; (เสียงแรกคือเสียงอะไร? /a/)</li><li>เด็กที่อ่านบัตรเป็นชื่อตัวอักษร: ชี้ที่บัตรตัวอักษร a และทำท่าประจำเสียง</li></ul></div>[39m
+[31m+       </div>[39m
+[31m+       <div class="st-variants">[39m
+[31m+         <p><strong>ง่ายขึ้น:</strong> ต่อเฉพาะคำ &quot;an&quot; และ &quot;Nan&quot; พร้อมครู</p>[39m
+[31m+         <p><strong>ท้าทายขึ้น:</strong> เด็กต่อคำ &quot;Nan&quot; แล้วต่อคำ &quot;an&quot; ด้วยตัวเอง และอ่านทั้ง 2 คำ</p>[39m
+[31m+         <p><strong>คู่หรือกลุ่ม:</strong> ทำเป็นคู่: ใช้แผ่นรองกิจกรรมร่วมกัน 1 แผ่น และผลัดกันเลื่อนบัตร</p>[39m
+[31m+       </div>[39m
+[31m+     </div>[39m
+[31m+     <div class="st-step">[39m
+[31m+       <h4 class="st-step-title">C3 · เขียนตามคำบอก <span class="st-en">(Dictation)</span> <span class="st-min">4 นาที</span></h4>[39m
+[31m+       <p class="st-gloss"><strong>สื่อการสอน:</strong> student book: dictation lines</p>[39m
+[31m+       [39m
+[31m+       <div class="tm-teaching-notes">[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่ครูทำ</h5><ul class="tm-note-list"><li>ออกเสียง /a/ เด็ก ๆ พูดตาม แล้วเขียนตัวอักษร a ในหนังสือ ทำ 2 ครั้ง</li><li>พูด &quot;an&quot; เด็ก ๆ ออกเสียงทีละเสียงพร้อมชูนิ้วเสียงละ 1 นิ้ว แล้วเขียนคำลงใน 2 ช่อง</li><li>จากนั้นเด็ก ๆ ลากเส้นตามประโยค &quot;I can.&quot; บนบรรทัด</li></ul></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">ภาษาที่ครูใช้</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;When I say /a/, you write the letter a. Ready? /a/.&quot;</p><p class="st-gloss">&quot;เมื่อครูพูด /a/ ให้เด็ก ๆ เขียนตัวอักษร a พร้อมไหม? /a/&quot;</p><p class="tm-language-quote">&quot;Listen: an. Say the sounds on your fingers: /a/ - nnn. Write the letter a in the first box and the letter n in the next box.&quot;</p><p class="st-gloss">&quot;ฟัง: an ออกเสียงทีละเสียงและชูนิ้วทีละนิ้ว: /a/ - nnn เขียนตัวอักษร a ในช่องแรก และตัวอักษร n ในช่องถัดไป&quot;</p><p class="tm-language-quote">&quot;Now trace: I can. A big letter I. A full stop at the end.&quot;</p><p class="st-gloss">&quot;ทีนี้ลากเส้นตาม: I can (ฉันทำได้) I ตัวพิมพ์ใหญ่ ใส่จุดที่ท้ายประโยค&quot;</p></div></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่นักเรียนทำ</h5><ul class="tm-note-list"><li>เด็ก ๆ เขียนตัวอักษร a 2 ครั้ง และเขียนคำ &quot;an&quot; ในหนังสือ</li><li>เด็ก ๆ ลากเส้นตาม &quot;I can.&quot;</li></ul></div>[39m
+[31m+         <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">สิ่งที่ต้องสังเกต</h5><ul class="tm-note-list tm-watch-list"><li>เด็กที่เขียนตัวอักษร a เป็นวงกลมกับเส้นที่แยกห่างกัน: แสดงวิธีเขียนอีกครั้ง: วนไปทางซ้าย ขึ้น ลง</li></ul></div>[39m
+[31m+       </div>[39m
+[31m+       <div class="st-variants">[39m
+[31m+         <p><strong>ง่ายขึ้น:</strong> เด็ก ๆ ลากเส้นตาม &quot;an&quot; ก่อนเขียนเอง</p>[39m
+[31m+         <p><strong>ท้าทายขึ้น:</strong> เด็ก ๆ เขียน &quot;Nan&quot; ใน 3 ช่อง โดยใช้ N ตัวพิมพ์ใหญ่</p>[39m
+[31m+         <p><strong>คู่หรือกลุ่ม:</strong> ทำเป็นคู่: ตรวจตัวอักษร a ของกันและกัน (เริ่มที่จุด วนไปทางซ้าย ขึ้นไปด้านบน ลง)</p>[39m
+[31m+       </div>[39m
+[31m+     </div>[39m
+[31m+     <div class="st-step">[39m
+[31m+       <h4 class="st-step-title">C4 · หนังสือฝึกสะกดอ่าน: อ่านด้วยกัน <span class="st-en">(Decodable: read together)</span> <span class="st-min">7 นาที</span></h4>[39m
+[31m+       <p class="st-gloss"><strong>สื่อการสอน:</strong> books (one for each pair): &quot;Can I?&quot;</p>[39m
+[31m+       [39m
+[31m+       <div class="tm-teaching-notes">[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่ครูทำ</h5><ul class="tm-note-list"><li>ให้ดูปกของ &quot;Can I?&quot; อ่านชื่อเรื่อง แล้วถามว่าหนังสือเล่มนี้เกี่ยวกับอะไร</li><li>ให้ดูหน้า &quot;Sounds in this book&quot; (เสียงในหนังสือเล่มนี้): ทั้งชั้นพูด /a/ สะกดออกเสียง &quot;Nan&quot; และอ่านคำที่ต้องจำ &quot;I&quot; จากนั้นให้ดูรายการคำที่ปกหลัง: นี่คือคำหลักในหนังสือเล่มนี้</li><li>อ่านหน้า 1 พร้อมทั้งชั้น: สะกดออกเสียง &quot;Nan&quot; โดยวางนิ้วใต้ตัวอักษร และอ่าน &quot;can&quot; เป็นคำที่ต้องจำ</li><li>จากนั้นให้อ่านเป็นคู่: คู่คนที่ 1 อ่าน 1 หน้า คู่คนที่ 2 อ่านหน้าถัดไป</li></ul></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">ภาษาที่ครูใช้</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Look. Can I? Who is on the cover? What can they do?&quot;</p><p class="st-gloss">&quot;ดู Can I? (ฉันทำได้ไหม) ใครอยู่บนปก? เขาทำอะไรได้บ้าง?&quot;</p><p class="tm-language-quote">&quot;Look at this page. These are the sounds and the words of the book. What sound? /a/!&quot;</p><p class="st-gloss">&quot;ดูหน้านี้ นี่คือเสียงและคำในหนังสือ เสียงอะไร? /a/!&quot;</p><p class="tm-language-quote">&quot;Finger under the letters. Nnn - /a/ - nnn. Nan! And this word is tricky: can.&quot;</p><p class="st-gloss">&quot;วางนิ้วใต้ตัวอักษร Nnn - /a/ - nnn Nan! ส่วนคำนี้เป็นคำที่ต้องจำ: can&quot;</p><p class="tm-language-quote">&quot;Your turn with your partner. Partner A reads, partner B reads, partner A reads.&quot;</p><p class="st-gloss">&quot;ถึงตาเด็ก ๆ อ่านกับคู่ คู่คนที่ 1 อ่าน คู่คนที่ 2 อ่าน คู่คนที่ 1 อ่าน&quot;</p></div></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่นักเรียนทำ</h5><ul class="tm-note-list"><li>เด็ก ๆ อ่านแต่ละหน้า โดยวางนิ้วใต้คำ</li><li>คู่ผลัดกันอ่านทีละหน้า</li></ul></div>[39m
+[31m+         <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">สิ่งที่ต้องสังเกต</h5><ul class="tm-note-list tm-watch-list"><li>เด็กที่เดาว่าเป็น &quot;Ben&quot; หรือชื่ออื่น: ชี้ใต้ตัวอักษรแต่ละตัวของ &quot;Nan&quot; และออกเสียง</li><li>นี่คือหนังสือเล่มแรกที่มีคำให้สะกดออกเสียง เด็ก ๆ สะกดออกเสียง &quot;Nan&quot; ด้วยตัวอักษร n และ a คำอื่นเป็นคำที่ต้องจำ: I, can, and</li></ul></div>[39m
+[31m+       </div>[39m
+[31m+       <div class="st-variants">[39m
+[31m+         <p><strong>ง่ายขึ้น:</strong> เด็กอ่านพร้อมครูทีละหน้า</p>[39m
+[31m+         <p><strong>ท้าทายขึ้น:</strong> เด็กอ่านทั้งเล่มให้คู่ฟังด้วยตัวเอง</p>[39m
+[31m+         <p><strong>คู่หรือกลุ่ม:</strong> ทำเป็นคู่ ครูนั่งกับ 1 คู่</p>[39m
+[31m+       </div>[39m
+[31m+     </div>[39m
+[31m+     <div class="st-step">[39m
+[31m+       <h4 class="st-step-title">C5 · ตรวจความเข้าใจ <span class="st-en">(Comprehension)</span> <span class="st-min">3 นาที</span></h4>[39m
+[31m+       <p class="st-gloss"><strong>สื่อการสอน:</strong> books (one for each pair): &quot;Can I?&quot;</p>[39m
+[31m+       [39m
+[31m+       <div class="tm-teaching-notes">[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่ครูทำ</h5><ul class="tm-note-list"><li>ถามคำถาม 2 ข้อเกี่ยวกับหนังสือ โดยให้ 1 ข้อใช้กรอบประโยคของสัปดาห์ เด็ก ๆ ตอบเป็นประโยคสั้น ๆ</li></ul></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">ภาษาที่ครูใช้</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;Look at page 7. Is Nan happy? No! Nan is scared.&quot;</p><p class="st-gloss">&quot;ดูหน้า 7 Is Nan happy? (Nan ดีใจไหม) No! Nan is scared. (ไม่ใช่ Nan กลัว)&quot;</p><p class="tm-language-quote">&quot;Look at page 8. How many children are on the slide? One, two. Two!&quot;</p><p class="st-gloss">&quot;ดูหน้า 8 How many children are on the slide? (มีเด็กอยู่บนกระดานลื่นกี่คน) One, two. Two!&quot;</p></div></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่นักเรียนทำ</h5><ul class="tm-note-list"><li>เด็ก ๆ ตอบ &quot;No&quot; หรือตัวเลข แล้วพูดคำตอบเต็มพร้อมครู</li></ul></div>[39m
+[31m+         <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">สิ่งที่ต้องสังเกต</h5><ul class="tm-note-list tm-watch-list"><li>เด็กที่ตอบเพียงคำเดียว (&quot;No&quot; หรือตัวเลข): พูดคำตอบเต็ม แล้วให้เด็กพูดตาม</li></ul></div>[39m
+[31m+       </div>[39m
+[31m+       <div class="st-variants">[39m
+[31m+         <p><strong>ง่ายขึ้น:</strong> ถามเฉพาะคำถามแบบใช่หรือไม่ใช่</p>[39m
+[31m+         <p><strong>ท้าทายขึ้น:</strong> เด็กคนหนึ่งถามคำถามเกี่ยวกับหน้าหนึ่ง: &quot;How many children?&quot; (มีเด็กกี่คน)</p>[39m
+[31m+         <p><strong>คู่หรือกลุ่ม:</strong> ทำเป็นคู่: ผลัดกันถามคำถามคนละ 1 ข้อ</p>[39m
+[31m+       </div>[39m
+[31m+     </div>[39m
+[31m+     <div class="st-step">[39m
+[31m+       <h4 class="st-step-title">C7 · สติกเกอร์ <span class="st-en">(Sticker)</span> <span class="st-min">3 นาที</span></h4>[39m
+[31m+       <p class="st-gloss"><strong>สื่อการสอน:</strong> stickers: &quot;Can I?&quot;, student book: book map</p>[39m
+[31m+       [39m
+[31m+       <div class="tm-teaching-notes">[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่ครูทำ</h5><ul class="tm-note-list"><li>แจกสติกเกอร์ &quot;Can I?&quot; ให้เด็กแต่ละคน</li><li>เด็ก ๆ ติดสติกเกอร์ที่หมายเลข 2 ของแผนที่หนังสือในหนังสือของตัวเอง</li></ul></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">ภาษาที่ครูใช้</h5><div class="tm-language-box"><p class="tm-language-quote">&quot;You read the book! Here is your sticker.&quot;</p><p class="st-gloss">&quot;เด็ก ๆ อ่านหนังสือจบแล้ว! นี่คือสติกเกอร์ของเด็ก ๆ&quot;</p><p class="tm-language-quote">&quot;Put it on the book map, on number 2.&quot;</p><p class="st-gloss">&quot;ติดที่แผนที่หนังสือ ที่หมายเลข 2&quot;</p></div></div>[39m
+[31m+         <div class="tm-note-section"><h5 class="tm-note-title" style="color: #2e6b30;">สิ่งที่นักเรียนทำ</h5><ul class="tm-note-list"><li>เด็ก ๆ ติดสติกเกอร์บนแผนที่หนังสือ และพูดชื่อหนังสือ</li></ul></div>[39m
+[31m+         <div class="tm-note-section tm-watch-for"><h5 class="tm-note-title tm-watch-title" style="color: #2e6b30;">สิ่งที่ต้องสังเกต</h5><ul class="tm-note-list tm-watch-list"><li>เด็กที่ติดสติกเกอร์ผิดที่: ชี้หมายเลข 2 บนแผนที่หนังสือให้ดู</li></ul></div>[39m
+[31m+       </div>[39m
+[31m+       <div class="st-variants">[39m
+[31m+         <p><strong>ง่ายขึ้น:</strong> ติดสติกเกอร์บนแผนที่หนังสือพร้อมกับเด็ก</p>[39m
+[31m+         <p><strong>ท้าทายขึ้น:</strong> เด็กพูดชื่อหนังสือและอ่าน 1 หน้าจากหนังสือ</p>[39m
+[31m+         <p><strong>คู่หรือกลุ่ม:</strong> หัวหน้าโต๊ะแจกสติกเกอร์</p>[39m
+[31m+       </div>[39m
+[31m+     </div>[39m
+[31m+     [39m
+[31m+   </section>[39m
+[31m+   [39m
+
+[36m [2m❯[22m __tests__/storytime-manual.test.ts:[2m73:22[22m[39m
+    [90m 71| [39m        const html = daySection(renderStorytimeWeek(shippedWeek2(), 't…
+    [90m 72| [39m        [34mexpect[39m(html)[33m.[39m[34mtoContain[39m([32m'B7 · ร้องเพลงประจำสัปดาห์พร้อมท่าทาง'[39m)[33m;[39m
+    [90m 73| [39m        expect(html).toContain('ในช่วงเปิดคาบ ให้เปิดวิดีโอคาราโอเกะเป…
+    [90m   | [39m                     [31m^[39m
+    [90m 74| [39m        expect(html).not.toContain('B7 · ร้องเพลงประจำสัปดาห์พร้อมท่าท…
+    [90m 75| [39m        expect(html).toContain('กิจวัตรเปิดคาบ (6 นาที รวมทบทวน 1 นาที…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m37 passed[39m[22m[90m (38)[39m
+[2m   Start at [22m 21:46:24
+[2m   Duration [22m 4.53s[2m (transform 1.34s, setup 206ms, import 1.73s, tests 2.70s, environment 973ms)[22m
+
+[?25h
+Script done on 2026-11-03 21:46:29+07:00 [COMMAND_EXIT_CODE="1"]

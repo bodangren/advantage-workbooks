@@ -1,0 +1,103 @@
+Script started on 2026-11-03 21:54:29+07:00 [COMMAND="cd dashboard && CI=true npx vitest run __tests__/storytime-week.test.ts" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-week.test.ts [2m([22m[2m44 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 602[2mms[22m[39m
+     [32m✓[39m parses the fixture week[32m 13[2mms[22m[39m
+     [32m✓[39m refuses another program, another shape, a level out of range, and a wrong step id[32m 23[2mms[22m[39m
+     [32m✓[39m gives the script ids of a level and the URL key[32m 2[2mms[22m[39m
+     [32m✓[39m gives the file of a week[32m 2[2mms[22m[39m
+     [32m✓[39m gives the printed QR address of a page path on the Storytime host (S23)[32m 4[2mms[22m[39m
+     [32m✓[39m passes the fixture week with no failure[32m 13[2mms[22m[39m
+     [32m✓[39m reports a package that does not parse as the schema check only[32m 5[2mms[22m[39m
+     [32m✓[39m fails a key that is not st<level>/<week>[32m 4[2mms[22m[39m
+     [32m✓[39m fails a week without five scripts on days 1 to 5 in the order of the level[32m 45[2mms[22m[39m
+     [32m✓[39m fails a script whose opening and main steps do not fill the period[32m 6[2mms[22m[39m
+     [32m✓[39m fails a step id that does not start with its script letter, or that repeats[32m 27[2mms[22m[39m
+     [32m✓[39m fails a Level 1 step over 8 minutes[32m 19[2mms[22m[39m
+     [32m✓[39m warns about a moved step in a period over 30 minutes[32m 9[2mms[22m[39m
+     [32m✓[39m fails a family of fewer than 6 or more than max (8 by default) words, and warns about more than 3 new tricky words[32m 56[2mms[22m[39m
+     [32m✓[39m counts the song lines that carry the hook of the frame[32m 8[2mms[22m[39m
+[31m     [31m×[31m matches the frame slot as whole words and treats a and an as the same frame word[39m[32m 38[2mms[22m[39m
+     [32m✓[39m fails a song with the frame fewer than 8 times or with a gesture outside the 24[32m 13[2mms[22m[39m
+     [32m✓[39m warns when the sung lines differ from the lyric sheet (the lines follow the audio)[32m 28[2mms[22m[39m
+     [32m✓[39m fails a read-along marked as a sound book[32m 11[2mms[22m[39m
+[31m     [31m×[31m allows a sound book only on Level 2 week 1 and still checks its decodability[39m[32m 24[2mms[22m[39m
+     [32m✓[39m warns about a song line with no picture and no imageOf, and fails an imageOf that is not an earlier pictured line[32m 19[2mms[22m[39m
+     [32m✓[39m takes 0 minutes only for a moved step[32m 16[2mms[22m[39m
+     [32m✓[39m parses a write-letter check item and a script prep line[32m 2[2mms[22m[39m
+     [32m✓[39m fails a teach week without the read-along, the decodable (Level 2 up), or the song[32m 30[2mms[22m[39m
+     [32m✓[39m lets a review week leave out the books, the song, and the family (it needs its block and benchmark instead)[32m 3[2mms[22m[39m
+     [32m✓[39m fails a Level 1 week with a decodable[32m 6[2mms[22m[39m
+     [32m✓[39m fails Thai notes whose line counts differ from the English, and warns while Thai is missing[32m 11[2mms[22m[39m
+     [32m✓[39m fails a strip over 18 cards, a card from a later week, or a missing day[32m 9[2mms[22m[39m
+     [32m✓[39m takes the app player timing shape for book and song audio[32m 7[2mms[22m[39m
+     [32m✓[39m fails a published week with a part not approved or a failed check[32m 10[2mms[22m[39m
+     [32m✓[39m counts decodable, tricky, name, and untaught words (design §5.6)[32m 2[2mms[22m[39m
+     [32m✓[39m collects the taught letters and tricky words from Level 2 week 1 to the week[32m 18[2mms[22m[39m
+     [32m✓[39m fails a decodable under 90 percent or with an untaught word, lists names, skips a sound book, and warns with no level[32m 14[2mms[22m[39m
+     [32m✓[39m warns about a teach week without a Friday check or a home card with other than 3 words, and fails a check answer that is not a choice[32m 36[2mms[22m[39m
+     [32m✓[39m passes exactly 3 home words and warns for 2 or 4[32m 7[2mms[22m[39m
+     [32m✓[39m passes the review fixture: the block, the benchmark, and no teaching-week rule[32m 17[2mms[22m[39m
+     [32m✓[39m defaults a circle-picture item to the first sound[32m 4[2mms[22m[39m
+     [32m✓[39m fails a review week with no block or no benchmark[32m 2[2mms[22m[39m
+     [32m✓[39m fails a block week missing on days 1 to 4, a week not before the review week, and a medley song outside the block[32m 4[2mms[22m[39m
+     [32m✓[39m fails when a block week appears only on day 5[32m 5[2mms[22m[39m
+     [32m✓[39m fails a strip that is not the 26 letters, cards and letters that are not the taught ones, a wrong answer, and a changed reading-record text[32m 7[2mms[22m[39m
+     [32m✓[39m fails a day with no review page, a review-page answer that is not a choice, and a picture in two sort columns[32m 8[2mms[22m[39m
+     [32m✓[39m defaults a picture sort to the first sound[32m 4[2mms[22m[39m
+     [32m✓[39m counts the benchmark and the day notes in the Thai warning[32m 3[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-week.test.ts[2m > [22mstorytime-week checks[2m > [22mmatches the frame slot as whole words and treats a and an as the same frame word
+[31m[1mAssertionError[22m: expected 3 to be +0 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 3[39m
+
+[36m [2m❯[22m __tests__/storytime-week.test.ts:[2m142:111[22m[39m
+    [90m140| [39m
+    [90m141| [39m    it('matches the frame slot as whole words and treats a and an as t…
+    [90m142| [39m        expect(frameCount('I can see a ___.', ['I can see apples', 'I …
+    [90m   | [39m                                                                                                              [31m^[39m
+    [90m143| [39m        [34mexpect[39m([34mframeCount[39m([32m'It is ___.'[39m[33m,[39m [[32m"It isn't red"[39m]))[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m144| [39m        expect(frameCount('I can see a ___.', ['I can see an animal!']…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-week.test.ts[2m > [22mstorytime-week checks[2m > [22mallows a sound book only on Level 2 week 1 and still checks its decodability
+[31m[1mAssertionError[22m: expected { id: 'books', label: 'Books', …(2) } to match object { status: 'fail', …(1) }
+(2 matching properties omitted from actual)[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "detail": StringMatching /sound book.*Level 2 week 1/i,[39m
+[32m-   "status": "fail",[39m
+[31m+   "detail": undefined,[39m
+[31m+   "status": "pass",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-week.test.ts:[2m182:61[22m[39m
+    [90m180| [39m            w[33m.[39mbooks[33m![39m[[34m1[39m][33m.[39mpages[[34m0[39m][33m.[39mtext [33m=[39m [32m'A zebra.'[39m[33m;[39m
+    [90m181| [39m        })[33m;[39m
+    [90m182| [39m        expect(report.checks.find((c) => c.id === 'books')).toMatchObj…
+    [90m   | [39m                                                            [31m^[39m
+    [90m183| [39m        expect(report.checks.find((c) => c.id === 'decodable')).toMatc…
+    [90m184| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m42 passed[39m[22m[90m (44)[39m
+[2m   Start at [22m 21:54:36
+[2m   Duration [22m 2.75s[2m (transform 539ms, setup 349ms, import 892ms, tests 602ms, environment 0ms)[22m
+
+[?25h
+Script done on 2026-11-03 21:54:39+07:00 [COMMAND_EXIT_CODE="1"]

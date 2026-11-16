@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "summary": "Spec review of the Phase 10 amendment at HEAD 890016dd. The amendment serves the PM request of 2026-11-07: one picture for each of the 51 family words of w01 to w07 (6, 10, 7, 7, 7, 7, 7; w08 none), then one revision folder per week to the PM by 2026-11-12, before Daniel's 11-16 check. The facts hold: the shipped weeks hold 51 family image objects with prompt, characters, and caption and no file, w08 holds 18 words and no image object, the 15 card sources exist as 1500 x 1500 RGB PNG files named l2-w<NN>-card-<word>-v1.png, card-pictures.json holds 31 rows, and the cited Monorepo lines are correct at HEAD 84e356bdf. The mapping table sums to 51 (card 15, patch 7, dots 10, Forge 19). The print card kit does not change, and the print modules read only entry.word, so the print output stays byte-equal. Forge pictures sit behind the H8 delivery check, and H11 routes a late folder to the PM. No Blocker found. One Major (this track's PROJECT_TESTS has no exclude for the loops track's red-by-design content file) and four Nits.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] plan.md Phase 10 gate block (PROJECT_TESTS) and Phase 10 verification task: this track's PROJECT_TESTS reads the glob __tests__/storytime-*.test.ts of the print and loops tracks, and it has no exclude for the loops track's red-by-design file storytime-loops-share-content.test.ts (loops rule R3 covers the print track and the loops track only). Rationale: the plan applies rule R1 to Red 1 and Red 2, but R1 governs the start of a Red window; Green 1, Green 2, the Forge delivery task, and the Phase 10 verification task can run while the loops Phase 3b R3 window is open, and at that time the package PROJECT_TESTS fails on a file of another track, so a phase gate can be red for a reason outside this phase and the plan records no exclude rule (the loops rule R2/R3 pattern) for this track.",
+    "F2 [Nit] spec.md H12 (the MANIFEST \"Changed since\" form): H12 cites the w01 r2 MANIFEST lines 51 to 63 as the form and states that a new file has old-sha256: none, but that folder writes an empty old-sha256: value for the new provenance file (line 68). Rationale: H12 is explicit, so the implementer builds none, while the cited record and the PM comparison show an empty value; the difference costs no work and only weakens the evidence line.",
+    "F3 [Nit] plan.md Phase 10 Package build task (Done when): the gate grep uses the literal path segment w0N, so the command prints 0 until the week number is put in its place. Rationale: a gate that needs a hand substitution is easy to run vacuously, and the intended loop over weeks 1 to 7 is clear from the family counts that follow.",
+    "F4 [Nit] spec.md H9 (the family-pictures check): H9 pins the id, the three statuses, and the detail strings, but it names no label for the check row. Rationale: every other row of check-weeks.ts carries a label, so the implementer picks the visible text and no test pins it.",
+    "F5 [Nit] spec.md H3 and H8 (the Forge source): H3 and H8 pin the Forge file name l2-w<NN>-card-<word>-v<k>.png and the MANIFEST line form, and no cited record fixes that name with the Forge side. Rationale: the PM request of 2026-11-07 names only the folder, so a different Forge name stops the script at H8 and costs a PM round trip under H11 (default: wait for Forge); Red and Green do not depend on the name."
+  ],
+  "evidence": [
+    "HEAD confirmed: git rev-parse HEAD is 890016dd4e66414330ff40ec03621502cecc066a, equal to audited_head_sha. git show --stat shows spec.md (+164), plan.md (+33), spec-review.md (+9), and index.md (+1) of the track only.",
+    "Paraphrase is possible for both halves: the 51-word mapping (card 15, patch 7, dots 10, Forge 19) with the H2 path and the H6 output, and the stack (StorytimeWeekSchema and FamilyWordSchema, check-weeks.ts, the card kit, the phase folders).",
+    "Owner source in line: advantage-pr measure/pm-log.md line 2222 (2026-11-07 03:43 ICT) holds the PM request quoted in the spec, and line 2122 (2026-11-06 04:50 ICT) holds Daniel's \"Go\" with the 31 words, the color patch for 8 color words, and the number and dots for 9 numbers.",
+    "Week facts checked by jq over content/storytime/l2/w01.json to w08.json: image objects 6, 10, 7, 7, 7, 7, 7 (51 total), 0 with file, w08 18 words and 0 image objects; every image object holds exactly caption, characters, prompt; every word is lower-case letters; every caption equals its word.",
+    "Sources checked: ~/Desktop/handoff/storytime-l2-card-pictures/ holds 59 PNG files (58 color and line files plus one contact sheet), MANIFEST.txt, and manifest.json; the 15 card words resolve to l2-w<NN>-card-<word>-v1.png; two failed rows (ham, family) explain the Forge fallback for w04 family. The sample files are 1500 x 1500, 8-bit RGB, non-interlaced.",
+    "card-pictures.json holds 31 rows; it has an entry for w04 family and no entry for friend, the w05 body words, the w06 animals, ball, kite, or drum, so H3 gives Forge for the 19.",
+    "Monorepo claim verified read-only at HEAD 84e356bdf: week.ts MEDIA_PATH_MAX line 26, the allowlist line 41, file: mediaPath.optional() lines 84 and 191, familyWordSchema image line 191; receive-weeks.ts mediaOf line 80, family-word-picture lines 121 to 129, MEDIA_EXTENSION line 180, mediaPathsOf line 191. Every named line is correct.",
+    "App claim verified: week-view.tsx shows the word above the picture, the img with class h-24 w-24 (96 CSS px), and a text box when file is absent; readiness.ts counts book pages only, so a family word with no file blocks no week.",
+    "Card kit claim verified: STORYTIME_CARD_COLOR_PATCH line 128 with 8 values, STORYTIME_CARD_NUMBER_DOTS line 144 with one to nine, colorPatchBox line 753 and numberDotsBox line 765 are module-private, compileStorytimeCardSheet line 840, CARD_PATCH_RADIUS_MM = 6, and fontFaceCss at print-fonts.ts line 41. H4 therefore keeps card-kit.ts unchanged.",
+    "Print output stays byte-equal: manual.ts, readers.ts, covers.ts, and checks.ts read only entry.word of a family word, never image.file, so the extra file lines do not change the manual HTML or the card sheet.",
+    "Gate plan: both other tracks define PROJECT_TESTS with __tests__/storytime-*.test.ts, and loops test-strategy section 2.2 rule R1 says one Red window across two tracks. The Phase 10 plan restates R1 and waits for the loops Phase 3b Green. Rule R3 (loops plan line 255) adds the exclude to the print and loops plans only, which is finding F1.",
+    "Pinned line numbers checked: storytime-print-v15.test.ts AX-lines reads w02.json lines 2094, 4119, 4147, 4153, and 4205, and the w02 family block sits at line 72, so the 10 new file lines move those numbers by 10 as the plan states.",
+    "Prior folders checked: ~/Desktop/handoff/ holds w01-storytime-app-package, w01-storytime-app-package-r2, and w02 to w07 plain, equal to the H12 names. The w01 r2 MANIFEST holds the Changed since section at line 51 with old-sha256 and new-sha256 lines, and an empty old-sha256 value for the new provenance file (F2).",
+    "check-weeks.ts holds checkBookPictures at line 26 and pushes it after checkStorytimeWeek, so H9's placement and order are correct. set-book-pictures.ts writes books/pictures.sha256 whole at line 129, so H7's warning to keep family lines out of it is right.",
+    "Done-when gates are fast and falsifiable: the AC10-1 node one-liner prints 51/51, the find and sha256sum loops, the numstat counts (2N and N), the check-weeks status rows, the mutant cmp checks, the contact sheet, and the MANIFEST checks. F3 is the one gate that needs a hand substitution."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 890016dd4e66414330ff40ec03621502cecc066a (equal to audited_head_sha)",
+    "git show --stat 890016dd -> spec.md, plan.md, spec-review.md, index.md of the track (207 insertions)",
+    "git show 890016dd -- spec.md plan.md spec-review.md index.md (read in full)",
+    "jq counts over content/storytime/l2/w01.json to w08.json -> image objects 6,10,7,7,7,7,7 and w08 0; file values 0; caption equals word",
+    "jq '.word' over content/storytime/l2/print/card-pictures.json -> 31 rows, week and word pairs",
+    "ls and file over ~/Desktop/handoff/storytime-l2-card-pictures/ -> 59 PNG, 1500 x 1500 RGB",
+    "grep of the cited lines in reading-advantage-monorepo apps/storytime/lib/contracts/week.ts and apps/storytime/scripts/receive-weeks.ts -> 26, 41, 84, 191, 80, 121-129, 180, 191",
+    "read of dashboard/lib/storytime/print/card-kit.ts lines 120 to 209 and 745 to 800; print-fonts.ts lines 35 to 50",
+    "grep of focus.family and family.words in dashboard/lib and dashboard/scripts -> entry.word only in manual.ts, readers.ts, covers.ts",
+    "grep of PROJECT_TESTS in measure/tracks/storytime_print_r1_20261025/plan.md and measure/tracks/storytime_teaching_loops_20261103/plan.md -> __tests__/storytime-*.test.ts",
+    "read of measure/tracks/storytime_teaching_loops_20261103/test-strategy.md section 2.2 and plan.md line 255 (rule R3)",
+    "read of dashboard/__tests__/storytime-print-v15.test.ts lines 240 to 260; grep of the w02 family block line 72",
+    "sed of ~/Desktop/handoff/w01-storytime-app-package-r2/MANIFEST.txt lines 40 to 75",
+    "read of advantage-pr measure/pm-log.md lines 2118 to 2126 and 2218 to 2226",
+    "python3 -I -m json.tool on the result JSON -> parses"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_week_package_20261022/spec-review-890016dd.json",
+    "measure/runs/storytime_week_package_20261022/spec-review-890016dd.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "paraphrase": {
+    "proposes": "Phase 10 gives one picture file to each of the 51 family words of Level 2 weeks 1 to 7: 15 words take the approved card pictures, 7 color words take the card-kit color patch, 10 number words take the numeral with dots, and 19 words take a new Forge picture. A new module builds the patch and number markup and a new script renders each picture to an 800 x 800 JPEG with a provenance file, and the script writes image.file into seven week files by the Phase 7 byte rules. A new check family-pictures reports a missing file, and one revision folder per week (w01 r3, w02 to w07 r2) goes to the PM by 2026-11-12 with a Changed since section, before Daniel sees the pictures in his 11-16 check. The print card kit does not change, and Forge pictures pass a delivery check before the first write.",
+    "current_system": "The eight Level 2 week files under content/storytime/l2/ hold 51 family image objects with prompt, characters, and caption and no file, and week 8 holds 18 family words with no image object. The Storytime schema FamilyWordSchema accepts an optional image with a file, and the Monorepo receiver reads that file as a normal media item and otherwise reports a missing picture; the app shows a caption box when the file is absent. The teacher book and card sheets read only the family word text, so a family picture file does not change print output. The week media live under l2/media/w<nn>/ with a books provenance file per week, and the app package of each week is one folder under ~/Desktop/handoff/."
+  }
+}

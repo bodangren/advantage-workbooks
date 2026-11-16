@@ -1,0 +1,48 @@
+Spec review log: storytime_week_package_20261022, Phase 7 (track setup), HEAD 6cbd2827b51e091134546ff3b99d61fa807a3999
+Reviewer model: kimi-code-plan-cn/kimi-for-coding#high. Report-only; no file of the track changed.
+
+Scope: spec.md addendum 2026-11-03 (lines 39-102) and plan.md Phase 7 (lines 34-56) at HEAD, read with git show. HEAD equals the audited sha.
+
+1. Paraphrase (5 lines)
+- The addendum ships the 18 approved week-1 book pictures (2 covers, 16 pages) to the Monorepo app by 2026-11-06: a script matches each picture to its color print source by text, writes 1600 px JPEGs of 400 KB or less, writes SHA-256 provenance, and adds image.file lines to w01.json with no other byte change.
+- A book-pictures check joins check-weeks.ts. approval.images becomes approved with Daniel's three quotes; audio and song stay draft.
+- The published check detail becomes "audio not approved; song not approved" and stays FAIL; PROJECT_CHECKS of the print and A-42 tracks keep working.
+- Pinned published-detail tests of other tracks change; a hand-off folder (w01.json plus every named media file, MANIFEST.txt) goes to the PM.
+- Verified against the repo: match rules fit the week-1 data; the published-detail math of D8 matches checks.ts; one blocker found on the source rule (below).
+
+2. Zoom out
+The phase covers what the app needs on 2026-11-06: image.file on all 18 pictures, true approvals, the hand-off folder with all 16 media paths w01.json names (book audio, song audio, song videos, posters, line pictures, phoneme audio). Missing from the plan text: the workbooks-commit MANIFEST line and the byte-for-byte rule (F3), and the correct root path for the hand-off copies (F2).
+
+3. Zero-decision points and defaults
+- v1/v2 source resolution (BLOCKER, F1): pictures.json names v1 files for a-net, a-nose, nan-can-nod; only the approved v2 files exist; the list is pinned by print tests. Default: resolve by row id, take the unique color file with the highest version; exit 1 on zero or multiple candidates; provenance records the resolved name.
+- Test file list for RED/GREEN_TEST_COMMAND: add storytime-print-contract.test.ts (F4).
+- Hand-off copy root: content/storytime/, paths exactly as w01.json names them (F2).
+- MANIFEST.txt: add "workbooks-commit: <full sha>" and the byte-for-byte git show equality rule (F3).
+- approval.words format: one string, quotes in time order with times (F5).
+- 400 KB fallback: re-encode only the offending file, quality down to 75, record it (F6).
+- sharp settings: defaults, record the sharp version (F7).
+- Caption rule, path rule, check status, provenance format: fully pinned; no decision open.
+
+4. Contradictions
+- D3/AC3 vs the disk and the print redo rule (F1, blocker).
+- plan.md:55 "under content/storytime/l2/" vs the decided rule and w01.json's own paths (F2).
+- D7's approval quotes vs the decided state: consistent (audio/song stay draft; meta.status stays published).
+- D8 old/new published detail: consistent with checks.ts (join "; ", key order images, audio, song).
+
+5. Risks
+- Other tracks' tests pin the published detail: 7 tests in 4 files; the plan names 3 files (F4).
+- Git-ignored sources: a fresh clone cannot rebuild the JPEGs; mitigated by committed JPEGs, pictures.sha256, the contact sheet (F8).
+- 400 KB limit: quality 82 at 1600 x 1200 can exceed 400 KB on busy pages; fallback open (F6).
+
+Findings: F1 Blocker; F2-F4 Major; F5-F8 Nit.
+
+MEASURE_AGENT_RESULT
+status: fail
+role: Measure Spec Review
+track: storytime_week_package_20261022
+phase: P7
+head: 6cbd2827b51e091134546ff3b99d61fa807a3999
+result_file: measure/runs/storytime_week_package_20261022/spec-review-6cbd2827.json
+findings: 1 blocking; 7 nonblocking
+retry_recommendation: escalate_human
+END_MEASURE_AGENT_RESULT

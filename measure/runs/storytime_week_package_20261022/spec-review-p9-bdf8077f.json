@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "fail",
+  "summary": "The addendum meets the PM order and reuses the Phase 7 script, checks and decisions. One Blocker: 2 of the 6 weeks (w02 and w06) repeat a page text, and pictures.json repeats the matching row, so the unchanged script gets 2 candidates for a page and exits 1. Two Major findings and one Nit are nonblocking.",
+  "paraphrase": {
+    "proposes": "The addendum makes one app package for each of weeks 2 to 7. It runs the Phase 7 book-picture script on 6 weeks and writes 108 JPEGs and 6 provenance files. It writes 18 image.file lines into each week file and keeps every approval draft. It adds one test on a temporary copy of a week and drops image.file in the loops-content compare. It sends 6 hand-off folders to the PM by 2026-11-16 and puts the owner items on the 11-16 list.",
+    "current_system": "Weeks 2 to 7 are draft packages. Their text and Thai approvals are approved; the images, audio, song, scripts and loops approvals are draft. No book cover or page of these weeks names a picture. The Phase 7 script matches pictures.json rows by week, use and text, resolves the COLOR file through the Forge manifest, writes 1600 px JPEGs and a provenance file, and adds image.file lines. The book-pictures check reads those paths. Week 1 is published and its 18 pictures are set."
+  },
+  "blocking_findings": [
+    "F1 [Blocker] Addendum 2026-11-05 Overview and FR 1: the claim that the Phase 7 script \"works for any week, because it matches the rows by week.meta.week\" is false for w02 and w06. Rationale: w02 decodable pages 1 to 6 repeat \"Nan can.\", \"Can I?\" and \"I can!\"; w06 decodable pages 3 and 6 both say \"Tap, tap, tap!\"; content/storytime/l2/print/pictures.json holds a second week 2 row for each of the three texts (nan-can-b, can-i-b, i-can-b) and a second week 6 row (tap-tap-tap-b); set-book-pictures.ts line 51 filters by week, use and text, so each repeated page gets 2 candidates and line 52 exits 1 before any write; E2 and D3 forbid a change to the match, and the addendum gives no rule for which row to take and no rule for the file to change (script, pictures.json, or the page text); the fallback \"unless a defect shows; the maker reports it then\" names no decision."
+  ],
+  "nonblocking_findings": [
+    "F2 [Major] FR 6 and E7: the new test names no file path, no week and no assertion. Rationale: the blast radius says \"the new test file of E7\" but gives no path, and the RED and GREEN commands name only the existing __tests__/storytime-book-pictures.test.ts and __tests__/storytime-loops-content.test.ts; that existing test already covers the three failure modes on temporary copies and the success case on the shipped w01; the maker must guess the file name, the week, and the checks (18 files, 18 provenance lines, 18 file lines), and a success case on w02 or w06 fails for F1.",
+    "F3 [Major] E5 and E3: the order between the 11-16 hand-off and the later approval.images edit is not defined. Rationale: E5 requires the week file of each folder to be byte-equal to git show <sha> and sends one line to the PM, and E3 puts the words edit in a later owner task; the addendum does not say which commit the folder takes when the word arrives before 11-16, and it does not say whether a second folder or a second PM line follows the edit, so the maker must guess and the Monorepo field contract (A-42 Hand-off 1, approval) receives a draft or an approved record by chance.",
+    "F4 [Nit] Blast radius: \"Any test that counts the check rows of weeks 2 to 7 changes too. The maker greps for them and lists them.\" leaves the changed test set to a grep and names no test. Rationale: other tests read every week (storytime-print-covers-16books.test.ts line 443, storytime-loops-content.test.ts line 264), so the maker must find the set, and the wording does not say the pattern that finds it."
+  ],
+  "evidence": [
+    "HEAD check: .git/HEAD holds refs/heads/master and .git/refs/heads/master holds bdf8077f8dc52a0acb76f7e620f0d7783d234919. It equals audited_head_sha.",
+    "Paraphrase check: spec.md lines 105 to 169 can be paraphrased; no Comprehension gap.",
+    "Zoom-out: E1 gives one package for each week 2 to 7; E2 reuses Phase 7 D2 to D6; E3 keeps approval.images draft and E6 puts the owner items on the 11-16 list, not a stop; E5 copies the Phase 7 hand-off form. The addendum follows the PM order and adds no speculative feature.",
+    "Reuse: dashboard/scripts/storytime/set-book-pictures.ts, dashboard/scripts/storytime/check-weeks.ts checkBookPictures, dashboard/lib/storytime/print/picture-check.ts resolveStorytimePictureFiles (line 614). The addendum cites each one and keeps it.",
+    "F1 facts: content/storytime/l2/w02.json lines 998, 1008, 1018, 1028, 1038, 1048 (three texts, each twice); content/storytime/l2/w06.json lines 911 and 942 (\"Tap, tap, tap!\" twice); pictures.json lines 586, 600, 614, 628, 642, 656 (week 2 pairs) and 2276, 2322 (week 6 pair); set-book-pictures.ts lines 50 to 53.",
+    "Cover rows: each week 2 to 7 has one cover row whose text equals the book title (w02 How Many? / Can I?; w03 Paint! / The Pan; w04 My Family / Pam; w05 I Have Two / Sam and Pam; w06 I Can See / Tap, Tap!; w07 Is It a Ball? / The Top). No cover text repeats in a week.",
+    "Page rows: every page text of w03, w04, w05 and w07 has exactly one story-page row in its week. w02 page 1 = page 4, page 2 = page 5, page 3 = page 6 (2 rows each). w06 page 3 = page 6 (2 rows). No page has zero matches.",
+    "Books and audio: each of the 6 weeks has 2 books (readalong and decodable) with 8 pages, an audio.file and a slowFile (w02 books 1-how-many, 2-can-i; w03 1-paint, 2-the-pan; w04 1-my-family, 2-pam; w05 1-i-have-two, 2-sam-and-pam; w06 1-i-can-see, 2-tap-tap; w07 1-is-it-a-ball, 2-the-top).",
+    "No image.file now: grep of content/storytime/l2/w02.json to w07.json for books/<stem>/(cover|pNN).jpg finds no match. w01.json holds its 18 lines (line 225 onward).",
+    "Approvals: w02 to w07 have approval.text and approval.thai approved, and images, audio, song, scripts, loops draft (w02 lines 14 to 28; w04, w05, w06, w07 lines 15 to 27; meta.status draft at line 43). The addendum states this correctly.",
+    "published FAIL: dashboard/lib/storytime/checks.ts lines 333 to 339 adds the published check only when meta.status is published, so w01 is the only week with that row; w01 approval.loops is draft, so the one accepted FAIL stays (\"loops not approved\"). AC2 holds.",
+    "book-pictures check: check-weeks.ts lines 21 to 31 returns undefined when no book picture names a file, and pass or fail with missing: paths. It matches the addendum.",
+    "E8 target: dashboard/__tests__/storytime-loops-content.test.ts withoutNewFields, lines 297 to 319, drops approval.audio and approval.song today and no image.file. The change that E8 names is coherent.",
+    "E5 model: /home/daniebo/Desktop/handoff/w01-storytime-app-package/MANIFEST.txt has source-repo, source-path, source-commit, workbooks-commit, 43 SHA-256 lines, date and sender. It matches the E5 form.",
+    "Media path counts: w02 names 13 paths under l2/media/w02 (2 book audio, 2 slow, 8 song-lines, song.mp3). The stated 23 fits 13 plus 10 phoneme files. The counts of the other weeks are not verified (no shell).",
+    "Not verified: the v15 proof and the print approval of weeks 2 to 7 are local items that the repository does not hold. The review cannot falsify them."
+  ],
+  "commands": [],
+  "changed_files": [
+    "measure/runs/storytime_week_package_20261022/spec-review-p9-bdf8077f.json",
+    "measure/runs/storytime_week_package_20261022/spec-review-p9-bdf8077f.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high"
+}

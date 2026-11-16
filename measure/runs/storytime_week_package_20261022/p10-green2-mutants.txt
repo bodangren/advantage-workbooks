@@ -1,0 +1,27 @@
+The 20 mutants of Green 2 (test strategy 5.7). Each runs alone, then the file is restored and compared.
+The command of G2-M1 to G2-M18 and G2-M20: cd dashboard && CI=true npx vitest run __tests__/storytime-package-family.test.ts --maxWorkers=1.
+The command of G2-M19: cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2.
+id      result   cmp   label | summary | first failing case
+G2-M1   caught   True  the Forge pattern accepts a line name | 1 failed | 26 passed (27) | × R2-3 the Forge rule takes one color file of the week and refuses the rest 14ms
+G2-M2   caught   True  the SHA-256 compare is removed | 2 failed | 25 passed (27) | × R2-7 the script stops before any write: 'a card file whose hash differs from t…' 425ms
+G2-M3   caught   True  the warn of H9 is changed to pass | 1 failed | 26 passed (27) | × R2-17 the check gives pass, warn, and fail 187ms
+G2-M4   caught   True  the fail of H9 is changed to warn | 1 failed | 26 passed (27) | × R2-17 the check gives pass, warn, and fail 532ms
+G2-M5   caught   True  the caption regex runs over the whole week file | 8 failed | 19 passed (27) | × R2-5 the script writes six pictures, six provenance lines, and six file lines 1446ms
+G2-M6   caught   True  the caption line gains no comma | 7 failed | 20 passed (27) | × R2-5 the script writes six pictures, six provenance lines, and six file lines 3142ms
+G2-M7   caught   True  the provenance comes from this run only | 1 failed | 26 passed (27) | × R2-10 the provenance keeps the lines of the words that a run skips 815ms
+G2-M8   caught   True  the provenance sort is removed | 1 failed | 26 passed (27) | × R2-10 the provenance keeps the lines of the words that a run skips 1261ms
+G2-M9   caught   True  a write runs before the last source check | 9 failed | 18 passed (27) | × R2-7 the script stops before any write: 'a card file whose hash differs from t…' 188ms
+G2-M10  caught   True  partial skips any missing source | 1 failed | 26 passed (27) | × R2-9 the partial run skips a Forge word with no file and keeps the card rule 869ms
+G2-M11  caught   True  two Forge color files pick the first | 2 failed | 25 passed (27) | × R2-3 the Forge rule takes one color file of the week and refuses the rest 11ms
+G2-M12  caught   True  the H3 order puts the card before the patch and dots | 1 failed | 26 passed (27) | × R2-2 the source rule takes the patch, then the dots, then the card, then the Forge file 19ms
+G2-M13  caught   True  the check run returns 0 on a failed line | 1 failed | 26 passed (27) | × R2-11 the check mode prints one line per word and writes nothing 453ms
+G2-M14  caught   True  an existing file value gets a second line | 4 failed | 23 passed (27) | × R2-10 the provenance keeps the lines of the words that a run skips 604ms
+G2-M15  caught   True  zero planned pictures give exit 0 | 1 failed | 26 passed (27) | × R2-14 the script refuses a week with nothing to map 27ms
+G2-M16  caught   True  the alpha rule is removed | 1 failed | 26 passed (27) | × R2-7 the script stops before any write: 'a PNG with an alpha channel' 310ms
+G2-M17  caught   True  the size rule accepts any size | 1 failed | 26 passed (27) | × R2-7 the script stops before any write: 'a PNG of 1499 x 1500 pixels' 532ms
+G2-M18  caught   True  the channel and depth rules are removed | 2 failed | 25 passed (27) | × R2-7 the script stops before any write: 'a PNG of 16 bits' 1139ms
+G2-M19  caught   True  the CLI pushes no family-pictures row | WARN family-pictures rows 0 | the live proof of the 7 rows fails
+G2-M20  caught   True  the MANIFEST name rule is removed | 1 failed | 26 passed (27) | × R2-7 the script stops before any write: 'a manifest line with a hostile name' 687ms
+mutants: 20, caught: 20
+survivors: none
+restore cmp: all equal (cmp of the mutated file against the backup after each restore)

@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "role": "measure-closeout",
+  "track": "storytime_week_package_20261022",
+  "short_id": "storytime_week_package",
+  "closed_at": "2026-11-16T15:50:00+0700",
+  "timezone": "Asia/Bangkok",
+  "model": "minimax-cn-coding-plan/MiniMax-M3.1-Flash",
+  "model_deviation": "The closeout ran on the MiniMax route. The track itself ran on the Claude, DeepSeek, Kimi, MiMo, GLM and StepFun routes; every substitution is recorded in the plan and in the run artifacts. The final acceptance ran on nvidia/stepfun-ai/step-5-preview#high.",
+  "pre_closeout_head_sha": "3cb486554bdf0d1323d693eafc0d8ac83de1f089",
+  "final_acceptance": {
+    "result_file": "measure/runs/storytime_week_package_20261022/final-acceptance-e60bbf9a.json",
+    "status": "pass",
+    "audited_head_sha": "e60bbf9ae69177eaf8058245a263b1fb2774e0d1",
+    "route": "nvidia/stepfun-ai/step-5-preview#high",
+    "blocking": 0,
+    "nonblocking": 3,
+    "audited_head_equals_pre_closeout_head": false,
+    "audited_head_relation": "The audited head e60bbf9a is the direct parent of the pre-closeout head 3cb48655, the commit that records the final acceptance result. The diff e60bbf9a..3cb48655 holds only the eight final acceptance files under measure/runs/storytime_week_package_20261022/, so no code changed after the audit.",
+    "role_gate": "PASS: final-acceptance gate passed (2026-11-16, the orchestrator role-gate)",
+    "gates_at_head": {
+      "PROJECT_LINT": "exit 0 (final-acceptance-lint.txt)",
+      "PROJECT_CHECKS": "exit 0 (final-acceptance-checks.txt)",
+      "PROJECT_TESTS": "exit 0 (final-acceptance-project.txt); 73 test files, 1825 tests, 318.81 s"
+    }
+  },
+  "phase_acceptances": [
+    {
+      "phase": "Phase 12",
+      "result_file": "measure/runs/storytime_week_package_20261022/phase-acceptance-p12-852a8dba.json",
+      "status": "pass",
+      "audited_head_sha": "852a8dba",
+      "route": "coding-plan/glm-5.3-flash#high"
+    },
+    {
+      "phase": "Phase 13",
+      "result_file": "measure/runs/storytime_week_package_20261022/phase-acceptance-p13-0b90be77.json",
+      "status": "pass",
+      "audited_head_sha": "0b90be77",
+      "route": "opencode-go/mimo-v2.6-flash"
+    },
+    {
+      "phase": "Phase 14",
+      "result_file": "measure/runs/storytime_week_package_20261022/phase-acceptance-p14-ceb17679.json",
+      "status": "pass",
+      "audited_head_sha": "ceb17679",
+      "route": "opencode-go/mimo-v2.6-flash"
+    }
+  ],
+  "phase_closure": "Light lane for the Phases 1 to 11: no measure-phase-acceptance result JSON exists for them. Each phase closed with a manual verification task and a checkpoint in the heading from Phase 7 on (efd94c3, df98fbc, 3f64f22, e896dfc, 3c0a6ab, 0cb3187). The Phases 12 to 14 each hold a passing phase acceptance.",
+  "checkpoints": {
+    "phase_7": "efd94c3",
+    "phase_8": "df98fbc",
+    "phase_9": "3f64f22",
+    "phase_10": "e896dfc",
+    "phase_11": "3c0a6ab",
+    "phase_12": "0cb3187",
+    "phase_13": "0b90be77",
+    "phase_14": "ceb17679",
+    "first_track_commit": "6fe46ccf"
+  },
+  "final_acceptance_findings": [
+    {
+      "id": "FA-1",
+      "severity": "Low",
+      "route": "The Phase 10 Task (Adversarial) at plan.md line 288 is deferred to after 2026-11-20 under the Q2 rule (orchestrator decision 2026-11-07, PM slot share). The line is now [b] with the trailer (deferred:pm), the owner is the PM, and the item stays open in measure/tech-debt.md and in this manifest.",
+      "state": "open deferred item"
+    },
+    {
+      "id": "FA-2",
+      "severity": "Low",
+      "route": "The Phase 8 check line named the F6 test commit with a wrong short SHA (be9fb726c5d5). The real commit is be9fb7262e68948182a66d72153136bebe7e861c. The final acceptance recorded it as a fixed carry-over.",
+      "state": "closed before the closeout"
+    },
+    {
+      "id": "FA-3",
+      "severity": "bookkeeping",
+      "route": "metadata.json held status in_progress with no completion date, and measure/tracks.md still listed the track as open. This role set status done, completed 2026-11-16, actual_tasks 73, moved the folder to measure/archive, and moved the registry entry to the archived section.",
+      "state": "closed by this role"
+    }
+  ],
+  "deferred": [
+    {
+      "id": "D-1",
+      "task": "Phase 10 Task (Adversarial)",
+      "plan_line": "measure/archive/storytime_week_package_20261022/plan.md line 288",
+      "marker": "[b]",
+      "trailer": "(deferred:pm)",
+      "owner": "pm",
+      "owner_informed": "The PM is informed through this manifest, the tech-debt row of 2026-11-16, the archived registry note in measure/tracks.md, and the closeout result block that the orchestrator relays.",
+      "due": "after 2026-11-20",
+      "rule": "Q2 rule (orchestrator decision 2026-11-07, PM slot share: one Workbooks role at a time until 2026-11-20)",
+      "scope": "One limited round (P2; test-strategy.md section 3): the script and the check on temporary copies (hostile folders, symlinks, CRLF, a JPEG named .png, --partial with --check, a repeat run after an interrupted run) and a probe of the package-build check of section 5.11. The role writes no file in content/.",
+      "done_when": "measure/runs/storytime_week_package_20261022/adversarial-p10-<sha>.json exists, each exposed defect is fixed by a Green round or accepted in that task line, and git status --porcelain content/ is empty after the round.",
+      "adversarial_result_file": null,
+      "state": "open"
+    }
+  ],
+  "owner_approvals": "Daniel answered \"Approved\" on 2026-11-15 at 18:37 ICT (Google Tasks subtask bnJWSW5yUDNOVllzLWpvcA under the PM item YVJYeDVt, PM relay) for the loops look points, the Thai share captions and the Thai labels; he answered \"Ok\" on 2026-11-15 at 19:43 ICT for the 64 Thai rows of p14-change-list.md. Both answers are recorded in the week files by commit 9f168a4e and in the plan.",
+  "hand_offs": {
+    "w01_app_package": "the PM accepted it on 2026-11-03; the Monorepo took it in commit 9c9667917 (43 of 43 SHA-256 match).",
+    "phase_13_packages": "the 7 folders w01 r6 and w02 to w07 r5; the PM confirmed them on 2026-11-16 at 01:15 ICT (PM read 01:1x).",
+    "report_to_pm": "the closeout line in this result and the archived registry note."
+  },
+  "test_only_red_retries": [
+    "approval.thai 4c317383 and e0171ef2 (Phase 14 owner gate).",
+    "Phase 13 Review A round 1 Red retry 1ecc2646."
+  ],
+  "commands": [
+    "python3 Thai-line scan of the track markdown files and measure/tracks.md, measure/tech-debt.md and measure/lessons-learned.md (the first command of the role).",
+    "python3 mask-filter reads of plan.md, spec.md, metadata.json, tracks.md, tech-debt.md, anti-patterns.md, the final acceptance JSON and the closeout manifest.",
+    "git rev-parse HEAD; git log --oneline; git status --porcelain.",
+    "python3 plan marker scan, SHA scan and the closeout check of measure_interphase_checks.py (plan_closeout_feedback).",
+    "python3 edit of the archived plan.md: 27 task lines gained a commit SHA trailer; the deferred task line changed from [ ] to [b] with the trailer (deferred:pm).",
+    "git mv measure/tracks/storytime_week_package_20261022 measure/archive/storytime_week_package_20261022.",
+    "python3 edits of metadata.json, measure/tracks.md and measure/tech-debt.md, and the write of this manifest.",
+    "python3 script that lists the untracked files of measure/runs/storytime_week_package_20261022 and splits them into the commit list (192 files under 1 MB) and the scratch list (80 files).",
+    "ADVANTAGE_REPO=/home/daniebo/Desktop/Workbooks bash ~/Desktop/advantage-pr/scripts/jobs/commit-paths \"measure(closeout): archive storytime_week_package_20261022 after final acceptance PASS (e60bbf9a)\" <paths>.",
+    "python3 ~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py closeout --repo . --track storytime_week_package_20261022.",
+    "wc -l measure/tech-debt.md measure/lessons-learned.md."
+  ],
+  "anti_patterns": {
+    "A5": "pass: the archived plan holds no false claim. The detector for \"PASS=N FAIL=0\" and \"all checks pass\" gives 0 hits, and every claim that names a gate names the capture that proves it.",
+    "A6": "pass: the archived registry note states the adversarial state. The Phase 10 adversarial round is named as one deferred task (deferred:pm) after 2026-11-20, and the note says that no adversarial result file exists yet.",
+    "A9": "pass: the repository has no tests directory and no tests/*.sh, and no test reads a measure/tracks path for this track. No test reference needed a fix."
+  },
+  "test_references_fixed": [],
+  "artifact_cleanup": "No run artifact was deleted. The orchestrator named no bulky artifact for deletion, so the final acceptance evidence and the closeout evidence stay. The 80 scratch files stay untracked: the __pycache__ folder (6 .pyc files), the 11 p9-w01-web-media-1 to -11 folders (66 media copies), the p9-contact folder (7 PNG files of 1.7 to 5.0 MB), and w01-book-pictures-contact-sheet.png (1.7 MB). They are listed in the closeout result JSON.",
+  "retained_evidence": "measure/runs/storytime_week_package_20261022/ holds the tracked run files, the 192 files that this closeout commits, the final acceptance JSON, its log, the three gate captures, the closeout log closeout-3cb48655.log and the closeout check capture closeout-check.txt.",
+  "notes": "No push. The final acceptance ran PROJECT_LINT, PROJECT_CHECKS and PROJECT_TESTS at the audited head e60bbf9a; the closeout did not rerun them. The one open item is the deferred Phase 10 adversarial round, carried in measure/tech-debt.md and in the deferred list of this manifest."
+}

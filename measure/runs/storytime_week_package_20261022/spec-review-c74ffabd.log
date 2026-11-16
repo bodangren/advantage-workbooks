@@ -1,0 +1,31 @@
+Spec review log (round 2, short): storytime_week_package_20261022, Phase 7 re-review + Phase 8 first read, revision c74ffabd2692077a4163e6ae3b92baa66e443c18.
+Reviewer model: kimi-code-plan-cn/kimi-for-coding#high. Report-only; no test run; no file of the track changed.
+
+Scope: git diff 6cbd2827..c74ffabd of spec.md and plan.md; the resolver dashboard/lib/storytime/print/picture-check.ts; content/storytime/l2/print/pictures/manifest.json.
+
+F1 to F7 status:
+- F1 Blocker: CLOSED. Spec D3 now routes the source through resolveStorytimePictureFiles(folder, rows, 'color') (picture-check.ts:614, committed since 9bc0ae53). The resolver reads the Forge manifest by row id, checks the name form, file existence, and the manifest SHA-256. The manifest selects version 2 for l2-w01-story-page-a-net, -a-nose, and -nan-can-nod; the v2 color files exist on disk. AC3 now pins the resolved source name, never fileName directly, never line art.
+- F2 Major (hand-off path): CLOSED. Plan now says paths relative from content/storytime/ exactly as w01.json names them.
+- F3 Major (MANIFEST): CLOSED. Plan adds commit-first, the byte-for-byte git show equality rule, and workbooks-commit: <full sha>.
+- F4 Major (4th test file): CLOSED. RED/GREEN commands and spec FR6 name storytime-print-contract.test.ts.
+- F5 Nit (words format): CLOSED. D7 pins the exact string.
+- F6 Nit (400 KB fallback): CLOSED. D4 pins re-encode at quality 75 or more with a per-file record.
+- F7 Nit (sharp settings): CLOSED. D4 pins sharp defaults; D5 records quality and sharp version.
+- F8 Nit (git-ignored sources): accepted risk; no change needed.
+
+Phase 7 zero-decision re-check: no open maker decision. Paths, sizes, JPEG settings, source resolution, captions, provenance format, check status, test file list, published detail, hand-off rules, and approval words are all pinned.
+
+Phase 8: the two maker tasks can run without a decision. Task F6 carries rules a-d and the A8 in-place default with a report duty. Task F1/F2 carries the a/an frame-word rule, the "I can see!" exclusion, the soundBook gate, the two mutant tests, and the before/after frame-count record. Tech-debt triggers are pinned. One Nit: the Phase 8 PROJECT_LINT list omits the changed manual and teacher-book test files (F9).
+
+Verdict: pass.
+
+MEASURE_AGENT_RESULT
+status: pass
+role: Measure Spec Review
+track: storytime_week_package_20261022
+phase: P7
+head: c74ffabd2692077a4163e6ae3b92baa66e443c18
+result_file: measure/runs/storytime_week_package_20261022/spec-review-c74ffabd.json
+findings: 0 blocking; 1 nonblocking
+retry_recommendation: none
+END_MEASURE_AGENT_RESULT

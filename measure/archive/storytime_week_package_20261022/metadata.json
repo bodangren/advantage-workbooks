@@ -1,0 +1,12 @@
+{
+  "track_id": "storytime_week_package_20261022",
+  "type": "feature",
+  "status": "done",
+  "created_at": "2026-10-22T10:00:00Z",
+  "updated_at": "2026-11-16T15:45:00+0700",
+  "description": "The storytime-week package (one Storytime Advantage week in one file) with its checks, and the Storytime template of the teacher manual generator (five 30- or 49-minute scripts a week).",
+  "estimated_tasks": 8,
+  "actual_tasks": 73,
+  "deviation_notes": "Request of the Storytime session (monorepo track storytime_advantage_program_20261021, design §6.6 and §8; decisions S1-S14 approved by Daniel 2026-10-22, commit 80df85c9a). Release goal 2026-12-01 (S13 changed). Shape decided in this session: a separate schema, not the Primary LessonPackageSchema. Closeout (2026-11-16, role measure-closeout, route minimax-cn-coding-plan/MiniMax-M3.1-Flash): the final acceptance PASS at e60bbf9a (measure/runs/storytime_week_package_20261022/final-acceptance-e60bbf9a.json) is the gate of this closeout. The pre-closeout head is 3cb48655, the commit that records that PASS; its parent is the audited head e60bbf9a, and the diff between the two holds only the final acceptance files under measure/runs/. 72 of the 73 task lines are [x] with commit SHA evidence. The Phase 10 Task (Adversarial) is the one open line: it is [b] deferred:pm (after 2026-11-20 under the Q2 rule, orchestrator decision 2026-11-07, PM slot share), and it stays open in measure/tech-debt.md. The Phases 1 to 11 closed with the light lane (manual verification and a checkpoint per phase); the Phases 12 to 14 hold a passing phase acceptance each (852a8dba, 0b90be77, ceb17679).",
+  "completed": "2026-11-16"
+}

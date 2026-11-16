@@ -1,0 +1,43 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m103 tests[22m[2m)[22m[33m 674[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-book-pictures.test.ts[2m > [22m[2mStorytime app book pictures[2m > [22m[2mruns the week command successfully on the shipped w01
+[22m[39mset 18 book pictures in ../content/storytime/l2/w01.json
+
+ [31m❯[39m __tests__/storytime-book-pictures.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 27221[2mms[22m[39m
+[31m     [31m×[31m sets the 18 app pictures with valid JPEGs and complete provenance[39m[33m 1791[2mms[22m[39m
+     [32m✓[39m fails the picture check when a named file is missing[32m 7[2mms[22m[39m
+     [32m✓[39m rejects a zero matching rows before it writes files[32m 7[2mms[22m[39m
+     [32m✓[39m rejects a two matching rows before it writes files[32m 10[2mms[22m[39m
+     [32m✓[39m rejects a resolver error before it writes files[32m 25[2mms[22m[39m
+     [33m[2m✓[22m[39m runs the week command successfully on the shipped w01 [33m 6825[2mms[22m[39m
+     [33m[2m✓[22m[39m gives the w02 pages with a repeated text the base row and the second row (E7 case a) [33m 9087[2mms[22m[39m
+     [33m[2m✓[22m[39m gives the w06 pages with a repeated text the base row and the second row (E7 case b) [33m 9443[2mms[22m[39m
+     [32m✓[39m stops with a picture match error when a row of a repeated text is missing (E7 case c)[32m 13[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m25 tests[22m[2m)[22m[33m 690[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-book-pictures.test.ts[2m > [22mStorytime app book pictures[2m > [22msets the 18 app pictures with valid JPEGs and complete provenance
+[31m[1mAssertionError[22m: expected '5fab07b6a90a6dfec2a8a7d9a37caaed78834…' to be '2bf2b4f698df6ad0fdea922ba9c68a09d74f9…' // Object.is equality[39m
+
+Expected: [32m"2bf2b4f698df6ad0fdea922ba9c68a09d74f971ce14bf23ad0a116816cbf4904"[39m
+Received: [31m"5fab07b6a90a6dfec2a8a7d9a37caaed78834b97ac8050c409b1a1d1174524dc"[39m
+
+[36m [2m❯[22m __tests__/storytime-book-pictures.test.ts:[2m94:65[22m[39m
+    [90m 92| [39m        [35mfor[39m ([35mconst[39m line [35mof[39m provenance) {
+    [90m 93| [39m            const [outputPath, outputHash, sourceName, sourceHash, qua…
+    [90m 94| [39m            expect(hash(path.join(STORYTIME_ROOT, outputPath))).toBe(o…
+    [90m   | [39m                                                                [31m^[39m
+    [90m 95| [39m            [34mexpect[39m(sourceName)[33m.[39m[34mtoMatch[39m([36m/-v\d+\.png$/[39m)[33m;[39m
+    [90m 96| [39m            expect(hash(path.join(PICTURE_FOLDER, sourceName))).toBe(s…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m136 passed[39m[22m[90m (137)[39m
+[2m   Start at [22m 22:03:24
+[2m   Duration [22m 35.95s[2m (transform 999ms, setup 698ms, import 2.57s, tests 28.58s, environment 3.01s)[22m
+

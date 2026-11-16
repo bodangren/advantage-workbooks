@@ -1,0 +1,103 @@
+Script started on 2026-11-03 21:43:39+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-manual.test.ts'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-manual.test.ts [2m([22m[2m27 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 948[2mms[22m[39m
+[31m     [31m×[31m keeps A8 in day 2 recall, with the one-minute moved step and correct opening minutes[39m[32m 14[2mms[22m[39m
+[31m     [31m×[31m prints day 3 song step B7 with the opening song item, outside the one-minute recall[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m prints day 5 song step D6 with the opening song item and keeps D5 in recall[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m uses the Thai opening song item for B7 without adding a Thai label or minutes[39m[32m 2[2mms[22m[39m
+     [32m✓[39m gives a week header and five day sections, each with its script, period, and steps[32m 111[2mms[22m[39m
+     [32m✓[39m shows the four headings and the Easier, Harder, and Group lines for every step[32m 93[2mms[22m[39m
+     [32m✓[39m puts the opening routine and the strip of the day at the start of each day[32m 23[2mms[22m[39m
+     [32m✓[39m moves the moved steps to the next day, and the day 5 ones to the next opening[32m 6[2mms[22m[39m
+     [32m✓[39m shows the facts of the week in the header[32m 7[2mms[22m[39m
+     [32m✓[39m prints the Thai action, listening skill, and family name in the Thai header, and the English without Thai[32m 12[2mms[22m[39m
+     [32m✓[39m prints the Thai notes, with the teacher English kept and the Thai gloss under it[32m 8[2mms[22m[39m
+     [33m[2m✓[22m[39m compiles a level into one A4 document with the product name and no CJK or CEFR [33m 423[2mms[22m[39m
+     [32m✓[39m sorts the weeks and refuses weeks of two levels[32m 21[2mms[22m[39m
+     [32m✓[39m lists the materials of the week once, with the words of one kind merged[32m 5[2mms[22m[39m
+     [32m✓[39m keeps the heading of the moved steps in one block with the steps[32m 5[2mms[22m[39m
+     [32m✓[39m prints the prep box at the top of the day and the recall minutes in the opening[32m 5[2mms[22m[39m
+     [32m✓[39m prints the sound game of the day as opening item 2, and the calendar without it[32m 23[2mms[22m[39m
+     [32m✓[39m prints the choreography sheet after day 5: parts, lines, actions, notes, start and end[32m 13[2mms[22m[39m
+     [32m✓[39m prints the Thai gesture name after the English one in the Thai book only[32m 6[2mms[22m[39m
+     [32m✓[39m gives the English book the Thai print font when a step has Thai text[32m 14[2mms[22m[39m
+     [32m✓[39m escapes the package text[32m 3[2mms[22m[39m
+     [32m✓[39m prints the block, the day plan, and the benchmark in the header, and the medley of the day as opening item 3[32m 15[2mms[22m[39m
+     [32m✓[39m prints the benchmark page: the paper items with the position and the dictated sound, the sitting, the strip, the cards, and the blend words[32m 34[2mms[22m[39m
+     [32m✓[39m prints the answer key of the review pages after the benchmark: the circle-word rows and the sort columns[32m 11[2mms[22m[39m
+     [32m✓[39m prints the class record sheet with 30 rows and the counts, and one reading form per decodable with each word marked[32m 21[2mms[22m[39m
+     [32m✓[39m prints the Thai labels and the Thai sitting in the Thai book[32m 7[2mms[22m[39m
+     [32m✓[39m prints no benchmark pages for a teaching week[32m 6[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-manual.test.ts[2m > [22mStorytime manual template[2m > [22mkeeps A8 in day 2 recall, with the one-minute moved step and correct opening minutes
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7100 (line 213 column 9)[39m
+[36m [2m❯[22m lib/storytime/files.ts:[2m76:39[22m[39m
+    [90m 74| [39m        [33m.[39m[34mmap[39m((f) [33m=>[39m {
+    [90m 75| [39m            [35mconst[39m file [33m=[39m path[33m.[39m[34mjoin[39m(dir[33m,[39m f)[33m;[39m
+    [90m 76| [39m            const raw: unknown = JSON.parse(fs.readFileSync(file, 'utf…
+    [90m   | [39m                                      [31m^[39m
+    [90m 77| [39m            [35mconst[39m parsed [33m=[39m [33mStorytimeWeekSchema[39m[33m.[39m[34msafeParse[39m(raw)[33m;[39m
+    [90m 78| [39m            if (parsed.success) return { file, raw, week: parsed.data …
+[90m [2m❯[22m readLevelWeeks lib/storytime/files.ts:[2m74:10[22m[39m
+[90m [2m❯[22m shippedWeek2 __tests__/storytime-manual.test.ts:[2m24:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-manual.test.ts:[2m31:42[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-manual.test.ts[2m > [22mStorytime manual template[2m > [22mprints day 3 song step B7 with the opening song item, outside the one-minute recall
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7100 (line 213 column 9)[39m
+[36m [2m❯[22m lib/storytime/files.ts:[2m76:39[22m[39m
+    [90m 74| [39m        [33m.[39m[34mmap[39m((f) [33m=>[39m {
+    [90m 75| [39m            [35mconst[39m file [33m=[39m path[33m.[39m[34mjoin[39m(dir[33m,[39m f)[33m;[39m
+    [90m 76| [39m            const raw: unknown = JSON.parse(fs.readFileSync(file, 'utf…
+    [90m   | [39m                                      [31m^[39m
+    [90m 77| [39m            [35mconst[39m parsed [33m=[39m [33mStorytimeWeekSchema[39m[33m.[39m[34msafeParse[39m(raw)[33m;[39m
+    [90m 78| [39m            if (parsed.success) return { file, raw, week: parsed.data …
+[90m [2m❯[22m readLevelWeeks lib/storytime/files.ts:[2m74:10[22m[39m
+[90m [2m❯[22m shippedWeek2 __tests__/storytime-manual.test.ts:[2m24:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-manual.test.ts:[2m41:42[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-manual.test.ts[2m > [22mStorytime manual template[2m > [22mprints day 5 song step D6 with the opening song item and keeps D5 in recall
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7100 (line 213 column 9)[39m
+[36m [2m❯[22m lib/storytime/files.ts:[2m76:39[22m[39m
+    [90m 74| [39m        [33m.[39m[34mmap[39m((f) [33m=>[39m {
+    [90m 75| [39m            [35mconst[39m file [33m=[39m path[33m.[39m[34mjoin[39m(dir[33m,[39m f)[33m;[39m
+    [90m 76| [39m            const raw: unknown = JSON.parse(fs.readFileSync(file, 'utf…
+    [90m   | [39m                                      [31m^[39m
+    [90m 77| [39m            [35mconst[39m parsed [33m=[39m [33mStorytimeWeekSchema[39m[33m.[39m[34msafeParse[39m(raw)[33m;[39m
+    [90m 78| [39m            if (parsed.success) return { file, raw, week: parsed.data …
+[90m [2m❯[22m readLevelWeeks lib/storytime/files.ts:[2m74:10[22m[39m
+[90m [2m❯[22m shippedWeek2 __tests__/storytime-manual.test.ts:[2m24:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-manual.test.ts:[2m53:42[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-manual.test.ts[2m > [22mStorytime manual template[2m > [22muses the Thai opening song item for B7 without adding a Thai label or minutes
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7100 (line 213 column 9)[39m
+[36m [2m❯[22m lib/storytime/files.ts:[2m76:39[22m[39m
+    [90m 74| [39m        [33m.[39m[34mmap[39m((f) [33m=>[39m {
+    [90m 75| [39m            [35mconst[39m file [33m=[39m path[33m.[39m[34mjoin[39m(dir[33m,[39m f)[33m;[39m
+    [90m 76| [39m            const raw: unknown = JSON.parse(fs.readFileSync(file, 'utf…
+    [90m   | [39m                                      [31m^[39m
+    [90m 77| [39m            [35mconst[39m parsed [33m=[39m [33mStorytimeWeekSchema[39m[33m.[39m[34msafeParse[39m(raw)[33m;[39m
+    [90m 78| [39m            if (parsed.success) return { file, raw, week: parsed.data …
+[90m [2m❯[22m readLevelWeeks lib/storytime/files.ts:[2m74:10[22m[39m
+[90m [2m❯[22m shippedWeek2 __tests__/storytime-manual.test.ts:[2m24:19[22m[39m
+[90m [2m❯[22m __tests__/storytime-manual.test.ts:[2m64:53[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m23 passed[39m[22m[90m (27)[39m
+[2m   Start at [22m 21:43:43
+[2m   Duration [22m 3.39s[2m (transform 856ms, setup 293ms, import 1.25s, tests 948ms, environment 0ms)[22m
+
+[?25h
+Script done on 2026-11-03 21:43:48+07:00 [COMMAND_EXIT_CODE="1"]

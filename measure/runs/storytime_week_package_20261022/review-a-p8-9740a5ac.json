@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "summary": "Phase 8 maker diffs do what the task texts and the cloud findings ask, and nothing else. The tests pin each rule and fail on the old code. Later commits keep the rules. The plan evidence matches the captures, except one mis-recorded commit sha. The phase GREEN_TEST_COMMAND passed once: 5 files, 127 tests, exit 0. The run changed no tracked file.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] review-a: the plan records the F6 tests commit as be9fb726c5d5c3e1e34d5eed2ec447aee31c0ee9, but that object does not exist; the real commit is be9fb7262e68948182a66d72153136bebe7e861c (same prefix, same message, same diff). Rationale: stale plan evidence; the plan should record the sha that resolves.",
+    "F2 [Nit] review-a: the last-day path of the F6 fix (a moved 0-minute song step of day 5 prints in the day 5 opening) has no test; no shipped week exercises it. Rationale: the mechanism is symmetric with the tested B7 and D6 paths, so the risk is low."
+  ],
+  "evidence": [
+    "HEAD equals the audited head 9740a5ac303ea77c4ad19819ce1bb28a15c0623e (git rev-parse HEAD).",
+    "F6 code 06e866e1: recall drops 0-minute karaoke steps; they print under the opening song item without minutes; A8 stays in recall without minutes; recallMinutes sum unchanged, so the opening header stays correct; no new label, the code reuses openingSteps[2] in both languages.",
+    "F6 tests be9fb7262e: pin rules (a) to (d) on shipped w02 days 2, 3, 5 plus one Thai case; f6-red.txt shows 4 failed, 23 passed on the old code; expectations are literal strings, not copies of the code.",
+    "F1 code: frameCount joins the hook parts with a required space on both sides of the slot and maps frame word 'a' to (?:a|an); the four review examples are pinned as tests with literal counts.",
+    "F2 code: any soundBook book outside the Level 2 week 1 decodable gives a books FAIL with a clear reason; a disallowed sound book still runs the decodability check; the w01 sound book keeps its skip.",
+    "Mutant 62 test pins exactly 3 home words (2 and 4 warn); mutant 74 test pins a block week covered only on day 5; both fail the mutant forms, checks-mutants-final.txt shows exit=1 for frame, soundbook, home, day5.",
+    "Later commits eb0d85dd, 15de863c, e3056f3a, f192b2e8, f435ead5, 5d6523a2 keep isOpeningSongStep, the soundBook rule, and the new frameCount intact at HEAD (manual.ts lines 234-241, checks.ts lines 33-38 and 202-218).",
+    "Plan counts match captures: checks-red.txt 2 failed of 44; checks-green-final.txt 76 passed in 2 files; f6-green2-mutant.txt 38 passed in 2 files; frame counts before and after 8, 9, 9, 10, 12, 9, 10 in checks-frame-counts-before.txt and -after.txt.",
+    "Green run of this check: p8-check-green.txt, exit 0, Test Files 5 passed (5), Tests 127 passed (127).",
+    "git status --porcelain after the run: only pre-existing modification video/storytime-song/scripts/render.mjs (present before the run); no tracked file changed by the run."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 9740a5ac303ea77c4ad19819ce1bb28a15c0623e",
+    "git show be9fb7262e 06e866e1 ae3ff150 e31391ac (diff review)",
+    "git log be9fb726..HEAD -- dashboard/lib/storytime/manual.ts dashboard/lib/storytime/checks.ts",
+    "script -q -c \"HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-manual.test.ts __tests__/storytime-print-teacher-book.test.ts __tests__/storytime-week.test.ts __tests__/storytime-loops-checks.test.ts __tests__/storytime-phonics.test.ts --maxWorkers=1'\" measure/runs/storytime_week_package_20261022/p8-check-green.txt -> exit 0",
+    "git status --porcelain (after the run)"
+  ],
+  "changed_files": [],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high"
+}

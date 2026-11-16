@@ -1,0 +1,65 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/storytime-book-pictures.test.ts[2m > [22m[2mStorytime app book pictures[2m > [22m[2mruns the week command successfully on the shipped w01
+[22m[39mset 18 book pictures in ../content/storytime/l2/w01.json
+
+ [31m❯[39m __tests__/storytime-book-pictures.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 10483[2mms[22m[39m
+     [33m[2m✓[22m[39m sets the 18 app pictures with valid JPEGs and complete provenance [33m 4032[2mms[22m[39m
+     [32m✓[39m fails the picture check when a named file is missing[32m 3[2mms[22m[39m
+     [32m✓[39m rejects a zero matching rows before it writes files[32m 7[2mms[22m[39m
+     [32m✓[39m rejects a two matching rows before it writes files[32m 6[2mms[22m[39m
+     [32m✓[39m rejects a resolver error before it writes files[32m 14[2mms[22m[39m
+     [33m[2m✓[22m[39m runs the week command successfully on the shipped w01 [33m 6377[2mms[22m[39m
+[31m     [31m×[31m gives the w02 pages with a repeated text the base row and the second row (E7 case a)[39m[32m 17[2mms[22m[39m
+[31m     [31m×[31m gives the w06 pages with a repeated text the base row and the second row (E7 case b)[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m stops with a picture match error when a row of a repeated text is missing (E7 case c)[39m[32m 11[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m103 tests[22m[2m)[22m[33m 674[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-book-pictures.test.ts[2m > [22mStorytime app book pictures[2m > [22mgives the w02 pages with a repeated text the base row and the second row (E7 case a)
+[31m[1mError[22m: picture match: story-page "Nan can." has 2 rows[39m
+[36m [2m❯[22m scripts/storytime/set-book-pictures.ts:[2m52:44[22m[39m
+    [90m 50| [39m    [35mconst[39m matched [33m=[39m images[33m.[39m[34mmap[39m((item) [33m=>[39m {
+    [90m 51| [39m        const candidates = rows.filter((row) => row.week === week.meta…
+    [90m 52| [39m        if (candidates.length !== 1) throw new Error(`picture match: $…
+    [90m   | [39m                                           [31m^[39m
+    [90m 53| [39m        [35mreturn[39m { item[33m,[39m row[33m:[39m candidates[[34m0[39m] }[33m;[39m
+    [90m 54| [39m    })[33m;[39m
+[90m [2m❯[22m setBookPictures scripts/storytime/set-book-pictures.ts:[2m50:28[22m[39m
+[90m [2m❯[22m __tests__/storytime-book-pictures.test.ts:[2m155:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-book-pictures.test.ts[2m > [22mStorytime app book pictures[2m > [22mgives the w06 pages with a repeated text the base row and the second row (E7 case b)
+[31m[1mError[22m: picture match: story-page "Tap, tap, tap!" has 2 rows[39m
+[36m [2m❯[22m scripts/storytime/set-book-pictures.ts:[2m52:44[22m[39m
+    [90m 50| [39m    [35mconst[39m matched [33m=[39m images[33m.[39m[34mmap[39m((item) [33m=>[39m {
+    [90m 51| [39m        const candidates = rows.filter((row) => row.week === week.meta…
+    [90m 52| [39m        if (candidates.length !== 1) throw new Error(`picture match: $…
+    [90m   | [39m                                           [31m^[39m
+    [90m 53| [39m        [35mreturn[39m { item[33m,[39m row[33m:[39m candidates[[34m0[39m] }[33m;[39m
+    [90m 54| [39m    })[33m;[39m
+[90m [2m❯[22m setBookPictures scripts/storytime/set-book-pictures.ts:[2m50:28[22m[39m
+[90m [2m❯[22m __tests__/storytime-book-pictures.test.ts:[2m186:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-book-pictures.test.ts[2m > [22mStorytime app book pictures[2m > [22mstops with a picture match error when a row of a repeated text is missing (E7 case c)
+[31m[1mAssertionError[22m: expected [Function] to throw error matching /^picture match:.*"Nan can\."/ but got 'picture match: story-page "Can I?" ha…'[39m
+
+[32m- Expected:[39m 
+/^picture match:.*"Nan can\."/
+
+[31m+ Received:[39m 
+"picture match: story-page \"Can I?\" has 2 rows"
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m109 passed[39m[22m[90m (112)[39m
+[2m   Start at [22m 21:35:51
+[2m   Duration [22m 14.01s[2m (transform 856ms, setup 200ms, import 1.31s, tests 11.16s, environment 722ms)[22m
+

@@ -14,9 +14,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [~] **Track: The Storytime song video compositor (Remotion): classroom, phone, poster, and karaoke cuts of each week from the package and the Forge renders; placeholder proof first, Forge art by 2026-11-25.** *(Created: 2026-10-22)*
   *Link: [./tracks/storytime_song_video_20261022/](./tracks/storytime_song_video_20261022/)*
 
-- [~] **Track: The storytime-week package (one Storytime Advantage week in one file), its checks, and the Storytime template of the teacher manual generator.** *(Created: 2026-10-22)*
-  *Link: [./tracks/storytime_week_package_20261022/](./tracks/storytime_week_package_20261022/)*
-
 - [ ] **Track: Origins 3.1 Teacher's Manual for the new Primary app: app text, a new app section, Thai fixes, and an A4 office-print PDF; draft 2026-10-23, final 2026-10-26.** *(Created: 2026-10-20)*
   *Link: [./tracks/teacher_manual_app_20261020/](./tracks/teacher_manual_app_20261020/)*
 
@@ -207,3 +204,7 @@ This file tracks all major tracks for the project. Each track has its own detail
   *Link: [./archive/storytime_teaching_loops_20261103/](./archive/storytime_teaching_loops_20261103/)*
   *Five teaching routines in the Storytime Advantage Level 2 week scripts (research item A-42): a scripted oral blend drill, the correct-practise-retest loop on each sound step, the fast-way sight-word step with a timed check, a fixed question set for each read-along, and a fixed daily recall of 5 items. New schema fields and checks, the teacher book template and Thai teacher book print, and the content of w01 to w08 in English and Thai. The day stays 30 minutes. Student book, readers, and covers unchanged. Daniel's check of w01 to w08 by 2026-11-16 for the print order of 2026-11-25.*
   *Note: Final acceptance PASS at f0c4c929 (the orchestrator role-gate printed "PASS: final-acceptance gate passed" on 2026-11-16). Two test gaps stay open as tech debt: the strictness mutants S20b to S20g survive, and mutant C26 survives. No phase-acceptance JSON exists for the five phases; the PM light-lane order of 2026-11-03 closed them with manual verification tasks and checkpoints (deviation FA-1).*
+- [x] **Track: The storytime-week package (one Storytime Advantage week in one file), its checks, and the Storytime template of the teacher manual generator.** *(Completed: 2026-11-16)*
+  *Link: [./archive/storytime_week_package_20261022/](./archive/storytime_week_package_20261022/)*
+  *The storytime-week package (one Storytime Advantage week in one file) with its checks, and the Storytime template of the teacher manual generator (five 30- or 49-minute scripts a week).*
+  *Note: Final acceptance PASS at e60bbf9a (the orchestrator role-gate printed "PASS: final-acceptance gate passed" on 2026-11-16). The Phase 10 Task (Adversarial) is the one open line: it is `[b] deferred:pm` and runs after 2026-11-20 under the Q2 rule, so no adversarial result file exists yet. The Phases 1 to 11 closed with the light lane (a manual verification task per phase, and a checkpoint in the heading from Phase 7 on); the Phases 12 to 14 hold a passing phase acceptance each (852a8dba, 0b90be77, ceb17679).*

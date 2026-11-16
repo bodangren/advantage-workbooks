@@ -1,0 +1,38 @@
+# jr-green, Phase 10, Task 4 (Green 2), track storytime_week_package_20261022
+
+Role base for this round: 404b8ad6b0ad6191e2d93ae1bb9339cefe7c4af3. Red base: 14b39927636964e704cff3a4a2b2af8693d5bd0f. Red 2 commits: 1fb10d7d (the file), 1af1bc15 and 680ec458 (the two fixes of the case R2-6).
+
+The role applied `p10-green2-blocked-impl.patch` on 404b8ad6. The patch applied cleanly. The role ran the four gates, the two live proofs, and the 20 mutants, and then committed.
+
+The role changed no test file, no week file, no print file, and nothing under `video/`. `content/` stayed unchanged. The source of the family pictures stays outside git.
+
+Results:
+- GREEN_TEST_COMMAND: 3 files, 51 tests, exit 0. Capture `p10-green2-green.txt`.
+- PROJECT_TESTS: 61 files, 1296 tests, exit 0, 1180 s, no exclude. Capture `p10-green2-project.txt`. Rule R1: this Green closes the Phase 10 Red 2 window, because PROJECT_TESTS passes.
+- PROJECT_LINT: exit 0. Capture `p10-green2-lint.txt`.
+- PROJECT_CHECKS: 8 packages, 0 failed checks, 16 warnings, tsc passed, exit 0. Capture `p10-green2-checks.txt`.
+- Live proofs, `p10-green2-live.txt`: the check row shows 7 WARN family-pictures rows, 0 FAIL, no row for st2/8, and the FAIL count stays 0. The `--check` run of w01 exits 1 with 5 ok lines and the friend line `no color file`, and it writes nothing.
+- Mutants, `p10-green2-mutants.txt`: `mutants: 20, caught: 20`, `survivors: none`, and `restore cmp: all equal`.
+- Scope guard, `p10-green2-scope.txt`: `files: 2` and `outside: 0`.
+
+The role found two defects of the Red case R2-6 in the earlier rounds. The orchestrator fixed both in the Red file. The role changed no test file.
+
+The role read the phase rules and the tracks of the other sessions before each write. The tree holds one uncommitted Red file and one uncommitted plan file of the cover-options track. The role staged no path of that track.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+phase: P10
+task: T4
+track: storytime_week_package_20261022
+role_base_sha: 404b8ad6b0ad6191e2d93ae1bb9339cefe7c4af3
+red_base: 14b39927636964e704cff3a4a2b2af8693d5bd0f
+status: done
+commits: 1a3a38ed (the code: dashboard/scripts/storytime/set-family-pictures.ts and dashboard/scripts/storytime/check-weeks.ts), 33440959 (the plan evidence: measure/tracks/storytime_week_package_20261022/plan.md)
+files_changed: dashboard/scripts/storytime/set-family-pictures.ts, dashboard/scripts/storytime/check-weeks.ts, measure/tracks/storytime_week_package_20261022/plan.md
+tests_run: GREEN_TEST_COMMAND 3 files and 51 tests, exit 0 (p10-green2-green.txt); PROJECT_TESTS 61 files and 1296 tests, exit 0, no exclude (p10-green2-project.txt); PROJECT_LINT exit 0 (p10-green2-lint.txt); PROJECT_CHECKS 8 packages, 0 failed checks, 16 warnings, tsc passed, exit 0 (p10-green2-checks.txt)
+mutants: 20, caught: 20, survivors none, restore cmp all equal (p10-green2-mutants.txt; captures p10-green2-mutant-G2-M1.txt to G2-M20.txt)
+live_proofs: check-weeks.ts --level 2 exits 0 with 7 WARN family-pictures rows, 0 FAIL family-pictures rows, no row for st2/8, and 0 FAIL rows in all (the Green 1 baseline is 0; warnings 9 to 16); set-family-pictures.ts --level 2 --week 1 --cards ~/Desktop/handoff/storytime-l2-card-pictures --check exits 1 with 5 ok lines and the friend line no color file, and content changes after the run are 0 (p10-green2-live.txt)
+plan_updates: T4 is [x] with commit 1a3a38ed on the task line and 10 evidence bullets (commit 33440959); T3 is [x] on its task line with commits 1fb10d7d, 1af1bc15, and 680ec458
+handoff: next roles are Review A, B, C and the adversarial round (plan lines 253 and 254), then the Maker. The code commit 1a3a38ed and the plan commit 33440959 are the scope of Review A. Facts for Review B: the card folder scan refuses a colour file that the MANIFEST does not list; the hostile MANIFEST name rule refuses a name that is not one plain file name before any read; the Forge set comes from the colour files that exist in the folder, so a listed but absent file counts as no color file; the HTML escape lives in the Green 1 module. Facts for Review C: the check gives warn, never fail, while a Forge word waits; `check-weeks.ts --level 2` stays at 0 FAIL rows; the week file edit touches the family block only; the schema and the card kit are unchanged. Two honest notes on the mutant record: the first pass of G2-M1 and G2-M10 used mutant texts that changed no behavior, so the role rewrote both and re-ran them (the captures above are the re-runs); the first G2-M3 capture held an unrelated Chrome protocol error in R2-15, and the re-run holds R2-17 only. The Forge folder `~/Desktop/handoff/storytime-l2-family-word-pictures/` exists now; this task does not use it, because the plan's live-proof command carries no `--forge` flag. No content file changed, and no source PNG is in git. Facts changed: none.
+dispositions: none
+END_MEASURE_AGENT_RESULT

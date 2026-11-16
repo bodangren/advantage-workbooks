@@ -1,0 +1,946 @@
+Script started on 2026-11-03 21:44:10+07:00 [COMMAND="HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-book-pictures.test.ts __tests__/storytime-loops-schema.test.ts __tests__/storytime-print-contract-v2.test.ts __tests__/storytime-print-adversarial.test.ts __tests__/storytime-print-contract.test.ts'" <not executed on terminal>]
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-print-contract.test.ts [2m([22m[2m47 tests[22m[2m | [22m[31m25 failed[39m[2m)[22m[33m 1037[2mms[22m[39m
+[31m     [31m×[31m parses shipped week 1 without changing its app contract[39m[32m 11[2mms[22m[39m
+     [32m✓[39m parses shipped week 2 without changing its app contract[32m 32[2mms[22m[39m
+     [32m✓[39m parses shipped week 3 without changing its app contract[32m 16[2mms[22m[39m
+     [32m✓[39m parses shipped week 4 without changing its app contract[32m 23[2mms[22m[39m
+     [32m✓[39m parses shipped week 5 without changing its app contract[32m 31[2mms[22m[39m
+     [32m✓[39m parses shipped week 6 without changing its app contract[32m 19[2mms[22m[39m
+     [32m✓[39m parses shipped week 7 without changing its app contract[32m 16[2mms[22m[39m
+     [32m✓[39m parses shipped week 8 without changing its app contract[32m 8[2mms[22m[39m
+[31m     [31m×[31m R1: defaults print approval to draft for week 1 without a print block[39m[32m 4[2mms[22m[39m
+     [32m✓[39m R1: defaults print approval to draft for week 2 without a print block[32m 14[2mms[22m[39m
+     [32m✓[39m R1: defaults print approval to draft for week 3 without a print block[32m 51[2mms[22m[39m
+     [32m✓[39m R1: defaults print approval to draft for week 4 without a print block[32m 264[2mms[22m[39m
+     [32m✓[39m R1: defaults print approval to draft for week 5 without a print block[32m 67[2mms[22m[39m
+     [32m✓[39m R1: defaults print approval to draft for week 6 without a print block[32m 165[2mms[22m[39m
+     [32m✓[39m R1: defaults print approval to draft for week 7 without a print block[32m 65[2mms[22m[39m
+     [32m✓[39m R1: defaults print approval to draft for week 8 without a print block[32m 66[2mms[22m[39m
+[31m     [31m×[31m R2: preserves the full week 1 print block[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R2: rejects an unknown block key[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m R2: rejects an unknown part name[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R2: rejects an unknown nested key[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R9: preserves a complete print approval record on a temporary copy[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R9: rejects approved print with invalid date[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R9: rejects approved print with invalid words[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R9: rejects approved print with invalid empty words[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R9/G5: keeps a draft print part outside the six-part app publication gate[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R3: passes the complete week 1 block copied from the shipped scripts[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R3: fails print-practice after this change: removed A7 word[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R3: fails print-practice after this change: extra teacher-only words[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m FR-1.2: detects the A3 difference on a temporary copy[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m FR-1.2: detects the C3 difference on a temporary copy[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m FR-1.2: detects the D4 difference on a temporary copy[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m FR-1.2: detects the E5 difference on a temporary copy[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R4: warns, without a print FAIL, when week 1 has no block[39m[32m 2[2mms[22m[39m
+     [32m✓[39m R4: warns, without a print FAIL, when week 2 has no block[32m 21[2mms[22m[39m
+     [32m✓[39m R4: warns, without a print FAIL, when week 3 has no block[32m 17[2mms[22m[39m
+     [32m✓[39m R4: warns, without a print FAIL, when week 4 has no block[32m 15[2mms[22m[39m
+     [32m✓[39m R4: warns, without a print FAIL, when week 5 has no block[32m 15[2mms[22m[39m
+     [32m✓[39m R4: warns, without a print FAIL, when week 6 has no block[32m 11[2mms[22m[39m
+     [32m✓[39m R4: warns, without a print FAIL, when week 7 has no block[32m 14[2mms[22m[39m
+     [32m✓[39m R4: warns, without a print FAIL, when week 8 has no block[32m 19[2mms[22m[39m
+[31m     [31m×[31m R4: requires the shipped week 1 block and nonempty PASS checks[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R5: lists exactly 16 story pages, 2 covers, 9 check pictures, and each practice picture[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m FR-2.2: preserves the shipped prompts, captions, page text, and explicit object counts[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R6: assigns A to story pages, B to covers, and C to check and practice pictures[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m R7: gives unique ids and versioned file names across all eight shipped weeks[39m[32m 2[2mms[22m[39m
+     [32m✓[39m R8: handles shipped week 8 with no books and no cover or story-page rows[32m 17[2mms[22m[39m
+[31m     [31m×[31m R10: keeps the committed picture list equal to the output on all shipped weeks[39m[32m 3[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m24 tests[22m[2m | [22m[31m16 failed[39m[2m)[22m[32m 150[2mms[22m[39m
+[31m     [31m×[31m gives every row the line-art name of FR-2.3 and FR-9[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m keeps the 196 color names and the 196 line-art names distinct across weeks 1 to 8[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m keeps colliding page slugs distinct, or throws with both ids (F13)[39m[32m 2[2mms[22m[39m
+     [32m✓[39m exports STORYTIME_PICTURE_SPEC with the exact v1 constants[32m 4[2mms[22m[39m
+[31m     [31m×[31m gives every row the pixel size of its class, with the shipped counts by use[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m fails print-picture-word with "net" as the picture word of the "and" line[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m fails print-picture-word with "Net" as the picture word of the "and" line[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m fails print-picture-word with "zebra" as the picture word of the "and" line[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m allows a picture word on its own line (the rule is not over-broad)[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m passes the shipped week 1 after the F1 fix (pictureWord "nut")[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m wires the error into checkStorytimeWeek and the published gate[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m preserves source and words on each app part as parsed values (F9)[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m week 1 records the thai approval with its pinned source line[39m[32m 4[2mms[22m[39m
+     [32m✓[39m week 2 records the thai approval with its pinned source line[32m 34[2mms[22m[39m
+     [32m✓[39m week 3 records the thai approval with its pinned source line[32m 8[2mms[22m[39m
+     [32m✓[39m week 4 records the thai approval with its pinned source line[32m 18[2mms[22m[39m
+     [32m✓[39m week 5 records the thai approval with its pinned source line[32m 11[2mms[22m[39m
+     [32m✓[39m week 6 records the thai approval with its pinned source line[32m 6[2mms[22m[39m
+     [32m✓[39m week 7 records the thai approval with its pinned source line[32m 6[2mms[22m[39m
+     [32m✓[39m week 8 records the thai approval with its pinned source line[32m 8[2mms[22m[39m
+[31m     [31m×[31m week 1 records the text and scripts approvals (decision S29)[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m keeps the other parts draft in all eight weeks and records the owner approval of the weeks 2 to 8 text[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m the published gate of st2/1 names only images, audio, and song[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m keeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 4"[39m[32m 3[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m | [22m[31m6 failed[39m[2m)[22m[32m 277[2mms[22m[39m
+[31m     [31m×[31m parses the eight shipped weeks[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m defaults approval.loops to draft when the key is absent[39m[32m 4[2mms[22m[39m
+     [32m✓[39m parses a w02 copy with every new field (L2)[32m 41[2mms[22m[39m
+     [32m✓[39m bounds blendDrill.words to 3..5[32m 43[2mms[22m[39m
+     [32m✓[39m bounds blendDrill.sounds to 2..4 labels[32m 25[2mms[22m[39m
+     [32m✓[39m bounds blendDrill.repeats to 2..5[32m 31[2mms[22m[39m
+     [32m✓[39m bounds sightWords.words to 1..3[32m 18[2mms[22m[39m
+     [32m✓[39m bounds sightWords.seconds to 2..5[32m 22[2mms[22m[39m
+     [32m✓[39m bounds loopMinutes to 0..20 and fails 21[32m 14[2mms[22m[39m
+     [32m✓[39m fails a read-along with 2 or 4 questions, and a kind twice[32m 14[2mms[22m[39m
+     [32m✓[39m fails a question kind outside who, what, where[32m 5[2mms[22m[39m
+     [32m✓[39m parses answer.page 0 (the schema has no bound; Q2)[32m 5[2mms[22m[39m
+     [32m✓[39m does not length-check recall.items (4 and 6 parse), and fails a card kind outside the four[32m 13[2mms[22m[39m
+     [32m✓[39m fails an unknown key in a new object and a misspelled key (Q3, strict)[32m 10[2mms[22m[39m
+     [32m✓[39m keeps the six approval parts exactly, without loops[32m 0[2mms[22m[39m
+     [32m✓[39m parses an approved app part with only status and date to an equal object[32m 0[2mms[22m[39m
+     [32m✓[39m parses an approved app part with status only (baseline; no refine on the app part)[32m 0[2mms[22m[39m
+     [32m✓[39m fails an approved loops part without words[32m 1[2mms[22m[39m
+     [32m✓[39m fails an approved loops part without date[32m 0[2mms[22m[39m
+     [32m✓[39m fails an approved loops part with an empty date or blank words[32m 0[2mms[22m[39m
+     [32m✓[39m fails an unknown key in the loops part (strict)[32m 0[2mms[22m[39m
+     [32m✓[39m parses an approved loops part with both, and a draft part without both[32m 0[2mms[22m[39m
+[31m     [31m×[31m reports the shipped st2/1 published detail[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m passes published on a w01 copy with six approved parts and a draft loops part[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m keeps the shipped published detail with an explicit draft loops part[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m still reports images not approved when only images is draft (the exclusion is not over-broad)[39m[32m 2[2mms[22m[39m
+     [32m✓[39m pins the exact key set of each new object[32m 6[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-book-pictures.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 62[2mms[22m[39m
+[31m     [31m×[31m sets the 18 app pictures with valid JPEGs and complete provenance[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m fails the picture check when a named file is missing[39m[32m 3[2mms[22m[39m
+     [32m✓[39m rejects a zero match before it writes files[32m 8[2mms[22m[39m
+     [32m✓[39m rejects a two matches before it writes files[32m 4[2mms[22m[39m
+     [32m✓[39m rejects a resolver error before it writes files[32m 26[2mms[22m[39m
+[31m     [31m×[31m runs the week script successfully on the shipped w01[39m[32m 9[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-print-adversarial.test.ts [2m([22m[2m38 tests[22m[2m | [22m[31m21 failed[39m[2m)[22m[33m 4221[2mms[22m[39m
+[31m     [31m×[31m fails print-picture-word when the case variant "Nest" names another line[39m[32m 12[2mms[22m[39m
+[31m     [31m×[31m fails print-picture-word when the case variant "NEST" names another line[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m fails print-picture-word when the case variant "nEsT" names another line[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m fails print-practice when a plural ending hides behind punctuation ("A nest. A nets.")[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m passes print-practice when only the punctuation case and quote style differ[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m fails print-practice when a curly-quoted line changes one word[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m fails print-practice when "alone" from the harder note of step A7 reaches the practice sheet[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m fails print-practice when "only" from the easier note of step A7 reaches the practice sheet[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m fails print-writing when the trace text comes from the harder note of step D4[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m fails print-practice when a line holds only its picture word[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m rejects an empty practice sheet at the schema boundary[39m[32m 10[2mms[22m[39m
+[31m     [31m×[31m rejects a line with an empty text at the schema boundary[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m rejects a line with an empty picture word at the schema boundary[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m suffixes every row of a second identical week with -b and keeps all names unique[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m suffixes two different repeated slugs of one week independently[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m throws a named repeat-limit error on the 27th identical page[39m[32m 2[2mms[22m[39m
+     [32m✓[39m keeps shipped week 8 picture rows without books and gives an empty review copy no rows[32m 45[2mms[22m[39m
+[31m     [31m×[31m keeps the check and practice rows and the print checks when a teaching week loses its books[39m[32m 4[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a missing --level [33m 466[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level without a value [33m 419[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 9 (outside 1 to 4) [33m 469[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level 0 [33m 478[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level -1 [33m 440[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level ../x (path traversal) [33m 468[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for --level=2 (the equals form is not accepted) [33m 507[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 with the usage text for a level with more digits than a safe integer [33m 399[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a valid level with no week files and writes nothing [33m 412[2mms[22m[39m
+[31m     [31m×[31m rejects an approved print part with whitespace-only words[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m rejects an approved print part that carries an unknown key[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m never turns a misspelled approval part into an approved print gate[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m keeps the shipped week 1 published detail limited to the three media parts[39m[32m 2[2mms[22m[39m
+     [32m✓[39m counts "How many eggs? Three!" as {"egg":3}[32m 1[2mms[22m[39m
+     [32m✓[39m counts "HOW MANY EGGS? THREE!" as {"egg":3}[32m 0[2mms[22m[39m
+     [32m✓[39m counts "How many eggs? No!" as {}[32m 0[2mms[22m[39m
+     [32m✓[39m counts "Is it a ball? No!" as {}[32m 0[2mms[22m[39m
+     [32m✓[39m counts "Is it a ball? Yes!" as {"ball":1}[32m 0[2mms[22m[39m
+     [32m✓[39m counts "A bus." as {"bus":1}[32m 0[2mms[22m[39m
+     [32m✓[39m counts "I see a cat and a dog." as {"cat":1,"dog":1}[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 71 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-book-pictures.test.ts[2m > [22mStorytime app book pictures[2m > [22msets the 18 app pictures with valid JPEGs and complete provenance
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m __tests__/storytime-book-pictures.test.ts:[2m32:27[22m[39m
+    [90m 30| [39m[34mdescribe[39m([32m'Storytime app book pictures'[39m[33m,[39m () [33m=>[39m {
+    [90m 31| [39m    it('sets the 18 app pictures with valid JPEGs and complete provena…
+    [90m 32| [39m        [35mconst[39m week [33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(fs[33m.[39m[34mreadFileSync[39m([33mWEEK_FILE[39m[33m,[39m [32m'utf8'[39m))[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m 33| [39m        const pictures = week.books.flatMap((book: any) => [book.cover…
+    [90m 34| [39m        [34mexpect[39m(pictures)[33m.[39m[34mtoHaveLength[39m([34m18[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-book-pictures.test.ts[2m > [22mStorytime app book pictures[2m > [22mfails the picture check when a named file is missing
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m __tests__/storytime-book-pictures.test.ts:[2m69:27[22m[39m
+    [90m 67| [39m    [34mit[39m([32m'fails the picture check when a named file is missing'[39m[33m,[39m () [33m=>[39m {
+    [90m 68| [39m        [35mconst[39m folder [33m=[39m [34mtemp[39m()[33m;[39m
+    [90m 69| [39m        [35mconst[39m week [33m=[39m [33mJSON[39m[33m.[39m[34mparse[39m(fs[33m.[39m[34mreadFileSync[39m([33mWEEK_FILE[39m[33m,[39m [32m'utf8'[39m))[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m 70| [39m        [35mconst[39m first [33m=[39m week[33m.[39mbooks[[34m0[39m][33m.[39mcover[33m;[39m
+    [90m 71| [39m        first[33m.[39mfile [33m=[39m [32m'l2/media/w01/books/1-hello/cover.jpg'[39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-book-pictures.test.ts[2m > [22mStorytime app book pictures[2m > [22mruns the week script successfully on the shipped w01
+[31m[1mAssertionError[22m: expected null to be +0 // Object.is equality[39m
+
+[32m- Expected:[39m 
+0
+
+[31m+ Received:[39m 
+null
+
+[36m [2m❯[22m __tests__/storytime-book-pictures.test.ts:[2m105:46[22m[39m
+    [90m103| [39m            encoding[33m:[39m [32m'utf8'[39m[33m,[39m
+    [90m104| [39m        })[33m;[39m
+    [90m105| [39m        [34mexpect[39m(result[33m.[39mstatus[33m,[39m result[33m.[39mstderr)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                                             [31m^[39m
+    [90m106| [39m    })[33m;[39m
+    [90m107| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-schema.test.ts[2m > [22mshipped weeks and the loops default[2m > [22mparses the eight shipped weeks
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m loadWeek __tests__/storytime-loops-schema.test.ts:[2m19:17[22m[39m
+    [90m 17| [39m[35mfunction[39m [34mloadWeek[39m(week[33m:[39m number)[33m:[39m any {
+    [90m 18| [39m    [35mconst[39m file [33m=[39m [34mstorytimeWeekFile[39m([33mSTORYTIME_ROOT[39m[33m,[39m [34m2[39m[33m,[39m week)[33m;[39m
+    [90m 19| [39m    [35mreturn[39m [33mJSON[39m[33m.[39m[34mparse[39m(fs[33m.[39m[34mreadFileSync[39m(file[33m,[39m [32m'utf8'[39m))[33m;[39m
+    [90m   | [39m                [31m^[39m
+    [90m 20| [39m}
+    [90m 21| [39m
+[90m [2m❯[22m __tests__/storytime-loops-schema.test.ts:[2m119:50[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-schema.test.ts[2m > [22mshipped weeks and the loops default[2m > [22mdefaults approval.loops to draft when the key is absent
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m loadWeek __tests__/storytime-loops-schema.test.ts:[2m19:17[22m[39m
+    [90m 17| [39m[35mfunction[39m [34mloadWeek[39m(week[33m:[39m number)[33m:[39m any {
+    [90m 18| [39m    [35mconst[39m file [33m=[39m [34mstorytimeWeekFile[39m([33mSTORYTIME_ROOT[39m[33m,[39m [34m2[39m[33m,[39m week)[33m;[39m
+    [90m 19| [39m    [35mreturn[39m [33mJSON[39m[33m.[39m[34mparse[39m(fs[33m.[39m[34mreadFileSync[39m(file[33m,[39m [32m'utf8'[39m))[33m;[39m
+    [90m   | [39m                [31m^[39m
+    [90m 20| [39m}
+    [90m 21| [39m
+[90m [2m❯[22m __tests__/storytime-loops-schema.test.ts:[2m125:23[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-schema.test.ts[2m > [22mpublished guard (characterization, pass at Red)[2m > [22mreports the shipped st2/1 published detail
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m loadWeek __tests__/storytime-loops-schema.test.ts:[2m19:17[22m[39m
+    [90m 17| [39m[35mfunction[39m [34mloadWeek[39m(week[33m:[39m number)[33m:[39m any {
+    [90m 18| [39m    [35mconst[39m file [33m=[39m [34mstorytimeWeekFile[39m([33mSTORYTIME_ROOT[39m[33m,[39m [34m2[39m[33m,[39m week)[33m;[39m
+    [90m 19| [39m    [35mreturn[39m [33mJSON[39m[33m.[39m[34mparse[39m(fs[33m.[39m[34mreadFileSync[39m(file[33m,[39m [32m'utf8'[39m))[33m;[39m
+    [90m   | [39m                [31m^[39m
+    [90m 20| [39m}
+    [90m 21| [39m
+[90m [2m❯[22m __tests__/storytime-loops-schema.test.ts:[2m306:43[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-schema.test.ts[2m > [22mpublished guard (characterization, pass at Red)[2m > [22mpasses published on a w01 copy with six approved parts and a draft loops part
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m loadWeek __tests__/storytime-loops-schema.test.ts:[2m19:17[22m[39m
+    [90m 17| [39m[35mfunction[39m [34mloadWeek[39m(week[33m:[39m number)[33m:[39m any {
+    [90m 18| [39m    [35mconst[39m file [33m=[39m [34mstorytimeWeekFile[39m([33mSTORYTIME_ROOT[39m[33m,[39m [34m2[39m[33m,[39m week)[33m;[39m
+    [90m 19| [39m    [35mreturn[39m [33mJSON[39m[33m.[39m[34mparse[39m(fs[33m.[39m[34mreadFileSync[39m(file[33m,[39m [32m'utf8'[39m))[33m;[39m
+    [90m   | [39m                [31m^[39m
+    [90m 20| [39m}
+    [90m 21| [39m
+[90m [2m❯[22m __tests__/storytime-loops-schema.test.ts:[2m313:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-schema.test.ts[2m > [22mpublished guard (characterization, pass at Red)[2m > [22mkeeps the shipped published detail with an explicit draft loops part
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m loadWeek __tests__/storytime-loops-schema.test.ts:[2m19:17[22m[39m
+    [90m 17| [39m[35mfunction[39m [34mloadWeek[39m(week[33m:[39m number)[33m:[39m any {
+    [90m 18| [39m    [35mconst[39m file [33m=[39m [34mstorytimeWeekFile[39m([33mSTORYTIME_ROOT[39m[33m,[39m [34m2[39m[33m,[39m week)[33m;[39m
+    [90m 19| [39m    [35mreturn[39m [33mJSON[39m[33m.[39m[34mparse[39m(fs[33m.[39m[34mreadFileSync[39m(file[33m,[39m [32m'utf8'[39m))[33m;[39m
+    [90m   | [39m                [31m^[39m
+    [90m 20| [39m}
+    [90m 21| [39m
+[90m [2m❯[22m __tests__/storytime-loops-schema.test.ts:[2m322:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-loops-schema.test.ts[2m > [22mpublished guard (characterization, pass at Red)[2m > [22mstill reports images not approved when only images is draft (the exclusion is not over-broad)
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m loadWeek __tests__/storytime-loops-schema.test.ts:[2m19:17[22m[39m
+    [90m 17| [39m[35mfunction[39m [34mloadWeek[39m(week[33m:[39m number)[33m:[39m any {
+    [90m 18| [39m    [35mconst[39m file [33m=[39m [34mstorytimeWeekFile[39m([33mSTORYTIME_ROOT[39m[33m,[39m [34m2[39m[33m,[39m week)[33m;[39m
+    [90m 19| [39m    [35mreturn[39m [33mJSON[39m[33m.[39m[34mparse[39m(fs[33m.[39m[34mreadFileSync[39m(file[33m,[39m [32m'utf8'[39m))[33m;[39m
+    [90m   | [39m                [31m^[39m
+    [90m 20| [39m}
+    [90m 21| [39m
+[90m [2m❯[22m __tests__/storytime-loops-schema.test.ts:[2m329:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mfails print-picture-word when the case variant "Nest" names another line
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mfails print-picture-word when the case variant "NEST" names another line
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mfails print-picture-word when the case variant "nEsT" names another line
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m58:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mfails print-practice when a plural ending hides behind punctuation ("A nest. A nets.")
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m67:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mpasses print-practice when only the punctuation case and quote style differ
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m76:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mfails print-practice when a curly-quoted line changes one word
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m84:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mfails print-practice when "alone" from the harder note of step A7 reaches the practice sheet
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mfails print-practice when "only" from the easier note of step A7 reaches the practice sheet
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m94:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mfails print-writing when the trace text comes from the harder note of step D4
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m104:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mfails print-practice when a line holds only its picture word
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m111:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mrejects an empty practice sheet at the schema boundary
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mrejects a line with an empty text at the schema boundary
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the text check normalization never masks a word change[2m > [22mrejects a line with an empty picture word at the schema boundary
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m124:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: repeated picture names never collide silently[2m > [22msuffixes every row of a second identical week with -b and keeps all names unique
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m131:53[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: repeated picture names never collide silently[2m > [22msuffixes two different repeated slugs of one week independently
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m141:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: repeated picture names never collide silently[2m > [22mthrows a named repeat-limit error on the 27th identical page
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m153:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: week 8 and an empty book list[2m > [22mkeeps the check and practice rows and the print checks when a teaching week loses its books
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m181:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the strict approval parts fail closed[2m > [22mrejects an approved print part with whitespace-only words
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m229:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the strict approval parts fail closed[2m > [22mrejects an approved print part that carries an unknown key
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m236:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the strict approval parts fail closed[2m > [22mnever turns a misspelled approval part into an approved print gate
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m copyWeek __tests__/storytime-print-adversarial.test.ts:[2m41:43[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m244:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-adversarial.test.ts[2m > [22mAdversarial: the strict approval parts fail closed[2m > [22mkeeps the shipped week 1 published detail limited to the three media parts
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-adversarial.test.ts:[2m28:17[22m[39m
+    [90m 26| [39m
+    [90m 27| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mStorytimeWeek[39m {
+    [90m 28| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 29| [39m}
+    [90m 30| [39m
+[90m [2m❯[22m __tests__/storytime-print-adversarial.test.ts:[2m256:56[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: line-art names of the picture list (R11)[2m > [22mgives every row the line-art name of FR-2.3 and FR-9
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m61:45[22m[39m
+[90m [2m❯[22m shippedWeeks __tests__/storytime-print-contract-v2.test.ts:[2m61:24[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m96:37[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: line-art names of the picture list (R11)[2m > [22mkeeps the 196 color names and the 196 line-art names distinct across weeks 1 to 8
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m61:45[22m[39m
+[90m [2m❯[22m shippedWeeks __tests__/storytime-print-contract-v2.test.ts:[2m61:24[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m109:37[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: line-art names of the picture list (R11)[2m > [22mkeeps colliding page slugs distinct, or throws with both ids (F13)
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m118:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the FR-9 v1 pixel spec (R12)[2m > [22mgives every row the pixel size of its class, with the shipped counts by use
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m61:45[22m[39m
+[90m [2m❯[22m shippedWeeks __tests__/storytime-print-contract-v2.test.ts:[2m61:24[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m159:37[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the picture-word rule (R13)[2m > [22mfails print-picture-word with "net" as the picture word of the "and" line
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the picture-word rule (R13)[2m > [22mfails print-picture-word with "Net" as the picture word of the "and" line
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the picture-word rule (R13)[2m > [22mfails print-picture-word with "zebra" as the picture word of the "and" line
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m181:35[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the picture-word rule (R13)[2m > [22mallows a picture word on its own line (the rule is not over-broad)
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m194:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the picture-word rule (R13)[2m > [22mpasses the shipped week 1 after the F1 fix (pictureWord "nut")
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m204:41[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the picture-word rule (R13)[2m > [22mwires the error into checkStorytimeWeek and the published gate
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m209:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the P14 approval records (R14)[2m > [22mpreserves source and words on each app part as parsed values (F9)
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m229:35[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the P14 approval records (R14)[2m > [22mweek 1 records the thai approval with its pinned source line
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m241:33[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the P14 approval records (R14)[2m > [22mweek 1 records the text and scripts approvals (decision S29)
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m251:33[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the P14 approval records (R14)[2m > [22mkeeps the other parts draft in all eight weeks and records the owner approval of the weeks 2 to 8 text
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m263:30[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the P14 approval records (R14)[2m > [22mthe published gate of st2/1 names only images, audio, and song
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m286:56[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract-v2.test.ts[2m > [22mStorytime print v2: the readable list drift guard (R10b)[2m > [22mkeeps the committed pictures.md equal to pictureListMarkdown(rows, 2), header "Version 4"
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract-v2.test.ts:[2m53:17[22m[39m
+    [90m 51| [39m
+    [90m 52| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mRecord[39m[33m<[39mstring[33m,[39m unknown[33m>[39m {
+    [90m 53| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 54| [39m}
+    [90m 55| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m61:45[22m[39m
+[90m [2m❯[22m shippedWeeks __tests__/storytime-print-contract-v2.test.ts:[2m61:24[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract-v2.test.ts:[2m298:37[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: shipped package characterization[2m > [22mparses shipped week 1 without changing its app contract
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m124:62[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: schema and approvals[2m > [22mR1: defaults print approval to draft for week 1 without a print block
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m132:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: schema and approvals[2m > [22mR2: preserves the full week 1 print block
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m140:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: schema and approvals[2m > [22mR2: rejects an unknown block key
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: schema and approvals[2m > [22mR2: rejects an unknown part name
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: schema and approvals[2m > [22mR2: rejects an unknown nested key
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m145:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: schema and approvals[2m > [22mR9: preserves a complete print approval record on a temporary copy
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m158:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: schema and approvals[2m > [22mR9: rejects approved print with invalid date
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: schema and approvals[2m > [22mR9: rejects approved print with invalid words
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: schema and approvals[2m > [22mR9: rejects approved print with invalid empty words
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m163:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[45/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: schema and approvals[2m > [22mR9/G5: keeps a draft print part outside the six-part app publication gate
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m176:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[46/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: exact text checks[2m > [22mR3: passes the complete week 1 block copied from the shipped scripts
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m191:50[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[47/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: exact text checks[2m > [22mR3: fails print-practice after this change: removed A7 word
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: exact text checks[2m > [22mR3: fails print-practice after this change: extra teacher-only words
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m201:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[48/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: exact text checks[2m > [22mFR-1.2: detects the A3 difference on a temporary copy
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: exact text checks[2m > [22mFR-1.2: detects the C3 difference on a temporary copy
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: exact text checks[2m > [22mFR-1.2: detects the D4 difference on a temporary copy
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: exact text checks[2m > [22mFR-1.2: detects the E5 difference on a temporary copy
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m207:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[49/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: exact text checks[2m > [22mR4: warns, without a print FAIL, when week 1 has no block
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m221:31[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[50/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: exact text checks[2m > [22mR4: requires the shipped week 1 block and nonempty PASS checks
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m228:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[51/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: Forge picture list[2m > [22mR5: lists exactly 16 story pages, 2 covers, 9 check pictures, and each practice picture
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m239:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[52/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: Forge picture list[2m > [22mFR-2.2: preserves the shipped prompts, captions, page text, and explicit object counts
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m253:22[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[53/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: Forge picture list[2m > [22mR6: assigns A to story pages, B to covers, and C to check and practice pictures
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m withPrint __tests__/storytime-print-contract.test.ts:[2m69:18[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m277:47[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[54/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: Forge picture list[2m > [22mR7: gives unique ids and versioned file names across all eight shipped weeks
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m58:45[22m[39m
+[90m [2m❯[22m shippedWeeks __tests__/storytime-print-contract.test.ts:[2m58:24[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m286:23[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[55/71]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-print-contract.test.ts[2m > [22mStorytime print: Forge picture list[2m > [22mR10: keeps the committed picture list equal to the output on all shipped weeks
+[31m[1mSyntaxError[22m: Expected ',' or '}' after property value in JSON at position 7351 (line 216 column 9)[39m
+[36m [2m❯[22m shipped __tests__/storytime-print-contract.test.ts:[2m50:17[22m[39m
+    [90m 48| [39m
+    [90m 49| [39m[35mfunction[39m [34mshipped[39m(week[33m:[39m number)[33m:[39m [33mPrintWeek[39m {
+    [90m 50| [39m    return JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT…
+    [90m   | [39m                [31m^[39m
+    [90m 51| [39m}
+    [90m 52| [39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m58:45[22m[39m
+[90m [2m❯[22m shippedWeeks __tests__/storytime-print-contract.test.ts:[2m58:24[22m[39m
+[90m [2m❯[22m __tests__/storytime-print-contract.test.ts:[2m310:116[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[56/71]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m5 failed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[31m71 failed[39m[22m[2m | [22m[1m[32m71 passed[39m[22m[90m (142)[39m
+[2m   Start at [22m 21:44:11
+[2m   Duration [22m 5.38s[2m (transform 1.21s, setup 502ms, import 2.39s, tests 5.75s, environment 3.38s)[22m
+
+[?25h
+Script done on 2026-11-03 21:44:18+07:00 [COMMAND_EXIT_CODE="1"]

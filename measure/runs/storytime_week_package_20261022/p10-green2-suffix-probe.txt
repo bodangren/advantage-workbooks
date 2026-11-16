@@ -1,0 +1,23 @@
+# The probe: a real setter run on a copy of w01, then the lineDiff of the test file.
+# It reads the suffix rule of R2-6. Probe file: /tmp/opencode/p10-suffix-probe.ts (outside the repo).
+removed: 6
+added: 12
+prefix: 0
+suffix: 0
+last removed: "            \"caption\": \"teacher\""
+last added:   "            \"file\": \"l2/media/w01/family/teacher.jpg\""
+removed tail equals added tail: false
+exit: 0
+# probe: the applied check, before any restore
+  WARN    family-pictures The family-word pictures named in the package exist — no file: hello, goodbye, boy, girl, friend, teacher
+  WARN    family-pictures The family-word pictures named in the package exist — no file: one, two, three, four, five, six, seven, eight, nine, ten
+  WARN    family-pictures The family-word pictures named in the package exist — no file: red, blue, yellow, green, orange, pink, purple
+  WARN    family-pictures The family-word pictures named in the package exist — no file: mom, dad, brother, sister, grandma, grandpa, family
+  WARN    family-pictures The family-word pictures named in the package exist — no file: eyes, ears, nose, hands, arms, legs, feet
+  WARN    family-pictures The family-word pictures named in the package exist — no file: cat, dog, bird, fish, frog, duck, horse
+  WARN    family-pictures The family-word pictures named in the package exist — no file: ball, doll, car, kite, drum, train, teddy
+Summary: 8 package(s), 0 failed check(s), 16 warning(s).
+--- WARN family rows:
+7
+--- FAIL rows:
+0

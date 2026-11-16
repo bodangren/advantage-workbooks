@@ -1,0 +1,43 @@
+# probe: the external card folder gained the family card file, so decision H3 now maps family to card
+date: 2026-11-07T10:27:16+07:00
+
+card folder file:
+-rw-rw-r-- 1 daniebo daniebo 1933116 Nov  7 10:11 /home/daniebo/Desktop/handoff/storytime-l2-card-pictures/l2-w04-card-family-v1.png
+card MANIFEST hash line:
+ab6067eedf8de3efebb40509c6032f81f7ecee178b212eac8c3727d40a8bff62  l2-w04-card-family-v1.png
+forge file:
+-rw-rw-r-- 1 daniebo daniebo 1933116 Nov  7 07:38 /home/daniebo/Desktop/handoff/storytime-l2-family-word-pictures/l2-w04-card-family-v1.png
+both files, one hash:
+ab6067eedf8de3efebb40509c6032f81f7ecee178b212eac8c3727d40a8bff62  /home/daniebo/Desktop/handoff/storytime-l2-card-pictures/l2-w04-card-family-v1.png
+ab6067eedf8de3efebb40509c6032f81f7ecee178b212eac8c3727d40a8bff62  /home/daniebo/Desktop/handoff/storytime-l2-family-word-pictures/l2-w04-card-family-v1.png
+
+card folder colour files: 31
+card MANIFEST colour lines: 31
+forge folder colour files: 19
+
+the card row of card-pictures.json:
+132-  {
+133:    "word": "family",
+134-    "week": 4,
+
+the spec table row:
+291:| 4 | family | forge | `l2-w04-card-family-v<k>.png` |
+the spec count line:
+297:The counts: card 15 (w01 5, w04 6, w07 4), patch 7, dots 10, forge 19 (w01 1, w04 1, w05 7, w06 7, w07 3). The total is 51.
+
+the test table row:
+174:    { week: 4, word: 'family', kind: 'forge', value: 'l2-w04-card-family-v2.png' },
+1010:            word: 'family',
+1011:            cardEntries: [{ word: 'family', week: 4 }],
+the test kind labels:
+968:        expect(kinds.card, 'card words: 15').toBe(15);
+969:        expect(kinds.forge, 'forge words: 19').toBe(19);
+
+R2-1 alone:
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  1 failed | 32 passed (33)
+exit: 1
+AssertionError: the kind of family: expected 'card' to be 'forge' // Object.is equality
+
+R2-5 in PROJECT_TESTS and alone:
+Error: Test timed out in 5000ms.
