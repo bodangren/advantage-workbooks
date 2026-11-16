@@ -1198,11 +1198,13 @@ describe('C1 bookWordKey (K2)', () => {
         for (const [word, key] of table) expect(bookWordKey(word), `the key of ${JSON.stringify(word)}`).toBe(key);
     });
 
-    it('throws "word clip: ... not a word key" for a word with a hyphen, a digit, or an accent inside', async () => {
+    it('keeps an inner hyphen, and throws for a digit or an accent inside', async () => {
         const bookWordKey = await clips('bookWordKey');
+        expect(bookWordKey('teddy-bear'), 'the key keeps the hyphen').toBe('teddy-bear');
+        expect(bookWordKey('T-shirt'), 'the key of a written hyphen word').toBe('t-shirt');
         // The addendum row also lists "a1" and "café". K2 step 3 removes a digit or an accent at an
         // end of the text, so those two give "a" and "caf". The forms below are inside the text.
-        for (const word of ['teddy-bear', 'a1b', 'cafés']) {
+        for (const word of ['a1b', 'cafés']) {
             const error = thrownBy(() => bookWordKey(word));
             expect(error, `${word} throws`).toBeInstanceOf(Error);
             expect(error?.message).toMatch(/^word clip:/);
@@ -1234,7 +1236,7 @@ describe('C2 wordClipStem, wordClipPath, planWordClips (K3)', () => {
     it('throws for a bad key, for week 0, and for week 100', async () => {
         const wordClipPath = await clips('wordClipPath');
         expect(thrownBy(() => wordClipPath(2, 1, 'Hello')), 'an upper-case key').toBeInstanceOf(Error);
-        expect(thrownBy(() => wordClipPath(2, 1, 'teddy-bear')), 'a key with a hyphen').toBeInstanceOf(Error);
+        expect(wordClipPath(2, 1, 'teddy-bear'), 'a key with a hyphen').toBe('l2/media/w01/words/wa-teddy-bear.mp3');
         expect(thrownBy(() => wordClipPath(2, 0, 'hello')), 'week 0').toBeInstanceOf(Error);
         expect(thrownBy(() => wordClipPath(2, 100, 'hello')), 'week 100').toBeInstanceOf(Error);
     });
@@ -1340,9 +1342,9 @@ describe('C5 the two optional schema fields (K15)', () => {
         expect((BookAudioSchema.parse({ sentences: [] }) as { wordClips?: unknown }).wordClips, 'the field is optional').toBeUndefined();
     });
 
-    it('rejects an upper-case key, a key with a hyphen, and an empty value', () => {
+    it('rejects an upper-case key and an empty value, and accepts a hyphen key', () => {
         expect(BookAudioSchema.safeParse({ sentences: [], wordClips: { Hello: 'l2/media/w01/words/wa-hello.mp3' } }).success, 'an upper-case key').toBe(false);
-        expect(BookAudioSchema.safeParse({ sentences: [], wordClips: { 'teddy-bear': 'l2/media/w01/words/wa-teddybear.mp3' } }).success, 'a key with a hyphen').toBe(false);
+        expect(BookAudioSchema.safeParse({ sentences: [], wordClips: { 'teddy-bear': 'l2/media/w01/words/wa-teddy-bear.mp3' } }).success, 'a key with a hyphen').toBe(true);
         expect(BookAudioSchema.safeParse({ sentences: [], wordClips: { hello: '' } }).success, 'an empty value').toBe(false);
     });
 

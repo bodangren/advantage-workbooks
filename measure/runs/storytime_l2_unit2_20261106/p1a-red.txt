@@ -1,0 +1,181 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-unit2-word-keys.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m9 failed[39m[2m)[22m[33m 1320[2mms[22m[39m
+[31m     [31m×[31m gives the lower-case key with each inner hyphen[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m keeps the hyphen in the stem, the written TTS text, and the clip path[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m refuses a run of two hyphens and keeps a hyphen next to an apostrophe group[39m[32m 1[2mms[22m[39m
+     [32m✓[39m still throws for a digit or an accent inside the text[32m 0[2mms[22m[39m
+[31m     [31m×[31m holds the two raw forms of t-shirt in the variant bank[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m passes each of the three raw heard forms[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m passes the heard text, which removes the space and the hyphen[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m gives one practice-clips FAIL row, a Summary, exit 1, and no stack frame[39m[33m 319[2mms[22m[39m
+[31m     [31m×[31m gives one practice-clips FAIL row for an opening line with no word form[39m[33m 330[2mms[22m[39m
+[31m     [31m×[31m gives one FAIL row for each of two bad family words, and counts both[39m[33m 322[2mms[22m[39m
+     [33m[2m✓[22m[39m equals the baseline capture at 0dcb45d4 [33m 302[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 9 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-word-keys.test.ts[2m > [22mthe hyphen word key (D-U2-K2, D-U2-K10)[2m > [22mgives the lower-case key with each inner hyphen
+[31m[1mError[22m: word clip: T-shirt: not a word key[39m
+[36m [2m❯[22m bookWordKey lib/storytime/word-clips.ts:[2m123:40[22m[39m
+    [90m121| [39m    while (trimmed && NOT_A_KEY_CHAR.test(trimmed[trimmed.length - 1])…
+    [90m122| [39m    [35mif[39m ([33m![39mtrimmed) [35mreturn[39m undefined[33m;[39m
+    [90m123| [39m    if (!WORD_KEY.test(trimmed)) throw new Error(`word clip: ${word}: …
+    [90m   | [39m                                       [31m^[39m
+    [90m124| [39m    [35mreturn[39m trimmed[33m;[39m
+    [90m125| [39m}
+[90m [2m❯[22m __tests__/storytime-unit2-word-keys.test.ts:[2m141:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-word-keys.test.ts[2m > [22mthe hyphen word key (D-U2-K2, D-U2-K10)[2m > [22mkeeps the hyphen in the stem, the written TTS text, and the clip path
+[31m[1mError[22m: word clip: t-shirt: not a word key[39m
+[36m [2m❯[22m wordClipPath lib/storytime/word-clips.ts:[2m145:36[22m[39m
+    [90m143| [39m */[39m
+    [90m144| [39mexport function wordClipPath(level: number, week: number, key: string)…
+    [90m145| [39m    if (!WORD_KEY.test(key)) throw new Error(`word clip: ${key}: not a…
+    [90m   | [39m                                   [31m^[39m
+    [90m146| [39m    [35mif[39m ([33m![39m[33mNumber[39m[33m.[39m[34misInteger[39m(week) [33m||[39m week [33m<[39m [34m1[39m [33m||[39m week [33m>[39m [34m99[39m) {
+    [90m147| [39m        [35mthrow[39m [35mnew[39m [33mError[39m([32m`word clip: week outside 1 to 99: [39m[36m${[39mweek[36m}[39m[32m`[39m)[33m;[39m
+[90m [2m❯[22m __tests__/storytime-unit2-word-keys.test.ts:[2m149:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-word-keys.test.ts[2m > [22mthe hyphen word key (D-U2-K2, D-U2-K10)[2m > [22mrefuses a run of two hyphens and keeps a hyphen next to an apostrophe group
+[31m[1mError[22m: word clip: t-shirt's: not a word key[39m
+[36m [2m❯[22m bookWordKey lib/storytime/word-clips.ts:[2m123:40[22m[39m
+    [90m121| [39m    while (trimmed && NOT_A_KEY_CHAR.test(trimmed[trimmed.length - 1])…
+    [90m122| [39m    [35mif[39m ([33m![39mtrimmed) [35mreturn[39m undefined[33m;[39m
+    [90m123| [39m    if (!WORD_KEY.test(trimmed)) throw new Error(`word clip: ${word}: …
+    [90m   | [39m                                       [31m^[39m
+    [90m124| [39m    [35mreturn[39m trimmed[33m;[39m
+    [90m125| [39m}
+[90m [2m❯[22m __tests__/storytime-unit2-word-keys.test.ts:[2m154:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-word-keys.test.ts[2m > [22mthe heard check of a hyphen key (D-U2-K2, D-U2-K11)[2m > [22mholds the two raw forms of t-shirt in the variant bank
+[31m[1mAssertionError[22m: expected undefined to deeply equal [ 't shirt', 'tshirt' ][39m
+
+[32m- Expected:[39m 
+[
+  "t shirt",
+  "tshirt",
+]
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m __tests__/storytime-unit2-word-keys.test.ts:[2m166:53[22m[39m
+    [90m164| [39m[34mdescribe[39m([32m'the heard check of a hyphen key (D-U2-K2, D-U2-K11)'[39m[33m,[39m () [33m=>[39m {
+    [90m165| [39m    it('holds the two raw forms of t-shirt in the variant bank', () =>…
+    [90m166| [39m        expect(WORD_CLIP_HEARD_VARIANTS['t-shirt']).toEqual(['t shirt'…
+    [90m   | [39m                                                    [31m^[39m
+    [90m167| [39m    })[33m;[39m
+    [90m168| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-word-keys.test.ts[2m > [22mthe heard check of a hyphen key (D-U2-K2, D-U2-K11)[2m > [22mpasses each of the three raw heard forms
+[31m[1mAssertionError[22m: the raw form t shirt: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-unit2-word-keys.test.ts:[2m171:81[22m[39m
+    [90m169| [39m    [34mit[39m([32m'passes each of the three raw heard forms'[39m[33m,[39m () [33m=>[39m {
+    [90m170| [39m        [35mfor[39m ([35mconst[39m heard [35mof[39m [[32m't shirt'[39m[33m,[39m [32m'tshirt'[39m[33m,[39m [32m't-shirt'[39m]) {
+    [90m171| [39m            expect(heardPasses('t-shirt', heard).pass, `the raw form $…
+    [90m   | [39m                                                                                [31m^[39m
+    [90m172| [39m        }
+    [90m173| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-word-keys.test.ts[2m > [22mthe heard check of a hyphen key (D-U2-K2, D-U2-K11)[2m > [22mpasses the heard text, which removes the space and the hyphen
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-unit2-word-keys.test.ts:[2m178:69[22m[39m
+    [90m176| [39m        [34mexpect[39m([34mheardText[39m([[32m'T'[39m[33m,[39m [32m'shirt'[39m]))[33m.[39m[34mtoBe[39m([32m'tshirt'[39m)[33m;[39m
+    [90m177| [39m        [34mexpect[39m([34mheardText[39m([[32m'T-shirt'[39m]))[33m.[39m[34mtoBe[39m([32m'tshirt'[39m)[33m;[39m
+    [90m178| [39m        expect(heardPasses('t-shirt', heardText(['T-shirt'])).pass).to…
+    [90m   | [39m                                                                    [31m^[39m
+    [90m179| [39m    })[33m;[39m
+    [90m180| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-word-keys.test.ts[2m > [22mthe check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12)[2m > [22mgives one practice-clips FAIL row, a Summary, exit 1, and no stack frame
+[31m[1mAssertionError[22m: one FAIL row names nine4: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-unit2-word-keys.test.ts:[2m188:136[22m[39m
+    [90m186| [39m        [35mconst[39m lines [33m=[39m run[33m.[39mstdout[33m.[39m[34msplit[39m([32m'\n'[39m)[33m;[39m
+    [90m187| [39m        [34mexpect[39m(run[33m.[39mstatus[33m,[39m [32m'the exit code'[39m)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m188| [39m        expect(lines.some((line) => line.startsWith('  FAIL ') && line…
+    [90m   | [39m                                                                                                                                       [31m^[39m
+    [90m189| [39m        expect(lines.some((line) => line.startsWith('Summary:')), 'the…
+    [90m190| [39m        expect(hasStackFrame([...lines, ...run.stderr.split('\n')]), '…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-word-keys.test.ts[2m > [22mthe check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12)[2m > [22mgives one practice-clips FAIL row for an opening line with no word form
+[31m[1mAssertionError[22m: one FAIL row: expected [] to have a length of 1 but got +0[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/storytime-unit2-word-keys.test.ts:[2m198:84[22m[39m
+    [90m196| [39m        [35mconst[39m lines [33m=[39m run[33m.[39mstdout[33m.[39m[34msplit[39m([32m'\n'[39m)[33m;[39m
+    [90m197| [39m        [34mexpect[39m(run[33m.[39mstatus[33m,[39m [32m'the exit code'[39m)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m198| [39m        expect(lines.filter((line) => line.startsWith('  FAIL ')), 'on…
+    [90m   | [39m                                                                                   [31m^[39m
+    [90m199| [39m        expect(lines.some((line) => line.startsWith('  FAIL ') && line…
+    [90m200| [39m        expect(lines.some((line) => line.startsWith('Summary:')), 'the…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-word-keys.test.ts[2m > [22mthe check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12)[2m > [22mgives one FAIL row for each of two bad family words, and counts both
+[31m[1mAssertionError[22m: a FAIL row names nine4: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/storytime-unit2-word-keys.test.ts:[2m212:134[22m[39m
+    [90m210| [39m        [35mconst[39m lines [33m=[39m run[33m.[39mstdout[33m.[39m[34msplit[39m([32m'\n'[39m)[33m;[39m
+    [90m211| [39m        [34mexpect[39m(run[33m.[39mstatus[33m,[39m [32m'the exit code'[39m)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m212| [39m        expect(lines.some((line) => line.startsWith('  FAIL ') && line…
+    [90m   | [39m                                                                                                                                     [31m^[39m
+    [90m213| [39m        expect(lines.some((line) => line.startsWith('  FAIL ') && line…
+    [90m214| [39m        expect(failedCheckCount(lines.find((line) => line.startsWith('…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m9 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 18:52:58
+[2m   Duration [22m 1.71s[2m (transform 118ms, setup 41ms, import 190ms, tests 1.32s, environment 0ms)[22m
+
+EXIT: 1
