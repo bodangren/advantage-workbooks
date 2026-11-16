@@ -1,0 +1,21 @@
+AC13-1 command:
+python3 -I -B -c "import json;r=[(n,i,len(s),sum(len(x['sentence']) for x in s)) for n in range(1,8) for i,b in enumerate(json.load(open('content/storytime/l2/w0%d.json'%n,encoding='utf-8'))['books']) if b['kind']=='readalong' for s in [b['audio']['sentences']]];print(r);print(sum(x[2] for x in r),sum(x[3] for x in r))"
+--- output (exit 0, thai chars 0) ---
+[(1, 0, 8, 137), (2, 0, 16, 166), (3, 0, 8, 93), (4, 0, 8, 142), (5, 0, 8, 130), (6, 0, 8, 132), (7, 0, 16, 127)]
+72 927
+
+AC13-2:
+b0: 72all: 128per week: [8, 16, 8, 8, 8, 8, 16]
+     72 32000,1,128000
+
+AC13-3 command:
+python3 -I -B -c "import json,hashlib;R=lambda p:json.load(open(p,encoding='utf-8'));H=lambda p:hashlib.sha256(open(p,'rb').read()).hexdigest();T='content/storytime/';books=[(n,i,b,{x['file']:x for x in R(T+'l2/media/w0%d/sentences/manifest.json'%n)['items']}) for n in range(1,8) for i,b in enumerate(R(T+'l2/w0%d.json'%n)['books'])];F=lambda n,i,k:'l2/media/w0%d/sentences/b%d-s%02d.mp3'%(n,i,k+1);g=lambda n,i,b,pv:(lambda s,c:c is not None and len(c)==len(s) and all(x['file']==F(n,i,k) and x['sentence']==s[k]['sentence'] and F(n,i,k) in pv and pv[F(n,i,k)]['text']==x['sentence'] and H(T+F(n,i,k))==pv[F(n,i,k)]['sha256'] for k,x in enumerate(c)))(b['audio']['sentences'],b['audio'].get('sentenceClips'));ok=sum(1 for a in books if g(*a));print('books ok',ok,'bad',len(books)-ok,'items',sum(len(b['audio'].get('sentenceClips') or []) for _,_,b,_ in books))"
+--- output (exit 0, thai chars 0) ---
+books ok 14 bad 0 items 128
+
+AC13-4 command:
+python3 -I -B -c "import json,subprocess;P=lambda n:'content/storytime/l2/media/w0%d/sentences/manifest.json'%n;old=lambda n:json.loads(subprocess.run(['git','show','fa47ca23:'+P(n)],capture_output=True,text=True,check=True).stdout);new=lambda n:json.load(open(P(n)));r=range(1,8);bad=sum([i for i in new(n)['items'] if i['book']==1]!=old(n)['items'] or [new(n)[k] for k in ('voice','speed','model')]!=[old(n)[k] for k in ('voice','speed','model')] for n in r);n0=sum(len([i for i in new(n)['items'] if i['book']==0]) for n in r);od=sum([(i['book'],i['n']) for i in new(n)['items']]!=sorted((i['book'],i['n']) for i in new(n)['items']) for n in r);print('phase 12 items changed',bad,'read-along items',n0,'order bad',od)"
+--- output (exit 0, thai chars 0) ---
+phase 12 items changed 0 read-along items 72 order bad 0
+b1 diff against fa47ca23 (exit 0): <empty>
+exit: 0

@@ -1,0 +1,55 @@
+CAPTURE p13-accept-gitstate (before the commit of this role)
+COMMAND: git rev-parse HEAD; git status --porcelain -- <21 paths of this role>
+
+--- HEAD ---
+0b90be77740a307540b1eb22955734a06aa77f79
+
+--- status of this role's paths (18 new files, 3 modified) ---
+ M measure/lessons-learned.md
+ M measure/tech-debt.md
+ M measure/tracks/storytime_week_package_20261022/plan.md
+?? measure/runs/storytime_week_package_20261022/p13-accept-ac-live.txt
+?? measure/runs/storytime_week_package_20261022/p13-accept-capture.py
+?? measure/runs/storytime_week_package_20261022/p13-accept-checkrows.txt
+?? measure/runs/storytime_week_package_20261022/p13-accept-checks.txt
+?? measure/runs/storytime_week_package_20261022/p13-accept-evidence.py
+?? measure/runs/storytime_week_package_20261022/p13-accept-gitstate.txt
+?? measure/runs/storytime_week_package_20261022/p13-accept-handoff.txt
+?? measure/runs/storytime_week_package_20261022/p13-accept-lint.txt
+?? measure/runs/storytime_week_package_20261022/p13-accept-memory.py
+?? measure/runs/storytime_week_package_20261022/p13-accept-memory.txt
+?? measure/runs/storytime_week_package_20261022/p13-accept-plan.py
+?? measure/runs/storytime_week_package_20261022/p13-accept-project.txt
+?? measure/runs/storytime_week_package_20261022/p13-accept-result.py
+?? measure/runs/storytime_week_package_20261022/p13-accept-testmap.py
+?? measure/runs/storytime_week_package_20261022/p13-acceptance.txt
+?? measure/runs/storytime_week_package_20261022/p13-testmap.txt
+?? measure/runs/storytime_week_package_20261022/phase-acceptance-p13-0b90be77.json
+?? measure/runs/storytime_week_package_20261022/phase-acceptance-p13-0b90be77.log
+
+--- paths outside this role (must stay unstaged: render.mjs, raw.json, other tracks) ---
+count: 1376
+ M video/storytime-song/scripts/render.mjs
+?? dashboard/raw.json
+?? measure/runs/storytime_cover_options_20261106/mid-red-p2-62621a9c.log
+?? measure/runs/storytime_cover_options_20261106/red1-p2-lint-testfile.txt
+?? measure/runs/storytime_cover_options_20261106/red1-p2-lint.txt
+?? measure/runs/storytime_cover_options_20261106/red1-p2-tsc.txt
+?? measure/runs/storytime_cover_options_20261106/red1-p2.txt
+?? measure/runs/storytime_cover_options_20261106/spec-review-ce5b90ba.json
+?? measure/runs/storytime_cover_options_20261106/spec-review-ce5b90ba.log
+?? measure/runs/storytime_cover_options_20261106/strategy-p2-14b39927.log
+?? measure/runs/storytime_l2_unit2_20261106/spec-review-37897969.json
+?? measure/runs/storytime_l2_unit2_20261106/spec-review-37897969.log
+
+--- pnpm-lock ---
+LOCK_CLEAN
+
+--- phase log head (c42918df..HEAD) ---
+0b90be77 docs(measure): the captures and the role log of the Green record of D-P9D-1 (storytime_print_r1)
+050ea4a0 docs(measure): the plan evidence of the Green record of D-P9D-1 (storytime_print_r1)
+d1c82c5d content(storytime): record Daniel's Pass of the r6-v4 release proof in approval.print of w01 to w08 (storytime_print_r1)
+d830a097 docs(measure): the captures and the role log of the Red retry R1 of D-P9D-1 (storytime_print_r1)
+6afedecb docs(measure): the plan evidence of the Red retry R1 of D-P9D-1 (storytime_print_r1)
+6eafaff4 test(storytime): the approval.print pins hold no source key, amended D-P9D-1 (storytime_print_r1)
+exit: 0

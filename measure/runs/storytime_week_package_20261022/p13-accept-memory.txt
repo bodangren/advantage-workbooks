@@ -1,0 +1,20 @@
+CAPTURE p13-accept-memory (the memory check)
+COMMAND: python3 line-count and exact-line content checks on measure/tech-debt.md and measure/lessons-learned.md
+
+check | value | expected | result
+
+tech-debt.md line count (limit 50) | 50 | 50 | OK
+lessons-learned.md line count (limit 50) | 50 | 50 | OK
+row 47 item 2 gained the skip-rule sentence | True | True | OK
+row 47 item 3 is the merged Phases 11 12 13 builder row | True | True | OK
+heard-check row added (p13-sentences-heard.txt has a heard differs line) | True | True | OK
+the two 2026-11-16 loops rows merged into one | True | True | OK
+merged row keeps the S20b to S20g fact | True | True | OK
+merged row keeps the C26 fact | True | True | OK
+lesson (3) paid maker logs each call | True | True | OK
+lesson (4) opt-in scope with skip rule | True | True | OK
+tech-debt.md Thai lines | [] | [] | OK
+lessons-learned.md Thai lines (pre-existing, unchanged) | [15, 28, 43] | [15, 28, 43] | OK
+
+all checks OK: True
+exit: 0

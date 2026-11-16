@@ -1,0 +1,149 @@
+MEASURE_AGENT_RESULT
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "storytime_week_package_20261022",
+  "phase": "P13",
+  "phase_title": "Phase 13: Read-along sentence clips and the log of the makers (2026-11-14 to 2026-11-16)",
+  "phase_base_sha": "c42918df",
+  "role_base_sha": "0b90be77740a307540b1eb22955734a06aa77f79",
+  "audited_head_sha": "0b90be77740a307540b1eb22955734a06aa77f79",
+  "audited_head": "0b90be77740a307540b1eb22955734a06aa77f79",
+  "head_is_current": true,
+  "verdict": "pass",
+  "status": "pass",
+  "summary": "Phase 13 is complete at HEAD 0b90be77. The testmap gives findings: 0 for the 6 code files of the phase (schema.ts is JSDoc only); the whole-range map names 1 cross-track exception with its coverage. PROJECT_TESTS exits 0 (73 files, 1825 tests), PROJECT_LINT exits 0, PROJECT_CHECKS exits 0, all at HEAD with no R3 exclude. The 14 AC13 criteria each hold with a live command or a committed capture. sha256sum -c exits 0 in all 7 hand-off folders, and the PM and owner confirmations are quoted from plan.md. Memory: tech-debt.md 50 lines, lessons-learned.md 50 lines, both by merges. No blocking finding; two nonblocking notes (a cross-track testmap exception and the 3 non-test commits between the Review A head and the audited head, with Phase 13 paths proven byte-unchanged).",
+  "thai_filter_first_command": "one python3 script printed the Thai line numbers of plan.md (103), spec.md (0), tech-debt.md (0), lessons-learned.md (15, 28, 43) and storytime-package-practice-clips.test.ts (1555) and proved PROOF_THAI_IN_OUTPUT=0; every later read of these files used a filter that replaces each Thai line with '<thai line removed>'; the week-file reader in p13-accept-evidence.py drops every `th` key and every Thai string; every capture I wrote prints 0 Thai characters",
+  "route": "opencode-go/mimo-v2.6-flash",
+  "family": "MiMo (opencode-go): a family other than Red GLM (coding-plan/glm-5.3-flash), Green 1 Anthropic (claude-opus-5-5), Clips Green MiniMax (MiniMax-M3.1-Flash), Packages Kimi (kimi-for-coding) and Review A Kimi (kimi-for-coding)",
+  "testmap_findings": 0,
+  "project_tests": "cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1 through heavy-run.sh at HEAD 0b90be77: Test Files 73 passed (73), Tests 1825 passed (1825), exit 0 (p13-accept-project.txt), 5 Thai lines dropped by the capture filter, no R3 exclude (the loops R3 window closed when the track archived at f630fe81)",
+  "gates": {
+    "testmap": "exit 0, p13-testmap.txt findings: 0 (Phase 13: 6 code files, 6 with test files; cross-track exceptions: 1)",
+    "project_tests": "exit 0, p13-accept-project.txt (73 files, 1825 tests)",
+    "project_lint": "exit 0, p13-accept-lint.txt",
+    "project_checks": "exit 0, p13-accept-checks.txt (check-weeks FAIL-row test plus tsc)",
+    "check_rows": "exit 0, p13-accept-checkrows.txt (live check-weeks at HEAD)",
+    "ac_live": "exit 0, p13-accept-ac-live.txt (AC13-1 to AC13-4 live commands)",
+    "acceptance": "exit 0, p13-acceptance.txt (AC13-1 to AC13-14, 14 PASS)",
+    "handoff": "exit 0, p13-accept-handoff.txt (sha256sum -c --quiet MANIFEST.txt, 7 of 7 folders exit 0)",
+    "gitstate": "exit 0, p13-accept-gitstate.txt (HEAD 0b90be77, lock clean)",
+    "memory": "exit 0, p13-accept-memory.py (tech-debt 50 lines, lessons 50 lines)"
+  },
+  "ac13": {
+    "AC13-1": "PASS the Facts command exits 0 and prints 72 927; the dropping reader of the 7 week files gives sentences 8, 16, 8, 8, 8, 8, 16 (72) and one-take characters 927 (live run, p13-accept-ac-live.txt)",
+    "AC13-2": "PASS find gives 72 b0 clips and 128 clips in all, per week 8, 16, 8, 8, 8, 8, 16; ffprobe prints 72 32000,1,128000 (live run, p13-accept-ac-live.txt)",
+    "AC13-3": "PASS the spec command prints `books ok 14 bad 0 items 128` (exit 0, live run); the dropped reader never sees a Thai character",
+    "AC13-4": "PASS the spec command prints `phase 12 items changed 0 read-along items 72 order bad 0` (exit 0); git diff of the 56 b1 mp3 files against fa47ca23 is empty (live run)",
+    "AC13-5": "PASS p13-cut-proof.txt ends `clips: 72, cuts: 0` and `positive controls: 7, true: 7`; p13-sentences-heard.txt lists 72 clips (71 heard ok, 1 heard differs: w01 b0-s02), 0 take 3; that clip is the one line of p13-listen.txt",
+    "AC13-6": "PASS check-weeks at HEAD (p13-accept-checkrows.txt, exit 0): sentence-clips, readalong-sentence-clips, word-clips, practice-clips PASS on st2/1 to st2/7; no readalong-sentence-clips row on st2/8; the 7 content-commit captures each print `FAIL rows other than published: 0`",
+    "AC13-7": "PASS the 7 mapper repeat captures print `diff lines: 0`; the dry runs after the content commits give 128 kept lines and 14 `chars: 0` lines with 0 call or sent lines (p13-ac13-dry.txt, summed in p13-clips-ac13.txt: 72 read-along, 56 decodable)",
+    "AC13-8": "PASS each content commit changes its week file by the spec insertions and 1 deletion (w01 35/1, w02 67/1, w03 35/1, w04 35/1, w05 35/1, w06 35/1, w07 67/1), all holds: True (p13-clips-ac13.txt)",
+    "AC13-9": "PASS RED_TEST_COMMAND exits 1 in the Red file only (p13-red1.txt, 45 failed after the N10 fix, no `No test files found`); Phase 12 files pass after Red 1 (p13-red1-p12.txt exit 0); the four Green gates exit 0; 7 GREEN + 7 PROJECT_CHECKS content captures exit 0; this role's three gates exit 0 at HEAD",
+    "AC13-10": "PASS p13-green1-mutants.txt ends `mutants: 15, caught: 15`; each line M1 to M15 is caught with `cmp after restore: same`",
+    "AC13-11": "PASS each run capture: the sum of the call `chars` values equals the `sent:` line (137, 166, 93, 142, 130, 132, 127); p13-chars.txt gives log 927, provenance 927, difference 0, take values [1], sum under the phase limit 2800: True",
+    "AC13-12": "PASS p13-chars-p12.txt prints `takes parsed: 56`, `sentence one-take sum: 779`, `sentence sent sum (with failed calls 14): 887`, `total chars: 934`",
+    "AC13-13": "PASS p13-handoff.txt gives `RESULT PASS (9 checks on 7 folders, 0 failures)` and the README check of AC13-13 PASS on each folder; p13-handoff-tree-diff.txt gives changed folders 0, diff lines 0; sha256sum -c --quiet MANIFEST.txt exits 0 in all 7 folders (p13-accept-handoff.txt)",
+    "AC13-14": "PASS log sum 927 (927 to 2800); every run under its M9 week limit (137<=411, 166<=498, 93<=279, 142<=426, 130<=390, 132<=396, 127<=381); the 8 quota records give minimax-cn-coding-plan with weekly 1-2% and 5h 8-19% (below 97 and 95); p13-pm-line.txt is the one PM status line (MiniMax plan, no credit)"
+  },
+  "pm_confirmation": "plan.md line 617: PM acceptance (2026-11-14, PM stamp 20:45 ICT): \"w08: your default accepted, no w08 app package; the hand-off has 7 folders (w01 r6, w02-w07 r5), and the PM line says so.\" and \"Step B plan for 11-16 accepted.\" plan.md line 618: PM confirmation (2026-11-16, 01:15 ICT, exact words): \"The 7 package folders check OK against their MANIFEST hashes (PM read 01:1x).\" The listen point: \"the one listen point in p13-pm-line.txt (w01 b0-s02.mp3 heard 'Mae' for 'May'): accepted by the PM, no Daniel listen. 'Mae' and 'May' sound the same; the speech check cannot tell homophones apart.\" (quoted verbatim in p13-accept-handoff.txt)",
+  "owner_confirmation": "plan.md line 613: Owner answer: Daniel answered \"Approved\" on 2026-11-15 at 18:37 ICT (source: Google Tasks, subtask bnJWSW5yUDNOVllzLWpvcA under the PM item YVJYeDVt, PM relay), covering the 3 files of the PM item. plan.md line 703: Owner record (2026-11-15): Daniel answered \"Ok\" to the 64 Thai rows of p14-change-list.md on 2026-11-15 at 19:43 ICT (Google Tasks reply, PM relay); content commit 9f168a4e sets approval.thai of w01 to w08 (quoted in p13-accept-handoff.txt)",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "N1 [Nit] cross-track, no Phase 13 action. The whole-range testmap over c42918df..HEAD finds one changed code file with no test file: dashboard/scripts/storytime/make-line-art-hair-fill.ts (added by print-track commit e0350881). It is not a Phase 13 file; the 6 Phase 13 code files all have test files (findings: 0). Its module surface fillStorytimeLineArtHair and readStorytimeLineArtFixTable is tested by storytime-print-r6v2-fixes.test.ts (the X3 shipped-file cases and the fill-function cases), and its own track requires the live check p9a-green-hair.txt (`hair fills equal 4 of 4`, exit 0) instead of a unit test (print plan line 1399). Route: the print track's own acceptance; recorded here so the whole-range gap is on the record.",
+    "N2 [Note] prerequisite bridge, no fix needed. The automatic test-only bridge rule does not literally apply between the Review A round 2 head 196dc950 and the audited head 0b90be77: three commits touch non-test files (d1c82c5d approval.print of w01-w08, 70278a9b approval.loops of w01-w08, 6fe7a270 print-track manual.ts and print/student-book.ts). I verified the substance directly: git diff 196dc950..0b90be77 over the 6 Phase 13 code files, content/storytime/l2/media/*/sentences/ is empty, and the week-file diff holds only approval.* keys (0 non-approval keys for w01 to w07). The Phase 13 implementation content is unchanged, so Review A round 2, the Packages Step B result and the Clips result still apply; my own three gates re-prove the current state at 0b90be77."
+  ],
+  "handoff": [],
+  "evidence": [
+    "HEAD: git rev-parse HEAD prints 0b90be77740a307540b1eb22955734a06aa77f79 at the start, after every gate and before the commit (p13-accept-gitstate.txt, p13-accept-evidence.py asserts it); phase_base_sha c42918df matches the brief",
+    "Prerequisites at the same content: spec review pass (872eb2f at c42918df); Red d9a1e363 plus retries 1f4d9fb6 and 1ecc2646; Green 1 993d9642; Clips 105c4393 to e8549b2e; Review A round 1 fail then fixes, round 2 pass at 196dc950 (review-a-p13-r2-196dc950.json, 0 open blockers); Packages Step B at role base 196dc950 with source e8549b2e; Phase 13 paths byte-unchanged from 196dc950 to 0b90be77 (empty git diff; week-file non-approval keys 0)",
+    "Testmap: p13-testmap.txt prints `findings: 0` for the Phase 13 section (sentence-clips.ts, make-sentence-clips.ts, make-word-bank.ts, set-sentence-clips.ts, check-weeks.ts, schema.ts), and names 1 cross-track exception with its coverage (N1)",
+    "Gate captures: p13-accept-project.txt (73 files, 1825 tests, exit 0), p13-accept-lint.txt (exit 0), p13-accept-checks.txt (exit 0), p13-accept-checkrows.txt (live check-weeks rows, exit 0), p13-accept-ac-live.txt (the AC13-1 to AC13-4 live commands), p13-acceptance.txt (14 PASS, exit 0), p13-accept-handoff.txt (7 folders, exit 0), p13-accept-gitstate.txt",
+    "A3 digit-only count: the phase gate commands and my assertions use labeled parses (grep -c with -le, json counts, int parses); no `rg -q '[0-9]+'`-style digit-only assertion in the phase diff or my captures (printed count: 0)",
+    "A4 vacuous pass: no markers-consistency check exists in the phase; my AC assertions require exact counts (72 clip lines, 15 mutant lines, 7 repeat captures, 63 checks) and failed loudly when the checks did not match (p13-accept-evidence.py first run reported AC13-7 and AC13-9 FAIL on format mismatches, then PASS after the check was corrected, never vacuous)",
+    "A5 false-claim text: plan claims match reality - findings: 0 (testmap), RESULT PASS 9 checks x 7 folders (p13-handoff.txt), mutants 15 of 15 (p13-green1-mutants.txt), clips 72 cuts 0 with controls 7 of 7 (p13-cut-proof.txt), FAIL rows other than published 0 x7, gate exits 0, diff lines 0 x7, RED 45 failed | 6 passed (p13-red1-fix.txt), RED base 53 passed (p13-red-r2-base.txt), GREEN 505 passed (p13-green1-green.txt)",
+    "A6 registry overstatement: the measure/tracks.md loops entry cites Final acceptance PASS at f0c4c929 with the role-gate string; measure/runs/storytime_teaching_loops_20261103/final-acceptance-f0c4c929.json and closeout-f0c4c929.json exist with that sha and role_gate string, and the two test gaps it discloses stay as the tech-debt rows I merged (facts kept)",
+    "A7 over-broad filter: no check name other than `published` starts with `published`, so the PROJECT_CHECKS `grep -v \"  FAIL    published\"` drops no real hit (check names extracted from p13-accept-checkrows.txt: count 0)",
+    "Memory edits: p13-accept-memory.py, exit 0; measure/tech-debt.md 50 lines (row 47 items 2 and 3 updated, the two 2026-11-16 loops rows merged into one row keeping every fact, the heard-check row added because p13-sentences-heard.txt holds a `heard differs` line), measure/lessons-learned.md 50 lines (the 2 lessons of the task line merged into the 2026-11-13 lesson line as (3) and (4), Thai lines unchanged at 15, 28, 43), plan.md task line marked [x] with the Evidence sub-line",
+    "Scope: p13-accept-gitstate.txt lists 16 files of this role; 1171 changed lines outside my paths stay unstaged (render.mjs, dashboard/raw.json, other tracks' runs); pnpm-lock.yaml clean after every gate",
+    "Route and family recorded: opencode-go/mimo-v2.6-flash, MiMo, a family other than GLM, Anthropic, MiniMax and Kimi (the brief's family-independence rule for Red, Green, Clips, Packages and Review A)"
+  ],
+  "commands": [
+    "python3 -I -B (Thai line-number filter, first command; PROOF_THAI_IN_OUTPUT=0)",
+    "heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1' (p13-accept-project.txt, exit 0, 73 files, 1825 tests)",
+    "heavy-run.sh -c 'cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-loops-*.test.ts __tests__/storytime-book-pictures.test.ts __tests__/storytime-package-*.test.ts' (p13-accept-lint.txt, exit 0)",
+    "heavy-run.sh -c 'cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test ... && npx tsc --noEmit' (p13-accept-checks.txt, exit 0)",
+    "heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2' (p13-accept-checkrows.txt, exit 0)",
+    "python3 -I -B p13-accept-testmap.py (p13-testmap.txt, findings: 0)",
+    "python3 -I -B p13-accept-evidence.py (p13-acceptance.txt 14 PASS, p13-accept-handoff.txt, p13-accept-ac-live.txt)",
+    "sha256sum -c --quiet MANIFEST.txt in each of the 7 folders (exit 0 each)",
+    "python3 -I -B p13-accept-memory.py (tech-debt 50 lines, lessons 50 lines)",
+    "git rev-parse HEAD; git status --porcelain (p13-accept-gitstate.txt)"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_week_package_20261022/p13-accept-capture.py",
+    "measure/runs/storytime_week_package_20261022/p13-accept-testmap.py",
+    "measure/runs/storytime_week_package_20261022/p13-testmap.txt",
+    "measure/runs/storytime_week_package_20261022/p13-accept-evidence.py",
+    "measure/runs/storytime_week_package_20261022/p13-accept-ac-live.txt",
+    "measure/runs/storytime_week_package_20261022/p13-accept-checkrows.txt",
+    "measure/runs/storytime_week_package_20261022/p13-acceptance.txt",
+    "measure/runs/storytime_week_package_20261022/p13-accept-handoff.txt",
+    "measure/runs/storytime_week_package_20261022/p13-accept-gitstate.txt",
+    "measure/runs/storytime_week_package_20261022/p13-accept-memory.py",
+    "measure/runs/storytime_week_package_20261022/p13-accept-project.txt",
+    "measure/runs/storytime_week_package_20261022/p13-accept-lint.txt",
+    "measure/runs/storytime_week_package_20261022/p13-accept-checks.txt",
+    "measure/runs/storytime_week_package_20261022/phase-acceptance-p13-0b90be77.json",
+    "measure/runs/storytime_week_package_20261022/phase-acceptance-p13-0b90be77.log",
+    "measure/tracks/storytime_week_package_20261022/plan.md",
+    "measure/tech-debt.md",
+    "measure/lessons-learned.md",
+    "measure/runs/storytime_week_package_20261022/p13-accept-scratch.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "All 14 AC13 criteria hold at HEAD with live commands (AC13-1 to AC13-4, AC13-6) and committed captures (AC13-5, AC13-7 to AC13-14), each line in p13-acceptance.txt with exit 0."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "The Red history is real (p13-red1.txt 46 failed, p13-red1-fix.txt 45 failed, p13-red-r2-base.txt 53 passed), all 15 mutants fail a case with restore cmp (p13-green1-mutants.txt), and the cut probe has 7 true positive controls with 0 cuts on 72 clips (p13-cut-proof.txt)."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "p13-accept-gitstate.txt lists exactly this role's 16 files; 1171 outside lines (render.mjs, raw.json, other tracks) stay unstaged; every plan edit is an exact ASCII line replace by python."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every gate and AC line cites a capture with its exit code; the live commands are stored in p13-accept-ac-live.txt, and the A3 to A7 checks print their counts (0, 0, all true, verified, 0)."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "kimi-code-plan-cn/kimi-for-coding#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "Round 2 (review-a-p13-r2-196dc950.json) passes with 0 blockers; I re-checked its proofs at HEAD: 15/15 mutants, cut probe 72/0 with 7/7 controls, week diffs approval-only, GREEN and PROJECT_CHECKS exit 0."
+    },
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "kimi-code-plan-cn/kimi-for-coding#high",
+      "agreed": true,
+      "score": 4,
+      "evidence": "Round 1 (plan.md line 589 record, audited head 234883a3) failed with F1 Major and F2/F3 Nits; the remediation is real (1ecc2646, p13-red-r2-base.txt 53 passed, p13-red-r2-mutants.txt mutants: 2, caught: 2); score 4 because I verified the record and the fixes, not the round 1 JSON itself."
+    }
+  ]
+}
+END_MEASURE_AGENT_RESULT

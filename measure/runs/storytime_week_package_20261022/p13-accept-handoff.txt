@@ -1,0 +1,19 @@
+CAPTURE p13-accept-handoff
+COMMAND: sha256sum -c --quiet MANIFEST.txt in each of the 7 folders (read only)
+
+w01-storytime-app-package-r6: exit: 0 (checksum lines: 98); sha256sum: WARNING: 6 lines are improperly formatted
+w02-storytime-app-package-r5: exit: 0 (checksum lines: 117); sha256sum: WARNING: 6 lines are improperly formatted
+w03-storytime-app-package-r5: exit: 0 (checksum lines: 94); sha256sum: WARNING: 6 lines are improperly formatted
+w04-storytime-app-package-r5: exit: 0 (checksum lines: 94); sha256sum: WARNING: 6 lines are improperly formatted
+w05-storytime-app-package-r5: exit: 0 (checksum lines: 102); sha256sum: WARNING: 6 lines are improperly formatted
+w06-storytime-app-package-r5: exit: 0 (checksum lines: 93); sha256sum: WARNING: 6 lines are improperly formatted
+w07-storytime-app-package-r5: exit: 0 (checksum lines: 107); sha256sum: WARNING: 6 lines are improperly formatted
+
+--- PM and owner confirmations quoted from plan.md ---
+plan.md line 617: - PM acceptance (2026-11-14, PM stamp 20:45 ICT): "w08: your default accepted, no w08 app package; the hand-off has 7 folders (w01 r6, w02-w07 r5), and the PM line says so." and "Step B plan for 11-16 accepted."
+plan.md line 618: - PM confirmation (2026-11-16, 01:15 ICT, exact words): "The 7 package folders check OK against their MANIFEST hashes (PM read 01:1x)." The listen point: "the one listen point in p13-pm-line.txt (w01 b0-s02.mp3 heard 'Mae' for 'May'): accepted by the PM, no Daniel listen. 'Mae' and 'May' sound the same; the speech check cannot tell homophones apart." Done when holds: the nine checks of `p13-handoff.txt` pass on each of the 7 folders, the tree hash of each existing folder is unchanged (`p13-handoff-tree-diff.txt`: changed folders 0, `diff lines: 0`), and the PM line of `p13-pm-line.txt` was sent and confirmed.
+plan.md line 613: - Owner answer: Daniel answered "Approved" on 2026-11-15 at 18:37 ICT (source: Google Tasks, subtask bnJWSW5yUDNOVllzLWpvcA under the PM item YVJYeDVt, PM relay). The answer covers the 3 files of the PM item: the look points of the loops, the Thai share captions, and the 28 print Thai rows of `storytime_print_r1`. It does not name the 64 Thai rows of the Phase 14 change list, so `approval.thai` waits for his words on those rows. Step B stays open. Evidence: owner-approved for the 3 files only.
+plan.md line 703: - Owner record (2026-11-15): Daniel answered "Ok" to the 64 Thai rows of `p14-change-list.md` (the Phase 14 sound-skill rows) on 2026-11-15 at 19:43 ICT. Source: Google Tasks reply of Daniel, PM relay (a separate THAI item that the PM sent after the item YVJYeDVt). The PM facts: Thai check by Daniel, PASS, no changes. The content commit 9f168a4e sets `approval.thai` of w01 to w08 (status `approved`, date 2026-11-15, his words, the source); the normalized compare shows that only `approval.thai` changed (`p14-owner-scope.txt`). The first run of the gate failed on the additive compares (`p14-owner-tests.txt`); the Red retry 4c317383 fixed them (`p14-owner-red.txt`), and the second run exits 0 (`p14-owner-tests-r2.txt`). `PROJECT_CHECKS` exits 0 (`p14-owner-checks.txt`).
+
+all 7 folders exit 0: True
+exit: 0
