@@ -1,0 +1,11 @@
+Mutants of Task 1.13b, one per new rule, in the main repo with a byte-compared restore.
+Tests: dashboard/__tests__/storytime-unit2-word-keys.test.ts and storytime-package-clips.test.ts.
+
+M1 hyphen in WORD_KEY_PATTERN: caught (vitest exit 1)
+M2 digit refusal before the trim: caught (vitest exit 1)
+M3 one row per bad word: caught (vitest exit 1)
+M4 never-throw wrapper in practiceWordKeys: caught (vitest exit 1)
+M5 shared pattern import in schema.ts: caught (vitest exit 1)
+
+mutants: 5, caught: 5
+exit: 0
