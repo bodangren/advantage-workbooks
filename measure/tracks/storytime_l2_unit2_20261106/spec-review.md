@@ -100,3 +100,33 @@ PM decisions recorded (2026-11-16):
 - F13 [Nit] spec.md D-U2-K2: the exact WORD_KEY pattern stays open for a run of two hyphens (t--shirt) and for a hyphen next to an apostrophe group (t-shirt's). Rationale: 'one or more inner hyphens between letter runs' reads both ways, no Red case covers either edge, and Green's regex then decides them without a test.
 - F14 [Nit] spec.md D-U2-K3: the FAIL row detail text is not named; the decision says only 'with the week and the word'. Rationale: report.ts prints the detail on the same line as the FAIL marker, so one exact detail form (for example 'not a word key: <word>') keeps Red's assertion, Green's string, and Review A's check on one text.
 - F15 [Nit] spec.md D-U2-L1: 'Plan line 31 holds this command' points at PROJECT_TESTS; PROJECT_LINT sits at plan line 32 after RED_TEST_COMMAND_U2K took line 30. Rationale: the cross-reference is off by one; the command itself matches the accepted default.
+
+
+## Amendment review round 2 (2026-11-16)
+Author model: opencode-go/deepseek-v4.1-flash
+Reviewer model: opencode-go/muse-spark-1.3-contributor#high
+Audited commit: a558b0c1260f0a1d08192201485d014954dca56f
+Verdict: pass (no open Blocker, no open Major; confidence high; retry none)
+Evidence: measure/runs/storytime_l2_unit2_20261106/spec-review-a558b0c1.json and log
+
+### What this track proposes
+
+This amendment answers the Phase 1 acceptance failures with hyphen word keys and a stable lint gate.
+It widens the key rule to inner hyphens, turns key errors into FAIL rows with exit 1, keeps unit 1 output unchanged, and fixes the lint glob.
+It adds Red, Green, and Review A tasks with named files, cases, and gates.
+
+### How the current system works, per this spec
+
+Per the spec, bookWordKey rejects inner hyphens and throws from check-weeks before any report prints.
+The same key pattern repeats in four schema records, and existing tests pin the throw and the reject.
+The lint glob matches no file before Phase 4, and the stage rule bars dashboard writes before the unit 1 print order.
+
+### Findings
+
+- None (all round-1 findings F5 to F15 are closed in this round)
+
+### Closed findings
+
+- F5 closed: Task 1.13a names the pin edits and Task 1.13b changes no test file.
+- F6 closed: Task 1.13b names schema.ts and one exported WORD_KEY_PATTERN for the 4 record keys.
+- F7 closed: D-U2-K7 exception is in the Overview, FR-1.1, FR-9, the plan stage rule, and the blast line.
