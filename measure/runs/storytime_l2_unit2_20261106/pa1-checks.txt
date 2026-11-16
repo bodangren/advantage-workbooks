@@ -1,0 +1,13 @@
+PROJECT_CHECKS tail (check-weeks --level 2 on the real repo root, then tsc --noEmit):
+  PASS    block           Review block: five days with a review page each, every block week on days 1 to 4, the medley from the block songs (design §3.5)
+  PASS    benchmark       Benchmark: the 26-letter strip, the taught letters, the answers, the block decodables (design §3.5)
+  WARN    print-missing   The print block of the week — no print block
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+Summary: 8 package(s), 0 failed check(s), 1 warning(s).
+(tsc --noEmit clean; chained && exited 0)
+exit: 0
