@@ -1,0 +1,321 @@
+p3p6 record evidence, 2026-11-16, role base 05a34dcd
+HEAD: 05a34dcd7d98597ea91013ce947cf6c7a703ba87
+== Phase 3: commit 6fe46ccf ==
+6fe46ccf feat(storytime): the storytime-week package, its checks, and the teacher's book template
+ content/storytime/README.md                        |  10 +
+ .../__tests__/fixtures/storytime-week-fixture.ts   |  86 ++++++
+ dashboard/__tests__/storytime-manual.test.ts       | 117 ++++++++
+ dashboard/__tests__/storytime-week.test.ts         | 212 +++++++++++++
+ dashboard/lib/storytime/checks.ts                  | 190 ++++++++++++
+ dashboard/lib/storytime/files.ts                   |  52 ++++
+ dashboard/lib/storytime/i18n.ts                    | 127 ++++++++
+ dashboard/lib/storytime/manual.ts                  | 175 +++++++++++
+ dashboard/lib/storytime/schema.ts                  | 331 +++++++++++++++++++++
+ dashboard/scripts/storytime/make-manual-pdf.ts     | 116 ++++++++
+ measure/lessons-learned.md                         |   2 +-
+ measure/tech-debt.md                               |   2 +-
+ measure/tracks.md                                  |   3 +
+ .../storytime_week_package_20261022/index.md       |   5 +
+ .../storytime_week_package_20261022/metadata.json  |  11 +
+ .../tracks/storytime_week_package_20261022/plan.md |  21 ++
+ .../tracks/storytime_week_package_20261022/spec.md |  36 +++
+ 17 files changed, 1494 insertions(+), 2 deletions(-)
+
+== Phase 3: hand-off record grep (6fe46ccf) ==
+none in those paths
+== git log grep 6fe46ccf ==
+
+== pin 70278a9b ==
+measure/archive/storytime_teaching_loops_20261103/plan.md:414:- [x] Task: record Daniel's approval. Set `approval.loops` to approved, with the date and his words, in `w01.json` to `w08.json`. This task waits for Daniel's words from the Phase 3 check. Done when: `PROJECT_CHECKS` passes and the eight files hold the record (owner-approved). commit 70278a9beb8ef7314d98df80e0462892a0ca5019.
+measure/archive/storytime_teaching_loops_20261103/plan.md:416:    - Evidence (2026-11-16): record commit `70278a9beb8ef7314d98df80e0462892a0ca5019` (the pin for Hand-off 2). It sets `approval.loops` in `w01.json` to `w08.json` to `{"status": "approved", "date": "2026-11-15", "words": "Approved", "source": "Google Tasks, PM item YVJYeDVt, subtask bnJWSW5yUDNOVllzLWpvcA"}`, as a text edit that keeps the key order. The commit changes only those 8 files. The normalized compare against the parent, with `approval.loops` removed, shows no difference in all 8 files (`p4-record-scope.txt`, exit 0). Gates: `PROJECT_CHECKS` exit 0 (`p4-record-checks.txt`); the content test exit 0 (`p4-record-loops.txt`); `PROJECT_TESTS` exit 0 on HEAD `6a936e75` (`p4-record-project-r2.txt`). The first `PROJECT_TESTS` run (`p4-record-project.txt`, exit 1) failed 2 F3-scope cases of `storytime-print-f3-script-order.test.ts`, because the test pinned `approval.loops` to the Red baseline. The print Red retry R4 `66e7268f` fixed them (decision D-P9B-R4).
+measure/archive/storytime_teaching_loops_20261103/plan.md:420:    - Evidence (2026-11-16, peer-report): the orchestrator sent Hand-off 2 at about 01:30 ICT: the record commit pin 70278a9beb8ef7314d98df80e0462892a0ca5019, the 8 approved weeks, and the spec section "Interface for the Storytime app (Monorepo)". PM receipt (exact words): "Hand-off 2 (pin 70278a9b) received and routed to Monorepo at 02:1x, with the Step B package folders and the p13 contract change. Source: Monorepo's receiver reads your local checkout at the pin commit and the hand-off folders (plan rule since 11-03), so no push is needed now."
+measure/archive/storytime_teaching_loops_20261103/plan.md:426:    - PM receipt (2026-11-16 03:1x ICT, peer-report), exact words: "Loops track report (report.md, 423d050b): received; the facts match the PM log (pin 70278a9b routed to Monorepo 02:1x, at-home task 2.1 started)."
+measure/archive/storytime_teaching_loops_20261103/automation-supervisor-closeout-manifest.json:34:    "owner_record_commit": "70278a9beb8ef7314d98df80e0462892a0ca5019"
+measure/archive/storytime_teaching_loops_20261103/automation-supervisor-closeout-manifest.json:81:  "owner_approvals": "Daniel's 'Approved' of 2026-11-15 18:37 ICT (Google Tasks subtask bnJWSW5yUDNOVllzLWpvcA under PM item YVJYeDVt, PM relay) for the w01 to w08 English and Thai check, the 40 Thai share captions, and the 4 Thai labels; recorded in the week files by commit 70278a9beb8ef7314d98df80e0462892a0ca5019.",
+measure/archive/storytime_teaching_loops_20261103/automation-supervisor-closeout-manifest.json:83:    "hand_off_2_pin": "70278a9beb8ef7314d98df80e0462892a0ca5019",
+measure/archive/storytime_teaching_loops_20261103/metadata.json:10:  "deviation_notes": "Planning only on 2026-11-02: no code, no tests, no gate run. Owner approval: Daniel's word \"Ok\" (15:50 ICT 2026-11-02, Tasks item VHgtTW5teDhwSkhTMEVPRw, reply to PM note dUNHVjdnbEZKbmpvMFYwRw), relayed by the PM session. Evidence class: owner-approved (PM relay). Source: advantage-pr research file storytime-vs-100-easy-lessons-2026-11.md version 1.4. The author chose the defaults D1 to D15 in spec.md; question D6 (the day 1 recall of week 1) is open with a default. Closeout (2026-11-16, role measure-closeout, route minimax-cn-coding-plan/MiniMax-M3.1-Flash). Model substitutions: the Ark plans were out of quota until 2026-11-21, so the track ran on the Claude, DeepSeek, MiniMax, Kimi, MiMo, and Qwen routes; each substitution is recorded in the plan and in the run artifacts. FA-1 (final acceptance, nonblocking, Major): no measure
+== tech-debt / lessons rows for this track ==
+7
+35:| 2026-10-22 | storytime_week_package_20261022 | The Storytime decodability check reads
+41:| 2026-11-05 | storytime_week_package_20261022 | Three Phase 8 review rows, merged on 2
+42:| 2026-11-05 | storytime_week_package_20261022 | Two Low test gaps, merged on 2026-11-0
+46:| 2026-11-09 | storytime_week_package_20261022 | Two Low rows, merged on 2026-11-09 to 
+47:| 2026-11-13 | storytime_week_package_20261022 | Three Phase 12 rows. (1) The sentence 
+48:| 2026-11-14 | storytime_week_package_20261022 | Three Phase 14 rows, merged on 2026-11
+50:| 2026-11-16 | storytime_week_package_20261022 | The heard check of the makers runs on 
+
+13:- (2026-10-30, storytime_covers_20261027) An explicit output folder can bypass a versioned default folder. The cover build gave version 3
+17:- (2026-10-01, origins_app_refresh_20261001) mmx `--subject-ref` pulls image-01 to a 3D look, even from flat 2D sheets. For the same char
+18:- (2026-10-01, lesson_media_20261001) `mmx speech --subtitles` gives one segment for the whole text, also with one sentence on each line.
+19:- (2026-10-02, origins_app_refresh_20261001) Background jobs: Claude Code stops a background job when system memory is low, and `gcloud s
+24:- (2026-03, consolidated) Paged.js small rules: use `break-before: right` (or `break-after: page` on the element before) to push a sectio
+30:- (2026-10-26, storytime_print_r1_20261025) Derive every Red expectation from a run of the reference implementation, not from the previou
+31:- (2026-11-01, storytime_covers_20261027) `scripts/print/make-pdfx.ts` downloads the ICC profile when `$HOME/.cache/workbooks-print` is m
+32:- (2026-11-02, storytime_print_r1_20261025, Green 4f) An exact file name pattern and a starts-with test give the same result on a prefix 
+33:- (2026-11-07, storytime_l2_unit2_20261106) A unit read across weeks finds what one-week checks cannot. The checks passed every unit 2 we
+34:- (2026-11-09, Storytime tracks) A DeepSeek probe printed shipped unit 1 Thai text before a Thai filter existed. Since then (AGENTS.md, c
+
+== Phase 4 commits ==
+-- 4ad4b327: OK
+4ad4b327 feat(storytime): Level 2 week 1 "Hello!" (draft for the Storytime review)
+ content/storytime/README.md                        |    4 +-
+ content/storytime/l2/w01.json                      | 2052 ++++++++++++++++++++
+ dashboard/__tests__/storytime-manual.test.ts       |   16 +-
+ dashboard/__tests__/storytime-week.test.ts         |   12 +
+ dashboard/lib/storytime/checks.ts                  |   11 +
+
+-- 539298a4: OK
+539298a4 fix(storytime): week 1 after the Storytime review; Nan joins the series bible
+ content/primary/AUTHORING.md                       |   2 +-
+ content/storytime/l2/w01.json                      | 268 ++++++++++++---------
+ .../__tests__/fixtures/storytime-week-fixture.ts   |   2 +-
+ dashboard/__tests__/storytime-manual.test.ts       |  52 +++-
+ dashboard/__tests__/storytime-week.test.ts         |  25 +-
+
+-- 020f9b5b: OK
+020f9b5b feat(storytime): week 1 song audio (Lyria 3 Pro, Daniel's choice) and the Thai draft
+ content/storytime/l2/media/w01/song-handoff.json |  13 +
+ content/storytime/l2/media/w01/song.mp3          | Bin 0 -> 1888533 bytes
+ content/storytime/l2/w01.json                    | 970 ++++++++++++++++++-----
+ dashboard/__tests__/storytime-manual.test.ts     |   5 +
+ dashboard/__tests__/storytime-week.test.ts       |  10 +
+
+-- bb641c8c: OK
+bb641c8c fix(storytime): week 1 song lines follow the audio; the Thai proofread
+ content/storytime/README.md                        |   3 +-
+ content/storytime/l2/w01.json                      | 673 +++++++++++++++++++--
+ .../__tests__/fixtures/storytime-week-fixture.ts   |   6 +-
+ dashboard/__tests__/storytime-manual.test.ts       |  12 +
+ dashboard/__tests__/storytime-week.test.ts         |  15 +-
+
+-- 4d78b215: OK
+4d78b215 feat(storytime): publish week 1 for the Storytime live preview
+ content/storytime/l2/w01.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+== p14-accept-checkrows.txt header and st rows ==
+CAPTURE p14-accept
+COMMAND: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2'
+THAI_LINES_DROPPED: 0
+
+st2/1 — Hello!   [../content/storytime/l2/w01.json]
+
+5:st2/1 — Hello!   [../content/storytime/l2/w01.json]
+57:st2/2 — How Many?   [../content/storytime/l2/w02.json]
+108:st2/3 — Paint!   [../content/storytime/l2/w03.json]
+159:st2/4 — My Family   [../content/storytime/l2/w04.json]
+210:st2/5 — I Have Two   [../content/storytime/l2/w05.json]
+261:st2/6 — I Can See   [../content/storytime/l2/w06.json]
+312:st2/7 — Is It a Ball?   [../content/storytime/l2/w07.json]
+363:st2/8 — Unit 1 Review   [../content/storytime/l2/w08.json]
+
+44:  PASS    book-audio      The book audio files named in the package exist
+96:  PASS    book-audio      The book audio files named in the package exist
+147:  PASS    book-audio      The book audio files named in the package exist
+198:  PASS    book-audio      The book audio files named in the package exist
+249:  PASS    book-audio      The book audio files named in the package exist
+300:  PASS    book-audio      The book audio files named in the package exist
+351:  PASS    book-audio      The book audio files named in the package exist
+
+8:exit: 0
+CAPTURE p14-accept
+COMMAND: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s
+" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s
+" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit'
+THAI_LINES_DROPPED: 0
+
+
+exit: 0
+
+== w01.json changes after ceb17679 ==
+none
+== approval.thai of w01 (Thai dropped) ==
+approval.thai = {"status": "approved", "date": "2026-11-15", "words": "\"Approved\" (2026-11-05 21:4x ICT; the 3 color-own-book Thai lines); \"Ok\" (2026-11-15 19:43 ICT; the 64 Thai rows of the Phase 14 change list)", "source": "reading-advantage-monorepo 2ae13a4c6 measure/tracks/storytime_advantage_program_20261021/plan.md line 67 (2026-10-22); PM relay of 2026-11-05 (owner answer on the color-own-book Thai lines, ~/Desktop/handoff/storytime-color-own-book/lines-2026-11-05.md); Google Tasks reply of Daniel, 2026-11-15 19:43 ICT, PM relay (THAI item: p14-change-list.md, 64 rows)"}
+meta.status = "published"
+== 9f168a4e and w01 content commits ==
+9f168a4e content(storytime): record Daniel's Ok on the 64 Phase 14 Thai rows in approval.thai of w01 to w08 (storytime_week_package)
+ content/storytime/l2/w01.json | 6 +++---
+ content/storytime/l2/w02.json | 6 +++---
+ content/storytime/l2/w03.json | 6 +++---
+ content/storytime/l2/w04.json | 6 +++---
+ content/storytime/l2/w05.json | 6 +++---
+ content/storytime/l2/w06.json | 6 +++---
+ content/storytime/l2/w07.json | 6 +++---
+
+d1c82c5d content(storytime): record Daniel's Pass of the r6-v4 release proof in approval.print of w01 to w08 (storytime_print_r1)
+70278a9b content(storytime): record Daniel's Approved in approval.loops of w01 to w08 (storytime_teaching_loops)
+105c4393 content(storytime): w01 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+9f168a4e content(storytime): record Daniel's Ok on the 64 Phase 14 Thai rows in approval.thai of w01 to w08 (storytime_week_package)
+a318b199 feat(storytime): P14 sound skill stages, the stage module, paStage, the R14 rows, and the change list content of w01 to w08 (storytime_week_package)
+ade618a5 feat(storytime): Phase 12 Clips w01, practice word maps and sentence clips (storytime_week_package)
+1d29e893 content(storytime): parent-share moments of w01 to w08 (storytime_teaching_loops)
+10d5fcfc content(storytime): w01 word clips and the song video lead-in (Phase 11)
+
+== Phase 5 ==
+c5aabe1b feat(storytime): book audio with read-along times for weeks 1 to 7
+ .gitignore                                         |    2 +
+ .../storytime/l2/media/w01/books/1-hello-slow.mp3  |  Bin 0 -> 181664 bytes
+ content/storytime/l2/media/w01/books/1-hello.mp3   |  Bin 0 -> 149984 bytes
+ .../l2/media/w01/books/2-nan-can-nod-slow.mp3      |  Bin 0 -> 121868 bytes
+ .../storytime/l2/media/w01/books/2-nan-can-nod.mp3 |  Bin 0 -> 100124 bytes
+ .../l2/media/w02/books/1-how-many-slow.mp3         |  Bin 0 -> 231164 bytes
+ .../storytime/l2/media/w02/books/1-how-many.mp3    |  Bin 0 -> 182204 bytes
+ .../storytime/l2/media/w02/books/2-can-i-slow.mp3  |  Bin 0 -> 111428 bytes
+ content/storytime/l2/media/w02/books/2-can-i.mp3   |  Bin 0 -> 92240 bytes
+ .../storytime/l2/media/w03/books/1-paint-slow.mp3  |  Bin 0 -> 136016 bytes
+ content/storytime/l2/media/w03/books/1-paint.mp3   |  Bin 0 -> 103760 bytes
+ .../l2/media/w03/books/2-the-pan-slow.mp3          |  Bin 0 -> 161792 bytes
+ content/storytime/l2/media/w03/books/2-the-pan.mp3 |  Bin 0 -> 117836 bytes
+ .../l2/media/w04/books/1-my-family-slow.mp3        |  Bin 0 -> 163448 bytes
+ .../storytime/l2/media/w04/books/1-my-family.mp3   |  Bin 0 -> 129896 bytes
+ .../storytime/l2/media/w04/books/2-pam-slow.mp3    |  Bin 0 -> 147500 bytes
+ content/storytime/l2/media/w04/books/2-pam.mp3     |  Bin 0 -> 124676 bytes
+ .../l2/media/w05/books/1-i-have-two-slow.mp3       |  Bin 0 -> 160136 bytes
+ .../storytime/l2/media/w05/books/1-i-have-two.mp3  |  Bin 0 -> 130112 bytes
+
+book-audio script exists: True
+book-audio tests: ['dashboard/__tests__/storytime-book-audio.test.ts']
+== Phase 6 ==
+bc025fb1 feat(storytime): song-line pictures for weeks 2 to 7 from a gesture library
+ .gitignore                                         |   2 +
+ content/storytime/forge-gestures/manifest.json     |  91 +++++++++++++++++++++
+ content/storytime/l2/media/w02/song-lines/clap.jpg | Bin 0 -> 9669 bytes
+ .../l2/media/w02/song-lines/count-fingers.jpg      | Bin 0 -> 9999 bytes
+ content/storytime/l2/media/w02/song-lines/hop.jpg  | Bin 0 -> 10614 bytes
+ content/storytime/l2/media/w02/song-lines/look.jpg | Bin 0 -> 10600 bytes
+ .../storytime/l2/media/w02/song-lines/point-up.jpg | Bin 0 -> 10003 bytes
+ .../storytime/l2/media/w02/song-lines/reach.jpg    | Bin 0 -> 10512 bytes
+ content/storytime/l2/media/w02/song-lines/sway.jpg | Bin 0 -> 9982 bytes
+ content/storytime/l2/media/w02/song-lines/wave.jpg | Bin 0 -> 10059 bytes
+ .../l2/media/w03/song-lines/count-fingers.jpg      | Bin 0 -> 10554 bytes
+
+f765bc38 fix(storytime): march, stamp, and sway line pictures show the move
+ content/storytime/forge-gestures/manifest.json     |  11 +++++-
+ content/storytime/l2/media/w02/song-lines/sway.jpg | Bin 9982 -> 10978 bytes
+ .../l2/media/w03/song-lines/count-fingers.jpg      | Bin 10554 -> 10444 bytes
+ content/storytime/l2/media/w03/song-lines/eat.jpg  | Bin 10578 -> 10400 bytes
+ .../l2/media/w03/song-lines/hands-out.jpg          | Bin 11066 -> 11076 bytes
+ .../l2/media/w03/song-lines/point-forward.jpg      | Bin 10748 -> 10790 bytes
+ .../storytime/l2/media/w03/song-lines/point-up.jpg | Bin 10637 -> 10723 bytes
+ .../storytime/l2/media/w03/song-lines/reach.jpg    | Bin 11213 -> 11152 bytes
+ .../l2/media/w03/song-lines/stretch-up.jpg         | Bin 11461 -> 11301 bytes
+ content/storytime/l2/media/w03/song-lines/sway.jpg | Bin 10557 -> 10978 bytes
+ .../storytime/l2/media/w05/song-lines/stamp.jpg    | Bin 10204 -> 9954 bytes
+
+line-pictures exists: True
+line-pictures tests: ['video/storytime-song/scripts/line-pictures.mjs', 'video/storytime-song/tests/line-pictures.test.mjs', 'video/storytime-song/tests/timeline.test.mjs', 'video/storytime-song/tests/line-pictures.test.mjs', 'video/storytime-song/tests/prepare.test.mjs', 'video/storytime-song/tests/forge.test.mjs', 'video/storytime-song/tests/layout.test.mjs']
+image.file song lines w02-w07 per week: {"w02": 34, "w03": 31, "w04": 31, "w05": 31, "w06": 31, "w07": 33} total=191
+== Phase 3 hand-off record search ==
+$ grep -rn 'shape summary' measure/ content/storytime/README.md 2>/dev/null | grep -v p3p6 | head -8
+measure/tracks/storytime_week_package_20261022/spec.md:30:- The Storytime session has the commit id and the shape summary.
+measure/tracks/storytime_week_package_20261022/plan.md:17:- [~] Task: the commit, the commit id and the shape summary to the Storytime session; tech-debt and lessons-learned.
+
+$ grep -rln 'Storytime session' measure/tracks/storytime_week_package_20261022 measure/runs/storytime_week_package_20261022 2>/dev/null | head
+measure/tracks/storytime_week_package_20261022/spec.md
+measure/tracks/storytime_week_package_20261022/plan.md
+measure/tracks/storytime_week_package_20261022/metadata.json
+
+$ grep -rn '6fe46ccf' measure/ 2>/dev/null | grep -v p3p6 | head -8
+(none)
+$ git log --all --oneline --grep='shape' | head -5
+13863139 test(storytime): pin patch shape and numeral size
+40d4b6ee test(storytime-print): regex-id, case, large N, job-id, resolver shapes, unrequested rows, inside and outside links, and ignore rule for every level (Phase 4 adversarial r2)
+1e2c4244 test(storytime-print): symlink, name, manifest-shape, tamper, and A3 preflight cases for the Forge batch check (Phase 4 adversarial)
+60492c9e feat(storytime-covers): keep the shape of the cut-outs and fill to 0.55 (C3)
+9ca660f0 feat(storytime-covers): clear the side bands so no head is cut (C2)
+
+$ grep -rn 'hand-off' measure/tracks/storytime_week_package_20261022/index.md measure/tracks/storytime_week_package_20261022/spec.md 2>/dev/null | head -8
+measure/tracks/storytime_week_package_20261022/spec.md:132:- E5 (hand-off): one folder per week, `/home/daniebo/Desktop/handoff/w<nn>-storytime-app-package/`, by the rules of Phase 7 task 66 (the week file and every media file that it names, relative paths from `content/storytime/`, MANIFEST.txt with `workbooks-commit`, the source repo and path, each file with its SHA-256, the date, the sender; the week file byte-equal to `git show <sha>:content/storytime/l2/w<nn>.json`; every path matches `[A-Za-z0-9._/-]`). The folder takes the commit that holds both the 18 `"file"` lines and the `approval.images` record. That commit is the approval commit of E3 or a later commit. One folder per week. No second folder follows the approval commit. Then one line to the PM session. The PM checks each folder against the Monorepo field contract (A-42 Hand-off 1) before Monorepo takes it.
+measure/tracks/storytime_week_package_20261022/spec.md:133:  - Amendment 2026-11-07 (Phase 10, decisions H12 and H13): the sentence "No second folder follows the approval commit." applies to the Phase 9 folders only. The family-word pictures of Phase 10 need one revision folder per week: `w01-storytime-app-package-r3` and `w02-storytime-app-package-r2` to `w07-storytime-app-package-r2`. Each revision is a new folder. No existing folder changes (hand-off README rule 5).
+measure/tracks/storytime_week_package_20261022/spec.md:134:- E6 (11-16 list): for each week, the open owner items (`audio`, `song`, `scripts`, and any look item) go to the PM's 11-16 list. They do not stop the hand-off. The `images` item leaves the 11-16 list, because the owner answered on 2026-11-05 and E3 records that answer.
+measure/tracks/storytime_week_package_20261022/spec.md:156:7. **Hand-off.** The 6 hand-off folders of E5 go to the PM session by 2026-11-16 (peer-report).
+measure/tracks/storytime_week_package_20261022/spec.md:164:- AC5: each hand-off folder passes `sha256sum -c` and the byte-equal check of E5. The PM confirms each folder (peer-report).
+measure/tracks/storytime_week_package_20261022/spec.md:194:> "WHAT: fill the family-word pictures of the Storytime app packages (focus.family.words[].image). Monorepo's receiver at f2989514d finds 51 with no file: w01 6, w02 10 (one to ten), w03 7 (colors), w04 7 (family), w05 7 (body), w06 7 (animals), w07 7 (toys); w08 0. 1. Map the pictures that exist now: the approved card pictures in ~/Desktop/handoff/storytime-l2-card-pictures/ cover 15 words (w01 hello, goodbye, boy, girl, teacher; w04 mom, dad, brother, sister, grandma, grandpa; w07 doll, car, train, teddy). Use your color patches for the 7 w03 color words and your number-and-dots cards for the 10 w02 number words (Daniel's "Go" of 11-06 covers both). 2. The 19 words left (w01 friend; w04 family; w05 eyes, ears, nose, hands, arms, legs, feet; w06 cat, dog, bird, fish, frog, duck, horse; w07 ball, kite, drum): the PM asks Forge for color pictures in the card style, by 11-10, into ~/Desktop/handoff/storytime-l2-family-word-pictures/. Map them when they arrive. 3. Deliver the next package revision of w01-w07 (same hand-off format, MANIFEST with SHA-256), so that Monorepo pins it in at-home Phase 2. WHY: a family word with no picture shows as text only in the app; w01 is ready with 6 such gaps today. DONE WHEN: the w01-w07 packages carry a picture for each family word, and the PM has one status line. Date: 11-12, before Daniel's 11-16 check (he sees the pictures there). Facts changed: none expected."
+measure/tracks/storytime_week_package_20261022/spec.md:213:- The Forge folder (amendment r2, measured 2026-11-07): `~/Desktop/handoff/storytime-l2-family-word-pictures/` arrived before its due date of 2026-11-10. Its MANIFEST gives the date 2026-11-07 07:38 ICT. The folder holds 19 color files, `MANIFEST.txt` with 19 SHA-256 lines, `manifest.json`, and a contact sheet. `sha256sum -c` passes for the 19 lines (the PM hand-off, and a new run on 2026-11-07). The names have the form `l2-w0N-card-<word>-v1.png`. The family file of this folder and the family file of the card folder have the same SHA-256 (`ab6067eedf8de3efebb40509c6032f81f7ecee178b212eac8c3727d40a8bff62`).
+measure/tracks/storytime_week_package_20261022/spec.md:262:- H8 (the delivery check of a source folder): the card folder and the Forge folder each hold `MANIFEST.txt` with lines `<sha256>  <file name>` (the form of the card hand-off). Before the first write, the script checks each source of the requested week:
+
+== lessons-learned rows for this track ==
+8
+18:- (2026-10-01, lesson_media_20261001) `mmx speech --subtitles` gives one segment for the whole text, also with one sentence on each line. For sentence timing
+19:- (2026-10-02, origins_app_refresh_20261001) Background jobs: Claude Code stops a background job when system memory is low, and `gcloud storage cp` can exit 
+24:- (2026-03, consolidated) Paged.js small rules: use `break-before: right` (or `break-after: page` on the element before) to push a section to a new page; kee
+30:- (2026-10-26, storytime_print_r1_20261025) Derive every Red expectation from a run of the reference implementation, not from the previous data. The Red 3 ke
+32:- (2026-11-02, storytime_print_r1_20261025, Green 4f) An exact file name pattern and a starts-with test give the same result on a prefix pair, because both f
+36:- (2026-11-13 and 2026-11-16, storytime_week_package_20261022) Five lessons, merged on 2026-11-16 to keep this file at 50 lines. (1) A "no slice" rule needs 
+43:- (2026-10-21, teacher_manual_app_20261020) Translated Thai for print: a term count and a CJK sweep are not a Thai check. One independent proofread subagent 
+49:- (2026-10-01, text_profile_lint_20260930) Content checks: make targets that shape a story (new-word counts, word order) WARN, and keep FAIL for hard limits 
+
+== p14 checkrows FAIL/PASS summary ==
+366
+0
+
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+
+== w01 commits on 2026-11-05 ==
+82f88853 content(storytime): the corrected week 1 web pictures (storytime_week_package)
+77c49712 content(storytime): the color-own-book lines of weeks 1 to 7 (storytime_week_package)
+45de24ef content(storytime): w01 print approved by Daniel (v15, 2026-11-05)
+4d64111c content(storytime): v15 fix batch data (A-48 part F)
+
+== Phase 6 song.lines image.file count ==
+song lines with image.file: {"w02": {"song_lines": 12, "image_file": 8}, "w03": {"song_lines": 12, "image_file": 8}, "w04": {"song_lines": 14, "image_file": 8}, "w05": {"song_lines": 16, "image_file": 8}, "w06": {"song_lines": 12, "image_file": 8}, "w07": {"song_lines": 14, "image_file": 10}} total=50
+== c5aabe1b / line-pictures follow-ups: Phase 13 build on book audio ==
+c5aabe1b feat(storytime): book audio with read-along times for weeks 1 to 7
+
+e8549b2e content(storytime): w07 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+f411b9dd content(storytime): w06 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+c112a574 content(storytime): w05 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+== Phase 3 hand-off record in the Monorepo (Storytime session track) ==
+54:- [x] Task: Workbooks package `storytime-week` v1 in `dashboard/lib/storytime/` (Workbooks master 6fe46cc, 2026-10-22) (schema.ts, checks.ts, manual.ts, i18n.ts), `meta.program = "storytime"`, injector key `(program, level, week)`, files `content/storytime/l<level>/w<nn>.json`, URL key `st<level>/<week>` (Workbooks session, started 2026-10-22); the checks list from design §3 and §6.
+
+== Phase 3 pin in use (Workbooks archive) ==
+414:- [x] Task: record Daniel's approval. Set `approval.loops` to approved, with the date and his words, in `w01.json` to `w08.json`. This task waits for Daniel's words from the Phase 3 check. Done wh
+416:    - Evidence (2026-11-16): record commit `70278a9beb8ef7314d98df80e0462892a0ca5019` (the pin for Hand-off 2). It sets `approval.loops` in `w01.json` to `w08.json` to `{"status": "approved", "dat
+420:    - Evidence (2026-11-16, peer-report): the orchestrator sent Hand-off 2 at about 01:30 ICT: the record commit pin 70278a9beb8ef7314d98df80e0462892a0ca5019, the 8 approved weeks, and the spec se
+426:    - PM receipt (2026-11-16 03:1x ICT, peer-report), exact words: "Loops track report (report.md, 423d050b): received; the facts match the PM log (pin 70278a9b routed to Monorepo 02:1x, at-home t
+
+== Phase 4 approval.thai before 9f168a4e (git show) ==
+before 9f168a4e: {"status": "approved", "date": "2026-11-05", "words": "\"Approved\" (2026-11-05 21:4x ICT; the 3 color-own-book Thai lines)", "source": "reading-advantage-monorepo 2ae13a4c6 measure/tracks/storytime_advantage_program_20261021/plan.md line 67 (2026-10-22); PM relay of 2026-11-05 (owner answer on the color-own-book Thai lines, ~/Desktop/handoff/storytime-color-own-book/lines-2026-11-05.md)"}
+== book-audio mentions in plan.md ==
+28:- [~] Task: the book audio of each week with mmx and the read-along times (`dashboard/scripts/storytime/book-audio.ts`, tests first: the sentences and pages, the gaps, the screen words, the word fit, the heard check).
+42:_Blast radius (grep, `graph.db` is stale): `scripts/storytime/set-book-pictures.ts` (new, 0 callers); `scripts/storytime/check-weeks.ts` (1 file, the CLI only; the `book-pictures` check follows the `book-audio` check)
+
+== open task count in plan.md ==
+4
+17:- [~] Task: the commit, the commit id and the shape summary to the Storytime 
+21:- [~] Task: write week 1 from the Storytime sequence row (element n, frame "H
+28:- [~] Task: the book audio of each week with mmx and the read-along times (`d
+32:- [~] Task: the gesture pictures of the week 2 to 7 song lines (`video/storyt
+== plan and tech-debt edits verified ==
+plan.md: 708 -> 712 lines, 4 tasks flipped [~] to [x] (lines 17, 21, 28, 32), 4 evidence bullets, Thai line count unchanged: 1 (content identical, line number 103 -> 107 by the 4 inserts).
+tech-debt.md: 50 lines before, 50 lines after; row 2026-11-09 storytime_week_package_20261022 gained merged item (3) (the Turn picture review gap); 0 Thai lines.
+exit: 0

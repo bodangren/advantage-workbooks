@@ -1,0 +1,84 @@
+Green record role log: storytime_week_package_20261022, Phases 3 to 6
+Session: Green - P3-P6 - storytime_week_package
+Route: opencode-go/mimo-v2.6-flash (Measure Jr Green, RECORD role: plan evidence only)
+Date: 2026-11-16
+role_base_sha: 05a34dcd7d98597ea91013ce947cf6c7a703ba87
+phase_base_sha: 05a34dcd7d98597ea91013ce947cf6c7a703ba87 (the handoff names only role_base_sha; HEAD before this round)
+
+Thai rule: the first command proved 0 Thai characters in its own output and printed the Thai line
+numbers of the three memory files (plan.md line 103, tech-debt.md none, lessons-learned.md lines
+15, 28, 43). Every read went through a Thai-drop filter. After the plan edit the Thai line count of
+plan.md is still 1 with identical content (line number 103 -> 107 by the 4 inserted bullets).
+tech-debt.md has 0 Thai lines before and after. The captures end with "exit: 0" and hold 0 Thai lines.
+
+Evidence verified at HEAD (capture p3p6-record-evidence.txt, exit 0):
+- Phase 3: commit 6fe46ccf (2026-10-22, 17 files) verified with git show --stat. Hand-off record:
+  the Storytime session's own track plan in the Monorepo
+  (reading-advantage-monorepo/measure/archive/storytime_advantage_program_20261021/plan.md line 54)
+  records "Workbooks master 6fe46cc, 2026-10-22" with the shape summary. The package is in use at
+  the pin 70278a9b (approval.loops); the PM receipt of measure/archive/storytime_teaching_loops_20261103/plan.md
+  line 420 says "Monorepo's receiver reads your local checkout at the pin commit". Memory rows:
+  7 lines of measure/tech-debt.md and 8 lines of measure/lessons-learned.md name this track.
+- Phase 4: commits 4ad4b327 (draft), 539298a4 (Storytime review fixes), 020f9b5b (song audio),
+  bb641c8c (song lines, Thai proofread), 4d78b215 (published for the live preview) all exist.
+  p14-accept-checkrows.txt (HEAD ceb17679, p14-accept-checks.txt exit 0): 366 PASS, 0 FAIL, the
+  st2/1 rows PASS, the thai row PASS. w01.json has no commit after ceb17679. approval.thai of w01
+  at HEAD: status approved, date 2026-11-15, and the earlier "Approved" of 2026-11-05 (visible at
+  git show 9f168a4e^; it entered w01.json in 77c49712, 2026-11-06). Content commits: 9f168a4e
+  (2026-11-15) and the 2026-11-05 record.
+- Phase 5: commit c5aabe1b (2026-10-24) verified; dashboard/scripts/storytime/book-audio.ts and
+  dashboard/__tests__/storytime-book-audio.test.ts exist at HEAD; 7 book-audio PASS rows (w01 to
+  w07) in p14-accept-checkrows.txt; dashboard/lib/media/make-clip.ts is imported by the later
+  clip scripts.
+- Phase 6: commits bc025fb1 and f765bc38 (2026-10-24) verified; video/storytime-song/scripts/line-pictures.mjs
+  and video/storytime-song/tests/line-pictures.test.mjs exist at HEAD; song lines with image.file at
+  HEAD: w02 8, w03 8, w04 8, w05 8, w06 8, w07 10, total 50 (Thai-dropped read).
+
+Plan edits (python3, exact line matches):
+- plan.md lines 17, 21, 28, 32: "- [~]" to "- [x]", one Evidence sub-bullet each, 708 -> 712 lines.
+- tech-debt.md stays at 50 lines: the row 2026-11-09 storytime_week_package_20261022 gained merged
+  item (3), the Turn picture review gap, with a Notes follow-up.
+
+Tasks flipped to [x]: the 4 old tasks of Phases 3, 4, 5, 6 (plan lines 17, 21, 28, 32), each with
+commit SHAs, checks, and the capture path in its Evidence sub-bullet.
+Tasks flipped to [b] with (deferred:<owner>): none.
+Open items moved (named in the plan bullets): "Turn has no independent review yet" ->
+measure/tech-debt.md row 2026-11-09 item (3); placeholder art of weeks 2 to 7 ->
+storytime_song_video_20261022.
+New files: measure/runs/storytime_week_package_20261022/p3p6-record-evidence.txt,
+measure/runs/storytime_week_package_20261022/p3p6-record-gitstate.txt,
+measure/runs/storytime_week_package_20261022/green-p3p6-05a34dcd.log.
+Targeted Red command: not applicable; this round is a record role with no code and no test.
+Gate: no production code changed, so no test gate applies; both captures end with "exit: 0".
+Unrelated work preserved: video/storytime-song/scripts/render.mjs, dashboard/raw.json, and the
+untracked files of the other tracks were not staged.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green (RECORD, plan evidence only)
+route: opencode-go/mimo-v2.6-flash
+track: storytime_week_package_20261022
+phase: Phases 3 to 6 task closure
+session: Green - P3-P6 - storytime_week_package
+result: PASS
+phase_base_sha: 05a34dcd7d98597ea91013ce947cf6c7a703ba87
+role_base_sha: 05a34dcd7d98597ea91013ce947cf6c7a703ba87
+green_head: this commit (the SHA is in the role reply; a commit cannot hold its own SHA)
+tasks_closed:
+  - Phase 3 Hand-off (plan line 17): [x], evidence 6fe46ccf, Monorepo plan line 54, pin 70278a9b, memory rows
+  - Phase 4 Level 2 week 1 (plan line 21): [x], evidence 4ad4b327, 539298a4, 020f9b5b, bb641c8c, 4d78b215, p14 check rows 366 PASS 0 FAIL, approval.thai approved
+  - Phase 5 Book audio (plan line 28): [x], evidence c5aabe1b, script and test exist, 7 book-audio PASS rows
+  - Phase 6 Song-line pictures w02 to w07 (plan line 32): [x], evidence bc025fb1, f765bc38, script and test exist, 50 image.file song lines
+tasks_deferred: none
+tasks_left_open: none of this track
+moved_open_items:
+  - Turn picture review -> measure/tech-debt.md row 2026-11-09 storytime_week_package_20261022 item (3)
+  - placeholder art of weeks 2 to 7 -> storytime_song_video_20261022
+targeted_red_output: not applicable (record role, no code, no test)
+new_files:
+  - measure/runs/storytime_week_package_20261022/p3p6-record-evidence.txt (ends exit: 0, 0 Thai)
+  - measure/runs/storytime_week_package_20261022/p3p6-record-gitstate.txt (0 Thai)
+  - measure/runs/storytime_week_package_20261022/green-p3p6-05a34dcd.log (this file)
+handoff: 4 tasks flipped to [x] with SHA evidence in plan.md; no [b] task; captures p3p6-record-evidence.txt
+(exit 0) and p3p6-record-gitstate.txt; reviewers scope to plan.md, measure/tech-debt.md, and the three
+p3p6 files; phase_base_sha 05a34dcd, final Green HEAD is this commit's SHA.
+END_MEASURE_AGENT_RESULT
