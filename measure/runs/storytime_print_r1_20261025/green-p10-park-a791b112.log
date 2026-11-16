@@ -1,0 +1,61 @@
+MEASURE_AGENT_RESULT
+role: measure-jr-green (RECORD role: plan, memory, and metadata text only)
+status: pass
+track: storytime_print_r1_20261025
+phase: Phase 10: Hand-off (2026-11-25 to 2026-11-27) and the park of the track
+task: the park of the track (PM order 2026-11-16): 5 plan lines, 2 memory files, metadata.json
+model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+session: Green P8-P10 park storytime_print_r1
+role_base_sha: a791b1120a41e1ef39d4ffeb6ee328f07f0902ac
+phase_base_sha: a791b1120a41e1ef39d4ffeb6ee328f07f0902ac
+head: a791b1120a41e1ef39d4ffeb6ee328f07f0902ac (the role base) plus the one commit of this log
+commits: 1 (plan, memory, metadata and this log; no push; no code change, no test change, no week file change, no build)
+thai_filter:
+  - the first command was one python3 script. It printed the Thai line numbers of plan.md, metadata.json, tech-debt.md and lessons-learned.md and proved 0 Thai characters in its own output.
+  - plan.md holds 12 Thai lines (326, 736, 739, 741, 750, 859, 887, 888, 889, 890, 891, 892). metadata.json holds 0. tech-debt.md holds 0. lessons-learned.md holds 3 (15, 28, 43).
+  - every file was read only through a filter that replaces each Thai line with "<thai line removed>". No Thai line was printed.
+  - the edit ran in python3 on exact ASCII lines only. After the edit the Thai line count of each file is unchanged: 12, 0, 0, 3, with the same line numbers.
+pm_order:
+  - the PM order of 2026-11-16, exact words: "Print track: the QR scan by a person and the Phase 8/9 manual checks wait for the print order (after the new year): mark them deferred:pm with that reason, finish every automated item, and park the track. No question to Daniel now."
+  - the date source: Daniel, Google Tasks 2026-11-16 09:56 ICT: "I won't send to print until after new year" (plan.md line 1461, commit 05a34dcd).
+plan_changes:
+  - line 1362 (Phase 8 Manual Verification): - [ ] became - [b]; the (deferred:pm) trailer was appended; no other text of the line changed.
+  - line 1461 (the print order, deferred, no date): - [ ] became - [b]; the trailer was appended.
+  - line 1463 (the person QR scan): - [ ] became - [b]; the trailer was appended.
+  - line 1464 (Phase 9 Manual Verification): - [ ] became - [b]; the trailer was appended.
+  - line 1378 (the release proof): stays [~]. One sub-bullet was added after its last sub-bullet (line 1395): the park note of 2026-11-16. The new sub-bullet is line 1396.
+  - line 1468 (Phase 10, memory and facts): - [ ] became - [x]. One sub-bullet (line 1469) holds the counts and the facts-changed list.
+  - line 1470 (Phase 10, metadata): - [ ] became - [b]; the (deferred:pm) trailer was appended.
+  - the trailer of the four deferred lines: " (deferred:pm) Reason: waits for the print order after the new year (2027), no date (PM order 2026-11-16; Daniel 2026-11-16 09:56 ICT)."
+  - the trailer of line 1470: " (deferred:pm) Reason: the metadata is updated (2026-11-16); final acceptance and closeout wait for the deferred person checks after the print order."
+  - the plan holds 147 task lines: 137 [x], 9 [b], 1 [~], 0 [ ]. The count is the same as at the role base: 4 lines moved from [ ] to [b] and 1 line from [ ] to [x].
+  - the marker form follows the precedent of measure/archive/storytime_week_package_20261022/plan.md line 288: the (deferred:pm) field sits at the end of the task line.
+memory:
+  - measure/tech-debt.md holds 50 lines (the limit). The two 2026-11-02 rows of this track were merged into one row ("Two Low rows, merged on 2026-11-16 to keep this file at 50 lines") to make room for one new row of 2026-11-16.
+  - measure/lessons-learned.md holds 50 lines (the limit). The two entries of 2026-11-16 were merged into one entry ("Six lessons, merged on 2026-11-16 to keep this file at 50 lines") to make room for one new lesson line.
+  - the new tech-debt row of this track holds: (1) the QR addresses of weeks 2 to 8 return 404 on the live host until weeks 2 to 8 are live, because only week 1 is live in the Storytime app (capture p9e-qr-live.txt); (2) the A3 reader set is version 9 of 2026-11-13 (build commit c42918df), older than the r6-v4 proof, and passes the source-age rule only under decision D-P9E-1 (capture p9e-source-age.txt); (3) the 8 open minors of r6-v4 (A6, B3, D1, D2, D5, F3, G1, G3; D-P9C-4) and the notes N1, N2 and the ff/fl text layer wait for the next print version.
+  - the new lesson line: a source-age rule must name the printed fields, because approval records change the week files after every owner answer.
+metadata:
+  - actual_tasks: 147 (the count of the task lines of plan.md).
+  - updated_at: 2026-11-16T16:30:00+07:00.
+  - status: "new" became "in_progress".
+  - deviation_notes: the existing key name is kept and the note of 2026-11-16 is appended.
+  - the file parses (python3 json.load, no error).
+gates:
+  - this role is a RECORD role: plan, memory and metadata text only. No code, no test, no week file, no build.
+  - this repo has no measure/doctor.sh (plan.md line 14).
+  - the checks that ran: the JSON parses; tech-debt.md holds 50 lines and lessons-learned.md holds 50 lines; the Thai line count of each of the 4 files is unchanged; the diff touches only the 4 named files.
+  - no gate command of the phase ran, because the role boundary forbids a build and a test run.
+new_files:
+  - measure/runs/storytime_print_r1_20261025/green-p10-park-a791b112.log
+files_changed_outside_measure:
+  - none. The changed files are measure/tracks/storytime_print_r1_20261025/plan.md, measure/tracks/storytime_print_r1_20261025/metadata.json, measure/tech-debt.md and measure/lessons-learned.md.
+  - video/storytime-song/scripts/render.mjs was already modified in the work tree before this role started. It was left untouched and is not in this commit.
+scratch: /tmp/opencode/p10park, removed at the end of the role.
+handoff:
+  - the track is parked. The print order waits for Daniel's go after the new year (2027); there is no date.
+  - the 4 [b] (deferred:pm) lines of the person checks and the print order: line 1362 (Phase 8 manual check), line 1461 (the print order), line 1463 (the person QR scan), line 1464 (Phase 9 manual check). Line 1470 (the metadata and closeout task) is [b] as well; its metadata part is done, and the final acceptance and closeout wait for the deferred person checks.
+  - the release proof task (line 1378) stays [~]. Every automated item of it is done (a791b112). Its one FAIL is the QR live host: /th/st/2/2 to /th/st/2/8 return 404, because only week 1 is live in the Storytime app. The PM owns the Monorepo deploy and the publish of weeks 2 to 8. The task closes when the 8 addresses return 200.
+  - the [x] task of Phase 10 (line 1468) wrote the memory files and the facts-changed list. The orchestrator sends that list to the PM on 2026-11-16.
+  - the facts changed: date - the print order of 2026-11-25 is off, print after the new year (2027), no date; status - the track is parked until the print order; names - A3 reader list folder storytime-l2-u1-a3-readers-r6-v4 (MANIFEST f57953f3); numbers - none; price - none.
+END_MEASURE_AGENT_RESULT
