@@ -1,0 +1,21 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-unit2-word-keys.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m9 failed[39m[2m)[22m[33m 1332[2mms[22m[39m
+[31m     [31m×[31m gives the lower-case key with each inner hyphen[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m keeps the hyphen in the stem, the written TTS text, and the clip path[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m refuses a run of two hyphens and keeps a hyphen next to an apostrophe group[39m[32m 1[2mms[22m[39m
+     [32m✓[39m still throws for a digit or an accent inside the text[32m 0[2mms[22m[39m
+[31m     [31m×[31m holds the two raw forms of t-shirt in the variant bank[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m passes each of the three raw heard forms[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m passes the heard text, which removes the space and the hyphen[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m gives one practice-clips FAIL row, a Summary, exit 1, and no stack frame[39m[33m 332[2mms[22m[39m
+[31m     [31m×[31m gives one practice-clips FAIL row for an opening line with no word form[39m[33m 320[2mms[22m[39m
+[31m     [31m×[31m gives one FAIL row for each of two bad family words, and counts both[39m[33m 324[2mms[22m[39m
+     [33m[2m✓[22m[39m equals the baseline capture at 0dcb45d4 [33m 311[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m9 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 19:08:34
+[2m   Duration [22m 1.73s[2m (transform 117ms, setup 41ms, import 188ms, tests 1.33s, environment 0ms)[22m
+

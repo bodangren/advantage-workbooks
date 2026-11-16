@@ -1202,8 +1202,8 @@ describe('C1 bookWordKey (K2)', () => {
         const bookWordKey = await clips('bookWordKey');
         expect(bookWordKey('teddy-bear'), 'the key keeps the hyphen').toBe('teddy-bear');
         expect(bookWordKey('T-shirt'), 'the key of a written hyphen word').toBe('t-shirt');
-        // The addendum row also lists "a1" and "café". K2 step 3 removes a digit or an accent at an
-        // end of the text, so those two give "a" and "caf". The forms below are inside the text.
+        // The addendum row also lists "a1" and "café". Under D-U2-K2 / D-U2-K10 a digit or an
+        // accent anywhere refuses the key, so those two forms are invalid. The forms below also fail.
         for (const word of ['a1b', 'cafés']) {
             const error = thrownBy(() => bookWordKey(word));
             expect(error, `${word} throws`).toBeInstanceOf(Error);

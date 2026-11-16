@@ -195,7 +195,8 @@ describe('the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12
         const run = runCheck(stageRoot(copy));
         const lines = run.stdout.split('\n');
         expect(run.status, 'the exit code').toBe(1);
-        expect(lines.filter((line) => line.startsWith('  FAIL ')), 'one FAIL row').toHaveLength(1);
+        const keyErrorRows = lines.filter((line) => line.startsWith('  FAIL ') && line.includes('not a word key:'));
+        expect(keyErrorRows, 'one key-error FAIL row').toHaveLength(1);
         expect(lines.some((line) => line.startsWith('  FAIL ') && line.includes('not a word key:')), 'the D-U2-K12 detail form').toBe(true);
         expect(lines.some((line) => line.startsWith('Summary:')), 'the Summary still prints').toBe(true);
         expect(hasStackFrame([...lines, ...run.stderr.split('\n')]), 'no stack frame').toBe(false);
@@ -211,7 +212,10 @@ describe('the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12
         expect(run.status, 'the exit code').toBe(1);
         expect(lines.some((line) => line.startsWith('  FAIL ') && line.includes('not a word key: nine4')), 'a FAIL row names nine4').toBe(true);
         expect(lines.some((line) => line.startsWith('  FAIL ') && line.includes('not a word key: seven8')), 'a FAIL row names seven8').toBe(true);
-        expect(failedCheckCount(lines.find((line) => line.startsWith('Summary:'))), 'the Summary counts both rows').toBeGreaterThanOrEqual(2);
+        const keyErrorRows = lines.filter((line) => line.startsWith('  FAIL ') && line.includes('not a word key:'));
+        expect(keyErrorRows, 'exactly two key-error FAIL rows').toHaveLength(2);
+        expect(keyErrorRows.some((line) => line.includes('not a word key: nine4')), 'a key-error row names nine4').toBe(true);
+        expect(keyErrorRows.some((line) => line.includes('not a word key: seven8')), 'a key-error row names seven8').toBe(true);
         expect(hasStackFrame([...lines, ...run.stderr.split('\n')]), 'no stack frame').toBe(false);
     });
 });
