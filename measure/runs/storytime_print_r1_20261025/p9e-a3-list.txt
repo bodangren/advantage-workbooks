@@ -1,0 +1,132 @@
+# P9E item 1: the A3 reader file list (2026-11-16)
+# rule: plan task line 1378 and spec FR-8 item 2: the color A3 reader PDFs get their own file list with the SHA-256 of each file, for the teachers.
+# search: every *.pdf with A3 in the name under ~/Desktop/print-ready/storytime/ (a find over the whole tree, 2026-11-16).
+# newest color A3 reader PDF of each reader book of w01 to w08: version 9 in _check-p9-reader-covers/readers-a3/ (2026-11-13 23:32 to 23:37).
+# older sets: unit1-check-v2/readers-a3 (v7, v8 of 2026-11-05), proof-unit1-v13 (v5 of 2026-11-04, 2 files), readers-w01-final (v1 of 2026-11-02, 2 files), proof-unit1-v14, proof-unit1-v15, v14-pending, unit1-check-v1, proof-w01*, covers-quest-v1, _scratch-c29k, _scratch-c29l.
+# build commit of the chosen files: c42918df (2026-11-13T23:34:44+07:00), named by the plan line 1369 of this track. That commit changed 2 measure files only, so the source state at the build is the same as at its parent.
+# last commit of the sources at the build: d36a42a1 (2026-11-13T21:11:07+07:00), before the build.
+# week 8 has no reader: content/storytime/l2/w08.json holds "books": [] (the week file book list, read through the Thai filter).
+#
+# per file
+week w01 | book "Hello!" (readalong) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W01-hello-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 83488849
+  SHA-256: 987a583a3f2823a87f3d85a7a99862bbfae80bf5c9184fa0c6192c968c9ce726
+  mtime: 2026-11-13 23:32:40 +0700 | pdfinfo CreationDate: Fri Nov 13 23:32:23 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w01 | book "Nan Can Nod" (decodable) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W01-nan-can-nod-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 62525635
+  SHA-256: 815a86afe3bdfd7b571c6e2ddcd79bbe48818dbc6eb100f35441ad254e99a88a
+  mtime: 2026-11-13 23:32:58 +0700 | pdfinfo CreationDate: Fri Nov 13 23:32:43 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w02 | book "How Many?" (readalong) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W02-how-many-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 92025377
+  SHA-256: cbd104f3d87f67f397d6482f92340abc91263068ecfa505415d8cbd2187ec7b7
+  mtime: 2026-11-13 23:33:20 +0700 | pdfinfo CreationDate: Fri Nov 13 23:33:02 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w02 | book "Can I?" (decodable) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W02-can-i-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 91265505
+  SHA-256: 11e72f36c3f20e8d841f434cb42eb2a604b4d83b6f60f65a15ce867c626892b2
+  mtime: 2026-11-13 23:33:42 +0700 | pdfinfo CreationDate: Fri Nov 13 23:33:25 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w03 | book "Paint!" (readalong) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W03-paint-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 81091210
+  SHA-256: 808ab3debdc26c4024e7243cdabd94ffe7c0dd4de9a69c8bb4b2f916ebcde93a
+  mtime: 2026-11-13 23:34:04 +0700 | pdfinfo CreationDate: Fri Nov 13 23:33:48 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w03 | book "The Pan" (decodable) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W03-the-pan-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 83256754
+  SHA-256: bc33485e16c8e3ecb697f264b8c5049574d303ca8343589b0527d7d5791ffef6
+  mtime: 2026-11-13 23:34:26 +0700 | pdfinfo CreationDate: Fri Nov 13 23:34:09 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w04 | book "My Family" (readalong) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W04-my-family-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 86908313
+  SHA-256: f483d5e542599c2d1dd6f0f60692dbdc735f63deb41b779f13cfb04752977410
+  mtime: 2026-11-13 23:34:56 +0700 | pdfinfo CreationDate: Fri Nov 13 23:34:31 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w04 | book "Pam" (decodable) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W04-pam-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 73823312
+  SHA-256: 7c4cb039607612baaf1002af3dd34cbd62c8cb43a0df6516acbaed3383e11be7
+  mtime: 2026-11-13 23:35:18 +0700 | pdfinfo CreationDate: Fri Nov 13 23:35:00 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w05 | book "I Have Two" (readalong) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W05-i-have-two-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 76755082
+  SHA-256: 8df4aec951adafe9176e7c713678c9d03cc574c501137c5d59ea8fea297865dd
+  mtime: 2026-11-13 23:35:43 +0700 | pdfinfo CreationDate: Fri Nov 13 23:35:22 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w05 | book "Sam and Pam" (decodable) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W05-sam-and-pam-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 79465526
+  SHA-256: 8ab5beec9231c1055b94e2c35aeb25a1c044ac4c78f815c968c87c05dd0c6cd4
+  mtime: 2026-11-13 23:36:16 +0700 | pdfinfo CreationDate: Fri Nov 13 23:35:58 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w06 | book "I Can See" (readalong) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W06-i-can-see-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 74758299
+  SHA-256: b5b961efdc11d48bc4b60e88af40d4e2a056492fe72dcc9e29dd37644f9bdb52
+  mtime: 2026-11-13 23:36:37 +0700 | pdfinfo CreationDate: Fri Nov 13 23:36:20 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w06 | book "Tap, Tap!" (decodable) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W06-tap-tap-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 93614308
+  SHA-256: eb45ca297c33405ada8e123a591d368c11b0467d8a206079e154b8209a608dc7
+  mtime: 2026-11-13 23:37:02 +0700 | pdfinfo CreationDate: Fri Nov 13 23:36:43 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w07 | book "Is It a Ball?" (readalong) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W07-is-it-a-ball-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 113296466
+  SHA-256: 2250fe78ae4018b73b3d8dbcb4770cbfa3ec62a3738ba3e91198c12b22e77875
+  mtime: 2026-11-13 23:37:27 +0700 | pdfinfo CreationDate: Fri Nov 13 23:37:07 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+week w07 | book "The Top" (decodable) | version 9
+  path: /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W07-the-top-A3-v9.pdf
+  pages: 12 | page size: 1191.12 x 841.92 pts (A3) | bytes: 82708261
+  SHA-256: 0bcc7642f8b6f62cf08c01b31737b125d90eba578c2c22521b24d6609fe06cd3
+  mtime: 2026-11-13 23:37:49 +0700 | pdfinfo CreationDate: Fri Nov 13 23:37:31 2026 +07
+  build commit: c42918df (2026-11-13T23:34:44+07:00)
+
+# the new hand-off folder
+# folder: /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4
+# files: 14 byte copies + FILES.md + MANIFEST.txt
+# copy check (cmp, source vs copy)
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W01-hello-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W01-hello-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W01-nan-can-nod-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W01-nan-can-nod-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W02-how-many-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W02-how-many-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W02-can-i-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W02-can-i-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W03-paint-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W03-paint-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W03-the-pan-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W03-the-pan-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W04-my-family-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W04-my-family-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W04-pam-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W04-pam-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W05-i-have-two-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W05-i-have-two-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W05-sam-and-pam-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W05-sam-and-pam-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W06-i-can-see-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W06-i-can-see-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W06-tap-tap-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W06-tap-tap-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W07-is-it-a-ball-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W07-is-it-a-ball-A3-v9.pdf
+cmp EQUAL  /home/daniebo/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/Storytime-Advantage-L2-W07-the-top-A3-v9.pdf  /home/daniebo/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/Storytime-Advantage-L2-W07-the-top-A3-v9.pdf
+
+# sha256sum -c MANIFEST.txt in the new folder
+Storytime-Advantage-L2-W01-hello-A3-v9.pdf: OK
+Storytime-Advantage-L2-W01-nan-can-nod-A3-v9.pdf: OK
+Storytime-Advantage-L2-W02-how-many-A3-v9.pdf: OK
+Storytime-Advantage-L2-W02-can-i-A3-v9.pdf: OK
+Storytime-Advantage-L2-W03-paint-A3-v9.pdf: OK
+Storytime-Advantage-L2-W03-the-pan-A3-v9.pdf: OK
+Storytime-Advantage-L2-W04-my-family-A3-v9.pdf: OK
+Storytime-Advantage-L2-W04-pam-A3-v9.pdf: OK
+Storytime-Advantage-L2-W05-i-have-two-A3-v9.pdf: OK
+Storytime-Advantage-L2-W05-sam-and-pam-A3-v9.pdf: OK
+Storytime-Advantage-L2-W06-i-can-see-A3-v9.pdf: OK
+Storytime-Advantage-L2-W06-tap-tap-A3-v9.pdf: OK
+Storytime-Advantage-L2-W07-is-it-a-ball-A3-v9.pdf: OK
+Storytime-Advantage-L2-W07-the-top-A3-v9.pdf: OK
+# sha256sum -c exit: 0
+# MANIFEST.txt SHA-256: f57953f354b3b79d3f32b48f0acab2005178fb5b76c741a23d78308f1626301d
+# FILES.md SHA-256: 3062b9e3cc203cb28420b187ecfdbb5515229c16396097b14609268b08af34d1

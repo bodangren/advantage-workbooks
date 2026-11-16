@@ -1,0 +1,187 @@
+# P9E item 3: the source-age rule (2026-11-16)
+# rule: plan task line 1378 and spec FR-8 item 3: each print file is newer than the last commit of its sources (git log -1 --format=%cI -- <sources>).
+# decision D-P9E-1 (orchestrator default, 2026-11-16): a later commit breaks the rule only when it changes printed content.
+#   no print effect: a change only to approval.*, books[].audio, song/video/app-only keys, or a test file.
+# source set: content/storytime/l2/w01.json .. w08.json, content/storytime/l2/print/, dashboard/lib/storytime/print/,
+#   dashboard/lib/storytime/{files,schema,manual,checks,i18n,phonics}.ts (the files the print builders import outside the print folder),
+#   dashboard/scripts/storytime/make-*-pdf.ts, dashboard/scripts/storytime/make-teacher-book-print.ts
+# dropped keys of the normalized week-file compare: approval (top level), books[*].audio,
+#   song.audio, song.video, song.videoPhone, song.poster, song.posterPhone, song.styleBrief (app, video and poster only;
+#   the print code reads song.lines only, and no print code reads books[*].audio)
+# HEAD of this check: 4208f44309c251fcbc77b102472f5c5e76844e83
+# the proof files: ~/Desktop/print-ready/storytime/proof-books-r6-v4/ (MANIFEST.txt names workbooks-commit bf5d24dd; Daniel Pass 2026-11-16)
+# the printer package: ~/Desktop/handoff/storytime-l2-u1-printer-package-r6-v4/ (4 printer jobs, byte copies of the proof files)
+
+======================================================================
+A. the 4 printer files of the r6-v4 package
+======================================================================
+# build commit: bf5d24dd (2026-11-16T04:01:18+07:00), named by the MANIFEST.txt of proof-books-r6-v4
+# the build ran at 04:02 to 04:04 on 2026-11-16, after the last source commit 6fe7a270 (2026-11-16T04:00:05+07:00)
+
+# commits after the build commit that touch the source set
+d1c82c5d 2026-11-16T06:45:16+07:00 content(storytime): record Daniel's Pass of the r6-v4 release proof in approval.print of w01 to w08 (storytime_print_r1)
+
+# the same range over every path (the commit touches only the week files)
+d1c82c5d content(storytime): record Daniel's Pass of the r6-v4 release proof in approval.print of w01 to w08 (storytime_print_r1)
+
+ content/storytime/l2/w01.json | 4 ++--
+ content/storytime/l2/w02.json | 5 +++++
+ content/storytime/l2/w03.json | 5 +++++
+ content/storytime/l2/w04.json | 5 +++++
+ content/storytime/l2/w05.json | 5 +++++
+ content/storytime/l2/w06.json | 5 +++++
+ content/storytime/l2/w07.json | 5 +++++
+ content/storytime/l2/w08.json | 5 +++++
+ 8 files changed, 37 insertions(+), 2 deletions(-)
+
+# normalized week-file compare, build commit vs HEAD
+### the 4 printer files (build commit bf5d24dd)
+normalized compare: week file at the build commit vs HEAD, with these keys dropped:
+  top level: ['approval']
+  books[*]: ['audio']
+  song: ['audio', 'video', 'videoPhone', 'poster', 'posterPhone', 'styleBrief']
+(all other keys are compared; a Thai string prints as <thai string removed>)
+
+content/storytime/l2/w01.json: 0 normalized differences -> no print-effect change
+
+content/storytime/l2/w02.json: 0 normalized differences -> no print-effect change
+
+content/storytime/l2/w03.json: 0 normalized differences -> no print-effect change
+
+content/storytime/l2/w04.json: 0 normalized differences -> no print-effect change
+
+content/storytime/l2/w05.json: 0 normalized differences -> no print-effect change
+
+content/storytime/l2/w06.json: 0 normalized differences -> no print-effect change
+
+content/storytime/l2/w07.json: 0 normalized differences -> no print-effect change
+
+content/storytime/l2/w08.json: 0 normalized differences -> no print-effect change
+
+
+# code diff --stat, build commit vs HEAD (the code source set)
+# (no line means no code change)
+
+# media files (the print art and the audio) after the build commit
+# (no line means no media change)
+
+======================================================================
+B. the 14 color A3 reader files (version 9)
+======================================================================
+# build commit: c42918df (2026-11-13T23:34:44+07:00), named by the plan line 1369 of this track; it changed 2 measure files only,
+#   so the source state at the build (2026-11-13 23:32 to 23:37) is the same as at its parent.
+# the last commit of the source set at the build: d36a42a1 (2026-11-13T21:11:07+07:00), before the build.
+
+# commits after the build commit that touch the source set
+d1c82c5d 2026-11-16T06:45:16+07:00 content(storytime): record Daniel's Pass of the r6-v4 release proof in approval.print of w01 to w08 (storytime_print_r1)
+6fe7a270 2026-11-16T04:00:05+07:00 fix(storytime): P9-C, the review-more sentence dot after its text and the key rows (storytime_print_r1)
+70278a9b 2026-11-16T00:59:33+07:00 content(storytime): record Daniel's Approved in approval.loops of w01 to w08 (storytime_teaching_loops)
+e8549b2e 2026-11-15T23:58:30+07:00 content(storytime): w07 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+f411b9dd 2026-11-15T23:55:25+07:00 content(storytime): w06 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+c112a574 2026-11-15T23:53:29+07:00 content(storytime): w05 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+af1e8187 2026-11-15T23:51:52+07:00 content(storytime): w04 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+36a80c60 2026-11-15T23:49:29+07:00 content(storytime): w03 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+ccda7c98 2026-11-15T23:47:00+07:00 content(storytime): w02 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+105c4393 2026-11-15T23:41:53+07:00 content(storytime): w01 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+9f168a4e 2026-11-15T23:23:49+07:00 content(storytime): record Daniel's Ok on the 64 Phase 14 Thai rows in approval.thai of w01 to w08 (storytime_week_package)
+6c5d5b38 2026-11-15T18:58:28+07:00 content(storytime): F3 D4 order of w02 to w07, P9-B content commit 2, Thai Approved by Daniel 2026-11-15 (storytime_print_r1)
+10a3de6e 2026-11-15T18:48:44+07:00 content(storytime): LP-08 recall days 4-5 and LP-20 w07 question, Daniel Approved 2026-11-15 (storytime_teaching_loops)
+e0592708 2026-11-14T23:59:03+07:00 fix(print): review-more score strip uses the standard form (storytime_print_r1 P9-B)
+46616021 2026-11-14T23:06:34+07:00 content(storytime): w08 review-more pages, P9-B content commit 1 (storytime_print_r1)
+6f38383d 2026-11-14T22:33:12+07:00 feat(print): C2 start table of 32 letters and the week 8 review-more pages (storytime_print_r1 P9-B)
+e0350881 2026-11-14T15:08:49+07:00 feat(print): r6-v2 fix batch Green, line-art fix table, D1 ten, D7 hair fill, B3 solid frames, B4 tick, A6 nose clip (storytime_print_r1)
+a318b199 2026-11-14T13:33:14+07:00 feat(storytime): P14 sound skill stages, the stage module, paStage, the R14 rows, and the change list content of w01 to w08 (storytime_week_package)
+993d9642 2026-11-14T04:26:03+07:00 feat(storytime): Phase 13 Green 1, read-along sentence clips by opt-in kinds, provenance merge, skip rule, maker log lines, read-along check row (storytime_week_package)
+0eff8d17 2026-11-14T01:19:21+07:00 fix(storytime-print): leaf mark gets its own white box when it lies outside the footer band (Phase 9 R1, D-P9-R1)
+
+# code diff --stat, build commit vs HEAD (the code source set)
+ dashboard/lib/storytime/manual.ts              |  16 ++-
+ dashboard/lib/storytime/print/cover-quest.ts   |  38 ++++--
+ dashboard/lib/storytime/print/line-art-fix.ts  | 161 +++++++++++++++++++++++++
+ dashboard/lib/storytime/print/picture-check.ts |   7 +-
+ dashboard/lib/storytime/print/readers.ts       |   2 +-
+ dashboard/lib/storytime/print/step-map.ts      |  10 +-
+ dashboard/lib/storytime/print/step-pages.ts    |  12 +-
+ dashboard/lib/storytime/print/student-book.ts  |  80 ++++++++++--
+ dashboard/lib/storytime/print/trace-words.ts   |  22 +++-
+ dashboard/lib/storytime/schema.ts              |  30 ++++-
+ 10 files changed, 344 insertions(+), 34 deletions(-)
+
+# print data files after the build commit
+e0350881 feat(print): r6-v2 fix batch Green, line-art fix table, D1 ten, D7 hair fill, B3 solid frames, B4 tick, A6 nose clip (storytime_print_r1)
+ .../pictures-fix/l2-w06-cover-tap-tap-hair-v1.png  | Bin 0 -> 127675 bytes
+ .../l2-w06-story-page-pat-sat-on-a-mat-hair-v1.png | Bin 0 -> 106089 bytes
+ ...2-w06-story-page-pip-sat-on-the-mat-hair-v1.png | Bin 0 -> 125361 bytes
+ .../l2-w06-story-page-sam-sat-on-a-mat-hair-v1.png | Bin 0 -> 125361 bytes
+ content/storytime/l2/print/pictures-line-fix.json  |  41 +++++++++++++++++++++
+ 5 files changed, 41 insertions(+)
+
+# media files after the build commit
+e8549b2e content(storytime): w07 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+f411b9dd content(storytime): w06 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+c112a574 content(storytime): w05 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+af1e8187 content(storytime): w04 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+36a80c60 content(storytime): w03 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+ccda7c98 content(storytime): w02 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+105c4393 content(storytime): w01 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+a318b199 feat(storytime): P14 sound skill stages, the stage module, paStage, the R14 rows, and the change list content of w01 to w08 (storytime_week_package)
+# (every line is an mp3 word clip or sentence clip; no picture changed)
+
+# normalized week-file compare, build commit vs HEAD, split by print effect on the color A3 reader PDF
+# reader-relevant paths (readers.ts): books[*].pages, books[*].cover, books[*].title, books[*].soundsPage, books[*].backWords, focus.frame, focus.family
+content/storytime/l2/w01.json: 14 normalized difference(s); reader-relevant 0; other (teacher book / home card / workbook / tags) 14
+  other paths (not printed in the A3 reader): , .focus, .focus.paSkill, .opening, .opening.wordClips, .tags
+content/storytime/l2/w02.json: 32 normalized difference(s); reader-relevant 0; other (teacher book / home card / workbook / tags) 32
+  other paths (not printed in the A3 reader): , .focus, .focus.paSkill, .opening, .opening.wordClips, .tags
+content/storytime/l2/w03.json: 35 normalized difference(s); reader-relevant 0; other (teacher book / home card / workbook / tags) 35
+  other paths (not printed in the A3 reader): , .focus, .focus.paSkill, .opening, .opening.wordClips, .tags
+content/storytime/l2/w04.json: 33 normalized difference(s); reader-relevant 0; other (teacher book / home card / workbook / tags) 33
+  other paths (not printed in the A3 reader): , .focus, .focus.paSkill, .opening, .opening.wordClips, .tags
+content/storytime/l2/w05.json: 41 normalized difference(s); reader-relevant 0; other (teacher book / home card / workbook / tags) 41
+  other paths (not printed in the A3 reader): , .focus, .focus.paSkill, .opening, .opening.wordClips, .tags
+content/storytime/l2/w06.json: 56 normalized difference(s); reader-relevant 0; other (teacher book / home card / workbook / tags) 56
+  other paths (not printed in the A3 reader): , .focus, .focus.paSkill, .opening, .opening.wordClips, .tags
+content/storytime/l2/w07.json: 48 normalized difference(s); reader-relevant 0; other (teacher book / home card / workbook / tags) 48
+  other paths (not printed in the A3 reader): , .focus, .focus.paSkill, .opening, .opening.wordClips, .tags
+content/storytime/l2/w08.json: 92 normalized difference(s); reader-relevant 0; other (teacher book / home card / workbook / tags) 92
+  other paths (not printed in the A3 reader): , .benchmark.paper, .block, .focus, .focus.paSkill, .opening, .tags
+THAI_CHARS_IN_OUTPUT 0
+
+# the code changes that touch the reader build, and their print effect on the color A3 output
+# 0eff8d17 dashboard/lib/storytime/print/cover-quest.ts (leafFooterStrip): the A3 cover path uses readerA3Body (trim 420 mm); leafBody and leafFooterStrip run only for the workbook leaf (trim under 300 mm). No A3 effect.
+# e0350881 dashboard/lib/storytime/print/readers.ts (the .tear-tick CSS): the tear-tick element is emitted only by leafHtml (the workbook output). The A3 body holds no tear-tick element. No A3 effect.
+# e0350881 dashboard/lib/storytime/print/picture-check.ts + line-art-fix.ts: the fix table applies when kind is line (the workbook line art). The color A3 output uses kind color. No A3 effect.
+# e0350881 dashboard/lib/storytime/print/student-book.ts, 6f38383d step-pages.ts, step-map.ts, trace-words.ts, manual.ts, e0592708 student-book.ts, 6fe7a270 student-book.ts and manual.ts: the student book, the teacher book and the manual. STORYTIME_READER_PAGE_OFFSET (readers.ts) did not change. No A3 effect.
+# 993d9642, a318b199, 6f38383d dashboard/lib/storytime/schema.ts: added optional fields (focus.paStage, block.paperMore) and text. The parsed values the reader prints did not change. No A3 effect.
+# content/storytime/l2/print/: the new pictures-line-fix.json and 4 pictures-fix PNGs are the line-art replacements of the r6-v2 fix batch. No A3 effect.
+# content/storytime/l2/media/: 8 commits, all mp3 word clips and sentence clips. No picture changed. No A3 effect.
+
+======================================================================
+verdict per file
+======================================================================
+# A. the 4 printer files of the r6-v4 package (build commit bf5d24dd)
+#    the only later commit is d1c82c5d, which changes approval.print in the week files only; no code change; no media change
+PASS  student/Storytime-Advantage-L2-U1-Student-Book-v20_PDFX-1a.pdf  (no print-effect change after the build commit)
+PASS  student/Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r6_PDFX-1a.pdf  (no print-effect change after the build commit)
+PASS  teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-v5_PDFX-1a.pdf  (no print-effect change after the build commit)
+PASS  teacher/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r6_PDFX-1a.pdf  (no print-effect change after the build commit)
+
+# B. the 14 color A3 reader files (version 9, build commit c42918df)
+#    no later commit changes the printed content of the color A3 reader PDF (see the compare and the code notes above)
+PASS  Storytime-Advantage-L2-W01-hello-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W01-nan-can-nod-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W02-how-many-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W02-can-i-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W03-paint-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W03-the-pan-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W04-my-family-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W04-pam-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W05-i-have-two-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W05-sam-and-pam-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W06-i-can-see-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W06-tap-tap-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W07-is-it-a-ball-A3-v9.pdf  (no print-effect change after the build commit)
+PASS  Storytime-Advantage-L2-W07-the-top-A3-v9.pdf  (no print-effect change after the build commit)
+
+# summary: 18 of 18 files PASS the source-age rule under decision D-P9E-1.
+# no file needs a rebuild for the source-age rule.

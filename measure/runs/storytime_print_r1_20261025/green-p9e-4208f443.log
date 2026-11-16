@@ -1,0 +1,69 @@
+MEASURE_AGENT_RESULT
+role: measure-jr-green (CHECK role: automated checks and plan evidence only)
+status: fail
+track: storytime_print_r1_20261025
+phase: Phase 9: Release proof and print order (2026-11-19 to 2026-11-25)
+task: "- [~] Task: the release proof by 2026-11-20." (plan.md line 1378)
+model: minimax-cn-coding-plan/MiniMax-M3.1-Flash
+role_base_sha: 4208f44309c251fcbc77b102472f5c5e76844e83
+phase_base_sha: 4208f44309c251fcbc77b102472f5c5e76844e83
+head: 4208f44309c251fcbc77b102472f5c5e76844e83 (the role base) plus the one commit of this log
+commits: 1 (plan evidence, the 3 captures and this log; no push; no code change, no test change, no week file change)
+thai_filter:
+  - the first command was one python3 script. It printed the Thai line numbers of plan.md and spec.md and proved 0 Thai characters in its own output.
+  - plan.md holds 12 Thai lines (326, 736, 739, 741, 750, 859, 887, 888, 889, 890, 891, 892). spec.md holds 0.
+  - plan.md and spec.md were read only through a filter that replaces each Thai line with "<thai line removed>".
+  - the week files were read only through one script that drops every th key and every string with a Thai character, and it proved 0 Thai characters in its output.
+  - no image and no PDF page was opened. No pdftotext ran on the teacher book. The pdfinfo output was piped through the Thai filter.
+results:
+  item 1 (the A3 reader file list): PASS
+    - 14 files, version 9, 12 pages each, A3 landscape (1191.12 x 841.92 pts).
+    - source: ~/Desktop/print-ready/storytime/_check-p9-reader-covers/readers-a3/ (build commit c42918df, 2026-11-13 23:32 to 23:37). It is the newest color A3 file of each reader book.
+    - week 8 has no reader: content/storytime/l2/w08.json holds "books": [] in its book list.
+    - new folder: ~/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/ (14 byte copies, FILES.md, MANIFEST.txt).
+    - MANIFEST.txt SHA-256: f57953f354b3b79d3f32b48f0acab2005178fb5b76c741a23d78308f1626301d
+    - FILES.md SHA-256: 3062b9e3cc203cb28420b187ecfdbb5515229c16396097b14609268b08af34d1
+    - cmp: 14 of 14 EQUAL. sha256sum -c MANIFEST.txt: exit 0, 14 of 14 OK.
+    - capture: measure/runs/storytime_print_r1_20261025/p9e-a3-list.txt
+  item 2 (the QR live-host check): FAIL
+    - command: curl -s -o /dev/null -w '%{http_code} %{url_effective}\n' -L --max-time 20 <url> (GET only).
+    - base address https://storytime.reading-advantage.com/th/st/2/<week>: 200 for week 1, 404 for weeks 2 to 8 (7 addresses).
+    - the ?part=song form: 200 for week 1, 404 for weeks 2 to 7 (6 addresses).
+    - the extra printed forms fail the same way: ?part=book gives 404 for weeks 2 to 8 and ?part=decodable gives 404 for weeks 2 to 7.
+    - week 8 holds no song (no "song" key in w08.json; its home.songUrl is the base path /th/st/2/8).
+    - the host answers for week 1, so this is a deploy gap and not a network error. Nothing was changed for it.
+    - fix owner: Monorepo deploy, via the PM.
+    - capture: measure/runs/storytime_print_r1_20261025/p9e-qr-live.txt
+  item 3 (the source-age rule): PASS under decision D-P9E-1
+    - decision D-P9E-1 (the orchestrator default of 2026-11-16): a later commit breaks the rule only when it changes printed content. A change only to approval.*, books[].audio, the song, video and app-only keys, or a test file has no print effect.
+    - the 4 printer files (build commit bf5d24dd, 2026-11-16T04:01:18+07:00) have 1 later commit, d1c82c5d. It changes approval.print in the week files only. The normalized compare gives 0 differences for w01 to w08, the code diff is empty and no media file changed.
+    - the 14 A3 files (build commit c42918df, 2026-11-13T23:34:44+07:00) have 20 later commits. The normalized compare gives 0 reader-relevant differences for w01 to w08: the changes sit in focus.paSkill, focus.paStage, opening, scripts, tags and, for w08, benchmark.paper and block.
+    - the code changes have no A3 effect: leafFooterStrip runs only for the workbook leaf (the A3 cover path uses readerA3Body), the .tear-tick CSS has no element in the A3 body, the line-art fix table applies to kind line only, and STORYTIME_READER_PAGE_OFFSET did not change.
+    - 18 of 18 files PASS. No file needs a rebuild for the source-age rule.
+    - capture: measure/runs/storytime_print_r1_20261025/p9e-source-age.txt
+plan_evidence:
+  - plan.md line 1395 holds the sub-bullet "Release proof checks (2026-11-16, check role minimax-cn-coding-plan/MiniMax-M3.1-Flash, role base 4208f443)". It names the 3 results, the 3 captures, the new A3 folder, its MANIFEST SHA-256 and decision D-P9E-1.
+  - the task line 1378 stays [~] because item 2 fails. The FAIL and its fix owner (Monorepo deploy, via the PM) are named in the sub-bullet.
+  - the Thai line count of plan.md is unchanged: 12 before the edit and 12 after (the same line numbers). The new sub-bullet holds only ASCII.
+  - no task was flipped to [x] and no task was flipped to [b].
+gates:
+  - command: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit'
+    exit: 0
+    summary: 8 package(s), 0 failed check(s), 1 warning(s); tsc clean
+    note: this repo has no measure/doctor.sh (plan.md line 14); the PROJECT_CHECKS gate is the doctor step of the phase.
+new_files:
+  - measure/runs/storytime_print_r1_20261025/p9e-a3-list.txt
+  - measure/runs/storytime_print_r1_20261025/p9e-qr-live.txt
+  - measure/runs/storytime_print_r1_20261025/p9e-source-age.txt
+  - measure/runs/storytime_print_r1_20261025/green-p9e-4208f443.log
+  - outside the repo: ~/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/ (new folder: 14 copies, FILES.md, MANIFEST.txt)
+files_changed_outside_measure:
+  - none. The only changed repo file is measure/tracks/storytime_print_r1_20261025/plan.md (1 line added).
+read_only:
+  - the checks changed nothing under ~/Desktop/print-ready/ and nothing in an existing hand-off folder.
+scratch: /tmp/opencode/p9e, removed at the end of the role.
+handoff:
+  - the review roles should scope their audit to plan.md (1 line), the 3 captures, this log, and the new folder ~/Desktop/handoff/storytime-l2-u1-a3-readers-r6-v4/.
+  - the QR FAIL blocks the task. The Monorepo deploy must serve /th/st/2/2 to /th/st/2/8 before the release proof is final. The PM owns that route.
+  - the A3 reader files are the version 9 set of 2026-11-13. They pass the source-age rule, but they are older than the r6-v4 proof of 2026-11-16. The PM may want a fresh A3 build before the teachers print them.
+END_MEASURE_AGENT_RESULT

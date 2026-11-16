@@ -1,0 +1,38 @@
+# P9E item 2: QR live-host check (2026-11-16)
+# command: curl -s -o /dev/null -w '%{http_code} %{url_effective}\n' -L --max-time 20 <url>
+# host: https://storytime.reading-advantage.com  (STORYTIME_QR_HOST in dashboard/lib/storytime/files.ts:12)
+# printed address form: storytimeQrUrl('/th/st/<level>/<week>') and the ?part=<part> form
+# week files: content/storytime/l2/w01.json .. w08.json
+# scope A (required): base address of weeks 1 to 8
+200 https://storytime.reading-advantage.com/th/st/2/1  <- https://storytime.reading-advantage.com/th/st/2/1  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/2  <- https://storytime.reading-advantage.com/th/st/2/2  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/3  <- https://storytime.reading-advantage.com/th/st/2/3  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/4  <- https://storytime.reading-advantage.com/th/st/2/4  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/5  <- https://storytime.reading-advantage.com/th/st/2/5  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/6  <- https://storytime.reading-advantage.com/th/st/2/6  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/7  <- https://storytime.reading-advantage.com/th/st/2/7  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/8  <- https://storytime.reading-advantage.com/th/st/2/8  [curl_exit=0]
+# scope B (required): ?part=song form. week 8 holds no song: w08.json has no 'song' key and home.songUrl is the base path /th/st/2/8.
+200 https://storytime.reading-advantage.com/th/st/2/1?part=song  <- https://storytime.reading-advantage.com/th/st/2/1?part=song  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/2?part=song  <- https://storytime.reading-advantage.com/th/st/2/2?part=song  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/3?part=song  <- https://storytime.reading-advantage.com/th/st/2/3?part=song  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/4?part=song  <- https://storytime.reading-advantage.com/th/st/2/4?part=song  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/5?part=song  <- https://storytime.reading-advantage.com/th/st/2/5?part=song  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/6?part=song  <- https://storytime.reading-advantage.com/th/st/2/6?part=song  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/7?part=song  <- https://storytime.reading-advantage.com/th/st/2/7?part=song  [curl_exit=0]
+# scope C (extra, printed in the release files): ?part=book (home card readAlongUrl and every read-along reader code) and ?part=decodable (every decodable reader code)
+200 https://storytime.reading-advantage.com/th/st/2/1?part=book  <- https://storytime.reading-advantage.com/th/st/2/1?part=book  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/2?part=book  <- https://storytime.reading-advantage.com/th/st/2/2?part=book  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/3?part=book  <- https://storytime.reading-advantage.com/th/st/2/3?part=book  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/4?part=book  <- https://storytime.reading-advantage.com/th/st/2/4?part=book  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/5?part=book  <- https://storytime.reading-advantage.com/th/st/2/5?part=book  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/6?part=book  <- https://storytime.reading-advantage.com/th/st/2/6?part=book  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/7?part=book  <- https://storytime.reading-advantage.com/th/st/2/7?part=book  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/8?part=book  <- https://storytime.reading-advantage.com/th/st/2/8?part=book  [curl_exit=0]
+200 https://storytime.reading-advantage.com/th/st/2/1?part=decodable  <- https://storytime.reading-advantage.com/th/st/2/1?part=decodable  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/2?part=decodable  <- https://storytime.reading-advantage.com/th/st/2/2?part=decodable  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/3?part=decodable  <- https://storytime.reading-advantage.com/th/st/2/3?part=decodable  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/4?part=decodable  <- https://storytime.reading-advantage.com/th/st/2/4?part=decodable  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/5?part=decodable  <- https://storytime.reading-advantage.com/th/st/2/5?part=decodable  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/6?part=decodable  <- https://storytime.reading-advantage.com/th/st/2/6?part=decodable  [curl_exit=0]
+404 https://storytime.reading-advantage.com/th/st/2/7?part=decodable  <- https://storytime.reading-advantage.com/th/st/2/7?part=decodable  [curl_exit=0]
