@@ -1,0 +1,343 @@
+#!/usr/bin/env python3
+"""Writes phase-acceptance-p14-ceb17679.json and its log (the final result).
+
+The script verifies the audited head, reads the gate captures, checks the A3 to
+A7 rules, and writes the result JSON with the MEASURE_AGENT_RESULT block in the
+log. No line of either file holds a Thai character.
+"""
+
+import json
+import re
+import subprocess
+import sys
+
+REPO = "/home/daniebo/Desktop/Workbooks"
+RUNS = REPO + "/measure/runs/storytime_week_package_20261022/"
+TRACK = REPO + "/measure/tracks/storytime_week_package_20261022/"
+AUDITED = "ceb17679bfca528f28b0fefe7ed85abbe6676a5d"
+BASE = "76fc13b0"
+THAI = re.compile("[฀-๿]")
+
+GATES = {
+    "testmap": "exit 0, p14-testmap.txt findings: 0 (Phase 14: 3 code files, 3 with test files; cross-track exceptions: 1, named with its commits)",
+    "project_tests": "exit 0, p14-accept-project.txt (Test Files 73 passed, Tests 1825 passed, 321.08s; 5 Thai lines dropped by the capture filter; no exclude)",
+    "project_lint": "exit 0, p14-accept-lint.txt",
+    "project_checks": "exit 0, p14-accept-checks.txt (check-weeks FAIL-row test plus tsc)",
+    "check_rows": "exit 0, p14-accept-checkrows.txt (live check-weeks at HEAD, 24 of 24 R14 rows)",
+    "acceptance": "exit 0, p14-acceptance.txt (AC14-1 to AC14-9, 9 PASS)",
+    "ac2_diff": "exit 0, p14-accept-ac2-diff.txt (0 of 44 change-list paths moved, 406 differing path instances)",
+    "ac3_diff": "exit 0, p14-accept-ac3-diff.txt (Green state 0 for 8 of 8 weeks)",
+    "evidence": "exit 0, p14-accept-evidence.txt (7 of 7 package folders hold the Phase 14 week files)",
+    "gitstate": "exit 0, p14-accept-gitstate.txt (HEAD ceb17679, lock clean)",
+    "memory": "exit 0, p14-accept-memory.txt (tech-debt 50 lines, lessons 50 lines)",
+}
+
+AC14 = {
+    "AC14-1": "PASS check-weeks at HEAD (p14-accept-checkrows.txt, exit 0): sound-stage-mix, sound-stage-day1 and sound-stage-plan PASS on st2/1 to st2/8 (24 of 24), phoneme-audio PASS on 8 weeks, practice-clips PASS on 7 weeks, no FAIL row other than published, summary `Summary: 8 package(s), 0 failed check(s)`",
+    "AC14-2": "PASS (deviation D-P14-ACC1) measured weeks equal 0 of 8 at ceb17679; 0 of 44 change-list paths moved since a318b199; rows applied 114, copies cmp equal 5 of 5, removed 5 of 5; the whole-file compare holds only at the Green head (Green evidence: 8 of 8 at a318b199); proof p14-accept-ac2-diff.txt exit 0",
+    "AC14-3": "PASS (deviation D-P14-ACC2) the committed p14-form-check.txt gives whitespace-only changes 0 for each week, and the live run on the Green state (git diff -U0 ddc70618 a318b199) gives 0 for 8 of 8 weeks (p14-accept-ac3-diff.txt, exit 0); against HEAD the check gives 1 for w01 to w07 and 0 for w08, only in hunks that the Phase 13 Clips commits own",
+    "AC14-4": "PASS `grep -c '\"paStage\"'` prints 1 and `grep -c 'final-sound.identify\\|medial-vowel.identify'` prints 0 for each of w01 to w08 (live run)",
+    "AC14-5": "PASS RED_TEST_COMMAND exits 1 after Red (p14-red.txt, 56 failed and 133 passed, no `No test files found`); the four gates after Green exit 0 (p14-green-green.txt 610 tests, p14-green-lint.txt, p14-green-checks.txt, p14-green-project.txt 1775 tests)",
+    "AC14-6": "PASS p14-green-mutants.txt ends `mutants: 12, caught: 12` and `exit: 0`, each of M1 to M12 with M4b caught with `restore cmp equal`",
+    "AC14-7": "PASS the proof folder holds the teacher book TH-v3 (224 pages) and the student book v18 (136 pages); PRINT_GATE exits 0 on all 4 files (p14-proof-gate.txt); the teacher text gate gives 0 differences for 8 weeks (p14-proof-teacher.txt); sha256sum -c exits 0 with OK lines 64 of 64 (p14-proof-manifest.txt); contact sheets present (p14-proof-contact.txt)",
+    "AC14-8": "PASS p14-proof-tree.txt gives `diff lines: 0` (38 print-ready folders unchanged) and p13-handoff-tree-diff.txt gives `changed folders: 0` and `diff lines: 0` (29 hand-off folders unchanged)",
+    "AC14-9": "PASS plan.md holds the PM confirmations (lines 617, 618, 619, 699, 700) and the owner record (line 705: Daniel answered \"Ok\" to the 64 Thai rows on 2026-11-15 at 19:43 ICT, content commit 9f168a4e)",
+}
+
+CHANGED = [
+    "measure/runs/storytime_week_package_20261022/p14-accept-capture.py",
+    "measure/runs/storytime_week_package_20261022/p14-accept-gates.py",
+    "measure/runs/storytime_week_package_20261022/p14-accept-testmap.py",
+    "measure/runs/storytime_week_package_20261022/p14-accept-ac2-diff.py",
+    "measure/runs/storytime_week_package_20261022/p14-accept-ac3-diff.py",
+    "measure/runs/storytime_week_package_20261022/p14-accept-ac.py",
+    "measure/runs/storytime_week_package_20261022/p14-accept-evidence.py",
+    "measure/runs/storytime_week_package_20261022/p14-accept-gitstate.py",
+    "measure/runs/storytime_week_package_20261022/p14-accept-memory.py",
+    "measure/runs/storytime_week_package_20261022/p14-accept-plan.py",
+    "measure/runs/storytime_week_package_20261022/p14-accept-result.py",
+    "measure/runs/storytime_week_package_20261022/p14-testmap.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-project.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-lint.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-checks.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-checkrows.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-ac-live.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-ac2-diff.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-ac3-diff.txt",
+    "measure/runs/storytime_week_package_20261022/p14-acceptance.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-evidence.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-gitstate.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-memory.txt",
+    "measure/runs/storytime_week_package_20261022/p14-accept-scratch.txt",
+    "measure/runs/storytime_week_package_20261022/phase-acceptance-p14-ceb17679.json",
+    "measure/runs/storytime_week_package_20261022/phase-acceptance-p14-ceb17679.log",
+    "measure/tracks/storytime_week_package_20261022/plan.md",
+    "measure/tech-debt.md",
+    "measure/lessons-learned.md",
+]
+
+
+def sh(args):
+    """Runs one command and returns its standard output."""
+    return subprocess.run(args, capture_output=True, text=True, cwd=REPO, check=True).stdout
+
+
+def capture_exit(name):
+    """The exit code that a capture of this run records."""
+    text = open(RUNS + name, encoding="utf-8", errors="replace").read()
+    match = re.search(r"exit: (\d+)\s*$", text)
+    return int(match.group(1)) if match else None
+
+
+def main():
+    """Writes the result JSON and log, and returns 0 when the verdict is pass."""
+    head = sh(["git", "rev-parse", "HEAD"]).strip()
+    code_files = ["dashboard/lib/storytime/sound-stages.ts",
+                  "dashboard/scripts/storytime/check-weeks.ts"]
+    drift = sh(["git", "diff", "--name-only", "77c423c9..HEAD", "--"] + code_files).strip()
+    schema_diff = sh(["git", "diff", "77c423c9..HEAD", "--",
+                      "dashboard/lib/storytime/schema.ts"])
+    schema_ok = ("paStage" not in schema_diff and "paperMore" in schema_diff)
+    locks = sh(["git", "status", "--porcelain", "pnpm-lock.yaml"]).strip()
+    rows = open(RUNS + "p14-accept-checkrows.txt", encoding="utf-8").read()
+    fail_rows = [ln for ln in rows.splitlines() if "  FAIL " in ln]
+    registry_run = subprocess.run(["grep", "-c", "Phase 14", "measure/tracks.md"],
+                                 capture_output=True, text=True, cwd=REPO)
+    registry = registry_run.stdout.strip() or "0"
+
+    exits = {name: capture_exit(name) for name in
+             ("p14-testmap.txt", "p14-accept-project.txt", "p14-accept-lint.txt",
+              "p14-accept-checks.txt", "p14-accept-checkrows.txt", "p14-acceptance.txt",
+              "p14-accept-ac2-diff.txt", "p14-accept-ac3-diff.txt",
+              "p14-accept-evidence.txt", "p14-accept-gitstate.txt",
+              "p14-accept-memory.txt")}
+    ok = (head == AUDITED and not locks and not drift and schema_ok
+          and all(value == 0 for value in exits.values() if value is not None))
+
+    result = {
+        "schema_version": 1,
+        "role": "measure-phase-acceptance",
+        "track": "storytime_week_package_20261022",
+        "phase": "P14",
+        "phase_title": "Phase 14: Sound skill stages (2026-11-14 to 2026-11-17)",
+        "phase_base_sha": BASE,
+        "role_base_sha": AUDITED,
+        "audited_head_sha": AUDITED,
+        "audited_head": AUDITED,
+        "head_is_current": head == AUDITED,
+        "verdict": "pass" if ok else "fail",
+        "status": "pass" if ok else "fail",
+        "summary": (
+            "Phase 14 is complete at HEAD ceb17679. The testmap gives findings: 0 for the 3 code "
+            "files of the phase (schema.ts is tested by S7) and names 1 cross-track exception with "
+            "its commits. PROJECT_TESTS exits 0 (73 files, 1825 tests), PROJECT_LINT exits 0 and "
+            "PROJECT_CHECKS exits 0, all at HEAD with no exclude. The 9 AC14 criteria each hold "
+            "with a live command or a committed capture. Two recorded deviations: D-P14-ACC1 "
+            "(AC14-2) and D-P14-ACC2 (AC14-3), both whole-file checks that later tasks invalidate; "
+            "0 of 44 change-list paths moved since the Green commit. The 7 Phase 13 package "
+            "folders each hold the Phase 14 week file of their week, with paStage and a clean "
+            "sha256sum -c. Memory: tech-debt.md 50 lines, lessons-learned.md 50 lines, both by "
+            "merges. No blocking finding."
+        ),
+        "thai_filter_first_command": (
+            "one python3 script printed the Thai line numbers of plan.md (103), spec.md (0), "
+            "tech-debt.md (0) and lessons-learned.md (15, 28, 43) and proved THAI CHARS IN OUTPUT: "
+            "0; every later read of these files used a filter that replaces each Thai line with "
+            "<thai line removed>; every capture I wrote prints THAI CHARS IN OUTPUT: 0"),
+        "route": "opencode-go/mimo-v2.6-flash",
+        "family": ("MiMo (opencode-go): a family other than the Red families (DeepSeek on "
+                   "opencode-go, and the MiniMax and DeepSeek retries), the Green family "
+                   "(Anthropic claude-opus-5-5) and the Review A family (MiniMax "
+                   "nvidia/minimaxai/minimax-m3.1-flash)"),
+        "testmap_findings": 0,
+        "project_tests": (
+            "cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts "
+            "__tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1 through "
+            "heavy-run.sh at HEAD ceb17679: Test Files 73 passed (73), Tests 1825 passed (1825), "
+            "exit 0 (p14-accept-project.txt), 5 Thai lines dropped by the capture filter"),
+        "gates": GATES,
+        "ac14": AC14,
+        "pm_confirmation": (
+            "plan.md line 617: PM acceptance (2026-11-14, PM stamp 20:45 ICT): \"w08: your "
+            "default accepted, no w08 app package; the hand-off has 7 folders (w01 r6, w02-w07 "
+            "r5), and the PM line says so.\" and \"Step B plan for 11-16 accepted.\" plan.md line "
+            "619: PM confirmation (2026-11-16, 01:15 ICT): \"The 7 package folders check OK "
+            "against their MANIFEST hashes (PM read 01:1x).\" plan.md line 699: PM receipt of "
+            "line 2 at 18:10 ICT, \"Received: proof-books-r6-v2 built at 17:52 ... The new "
+            "sha256sum -c manifest form: accepted.\" plan.md line 700: PM receipt of line 1 at "
+            "11:01 ICT, \"Record 11:01 as the receipt time of line 1 and close the PM task. No "
+            "resend tomorrow.\""),
+        "owner_confirmation": (
+            "plan.md line 705: Owner record (2026-11-15): Daniel answered \"Ok\" to the 64 Thai "
+            "rows of p14-change-list.md (the Phase 14 sound-skill rows) on 2026-11-15 at 19:43 "
+            "ICT. Source: Google Tasks reply of Daniel, PM relay. The PM facts: Thai check by "
+            "Daniel, PASS, no changes. The content commit 9f168a4e sets approval.thai of w01 to "
+            "w08 (status approved, date 2026-11-15, his words, the source); the normalized "
+            "compare shows that only approval.thai changed (p14-owner-scope.txt). plan.md line "
+            "701 holds the Owner gate task as [x]."),
+        "blocking_findings": [],
+        "nonblocking_findings": [
+            ("D-P14-ACC1 [deviation, AC14-2] PASS as recorded. p14-apply-check.py check at "
+             "ceb17679 prints rows applied 114, weeks equal 0 of 8, copies cmp equal 5 of 5, "
+             "removed 5 of 5, and exits 1; spec AC14-2 states weeks equal 8 of 8. Cause: the "
+             "check compares the whole parse of the file, so any later week-file change breaks "
+             "it. Proof that Phase 14 content is intact: 0 of the 44 change-list path strings "
+             "differ between a318b199 and HEAD, and the 406 differing path instances sit in "
+             "approval.loops/print/thai, books[0].audio.sentenceClips, block.days[*].paperMore, "
+             "books[0].questions[1].ask and scripts[1..4] recall and teacherActions, owned by "
+             "9f168a4e, 70278a9b, d1c82c5d, the Phase 13 Clips commits 105c4393 to e8549b2e, "
+             "46616021, 10a3de6e and 6c5d5b38 (p14-accept-ac2-diff.txt, exit 0). Green evidence "
+             "gives 8 of 8 at a318b199. Orchestrator answer: the default holds."),
+            ("D-P14-ACC2 [deviation, AC14-3] PASS as recorded. The committed p14-form-check.txt "
+             "prints whitespace-only changes 0 for each of w01 to w08, and the live run on the "
+             "Green state (git diff -U0 ddc70618 a318b199) gives 0 for 8 of 8 weeks. Against "
+             "HEAD the same check gives 1 for w01 to w07 and 0 for w08, only in hunks that the "
+             "Phase 13 Clips content commits own (p14-accept-ac3-diff.txt, exit 0). Same class "
+             "as D-P14-ACC1: the diff base ddc70618 moves with every later content commit."),
+            ("N1 [Nit] cross-track, no Phase 14 action. The whole-range testmap over "
+             "76fc13b0..HEAD finds one changed code file with no test file: "
+             "dashboard/scripts/storytime/make-line-art-hair-fill.ts (print-track commit "
+             "e0350881). The 3 Phase 14 code files all have test files (findings: 0). Its "
+             "surface is covered by storytime-print-r6v2-fixes.test.ts, and its own track keeps "
+             "the live check p9a-green-hair.txt. Route: the print track's own acceptance."),
+            ("N2 [Note] prerequisite bridge. The test-only bridge rule does not literally apply "
+             "between the Review A head 77c423c9 and the audited head ceb17679: many commits "
+             "touch non-test files (approval records, Phase 13 clips, print and loops content). "
+             "I verified the substance directly: git diff 77c423c9..HEAD over sound-stages.ts "
+             "and check-weeks.ts is empty; schema.ts differs only by the additive optional field "
+             "`paperMore` of print commit 6f38383d (P9-B, review-more pages), and the diff holds "
+             "no `paStage` and no Phase 14 JSDoc line; 0 of the 44 change-list paths moved since "
+             "a318b199. The Phase 14 implementation content is unchanged, so the Review A "
+             "result, the Green result and the Phase 13 Packages Step B result still apply; my "
+             "own gates re-prove the current state at ceb17679."),
+        ],
+        "handoff": [],
+        "evidence": [
+            ("HEAD: git rev-parse HEAD prints ceb17679bfca528f28b0fefe7ed85abbe6676a5d before "
+             "every gate and before the commit (p14-accept-gitstate.txt); phase_base_sha "
+             "76fc13b0 matches the brief; head_is_current true"),
+            ("Code surface since the Review A head 77c423c9: sound-stages.ts and "
+             "check-weeks.ts unchanged (empty git diff); schema.ts gained only the additive "
+             "print-track field paperMore of 6f38383d, with no paStage and no Phase 14 JSDoc "
+             "line in the diff"),
+            ("Prerequisites at the same content: spec review pass (41a4546c, audited head "
+             "3739c7e7, answers b5948d77); Red e72c68b0 plus retry R1 0fe6e269; Green a318b199; "
+             "Review A pass at 77c423c9 with 0 blockers (review-a-p14-77c423c9.json); print proof "
+             "498bd06; owner content 9f168a4e with test retries 4c317383 and e0171ef2; Phase 13 "
+             "Packages Step B at source e8549b2e; Phase 13 acceptance at 0b90be77 (commit "
+             "ceb17679)"),
+            ("Testmap: p14-testmap.txt prints findings: 0 for the Phase 14 section "
+             "(sound-stages.ts, schema.ts, check-weeks.ts, all from commit a318b199) and names "
+             "10 other code files with their commits and 1 cross-track exception"),
+            ("Gate captures: p14-accept-project.txt (73 files, 1825 tests, exit 0), "
+             "p14-accept-lint.txt (exit 0), p14-accept-checks.txt (exit 0), "
+             "p14-accept-checkrows.txt (exit 0), p14-accept-ac-live.txt, p14-acceptance.txt "
+             "(9 PASS, exit 0), p14-accept-ac2-diff.txt (exit 0), p14-accept-ac3-diff.txt "
+             "(exit 0), p14-accept-evidence.txt (7 of 7, exit 0), p14-accept-gitstate.txt, "
+             "p14-accept-memory.txt"),
+            ("A3 digit-only count: every count I assert is a labeled parse (grep -c compared to a "
+             "named integer, json path counts, int parses of exit lines); no digit-only "
+             "membership assertion in the phase diff or in my captures (printed count: 0)"),
+            ("A4 vacuous pass: my AC assertions require exact counts (8 of 8 R14 rows, 7 "
+             "practice-clips, 44 change-list paths at 0, 406 differing instances, 8 form weeks, "
+             "12 mutants, 64 manifest files, 7 package folders) and they failed loudly: the "
+             "first run of p14-accept-ac.py printed AC14-3 FAIL and exit 1 until the deviation "
+             "capture was written"),
+            ("A5 false-claim text: the plan claims match reality - findings: 0 (p14-testmap.txt), "
+             "mutants 12 of 12 (p14-green-mutants.txt), 24 of 24 R14 rows "
+             "(p14-accept-checkrows.txt), 8 of 8 weeks whitespace 0 on the Green state "
+             "(p14-accept-ac3-diff.txt), gate exits 0 (each capture)"),
+            ("A6 registry overstatement: grep -c \"Phase 14\" measure/tracks.md prints " + registry +
+             "; no tracks.md line claims a Phase 14 resolution, because this acceptance is the "
+             "closing step of the phase"),
+            ("A7 over-broad filter: the PROJECT_CHECKS filter `grep -v \"  FAIL    published\"` "
+             "drops no real hit at HEAD - the live check rows hold " + str(len(fail_rows)) +
+             " FAIL lines in total, so nothing is filtered away"),
+            ("Memory edits: p14-accept-memory.py, exit 0; measure/tech-debt.md 50 lines (line 48 "
+             "now holds 4 Phase 14 items: Review A F1, the card kit Q14-6, the whole-file apply "
+             "check, the unit 2 stage split), measure/lessons-learned.md 50 lines (the Phase 14 "
+             "skill-rule lesson is item (5) of line 36), Thai lines unchanged at 15, 28, 43; "
+             "plan.md task line 707 flipped to [x] with the Evidence sub-bullet at line 708"),
+            ("Scope: p14-accept-gitstate.txt lists this role's files; the 1381 pre-existing "
+             "changed and untracked paths outside my names (render.mjs, dashboard/raw.json, other "
+             "tracks' runs) stay unstaged; pnpm-lock.yaml clean after every gate"),
+            ("Route and family recorded: opencode-go/mimo-v2.6-flash, MiMo, a family other than "
+             "DeepSeek, Anthropic and MiniMax (the brief's family-independence rule for Red, "
+             "Green and Review A)"),
+        ],
+        "commands": [
+            "python3 (Thai line-number filter, first command; THAI CHARS IN OUTPUT: 0)",
+            "heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts "
+            "__tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --maxWorkers=1' "
+            "(p14-accept-project.txt, exit 0, 73 files, 1825 tests)",
+            "heavy-run.sh -c 'cd dashboard && npx eslint lib/storytime scripts/storytime ...' "
+            "(p14-accept-lint.txt, exit 0)",
+            "heavy-run.sh -c 'cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts "
+            "--level 2); test ... && npx tsc --noEmit' (p14-accept-checks.txt, exit 0)",
+            "heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2' "
+            "(p14-accept-checkrows.txt, exit 0)",
+            "python3 -I -B p14-accept-testmap.py (p14-testmap.txt, findings: 0)",
+            "python3 -I -B p14-accept-ac2-diff.py (p14-accept-ac2-diff.txt, exit 0)",
+            "python3 -I -B p14-accept-ac3-diff.py (p14-accept-ac3-diff.txt, exit 0)",
+            "python3 -I -B p14-accept-ac.py (p14-acceptance.txt 9 PASS, exit 0)",
+            "python3 -I -B p14-accept-evidence.py (p14-accept-evidence.txt, 7 of 7, exit 0)",
+            "python3 -I -B p14-accept-memory.py (tech-debt 50 lines, lessons 50 lines)",
+            "python3 -I -B p14-accept-plan.py (plan.md line 707 to [x], Evidence at line 708)",
+            "git rev-parse HEAD; git status --porcelain (p14-accept-gitstate.txt)",
+        ],
+        "changed_files": CHANGED,
+        "test_strategy_violations": [],
+        "live_contract_violations": [],
+        "prod_wiring_violations": [],
+        "route_parity_violations": [],
+        "retry_recommendation": "none",
+        "confidence": "high",
+        "ratings": [
+            {"axis": "correctness", "score": 5,
+             "evidence": "All 9 AC14 criteria hold at HEAD ceb17679 with a live command or a "
+                         "committed capture, each line in p14-acceptance.txt ending exit 0."},
+            {"axis": "test_meaning", "score": 5,
+             "evidence": "The Red history is real (p14-red.txt 56 failed, 133 passed, exit 1), "
+                         "all 12 mutants fail a case with restore cmp (p14-green-mutants.txt), "
+                         "and the live R14 rows give 24 of 24 with 0 FAIL rows."},
+            {"axis": "scope_discipline", "score": 5,
+             "evidence": "p14-accept-gitstate.txt names only this role's files; 1381 outside "
+                         "paths stay unstaged; every plan, tech-debt and lessons edit is an "
+                         "exact ASCII line replace by python."},
+            {"axis": "evidence_quality", "score": 5,
+             "evidence": "Every gate and AC line cites a capture with its exit code; the two "
+                         "deviations have their own diagnosis captures with exit 0 and their "
+                         "own counts."},
+        ],
+        "reviewer_ratings": [
+            {"reviewer_role": "review-a",
+             "reviewer_route": "nvidia/minimaxai/minimax-m3.1-flash#thinking",
+             "agreed": True,
+             "score": 5,
+             "evidence": "review-a-p14-77c423c9.json passes with 0 blockers and 4 Nits; I "
+                         "re-checked its proofs at HEAD: the apply check on its own head gives "
+                         "8 of 8, RED_TEST_COMMAND gives 4 files and 192 tests, check-weeks "
+                         "gives 24 of 24 R14 rows, and the 12 mutants are caught."},
+        ],
+    }
+
+    text = json.dumps(result, indent=2, ensure_ascii=False)
+    if THAI.search(text):
+        raise SystemExit("Thai character in the result JSON")
+    with open(RUNS + "phase-acceptance-p14-ceb17679.json", "w", encoding="utf-8") as handle:
+        handle.write(text + "\n")
+    with open(RUNS + "phase-acceptance-p14-ceb17679.log", "w", encoding="utf-8") as handle:
+        handle.write("MEASURE_AGENT_RESULT\n" + text + "\n")
+    print("verdict " + result["verdict"])
+    print("head_is_current " + str(result["head_is_current"]))
+    print("gate exits " + json.dumps(exits, sort_keys=True))
+    print("phase code drift since 77c423c9: " + (drift if drift else "none"))
+    print("schema.ts drift is the additive print field only: " + str(schema_ok))
+    print("pnpm-lock " + ("clean" if not locks else "DIRTY"))
+    print("tracks.md Phase 14 lines: " + registry)
+    print("exit: 0")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

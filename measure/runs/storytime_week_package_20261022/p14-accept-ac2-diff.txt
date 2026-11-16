@@ -1,0 +1,45 @@
+# p14-accept-ac2-diff: AC14-2 diagnosis, deviation D-P14-ACC1
+# audited head ceb17679bfca528f28b0fefe7ed85abbe6676a5d
+COMMAND: python3 -I -B measure/runs/storytime_week_package_20261022/p14-apply-check.py check
+APPLY w01: rows 9, equal no
+APPLY w02: rows 11, equal no
+APPLY w03: rows 13, equal no
+APPLY w04: rows 11, equal no
+APPLY w05: rows 19, equal no
+APPLY w06: rows 21, equal no
+APPLY w07: rows 17, equal no
+APPLY w08: rows 13, equal no
+APPLY rows applied 114
+APPLY weeks equal 0 of 8
+APPLY copies cmp equal 5 of 5
+APPLY removed 5 of 5
+apply check exit: 1
+change-list field rows: 114
+change-list unique path strings: 44
+change-list field paths (rows expanded to edit paths): 66
+differing path instances per week between a318b199 and HEAD: 406 (w01: 25, w02: 62, w03: 46, w04: 45, w05: 46, w06: 45, w07: 63, w08: 74)
+unique differing paths between a318b199 and HEAD: 139
+change-list paths that differ between a318b199 and HEAD: 0
+
+differing paths grouped by top-level key, with the later commits that own them:
+  approval: 10 unique paths
+      owner 70278a9b content(storytime): record Daniel's Approved in approval.loops of w01 to w08 (storytime_teaching_loops)
+      owner 9f168a4e content(storytime): record Daniel's Ok on the 64 Phase 14 Thai rows in approval.thai of w01 to w08 (storytime_week_package)
+      owner d1c82c5d content(storytime): record Daniel's Pass of the r6-v4 release proof in approval.print of w01 to w08 (storytime_print_r1)
+  block: 56 unique paths
+      owner 46616021 content(storytime): w08 review-more pages, P9-B content commit 1 (storytime_print_r1)
+  books: 34 unique paths
+      owner 105c4393 content(storytime): w01 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+      owner 10a3de6e content(storytime): LP-08 recall days 4-5 and LP-20 w07 question, Daniel Approved 2026-11-15 (storytime_teaching_loops)
+      owner 36a80c60 content(storytime): w03 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+      owner af1e8187 content(storytime): w04 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+      owner c112a574 content(storytime): w05 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+      owner ccda7c98 content(storytime): w02 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+      owner e8549b2e content(storytime): w07 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+      owner f411b9dd content(storytime): w06 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+  scripts: 39 unique paths
+      owner 10a3de6e content(storytime): LP-08 recall days 4-5 and LP-20 w07 question, Daniel Approved 2026-11-15 (storytime_teaching_loops)
+      owner 46616021 content(storytime): w08 review-more pages, P9-B content commit 1 (storytime_print_r1)
+      owner 6c5d5b38 content(storytime): F3 D4 order of w02 to w07, P9-B content commit 2, Thai Approved by Daniel 2026-11-15 (storytime_print_r1)
+THAI CHARS IN OUTPUT: 0
+exit: 0

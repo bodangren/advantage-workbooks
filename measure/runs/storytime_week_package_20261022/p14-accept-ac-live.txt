@@ -1,0 +1,63 @@
+CAPTURE p14-accept-ac-live
+AC14-1 check-weeks rows at HEAD (p14-accept-checkrows.txt):
+  sound-stage-mix 8, sound-stage-day1 8, sound-stage-plan 8, phoneme-audio 8, practice-clips 7
+  FAIL rows 0, published FAIL rows 0, summary present True
+  per-week problems: none
+AC14-3 form check at HEAD (p14-apply-check.py form):
+  w01: whitespace-only changes 1; numstat 63	22	content/storytime/l2/w01.json
+  w02: whitespace-only changes 1; numstat 121	39	content/storytime/l2/w02.json
+  w03: whitespace-only changes 1; numstat 93	45	content/storytime/l2/w03.json
+  w04: whitespace-only changes 1; numstat 90	42	content/storytime/l2/w04.json
+  w05: whitespace-only changes 1; numstat 100	55	content/storytime/l2/w05.json
+  w06: whitespace-only changes 1; numstat 103	57	content/storytime/l2/w06.json
+  w07: whitespace-only changes 1; numstat 129	51	content/storytime/l2/w07.json
+  w08: whitespace-only changes 0; numstat 177	50	content/storytime/l2/w08.json
+AC14-3 diagnosis (p14-accept-ac3-diff.txt):
+  w01: Green-state 0, HEAD 1, post-Green range 1
+      hunk @@ -851 +859,35 @@
+      added line strips to '}'
+      matched removed line strips to '}'
+      owner of the post-Green count: 105c4393 content(storytime): w01 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+  w02: Green-state 0, HEAD 1, post-Green range 1
+      hunk @@ -1018 +1034,67 @@
+      added line strips to '}'
+      matched removed line strips to '}'
+      owner of the post-Green count: ccda7c98 content(storytime): w02 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+  w03: Green-state 0, HEAD 1, post-Green range 1
+      hunk @@ -744 +758,35 @@
+      added line strips to '}'
+      matched removed line strips to '}'
+      owner of the post-Green count: 36a80c60 content(storytime): w03 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+  w04: Green-state 0, HEAD 1, post-Green range 1
+      hunk @@ -871 +886,35 @@
+      added line strips to '}'
+      matched removed line strips to '}'
+      owner of the post-Green count: af1e8187 content(storytime): w04 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+  w05: Green-state 0, HEAD 1, post-Green range 1
+      hunk @@ -832 +847,35 @@
+      added line strips to '}'
+      matched removed line strips to '}'
+      owner of the post-Green count: c112a574 content(storytime): w05 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+  w06: Green-state 0, HEAD 1, post-Green range 1
+      hunk @@ -897 +912,35 @@
+      added line strips to '}'
+      matched removed line strips to '}'
+      owner of the post-Green count: f411b9dd content(storytime): w06 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+  w07: Green-state 0, HEAD 1, post-Green range 1
+      hunk @@ -1042 +1057,67 @@
+      added line strips to '}'
+      matched removed line strips to '}'
+      owner of the post-Green count: e8549b2e content(storytime): w07 read-along sentence clips, Phase 13 Clips (storytime_week_package)
+  w08: Green-state 0, HEAD 0, post-Green range 0
+  committed p14-form-check.txt gives 0 for 8 of 8 weeks: True
+  THAI CHARS IN OUTPUT: 0
+  exit: 0
+AC14-4 greps at HEAD:
+  w01 paStage 1, later-stage tags 0
+  w02 paStage 1, later-stage tags 0
+  w03 paStage 1, later-stage tags 0
+  w04 paStage 1, later-stage tags 0
+  w05 paStage 1, later-stage tags 0
+  w06 paStage 1, later-stage tags 0
+  w07 paStage 1, later-stage tags 0
+  w08 paStage 1, later-stage tags 0
