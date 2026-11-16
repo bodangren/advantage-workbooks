@@ -1,0 +1,8 @@
+MEMORY AND METADATA CHECK at HEAD e60bbf9ae69177eaf8058245a263b1fb2774e0d1
+wc -l: measure/tech-debt.md 50 lines (limit 50); measure/lessons-learned.md 50 lines (limit 50)
+measure/tech-debt.md names storytime_week_package_20261022 on rows 35, 41, 42, 46, 47, 48, and 50
+measure/lessons-learned.md names storytime_week_package_20261022 on lines 18, 19, 24, 30, 32, 36, 43, and 49
+measure/tracks/storytime_week_package_20261022/metadata.json parses; keys: actual_tasks, created_at, description, deviation_notes, estimated_tasks, status, track_id, type, updated_at
+bash measure/doctor.sh: the file does not exist in this repository (exit 127). plan.md names the PROJECT_CHECKS gate as the doctor step of each phase, and this role runs PROJECT_CHECKS live at HEAD.
+THAI CHARS IN OUTPUT: 0
+exit: 0

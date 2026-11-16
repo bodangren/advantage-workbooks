@@ -1,0 +1,8 @@
+GIT STATE of this role's paths at HEAD e60bbf9ae69177eaf8058245a263b1fb2774e0d1
+HEAD: e60bbf9ae69177eaf8058245a263b1fb2774e0d1 e60bbf9a measure(plan): close the Phase 3 to 6 tasks with their evidence (storytime_week_package), commit date 2026-11-16T13:31:09+07:00
+git rev-parse 6fe46ccf^ = 03405cca255472a45ef6eb36473379c4de0140d0 = the brief's track base (parent of the first track commit).
+git status --porcelain: tracked dirty entries in the whole tree 1 (video/storytime-song/scripts/render.mjs, owned by another session); untracked entries 1377; entries that name this track 207 (its measure/runs folder, untracked before this role).
+git diff --name-only ceb17679 HEAD: only measure/ files; the command with 'grep -v ^measure/' prints nothing.
+This role writes only final-acceptance-* files under measure/runs/storytime_week_package_20261022/ and stages no other path.
+THAI CHARS IN OUTPUT: 0
+exit: 0

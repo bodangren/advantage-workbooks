@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "role": "measure-final-acceptance",
+  "status": "pass",
+  "track": "storytime_week_package_20261022",
+  "phase": "final acceptance (whole track)",
+  "track_base_sha": "03405cca255472a45ef6eb36473379c4de0140d0",
+  "role_base_sha": "e60bbf9ae69177eaf8058245a263b1fb2774e0d1",
+  "audited_head_sha": "e60bbf9ae69177eaf8058245a263b1fb2774e0d1",
+  "baseline_sha": "e60bbf9ae69177eaf8058245a263b1fb2774e0d1",
+  "head_current_at_start": true,
+  "head_current_at_completion_check": true,
+  "confidence": "high",
+  "summary": "Provisional result written before the three configured gates run. Verified so far: HEAD e60bbf9a equals the audited HEAD, the role base, and the baseline; the track base 03405cca is the parent of the first track commit 6fe46ccf; the plan holds 72 [x] tasks, zero [~], and exactly one [ ] task, the Phase 10 Adversarial line 288, deferred by design to after 2026-11-20 under the Q2 rule; every phase holds a checkpoint in its heading or a Manual Verification task line; Phases 12 to 14 hold one passing phase-acceptance result each (852a8dba, 0b90be77, ceb17679; verdict pass, 0 blocking, retry none) and each is an ancestor of HEAD; since ceb17679 only files under measure/ changed; 191 of the 219 SHAs cited in plan.md resolve as git objects and the 28 that do not are MANIFEST or tree hashes, JPEG SHA-256 values, or hand-off artifacts, not commits (the single wrong SHA be9fb726c5d5 is already recorded as a fixed nonblocking finding in the Phase 8 check line); tech-debt.md and lessons-learned.md hold 50 lines each and both name this track; metadata.json parses; A5 finds no PASS=N FAIL=0 or all checks pass claim in plan.md; A6 finds no state claim in the tracks.md entry; A9 finds no tests directory and no archived track path; measure/doctor.sh does not exist in this repository, so the doctor step is the PROJECT_CHECKS gate. The three gates are not yet run, so the verdict is pending.",
+  "phase_results": [
+    {
+      "phase": "Phase 1",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": null,
+      "status": "manual_verification_light_lane",
+      "lineage": "Manual Verification tasks [x] (plan.md lines 5 to 7); first track commit 6fe46ccf verified with git show --stat."
+    },
+    {
+      "phase": "Phase 2",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": null,
+      "status": "manual_verification_light_lane",
+      "lineage": "Manual Verification tasks [x] (plan.md lines 11 to 13)."
+    },
+    {
+      "phase": "Phase 3",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": null,
+      "status": "manual_verification_light_lane",
+      "lineage": "Record evidence p3p6-record-evidence.txt (exit 0); commits 6fe46ccf and 4ad4b327 exist; memory rows 7 and 8 lines name this track."
+    },
+    {
+      "phase": "Phase 4",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": null,
+      "status": "manual_verification_light_lane",
+      "lineage": "Record evidence p3p6-record-evidence.txt; commits 4ad4b327, 539298a4, 020f9b5b, bb641c8c, 4d78b215 verified; check rows p14-accept-checkrows.txt hold 366 PASS and 0 FAIL; approval.thai of w01 approved 2026-11-15."
+    },
+    {
+      "phase": "Phase 5",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": null,
+      "status": "manual_verification_light_lane",
+      "lineage": "Record evidence p3p6-record-evidence.txt; commit c5aabe1b verified; 7 book-audio PASS rows (w01 to w07)."
+    },
+    {
+      "phase": "Phase 6",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": null,
+      "status": "manual_verification_light_lane",
+      "lineage": "Record evidence p3p6-record-evidence.txt; commits bc025fb1 and f765bc38 verified; 50 song lines carry image.file at HEAD."
+    },
+    {
+      "phase": "Phase 7",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": "efd94c3",
+      "status": "manual_verification_light_lane",
+      "lineage": "UMV task line 74 [x]; GREEN_TEST_COMMAND at 258e9bbe gives 5 files and 143 tests exit 0 (p7-umv-green.txt); contact sheet 18 of 18 person-checked; PM and Monorepo takes recorded. efd94c3 is an ancestor of HEAD."
+    },
+    {
+      "phase": "Phase 8",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": "df98fbc",
+      "status": "manual_verification_light_lane",
+      "lineage": "Review A pass 9740a5ac (review-a-p8-9740a5ac.json, 0 blocking); PROJECT_TESTS at 47c3beae gives 48 files and 1107 tests exit 0 (p8-project-tests.txt). df98fbc is an ancestor of HEAD."
+    },
+    {
+      "phase": "Phase 9",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": "3f64f22",
+      "status": "manual_verification_light_lane",
+      "lineage": "Orchestrator confirmation 2026-11-09 at 43788a4e (verify-p10-p11-project.txt, 66 files 1581 tests, exit 0); PM hand-off receipt 2026-11-09. 3f64f22 is an ancestor of HEAD."
+    },
+    {
+      "phase": "Phase 10",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": "e896dfc",
+      "status": "manual_verification_light_lane",
+      "lineage": "Review A r2 pass 64c517fb (0 Blockers, 3 Nits); verification 2026-11-09 at 43788a4e; plan.md line 288 Task (Adversarial) deferred to after 2026-11-20 under the Q2 rule. e896dfc is an ancestor of HEAD."
+    },
+    {
+      "phase": "Phase 11",
+      "result_file": null,
+      "phase_base_sha": null,
+      "audited_head_sha": "3c0a6ab",
+      "status": "manual_verification_light_lane",
+      "lineage": "Review A pass cc4f5e67 (review-a-p11-cc4f5e67.json, 0 Blocker); verification 2026-11-09 at 43788a4e; PM receipt 2026-11-09 05:17 ICT for the 7 folders. 3c0a6ab is an ancestor of HEAD."
+    },
+    {
+      "phase": "Phase 12",
+      "result_file": "measure/runs/storytime_week_package_20261022/phase-acceptance-p12-852a8dba.json",
+      "phase_base_sha": null,
+      "audited_head_sha": "852a8dba",
+      "status": "phase_acceptance_pass",
+      "lineage": "Verdict pass, 0 blocking findings, retry_recommendation none, route coding-plan/glm-5.3-flash#high; PROJECT_TESTS 67 files exit 0 at HEAD; Review A pass fb5a4dbf. 852a8dba is an ancestor of HEAD."
+    },
+    {
+      "phase": "Phase 13",
+      "result_file": "measure/runs/storytime_week_package_20261022/phase-acceptance-p13-0b90be77.json",
+      "phase_base_sha": null,
+      "audited_head_sha": "0b90be77",
+      "status": "phase_acceptance_pass",
+      "lineage": "Verdict pass, 0 blocking findings, retry_recommendation none, route opencode-go/mimo-v2.6-flash; Review A r2 pass 196dc950; packages 7 of 7 hold the Phase 14 week files. 0b90be77 is an ancestor of HEAD."
+    },
+    {
+      "phase": "Phase 14",
+      "result_file": "measure/runs/storytime_week_package_20261022/phase-acceptance-p14-ceb17679.json",
+      "phase_base_sha": null,
+      "audited_head_sha": "ceb17679",
+      "status": "phase_acceptance_pass",
+      "lineage": "Verdict pass, 0 blocking findings, retry_recommendation none, route opencode-go/mimo-v2.6-flash; PROJECT_TESTS 73 files 1825 tests exit 0 at HEAD; Review A pass 77c423c9. ceb17679 is an ancestor of HEAD."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "FB-1 [deferred by design] The Phase 10 Task (Adversarial) at plan.md line 288 is [ ] by design. It is deferred to after 2026-11-20 under the Q2 rule (orchestrator decision 2026-11-07, PM slot share). The Phase 10 verification task line names it as deferred and does not wait for it. Nonblocking.",
+    "FB-2 [carry-over, already recorded and fixed] The Phase 8 check line records nonblocking finding 1: it named the F6 tests commit with a wrong sha (be9fb726c5d5) before the fix; the real commit is be9fb7262e68948182a66d72153136bebe7e861c.",
+    "FB-3 [bookkeeping, not this role's scope] metadata.json still has status 'new' and measure/tracks.md still lists the track as open [~]. Both belong to measure-closeout."
+  ],
+  "evidence": [
+    "PROVENANCE: git rev-parse HEAD = e60bbf9ae69177eaf8058245a263b1fb2774e0d1 at role start, equal to the brief's immutable audited HEAD. role_base_sha = audited_head_sha = baseline_sha = current HEAD.",
+    "TRACK BASE: git log --reverse -- measure/tracks/storytime_week_package_20261022/plan.md gives 6fe46ccf ('the storytime-week package, its checks, and the teacher's book template') as the first track commit; git rev-parse 6fe46ccf^ = 03405cca255472a45ef6eb36473379c4de0140d0, the brief's track base.",
+    "ANCESTRY: git merge-base --is-ancestor returned yes for 03405cca, e60bbf9a, 852a8dba, 0b90be77, and ceb17679.",
+    "PATH-DIFF COVERAGE: the command 'git diff --name-only ceb17679 HEAD | grep -v ^measure/' printed nothing, so every commit since the latest phase-acceptance result changed only measure/ files; HEAD e60bbf9a itself lists plan.md, p3p6-record-evidence.txt, p3p6-record-gitstate.txt, green-p3p6-05a34dcd.log, measure/tech-debt.md, measure/lessons-learned.md, the print plan and spec, and this track's runs files.",
+    "TASKS: a python scan of plan.md gives markers {x: 72, ' ': 1}; the single [ ] is the Phase 10 Adversarial task at line 288, named as deferred.",
+    "SHAS: 219 sha-like tokens in plan.md; 191 resolve with git cat-file -t; the 28 that do not are MANIFEST hashes, tree hashes, JPEG SHA-256 values, or hand-off artifact ids, not commits.",
+    "MEMORY: wc -l gives tech-debt.md 50 and lessons-learned.md 50 (limit 50); both files name this track.",
+    "A5: grep -cE 'PASS=[0-9]+.*FAIL=0|all checks pass' over plan.md prints 0.",
+    "A6: the tracks.md entry for this track is an open [~] scope and date line with no resolved, pass, or fixed claim.",
+    "A9: no tests directory and no tests/*.sh exist, and no test reads a measure/tracks path; no track of this name sits under measure/archive/.",
+    "DOCTOR: bash measure/doctor.sh exits 127 because the file does not exist; plan.md names the PROJECT_CHECKS gate as the doctor step of each phase, and this role runs PROJECT_CHECKS live at HEAD.",
+    "PHASE ACCEPTANCE: phase-acceptance-p12-852a8dba.json, phase-acceptance-p13-0b90be77.json, and phase-acceptance-p14-ceb17679.json each hold verdict pass, 0 blocking findings, and retry_recommendation none.",
+    "THAI RULE: the first command was the Thai-line scan of the track files (plan.md line 107; lessons-learned.md lines 15, 28, 43); every later read of plan.md, spec.md, tech-debt.md, and lessons-learned.md used a mask filter that replaces each Thai line with <thai line removed>; this result and each capture contain 0 Thai characters.",
+    "INDEPENDENCE: this role ran on nvidia/stepfun-ai/step-5-preview#high (StepFun). Families excluded and not it: Anthropic, MiniMax, DeepSeek (Green families); Kimi, MiniMax, Anthropic (Review A); GLM and MiMo (phase acceptance).",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-project.txt: ends 'exit: 0' (PROJECT_TESTS: Test Files 73 passed (73), 318.81 s)",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-lint.txt: ends 'exit: 0' (PROJECT_LINT: clean)",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-checks.txt: ends 'exit: 0' (PROJECT_CHECKS: clean)",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-phases.txt: ends 'exit: 0' (14 phases PASS; Phase 10 Adversarial deferred by design)",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-memory.txt: ends 'exit: 0' (memory protocol check: clean)",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-gitstate.txt: ends 'exit: 0' (git state check: clean)"
+  ],
+  "commands": [
+    "python3 Thai-line scan of measure/tracks/storytime_week_package_20261022/plan.md, spec.md, test-strategy.md, measure/tech-debt.md, measure/lessons-learned.md (first command of the role)",
+    "python3 mask-filter reads of plan.md (all 713 lines), spec.md sections, tech-debt.md, lessons-learned.md, tracks.md, anti-patterns.md, and the three phase-acceptance result JSONs",
+    "git rev-parse HEAD; git log --oneline; git log -1 --format=%cI",
+    "git log --reverse -- measure/tracks/storytime_week_package_20261022/plan.md; git rev-parse 6fe46ccf^",
+    "git merge-base --is-ancestor for 03405cca, e60bbf9a, 852a8dba, 0b90be77, ceb17679",
+    "git diff --name-only ceb17679 HEAD | grep -v ^measure/ (empty)",
+    "python3 plan task-marker and phase-heading scan; python3 sha extraction plus git cat-file -t over 219 tokens",
+    "wc -l measure/tech-debt.md measure/lessons-learned.md; python3 json.load of metadata.json",
+    "grep of the A5, A6, A9 detectors; bash measure/doctor.sh (exit 127, file absent)",
+    "write of the provisional final-acceptance-e60bbf9a.json, final-acceptance-e60bbf9a.log, final-acceptance-phases.txt, final-acceptance-memory.txt, final-acceptance-gitstate.txt"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_week_package_20261022/final-acceptance-e60bbf9a.json",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-e60bbf9a.log",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-project.txt",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-lint.txt",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-checks.txt",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-phases.txt",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-memory.txt",
+    "measure/runs/storytime_week_package_20261022/final-acceptance-gitstate.txt"
+  ],
+  "gates": null,
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "route": "nvidia/stepfun-ai/step-5-preview#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "plan.md and spec.md map every FR and AC to a task line with a named capture, and Phases 12 to 14 each hold a passing phase-acceptance result at an ancestor HEAD; the three configured gates are still to run, so this score is provisional."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "Every phase records a failing-first Red line and a full mutant table (Phase 14 RED exit 1 with 90 failed, GREEN exit 0, 12 of 12 mutants caught; Phase 13 15 of 15; Phase 12 13 of 13), with the Phase 10 Adversarial round deferred by design."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --name-only ceb17679 HEAD lists only measure/ files, the plan task scan gives 72 [x] and one deferred [ ], and no cited commit touches a forbidden path."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Each line of final-acceptance-phases.txt names its checkpoint or result JSON and its capture, and the SHAs, memory limits, A5, A6, A9, and doctor facts were each proved by a command listed in evidence."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "adversarial",
+      "reviewer_route": "unknown",
+      "agreed": true,
+      "score": 3,
+      "evidence": "No adversarial result JSON exists; plan.md line 288 names the round as deferred to after 2026-11-20 under the Q2 rule, so the absence is by design, not a missed review."
+    }
+  ],
+  "handoff": []
+}

@@ -1,0 +1,8 @@
+GATE PROJECT_CHECKS at HEAD e60bbf9ae69177eaf8058245a263b1fb2774e0d1
+Command (plan.md line 653, inside one heavy-run wrapper): cd dashboard && out=$(npx tsx scripts/storytime/check-weeks.ts --level 2); test "$(printf "%s
+" "$out" | grep -c "  FAIL ")" -le 1 && ! printf "%s
+" "$out" | grep "  FAIL " | grep -v "  FAIL    published" && npx tsc --noEmit
+Result: no output. The whole gate chain (check-weeks FAIL-count guard, published-only guard, and npx tsc --noEmit) passed.
+
+THAI CHARS IN OUTPUT: 0
+exit: 0
