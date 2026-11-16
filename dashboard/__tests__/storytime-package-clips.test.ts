@@ -154,6 +154,7 @@ const HEARD_VARIANTS: Record<string, string[]> = {
     in: ['inn'],
     no: ['know'],
     oh: ['o', 'owe'],
+    't-shirt': ['t shirt', 'tshirt'],
     see: ['sea'],
     your: ["you're", 'yore'],
 };

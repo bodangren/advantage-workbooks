@@ -1,0 +1,21 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/storytime-package-clips.test.ts [2m([22m[2m93 tests[22m[2m)[22m[33m 4925[2mms[22m[39m
+     [33m[2m✓[22m[39m measures 1.5 s within 0.002, prints one tab line for each video and "lead-in: <value>", and writes nothing [33m 402[2mms[22m[39m
+     [33m[2m✓[22m[39m adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte [33m 425[2mms[22m[39m
+     [33m[2m✓[22m[39m lists 12 made words for week 1 and prints "chars" for one take of each key [33m 539[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 389[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as another word, and keeps the take number [33m 518[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 526[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-unit2-word-keys.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 1336[2mms[22m[39m
+     [33m[2m✓[22m[39m gives one practice-clips FAIL row, a Summary, exit 1, and no stack frame [33m 322[2mms[22m[39m
+     [33m[2m✓[22m[39m gives one practice-clips FAIL row for an opening line with no word form [33m 344[2mms[22m[39m
+     [33m[2m✓[22m[39m gives one FAIL row for each of two bad family words, and counts both [33m 317[2mms[22m[39m
+     [33m[2m✓[22m[39m equals the baseline capture at 0dcb45d4 [33m 312[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m104 passed[39m[22m[90m (104)[39m
+[2m   Start at [22m 19:22:44
+[2m   Duration [22m 6.91s[2m (transform 236ms, setup 77ms, import 319ms, tests 6.26s, environment 0ms)[22m
+
