@@ -795,3 +795,5 @@ The settings come from spec P2 (lines 41 and 44) and the audit:
 The A3 color reader PDFs and the card kit are not printer jobs of this package. The note says so.
 
 The note lists the 8 open minors for the next version (A6, B3, D1, D2, D5, F3, G1, G3; D-P9C-4). The 8 minors stay as they are: the print order goes ahead, and no minor is fixed for this print (PM default, 2026-11-16).
+
+Amended 2026-11-16 (Daniel, Google Tasks 09:56 ICT): the printer makes the spine, so the spine question is closed; the print order is deferred to after the new year (2027), no date; the package stays as passed (r6-v4).
