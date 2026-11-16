@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "storytime_l2_unit2_20261106",
+  "phase": "P1",
+  "phase_title": "Phase 1: Week texts (2026-11-07 to 2026-11-09)",
+  "phase_base_sha": "f1c041ec",
+  "role_base_sha": "c9192a0672a577e0838b346e6fd81c5ff2846009",
+  "audited_head_sha": "c9192a0672a577e0838b346e6fd81c5ff2846009",
+  "audited_head": "c9192a0672a577e0838b346e6fd81c5ff2846009",
+  "head_is_current": true,
+  "verdict": "fail",
+  "status": "fail",
+  "summary": "Phase 1 tasks 1.1 to 1.13 are [x] with commit SHAs that resolve, the owner gate holds (Daniel 'Approved', 2026-11-07, approval.text in all 8 staged files), PROJECT_TESTS exits 0 (73 files, 1825 tests) and PROJECT_CHECKS exits 0 (8 packages, 0 failed). Two gates fail at HEAD: STAGE_CHECKS exits 1 with an uncaught throw on the staged w10 family word T-shirt, and PROJECT_LINT exits 2 because its glob names Phase 4 test files that do not exist yet. Acceptance fails on those two gates.",
+  "thai_filter_first_command": "one python3 script printed the Thai line numbers of plan.md (none), spec.md (33), spec-review.md (none), test-strategy.md (MISSING), tech-debt.md (none), lessons-learned.md (15, 28, 43) and proved 0 Thai chars in its own output; every later read of those files used a filter that replaces each Thai line with <thai line removed>; no week file was opened in the finalization step",
+  "route": "opencode-go/mimo-v2.6-flash",
+  "family": "MiMo (opencode-go/mimo-v2.6-flash); Phase 1 authors: Anthropic Claude Opus (spec and texts), GLM (Review A, english-review-819f1613.log), MiniMax (record and staging roles); no other Green or Review A family in plan.md lines 165 to 186",
+  "gates": {
+    "project_tests": "exit 0, p1-accept-project.txt (Test Files 73 passed (73), Tests 1825 passed (1825), 318.98s; 5 Thai lines dropped by the capture filter)",
+    "project_lint": "exit 2, p1-accept-lint.txt (ESLint 9.39.2: No files matching the pattern \"__tests__/storytime-unit2-*.test.ts\" were found)",
+    "project_checks": "exit 0, p1-accept-checks.txt (Summary: 8 package(s), 0 failed check(s), 1 warning(s) of st2/8 print-missing; tsc --noEmit clean)",
+    "stage_checks": "exit 1, p1-accept-stage.txt (uncaught Error: word clip: T-shirt: not a word key at dashboard/lib/storytime/word-clips.ts:123 via dashboard/scripts/storytime/check-weeks.ts:213; no report printed, so no known FAIL row could be observed)"
+  },
+  "blocking_findings": [
+    "PA-P1-1 | high | measure/tracks/storytime_l2_unit2_20261106/plan.md:33 | STAGE_CHECKS exits 1 with an uncaught throw `word clip: T-shirt: not a word key` (dashboard/lib/storytime/word-clips.ts:123 via dashboard/scripts/storytime/check-weeks.ts:213) on the staged w10 family word T-shirt; rule K2 of storytime_week_package, check added by 0c664ccf on 2026-11-13, after this track's last passing STAGE_CHECKS of 2026-11-11; only w10 is affected (7 other staged weeks and 8 unit 1 weeks are clean); the phase doctor gate prints no report, so no FR-2.7 or FR-3.3 verdict is possible | blocking; owner: orchestrator routes a spec decision plus Red and Green",
+    "PA-P1-2 | medium | measure/tracks/storytime_l2_unit2_20261106/plan.md:31 | PROJECT_LINT exits 2: the glob `__tests__/storytime-unit2-*.test.ts` matches no file before Phase 4, and ESLint treats an unmatched pattern as a fatal error | blocking; owner: plan author"
+  ],
+  "nonblocking_findings": [
+    "N1 | low | measure/runs/storytime_l2_unit2_20261106/p1-accept-*.txt | Self-report: one Thai string from content/storytime/drafts/l2/w10.json was printed in one diagnostic scan; all later reads used the Thai-drop script with an asserted 0-Thai output, and all captures hold 0 Thai characters | nonblocking"
+  ],
+  "retry_recommendation": "fix_and_rerun",
+  "handoff": [],
+  "evidence": [
+    "HEAD c9192a06 equals role_base_sha and is current (git rev-parse HEAD)",
+    "Tasks 1.1 to 1.13 are [x] with evidence class; every SHA in those lines resolves as commit with git cat-file -t (the two non-commit hits in 1.11 are the byte sizes 1758590 and 1758595)",
+    "plan.md:180 owner gate: Done 2026-11-07: Daniel's words \"Approved\" (Google Tasks, 2026-11-07 05:04 ICT), PM relay; approval.text of w09 to w16 live-verified: status approved, date 2026-11-07, words Approved, source with Storytime-Advantage-L2-U2-weeks-9-16-English-text-r2.pdf and SHA 0c97aec152262ec2f8d1cb26cd74f666c8fe9daec49f302c6f0bd9f1d0a20d25",
+    "Phase 1 commit file set (38 files) has no path under dashboard/, measure/tracks.md, or content/storytime/l2/, so A3, A4, A6 and A7 do not apply to this phase",
+    "A5: the plan claim STAGE_CHECKS exit 0, 16 packages, 0 failed checks matches its capture approval-text-stage-checks.txt (Summary: 16 package(s), 0 failed check(s), 18 warning(s), 0 FAIL rows)",
+    "Causal proof for PA-P1-1: practice-clips check added by 0c664ccf (2026-11-13) after the last passing STAGE_CHECKS approval-images-w10-stage-checks.txt (2026-11-11, exactly 1 FAIL row, the recorded song-frame st2/12 exception); family word scan gives bad=['T-shirt'] for w10 only, 0 for the other 7 staged weeks and 0 for w01 to w08"
+  ],
+  "commands": [
+    "cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts  -> exit 0",
+    "cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-unit2-*.test.ts  -> exit 2",
+    "cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit  -> exit 0",
+    "STAGE_CHECKS (plan.md line 33, one heavy-run)  -> exit 1",
+    "git cat-file -t <sha> for every SHA in plan.md tasks 1.1 to 1.13  -> commit for all",
+    "git show --name-only --format= <phase 1 shas>  -> 38 files, 0 surface hits"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/phase-acceptance-p1-c9192a06.json",
+    "measure/runs/storytime_l2_unit2_20261106/phase-acceptance-p1-c9192a06.log",
+    "measure/runs/storytime_l2_unit2_20261106/p1-accept-project.txt",
+    "measure/runs/storytime_l2_unit2_20261106/p1-accept-lint.txt",
+    "measure/runs/storytime_l2_unit2_20261106/p1-accept-checks.txt",
+    "measure/runs/storytime_l2_unit2_20261106/p1-accept-stage.txt"
+  ],
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 3,
+      "evidence": "All 13 Phase 1 tasks and the owner gate hold (plan.md:169-180, approval.text in 8 files), but the phase doctor gate cannot run at HEAD (p1-accept-stage.txt exit 1)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "PROJECT_TESTS exits 0 with 1825 tests (p1-accept-project.txt) and the STAGE_CHECKS crash is reproduced with a stack trace plus a family-word scan naming w10 only."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The Phase 1 commit set is 38 files under drafts/l2, measure/ and the track folder, with 0 hits in dashboard/, tracks.md or shipped content/storytime/l2/."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Every gate and finding cites a capture with its exit code (p1-accept-*.txt), except the causal link for PA-P1-1, which rests on commit dates and the word scan rather than a second run."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "GLM (unknown exact route; english-review-819f1613.log names the reviewer as GLM, another family)",
+      "agreed": true,
+      "score": 4,
+      "evidence": "english-review-819f1613.json gives status pass, 0 blocking findings and 5 nits on the Phase 1 English, and its provenance (staging commits cc10fbf5 to bf2474b5, PDF SHA f25e0846) matches plan.md tasks 1.2 to 1.11."
+    }
+  ]
+}
