@@ -20,8 +20,30 @@ const QUIET_THRESHOLD = 103;
 /** The quiet edge of a bank clip, in milliseconds (K7 step 2). */
 const EDGE_PAD_MS = 80;
 
-/** The form of a word key: lower-case letters, with straight-apostrophe groups (K2 step 5). */
-const WORD_KEY = /^[a-z]+('[a-z]+)*$/;
+/**
+ * The form of a word key (K2 step 5, D-U2-K10): lower-case letters, with straight-apostrophe groups
+ * and one or more inner hyphens. Each hyphen sits between 2 letter runs, so `t-shirt` is a key and
+ * `t--shirt` is not. The schema imports this pattern, so the rule has one copy.
+ */
+export const WORD_KEY_PATTERN = /^[a-z]+(?:['-][a-z]+)*$/;
+
+/** A digit anywhere in the normalised text (D-U2-K2, D-U2-K10): the key is refused before the trim. */
+const DIGIT = /[0-9]/;
+
+/** A character outside ASCII: an accented letter holds one (D-U2-K2, D-U2-K10). */
+const NON_ASCII = /[^\x00-\x7F]/;
+
+/** A letter or a combining mark, in any script (D-U2-K2, D-U2-K10). */
+const LETTER_OR_MARK = /[\p{L}\p{M}]/u;
+
+/**
+ * Says whether the normalised text holds an accented letter.
+ * @param text The normalised text.
+ * @returns True when a character outside ASCII is a letter or a combining mark.
+ */
+function hasAccent(text: string): boolean {
+    return Array.from(text).some((char) => NON_ASCII.test(char) && LETTER_OR_MARK.test(char));
+}
 
 /** The straight apostrophe that K2 step 1 writes, in the two typographic forms. */
 const CURLY_APOSTROPHE = /[\u2018\u2019]/g;
@@ -99,6 +121,7 @@ export const WORD_CLIP_HEARD_VARIANTS: Readonly<Record<string, readonly string[]
     no: ['know'],
     oh: ['o', 'owe'],
     see: ['sea'],
+    't-shirt': ['t shirt', 'tshirt'],
     your: ["you're", 'yore'],
 };
 
@@ -107,20 +130,21 @@ const FIXED_TEXT: Readonly<Record<string, string>> = { a: 'uh', i: 'I' };
 
 /**
  * The key of one book word (K2). The function normalises the text to NFC, writes the straight
- * apostrophe, changes the text to lower case, and removes each other character from the start and
- * from the end.
+ * apostrophe, changes the text to lower case, refuses a digit or an accent anywhere, and removes
+ * each other character from the start and from the end.
  * @param word The written form of the word.
  * @returns The key, or undefined when no character stays.
- * @throws Error When the stripped text is not a word key: a hyphen, a digit, or an accent stays
+ * @throws Error When the stripped text is not a word key (D-U2-K10): a run of two hyphens stays
  * inside the text.
  */
 export function bookWordKey(word: string): string | undefined {
     const text = word.normalize('NFC').replace(CURLY_APOSTROPHE, "'").toLowerCase();
+    if (DIGIT.test(text) || hasAccent(text)) throw new Error(`word clip: ${word}: not a word key`);
     let trimmed = text;
     while (trimmed && NOT_A_KEY_CHAR.test(trimmed[0])) trimmed = trimmed.slice(1);
     while (trimmed && NOT_A_KEY_CHAR.test(trimmed[trimmed.length - 1])) trimmed = trimmed.slice(0, -1);
     if (!trimmed) return undefined;
-    if (!WORD_KEY.test(trimmed)) throw new Error(`word clip: ${word}: not a word key`);
+    if (!WORD_KEY_PATTERN.test(trimmed)) throw new Error(`word clip: ${word}: not a word key`);
     return trimmed;
 }
 
@@ -142,7 +166,7 @@ export function wordClipStem(key: string): string {
  * @throws Error When the key is not a word key, or the week is outside 1 to 99.
  */
 export function wordClipPath(level: number, week: number, key: string): string {
-    if (!WORD_KEY.test(key)) throw new Error(`word clip: ${key}: not a word key`);
+    if (!WORD_KEY_PATTERN.test(key)) throw new Error(`word clip: ${key}: not a word key`);
     if (!Number.isInteger(week) || week < 1 || week > 99) {
         throw new Error(`word clip: week outside 1 to 99: ${week}`);
     }
@@ -199,10 +223,10 @@ export function planWordClips(input: {
 }
 
 /**
- * The text that TTS gets for one key (K8).
+ * The text that TTS gets for one key (K8). A hyphen key gets the written form (D-U2-K2).
  * @param key The word key.
  * @param firstForm The first written form of the key in the books of the week.
- * @returns `uh` for `a`, `I` for `i`, and the first form for every other key.
+ * @returns `uh` for `a`, `I` for `i`, and the first form for every other key, a hyphen key included.
  */
 export function wordClipText(key: string, firstForm: string): string {
     return FIXED_TEXT[key] ?? firstForm;
@@ -433,25 +457,39 @@ export function openingWordKeys(pa: readonly OpeningLine[]): string[] {
 /**
  * The distinct keys of each practice word list of one week, sorted by code point (L3): the opening
  * game, the family words, and the tricky words. A list that the week does not hold gives an empty
- * array.
+ * array. A refused word never stops the walk (D-U2-K3, D-U2-K9): it joins the `bad` list, with the
+ * text that the check names.
  * @param week The week fields: the opening game and the focus block.
- * @returns The three key lists.
+ * @returns The three key lists, and the refused words and opening lines.
  */
-export function practiceWordKeys(week: PracticeWeek): { opening: string[]; family: string[]; tricky: string[] } {
+export function practiceWordKeys(week: PracticeWeek): { opening: string[]; family: string[]; tricky: string[]; bad: string[] } {
+    const bad: string[] = [];
     const add = (set: Set<string>, word: string): void => {
         if (typeof word !== 'string') return;
-        const key = bookWordKey(word);
-        if (key !== undefined) set.add(key);
+        try {
+            const key = bookWordKey(word);
+            if (key !== undefined) set.add(key);
+        } catch {
+            bad.push(word);
+        }
     };
     const opening = new Set<string>();
     if (Array.isArray(week?.opening?.pa)) {
-        for (const key of openingWordKeys(week.opening.pa)) opening.add(key);
+        week.opening.pa.forEach((line) => {
+            const en = typeof line?.en === 'string' ? line.en : '';
+            let found = false;
+            for (const match of en.matchAll(OPENING_WORD_FORM)) {
+                found = true;
+                add(opening, match[1]);
+            }
+            if (!found) bad.push(en);
+        });
     }
     const family = new Set<string>();
     for (const item of week?.focus?.family?.words ?? []) add(family, item?.word ?? '');
     const tricky = new Set<string>();
     for (const word of week?.focus?.trickyWords ?? []) add(tricky, word);
-    return { opening: [...opening].sort(), family: [...family].sort(), tricky: [...tricky].sort() };
+    return { opening: [...opening].sort(), family: [...family].sort(), tricky: [...tricky].sort(), bad };
 }
 
 /** The input of the practice clip plan (L3, L5). */

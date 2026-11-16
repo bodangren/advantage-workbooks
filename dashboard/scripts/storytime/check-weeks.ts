@@ -192,18 +192,23 @@ function bankRowsByWord(contentRoot: string): Map<string, { word: string; mp3: s
     return new Map(rows.map((row) => [row.word, row]));
 }
 
+/** One check row of a package report. */
+type CheckRow = { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string };
+
 /**
  * Checks the practice word clips named by a Storytime week against the word bank (Phase 12
  * decision L9, spec FR 7). The three maps are `opening.wordClips`, `focus.family.wordClips`, and
  * `focus.trickyWordClips`. A fault is a fail, in this order: `missing`, `differs from bank`,
  * `no bank file`, `no bank row`, `not a practice word`, `bad path`. A practice word with no key
  * in its map, and a list with no map, are a warn. A fail wins over a warn. A week with no book
- * and a week with no meta get no row.
+ * and a week with no meta get no row. A refused word or an opening line with no word form gets one
+ * FAIL row of its own, and this function never throws (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12).
  * @param week The parsed week data.
  * @param contentRoot The root for the paths named by the week, and for the word bank.
- * @returns The check row, or undefined when the week has no book or no meta.
+ * @returns The check row, the row and its key-error rows, or undefined when the week has no book
+ * or no meta.
  */
-export function checkPracticeClips(week: any, contentRoot = STORYTIME_ROOT): { id: string; label: string; status: 'pass' | 'warn' | 'fail'; detail?: string } | undefined {
+export function checkPracticeClips(week: any, contentRoot = STORYTIME_ROOT): CheckRow | CheckRow[] | undefined {
     const books = week?.books ?? [];
     if (!books.length) return undefined;
     const level = Number(week?.meta?.level);
@@ -273,9 +278,12 @@ export function checkPracticeClips(week: any, contentRoot = STORYTIME_ROOT): { i
     if (noBank.length) failParts.push(`no bank row: ${noBank.join(', ')}`);
     if (notPractice.length) failParts.push(`not a practice word: ${notPractice.join(', ')}`);
     if (badPath.length) failParts.push(`bad path: ${badPath.join(', ')}`);
-    if (failParts.length) return { ...head, status: 'fail', detail: failParts.join('; ') };
-    if (noClip.length) return { ...head, status: 'warn', detail: `no clip: ${noClip.join(', ')}` };
-    return { ...head, status: 'pass' };
+    let row: CheckRow;
+    if (failParts.length) row = { ...head, status: 'fail', detail: failParts.join('; ') };
+    else if (noClip.length) row = { ...head, status: 'warn', detail: `no clip: ${noClip.join(', ')}` };
+    else row = { ...head, status: 'pass' };
+    const badRows: CheckRow[] = keys.bad.map((word) => ({ ...head, status: 'fail', detail: `not a word key: ${word}` }));
+    return badRows.length ? [row, ...badRows] : row;
 }
 
 /**
@@ -427,7 +435,8 @@ function main(argv: string[]): number {
         const wordClips = w.week ? checkWordClips(w.week) : undefined;
         if (wordClips) report.checks.push(wordClips);
         const practiceClips = w.week ? checkPracticeClips(w.week) : undefined;
-        if (practiceClips) report.checks.push(practiceClips);
+        if (Array.isArray(practiceClips)) report.checks.push(...practiceClips);
+        else if (practiceClips) report.checks.push(practiceClips);
         const sentenceClips = w.week ? checkSentenceClips(w.week) : undefined;
         if (sentenceClips) report.checks.push(sentenceClips);
         const readAlongSentenceClips = w.week ? checkReadAlongSentenceClips(w.week) : undefined;

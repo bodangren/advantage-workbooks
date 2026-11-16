@@ -1,0 +1,18 @@
+/home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts:123
+    if (!WORD_KEY.test(trimmed)) throw new Error(`word clip: ${word}: not a word key`);
+                                       ^
+
+Error: word clip: T-shirt: not a word key
+    at bookWordKey (/home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts:123:40)
+    at add (/home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts:443:21)
+    at practiceWordKeys (/home/daniebo/Desktop/Workbooks/dashboard/lib/storytime/word-clips.ts:451:58)
+    at checkPracticeClips (/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts:213:18)
+    at <anonymous> (/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts:429:40)
+    at Array.map (<anonymous>)
+    at main (/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts:397:27)
+    at path (/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts:463:24)
+    at Object.<anonymous> (/home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/check-weeks.ts:464:1)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+
+Node.js v24.19.0
+exit: 1

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ApprovalSchema, PackageImageSchema } from '../lesson-package/schema';
+import { WORD_KEY_PATTERN } from './word-clips';
 
 /**
  * Storytime Advantage week package (track storytime_week_package_20261022): one file per week of
@@ -113,7 +114,7 @@ export const FocusSchema = z.object({
      * value is the media path relative to the content root. The field is optional, so a week
      * before Phase 12 parses as before.
      */
-    trickyWordClips: z.record(z.string().regex(/^[a-z]+('[a-z]+)*$/), z.string().min(1)).optional(),
+    trickyWordClips: z.record(z.string().regex(WORD_KEY_PATTERN), z.string().min(1)).optional(),
     /** The sentence frame with `___` for the family word, e.g. `I can see a ___.` */
     frame: z.string().min(1),
     /** The vocabulary family of the week: its name and its 6 to `max` picture words. */
@@ -127,7 +128,7 @@ export const FocusSchema = z.object({
          * The value is the media path relative to the content root. The field is optional, so a
          * week before Phase 12 parses as before.
          */
-        wordClips: z.record(z.string().regex(/^[a-z]+('[a-z]+)*$/), z.string().min(1)).optional(),
+        wordClips: z.record(z.string().regex(WORD_KEY_PATTERN), z.string().min(1)).optional(),
     }),
     /** The decodable words taught to date (design §5.6), for the word wall card. */
     wordWall: z.array(z.string().min(1)).default([]),
@@ -171,7 +172,7 @@ export const BookAudioSchema = z.object({
      * is the media path relative to the content root. A word with no key has no clip and no tap
      * target. The field is optional, so a week before Phase 11 parses as before.
      */
-    wordClips: z.record(z.string().regex(/^[a-z]+('[a-z]+)*$/), z.string().min(1)).optional(),
+    wordClips: z.record(z.string().regex(WORD_KEY_PATTERN), z.string().min(1)).optional(),
     /**
      * The whole-sentence clip of each sentence of a decodable book, in the order of `sentences`
      * (Phase 12 decision L7). Each item holds the sentence text and the media path relative to the
@@ -770,7 +771,7 @@ export const StorytimeWeekSchema = z.object({
              * (Phase 12 decisions L3 and L4). The value is the media path relative to the content
              * root. The field is optional, so a week before Phase 12 parses as before.
              */
-            wordClips: z.record(z.string().regex(/^[a-z]+('[a-z]+)*$/), z.string().min(1)).optional(),
+            wordClips: z.record(z.string().regex(WORD_KEY_PATTERN), z.string().min(1)).optional(),
         })
         .optional(),
     /**
