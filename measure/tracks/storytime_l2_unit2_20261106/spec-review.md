@@ -69,3 +69,20 @@ Where the fixes are (author record, 2026-11-06):
 - F3: `metadata.json` now says 47 estimated tasks, the defaults D1 to D13, and 6 questions, and it records the two review rounds.
 - F4: the `STAGE_CHECKS` line of `plan.md` exits 1 when `cd dashboard`, `mktemp -d`, the linked copy, or the copy of a staged week fails. An empty `WORKBOOKS_ROOT` reads the real repository (`dashboard/lib/filesystem.ts` line 41), so the gate now stops before check-weeks runs.
 - F4 test (`measure/runs/storytime_l2_unit2_20261106/f4-stage-checks-test.txt`): with a fake `mktemp` that exits 1, the old line exited 0 on the real repository, and the new line exited 1. With a fake `cp` that exits 1, the new line exited 1. A normal run of the new line exited 0.
+
+
+## Amendment review: hyphen word keys and the lint gate (2026-11-16)
+
+Author model: opencode-go/deepseek-v4.1-flash
+Reviewer model: opencode-go/mimo-v2.6-flash
+Verdict: FAIL (3 Blockers, 2 Majors, 3 Nits; confidence high; retry escalate_human; audited head 0dcb45d4).
+
+### Findings
+- F1 [Blocker] plan.md Task 1.13b done-when: shipped tests pin the old hyphen rule, so PROJECT_TESTS cannot exit 0 after D-U2-K2, and no task line allows the needed test edit. Rationale: dashboard/__tests__/storytime-package-clips.test.ts line 1201 requires bookWordKey('teddy-bear') to throw 'not a word key', line 1237 requires wordClipPath(2,1,'teddy-bear') to throw, Task 1.13a allows only the new test file, and Task 1.13b allows no test edit.
+- F2 [Blocker] spec.md Amendment D-U2-K2 and plan.md Task 1.13b scope: the key pattern also lives in dashboard/lib/storytime/schema.ts lines 116, 130, 174, and 773, outside the two allowed files. Rationale: schema.ts repeats the key regex on every wordClips and trickyWordClips record key, so a week file with a 't-shirt' clip key stays invalid when the clip maps come in Phase 6, while D-U2-K2 claims the rule for every week; no task or decision places the schema change.
+- F3 [Blocker] spec.md Amendment tasks 1.13a to 1.13c: the tasks write dashboard/ files before the unit 1 print order of 2026-11-25, and the amendment records no exception. Rationale: FR-1.1, FR-9, the Overview, the plan stage rule, and the Phase 1 blast-radius line forbid it, and the Phase 1 acceptance proved the rule held (38 Phase 1 files, none under dashboard/), so the implementer meets two opposed standing rules and must choose.
+- F4 [Major] spec.md Amendment D-U2-K3: the claim 'never throws on the data of one week' covers throw sites that the rule and the named Red cases do not describe. Rationale: word-clips.ts lines 421 and 428 throw 'opening: no word form in line <i>', reached from checkPracticeClips at check-weeks.ts lines 447 to 449, with no pinned row, status, or test case.
+- F5 [Major] spec.md Amendment D-U2-K3: the row count for a week with two or more key errors is open. Rationale: practiceWordKeys aborts at the first bad word (word-clips.ts lines 441 to 445), so a catch at check-weeks.ts line 213 reports one word while per-word validation reports each, and neither the spec nor a named test picks one design; the PIN of the practiceWordKeys shape (storytime-package-practice-clips.test.ts line 22) constrains but does not choose.
+- F6 [Nit] spec.md Amendment D-U2-K2 heard forms: two of the three forms cannot occur as heard text. Rationale: heardText removes space and hyphen (word-clips.ts lines 33 and 217 to 219), so only 'tshirt' matches in the pipeline; pin whether Red calls heardPasses with raw strings or goes through heardText.
+- F7 [Nit] plan.md Task 1.13a: the temporary copy for the check-weeks case and the unit 1 baseline are unpinned. Rationale: the case should build its stage root as STAGE_CHECKS does (WORKBOOKS_ROOT over a symlink farm of content plus the staged week), and 'unit 1 rows of st2/1 to st2/8 unchanged' needs a named reference such as a capture at 0dcb45d4.
+- F8 [Nit] spec.md Amendment D-U2-K3: the exact FAIL row text is open. Rationale: 'with the week and the word' pins content but not format, Red coins the string that Green must match, and the report already prints a week line; name whether the week sits in the detail or in that line.

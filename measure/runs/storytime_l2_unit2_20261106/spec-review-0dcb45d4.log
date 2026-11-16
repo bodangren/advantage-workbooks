@@ -1,0 +1,62 @@
+MEASURE_AGENT_RESULT
+{
+  "schema_version": 1,
+  "role": "spec-review",
+  "track": "storytime_l2_unit2_20261106",
+  "phase": "track setup",
+  "baseline_sha": "0dcb45d489aacbbce0bf8524ef78a6b0bec42fb5",
+  "role_base_sha": "0dcb45d489aacbbce0bf8524ef78a6b0bec42fb5",
+  "audited_head_sha": "0dcb45d489aacbbce0bf8524ef78a6b0bec42fb5",
+  "status": "fail",
+  "summary": "The amendment fixes PA-P1-1 at the key rule (D-U2-K2) and at the crash (D-U2-K3), and fixes PA-P1-2 with the eslint flag --no-error-on-unmatched-pattern (D-U2-L1, flag verified valid in eslint lib/options.js and optionator). Unit 1 output stays the same, and the STAGE_CHECKS done-when of Task 1.13b holds with the staged weeks' WARN no-clip row. Three Blockers stay open: shipped tests pin the hyphen throw so PROJECT_TESTS cannot exit 0 under the task scopes, schema.ts repeats the key pattern outside the two allowed files, and the tasks write dashboard/ files before the unit 1 print order with no recorded exception. Two Majors and three Nits cover the over-wide no-throw claim, the row count for multiple key errors, the heard forms, and two unpinned test mechanics.",
+  "blocking_findings": [
+    "F1 [Blocker] plan.md Task 1.13b done-when: shipped tests pin the old hyphen rule, so PROJECT_TESTS cannot exit 0 after D-U2-K2, and no task line allows the needed test edit. Rationale: dashboard/__tests__/storytime-package-clips.test.ts line 1201 requires bookWordKey('teddy-bear') to throw 'not a word key', line 1237 requires wordClipPath(2,1,'teddy-bear') to throw, Task 1.13a allows only the new test file, and Task 1.13b allows no test edit; an update of schema.ts per F2 would also flip line 1343 of that test file.",
+    "F2 [Blocker] spec.md Amendment D-U2-K2 and plan.md Task 1.13b scope: the key pattern also lives in dashboard/lib/storytime/schema.ts lines 116, 130, 174, and 773, outside the two allowed files. Rationale: schema.ts repeats the key regex on every wordClips and trickyWordClips record key, so a week file with a 't-shirt' clip key stays invalid when the clip maps come in Phase 6, while D-U2-K2 claims the rule for every week; no task or decision places the schema change.",
+    "F3 [Blocker] spec.md Amendment tasks 1.13a to 1.13c: the tasks write dashboard/ files before the unit 1 print order of 2026-11-25, and the amendment records no exception. Rationale: FR-1.1, FR-9, the Overview, the plan stage rule, and the Phase 1 blast-radius line forbid it, and the Phase 1 acceptance proved the rule held (38 Phase 1 files, none under dashboard/), so the implementer meets two opposed standing rules and must choose."
+  ],
+  "nonblocking_findings": [
+    "F4 [Major] spec.md Amendment D-U2-K3: the claim 'never throws on the data of one week' covers throw sites that the rule and the named Red cases do not describe. Rationale: word-clips.ts lines 421 and 428 throw 'opening: no word form in line <i>', reached from checkPracticeClips at check-weeks.ts lines 447 to 449, with no pinned row, status, or test case.",
+    "F5 [Major] spec.md Amendment D-U2-K3: the row count for a week with two or more key errors is open. Rationale: practiceWordKeys aborts at the first bad word (word-clips.ts lines 441 to 445), so a catch at check-weeks.ts line 213 reports one word while per-word validation reports each, and neither the spec nor a named test picks one design; the PIN of the practiceWordKeys shape (storytime-package-practice-clips.test.ts line 22) constrains but does not choose.",
+    "F6 [Nit] spec.md Amendment D-U2-K2 heard forms: two of the three forms cannot occur as heard text. Rationale: heardText removes space and hyphen (word-clips.ts lines 33 and 217 to 219), so only 'tshirt' matches in the pipeline; pin whether Red calls heardPasses with raw strings or goes through heardText.",
+    "F7 [Nit] plan.md Task 1.13a: the temporary copy for the check-weeks case and the unit 1 baseline are unpinned. Rationale: the case should build its stage root as STAGE_CHECKS does (WORKBOOKS_ROOT over a symlink farm of content plus the staged week), and 'unit 1 rows of st2/1 to st2/8 unchanged' needs a named reference such as a capture at 0dcb45d4.",
+    "F8 [Nit] spec.md Amendment D-U2-K3: the exact FAIL row text is open. Rationale: 'with the week and the word' pins content but not format, Red coins the string that Green must match, and the report already prints a week line; name whether the week sits in the detail or in that line."
+  ],
+  "evidence": [
+    "HEAD confirmed: a delegated shell session ran git rev-parse HEAD -> 0dcb45d489aacbbce0bf8524ef78a6b0bec42fb5, equal to audited_head_sha; the filtered git show of that commit's plan.md (34 lines) holds RED_TEST_COMMAND_U2K, the PROJECT_LINT flag, Tasks 1.13a, 1.13b, 1.13c, and the Task 1.14 sub-bullet.",
+    "Thai filter first: this session had no shell tool, so a delegated build session ran one python3 script as its first command, before any read; it wrote filtered copies of spec.md (1 Thai line removed), plan.md (0), spec-review.md (0), the review standard (0), contracts.md (0), phase-acceptance-p1-c9192a06.json (0), and spec-review-37897969.json (0), each with copy_thai=0 and report output asserted Thai-free; the git show output was filtered the same way; no week file was opened.",
+    "PA-P1-1 at cause: word-clips.ts line 123 throws when WORD_KEY (/^[a-z]+('[a-z]+)*$/) rejects an inner hyphen, reached from practiceWordKeys (line 443) at check-weeks.ts line 213; D-U2-K2 changes that rule and D-U2-K3 turns a key error into one FAIL row of the check that met it, and w10 keeps its T-shirt, so this is not a content workaround. The scope of the cause fix is incomplete: F1 and F2.",
+    "PA-P1-2 at cause: the gate named a Phase 4 glob in Phase 1; D-U2-L1's flag is valid (eslint lib/options.js lines 487 to 492 declares error-on-unmatched-pattern as Boolean default true; optionator lib/index.js lines 392 to 405 parses the --no- negation), so an unmatched pattern is no longer fatal before Phase 4. A later typo'd pattern passes lint silently, but PROJECT_TESTS still guards missing tests.",
+    "Unit 1 output: D-U2-K4 holds. bookWordKeys reads only audio sentences (word-clips.ts lines 158 to 168), practiceWordKeys reads opening pa, family words, and trickyWords (lines 440 to 455), backWords feed only print readers and covers (readers.ts line 388, covers.ts lines 395 and 419), the new heard variant is t-shirt only, FIXED_TEXT is untouched, and Task 1.13a pins unchanged unit 1 rows as a test case.",
+    "STAGE_CHECKS done-when with no clips: staged weeks hold no wordClips map (amendment measured facts), so checkPracticeClips pushes each valid key to noClip (check-weeks.ts lines 227 to 231) and returns warn with detail 'no clip: <keys>' (line 277). A map entry whose file is missing would give fail 'missing: <path>' (lines 250 to 253), but that state does not exist yet. Warn rows fail neither rc, nor the '  FAIL ' grep, nor the print-missing awk, so Task 1.13b's STAGE_CHECKS exit 0 holds.",
+    "F1 check: storytime-package-clips.test.ts is matched by PROJECT_TESTS (glob __tests__/storytime-*.test.ts), it passed at the acceptance run, and D-U2-K2 necessarily flips its teddy-bear cases; Green may not edit it and Red's brief names only the new file.",
+    "F2 check: grep of dashboard/lib finds the key regex only in word-clips.ts line 24 and schema.ts lines 116, 130, 174, and 773; schema.ts imports nothing from word-clips.ts, and storytime-package-clips.test.ts line 1343 pins that the schema rejects a hyphen clip key today.",
+    "F3 check: phase-acceptance-p1-c9192a06.json records that the Phase 1 commit set of 38 files has no path under dashboard/, so the stage rule held before this amendment; the Phase 1 blast-radius line still says 'no code'.",
+    "Zero-decision items that are pinned, not findings: TTS text of a hyphen key is the written form through wordClipText's firstForm (K8 reuse, FIXED_TEXT untouched); the row choice is 'the check that met it'; summary count and exit 1 follow from formatPackageReports and main (check-weeks.ts line 459); wordClipStem already keeps a hyphen; vitest --maxWorkers is a registered CLI option (vitest dist/chunks/cac.DVeoLl0M.js line 889).",
+    "Finding ids F1 to F8 are local to this amendment-review section; my brief forbids reading the track's spec-review.md, so earlier ids in that file were not read.",
+    "Report-only role: this run edited only its two artifacts and appended one ASCII section to spec-review.md through python3, which proved the Thai line count of that file unchanged."
+  ],
+  "commands": [
+    "delegated shell session (build agent): python3 Thai filter script as first command -> THAI_FILTER_OK, 7 filtered copies, copy_thai=0 each",
+    "delegated shell session: git rev-parse HEAD -> 0dcb45d489aacbbce0bf8524ef78a6b0bec42fb5 (equal to audited_head_sha)",
+    "delegated shell session: git show 0dcb45d489aacbbce0bf8524ef78a6b0bec42fb5 -- measure/tracks/storytime_l2_unit2_20261106/plan.md | Thai filter -> PATCH_OK lines=34 thai_removed=0",
+    "reads: filtered spec.md, plan.md, spec-review standard, contracts.md, phase-acceptance-p1-c9192a06.json, spec-review-37897969.json; dashboard/lib/storytime/word-clips.ts; dashboard/scripts/storytime/check-weeks.ts; dashboard/__tests__/storytime-package-clips.test.ts lines 1180 to 1239",
+    "greps: bookWordKey|practiceWordKeys|wordClipText|heardPasses in dashboard; backWords in dashboard; key pattern in dashboard/lib; T-shirt|not a word key|hyphen in dashboard/__tests__; eslint lib/options.js and node_modules/optionator for the --no- negation; vitest cac chunk for --maxWorkers"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/spec-review-0dcb45d4.json",
+    "measure/runs/storytime_l2_unit2_20261106/spec-review-0dcb45d4.log",
+    "measure/tracks/storytime_l2_unit2_20261106/spec-review.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "author_model_note": "Author model: opencode-go/deepseek-v4.1-flash. Reviewer model: opencode-go/mimo-v2.6-flash.",
+  "paraphrase": {
+    "proposes": "This amendment answers the two Phase 1 acceptance findings of head c9192a06. Decision D-U2-K2 lets a word key hold inner hyphens: T-shirt gives the key t-shirt, the stem keeps the hyphen, the TTS text is the written form, and the heard check gains three accepted forms, while a digit or an accent inside still throws. Decision D-U2-K3 makes check-weeks never throw on one week's data: a key error becomes one FAIL row of the check that met it, the report and summary still print, and the exit stays 1. Decision D-U2-K4 records that unit 1 holds no hyphen word, and D-U2-L1 adds --no-error-on-unmatched-pattern to PROJECT_LINT. The plan adds RED_TEST_COMMAND_U2K, Task 1.13a (Red, a new test file only), Task 1.13b (Green, word-clips.ts and check-weeks.ts only, no test edit), Task 1.13c (Review A), and a Task 1.14 sub-bullet that records the failed acceptance run.",
+    "current_system": "bookWordKey normalises a word and throws 'word clip: <word>: not a word key' when the result fails WORD_KEY (/^[a-z]+('[a-z]+)*$/), so an inner hyphen crashes; wordClipStem removes apostrophes only, wordClipText falls back to the first written form, and heardPasses compares heard text that heardText has already stripped of space and hyphen. check-weeks.ts calls practiceWordKeys at line 213 inside checkPracticeClips, so the throw escapes main and STAGE_CHECKS dies with a stack trace before any row prints. schema.ts repeats the same key regex on four record keys, and storytime-package-clips.test.ts pins that a hyphen inside a word throws. PROJECT_LINT globs __tests__/storytime-unit2-*.test.ts, which matched no file before Phase 4 and made ESLint exit 2."
+  }
+}
+END_MEASURE_AGENT_RESULT
