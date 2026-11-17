@@ -1,0 +1,106 @@
+# Measure Mid Red phase: the D6 pin move after the print-track fix table
+
+Track: storytime_cover_options_20261106
+Phase: "Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)"
+Date: 2026-11-18
+Route: opencode-go/deepseek-v4.1-flash
+Role base sha: 84762c1ec7676bb639c8b1520cfdf5b5c946c2e1
+Phase base sha: 84762c1ec7676bb639c8b1520cfdf5b5c946c2e1
+Audited head of the failed acceptance: 571d877952d94b4ca4a93540a89752a9c6f3e764
+
+## Cause
+
+The acceptance result `phase-acceptance-p2-571d8779.json` holds finding F1: GREEN_TEST_COMMAND fails 1 test, D6 of
+`dashboard/__tests__/quest-cover-f3f6.test.ts`. For the week 6 reader "Tap, Tap!" in the workbook output, the art
+source of page 1 is `l2-w06-cover-tap-tap-hair-v1.png`, and the pin held `l2-w06-cover-tap-tap-line-v1.png`.
+
+Commit e0350881 of track storytime_print_r1_20261025 (2026-11-14, the r6-v2 fix batch, decision D7 hair fill) added
+`content/storytime/l2/print/pictures-line-fix.json`. Its entry `l2-w06-cover-tap-tap` maps the source file
+`l2-w06-cover-tap-tap-line-v1.png` to the replacement `l2/print/pictures-fix/l2-w06-cover-tap-tap-hair-v1.png`. The
+build applies the table through `dashboard/lib/storytime/print/line-art-fix.ts`.
+
+Orchestrator decision: the D6 pin follows the fix table. The approved D7 replacement is the intended art. The cover
+code does not change.
+
+## The one edit
+
+File: `dashboard/__tests__/quest-cover-f3f6.test.ts`, test D6 (final mode, both outputs).
+
+- New import: `readStorytimeLineArtFixTable` from `../lib/storytime/print/line-art-fix`.
+- The table is read one time per test: `const fixTable = readStorytimeLineArtFixTable();`.
+- The former `else if` branch is now an `else` branch. For the `workbook` output, when the table holds an entry whose
+  `sourceFile` equals `wantedFile`, the pinned file name is `path.basename(entry.replacement)`. Else it stays
+  `wantedFile`. The problem message keeps its form and names the pinned file.
+- The comment of the change is above it, with the date 2026-11-18, the acceptance F1, and the orchestrator decision.
+
+SHA-256 of the edited test file: `09d7c4bc8f2869e029c840031501318a8eac85cca72ed3b58e509756f222b764`.
+
+No other test and no code file changed. `pnpm install` did not run.
+
+## Gates
+
+Heavy wrapper: `HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'`, shell timeout 1800000 ms, one command in each wrapper.
+
+1. Before the edit: `cd dashboard && CI=true npx vitest run __tests__/quest-cover-f3f6.test.ts --maxWorkers=1`
+   exit 1. `Test Files 1 failed (1)`, `Tests 1 failed | 13 passed (14)`. The failing test is D6, and the message is
+   `week 6 workbook "Tap, Tap!": the art source ends with "l2-w06-cover-tap-tap-hair-v1.png" (the pin is a file URL of l2-w06-cover-tap-tap-line-v1.png).`
+   Capture: `d6pin-1-84762c1e.txt`.
+2. After the edit: the same command, exit 0. `Test Files 1 passed (1)`, `Tests 14 passed (14)`, and the line
+   `D6 page 1 checked 28, problems 0`. Capture: `d6pin-2-84762c1e.txt`.
+3. Mutant on the working tree only: the lookup compares `wantedFile + 'x'`, so it never matches. The same command,
+   exit 1 at D6, the same problem message. Capture: `d6pin-3-84762c1e.txt`. The bytes came back by a python write of
+   the saved copy, with no `git checkout` and no `git restore`; the SHA-256 is again
+   `09d7c4bc8f2869e029c840031501318a8eac85cca72ed3b58e509756f222b764` (`SHA256_MATCH True`). Capture:
+   `d6pin-6-84762c1e.txt`.
+4. After the edit, `GREEN_TEST_COMMAND`:
+   `cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1` exit 0.
+   `Test Files 19 passed (19)`, `Tests 396 passed (396)`. Capture: `d6pin-4-84762c1e.txt`.
+5. `cd dashboard && npx eslint __tests__/quest-cover-f3f6.test.ts` exit 0, with no output. Capture:
+   `d6pin-5-84762c1e.txt`.
+
+The Thai filter: each capture ran through `python3 /tmp/opencode/thai-drop.py`, which drops every line that holds a
+character from U+0E00 to U+0E7F and then counts the Thai characters of its output. The filter prints
+`THAI_DROP dropped_lines=0 thai_chars_in_output=0` for each run. A separate count over each capture file gives 0 Thai
+characters.
+
+## Files
+
+- `dashboard/__tests__/quest-cover-f3f6.test.ts` (the one test edit)
+- `measure/tracks/storytime_cover_options_20261106/plan.md` (the task line, its evidence bullet, the acceptance bullet)
+- `measure/runs/storytime_cover_options_20261106/d6pin-1-84762c1e.txt` to `d6pin-6-84762c1e.txt`
+- `measure/runs/storytime_cover_options_20261106/red-d6pin-84762c1e.log` (this file)
+
+## Dirty tree at the start
+
+The tracked change `video/storytime-song/scripts/render.mjs` belongs to other work, and it stays unstaged. The
+untracked files under `measure/runs/` belong to other tracks and other roles, and they stay unstaged. No file of that
+set changed.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+route: opencode-go/deepseek-v4.1-flash
+track: storytime_cover_options_20261106
+phase: Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)
+baseline_sha: 84762c1ec7676bb639c8b1520cfdf5b5c946c2e1
+role_base_sha: 84762c1ec7676bb639c8b1520cfdf5b5c946c2e1
+phase_base_sha: 84762c1ec7676bb639c8b1520cfdf5b5c946c2e1
+head: 84762c1ec7676bb639c8b1520cfdf5b5c946c2e1 (before the Red commits)
+commits: see the plan task line and the final reply
+tests:
+  targeted_before: exit 1, Tests 1 failed | 13 passed (14), D6 fails on week 6 workbook "Tap, Tap!"
+  targeted_after: exit 0, Tests 14 passed (14)
+  mutant: exit 1 at D6; restored by python write, SHA-256 09d7c4bc8f2869e029c840031501318a8eac85cca72ed3b58e509756f222b764
+  green_test_command: exit 0, Test Files 19 passed (19), Tests 396 passed (396)
+  eslint: exit 0
+files:
+  dashboard/__tests__/quest-cover-f3f6.test.ts
+  measure/tracks/storytime_cover_options_20261106/plan.md
+  measure/runs/storytime_cover_options_20261106/d6pin-1-84762c1e.txt
+  measure/runs/storytime_cover_options_20261106/d6pin-2-84762c1e.txt
+  measure/runs/storytime_cover_options_20261106/d6pin-3-84762c1e.txt
+  measure/runs/storytime_cover_options_20261106/d6pin-4-84762c1e.txt
+  measure/runs/storytime_cover_options_20261106/d6pin-5-84762c1e.txt
+  measure/runs/storytime_cover_options_20261106/d6pin-6-84762c1e.txt
+remaining_failures: none in the quest-cover set at this HEAD
+status: pass
+END_MEASURE_AGENT_RESULT

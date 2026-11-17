@@ -98,6 +98,7 @@ import {
     type QuestTrim,
 } from '../lib/storytime/print/cover-quest';
 import { loadStorytimeCoverBooks, storytimeCoverPanelValues } from '../lib/storytime/print/covers';
+import { readStorytimeLineArtFixTable } from '../lib/storytime/print/line-art-fix';
 import { STORYTIME_ROOT, readLevelWeeks, readPhonicsGraph } from '../lib/storytime/files';
 import { compileStorytimeReaders, type StorytimeReaderOutput } from '../lib/storytime/print/readers';
 import { compileStorytimeStudentBook } from '../lib/storytime/print/student-book';
@@ -1331,6 +1332,7 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
     it('D6: page 1 of every reader is the quest reader cover of its row, its trim, and its art (final mode, both outputs)', () => {
         const rows = questReaders();
         const problems: string[] = [];
+        const fixTable = readStorytimeLineArtFixTable();
         let checked = 0;
         for (const output of OUTPUTS) {
             for (const row of rows) {
@@ -1366,8 +1368,13 @@ describe('quest-cover-f3f6: D2 to D8 (Red, F3 to F6 of the PM look of 2026-11-11
                     if (!src.startsWith('file:') || base !== `${EDGE_FILL_SHA16}-${wantedFile}` || !src.includes('storytime-art-edge-fill')) {
                         problems.push(`${id}: the art source ends with "${base}" (the pin is the filled copy ${EDGE_FILL_SHA16}-${wantedFile} in the temp folder of D-F7-4).`);
                     }
-                } else if (!src.startsWith('file:') || decodeURIComponent(path.basename(src)) !== wantedFile) {
-                    problems.push(`${id}: the art source ends with "${path.basename(src)}" (the pin is a file URL of ${wantedFile}).`);
+                } else {
+                    // changed 2026-11-18 (cover acceptance F1, orchestrator decision): the workbook page 1 uses the line-art fix of the print track (pictures-line-fix.json, D7 of storytime_print_r1, e0350881) when the table holds the source file.
+                    const fixEntry = output === 'workbook' ? Object.values(fixTable).find((entry) => entry.sourceFile === wantedFile) : undefined;
+                    const pinnedFile = fixEntry ? path.basename(fixEntry.replacement) : wantedFile;
+                    if (!src.startsWith('file:') || decodeURIComponent(path.basename(src)) !== pinnedFile) {
+                        problems.push(`${id}: the art source ends with "${path.basename(src)}" (the pin is a file URL of ${pinnedFile}).`);
+                    }
                 }
                 // changed 2026-11-12 (Q5, orchestrator decision): the workbook page 1 body draws the leaf mark of its side (option leafMark); the a3-color body draws none.
                 const marks = Array.from(quests[0].querySelectorAll('[data-part="leaf-mark"]'), (mark) => mark.textContent ?? '');
