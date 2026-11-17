@@ -1,0 +1,19 @@
+MEASURE_AGENT_RESULT
+role: Measure Red, Task 3.5 (PA-P3-1)
+track: storytime_l2_unit2_20261106
+phase: 3
+baseline_sha: 4e32c3f6
+phase_base_sha: 4e32c3f6
+role_base_sha: 4e32c3f6
+head_before: 4e32c3f6
+final_head: <the new sha>
+commit: <the new sha>
+files: dashboard/__tests__/storytime-unit2-sound-stage.test.ts; measure/tracks/storytime_l2_unit2_20261106/plan.md; measure/runs/storytime_l2_unit2_20261106/red-3.5-4e32c3f6.txt; measure/runs/storytime_l2_unit2_20261106/red-3.5-4e32c3f6.log
+red_test: one heavy-run of RED_TEST_COMMAND_U2S with HEAVY_MIN_AVAIL_MB=1500 and HEAVY_PREFLIGHT_WAIT_S=5400; command cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-sound-stage.test.ts --maxWorkers=1
+red_test_result: FAIL as expected; Test Files 1 failed (1); Tests 36 failed | 11 passed (47); capture red-3.5-4e32c3f6.txt
+failing_data_cases: plan 8 of 8 fail; mix 7 of 8 fail (week 12 already passes); day1 5 of 8 fail (weeks 10, 13 and 16 already pass); focus.paStage 8 of 8 fail; unit position contract 7 of 8 fail (week 12 already passes); week 9 taught tag 1 fail
+mutation_cases: a pass; b pass; c pass; d pass; e pass; f pass
+thai_chars: 0 in the new test file and 0 in every printed command output
+unrelated_work_preserved: video/storytime-song/scripts/render.mjs stays modified and unstaged; 1189 untracked paths, mostly other tracks under measure/runs/, stay untouched; no other track file staged
+note: the heavy-run wrapper printed an invalid environment variable message for PIPESTATUS[0]; the teed vitest capture holds the full failing run and the test-file summary
+status: PASS
