@@ -1,0 +1,61 @@
+Green, PM audit low items N1 and N3 (Task 1.13b), 2026-11-17
+route opencode-go/deepseek-v4.1-flash, Red model of Task 1.13a opencode-go/hy4-flash-free#high (Hunyuan)
+role base f571d991, phase base f571d991
+Source of the findings: measure/runs/storytime_l2_unit2_20261106/review-a-p1-b1340f8c.json (Review A, audited head b1340f8c)
+
+Type of the change: test-only. No production file changed. No test assertion changed. No new test case.
+
+N1 (low, storytime-unit2-word-keys.test.ts:129)
+  `failedCheckCount` had no caller in the file (grep: 1 hit, the definition line only) and no caller in the repo.
+  Removed the JSDoc block and the function (10 lines).
+
+N3 (low, storytime-package-practice-clips.test.ts:285, 417)
+  `practiceWordKeys` stub return type: added `bad: string[]`, to match dashboard/lib/storytime/word-clips.ts:465.
+  `checkPracticeClips` stub return type: `CheckRow | undefined` became `CheckRow | CheckRow[] | undefined`, to match
+  dashboard/scripts/storytime/check-weeks.ts:211.
+  Two use sites needed a narrowing, because the return may now be an array ([row, ...badRows]):
+    - practiceRowOf (line 2046): `const row = ...; return Array.isArray(row) ? row[0] : row;`
+    - the shipped-weeks loop (line 2210): `const found = ...; const row = Array.isArray(found) ? found[0] : found;`
+  row[0] is the main row, which is the row these two use sites read today. No assertion text changed.
+
+N2 (`openingWordKeys`) and the `make-word-bank.ts` stop: not touched. They wait for the next Red window (R1).
+
+Gates (exit codes)
+  1. targeted tests (heavy-run.sh, vitest, 2 files, --maxWorkers=1)
+     before the edits: exit 0, 2 files, 100 passed (n1n3-gate1-before-f571d991.txt)
+     after the edits:  exit 0, 2 files, 100 passed (n1n3-gate1-after-f571d991.txt)
+  2. eslint on the 2 test files: exit 0, no output, 0 warnings (n1n3-gate2-eslint-f571d991.txt).
+     The one warning before this run was N1.
+  3. tsc --noEmit -p . | grep the 2 files: no line (grep exit 1) (n1n3-gate3-tsc-f571d991.txt).
+     Before the narrowing, tsc gave 7 lines in this file; after the narrowing, 0 lines.
+
+Thai filter: first command proved the 2 test files hold 0 and 10 characters in U+0E00..U+0E7F.
+Every capture and every printed line of this run passed a python drop of lines with U+0E00..U+0E7F.
+The 4 captures and this log hold 0 such characters.
+
+Other files: `git status --porcelain pnpm-lock.yaml` gave no line, before and after the work.
+`dashboard/raw.json` is untracked and was not staged, as were the untracked measure/runs files.
+
+MEASURE_AGENT_RESULT
+phase: 1
+task: 1.13b
+role: green
+status: pass
+route: opencode-go/deepseek-v4.1-flash
+red_model: opencode-go/hy4-flash-free#high
+phase_base_sha: f571d991
+role_base_sha: f571d991
+head_before: f571d991
+content_commit: (the commit that carries the 2 test files and the 4 captures; see the plan bullet)
+evidence_commit: the commit that carries this log and the plan bullet
+green_head: (the evidence commit)
+tasks_flipped_to_x: none
+tasks_flipped_to_b: none
+task_1_13b_state: "[ ], open"
+gates: TARGETED_TESTS exit 0 before and exit 0 after (100 passed of 100 both); ESLINT exit 0, 0 warnings; TSC grep 0 lines
+use_sites_changed: dashboard/__tests__/storytime-package-practice-clips.test.ts:2046 practiceRowOf, :2210 shipped-weeks loop (both `Array.isArray(x) ? x[0] : x`); no assertion changed
+new_files: measure/runs/storytime_l2_unit2_20261106/n1n3-gate1-before-f571d991.txt, n1n3-gate1-after-f571d991.txt, n1n3-gate2-eslint-f571d991.txt, n1n3-gate3-tsc-f571d991.txt, green-n1n3-f571d991.log
+changed_files: dashboard/__tests__/storytime-unit2-word-keys.test.ts, dashboard/__tests__/storytime-package-practice-clips.test.ts
+handoff: N1 and N3 are fixed. Task 1.13b stays open for the sound-stage fix of the PM audit and for N2 in the next Red window. The reviewers audit only the 2 test files above and the 4 captures; no production file changed, so the runtime behavior is the same as at f571d991.
+dispositions: N1=FIX; N3=FIX
+END_MEASURE_AGENT_RESULT

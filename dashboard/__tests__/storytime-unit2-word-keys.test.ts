@@ -121,16 +121,6 @@ function hasStackFrame(lines: string[]): boolean {
     return lines.some((line) => line.startsWith('at ') || /^\s+at\s/.test(line));
 }
 
-/**
- * Parses the labeled failed-check count of a Summary line.
- * @param summary The Summary line.
- * @returns The count, or -1 when the line has no count.
- */
-function failedCheckCount(summary: string | undefined): number {
-    const match = /^Summary: \d+ package\(s\), (\d+) failed check\(s\)/.exec(summary ?? '');
-    return match ? Number(match[1]) : -1;
-}
-
 afterAll(() => {
     for (const root of stages) fs.rmSync(root, { recursive: true, force: true });
     for (const folder of copies) fs.rmSync(folder, { recursive: true, force: true });

@@ -282,7 +282,7 @@ interface PracticePlan {
 /** The pure module of the word clips (FR 2). */
 interface WordClipsModule {
     openingWordKeys?: (pa: readonly { en: string; th?: string }[]) => string[];
-    practiceWordKeys?: (week: Partial<RawWeek>) => { opening: string[]; family: string[]; tricky: string[] };
+    practiceWordKeys?: (week: Partial<RawWeek>) => { opening: string[]; family: string[]; tricky: string[]; bad: string[] };
     planPracticeClips?: (input: PracticeInput) => PracticePlan;
     bookWordKeys?: (audio: unknown) => string[];
     planWordClips?: (input: { level: number; week: number; books: readonly { audio: unknown }[] }) => { maps: Record<string, string>[]; files: string[] };
@@ -414,7 +414,7 @@ interface CheckRow {
 
 /** The script of the week checks (FR 7). */
 interface CheckWeeksModule {
-    checkPracticeClips?: (week: unknown, contentRoot?: string) => CheckRow | undefined;
+    checkPracticeClips?: (week: unknown, contentRoot?: string) => CheckRow | CheckRow[] | undefined;
     checkSentenceClips?: (week: unknown, contentRoot?: string) => CheckRow | undefined;
 }
 
@@ -2045,7 +2045,8 @@ function mappedTree(): MappedTree {
  */
 async function practiceRowOf(tree: MappedTree): Promise<CheckRow | undefined> {
     const checkPracticeClips = await checks('checkPracticeClips');
-    return checkPracticeClips(StorytimeWeekSchema.parse(tree.raw), tree.contentRoot);
+    const row = checkPracticeClips(StorytimeWeekSchema.parse(tree.raw), tree.contentRoot);
+    return Array.isArray(row) ? row[0] : row;
 }
 
 /**
@@ -2207,7 +2208,8 @@ describe('D7 checkPracticeClips (L9)', () => {
     it('gives pass or warn and never fail for the shipped w01 to w07, and no row for w08', async () => {
         const checkPracticeClips = await checks('checkPracticeClips');
         for (let week = 1; week <= 7; week += 1) {
-            const row = checkPracticeClips(StorytimeWeekSchema.parse(JSON.parse(shippedText(week))));
+            const found = checkPracticeClips(StorytimeWeekSchema.parse(JSON.parse(shippedText(week))));
+            const row = Array.isArray(found) ? found[0] : found;
             expect(row, `week ${week} has a row`).toBeDefined();
             expect(['pass', 'warn'], `week ${week}: ${row?.status} ${row?.detail ?? ''}`).toContain(row?.status);
             if (row?.status === 'warn') expect(row.detail).toMatch(/^no clip: /);
