@@ -1,0 +1,68 @@
+# Phase 1 re-acceptance run 3 at 1f124ea0 (2026-11-17, PM audit follow-up)
+
+Route: opencode-go/muse-spark-1.3-contributor#high. Family: Muse.
+Role base sha: 1f124ea0. Phase base sha: f1c041ec. Audited head: 1f124ea0.
+HEAD is current (git rev-parse HEAD = 1f124ea0); f1c041ec is an ancestor.
+Task 1.13b is [ ] (open). Task 1.14 was [x]; this run reopens it to [ ].
+Thai filter was the first command (probe: thai_chars=0). All gate output
+passed a python filter that drops lines with U+0E00..U+0E7F (0 dropped in
+the stage capture; other gates printed no Thai text).
+
+## Live gates at 1f124ea0
+
+- RED_TEST_COMMAND_U2K: exit 0. 11 passed (pa1r3-red-u2k.txt).
+- PROJECT_LINT: exit 0. 0 errors, 1 warning N1 (pa1r3-lint.txt).
+- PROJECT_CHECKS: exit 0. 8 packages, 0 failed, 1 warning (pa1r3-checks.txt).
+- PROJECT_TESTS: not rerun; cited Green r3 at 1f124ea0: exit 1, Test Files
+  1 failed / 74 passed, 21 failed test rows, all in
+  __tests__/storytime-unit2-sound-stage.test.ts (project-tests-green-r3.txt).
+- STAGE_CHECKS: exit 1. CHECK_RC=1, FAILCOUNT=15, PRINT_MISSING_TEACHING=0
+  (pa1r3-stage.txt, 16 packages, 8 staged files).
+
+## STAGE_CHECKS FAIL rows (15)
+
+Accepted: st2/12 song-frame (the only accepted row).
+Not accepted (14): sound-stage-mix st2/9, st2/10, st2/11, st2/13, st2/14,
+st2/15, st2/16; sound-stage-day1 st2/9, st2/11, st2/12, st2/14, st2/15;
+sound-stage-plan st2/11, st2/14.
+
+## Findings
+
+- F1 (blocking): Task 1.13b open; done-when unmet (PROJECT_TESTS exit 1,
+  STAGE_CHECKS exit 1 with 14 not-accepted rows).
+- F2 (blocking): STAGE_CHECKS exit 1 with the 15 rows above; 14 not accepted.
+- F3 (blocking, A5): plan claims "21 accepted rows" (Tasks 1.13b, 1.14);
+  live count is 15 and the plan records zero accepted rows in the done-when.
+- F4 (record): the Phase 1 PASS of 33aa91ee is withdrawn; this result
+  supersedes phase-acceptance-p1-cb712840.json per the PM audit of 2026-11-17.
+- N1-N3: accepted as non-blocking (unchanged).
+
+## Verdict
+
+FAIL. retry_recommendation: retry_implementation. Re-accept after Task 1.13b
+and the sound-stage fix (Task 3.6 owns the 14 rows; Review A must rerun since
+staged-week content changed after b1340f8c).
+
+MEASURE_AGENT_RESULT
+{
+  "role": "measure-phase-acceptance",
+  "route": "opencode-go/muse-spark-1.3-contributor#high",
+  "phase": "P1",
+  "track": "storytime_l2_unit2_20261106",
+  "audited_head_sha": "1f124ea0e1ab79454fbcfb54f2a1b5b9b6bb9555",
+  "verdict": "FAIL",
+  "status": "fail",
+  "retry_recommendation": "retry_implementation",
+  "gates": {
+    "red_test_command_u2k": 0,
+    "project_lint": 0,
+    "project_checks": 0,
+    "project_tests": 1,
+    "stage_checks": 1
+  },
+  "fail_rows_total": 15,
+  "fail_rows_accepted": ["st2/12 song-frame"],
+  "fail_rows_not_accepted": 14,
+  "supersedes": "phase-acceptance-p1-cb712840.json (commit 33aa91ee), withdrawn by the PM audit of 2026-11-17"
+}
+END_MEASURE_AGENT_RESULT
