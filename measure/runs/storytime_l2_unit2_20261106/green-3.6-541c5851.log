@@ -1,0 +1,47 @@
+Measure Green, Task 3.6 (PA-P3-1), Phase 3 of storytime_l2_unit2_20261106.
+Finisher pass: the content edits were already in the working tree. This pass wrote the records,
+committed the content, ran the gates, and recorded the plan evidence.
+
+route: opencode-go/deepseek-v4.1-flash
+role_base_sha: 541c5851
+phase_base_sha: 4e32c3f6 (Task 3.5 evidence, Red commit dee2e615 and evidence commit 4ce75d31 inside the range)
+head_before: 541c5851
+content_commit: b14d15ee
+evidence_commit: the commit that carries this log
+immutable_red_test: dashboard/__tests__/storytime-unit2-sound-stage.test.ts (not edited)
+
+Thai filter: first command of the pass. 0 characters of U+0E00..U+0E7F were printed. Every
+week file was read by a Python script that strips Thai before print, and no Thai diff was printed.
+
+Gates:
+  PROJECT_TESTS exit 1: 50 failed and 1833 passed of 1883 (green-3.6-tests.txt)
+  PROJECT_LINT exit 0: 1 warning (green-3.6-lint.txt)
+  PROJECT_CHECKS exit 0 (green-3.6-checks.txt)
+  STAGE_CHECKS exit 1: 10 FAIL rows, sound-stage-mix 7, sound-stage-plan 2, song-frame 1
+  (green-3.6-stage-final.txt)
+
+STAGE_CHECKS FAIL rows: 21 before, 10 after.
+
+MEASURE_AGENT_RESULT
+phase: 3
+task: 3.6
+role: green
+status: blocked
+route: opencode-go/deepseek-v4.1-flash
+phase_base_sha: 4e32c3f6
+role_base_sha: 541c5851
+head_before: 541c5851
+content_commit: b14d15ee
+evidence_commit: the commit that carries this log
+green_head: b14d15ee
+tasks_flipped_to_x: none
+tasks_flipped_to_b: none
+task_3_6_state: "[~], open"
+gates: PROJECT_TESTS exit 1 (50 failed, 1833 passed of 1883); PROJECT_LINT exit 0 (1 warning); PROJECT_CHECKS exit 0; STAGE_CHECKS exit 1 (10 FAIL: sound-stage-mix 7, sound-stage-plan 2, song-frame 1)
+stage_rows: 21 before, 10 after (sound-stage-mix 7 to 7, sound-stage-plan 8 to 2, sound-stage-day1 5 to 0, song-frame 1 to 1)
+residual: 22 units with two positions, in 7 weeks (w12 has none); 8 records rows in sound-stage-residual.md
+thai_proof: 8 rows, 7 COPY ok, 1 KEEP ok, 0 SPLIT, 0 TRIM, 0 mismatch
+new_files: measure/runs/storytime_l2_unit2_20261106/sound-stage-en-changes.md, sound-stage-thai-proof.txt, sound-stage-residual.md, sound-stage-residual.ts, green-3.6-tests.txt, green-3.6-lint.txt, green-3.6-checks.txt, green-3.6-stage-final.txt, green-3.6-541c5851.log
+handoff: Task 3.6 stays [~]. The immutable Red contract asks the sound-stage-mix row and the sound-stage-plan row to pass for all 8 files. Green cannot meet it: 22 sound units ask two positions, and a non-Claude role writes no Thai. A Claude-role content task must rewrite these units to one position in English and Thai, then Green re-runs. The alternatives are a Mid Red retry that narrows D-U2-S3, or a plan change that records the exemption. The two remaining sound-stage-plan rows of w11 and w14 ask `middle`, which SOUND_STAGE_PLAN starts in week 17.
+question: Which route does the orchestrator take: (A) a Claude-role content task for the 22 units, then Green again; (B) a Mid Red retry that narrows the Red contract to units that the schema can split; (C) a plan change that records the residual as an open owner decision?
+END_MEASURE_AGENT_RESULT
