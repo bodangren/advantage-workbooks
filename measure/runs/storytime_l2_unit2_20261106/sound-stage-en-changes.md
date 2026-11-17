@@ -1,6 +1,6 @@
 # The day-1 lines of unit 2, weeks 9 to 16 (Task 3.6)
 
-The English of `opening.pa[0]` before and after the Green edit. Before is `git show HEAD:`. After is the working tree at the content commit.
+The English of `opening.pa[0]` before and after the Green edit. Before is the state at commit 541c5851. After is the state at commit b14d15ee. The table shows the changes of commit b14d15ee.
 
 | Week | Source week | Before (HEAD) | After | Equal to source |
 |---|---|---|---|---|
@@ -17,4 +17,4 @@ w10: unchanged, its own line already passes sound-stage-day1. The chain source f
 
 The copy is the day-1 line of week 8 for w09, and the day-1 line of week 10 for w11 to w16. `opening.audio[0]`, the 4 day-1 audio files, is copied with the same line.
 
-No `focus.paSkill` text and no `opening.pa` English text was rewritten. Task 3.6 copied 7 day-1 entries, kept the w10 entry, set `focus.paStage` to stage 2 with positions `first` and `last` on the 8 files, and added `english.phonics.pa.final-sound.identify` to the week 9 `tags.taught` list.
+Commit b14d15ee replaced the approved `opening.pa[0]` English, Thai, and audio of 7 weeks (w09, w11 to w16) with copies. The commit set `focus.paStage` to stage 2 with the positions `first` and `last` on the 8 files. The commit added `english.phonics.pa.final-sound.identify` to the week 9 `tags.taught` list. The PM audit of 2026-11-17 found this wrong. A correction commit restored the 7 entries to their 541c5851 values. No English line changes again before Daniel answers the before and after list in the 11-28 batch.
