@@ -1,0 +1,79 @@
+Sound stage change list: apply check. Revision HEAD = c231c980. List: measure/runs/storytime_l2_unit2_20261106/sound-stage-change-list.json
+entries 101 over 8 weeks; by lang {'en': 38, 'th': 38, '-': 25}; new Thai forms 3
+  w09: 16 entries (7 en, 7 th, 2 other)
+  w10: 2 entries (1 en, 1 th, 0 other)
+  w11: 28 entries (11 en, 11 th, 6 other)
+  w12: 3 entries (1 en, 1 th, 1 other)
+  w13: 2 entries (1 en, 1 th, 0 other)
+  w14: 13 entries (6 en, 6 th, 1 other)
+  w15: 20 entries (8 en, 8 th, 4 other)
+  w16: 17 entries (3 en, 3 th, 11 other)
+CHECK a-old-values-equal-HEAD: PASS (101 entries)
+CHECK b1-file-form-round-trip: PASS (dump(load(file)) equals the file bytes for the 8 drafts)
+changed leaves by week: w09 17, w10 2, w11 30, w12 4, w13 2, w14 14, w15 21, w16 17
+CHECK b2-only-listed-values-change: PASS (the changed leaves equal the leaves of the list entries)
+changed text lines (added + removed) by week: w09 35, w10 4, w11 59, w12 8, w13 4, w14 28, w15 43, w16 34
+COMMAND STAGE_CHECKS (plan.md, repo drafts at c231c980): exit 1
+COMMAND STAGE_CHECKS (plan.md, drafts with the list applied): exit 1
+summary before: Summary: 16 package(s), 15 failed check(s), 33 warning(s).
+summary after:  Summary: 16 package(s), 1 failed check(s), 33 warning(s).
+FAIL rows before: 15 (14 R14 rows) st2/9 sound-stage-day1, st2/9 sound-stage-mix, st2/10 sound-stage-mix, st2/11 sound-stage-day1, st2/11 sound-stage-mix, st2/11 sound-stage-plan, st2/12 song-frame, st2/12 sound-stage-day1, st2/13 sound-stage-mix, st2/14 sound-stage-day1, st2/14 sound-stage-mix, st2/14 sound-stage-plan, st2/15 sound-stage-day1, st2/15 sound-stage-mix, st2/16 sound-stage-mix
+FAIL rows after:  1 st2/12 song-frame
+R14 rows, week: mix / day1 / plan, before -> after
+  st2/9: FAIL->PASS / FAIL->PASS / PASS->PASS
+  st2/10: FAIL->PASS / PASS->PASS / PASS->PASS
+  st2/11: FAIL->PASS / FAIL->PASS / FAIL->PASS
+  st2/12: PASS->PASS / FAIL->PASS / PASS->PASS
+  st2/13: FAIL->PASS / PASS->PASS / PASS->PASS
+  st2/14: FAIL->PASS / FAIL->PASS / FAIL->PASS
+  st2/15: FAIL->PASS / FAIL->PASS / PASS->PASS
+  st2/16: FAIL->PASS / PASS->PASS / PASS->PASS
+CHECK c1-before-has-14-R14-FAIL-rows: PASS (14 R14 FAIL rows and the song-frame row of st2/12)
+CHECK c2-after-has-0-R14-FAIL-rows: PASS (sound-stage-mix, sound-stage-day1, sound-stage-plan)
+CHECK c3-after-only-song-frame-st2/12: PASS (the recorded exception of D15)
+CHECK c4-no-other-row-changes-status: PASS (14 rows changed status, all 14 are the R14 FAIL rows)
+print-missing warnings of st2/9 to st2/15 after: 0
+CHECK c5-no-print-missing-warning: PASS
+CHECK c6-warning-count-unchanged: PASS (33 before, 33 after)
+output lines that differ before and after: 14 R14 rows (FAIL to PASS), 5 practice-clips WARN word lists (the day-1 words are new opening words), 1 summary line, 0 other
+CHECK c8-only-expected-output-lines-differ: PASS (20 of 752 lines differ)
+STAGE_CHECKS exit 1 after the list comes from the song-frame row of st2/12 only (the recorded exception of D15)
+MAP: each part of each R14 FAIL row at the revision -> list entries (numbers are 1-based positions in the json)
+  st2/9 sound-stage-day1: opening.pa.0 + opening.audio.0 -> 3,4,5
+  st2/9 sound-stage-mix: focus.paSkill -> 1,2 | opening.pa.0 -> 3,4 | opening.pa.1 -> 6,7 | scripts.0.steps.0 -> 8,9,10,11,12,13,14 | scripts.0.steps.3 -> 15,16
+  st2/10 sound-stage-mix: scripts.0.steps.0 -> 17,18
+  st2/11 sound-stage-day1: opening.pa.0 + opening.audio.0 -> 21,22,23
+  st2/11 sound-stage-mix: focus.paSkill -> 19,20 | opening.pa.0 -> 21,22 | opening.pa.1 -> 24,25 | scripts.0.steps.0 -> 26,27,28,29,30,31,32 | scripts.4.steps.4 -> 40,41,42,43 | check.items -> 44,45
+  st2/11 sound-stage-plan: focus.paSkill -> 19,20 | opening.pa.0 -> 21,22 | opening.pa.1 -> 24,25 | scripts.0.steps.0 -> 26,27,28,29,30,31,32 | scripts.0.steps.3 -> 33,34 | scripts.4.steps.0 -> 35,36,37 | scripts.4.steps.3 -> 38,39 | scripts.4.steps.4 -> 40,41,42,43 | check.items -> 44,45 | tags -> 46
+  st2/12 sound-stage-day1: opening.pa.0 + opening.audio.0 -> 47,48,49
+  st2/13 sound-stage-mix: scripts.0.steps.0 -> 50,51
+  st2/14 sound-stage-day1: opening.pa.0 + opening.audio.0 -> 54,55,56
+  st2/14 sound-stage-mix: focus.paSkill -> 52,53 | opening.pa.0 -> 54,55 | scripts.0.steps.0 -> 57,58,59,60,61,62 | scripts.0.steps.3 -> 63,64
+  st2/14 sound-stage-plan: scripts.0.steps.3 -> 63,64
+  st2/15 sound-stage-day1: opening.pa.0 + opening.audio.0 -> 67,68,69
+  st2/15 sound-stage-mix: focus.paSkill -> 65,66 | opening.pa.0 -> 67,68 | opening.pa.1 -> 70,71 | scripts.0.steps.0 -> 72,73,74,75,76,77,78 | scripts.4.steps.4 -> 79,80,81,82 | check.items -> 83,84
+  st2/16 sound-stage-mix: focus.paSkill -> 85,86 | scripts.0.steps.0 -> 87,88,89,90 | benchmark.paper.items -> 91,92,93,94,95,96,97,98,99,100,101
+CHECK c7-each-R14-FAIL-part-maps-to-list-rows: PASS (14 rows mapped)
+COMMAND vitest storytime-unit2-sound-stage.test.ts on the temp root before the list (heavy-run): exit 1; 24 failed, 48 passed of 72
+COMMAND vitest storytime-unit2-sound-stage.test.ts on the temp root with the list applied (heavy-run): exit 0; 0 failed, 72 passed of 72
+CHECK d1-red-file-fails-24-before: PASS (the control: the temp root, not the repository, is read)
+CHECK d2-red-file-passes-after: PASS (72 of 72)
+COMMAND picture list (storytimePrintPictures over level 2) before: exit 0, 389 rows; after: exit 0, 389 rows
+CHECK e-picture-ids-unchanged: PASS (same ids, weeks, uses, and texts: no new picture)
+  w09 day-1 word octopus: content/storytime/words/wa-octopus.mp3 exists
+  w09 day-1 word tiger: content/storytime/words/wa-tiger.mp3 exists
+  w11 day-1 word ant: content/storytime/words/wa-ant.mp3 exists
+  w11 day-1 word dog: content/storytime/words/wa-dog.mp3 exists
+  w12 day-1 word apple: content/storytime/words/wa-apple.mp3 exists
+  w12 day-1 word duck: content/storytime/words/wa-duck.mp3 exists
+  w14 day-1 word octopus: content/storytime/words/wa-octopus.mp3 exists
+  w14 day-1 word hat: content/storytime/words/wa-hat.mp3 exists
+  w15 day-1 word fish: content/storytime/words/wa-fish.mp3 exists
+  w15 day-1 word ox: content/storytime/words/wa-ox.mp3 exists
+CHECK f1-day-1-words-have-bank-clips: PASS (10 words in 5 weeks)
+CHECK f2-new-audio-paths-exist: PASS (10 paths; no new audio)
+git status --porcelain content/ prints: ''
+CHECK g-content-tree-unchanged: PASS
+Thai characters in this output: 0
+CHECKS: 17 of 17 PASS
+RESULT: PASS
