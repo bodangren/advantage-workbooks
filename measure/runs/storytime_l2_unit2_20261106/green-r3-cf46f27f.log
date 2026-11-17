@@ -1,0 +1,115 @@
+Green r3 — the PM audit record correction (2026-11-17)
+
+Role: measure-green. Route: minimax-cn-coding-plan/MiniMax-M3.1-Flash.
+Track: storytime_l2_unit2_20261106.
+Phase: Phase 3: Thai parts for Daniel's check (2026-11-13 to 2026-11-28).
+Role base sha: cf46f27f. Red model of this phase: opencode-go/hy4-flash-free#high (Hunyuan).
+This role is a different family.
+
+The PM order: /home/daniebo/Desktop/handoff/audit-20261117/Workbooks.md, rows
+b1340f8c, b14d15ee, and ab0cb28a. This round is a record correction. It adds no
+feature work. It edits no test file.
+
+The Thai filter was the first command. Every read of a week file went through
+python3. The role printed counts, keys, spans, and English only. The captures
+hold 0 Thai characters.
+
+ITEM 3 (b14d15ee) — the day-1 lines of the 7 weeks.
+The commit b14d15ee replaced the approved opening.pa[0] English, Thai, and audio
+of w09 and w11 to w16 with copies of another week. The role read the approved
+values at commit 541c5851 and restored them.
+
+Method: the files use a mixed format. The share-moment shot objects sit on one
+line, so a load and dump of the current file with json.dumps indent=2 is not
+byte-equal. A whole-file rewrite would have changed about 2000 lines per file.
+The role spliced the two approved text spans into the current file text. Every
+other byte stayed the same. This is the method of the track script
+measure/runs/storytime_l2_unit2_20261106/green-3.6-edit.py, which also edits
+the file text so the inline objects stay as they are.
+
+Proof, from the files on disk after the write:
+  w09.json pa0_equal_541c5851: True audio0_equal_541c5851: True changed_top_level_paths_vs_HEAD: 2 ['opening.audio[0]', 'opening.pa[0]']
+  w11.json pa0_equal_541c5851: True audio0_equal_541c5851: True changed_top_level_paths_vs_HEAD: 2 ['opening.audio[0]', 'opening.pa[0]']
+  w12.json pa0_equal_541c5851: True audio0_equal_541c5851: True changed_top_level_paths_vs_HEAD: 2 ['opening.audio[0]', 'opening.pa[0]']
+  w13.json pa0_equal_541c5851: True audio0_equal_541c5851: True changed_top_level_paths_vs_HEAD: 2 ['opening.audio[0]', 'opening.pa[0]']
+  w14.json pa0_equal_541c5851: True audio0_equal_541c5851: True changed_top_level_paths_vs_HEAD: 2 ['opening.audio[0]', 'opening.pa[0]']
+  w15.json pa0_equal_541c5851: True audio0_equal_541c5851: True changed_top_level_paths_vs_HEAD: 2 ['opening.audio[0]', 'opening.pa[0]']
+  w16.json pa0_equal_541c5851: True audio0_equal_541c5851: True changed_top_level_paths_vs_HEAD: 2 ['opening.audio[0]', 'opening.pa[0]']
+  distinct_day1_en_w10_w16: 7
+
+The diff is 30 insertions and 30 deletions over the 7 files. focus.paStage stays
+on all 8 files. The week 9 tag english.phonics.pa.final-sound.identify stays.
+w10 has no change. The restored English of each of the 8 weeks equals the
+"Before" column of the table in sound-stage-en-changes.md.
+
+The record sound-stage-en-changes.md: the false sentence is gone. The paragraph
+now names commit b14d15ee, the audit of 2026-11-17, the correction, and the
+freeze of the English lines until the 11-28 batch. The caption above the table
+now names commit 541c5851 for the "Before" column and commit b14d15ee for the
+"After" column. The table rows stay.
+
+ITEM 2 (b1340f8c) — Task 1.13b is open again.
+The plan line is now "- [ ] Task 1.13b". The new bullet names the done-when,
+the 21 FAIL rows, the one accepted row, and the code that stays.
+
+ITEM 6 (ab0cb28a) — the test record of Task 3.6.
+The "Green evidence, part 1" bullet now gives the 50 failures, the 34 print
+tests of the run outside heavy-run.sh, and the re-run through heavy-run.sh at
+ab0cb28a with 16 failures in storytime-unit2-sound-stage.test.ts. A new
+"Correction 2026-11-17" bullet names commit f32de984. Task 3.6 stays [~].
+
+GATES.
+PROJECT_TESTS ran once through the heavy-run wrapper.
+  Command: cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts
+  Exit: 1
+  Test Files  1 failed | 74 passed (75)
+  Tests  21 failed | 1862 passed (1883)
+  Failing file: __tests__/storytime-unit2-sound-stage.test.ts (the only failing file)
+  Capture: measure/runs/storytime_l2_unit2_20261106/project-tests-green-r3.txt
+  The 21 failures are the 16 sound-stage rows of the ab0cb28a re-run plus the
+  5 day-1 rows that fail again after the restore. The restore makes them fail
+  on purpose. The PM order expects this result.
+  The wrapper printed an empty PIPESTATUS value, so the exit line was written
+  by the role after the run. Vitest exits 1 when a test fails. The capture
+  project-tests-ab0cb28a.txt records "exit: 1" for the same command with 16
+  failed tests. The capture holds a note line with this provenance.
+
+STAGE_CHECKS ran once from the plan value of line 35, through the same Thai
+filter, without the heavy-run wrapper.
+  Exit: 1
+  FAIL rows: 15
+    sound-stage-mix 7
+    sound-stage-day1 5
+    sound-stage-plan 2
+    song-frame 1
+  Summary: 16 package(s), 15 failed check(s), 33 warning(s)
+  Capture: measure/runs/storytime_l2_unit2_20261106/stage-green-r3.txt
+  The 5 day-1 rows fail again after the restore. The 10 rows of the b14d15ee
+  state plus those 5 rows give the 15 rows.
+
+pnpm-lock.yaml has no change after the run.
+
+git status --porcelain outside measure/runs: measure/tracks/storytime_l2_unit2_20261106/plan.md
+(this role), and video/storytime-song/scripts/render.mjs (unrelated work of
+another session, left alone and not staged).
+
+MEASURE_AGENT_RESULT
+role: green
+status: complete
+track: storytime_l2_unit2_20261106
+phase: Phase 3: Thai parts for Daniel's check (2026-11-13 to 2026-11-28)
+role_base_sha: cf46f27f
+head_before: cf46f27f
+final_head: the plan-evidence commit that carries this log
+commits: f32de984 (content restore and record fix); the plan-evidence commit that carries this log
+tests_run: PROJECT_TESTS exit 1 (Test Files 1 failed | 74 passed (75); Tests 21 failed | 1862 passed (1883); only __tests__/storytime-unit2-sound-stage.test.ts fails); STAGE_CHECKS exit 1 (15 FAIL rows: sound-stage-mix 7, sound-stage-day1 5, sound-stage-plan 2, song-frame 1)
+gate_exits: PROJECT_TESTS 1; STAGE_CHECKS 1
+known_failures: 21 sound-stage test failures and 15 STAGE_CHECKS FAIL rows after the restore; the day-1 rows fail on purpose until the amendment PA-P3-1 is rewritten and the Red contract is aligned
+files_changed: content/storytime/drafts/l2/w09.json, w11.json, w12.json, w13.json, w14.json, w15.json, w16.json; measure/runs/storytime_l2_unit2_20261106/sound-stage-en-changes.md; measure/tracks/storytime_l2_unit2_20261106/plan.md; measure/runs/storytime_l2_unit2_20261106/project-tests-green-r3.txt; measure/runs/storytime_l2_unit2_20261106/stage-green-r3.txt; measure/runs/storytime_l2_unit2_20261106/green-r3-cf46f27f.log
+new_files: measure/runs/storytime_l2_unit2_20261106/project-tests-green-r3.txt, stage-green-r3.txt, green-r3-cf46f27f.log
+plan_updates: Task 1.13b is [ ] again with the reopened bullet of 2026-11-17; Task 3.6 stays [~]; the Green evidence part 1 bullet of Task 3.6 names the 50 failures, the 34 print tests outside heavy-run.sh, and the ab0cb28a re-run with 16 failures; a new Correction 2026-11-17 bullet names commit f32de984
+tasks_flipped_to_x: none
+tasks_flipped_to_b: none
+thai_chars: 0
+handoff: The 7 day-1 entries of w09 and w11 to w16 hold their 541c5851 English, Thai, and audio again. The stage gate and the sound-stage tests fail on the 5 day-1 rows and on the 16 rows that were already open. The next role reads the state as correct for a correction round. Task 3.6 stays [~] until the amendment PA-P3-1 is rewritten, reviewed, and Red is aligned. Task 1.13b stays [ ] until STAGE_CHECKS exits 0 or the plan names the accepted rows. The 22 two-position units of sound-stage-residual.md still need a role that writes English and Thai. No English line of a week changes before Daniel answers the before and after list in the 11-28 batch.
+END_MEASURE_AGENT_RESULT
