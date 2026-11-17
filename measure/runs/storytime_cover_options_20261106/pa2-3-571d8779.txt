@@ -1,0 +1,6 @@
+PA2 STEP 3 manifest check at HEAD 571d8779 (Task 2.11 form; the 11-16 copy was not made, see Task 2.11 evidence)
+COMMAND: cd ~/Desktop/print-ready/storytime/covers-quest-v1 && awk '{print $1"  "$3}' MANIFEST.txt | sha256sum -c --quiet
+MANIFEST lines: 133. MANIFEST SHA-256: 8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87 (matches accepted set of Task 2.11).
+RESULT: OK_COUNT=133, FAILED_COUNT=0. MANIFEST_EXIT=0.
+11-16 copy: ~/Desktop/handoff/storytime-check-2026-11-16 does not exist (ls exit 2), as recorded in Task 2.11 evidence.
+STEP3_EXIT=0

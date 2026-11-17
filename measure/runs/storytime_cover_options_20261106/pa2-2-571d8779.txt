@@ -1,0 +1,9 @@
+PA2 STEP 2 print gates at HEAD 571d8779 (one heavy-run wrapper; 4 print files: 2 r6 books + 2 readers v1; Thai counts are integers only)
+PRINT_GATE student r6 (Storytime-Advantage-L2-U1-Student-Book-Cover-v4-alt-hlogo-r6_PDFX-1a.pdf): exit=0, "All checks pass", 2 pages, PDF/X-1a:2001, 5 fonts. PASS.
+PRINT_GATE teacher r6 (Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v2-alt-hlogo-r6_PDFX-1a.pdf): exit=0, "All checks pass", 2 pages, PDF/X-1a:2001, 5 fonts. PASS.
+PRINT_GATE readers A3 v1 (Storytime-Advantage-L2-U1-Reader-Covers-A3-v1_PDFX-1a.pdf): exit=0, "All checks pass", 14 pages, PDF/X-1a:2001, 2 fonts. PASS.
+PRINT_GATE readers leaf v1 (Storytime-Advantage-L2-U1-Reader-Leaf-Covers-v1_PDFX-1a.pdf): exit=0, "All checks pass", 14 pages, PDF/X-1a:2001, 2 fonts. PASS.
+TEXT (pdftotext, whitespace joined, "Storytime Advantage" per page): r6 books page 1 count=1, page 2 count=0 (D-F10-12 rule). A3 v1 pages 1-14 count=0 each (D-1: series name is the logo picture, not text). Leaf v1 pages 1-14 count=1 each. Reader titles verified in print-gate.txt check 4 (14/14 each file).
+FONTS (pdffonts): r6 books 5 fonts, embedded 5, Type 3 0. A3 v1 2 fonts, embedded 2, Type 3 0. Leaf v1 2 fonts, embedded 2, Type 3 0. All exit=0.
+THAI per page (Chrome PDFs, U+0E00..U+0E7F counts only): cover-alt-hlogo-r6.pdf page 1 thai_chars=0, page 2 thai_chars=38. teacher-cover-alt-hlogo-r6.pdf page 1 thai_chars=0, page 2 thai_chars=38. Backs equal BACK_LINES.contact (38). No page text printed.
+STEP2_EXIT=0 (all print, text, font, and Thai checks pass)

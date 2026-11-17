@@ -1,0 +1,12 @@
+PA2 STEP 1 gates at HEAD 571d877952d94b4ca4a93540a89752a9c6f3e764 (each in one heavy-run wrapper, --maxWorkers=1, Thai-filtered)
+GREEN_TEST_COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1
+  Test Files 1 failed | 18 passed (19). Tests 1 failed | 395 passed (396). Duration 446.41 s. VITEST_EXIT=1.
+  Failing test: __tests__/quest-cover-f3f6.test.ts > D6 page 1 art (week 6 workbook "Tap, Tap!": art source ends with "l2-w06-cover-tap-tap-hair-v1.png", pin expects "l2-w06-cover-tap-tap-line-v1.png").
+PROJECT_TESTS: cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts __tests__/quest-cover-*.test.ts --maxWorkers=1
+  Test Files 2 failed | 92 passed (94). Tests 25 failed | 2279 passed (2304). Duration 780.04 s. VITEST_EXIT=1.
+  Failing files: __tests__/storytime-unit2-sound-stage.test.ts (24 tests, known foreign open Red of track storytime_l2_unit2_20261106, by design) and __tests__/quest-cover-f3f6.test.ts (1 test, D6, own track).
+PROJECT_LINT: cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts
+  0 errors, 1 warning (no-unused-vars, quest-cover-template.test.ts line 1709, known). ESLINT_EXIT=0.
+PROJECT_CHECKS: check-weeks.ts --level 2 && tsc --noEmit (one heavy-run wrapper)
+  CHECKWEEKS_EXIT=0 (Summary: 8 packages, 0 failed checks, 1 warning). TSC_EXIT=0. GATE_EXIT=0.
+STEP1_EXIT=1 (GREEN and PROJECT_TESTS fail; LINT and CHECKS pass)

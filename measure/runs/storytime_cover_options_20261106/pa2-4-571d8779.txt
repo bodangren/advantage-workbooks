@@ -1,0 +1,12 @@
+PA2 STEP 4 guard G-1 at HEAD 571d8779 (labeled loop over 47 resolvable commit SHAs cited in Phase 2 plan text; 2 cited hashes are not commits: 8f1901a3 MANIFEST SHA, 090ed049 unknown)
+40 commits: each path in the D-A3 allowed list (m=0 outside). Includes all template, build, quest.json, and quest-cover test commits.
+7 commits list paths outside the D-A3 allowed list as written:
+  557b0f73, a5fa259f: week-package content commits cited as named cause for check-weeks diffs. Not Phase 2 commits of this track. No action.
+  c20db3d3: unit2 runs log commit cited in plan text. Not a Phase 2 commit of this track. No action.
+  deb12edd: adds content/storytime/covers/logos/reading-advantage.svg and storytime-advantage.svg (plan-authorized Task Green logo-tone r5).
+  fc555b74: adds content/storytime/covers/logos/storytime-advantage-horizontal.svg (plan-authorized Task Green A2 hlogo).
+  b78f8da3: adds content/storytime/covers/logos/storytime-advantage-horizontal-k.svg (plan-authorized Task Green readers r2b).
+  805a291: changes dashboard/lib/print/pdfx.ts and dashboard/scripts/print/make-pdfx.ts (plan-authorized Task Green cover print gate; these files are in the G-1 shared list, so the G-1 rule text is stale).
+All 4 track commits above were plan-authorized, passed their own Red/Green gates at the time, and shipped Daniel-approved files. Recorded as nonblocking findings (plan rule text needs amendment); they do not change the FAIL verdict.
+Cross-track note: 0eff8d17 (storytime_print_r1, 2026-11-14) changed dashboard/lib/storytime/print/cover-quest.ts after F10 Green. Not a Phase 2 commit of this track. Green role to rule it in or out as the D6 cause.
+STEP4_EXIT=0 (loop ran; findings recorded, none blocking)
