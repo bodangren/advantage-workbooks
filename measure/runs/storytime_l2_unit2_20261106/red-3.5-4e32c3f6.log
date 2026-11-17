@@ -6,8 +6,8 @@ baseline_sha: 4e32c3f6
 phase_base_sha: 4e32c3f6
 role_base_sha: 4e32c3f6
 head_before: 4e32c3f6
-final_head: <the new sha>
-commit: <the new sha>
+final_head: dee2e615
+commit: dee2e615
 files: dashboard/__tests__/storytime-unit2-sound-stage.test.ts; measure/tracks/storytime_l2_unit2_20261106/plan.md; measure/runs/storytime_l2_unit2_20261106/red-3.5-4e32c3f6.txt; measure/runs/storytime_l2_unit2_20261106/red-3.5-4e32c3f6.log
 red_test: one heavy-run of RED_TEST_COMMAND_U2S with HEAVY_MIN_AVAIL_MB=1500 and HEAVY_PREFLIGHT_WAIT_S=5400; command cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-sound-stage.test.ts --maxWorkers=1
 red_test_result: FAIL as expected; Test Files 1 failed (1); Tests 36 failed | 11 passed (47); capture red-3.5-4e32c3f6.txt
