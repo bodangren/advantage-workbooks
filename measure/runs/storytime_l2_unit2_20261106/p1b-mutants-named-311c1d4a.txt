@@ -1,0 +1,75 @@
+Mutants of Task 1.13b, named (PM audit low item, 2026-11-17).
+
+Repository: /home/daniebo/Desktop/Workbooks, HEAD 311c1d4a (role base 311c1d4a). The code under test is commit 1306a1c2.
+Command for each run: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-word-keys.test.ts __tests__/storytime-package-clips.test.ts --maxWorkers=1'
+Method: for each mutant the script saved the original bytes and their sha256, wrote the mutation, ran the command once, read the exit code and the FAIL lines of the report, then wrote the original bytes back and asserted the sha256 again.
+The Thai filter was the first command. No line of this file holds a character in U+0E00..U+0E7F.
+
+M1 M1 hyphen in WORD_KEY_PATTERN
+  file: dashboard/lib/storytime/word-clips.ts
+  mutation: WORD_KEY_PATTERN drops the hyphen from its character class: an inner hyphen is no key
+  diff:
+    - export const WORD_KEY_PATTERN = /^[a-z]+(?:['-][a-z]+)*$/;
+    + export const WORD_KEY_PATTERN = /^[a-z]+(?:['][a-z]+)*$/;
+  sha256 before = after: 218e2de8737a82d3712aea2dd67e18e56cf4bf30c625d02a4c7898ab1e96a54a
+  exit: 1
+  failing tests (8):
+    - __tests__/storytime-package-clips.test.ts > C1 bookWordKey (K2) > keeps an inner hyphen, and throws for a digit or an accent inside
+    - __tests__/storytime-package-clips.test.ts > C2 wordClipStem, wordClipPath, planWordClips (K3) > throws for a bad key, for week 0, and for week 100
+    - __tests__/storytime-package-clips.test.ts > C5 the two optional schema fields (K15) > rejects an upper-case key and an empty value, and accepts a hyphen key
+    - __tests__/storytime-unit2-word-keys.test.ts > the hyphen word key (D-U2-K2, D-U2-K10) > gives the lower-case key with each inner hyphen
+    - __tests__/storytime-unit2-word-keys.test.ts > the hyphen word key (D-U2-K2, D-U2-K10) > keeps the hyphen in the stem, the written TTS text, and the clip path
+    - __tests__/storytime-unit2-word-keys.test.ts > the hyphen word key (D-U2-K2, D-U2-K10) > refuses a run of two hyphens and keeps a hyphen next to an apostrophe group
+    - __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one practice-clips FAIL row for an opening line with no word form
+    - __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one FAIL row for each of two bad family words, and counts both
+
+M2 M2 digit refusal before the trim
+  file: dashboard/lib/storytime/word-clips.ts
+  mutation: bookWordKey drops the digit test before the trim: a digit at the edge is trimmed away
+  diff:
+    - if (DIGIT.test(text) || hasAccent(text)) throw new Error(`word clip: ${word}: not a word key`);
+    + if (hasAccent(text)) throw new Error(`word clip: ${word}: not a word key`);
+  sha256 before = after: 218e2de8737a82d3712aea2dd67e18e56cf4bf30c625d02a4c7898ab1e96a54a
+  exit: 1
+  failing tests (2):
+    - __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one practice-clips FAIL row, a Summary, exit 1, and no stack frame
+    - __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one FAIL row for each of two bad family words, and counts both
+
+M3 M3 one FAIL row per bad word
+  file: dashboard/scripts/storytime/check-weeks.ts
+  mutation: checkPracticeClips writes one FAIL row for all bad words instead of one row per bad word
+  diff:
+    - const badRows: CheckRow[] = keys.bad.map((word) => ({ ...head, status: 'fail', detail: `not a word key: ${word}` }));
+    + const badRows: CheckRow[] = keys.bad.length ? [{ ...head, status: 'fail', detail: `not a word key: ${keys.bad.join(', ')}` }] : [];
+  sha256 before = after: bc5a208f34a1dce4913445c6e6b59fa256cee88e71859b0514a5291e6228ea5d
+  exit: 1
+  failing tests (1):
+    - __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one FAIL row for each of two bad family words, and counts both
+
+M4 M4 never-throw wrapper in practiceWordKeys
+  file: dashboard/lib/storytime/word-clips.ts
+  mutation: practiceWordKeys drops the try/catch: a refused word throws out of the walk
+  diff:
+    - try { ... } catch { bad.push(word); }   (5 lines around bookWordKey(word))
+    + const key = bookWordKey(word); if (key !== undefined) set.add(key);
+  sha256 before = after: 218e2de8737a82d3712aea2dd67e18e56cf4bf30c625d02a4c7898ab1e96a54a
+  exit: 1
+  failing tests (2):
+    - __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one practice-clips FAIL row, a Summary, exit 1, and no stack frame
+    - __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one FAIL row for each of two bad family words, and counts both
+
+M5 M5 shared pattern import in schema.ts
+  file: dashboard/lib/storytime/schema.ts
+  mutation: schema.ts stops importing the shared pattern and holds the old apostrophe-only regex again
+  diff:
+    - import { WORD_KEY_PATTERN } from './word-clips';
+    + const WORD_KEY_PATTERN = /^[a-z]+('[a-z]+)*$/;
+  sha256 before = after: ce7896fbf61057782a192025047af9d0d71669db4aa5fb76f73e9fd9cdd2801b
+  exit: 1
+  failing tests (1):
+    - __tests__/storytime-package-clips.test.ts > C5 the two optional schema fields (K15) > rejects an upper-case key and an empty value, and accepts a hyphen key
+
+Clean tree (all 5 restores done): exit 0, 0 failing tests.
+git diff --stat -- dashboard/ prints nothing; git status --short -- dashboard/ prints only the untracked pre-existing `?? dashboard/raw.json`.
+
+mutants: 5, caught: 5

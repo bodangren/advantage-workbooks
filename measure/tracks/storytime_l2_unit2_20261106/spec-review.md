@@ -158,3 +158,7 @@ Answers to the six review questions:
 4. Task 3.6 done-when matches the PM order: STAGE_CHECKS with no FAIL row except st2/12 song-frame; the role states each gate exit code; RED_TEST_COMMAND_U2S sits at plan line 31 and must fail after Red before Green.
 5. No open path lets week-file English change before Daniel answers: S7 freezes strings, 3.5b changes no week file, Part 2 starts after his answer, and the b14d15ee day-1 copies stand reverted by f32de984. Gap: the freeze names strings only (see F16).
 6. Zoom-out: no conflict with D-U2-K* or D15 (S1 keeps the song-frame exception; w12 holds no mix row). P14-D1 one-activity sentence omits the home card that S3 and the module include (see F21). Thai rule holds: Claude writes new Thai, Daniel alone checks it, non-Claude roles copy bytes and print counts, and S7 runs no separate review round.
+
+## Gate record for round 2 (e572e259), 2026-11-17
+
+The PM audit asked for a re-run of the spec-review role gate with its exit code. The re-run at HEAD f571d991 (baseline a558b0c1) gives exit 1, because the gate reads every later commit up to HEAD and lists 17 later paths. Commit e572e259 itself changes one file outside `measure/runs/`: `measure/tracks/storytime_l2_unit2_20261106/spec-review.md`. This track keeps its spec review record in `measure/tracks/`, so this one file is the recorded exception. The 2026-11-16 orchestrator read the gate output through `tail` and missed the FAIL line; the PM audit of 2026-11-17 found it.

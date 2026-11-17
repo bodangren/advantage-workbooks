@@ -1,0 +1,53 @@
+Role: Measure Green evidence-only round (PM audit low items, route opencode-go/deepseek-v4.1-flash).
+Track: storytime_l2_unit2_20261106. Phase: 1. Task: 1.13b (stays [ ]).
+Role base sha: 311c1d4a. Repo: /home/daniebo/Desktop/Workbooks.
+Red model of the phase: opencode-go/hy4-flash-free#high (Hunyuan). This role is DeepSeek V4.1 Flash, a different family. No coder was delegated.
+Thai filter first: one python3 command drops each line with a character in U+0E00..U+0E7F. No week file and no Thai string was printed.
+
+ITEM A: the 5 mutants of Task 1.13b, each caught, and each failing test named.
+File: measure/runs/storytime_l2_unit2_20261106/p1b-mutants-named-311c1d4a.txt
+Code under test: commit 1306a1c2. Command, once per mutant:
+  bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-word-keys.test.ts __tests__/storytime-package-clips.test.ts --maxWorkers=1'
+Method: python saved the bytes and the sha256 of the file, applied one mutation, ran the command once, read the exit code and the FAIL lines, then wrote the original bytes back and asserted the sha256.
+
+M1 hyphen in WORD_KEY_PATTERN (word-clips.ts): exit 1, 8 failing tests.
+M2 digit refusal before the trim (word-clips.ts): exit 1, 2 failing tests.
+M3 one FAIL row per bad word (check-weeks.ts): exit 1, 1 failing test.
+M4 never-throw wrapper in practiceWordKeys (word-clips.ts): exit 1, 2 failing tests.
+M5 shared pattern import in schema.ts: exit 1, 1 failing test.
+
+The test names of each row are in p1b-mutants-named-311c1d4a.txt.
+
+Clean tree after the 5 restores: exit 0, 0 failing tests.
+git diff --stat -- dashboard/ prints nothing. git status --short -- dashboard/ prints only `?? dashboard/raw.json` (untracked before this round, not staged).
+No production file and no test file changed in this round. Byte proof: the sha256 of word-clips.ts before and after M1, M2, and M4 is 218e2de8..., of check-weeks.ts before and after M3 is bc5a208f..., of schema.ts before and after M5 is ce7896fb....
+
+ITEM B: the gate record of spec-review round 2.
+File: measure/tracks/storytime_l2_unit2_20261106/spec-review.md
+Appended section: "## Gate record for round 2 (e572e259), 2026-11-17". It records the re-run at HEAD f571d991 (baseline a558b0c1), exit 1, 17 later paths, and the single recorded exception (this track keeps its spec review record in measure/tracks/).
+
+Plan: one bullet under Task 1.13b names this file, the 5 of 5 caught result, the failing test names, the clean-tree exit 0, and the unchanged dashboard/ folder. Task 1.13b stays [ ]: STAGE_CHECKS still exits 1 with 20 sound-stage FAIL rows that the plan does not accept.
+
+MEASURE_AGENT_RESULT
+phase: 1
+task: 1.13b
+role: green
+status: pass
+route: opencode-go/deepseek-v4.1-flash
+red_model: opencode-go/hy4-flash-free#high
+phase_base_sha: 311c1d4a
+role_base_sha: 311c1d4a
+head_before: 311c1d4a
+content_commit: none (evidence only; the tested code stays at 1306a1c2)
+evidence_commit: the commit that carries this log
+green_head: the commit that carries this log
+tasks_flipped_to_x: none
+tasks_flipped_to_b: none
+task_1_13b_state: "[ ], open (STAGE_CHECKS not clean: 20 sound-stage FAIL rows are not accepted)"
+mutants: 5 named, 5 caught (M1 8 tests, M2 2 tests, M3 1 test, M4 2 tests, M5 1 test)
+clean_tree: vitest exit 0 on the two test files; git diff --stat -- dashboard/ empty
+spec_review_gate_record: appended to measure/tracks/storytime_l2_unit2_20261106/spec-review.md
+new_files: measure/runs/storytime_l2_unit2_20261106/p1b-mutants-named-311c1d4a.txt, measure/runs/storytime_l2_unit2_20261106/green-mutants-311c1d4a.log
+thai_proof: the first command was the filter; 0 Thai characters printed and 0 in the two new files
+handoff: Task 1.13b stays [ ]. The two PM audit low items of this round are answered: the mutants now name their failing tests, and the spec-review gate has its exit code on record. The open item of Task 1.13b is unchanged: STAGE_CHECKS exits 1 with 20 sound-stage FAIL rows, and only the st2/12 song-frame row is accepted. The next actor is the phase-acceptance role after Task 3.6, or a remediation track for the sound-stage content.
+END_MEASURE_AGENT_RESULT
