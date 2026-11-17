@@ -1,0 +1,6 @@
+PA2R3 STEP 4 guard G-1 at HEAD a267b7b8 (labeled loop over the 3 commits in 571d8779..a267b7b8; full 47-SHA loop stands in pa2-4-571d8779.txt)
+84762c1e measure(runs): the Phase 2 acceptance of the option A covers: 9 files, all measure/runs/storytime_cover_options_20261106/. Allowed. m=0.
+1b468b5f test(covers): the D6 pin follows the print-track line-art fix table: dashboard/__tests__/quest-cover-f3f6.test.ts (the routed F1 fix, with its own Red/Green gates in d6pin-1..6-84762c1e.txt), 6 d6pin captures, red-d6pin log, plan.md task lines. No caller change outside the test (readStorytimeLineArtFixTable import added; cover-quest.ts untouched). Allowed as the routed fix. m=0 outside test/measure/plan.
+a267b7b8 docs(covers): record the D6 pin-move commit 1b468b5f in the Phase 2 plan: red-d6pin log line, plan.md line. Allowed. m=0.
+RANGE name-only 571d8779..a267b7b8 lists only: dashboard/__tests__/quest-cover-f3f6.test.ts, measure/runs/storytime_cover_options_20261106/*, measure/tracks/storytime_cover_options_20261106/plan.md. No print file, no MANIFEST, no approved file changed.
+STEP4_EXIT=0 (no new blocking finding; N1/N2 carried in the JSON).

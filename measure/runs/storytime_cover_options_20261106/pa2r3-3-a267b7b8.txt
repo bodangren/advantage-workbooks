@@ -1,0 +1,5 @@
+PA2R3 STEP 3 manifest cheap hash re-run at HEAD a267b7b8 (cites pa2-3-571d8779.txt; no print build rerun)
+COMMAND: cd ~/Desktop/print-ready/storytime/covers-quest-v1 && awk '{print $1"  "$3}' MANIFEST.txt | sha256sum -c --quiet
+RESULT: MANIFEST_EXIT=0, no failures printed. MANIFEST SHA-256 8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d6b9f07e4a2477a87 (matches Task 2.11 accepted set and pa2-3-571d8779.txt).
+No print, manifest, or approved file changed since 571d8779 (range name-only check in pa2r3-4). Prior capture stands.
+STEP3_EXIT=0

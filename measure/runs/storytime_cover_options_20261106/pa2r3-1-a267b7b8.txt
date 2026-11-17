@@ -1,0 +1,12 @@
+PA2R3 STEP 1 gates at HEAD a267b7b8 (each in one heavy-run wrapper, --maxWorkers=1, Thai-filtered; counts only)
+GREEN_TEST_COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1
+  Test Files 19 passed (19). Tests 396 passed (396). Duration 444.03 s. VITEST_EXIT=0. PASS.
+  D6 page 1 checked 28, problems 0 (the pin move 1b468b5f holds).
+PROJECT_TESTS: cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts __tests__/quest-cover-*.test.ts --maxWorkers=1
+  Test Files 1 failed | 93 passed (94). Tests 24 failed | 2280 passed (2304). Duration 767.62 s. VITEST_EXIT=1.
+  Failing file: __tests__/storytime-unit2-sound-stage.test.ts only (24 tests, the known foreign open Red of track storytime_l2_unit2_20261106, by design). Zero own-track failures; quest-cover-f3f6 D6 passes.
+PROJECT_LINT: cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts
+  0 errors, 1 warning (no-unused-vars, quest-cover-template.test.ts line 1709, known). ESLINT_EXIT=0. PASS.
+PROJECT_CHECKS: check-weeks.ts --level 2 && tsc --noEmit
+  Summary: 8 package(s), 0 failed check(s), 1 warning. TSC no output. GATE_EXIT=0. PASS.
+STEP1_EXIT=0 for this track (PROJECT_TESTS exit 1 is the known foreign file only; judged per brief).
