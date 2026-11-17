@@ -1,0 +1,16 @@
+head: 4597638cfa9f35e38b5b0bceefe85ea8ad4ddf9e
+gate_lint: exit 0 (0 errors, 1 warning)
+gate_checks: exit 0 (Summary: 8 package(s), 0 failed check(s), 1 warning(s).)
+gate_stage: exit 1
+stage_summary: Summary: 16 package(s), 21 failed check(s), 33 warning(s).
+stage_fail_rows: 21
+stage_fail_by_check: sound-stage-plan=8 sound-stage-mix=7 sound-stage-day1=5 song-frame=1
+stage_not_a_word_key: 0
+stage_crash_marker: no
+stage_print_missing_u2: 0
+thai_removed: lint=0 checks=0 stage=0
+plan_line_32_has_lint_flag: yes
+sha256: 41156b01b47c08b2a88d9f7d9904f0ec3ed1ffac023a6fb7eed3c632bbb6c3ff  printgate-4597638c-lint.txt
+sha256: b269d11db4f639e22122731acea4bfa2789db62b297fb85bd8a7c4a7f572748c  printgate-4597638c-checks.txt
+sha256: cfd53640152e0b3e72ac55f4605fc510b42e4f26c2232726106f5a77a6f8a4e3  printgate-4597638c-stage.txt
+sha256: 360ac6a8d7d858f5903554ecbddf010e9d976a930229139a68500e99f1c27c96  printgate-stage.sh
