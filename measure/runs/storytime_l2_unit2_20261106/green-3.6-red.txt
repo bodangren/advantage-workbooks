@@ -1,0 +1,272 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/storytime-unit2-sound-stage.test.ts [2m([22m[2m47 tests[22m[2m | [22m[31m16 failed[39m[2m)[22m[32m 120[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 3[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 6[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 16[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+     [32m✓[39m week 9 teaches the final-sound tag[32m 0[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 0[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 8[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R14-3 plan row passes[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 9[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 0[2mms[22m[39m
+     [32m✓[39m R14-1 mix row passes[32m 0[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 10[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+     [32m✓[39m each unit asks at most one position and at least one unit asks last[32m 1[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 0[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 10[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R14-3 plan row passes[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 11[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 0[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 12[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 0[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 13[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 0[2mms[22m[39m
+     [32m✓[39m a: the base week passes all three rows[32m 0[2mms[22m[39m
+     [32m✓[39m b: no paStage fails the plan row with a no paStage detail[32m 0[2mms[22m[39m
+     [32m✓[39m c: a first-and-last line fails the mix row and names the unit[32m 0[2mms[22m[39m
+     [32m✓[39m d: a day-1 line that names the new sound fails the day-1 row[32m 0[2mms[22m[39m
+     [32m✓[39m e: a day-1 line that asks the last sound fails with a position detail[32m 0[2mms[22m[39m
+     [32m✓[39m f: a written and re-read copy of w09 matches the in-memory object[32m 3[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 16 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 9 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: focus.paSkill (first+last); opening.pa.1 (first+last); scripts.0.steps.0 (first+last); scripts.0.steps.3 (first+last)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 9 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 10 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 11 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 13 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 14 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 15 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 16 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[31m[1mAssertionError[22m: expected 2 to be less than or equal to 1[39m
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m64:65[22m[39m
+    [90m 62| [39m    it('each unit asks at most one position and at least one unit asks…
+    [90m 63| [39m        [35mconst[39m units [33m=[39m [34msoundUnits[39m(week)[33m;[39m
+    [90m 64| [39m        for (const unit of units) expect(unit.positions.length).toBeLe…
+    [90m   | [39m                                                                [31m^[39m
+    [90m 65| [39m        expect(units.some((unit) => unit.positions.includes('last'))).…
+    [90m 66| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 10 sound stages[2m > [22mR14-1 mix row passes
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 13 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: scripts.0.steps.0 (first+last)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 11 sound stages[2m > [22mR14-3 plan row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-plan', …(3) } to deeply equal { id: 'sound-stage-plan', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "outside stage: focus.paSkill (middle); outside stage: opening.pa.1 (middle); outside stage: scripts.0.steps.0 (middle); outside stage: scripts.0.steps.3 (middle); outside stage: scripts.4.steps.0 (middle); outside stage: scripts.4.steps.3 (middle); outside stage: scripts.4.steps.4 (middle); outside stage: check.items (middle); tag outside stage: english.phonics.pa.medial-vowel.identify",[39m
+[2m    "id": "sound-stage-plan",[22m
+[2m    "label": "The week follows the sound stage plan (focus.paStage, positions, tags)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m47:43[22m[39m
+    [90m 45| [39m
+    [90m 46| [39m    [34mit[39m([32m'R14-3 plan row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 47| [39m        expect(checkSoundStagePlan(week)).toEqual({ id: 'sound-stage-p…
+    [90m   | [39m                                          [31m^[39m
+    [90m 48| [39m    })[33m;[39m
+    [90m 49| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 11 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: focus.paSkill (first+middle); opening.pa.1 (first+middle); scripts.0.steps.0 (first+middle); scripts.4.steps.4 (first+middle); check.items (first+middle)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 14 sound stages[2m > [22mR14-3 plan row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-plan', …(3) } to deeply equal { id: 'sound-stage-plan', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "outside stage: scripts.0.steps.3 (middle)",[39m
+[2m    "id": "sound-stage-plan",[22m
+[2m    "label": "The week follows the sound stage plan (focus.paStage, positions, tags)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m47:43[22m[39m
+    [90m 45| [39m
+    [90m 46| [39m    [34mit[39m([32m'R14-3 plan row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 47| [39m        expect(checkSoundStagePlan(week)).toEqual({ id: 'sound-stage-p…
+    [90m   | [39m                                          [31m^[39m
+    [90m 48| [39m    })[33m;[39m
+    [90m 49| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 14 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: focus.paSkill (first+last); scripts.0.steps.0 (first+last); scripts.0.steps.3 (first+middle)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 15 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: focus.paSkill (first+last); opening.pa.1 (first+last); scripts.0.steps.0 (first+last); scripts.4.steps.4 (first+last); check.items (first+last)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 16 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: focus.paSkill (first+last); scripts.0.steps.0 (first+last); benchmark.paper.items (first+last)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m16 failed[39m[22m[2m | [22m[1m[32m31 passed[39m[22m[90m (47)[39m
+[2m   Start at [22m 19:13:23
+[2m   Duration [22m 802ms[2m (transform 82ms, setup 39ms, import 155ms, tests 120ms, environment 309ms)[22m
+
+exit: 1

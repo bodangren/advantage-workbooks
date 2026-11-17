@@ -1,0 +1,18 @@
+# Thai proof for the copied day-1 lines (Task 3.6)
+
+# 8 rows: 7 COPY rows and 1 KEEP row (w10, unchanged). 0 SPLIT rows. 0 TRIM rows.
+# Rule COPY: the new Thai equals the source Thai, byte for byte. Rule KEEP: the Thai equals the HEAD value.
+# Source w08 is content/storytime/l2/w08.json. Source w10 is content/storytime/drafts/l2/w10.json.
+# This file holds no Thai text. Thai characters printed: 0.
+
+w09 opening.pa.0.th COPY source=w08 ok
+w10 opening.pa.0.th KEEP source=w10 ok
+w11 opening.pa.0.th COPY source=w10 ok
+w12 opening.pa.0.th COPY source=w10 ok
+w13 opening.pa.0.th COPY source=w10 ok
+w14 opening.pa.0.th COPY source=w10 ok
+w15 opening.pa.0.th COPY source=w10 ok
+w16 opening.pa.0.th COPY source=w10 ok
+
+Rows with a mismatch: 0
+Rows: 8 total, 7 COPY, 1 KEEP, 0 SPLIT, 0 TRIM
