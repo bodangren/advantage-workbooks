@@ -1,0 +1,502 @@
+Red r2 capture, Task 3.5, track storytime_l2_unit2_20261106
+role: measure-mid-red | route: opencode-go/deepseek-v4.1-flash | role base: 8301f9df | phase base: 4e32c3f6
+command: RED_TEST_COMMAND_U2S = cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-sound-stage.test.ts --maxWorkers=1
+runner: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<the command above>'
+filter: 0 line(s) with characters U+0E00..U+0E7F dropped from the raw output
+
+=== vitest output (filtered) ===
+
+ RUN  v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts (72 tests | 24 failed) 154ms
+     ✓ R14-3 plan row passes 3ms
+     × R14-1 mix row passes 6ms
+     × R14-2 day-1 row passes 10ms
+     ✓ focus.paStage is stage 2 with the first and last positions 0ms
+     × each unit asks at most one position 1ms
+     ✓ the week asks the first and the last position across its units 1ms
+     ✓ opening.pa holds exactly 5 entries 1ms
+     ✓ opening.audio holds exactly 5 lists 0ms
+     ✓ week 9 teaches the final-sound tag 0ms
+     ✓ R14-3 plan row passes 1ms
+     × R14-1 mix row passes 1ms
+     ✓ R14-2 day-1 row passes 9ms
+     ✓ focus.paStage is stage 2 with the first and last positions 0ms
+     × each unit asks at most one position 1ms
+     ✓ the week asks the first and the last position across its units 0ms
+     ✓ opening.pa holds exactly 5 entries 0ms
+     ✓ opening.audio holds exactly 5 lists 0ms
+     × R14-3 plan row passes 1ms
+     × R14-1 mix row passes 1ms
+     × R14-2 day-1 row passes 15ms
+     ✓ focus.paStage is stage 2 with the first and last positions 0ms
+     × each unit asks at most one position 1ms
+     × the week asks the first and the last position across its units 1ms
+     ✓ opening.pa holds exactly 5 entries 0ms
+     ✓ opening.audio holds exactly 5 lists 0ms
+     × w11 holds no medial-vowel tag 1ms
+     ✓ R14-3 plan row passes 1ms
+     ✓ R14-1 mix row passes 1ms
+     × R14-2 day-1 row passes 11ms
+     ✓ focus.paStage is stage 2 with the first and last positions 0ms
+     ✓ each unit asks at most one position 1ms
+     ✓ the week asks the first and the last position across its units 0ms
+     ✓ opening.pa holds exactly 5 entries 0ms
+     ✓ opening.audio holds exactly 5 lists 0ms
+     ✓ R14-3 plan row passes 1ms
+     × R14-1 mix row passes 1ms
+     ✓ R14-2 day-1 row passes 13ms
+     ✓ focus.paStage is stage 2 with the first and last positions 0ms
+     × each unit asks at most one position 1ms
+     ✓ the week asks the first and the last position across its units 0ms
+     ✓ opening.pa holds exactly 5 entries 0ms
+     ✓ opening.audio holds exactly 5 lists 0ms
+     × R14-3 plan row passes 1ms
+     × R14-1 mix row passes 1ms
+     × R14-2 day-1 row passes 13ms
+     ✓ focus.paStage is stage 2 with the first and last positions 0ms
+     × each unit asks at most one position 1ms
+     × the week asks the first and the last position across its units 1ms
+     ✓ opening.pa holds exactly 5 entries 0ms
+     ✓ opening.audio holds exactly 5 lists 0ms
+     ✓ R14-3 plan row passes 1ms
+     × R14-1 mix row passes 1ms
+     × R14-2 day-1 row passes 14ms
+     ✓ focus.paStage is stage 2 with the first and last positions 0ms
+     × each unit asks at most one position 1ms
+     ✓ the week asks the first and the last position across its units 0ms
+     ✓ opening.pa holds exactly 5 entries 0ms
+     ✓ opening.audio holds exactly 5 lists 0ms
+     ✓ R14-3 plan row passes 0ms
+     × R14-1 mix row passes 1ms
+     ✓ R14-2 day-1 row passes 14ms
+     ✓ focus.paStage is stage 2 with the first and last positions 0ms
+     × each unit asks at most one position 0ms
+     ✓ the week asks the first and the last position across its units 0ms
+     ✓ opening.pa holds exactly 5 entries 0ms
+     ✓ opening.audio holds exactly 5 lists 0ms
+     ✓ the day-1 English lines of w09 to w16 are 8 different strings 15ms
+     ✓ a: the base week passes all three rows 0ms
+     ✓ b: no paStage fails the plan row with a no paStage detail 0ms
+     ✓ c: a first-and-last line fails the mix row and names the unit 0ms
+     ✓ d: a day-1 line that names the new sound fails the day-1 row 0ms
+     ✓ e: a day-1 line that asks the last sound fails with a position detail 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 24 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > R14-1 mix row passes
+AssertionError: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "mixed: focus.paSkill (first+last); opening.pa.0 (first+last); opening.pa.1 (first+last); scripts.0.steps.0 (first+last); scripts.0.steps.3 (first+last)",
+    "id": "sound-stage-mix",
+    "label": "No activity asks two sound positions (first, last, middle)",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:52:42
+     50| 
+     51|     it('R14-1 mix row passes', () => {
+     52|         expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+       |                                          ^
+     53|     });
+     54| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > R14-2 day-1 row passes
+AssertionError: expected { id: 'sound-stage-day1', …(3) } to deeply equal { id: 'sound-stage-day1', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "new sound: /d/; new sound: /d/; position: last (stage of week 8 allows first)",
+    "id": "sound-stage-day1",
+    "label": "The day-1 sound game holds no new sound and asks only a skill of an earlier stage",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:56:63
+     54| 
+     55|     it('R14-2 day-1 row passes', () => {
+     56|         expect(checkSoundStageDayOne(week, earlierSounds(n))).toEqual(…
+       |                                                               ^
+     57|     });
+     58| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > each unit asks at most one position
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > each unit asks at most one position
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > each unit asks at most one position
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > each unit asks at most one position
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > each unit asks at most one position
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > each unit asks at most one position
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > each unit asks at most one position
+AssertionError: expected 2 to be less than or equal to 1
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:64:76
+     62| 
+     63|     it('each unit asks at most one position', () => {
+     64|         for (const unit of soundUnits(week)) expect(unit.positions.len…
+       |                                                                            ^
+     65|     });
+     66| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > R14-1 mix row passes
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > R14-1 mix row passes
+AssertionError: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "mixed: scripts.0.steps.0 (first+last)",
+    "id": "sound-stage-mix",
+    "label": "No activity asks two sound positions (first, last, middle)",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:52:42
+     50| 
+     51|     it('R14-1 mix row passes', () => {
+     52|         expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+       |                                          ^
+     53|     });
+     54| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > R14-3 plan row passes
+AssertionError: expected { id: 'sound-stage-plan', …(3) } to deeply equal { id: 'sound-stage-plan', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "outside stage: focus.paSkill (middle); outside stage: opening.pa.0 (middle); outside stage: opening.pa.1 (middle); outside stage: scripts.0.steps.0 (middle); outside stage: scripts.0.steps.3 (middle); outside stage: scripts.4.steps.0 (middle); outside stage: scripts.4.steps.3 (middle); outside stage: scripts.4.steps.4 (middle); outside stage: check.items (middle); tag outside stage: english.phonics.pa.medial-vowel.identify",
+    "id": "sound-stage-plan",
+    "label": "The week follows the sound stage plan (focus.paStage, positions, tags)",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:48:43
+     46| 
+     47|     it('R14-3 plan row passes', () => {
+     48|         expect(checkSoundStagePlan(week)).toEqual({ id: 'sound-stage-p…
+       |                                           ^
+     49|     });
+     50| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > R14-1 mix row passes
+AssertionError: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "mixed: focus.paSkill (first+middle); opening.pa.0 (first+middle); opening.pa.1 (first+middle); scripts.0.steps.0 (first+middle); scripts.4.steps.4 (first+middle); check.items (first+middle)",
+    "id": "sound-stage-mix",
+    "label": "No activity asks two sound positions (first, last, middle)",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:52:42
+     50| 
+     51|     it('R14-1 mix row passes', () => {
+     52|         expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+       |                                          ^
+     53|     });
+     54| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > R14-2 day-1 row passes
+AssertionError: expected { id: 'sound-stage-day1', …(3) } to deeply equal { id: 'sound-stage-day1', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "new sound: /e/; new sound: /e/; position: middle (stage of week 10 allows first, last)",
+    "id": "sound-stage-day1",
+    "label": "The day-1 sound game holds no new sound and asks only a skill of an earlier stage",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:56:63
+     54| 
+     55|     it('R14-2 day-1 row passes', () => {
+     56|         expect(checkSoundStageDayOne(week, earlierSounds(n))).toEqual(…
+       |                                                               ^
+     57|     });
+     58| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > the week asks the first and the last position across its units
+AssertionError: expected [ 'first', 'middle' ] to deeply equal [ 'first', 'last' ]
+
+- Expected
++ Received
+
+  [
+    "first",
+-   "last",
++   "middle",
+  ]
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:70:35
+     68|         const asked = new Set<string>();
+     69|         for (const unit of soundUnits(week)) for (const position of un…
+     70|         expect([...asked].sort()).toEqual(['first', 'last']);
+       |                                   ^
+     71|     });
+     72| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > w11 holds no medial-vowel tag
+AssertionError: expected [ …(31) ] to not include 'english.phonics.pa.medial-vowel.ident…'
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:91:44
+     89|         it('w11 holds no medial-vowel tag', () => {
+     90|             expect(week.tags.taught).not.toContain(MEDIAL_VOWEL_TAG);
+     91|             expect(week.tags.reviewed).not.toContain(MEDIAL_VOWEL_TAG);
+       |                                            ^
+     92|         });
+     93|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 12 sound stages > R14-2 day-1 row passes
+AssertionError: expected { id: 'sound-stage-day1', …(3) } to deeply equal { id: 'sound-stage-day1', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "new sound: /h/; new sound: /h/",
+    "id": "sound-stage-day1",
+    "label": "The day-1 sound game holds no new sound and asks only a skill of an earlier stage",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:56:63
+     54| 
+     55|     it('R14-2 day-1 row passes', () => {
+     56|         expect(checkSoundStageDayOne(week, earlierSounds(n))).toEqual(…
+       |                                                               ^
+     57|     });
+     58| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > R14-3 plan row passes
+AssertionError: expected { id: 'sound-stage-plan', …(3) } to deeply equal { id: 'sound-stage-plan', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "outside stage: scripts.0.steps.3 (middle)",
+    "id": "sound-stage-plan",
+    "label": "The week follows the sound stage plan (focus.paStage, positions, tags)",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:48:43
+     46| 
+     47|     it('R14-3 plan row passes', () => {
+     48|         expect(checkSoundStagePlan(week)).toEqual({ id: 'sound-stage-p…
+       |                                           ^
+     49|     });
+     50| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > R14-1 mix row passes
+AssertionError: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "mixed: focus.paSkill (first+last); opening.pa.0 (first+last); scripts.0.steps.0 (first+last); scripts.0.steps.3 (first+middle)",
+    "id": "sound-stage-mix",
+    "label": "No activity asks two sound positions (first, last, middle)",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:52:42
+     50| 
+     51|     it('R14-1 mix row passes', () => {
+     52|         expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+       |                                          ^
+     53|     });
+     54| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > R14-2 day-1 row passes
+AssertionError: expected { id: 'sound-stage-day1', …(3) } to deeply equal { id: 'sound-stage-day1', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "new sound: Fff; new sound: Fff",
+    "id": "sound-stage-day1",
+    "label": "The day-1 sound game holds no new sound and asks only a skill of an earlier stage",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:56:63
+     54| 
+     55|     it('R14-2 day-1 row passes', () => {
+     56|         expect(checkSoundStageDayOne(week, earlierSounds(n))).toEqual(…
+       |                                                               ^
+     57|     });
+     58| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > the week asks the first and the last position across its units
+AssertionError: expected [ 'first', 'last', 'middle' ] to deeply equal [ 'first', 'last' ]
+
+- Expected
++ Received
+
+  [
+    "first",
+    "last",
++   "middle",
+  ]
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:70:35
+     68|         const asked = new Set<string>();
+     69|         for (const unit of soundUnits(week)) for (const position of un…
+     70|         expect([...asked].sort()).toEqual(['first', 'last']);
+       |                                   ^
+     71|     });
+     72| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > R14-1 mix row passes
+AssertionError: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "mixed: focus.paSkill (first+last); opening.pa.0 (first+last); opening.pa.1 (first+last); scripts.0.steps.0 (first+last); scripts.4.steps.4 (first+last); check.items (first+last)",
+    "id": "sound-stage-mix",
+    "label": "No activity asks two sound positions (first, last, middle)",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:52:42
+     50| 
+     51|     it('R14-1 mix row passes', () => {
+     52|         expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+       |                                          ^
+     53|     });
+     54| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > R14-2 day-1 row passes
+AssertionError: expected { id: 'sound-stage-day1', …(3) } to deeply equal { id: 'sound-stage-day1', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "new sound: /g/; new sound: /g/",
+    "id": "sound-stage-day1",
+    "label": "The day-1 sound game holds no new sound and asks only a skill of an earlier stage",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:56:63
+     54| 
+     55|     it('R14-2 day-1 row passes', () => {
+     56|         expect(checkSoundStageDayOne(week, earlierSounds(n))).toEqual(…
+       |                                                               ^
+     57|     });
+     58| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/24]⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > R14-1 mix row passes
+AssertionError: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }
+
+- Expected
++ Received
+
+  {
++   "detail": "mixed: focus.paSkill (first+last); scripts.0.steps.0 (first+last); benchmark.paper.items (first+last)",
+    "id": "sound-stage-mix",
+    "label": "No activity asks two sound positions (first, last, middle)",
+-   "status": "pass",
++   "status": "fail",
+  }
+
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:52:42
+     50| 
+     51|     it('R14-1 mix row passes', () => {
+     52|         expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+       |                                          ^
+     53|     });
+     54| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/24]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  24 failed | 48 passed (72)
+   Start at  20:41:08
+   Duration  824ms (transform 79ms, setup 39ms, import 148ms, tests 154ms, environment 305ms)
+
+
+=== mutant proof (temporary copies in /tmp/opencode, deleted after the run) ===
+mutant-i: a temporary copy of w09 with 4 opening.pa entries -> five_entries = False (case catches it)
+mutant-i: opening.audio of the same copy stays 5 lists -> five_audio = True (no false alarm)
+mutant-ii: a temporary copy of w10 whose day-1 line equals the w09 line -> distinct_day1 = False (case catches it)
+mutant-ii-b: two equal day-1 lines inside w09 to w16 -> distinct_day1 = False, set size 7
+mutant_proof_ok=True
+
+=== case f ===
+case f ("a written and re-read copy of w09 matches the in-memory object") removed, with the helper only it used
+(tempDirs, the afterEach hook, and the os import). No temporary copy of a week is written by this test file.
+
+=== cases that pass at HEAD ===
+opening.pa holds exactly 5 entries: PASS on w09 to w16 (probe: pa length 5 on all 8 drafts)
+opening.audio holds exactly 5 lists: PASS on w09 to w16 (probe: 5 lists on all 8 drafts, each a list)
+the day-1 English lines of w09 to w16 are 8 different strings: PASS (probe: 8 distinct lines, 0 duplicate groups)
+mutation cases a, b, c, d, e: PASS
+
+=== eslint ===
+command: cd dashboard && npx eslint __tests__/storytime-unit2-sound-stage.test.ts
+eslint exit: 0 (no output)
+
+exit: 1

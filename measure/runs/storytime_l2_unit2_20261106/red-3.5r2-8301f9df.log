@@ -1,0 +1,60 @@
+# Red r2 log, Task 3.5, track storytime_l2_unit2_20261106
+
+Session name pattern: "Red · P3 T3.5 · storytime_l2_unit2 · r2" (plan Task 3.5).
+Phase heading: "Phase 3: Thai parts for Daniel's check (2026-11-13 to 2026-11-28)".
+
+Thai filter first: the first command counted the characters of U+0E00..U+0E7F in the output.
+The scan read 280 week files of `content/storytime/` and found 16 files with Thai (the week files).
+It printed 0 Thai characters. No role command printed a week file or a `th` value.
+
+```
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_l2_unit2_20261106
+phase: 3
+task: 3.5 (Red r2)
+route: opencode-go/deepseek-v4.1-flash
+phase_base_sha: 4e32c3f6
+role_base_sha: 8301f9df
+head_at_role_start: 8301f9df51d667d563841b29174758f86ddbb6c8
+final_head: SEE-GIT-LOG
+commits:
+  - SEE-GIT-LOG  test(storytime): Red r2 of the unit 2 sound stage tests, aligned with PA-P3-1 r3 (3.5)
+  - SEE-GIT-LOG  log and plan: fill the Red r2 commit sha of Task 3.5
+red_test:
+  command: cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-sound-stage.test.ts --maxWorkers=1
+  runner: bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<the command>'
+  exit: 1
+  counts: 24 failed, 48 passed, 72 total (1 test file failed)
+  failing_cases (24):
+    - R14-1 mix row passes: w09, w10, w11, w13, w14, w15, w16 (7)
+    - R14-2 day-1 row passes: w09, w11, w12, w14, w15 (5)
+    - R14-3 plan row passes: w11, w14 (2)
+    - each unit asks at most one position: w09, w10, w11, w13, w14, w15, w16 (7)
+    - the week asks the first and the last position across its units: w11, w14 (2)
+    - w11 holds no medial-vowel tag: w11 (1)
+  passing_at_head:
+    - opening.pa holds exactly 5 entries: pass on w09 to w16
+    - opening.audio holds exactly 5 lists: pass on w09 to w16
+    - the day-1 English lines of w09 to w16 are 8 different strings: pass
+    - focus.paStage is stage 2 with the first and last positions: pass on w09 to w16
+    - mutation cases a, b, c, d, e: pass
+  removed_case: f ("a written and re-read copy of w09 matches the in-memory object"), with tempDirs, the afterEach hook, and the os import
+  capture: measure/runs/storytime_l2_unit2_20261106/red-3.5r2-8301f9df.txt
+mutants:
+  - mutant i: a temporary copy of w09 with 4 opening.pa entries fails the 5-entry case (False)
+  - mutant ii: a temporary copy of w10 with the w09 day-1 line fails the distinct case (False, set size 7)
+  - the temporary copies lived in /tmp/opencode and are deleted
+eslint:
+  command: cd dashboard && npx eslint __tests__/storytime-unit2-sound-stage.test.ts
+  exit: 0
+files_changed:
+  - dashboard/__tests__/storytime-unit2-sound-stage.test.ts
+  - measure/runs/storytime_l2_unit2_20261106/red-3.5r2-8301f9df.txt
+  - measure/runs/storytime_l2_unit2_20261106/red-3.5r2-8301f9df.log
+  - measure/tracks/storytime_l2_unit2_20261106/plan.md
+no_source_change: true
+thai_chars: 0
+status: red_ready
+END_MEASURE_AGENT_RESULT
+```

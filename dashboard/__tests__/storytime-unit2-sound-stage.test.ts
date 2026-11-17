@@ -1,7 +1,6 @@
 import fs from 'fs';
-import os from 'os';
 import path from 'path';
-import { afterEach, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
     checkSoundStageDayOne,
     checkSoundStageMix,
@@ -9,9 +8,10 @@ import {
     soundUnits,
 } from '../lib/storytime/sound-stages';
 
-// Track storytime_l2_unit2_20261106, Task 3.5 (Red, PA-P3-1, D-U2-S1 to D-U2-S5).
-// The 8 unit 2 drafts predate focus.paStage. These rows pin the three R14 checks
-// through the pure module. The mutation rows pin each rule on a synthetic week.
+// Track storytime_l2_unit2_20261106, Task 3.5 (Red, PA-P3-1 revision r3, D-U2-S1 to D-U2-S5).
+// The 8 unit 2 drafts hold focus.paStage. These rows pin the three R14 checks through the pure module,
+// and they pin the shape of the sound game: one position for each unit, 5 lines and 5 audio lists,
+// and 8 different day-1 lines. The mutation rows pin each rule on a synthetic week.
 
 const ROOT = fs.existsSync(path.join(process.cwd(), 'content/storytime'))
     ? process.cwd()
@@ -21,6 +21,7 @@ const WEEKS = [9, 10, 11, 12, 13, 14, 15, 16];
 const LABEL_PLAN = 'The week follows the sound stage plan (focus.paStage, positions, tags)';
 const LABEL_MIX = 'No activity asks two sound positions (first, last, middle)';
 const LABEL_DAY1 = 'The day-1 sound game holds no new sound and asks only a skill of an earlier stage';
+const MEDIAL_VOWEL_TAG = 'english.phonics.pa.medial-vowel.identify';
 
 const draftPath = (n: number) => path.join(ROOT, `content/storytime/drafts/l2/w${String(n).padStart(2, '0')}.json`);
 const publishedPath = (n: number) => path.join(ROOT, `content/storytime/l2/w${String(n).padStart(2, '0')}.json`);
@@ -59,10 +60,23 @@ describe.each(WEEKS)('unit 2 week %i sound stages', (n) => {
         expect(week.focus.paStage).toEqual({ stage: 2, positions: ['first', 'last'] });
     });
 
-    it('each unit asks at most one position and at least one unit asks last', () => {
-        const units = soundUnits(week);
-        for (const unit of units) expect(unit.positions.length).toBeLessThanOrEqual(1);
-        expect(units.some((unit) => unit.positions.includes('last'))).toBe(true);
+    it('each unit asks at most one position', () => {
+        for (const unit of soundUnits(week)) expect(unit.positions.length).toBeLessThanOrEqual(1);
+    });
+
+    it('the week asks the first and the last position across its units', () => {
+        const asked = new Set<string>();
+        for (const unit of soundUnits(week)) for (const position of unit.positions) asked.add(position);
+        expect([...asked].sort()).toEqual(['first', 'last']);
+    });
+
+    it('opening.pa holds exactly 5 entries', () => {
+        expect(week.opening.pa).toHaveLength(5);
+    });
+
+    it('opening.audio holds exactly 5 lists', () => {
+        expect(week.opening.audio).toHaveLength(5);
+        for (const list of week.opening.audio) expect(Array.isArray(list)).toBe(true);
     });
 
     if (n === 9) {
@@ -70,11 +84,20 @@ describe.each(WEEKS)('unit 2 week %i sound stages', (n) => {
             expect(week.tags.taught).toContain('english.phonics.pa.final-sound.identify');
         });
     }
+
+    if (n === 11) {
+        it('w11 holds no medial-vowel tag', () => {
+            expect(week.tags.taught).not.toContain(MEDIAL_VOWEL_TAG);
+            expect(week.tags.reviewed).not.toContain(MEDIAL_VOWEL_TAG);
+        });
+    }
 });
 
-const tempDirs: string[] = [];
-afterEach(() => {
-    for (const dir of tempDirs.splice(0)) fs.rmSync(dir, { recursive: true, force: true });
+describe('unit 2 day-1 lines of w09 to w16', () => {
+    it('the day-1 English lines of w09 to w16 are 8 different strings', () => {
+        const lines = WEEKS.map((n) => load(draftPath(n))?.opening?.pa?.[0]?.en);
+        expect(new Set(lines).size).toBe(8);
+    });
 });
 
 /** A synthetic level 2 week 9 that passes all three rows. */
@@ -129,16 +152,5 @@ describe('sound stage mutations on a synthetic week 9', () => {
         const row = checkSoundStageDayOne(w, EARLIER_NINE);
         expect(row).toEqual({ id: 'sound-stage-day1', label: LABEL_DAY1, status: 'fail', detail: 'position: last (stage of week 8 allows first)' });
         expect(row!.detail).toContain('position:');
-    });
-
-    it('f: a written and re-read copy of w09 matches the in-memory object', () => {
-        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'u2sound-'));
-        tempDirs.push(dir);
-        const copy = path.join(dir, 'w09.json');
-        fs.writeFileSync(copy, fs.readFileSync(draftPath(9)));
-        const fromFile = JSON.parse(fs.readFileSync(copy, 'utf-8'));
-        const row = checkSoundStagePlan(fromFile);
-        expect(row).toEqual(checkSoundStagePlan(load(draftPath(9))));
-        expect(row).toMatchObject({ id: 'sound-stage-plan', label: LABEL_PLAN });
     });
 });
