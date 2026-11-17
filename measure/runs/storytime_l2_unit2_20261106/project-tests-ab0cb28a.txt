@@ -1,0 +1,931 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X
+[22m[39mR34 pdffonts:
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+NBDDKL+Sarabun-Regular               CID TrueType      Identity-H       yes yes yes     20  0
+RIGJGG+Andika                        CID TrueType      Identity-H       yes yes yes     14  0
+NYAHJN+Andika-Bold                   CID TrueType      Identity-H       yes yes yes     10  0
+UCFIFH+LeagueSpartanThin-Bold        CID TrueType      Identity-H       yes yes yes    152  0
+
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+[22m[39mR38 compiled trace medians: 175, 175, 175, 175
+
+[90mstdout[2m | __tests__/storytime-print-student-book.test.ts[2m > [22m[2mStorytime student workbook: the shipped week 1[2m > [22m[2mR38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in
+[22m[39mR38 removed-gray-rule medians: 0, 0, 0, 0
+
+ [32m✓[39m __tests__/storytime-print-student-book.test.ts [2m([22m[2m77 tests[22m[2m)[22m[33m 32356[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: prints the page order and a left-page spread [33m 399[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: gives every PDF/X inside page zero CMY coverage and preserves the physical page count [33m 2193[2mms[22m[39m
+     [33m[2m✓[22m[39m R34: embeds only Andika regular, Andika bold, and Sarabun in the built PDF/X [33m 376[2mms[22m[39m
+     [33m[2m✓[22m[39m R36: matches both printed PDF/X QR matrices to their labeled song and book addresses [33m 1346[2mms[22m[39m
+     [33m[2m✓[22m[39m R31: detects CMY on a temporary PDF/X copy with an explicit cyan patch [33m 442[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: each leaf mark of the student book lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 1791[2mms[22m[39m
+     [33m[2m✓[22m[39m R32: fails on a wrong imposition, a missing fold line, a wrong mark, a front page not turned, a back page turned, the old 90 degree turn, a portrait page, and a 99 x 140 mm page (mutants on a copy; spec FR-5.1) [33m 1690[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints each trace item in a K 20-40% gray, never solid black (D2) [33m 1805[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: measures the four compiled trace items (three cells and the D4 frame) in page context and catches a removed gray opt-in [33m 12840[2mms[22m[39m
+     [33m[2m✓[22m[39m R38: prints a black start dot on each letter copy (D2) [33m 2012[2mms[22m[39m
+     [33m[2m✓[22m[39m R39: leaves the dictation letter lines empty write-in lines (D3) [33m 391[2mms[22m[39m
+     [33m[2m✓[22m[39m R40: mirrors the horizontal fold line with the leaf parity and prints it across the middle of the leaf (D4, spec FR-5.1) [33m 1291[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-40 a hostile folder prefix adds no attribute and no element, and a prefix with #, ?, %, a quote, or a space decodes to the resolved file [33m 987[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-42 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 805[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers-adversarial.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 18587[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a symbolic link --out into an occupied print-ready folder and writes no file [33m 801[2mms[22m[39m
+     [33m[2m✓[22m[39m refuses a print-ready folder that holds any file [33m 797[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the gates for a new folder and for an empty folder in print-ready [33m 1570[2mms[22m[39m
+     [33m[2m✓[22m[39m leaves a folder outside print-ready with its own rules [33m 739[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --out at the end and writes no folder [33m 719[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --band at the end after a full --out and writes no folder [33m 728[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --out followed by another flag and writes no folder [33m 737[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --version followed by --print and writes no folder [33m 725[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 2 for --front followed by another flag and writes no folder [33m 814[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 for a fully transparent front art file and writes nothing [33m 1818[2mms[22m[39m
+     [33m[2m✓[22m[39m exits 1 and writes no file in --out when Ghostscript fails [33m 6158[2mms[22m[39m
+     [33m[2m✓[22m[39m passes the reader cover check for the real covers and writes the print file [33m 2967[2mms[22m[39m
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+The output folder "/tmp/opencode/storytime-covers-m2XqBs/Desktop/print-ready/storytime/proof/l2u1" is inside "proof" (version 1). A version 3 build writes to "/tmp/opencode/storytime-covers-m2XqBs/Desktop/print-ready/storytime/proof-v3" or to another folder.
+Storytime Advantage, Level 1, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+Storytime Advantage, Level 2, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+ [32m✓[39m __tests__/storytime-print-covers-16books.test.ts [2m([22m[2m46 tests[22m[2m)[22m[33m 33222[2mms[22m[39m
+     [33m[2m✓[22m[39m R22: mock reports draft sources; print rejects draft-only field values and preserves v1 and v2 outputs [33m 4215[2mms[22m[39m
+     [33m[2m✓[22m[39m R22 M21 and M22: print source and version output path remain bounded [33m 811[2mms[22m[39m
+     [33m[2m✓[22m[39m R29 CLI: a version 3 build into proof exits 2 before a write and keeps the seed file [33m 781[2mms[22m[39m
+     [33m[2m✓[22m[39m R6: the copy check passes the Chrome PDF text of a built cover [33m 3475[2mms[22m[39m
+     [33m[2m✓[22m[39m R8: the printed back-page QR matches the encoder grid, and the quiet zone is not data [33m 786[2mms[22m[39m
+     [33m[2m✓[22m[39m R11: a missing picture stops the build, names the book, and writes no deliverable [33m 711[2mms[22m[39m
+     [33m[2m✓[22m[39m R12: cut-out corners match the level ground tint, the center has figures, and a white corner fails [33m 880[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2: all three shipped compositions meet the fill threshold on their tinted ground [33m 1541[2mms[22m[39m
+     [33m[2m✓[22m[39m R12 v2 mutation: a centred 75 percent L4U4 image passes corners and fails by fill [33m 587[2mms[22m[39m
+     [33m[2m✓[22m[39m R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain [33m 6915[2mms[22m[39m
+     [33m[2m✓[22m[39m R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible [33m 7164[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 sides: no figure pixel is in the left or the right 3 mm band of a composed cover picture [33m 986[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 side band: the picture check names the side for a copied mutant with a figure at the edge [33m 2146[2mms[22m[39m
+     [33m[2m✓[22m[39m R18 v2 top band: no figure pixel is in the top 8 mm band of a composed cover picture [33m 1011[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-step-system.test.ts [2m([22m[2m57 tests[22m[2m)[22m[33m 12104[2mms[22m[39m
+     [33m[2m✓[22m[39m M-icons: each icon is a black line SVG with no color, no transparency, and no gradient, 10 to 12 mm wide [33m 1093[2mms[22m[39m
+     [33m[2m✓[22m[39m X-parity: the grey model letters and the trace lines match the Andika outline within 0.5 mm [33m 4901[2mms[22m[39m
+     [33m[2m✓[22m[39m X-rule: the baseline of a trace word lies on its rule line in the PDF (A-48 F1, within 0.5 mm) [33m 1704[2mms[22m[39m
+     [33m[2m✓[22m[39m X-fit: the 2 benchmark pages and the 5 review pages of week 8 print on 7 pages, and the circle words carry no drawn oval (A-48 U4) [33m 1536[2mms[22m[39m
+     [33m[2m✓[22m[39m X-fit-write: each of the 7 write pages prints on one page (A-48 F4) [33m 1482[2mms[22m[39m
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--unit must be a unit of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Unknown argument: --bogus
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "story" has no data from the approved sources (D12); the print build stops.
+The output folder "/tmp/opencode/storytime-covers-adv-9hl4zM/Desktop/print-ready/storytime/proof-v3/l2u1" is inside "proof-v3" (version 3). A version 4 build writes to "/tmp/opencode/storytime-covers-adv-9hl4zM/Desktop/print-ready/storytime/proof-v4" or to another folder.
+The output folder "/tmp/opencode/storytime-covers-adv-9hl4zM/Desktop/print-ready/storytime/proof-v2/l2u1" is inside "proof-v2" (version 2). A version 3 build writes to "/tmp/opencode/storytime-covers-adv-9hl4zM/Desktop/print-ready/storytime/proof-v3" or to another folder.
+The output folder "/tmp/opencode/storytime-covers-adv-9hl4zM/Desktop/print-ready/storytime/proof/l2u1" is inside "proof" (version 1). A version 3 build writes to "/tmp/opencode/storytime-covers-adv-9hl4zM/Desktop/print-ready/storytime/proof-v3" or to another folder.
+ [32m✓[39m __tests__/storytime-print-covers-16books-adversarial.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 35777[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-CLI: a bad level, a bad unit, and an unknown option exit 2 before any write [33m 4200[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-OUT: a version 3 --print build without --out leaves the approved proof-v3 mock folder unchanged (C-P2-01) [33m 6878[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-D12: with week 1 back to draft and weeks 2 to 8 approved, a print build stops on the story field and writes nothing [33m 772[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-D12: with only week 3 back to draft, the printed back page carries no word that only week 3 supplies [33m 6521[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-GATE: PRINT_GATE fails a Chrome-like PDF, also under the print file name, and a missing file exits 2 [33m 357[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only [33m 7285[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged [33m 7370[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P2-GUARD: a --print build with an explicit --out inside the proof folder of another version exits 2 before any write [33m 2147[2mms[22m[39m
+ [31m❯[39m __tests__/storytime-unit2-sound-stage.test.ts [2m([22m[2m47 tests[22m[2m | [22m[31m16 failed[39m[2m)[22m[32m 127[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 3[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 6[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 9[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+     [32m✓[39m week 9 teaches the final-sound tag[32m 0[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 0[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 9[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R14-3 plan row passes[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 10[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 1[2mms[22m[39m
+     [32m✓[39m R14-1 mix row passes[32m 0[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 14[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+     [32m✓[39m each unit asks at most one position and at least one unit asks last[32m 1[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 1[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 12[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R14-3 plan row passes[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 12[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 0[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 14[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-3 plan row passes[32m 0[2mms[22m[39m
+[31m     [31m×[31m R14-1 mix row passes[39m[32m 1[2mms[22m[39m
+     [32m✓[39m R14-2 day-1 row passes[32m 15[2mms[22m[39m
+     [32m✓[39m focus.paStage is stage 2 with the first and last positions[32m 0[2mms[22m[39m
+[31m     [31m×[31m each unit asks at most one position and at least one unit asks last[39m[32m 0[2mms[22m[39m
+     [32m✓[39m a: the base week passes all three rows[32m 0[2mms[22m[39m
+     [32m✓[39m b: no paStage fails the plan row with a no paStage detail[32m 0[2mms[22m[39m
+     [32m✓[39m c: a first-and-last line fails the mix row and names the unit[32m 0[2mms[22m[39m
+     [32m✓[39m d: a day-1 line that names the new sound fails the day-1 row[32m 0[2mms[22m[39m
+     [32m✓[39m e: a day-1 line that asks the last sound fails with a position detail[32m 0[2mms[22m[39m
+     [32m✓[39m f: a written and re-read copy of w09 matches the in-memory object[32m 4[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers.test.ts [2m([22m[2m58 tests[22m[2m)[22m[33m 67220[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3a: every reader page has the landscape layout: a wide framed picture, 24 pt text under it, the number at the bottom right, a small footer at the bottom left (spec FR-5.1, Daniel 2026-11-04) [33m 1031[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3b: fails on a picture taller than 4:3, a text above the picture, a small text, a number at the left, a missing footer, and a content box at the page edge (mutants on a copy; spec FR-5.1) [33m 345[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F3c: each leaf mark lies inside a page margin, clear of the content, the fold line, and the perforation (spec FR-5.1) [33m 966[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1) [33m 1394[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-4b fails on scale 3.0, on A3 portrait, on a missing left band, and on a missing A3 page (mutants on a copy; spec FR-5.8) [33m 302[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-13 final mode with a missing picture exits nonzero, names the picture, writes no output, and leaves the same version free for a retry [33m 550[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-7 accepts known-good color and line-art fixtures and sets its threshold from the good fixture [33m 1658[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-8 rejects bad dimensions, alpha, CMYK, color in line-art place, and wrong names [33m 4300[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-9 rejects gray-filled line art and checks manifest name, SHA-256, and pixel size [33m 1156[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-11 adapts selected Forge candidate color and line-art files into per-row manifest facts [33m 419[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-12 checks every week-one row in a batch and returns a failure for each missing file [33m 570[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-15 rejects a Forge job that is not ready or holds no selected version [33m 417[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-16 reports a row whose Forge job is not ready as fail with a reason [33m 408[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-17 accepts a 1-bit line-art PNG in both 1-bit encodings [33m 1910[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-18 passes every week-one row of a manifest whose file paths carry the w01/rows/ folder prefix [33m 5517[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-19 passes the present rows of a subset manifest and fails each absent row as not in the manifest [33m 599[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-21 reports an unloaded week and a duplicate week like the readers CLI [33m 427[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32a checks all 31 requested card rows without requesting book rows [33m 1986[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32b fails the missing requested week 1 card row [33m 1972[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F32c checks a missing card row beside the complete week 1 book delivery [33m 6138[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F40 prints the skip line for card rows in a book-only week 1 batch [33m 5957[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F45 reports requested-row totals in card-only and book-only batches [33m 7920[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-F44 documents the skipped-row rule in picture-check usage [33m 363[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-22 exits 2 on a manifest.json that does not parse and names the case in the usage text [33m 389[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-23 passes the 29 week-one rows when four rows were redone and carry the version 2 file names [33m 4477[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-25 fails a row whose job carries the file of another row id, with the prefix trap in both directions [33m 676[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-28 the batch CLI passes the 29 rows with four redone rows and names a duplicate row id [33m 8886[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-29 resolves a redone row through the folder manifest: the line art in the workbook output, the color file in the A3 output [33m 442[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-31 final mode without manifest.json stops before any write and names manifest.json and the folder; proof mode needs no picture folder [33m 480[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-32 final mode with a file that differs from the manifest SHA-256 stops before any write, names the row id, and leaves no output folder [33m 383[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-33 final mode stops and names the row id for a duplicate row id, a name of another row id, a path outside the folder, and a name version that is not selectedVersion [33m 445[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-38 a hostile folder prefix adds no attribute and no element: the readers workbook output and the A3 color output [33m 472[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-39 a prefix with #, ?, %, a quote, or a space gives a file URL that decodes to the resolved file [33m 546[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P4-41 guard: a plain prefix and no prefix keep the file URL of the resolved path [33m 1067[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-adversarial-r2.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 15075[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-1 fails a job whose id differs from the row id by a trailing space or by case [33m 430[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-3 ignores a job of a week that --weeks does not request [33m 5134[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-4 gives each class of each week a result line or a skip line for the book rows of week 1 and the card rows of week 2 [33m 4631[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5 fails a missing week 2 card row beside complete week 1 books and counts it in the total [33m 4582[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-10 the provenance keeps the lines of the words that a run skips
+[22m[39mskip friend: no Forge file
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-14 the script refuses a week with nothing to map
+[22m[39mfamily picture: nothing to map
+
+[90mstdout[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+[90mstderr[2m | __tests__/storytime-package-family.test.ts[2m > [22m[2mthe family picture script (Phase 10, Red 2)[2m > [22m[2mR2-16 the usage errors of the script return the exit code 2
+[22m[39mSets the family-word pictures of the Storytime app.
+
+Usage: npx tsx scripts/storytime/set-family-pictures.ts --level <n> --week <n> --cards <folder> [--forge <folder>] [--partial] [--check]
+
+--cards   The card folder of the hand-off. It holds the color card files and MANIFEST.txt.
+--forge   The Forge folder of the hand-off. It holds the color pictures of the Forge words.
+--partial Skips a Forge word with no color file. It prints one skip line for each such word.
+--check   Prints one line for each word and writes no file. The exit code is 1 on a failed line.
+
+ [32m✓[39m __tests__/storytime-package-family.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 8208[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-5 the script writes six pictures, six provenance lines, and six file lines [33m 587[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-10 the provenance keeps the lines of the words that a run skips [33m 325[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-12 the script changes a file line with another value and keeps a file line with the same value [33m 456[2mms[22m[39m
+     [33m[2m✓[22m[39m R2-15 the live run of the color patches of week 3 writes seven pictures [33m 4000[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-practice-clips.test.ts [2m([22m[2m89 tests[22m[2m)[22m[33m 6699[2mms[22m[39m
+     [33m[2m✓[22m[39m makes the 15 words in the order of the runs and sends no text for a word that has a row [33m 835[2mms[22m[39m
+     [33m[2m✓[22m[39m writes a WAV of 32 kHz, mono, 16 bits with the peak 23197 and an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 549[2mms[22m[39m
+     [33m[2m✓[22m[39m makes one call for each sentence, in order, with the exact text, the voice of the book, and the speed 1 [33m 455[2mms[22m[39m
+     [33m[2m✓[22m[39m creates the sentences folder before the first synthesize call (R1) [33m 427[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s with the peak near -3 dBFS and 80 ms of quiet at each edge [33m 670[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as other words, and keeps the take number [33m 485[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars [33m 382[2mms[22m[39m
+     [33m[2m✓[22m[39m gives false for each clip that the maker makes, against a synthetic book mp3 that sits at the book audio path [33m 575[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-readalong-clips.test.ts [2m([22m[2m53 tests[22m[2m)[22m[33m 5431[2mms[22m[39m
+     [33m[2m✓[22m[39m makes one call for each read-along sentence, in order, with the exact text, the voice of the book, and the speed 1 [33m 445[2mms[22m[39m
+     [33m[2m✓[22m[39m a run again with a working fake makes only the other sentences [33m 425[2mms[22m[39m
+     [33m[2m✓[22m[39m a run with one retake gives the exact call lines call 1 to call 9, and the last line is sent: <s> [33m 403[2mms[22m[39m
+     [33m[2m✓[22m[39m the character limit stops the run before a call, and the failed sent line follows [33m 361[2mms[22m[39m
+     [33m[2m✓[22m[39m --kind all plans both kinds: the decodable kept lines and the read-along call list [33m 445[2mms[22m[39m
+     [33m[2m✓[22m[39m a real run of the sentence maker ends with sent: <s> and then made: <n>, and stdout holds each line once [33m 467[2mms[22m[39m
+     [33m[2m✓[22m[39m gives true for a maker clip that the synthetic book mp3 holds, and false for a maker output of a fresh generation [33m 1103[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-clips.test.ts [2m([22m[2m93 tests[22m[2m)[22m[33m 5737[2mms[22m[39m
+     [33m[2m✓[22m[39m measures 1.5 s within 0.002, prints one tab line for each video and "lead-in: <value>", and writes nothing [33m 486[2mms[22m[39m
+     [33m[2m✓[22m[39m adds the line videoLeadInSeconds after the videoPhone line with --write, and a second run changes no byte [33m 492[2mms[22m[39m
+     [33m[2m✓[22m[39m lists 12 made words for week 1 and prints "chars" for one take of each key [33m 583[2mms[22m[39m
+     [33m[2m✓[22m[39m writes an mp3 of 32 kHz, mono, 128 kb/s for each new word [33m 466[2mms[22m[39m
+     [33m[2m✓[22m[39m makes a take again when it is heard as another word, and keeps the take number [33m 588[2mms[22m[39m
+     [33m[2m✓[22m[39m stops before the call that would take the run above maxChars, and keeps the rows of the finished words [33m 641[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-book-pictures.test.ts[2m > [22m[2mStorytime app book pictures[2m > [22m[2mruns the week command successfully on the shipped w01
+[22m[39mset 18 book pictures in ../content/storytime/l2/w01.json
+
+ [32m✓[39m __tests__/storytime-book-pictures.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 6118[2mms[22m[39m
+     [33m[2m✓[22m[39m runs the week command successfully on the shipped w01 [33m 1822[2mms[22m[39m
+     [33m[2m✓[22m[39m gives the w02 pages with a repeated text the base row and the second row (E7 case a) [33m 2121[2mms[22m[39m
+     [33m[2m✓[22m[39m gives the w06 pages with a repeated text the base row and the second row (E7 case b) [33m 1957[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-weeks-2-8.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 4188[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P7-1 compiles every teaching week and week 8 review pages in order [33m 1821[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P7-2 renders all week 8 circle-picture rows, picture sorts, and seven empty letter boxes [33m 671[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P7-3 tests each week 2 to 7 reader plan and text across six A5 leaves [33m 838[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P7-5 uses placeholders only for named pending rows and still rejects an unnamed missing picture [33m 854[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-part3a.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 3779[2mms[22m[39m
+     [33m[2m✓[22m[39m D-all: every dot of every letter, in every week and cell kind, is on the start of stroke 1 within 0.3 mm [33m 845[2mms[22m[39m
+     [33m[2m✓[22m[39m D-mutants: a dot moved in one week only, in one kind of cell, fails the check [33m 1652[2mms[22m[39m
+     [33m[2m✓[22m[39m Q-expected: the expected codes are the song and book codes of each home card and the code of each reader, on the pages that print them [33m 571[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-book.test.ts [2m([22m[2m65 tests[22m[2m)[22m[33m 3656[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring: the manual PDF help names --share [33m 810[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-manual-pdf.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 1567[2mms[22m[39m
+     [33m[2m✓[22m[39m T11 wiring /home/daniebo/Desktop/Workbooks/dashboard/scripts/storytime/make-teacher-book-print.ts: the flag --share is accepted, and an unknown flag still exits 2 [33m 452[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-book-pages.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 3279[2mms[22m[39m
+     [33m[2m✓[22m[39m B1 wiring: --help exits 0 and names --book-pages [33m 779[2mms[22m[39m
+     [33m[2m✓[22m[39m B1 wiring: the flag --book-pages is accepted, and an unknown flag still exits 2 [33m 1552[2mms[22m[39m
+     [33m[2m✓[22m[39m B2 equality w01: manualPdfHtml with bookPages equals compileStorytimeManual with the unit page list [33m 730[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-reader-ink.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 2782[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6a: the 12 reader sides of the student book have a dashed fold line only, solid frames, tick-only tear-outs with the scissors label, and fold labels; the 2 home sides keep the dashed cut line [33m 1104[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6b: the 12 reader sides of the readers workbook build keep the same rules [33m 333[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F6d: a dashed picture frame and a full-height perforation line are each caught (mutants on a copy) [33m 1072[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-part2.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 3084[2mms[22m[39m
+     [33m[2m✓[22m[39m F5-page: the label and the icon follow the action (Look. eye; Color. pencil) [33m 747[2mms[22m[39m
+     [33m[2m✓[22m[39m U8-badge: each step carries the grey badge of its code, and a part that two steps share carries both codes [33m 570[2mms[22m[39m
+     [33m[2m✓[22m[39m U8-pages: the materials name the printed page of the student book ("หนังสือนักเรียน หน้า N") [33m 482[2mms[22m[39m
+     [33m[2m✓[22m[39m U8-questions: the read-along questions print in D3 with the printed page, and not in C5 [33m 521[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-c2-start-table.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 2412[2mms[22m[39m
+     [33m[2m✓[22m[39m C2-ink: each of the 32 values equals the pinned value of P9-B3 and sits 0.02 em or more inside the Andika glyph [33m 1644[2mms[22m[39m
+     [33m[2m✓[22m[39m C2-book: every trace dot of weeks 1 to 7 sits at the absolute spec position within 0.3 mm [33m 410[2mms[22m[39m
+     [33m[2m✓[22m[39m C2-mutants: the old c, the old S, a left-middle value, a missing u, and a dot 0.5 mm left each fail [33m 326[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-captions.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 2549[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-stickers.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 3185[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S2 the unit 1 sticker keeps its text and shows no picture [33m 1721[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S8 a centre override moves one sticker only [33m 1029[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-S10 falsifier: the old 28 mm inset art fails the same check [33m 318[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-practice-rule.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 2225[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P6-F4: each line of each practice text has one rule across the full width of the practice text box (Chrome, Andika loaded) [33m 2223[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-raster.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 2420[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-7 the render of the patch of red is a progressive JPEG of 800 x 800 [33m 653[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-10 the render of one, nine, and ten holds one, nine, and ten round dots [33m 332[2mms[22m[39m
+     [33m[2m✓[22m[39m R1-11 two renders of the card of seven give the same bytes [33m 562[2mms[22m[39m
+the requested weeks contain a duplicate
+No approved draft: /tmp/storytime-adv-p3-6Oqu3q/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf; /tmp/storytime-adv-p3-6Oqu3q/drafts/Storytime-L2-W03-Teachers-Book-TH-draft.pdf
+requested week 30 is not loaded exactly once (loaded 0 of the level)
+--weeks must be a whole number from 1 to 32, got "../x"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines ("หน้า 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--version must be a whole number from 1 to 9007199254740991, got "0"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines ("หน้า 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+the teacher book is Thai only (spec P6): --lang must be th, got "en"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines ("หน้า 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--out must be a folder inside /tmp/storytime-adv-p3-iVdNq4/Desktop/print-ready/storytime, got "/tmp/storytime-adv-p3-iVdNq4/elsewhere"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines ("หน้า 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+No approved draft: /tmp/storytime-adv-p3-Mn23v8/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf
+ [32m✓[39m __tests__/storytime-print-teacher-book-adversarial.test.ts [2m([22m[2m28 tests[22m[2m)[22m[33m 2216[2mms[22m[39m
+     [33m[2m✓[22m[39m passes a week gap through week validation and stops at the missing drafts [33m 389[2mms[22m[39m
+     [33m[2m✓[22m[39m stops at a missing draft with exit 1 before the folder is made [33m 378[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-v15.test.ts [2m([22m[2m28 tests[22m[2m)[22m[33m 1985[2mms[22m[39m
+     [33m[2m✓[22m[39m E2-qr: the QR label of Nan Can Nod stays "Listen to the book" [33m 644[2mms[22m[39m
+     [33m[2m✓[22m[39m G6-build-control: a valid checkRows copy of week 3 compiles [33m 508[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-student-book-adversarial.test.ts [2m([22m[2m55 tests[22m[2m)[22m[33m 2104[2mms[22m[39m
+     [33m[2m✓[22m[39m A1: keeps hostile week text out of the markup [33m 545[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-a48-step2.test.ts [2m([22m[2m39 tests[22m[2m)[22m[33m 1911[2mms[22m[39m
+     [33m[2m✓[22m[39m F1-geometry: the baseline of each trace line is the bottom of its SVG, where the rule line starts (within 0.5 mm) [33m 910[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-review-more.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 1739[2mms[22m[39m
+     [33m[2m✓[22m[39m P9C-dot: the sentence dot of every match row stands 2 mm or less after the right edge of its text [33m 866[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-adversarial.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 1598[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-patches.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 2442[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-P3 all 17 special cards replace the empty box and all 29 unmatched cards retain it [33m 1363[2mms[22m[39m
+     [33m[2m✓[22m[39m R-P8-P4 the shipped match report gives 54 picture matches, 8 patches, 9 dots, and 29 none [33m 909[2mms[22m[39m
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops] [--share] [--book-pages]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+  --share   Print the draft parent-share moments
+  --book-pages   Print the unit page list of the student book, as the teacher-book build does (default off)
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+ [32m✓[39m __tests__/storytime-loops-teacher-book.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 1674[2mms[22m[39m
+     [33m[2m✓[22m[39m documents --loops in the manual PDF help [33m 749[2mms[22m[39m
+     [33m[2m✓[22m[39m returns exit 2 for an unknown manual PDF flag [33m 759[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-r6v2-fixes.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 1464[2mms[22m[39m
+     [33m[2m✓[22m[39m X7c: the class C line pictures with ink in the outer pixel ring are exactly the two nose files [33m 667[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-h1-classes.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 1577[2mms[22m[39m
+     [33m[2m✓[22m[39m H1-script: classify-text-gate exits 1 on a report line that does not parse, and 2 on an output that exists or is outside the print-ready folder [33m 724[2mms[22m[39m
+     [33m[2m✓[22m[39m H1-build: the teacher-book build has the h1 list in its output list, and a link at that path stops the build before it writes outside [33m 783[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-unit2-word-keys.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 1500[2mms[22m[39m
+     [33m[2m✓[22m[39m gives one practice-clips FAIL row, a Summary, exit 1, and no stack frame [33m 349[2mms[22m[39m
+     [33m[2m✓[22m[39m gives one practice-clips FAIL row for an opening line with no word form [33m 380[2mms[22m[39m
+     [33m[2m✓[22m[39m gives one FAIL row for each of two bad family words, and counts both [33m 374[2mms[22m[39m
+     [33m[2m✓[22m[39m equals the baseline capture at 0dcb45d4 [33m 351[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-d4-prompt.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 1565[2mms[22m[39m
+     [33m[2m✓[22m[39m D4P-page: week 5 prints l2-w05-d4-prompt-face above the trace row with the label Draw. and one draw box [33m 763[2mms[22m[39m
+     [33m[2m✓[22m[39m D4P-page: week 7 prints l2-w07-d4-prompt-ball above the trace row with the label Color. and one draw box [33m 707[2mms[22m[39m
+[90mstdout[2m | __tests__/storytime-print-c6-baseline.test.ts[2m > [22m[2mStorytime print text on rules sits on the baseline (audit item C6)[2m > [22m[2mC6: every printed rule lies on the baseline of its text within 0.5 mm, and the p of "p p p" goes below the rule (Chrome, Andika loaded)
+[22m[39mC6 offsets
+practice line (A7): 19 line(s), offset 0.00 to 0.01 mm (rule top minus baseline)
+trace row (dictation-word-trace): 1 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+trace row (writing-trace): 25 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+trace row (dictation-trace): 22 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+trace row (choice-word-trace): 22 line(s), offset 0.00 to 0.00 mm (rule top minus baseline)
+
+ [32m✓[39m __tests__/storytime-print-c6-baseline.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 1506[2mms[22m[39m
+     [33m[2m✓[22m[39m C6: every printed rule lies on the baseline of its text within 0.5 mm, and the p of "p p p" goes below the rule (Chrome, Andika loaded) [33m 1505[2mms[22m[39m
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-hgTjEj/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-TtuDwS/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+ [32m✓[39m __tests__/storytime-print-teacher-book.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 1394[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside [33m 429[2mms[22m[39m
+     [33m[2m✓[22m[39m B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside [33m 448[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers-adversarial.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 1144[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-CLI-NO-MANIFEST exits 2 on a batch folder without manifest.json, on an unknown flag, and writes no file [33m 367[2mms[22m[39m
+     [33m[2m✓[22m[39m ADV-P4-A3-PREFLIGHT the final color A3 build stops on a missing color file, and no output folder is made [33m 545[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-binding-practice.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 1060[2mms[22m[39m
+     [33m[2m✓[22m[39m fills the 8-week book to 140 pages with the benchmark before Review 1 and no pad at the end (A-48 U4) [33m 831[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-match.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 1089[2mms[22m[39m
+     [33m[2m✓[22m[39m G-P8-M8 counts picture, patch, dots, and none source columns [33m 1070[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share.test.ts [2m([22m[2m23 tests[22m[2m)[22m[33m 932[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-adversarial-r3.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 1181[2mms[22m[39m
+     [33m[2m✓[22m[39m R3-3 counts the 106 cards of weeks 1 to 8 as picture 89, patch 8, dots 9, and none 0 [33m 1174[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-share-content.test.ts [2m([22m[2m75 tests[22m[2m)[22m[33m 680[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-covers.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 637[2mms[22m[39m
+     [33m[2m✓[22m[39m composes each teacher-book side as an opaque 300 ppi image at the specified trim [33m 417[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-reader-howto.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 505[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-student-book-adversarial-r2.test.ts [2m([22m[2m49 tests[22m[2m)[22m[33m 476[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-checks.test.ts [2m([22m[2m38 tests[22m[2m)[22m[33m 484[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-f3-script-order.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 436[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-content.test.ts [2m([22m[2m104 tests[22m[2m)[22m[33m 475[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-r3.test.ts [2m([22m[2m43 tests[22m[2m)[22m[33m 446[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract.test.ts [2m([22m[2m47 tests[22m[2m)[22m[33m 341[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-readers-adversarial-r2.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 341[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 212[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-contract-v2.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 295[2mms[22m[39m
+ [32m✓[39m __tests__/covers-render.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 289[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-audio.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 225[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-schema.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 154[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-pictures.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 170[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-adversarial.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 166[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-loops-manual.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 183[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-package-sound-stages.test.ts [2m([22m[2m52 tests[22m[2m)[22m[32m 132[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-manual.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 90[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-week.test.ts [2m([22m[2m44 tests[22m[2m)[22m[32m 93[2mms[22m[39m
+ [32m✓[39m __tests__/covers-kit.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 83[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-dictation-case.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonemes.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-phonics.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-book-audio.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m __tests__/covers-contract.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m __tests__/covers-back.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-cli.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-card-kit-adversarial-r4.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m __tests__/print-pdfx.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m __tests__/storytime-print-e4-back-list.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 16 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 9 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: focus.paSkill (first+last); opening.pa.1 (first+last); scripts.0.steps.0 (first+last); scripts.0.steps.3 (first+last)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 9 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 10 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 11 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 13 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 14 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 15 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 16 sound stages[2m > [22meach unit asks at most one position and at least one unit asks last
+[31m[1mAssertionError[22m: expected 2 to be less than or equal to 1[39m
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m64:65[22m[39m
+    [90m 62| [39m    it('each unit asks at most one position and at least one unit asks…
+    [90m 63| [39m        [35mconst[39m units [33m=[39m [34msoundUnits[39m(week)[33m;[39m
+    [90m 64| [39m        for (const unit of units) expect(unit.positions.length).toBeLe…
+    [90m   | [39m                                                                [31m^[39m
+    [90m 65| [39m        expect(units.some((unit) => unit.positions.includes('last'))).…
+    [90m 66| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 10 sound stages[2m > [22mR14-1 mix row passes
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 13 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: scripts.0.steps.0 (first+last)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 11 sound stages[2m > [22mR14-3 plan row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-plan', …(3) } to deeply equal { id: 'sound-stage-plan', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "outside stage: focus.paSkill (middle); outside stage: opening.pa.1 (middle); outside stage: scripts.0.steps.0 (middle); outside stage: scripts.0.steps.3 (middle); outside stage: scripts.4.steps.0 (middle); outside stage: scripts.4.steps.3 (middle); outside stage: scripts.4.steps.4 (middle); outside stage: check.items (middle); tag outside stage: english.phonics.pa.medial-vowel.identify",[39m
+[2m    "id": "sound-stage-plan",[22m
+[2m    "label": "The week follows the sound stage plan (focus.paStage, positions, tags)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m47:43[22m[39m
+    [90m 45| [39m
+    [90m 46| [39m    [34mit[39m([32m'R14-3 plan row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 47| [39m        expect(checkSoundStagePlan(week)).toEqual({ id: 'sound-stage-p…
+    [90m   | [39m                                          [31m^[39m
+    [90m 48| [39m    })[33m;[39m
+    [90m 49| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 11 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: focus.paSkill (first+middle); opening.pa.1 (first+middle); scripts.0.steps.0 (first+middle); scripts.4.steps.4 (first+middle); check.items (first+middle)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 14 sound stages[2m > [22mR14-3 plan row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-plan', …(3) } to deeply equal { id: 'sound-stage-plan', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "outside stage: scripts.0.steps.3 (middle)",[39m
+[2m    "id": "sound-stage-plan",[22m
+[2m    "label": "The week follows the sound stage plan (focus.paStage, positions, tags)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m47:43[22m[39m
+    [90m 45| [39m
+    [90m 46| [39m    [34mit[39m([32m'R14-3 plan row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 47| [39m        expect(checkSoundStagePlan(week)).toEqual({ id: 'sound-stage-p…
+    [90m   | [39m                                          [31m^[39m
+    [90m 48| [39m    })[33m;[39m
+    [90m 49| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 14 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: focus.paSkill (first+last); scripts.0.steps.0 (first+last); scripts.0.steps.3 (first+middle)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 15 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: focus.paSkill (first+last); opening.pa.1 (first+last); scripts.0.steps.0 (first+last); scripts.4.steps.4 (first+last); check.items (first+last)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/storytime-unit2-sound-stage.test.ts[2m > [22munit 2 week 16 sound stages[2m > [22mR14-1 mix row passes
+[31m[1mAssertionError[22m: expected { id: 'sound-stage-mix', …(3) } to deeply equal { id: 'sound-stage-mix', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "detail": "mixed: focus.paSkill (first+last); scripts.0.steps.0 (first+last); benchmark.paper.items (first+last)",[39m
+[2m    "id": "sound-stage-mix",[22m
+[2m    "label": "No activity asks two sound positions (first, last, middle)",[22m
+[32m-   "status": "pass",[39m
+[31m+   "status": "fail",[39m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/storytime-unit2-sound-stage.test.ts:[2m51:42[22m[39m
+    [90m 49| [39m
+    [90m 50| [39m    [34mit[39m([32m'R14-1 mix row passes'[39m[33m,[39m () [33m=>[39m {
+    [90m 51| [39m        expect(checkSoundStageMix(week)).toEqual({ id: 'sound-stage-mi…
+    [90m   | [39m                                         [31m^[39m
+    [90m 52| [39m    })[33m;[39m
+    [90m 53| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m74 passed[39m[22m[90m (75)[39m
+[2m      Tests [22m [1m[31m16 failed[39m[22m[2m | [22m[1m[32m1867 passed[39m[22m[90m (1883)[39m
+[2m   Start at [22m 19:21:02
+[2m   Duration [22m 349.34s[2m (transform 2.22s, setup 2.76s, import 8.90s, tests 317.33s, environment 13.32s)[22m
+
+exit: 1
