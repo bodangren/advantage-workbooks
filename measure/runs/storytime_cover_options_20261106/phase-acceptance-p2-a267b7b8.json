@@ -1,1 +1,132 @@
-{"artifacts_written":["measure/runs/storytime_cover_options_20261106/phase-acceptance-p2-a267b7b8.json","measure/runs/storytime_cover_options_20261106/phase-acceptance-p2-a267b7b8.log","measure/runs/storytime_cover_options_20261106/pa2r3-1-a267b7b8.txt","measure/runs/storytime_cover_options_20261106/pa2r3-3-a267b7b8.txt","measure/runs/storytime_cover_options_20261106/pa2r3-4-a267b7b8.txt","measure/runs/storytime_cover_options_20261106/pa2r3-5-a267b7b8.txt"],"audited_head_sha":"a267b7b8a3e5cdf2c549b292d47b1407aa51da02","blocking_findings":[],"confidence":"high","evidence":["head_check: git rev-parse HEAD gives a267b7b8a3e5cdf2c549b292d47b1407aa51da02 at audit start and the same value is the role_base_sha and audited_head_sha. phase_base_sha 62621a9c confirmed. No commit landed during the audit.","range_check: git log --stat 571d8779..a267b7b8 lists 3 commits: 84762c1e (prior acceptance, 9 measure/runs files), 1b468b5f (test pin move: dashboard/__tests__/quest-cover-f3f6.test.ts plus measure/runs d6pin captures and plan.md), a267b7b8 (plan.md record plus red-d6pin log line). Only the test file, measure/runs, and plan.md changed; no print file, manifest, or approved file changed. Prerequisite results of 571d8779 still apply.","step1_green: pa2r3-1-a267b7b8.txt: GREEN_TEST_COMMAND exit 0, 19 passed files, 396 passed tests. D6 page 1 checked 28, problems 0. The F1 pin move holds.","step1_project: pa2r3-1-a267b7b8.txt: PROJECT_TESTS exit 1, 1 failed | 93 passed files, 24 failed | 2280 passed tests. The only failing file is storytime-unit2-sound-stage.test.ts (24 tests, the known foreign open Red of track storytime_l2_unit2_20261106, by design). Zero own-track failures.","step1_lint_checks: pa2r3-1-a267b7b8.txt: PROJECT_LINT exit 0 (0 errors, 1 known warning line 1709). PROJECT_CHECKS exit 0 (Summary: 8 packages, 0 failed checks, 1 warning; tsc clean).","step2_print: cited pa2-2-571d8779.txt (unchanged files per range check): PRINT_GATE exit 0 on all 4 files, text counts per D-F10-12 and D-1, all fonts embedded no Type 3, Thai per-page counts 0/38 equal to BACK_LINES.contact. STEP2_EXIT=0 stands.","step3_manifest: pa2r3-3-a267b7b8.txt: awk/sha256sum -c exit 0, MANIFEST SHA 8f1901a3 matches Task 2.11 accepted set. Prior OK_COUNT=133 stands.","step4_g1: pa2r3-4-a267b7b8.txt: labeled loop over the 3 new SHAs. All list only the test file, measure/runs, or plan.md. Full 47-SHA loop of pa2-4-571d8779.txt stands (40 clean, 7 listed with plan-authorized or other-track cause). STEP4_EXIT=0.","step5_hashes: pa2r3-5-a267b7b8.txt: cover.pdf 2964d9b678afc7a0, student v3 e0e0365a4ece8a5b, teacher v1 3b992af216dc2238. All match FR-11.7 and pa2-5-571d8779.txt.","step6_spend: cited pa2-6-571d8779.txt and rechecked options/spend_check.py exit 0 (rows=7, checks=8, failures=0). Track total 0.0910 USD, at most 1.00 USD. PASS.","step7_notes: tracks.md track note and metadata.json status_note both exactly 'Reader covers approved 2026-11-13; book covers r6 fix round F10 (due 11-14 10:00); release keeps r2 until Daniel passes r6'. Exact match. PASS.","reviews: Review A pass (review-ab-a-6cceee91.json), Review B limited pass (review-ab-b-6cceee91.json), Review C pass (review-c-40053805.json), Adversarial round 3 pass (adversarial3-6aa10755.json). All target older HEADs; later changes carry their own Red/Green gates plus PM look and Daniel approvals (readers 2026-11-13, r6 books 2026-11-14). The D6 pin move carries the Mid Red phase role gates (d6pin-1..6, gate 2 exit 0 with 14 of 14, gate 4 GREEN 19 files 396 tests, gate 5 ESLint exit 0). UX_REQUIRED=never; look-phase2.md holds 32/32 passes and both Daniel approvals are on record.","a3: closeout counts are labeled integers (133 OK, 2/2/14/14 pages, 0/38 Thai, 0.0910 USD, 19 files, 396 tests). No digit-only count claim found. No violation.","a4: phase holds many [x] tasks with commits; no zero-task markers-consistent PASS claim exists. No violation.","a5: the D6 pin-move plan evidence claims gate 2 exit 0 with 14 of 14 and gate 4 GREEN exit 0 with 19 files and 396 tests; this re-run confirms GREEN exit 0 with 19 files and 396 tests. print-gate-f10.txt claim 20 PASS 0 FAIL verified in the prior run. No false-claim text stands.","a6: tracks.md and metadata.json notes verified exact in step 7. No registry overstatement.","a7: phase changes no banned-term filter. No violation.","plan_line: Task line 273 stays [ ] pending the orchestrator's acceptance bullet for this run.","privacy: no mockup HTML, PDF, PNG, or content/storytime file opened for reading. Thai evidence uses integer counts only. All captures hold 0 characters in U+0E00..U+0E7F."],"next_action":"Orchestrator records this acceptance on the Phase 2 plan line and closes Phase 2.","nonblocking_findings":["N1 [nonblocking, carried] G-1 rule text (plan D-A3) is stale: 4 plan-authorized Phase 2 commits touch paths outside its allowed list (deb12edd, fc555b74, b78f8da3 add new logo SVGs under content/storytime/covers/logos/; 805a291 adjusts dashboard/lib/print/pdfx.ts and dashboard/scripts/print/make-pdfx.ts for the cover print gate). Each passed its own Red/Green gate at the time and shipped Daniel-approved files. Fix the plan rule text or grant the paths.","N2 [nonblocking, carried] Cross-track commit 0eff8d17 (storytime_print_r1, 2026-11-14) changed this track's cover-quest.ts after F10 Green. The D6 cause is now pinned to the print-track fix table and the pin move passes; no further action needed for acceptance."],"phase":"Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)","phase_base_sha":"62621a9c","ratings":[{"axis":"correctness","evidence":"Shipped covers match spec and Daniel approved readers plus r6 books; D6 pin now passes with 28 checked and 0 problems (pa2r3-1-a267b7b8.txt).","score":5},{"axis":"evidence_quality","evidence":"Every re-run step has a capture with exit codes, SHAs, and counts (pa2r3-1, pa2r3-3, pa2r3-4, pa2r3-5).","score":5},{"axis":"scope_discipline","evidence":"Range check lists only 1 test file, measure/runs, and plan.md; no print or approved file changed (pa2r3-4-a267b7b8.txt).","score":5},{"axis":"test_meaning","evidence":"Real gates prove the fix: GREEN 396 passed with D6 at 0 problems, PROJECT own-track failures at 0 (pa2r3-1-a267b7b8.txt).","score":5}],"retry_recommendation":"none","reviewer_ratings":[{"agreed":true,"evidence":"Re-checked its scope claim at 6cceee91; G-1 held there and template gates pass (green2-qr logs).","reviewer_role":"review-a","reviewer_route":"unknown","score":4},{"agreed":true,"evidence":"Out-folder and argv bounds still hold; the pin move adds no new paths (pa2r3-4-a267b7b8.txt).","reviewer_role":"review-b","reviewer_route":"unknown","score":4},{"agreed":true,"evidence":"quest.json unchanged; manifest and FR-11.7 hash checks still pass (pa2r3-3, pa2r3-5).","reviewer_role":"review-c","reviewer_route":"unknown","score":4},{"agreed":true,"evidence":"Round 3 pass stands at ee8d5fc3; the HEAD drift is now pinned and GREEN passes at HEAD.","reviewer_role":"adversarial","reviewer_route":"unknown","score":4}],"role":"phase-acceptance","role_base_sha":"a267b7b8","route":"opencode-go/muse-spark-1.3-contributor#high","schema_version":1,"status":"pass","summary":"Phase 2 is accepted at HEAD a267b7b8. The D6 pin move (1b468b5f) fixed F1: GREEN_TEST_COMMAND exits 0 (19 files, 396 tests) and PROJECT_TESTS fails only in the known foreign unit-2 file (24 tests, by design; zero own-track failures). LINT and CHECKS pass. Steps 2, 3, 5, 6, and 7 stand on the 571d8779 captures with cheap hash re-runs (manifest exit 0, FR-11.7 hashes match). Guard G-1 holds for the 3 new SHAs (test, measure/runs, plan.md only). Two carried nonblocking findings (G-1 rule-text staleness, cross-track note).","supersedes":"phase-acceptance-p2-571d8779.json","track":"storytime_cover_options_20261106"}
+{
+ "artifacts_written": [
+  "measure/runs/storytime_cover_options_20261106/phase-acceptance-p2-a267b7b8.json",
+  "measure/runs/storytime_cover_options_20261106/phase-acceptance-p2-a267b7b8.log",
+  "measure/runs/storytime_cover_options_20261106/pa2r3-1-a267b7b8.txt",
+  "measure/runs/storytime_cover_options_20261106/pa2r3-3-a267b7b8.txt",
+  "measure/runs/storytime_cover_options_20261106/pa2r3-4-a267b7b8.txt",
+  "measure/runs/storytime_cover_options_20261106/pa2r3-5-a267b7b8.txt"
+ ],
+ "audited_head_sha": "a267b7b8a3e5cdf2c549b292d47b1407aa51da02",
+ "blocking_findings": [],
+ "confidence": "high",
+ "evidence": [
+  "head_check: git rev-parse HEAD gives a267b7b8a3e5cdf2c549b292d47b1407aa51da02 at audit start and the same value is the role_base_sha and audited_head_sha. phase_base_sha 62621a9c confirmed. No commit landed during the audit.",
+  "range_check: git log --stat 571d8779..a267b7b8 lists 3 commits: 84762c1e (prior acceptance, 9 measure/runs files), 1b468b5f (test pin move: dashboard/__tests__/quest-cover-f3f6.test.ts plus measure/runs d6pin captures and plan.md), a267b7b8 (plan.md record plus red-d6pin log line). Only the test file, measure/runs, and plan.md changed; no print file, manifest, or approved file changed. Prerequisite results of 571d8779 still apply.",
+  "step1_green: pa2r3-1-a267b7b8.txt: GREEN_TEST_COMMAND exit 0, 19 passed files, 396 passed tests. D6 page 1 checked 28, problems 0. The F1 pin move holds.",
+  "step1_project: pa2r3-1-a267b7b8.txt: PROJECT_TESTS exit 1, 1 failed | 93 passed files, 24 failed | 2280 passed tests. The only failing file is storytime-unit2-sound-stage.test.ts (24 tests, the known foreign open Red of track storytime_l2_unit2_20261106, by design). Zero own-track failures.",
+  "step1_lint_checks: pa2r3-1-a267b7b8.txt: PROJECT_LINT exit 0 (0 errors, 1 known warning line 1709). PROJECT_CHECKS exit 0 (Summary: 8 packages, 0 failed checks, 1 warning; tsc clean).",
+  "step2_print: cited pa2-2-571d8779.txt (unchanged files per range check): PRINT_GATE exit 0 on all 4 files, text counts per D-F10-12 and D-1, all fonts embedded no Type 3, Thai per-page counts 0/38 equal to BACK_LINES.contact. STEP2_EXIT=0 stands.",
+  "step3_manifest: pa2r3-3-a267b7b8.txt: awk/sha256sum -c exit 0, MANIFEST SHA 8f1901a3 matches Task 2.11 accepted set. Prior OK_COUNT=133 stands.",
+  "step4_g1: pa2r3-4-a267b7b8.txt: labeled loop over the 3 new SHAs. All list only the test file, measure/runs, or plan.md. Full 47-SHA loop of pa2-4-571d8779.txt stands (40 clean, 7 listed with plan-authorized or other-track cause). STEP4_EXIT=0.",
+  "step5_hashes: pa2r3-5-a267b7b8.txt: cover.pdf 2964d9b678afc7a0, student v3 e0e0365a4ece8a5b, teacher v1 3b992af216dc2238. All match FR-11.7 and pa2-5-571d8779.txt.",
+  "step6_spend: cited pa2-6-571d8779.txt and rechecked options/spend_check.py exit 0 (rows=7, checks=8, failures=0). Track total 0.0910 USD, at most 1.00 USD. PASS.",
+  "step7_notes: tracks.md track note and metadata.json status_note both exactly 'Reader covers approved 2026-11-13; book covers r6 fix round F10 (due 11-14 10:00); release keeps r2 until Daniel passes r6'. Exact match. PASS.",
+  "reviews: Review A pass (review-ab-a-6cceee91.json), Review B limited pass (review-ab-b-6cceee91.json), Review C pass (review-c-40053805.json), Adversarial round 3 pass (adversarial3-6aa10755.json). All target older HEADs; later changes carry their own Red/Green gates plus PM look and Daniel approvals (readers 2026-11-13, r6 books 2026-11-14). The D6 pin move carries the Mid Red phase role gates (d6pin-1..6, gate 2 exit 0 with 14 of 14, gate 4 GREEN 19 files 396 tests, gate 5 ESLint exit 0). UX_REQUIRED=never; look-phase2.md holds 32/32 passes and both Daniel approvals are on record.",
+  "a3: closeout counts are labeled integers (133 OK, 2/2/14/14 pages, 0/38 Thai, 0.0910 USD, 19 files, 396 tests). No digit-only count claim found. No violation.",
+  "a4: phase holds many [x] tasks with commits; no zero-task markers-consistent PASS claim exists. No violation.",
+  "a5: the D6 pin-move plan evidence claims gate 2 exit 0 with 14 of 14 and gate 4 GREEN exit 0 with 19 files and 396 tests; this re-run confirms GREEN exit 0 with 19 files and 396 tests. print-gate-f10.txt claim 20 PASS 0 FAIL verified in the prior run. No false-claim text stands.",
+  "a6: tracks.md and metadata.json notes verified exact in step 7. No registry overstatement.",
+  "a7: phase changes no banned-term filter. No violation.",
+  "plan_line: Task line 273 stays [ ] pending the orchestrator's acceptance bullet for this run.",
+  "privacy: no mockup HTML, PDF, PNG, or content/storytime file opened for reading. Thai evidence uses integer counts only. All captures hold 0 characters in U+0E00..U+0E7F."
+ ],
+ "next_action": "Orchestrator records this acceptance on the Phase 2 plan line and closes Phase 2.",
+ "nonblocking_findings": [
+  "N1 [nonblocking, carried] G-1 rule text (plan D-A3) is stale: 4 plan-authorized Phase 2 commits touch paths outside its allowed list (deb12edd, fc555b74, b78f8da3 add new logo SVGs under content/storytime/covers/logos/; 805a291 adjusts dashboard/lib/print/pdfx.ts and dashboard/scripts/print/make-pdfx.ts for the cover print gate). Each passed its own Red/Green gate at the time and shipped Daniel-approved files. Fix the plan rule text or grant the paths.",
+  "N2 [nonblocking, carried] Cross-track commit 0eff8d17 (storytime_print_r1, 2026-11-14) changed this track's cover-quest.ts after F10 Green. The D6 cause is now pinned to the print-track fix table and the pin move passes; no further action needed for acceptance."
+ ],
+ "phase": "Phase 2: The option A covers (2026-11-07 to 2026-11-16; Daniel's approval after 2026-11-16)",
+ "phase_base_sha": "62621a9c",
+ "ratings": [
+  {
+   "axis": "correctness",
+   "evidence": "Shipped covers match spec and Daniel approved readers plus r6 books; D6 pin now passes with 28 checked and 0 problems (pa2r3-1-a267b7b8.txt).",
+   "score": 5
+  },
+  {
+   "axis": "evidence_quality",
+   "evidence": "Every re-run step has a capture with exit codes, SHAs, and counts (pa2r3-1, pa2r3-3, pa2r3-4, pa2r3-5).",
+   "score": 5
+  },
+  {
+   "axis": "scope_discipline",
+   "evidence": "Range check lists only 1 test file, measure/runs, and plan.md; no print or approved file changed (pa2r3-4-a267b7b8.txt).",
+   "score": 5
+  },
+  {
+   "axis": "test_meaning",
+   "evidence": "Real gates prove the fix: GREEN 396 passed with D6 at 0 problems, PROJECT own-track failures at 0 (pa2r3-1-a267b7b8.txt).",
+   "score": 5
+  }
+ ],
+ "retry_recommendation": "none",
+ "reviewer_ratings": [
+  {
+   "agreed": true,
+   "evidence": "Re-checked its scope claim at 6cceee91; G-1 held there and template gates pass (green2-qr logs).",
+   "reviewer_role": "review-a",
+   "reviewer_route": "unknown",
+   "score": 4
+  },
+  {
+   "agreed": true,
+   "evidence": "Out-folder and argv bounds still hold; the pin move adds no new paths (pa2r3-4-a267b7b8.txt).",
+   "reviewer_role": "review-b",
+   "reviewer_route": "unknown",
+   "score": 4
+  },
+  {
+   "agreed": true,
+   "evidence": "quest.json unchanged; manifest and FR-11.7 hash checks still pass (pa2r3-3, pa2r3-5).",
+   "reviewer_role": "review-c",
+   "reviewer_route": "unknown",
+   "score": 4
+  },
+  {
+   "agreed": true,
+   "evidence": "Round 3 pass stands at ee8d5fc3; the HEAD drift is now pinned and GREEN passes at HEAD.",
+   "reviewer_role": "adversarial",
+   "reviewer_route": "unknown",
+   "score": 4
+  }
+ ],
+ "role": "phase-acceptance",
+ "role_base_sha": "a267b7b8",
+ "route": "opencode-go/muse-spark-1.3-contributor#high",
+ "schema_version": 1,
+ "status": "pass",
+ "summary": "Phase 2 is accepted at HEAD a267b7b8. The D6 pin move (1b468b5f) fixed F1: GREEN_TEST_COMMAND exits 0 (19 files, 396 tests) and PROJECT_TESTS fails only in the known foreign unit-2 file (24 tests, by design; zero own-track failures). LINT and CHECKS pass. Steps 2, 3, 5, 6, and 7 stand on the 571d8779 captures with cheap hash re-runs (manifest exit 0, FR-11.7 hashes match). Guard G-1 holds for the 3 new SHAs (test, measure/runs, plan.md only). Two carried nonblocking findings (G-1 rule-text staleness, cross-track note).",
+ "supersedes": "phase-acceptance-p2-571d8779.json",
+ "track": "storytime_cover_options_20261106",
+ "commands": [
+  "cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1",
+  "cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts __tests__/quest-cover-*.test.ts --maxWorkers=1",
+  "cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts",
+  "cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit",
+  "cd ~/Desktop/print-ready/storytime/covers-quest-v1 && awk '{print $1\"  \"$3}' MANIFEST.txt | sha256sum -c --quiet",
+  "sha256sum ~/Desktop/print-ready/storytime/print-v3/l2u1/cover.pdf ~/Desktop/print-ready/storytime/print-v3/l2u1/Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf ~/Desktop/print-ready/storytime/teacher-cover-l2u1/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v1_PDFX-1a.pdf",
+  "git show --name-only --format=%H %s 84762c1e 1b468b5f a267b7b8",
+  "python3 -I -B options/spend_check.py in measure/tracks/storytime_cover_options_20261106"
+ ],
+ "changed_files": [
+  "dashboard/__tests__/quest-cover-f3f6.test.ts",
+  "measure/runs/storytime_cover_options_20261106/d6pin-1-84762c1e.txt",
+  "measure/runs/storytime_cover_options_20261106/d6pin-2-84762c1e.txt",
+  "measure/runs/storytime_cover_options_20261106/d6pin-3-84762c1e.txt",
+  "measure/runs/storytime_cover_options_20261106/d6pin-4-84762c1e.txt",
+  "measure/runs/storytime_cover_options_20261106/d6pin-5-84762c1e.txt",
+  "measure/runs/storytime_cover_options_20261106/d6pin-6-84762c1e.txt",
+  "measure/runs/storytime_cover_options_20261106/red-d6pin-84762c1e.log",
+  "measure/runs/storytime_cover_options_20261106/pa2-1-571d8779.txt",
+  "measure/runs/storytime_cover_options_20261106/pa2-2-571d8779.txt",
+  "measure/runs/storytime_cover_options_20261106/pa2-3-571d8779.txt",
+  "measure/runs/storytime_cover_options_20261106/pa2-4-571d8779.txt",
+  "measure/runs/storytime_cover_options_20261106/pa2-5-571d8779.txt",
+  "measure/runs/storytime_cover_options_20261106/pa2-6-571d8779.txt",
+  "measure/runs/storytime_cover_options_20261106/pa2-7-571d8779.txt",
+  "measure/runs/storytime_cover_options_20261106/phase-acceptance-p2-571d8779.json",
+  "measure/runs/storytime_cover_options_20261106/phase-acceptance-p2-571d8779.log",
+  "measure/tracks/storytime_cover_options_20261106/plan.md"
+ ]
+}
