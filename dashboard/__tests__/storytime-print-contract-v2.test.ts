@@ -338,6 +338,11 @@ describe('Storytime print v2: the P14 approval records (R14)', () => {
                     });
                     continue;
                 }
+                // changed 2026-11-18 (PM order): Daniel approved audio, song, and scripts of weeks 2 to 7 ("1. Ok", Google Tasks 2026-11-18 05:36 ICT, item OGt2RXk4).
+                if ((part === 'audio' || part === 'song' || part === 'scripts') && week <= 7) {
+                    expect(approval[part], `Week ${week}: the ${part} part records the owner approval of 2026-11-18.`).toMatchObject({ status: 'approved', date: '2026-11-18', words: '1. Ok' });
+                    continue;
+                }
                 expect(approval[part], `Week ${week}: ${part} stays draft.`).toEqual({ status: 'draft' });
             }
         }

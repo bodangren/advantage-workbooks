@@ -382,9 +382,9 @@ function sortKeys(value: unknown): unknown {
 }
 
 /**
- * The week without the FR-1 fields, without the two keys of the print track, without the two media approvals, and without the
- * Phase 3b share moment of each script. Both sides of the additive compare go through this function. `dropTh` is a mutant: a
- * deleter that also removes the Thai notes.
+ * The week without the FR-1 fields, without the two keys of the print track, without the media approvals, without the
+ * `meta.status` gate record, and without the Phase 3b share moment of each script. Both sides of the additive compare go
+ * through this function. `dropTh` is a mutant: a deleter that also removes the Thai notes.
  */
 function withoutNewFields(week: Raw, dropTh = false): Raw {
     const copy = structuredClone(week);
@@ -426,7 +426,10 @@ function withoutNewFields(week: Raw, dropTh = false): Raw {
         delete copy.approval.images;
         // Daniel approved the Thai of the Phase 14 rows on 2026-11-15, after the baseline commit; the owner approvals are not loops content.
         delete copy.approval.thai;
+        // changed 2026-11-18 (publish of weeks 2 to 7, PM order): Daniel approved audio, song, and scripts of weeks 2 to 7 ("1. Ok", Google Tasks 2026-11-18 05:36 ICT); owner approval records and meta.status are not content.
+        delete copy.approval.scripts;
     }
+    if (copy.meta) delete copy.meta.status;
     delete copy.print;
     // The song video lead-in is the Phase 11 media of the song video (Phase 11, K15).
     delete copy.song?.videoLeadInSeconds;

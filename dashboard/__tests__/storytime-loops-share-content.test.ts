@@ -117,8 +117,8 @@ function sortKeys(value: unknown): unknown {
 
 /**
  * The week without its allow-list (Q21, anti-pattern A7): exactly the keys of the earlier additive compare
- * (`print`, `approval.loops`, `approval.print`, `approval.audio`, `approval.song`, `approval.images`,
- * `books[].cover.file`, and `books[].pages[].image.file`) and `scripts[].share`. It also removes the two
+ * (`print`, `approval.loops`, `approval.print`, `approval.audio`, `approval.song`, `approval.scripts`, `approval.images`,
+ * `meta.status`, `books[].cover.file`, and `books[].pages[].image.file`) and `scripts[].share`. It also removes the two
  * Phase 11 fields, `books[].audio.wordClips` and `song.videoLeadInSeconds` (spec K15), as `withoutNewFields`
  * of `storytime-loops-content.test.ts` does: a clips commit adds them after the baseline commit, so the
  * additive compare must ignore them. It also removes the four Phase 12 fields, `opening.wordClips`,
@@ -152,7 +152,10 @@ function withoutAllowList(week: Raw): Raw {
         delete copy.approval.images;
         // Daniel approved the Thai of the Phase 14 rows on 2026-11-15, after the baseline commit; the owner approvals are not loops content.
         delete copy.approval.thai;
+        // changed 2026-11-18 (publish of weeks 2 to 7, PM order): Daniel approved audio, song, and scripts of weeks 2 to 7 ("1. Ok", Google Tasks 2026-11-18 05:36 ICT); owner approval records and meta.status are not content.
+        delete copy.approval.scripts;
     }
+    if (copy.meta) delete copy.meta.status;
     delete copy.print;
     return copy;
 }

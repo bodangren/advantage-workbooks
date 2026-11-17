@@ -113,6 +113,15 @@ function normalize(text: string): string {
 }
 
 /**
+ * The report without the `published` rows, one row per published week.
+ * @param text A check report.
+ * @returns The report without the published rows.
+ */
+function dropPublishedRows(text: string): string {
+    return text.split('\n').filter((line) => !/^\s+PASS\s+published\b/.test(line)).join('\n');
+}
+
+/**
  * Says whether a check report holds a stack frame. Node prints four spaces before `at`.
  * @param lines The lines of a report or an error stream.
  * @returns True when a frame is present.
@@ -215,6 +224,7 @@ describe('the unit 1 rows do not change (D-U2-K4, plan F11)', () => {
         const expected = normalize(fs.readFileSync(baselineFile, 'utf8'));
         const run = runCheck(stageRoot());
         expect(run.status, 'the exit code').toBe(0);
-        expect(normalize(run.stdout), 'the st2/1 to st2/8 rows').toBe(expected);
+        // changed 2026-11-18 (publish of weeks 2 to 7, PM order): Daniel approved audio, song, and scripts of weeks 2 to 7 ("1. Ok", Google Tasks 2026-11-18 05:36 ICT); owner approval records and meta.status are not content.
+        expect(dropPublishedRows(normalize(run.stdout)), 'the st2/1 to st2/8 rows').toBe(dropPublishedRows(expected));
     });
 });

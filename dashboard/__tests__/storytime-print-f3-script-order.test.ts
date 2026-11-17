@@ -313,11 +313,13 @@ function allowedStep(step: unknown): unknown {
 }
 
 /**
- * The approval block with the `thai`, `loops`, and `print` keys dropped: the Owner gate writes
+ * The approval block with the `thai`, `loops`, `print`, `audio`, `song`, and `scripts` keys dropped:
+ * the Owner gate writes
  * `approval.thai` after Daniel's Thai check, the loops Phase 4 record task writes
  * `approval.loops` after Daniel's approval, and the release proof record task writes
  * `approval.print` after Daniel's "Pass" of the release proof r6-v4. None of the three writes is a
  * scope change (PIN, decisions D-P9B-R2, D-P9B-R4, and D-P9D-1).
+ * changed 2026-11-18 (publish of weeks 2 to 7, PM order): Daniel approved audio, song, and scripts of weeks 2 to 7 ("1. Ok", Google Tasks 2026-11-18 05:36 ICT); owner approval records and meta.status are not content.
  */
 function approvalCore(approval: unknown): unknown {
     if (!approval || typeof approval !== 'object' || Array.isArray(approval)) return approval ?? null;
@@ -326,6 +328,10 @@ function approvalCore(approval: unknown): unknown {
         if (key === 'thai') continue;
         if (key === 'loops') continue;
         if (key === 'print') continue;
+        // changed 2026-11-18 (publish of weeks 2 to 7, PM order): Daniel approved audio, song, and scripts of weeks 2 to 7 ("1. Ok", Google Tasks 2026-11-18 05:36 ICT); owner approval records and meta.status are not content.
+        if (key === 'audio') continue;
+        if (key === 'song') continue;
+        if (key === 'scripts') continue;
         copy[key] = value;
     }
     return copy;
@@ -334,14 +340,14 @@ function approvalCore(approval: unknown): unknown {
 /**
  * The problems of a week file against the baseline: a change outside the four allowed keys of the
  * D4 step, a change of the `print` block, or a change of an `approval` key other than `thai`,
- * `loops`, or `print`.
+ * `loops`, `print`, `audio`, `song`, or `scripts`.
  */
 function scopeProblems(baseline: unknown, current: unknown, weekNumber: number): string[] {
     const problems: string[] = [];
     const before = stripThai(baseline) as WeekJson;
     const after = stripThai(current) as WeekJson;
     if (JSON.stringify(approvalCore(before.approval)) !== JSON.stringify(approvalCore(after.approval))) {
-        problems.push(`an approval key other than thai, loops, or print of week ${weekNumber} changed`);
+        problems.push(`an approval key other than thai, loops, print, audio, song, or scripts of week ${weekNumber} changed`);
     }
     if (JSON.stringify(before.print) !== JSON.stringify(after.print)) problems.push(`the print block of week ${weekNumber} changed`);
     const beforeScripts = (before.scripts ?? []) as { steps?: unknown[] }[];
