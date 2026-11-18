@@ -18,7 +18,7 @@ Spec: [spec.md](./spec.md). Release-1 goal: 2026-12-01. Daniel's approval of the
 ```bash
 RED_TEST_COMMAND='cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"'    # must fail after Red, before Green
 GREEN_TEST_COMMAND='cd dashboard && CI=true npx vitest run __tests__/storytime-print-*.test.ts --exclude "**/storytime-print-covers-16books.test.ts"'  # must pass after Green
-PROJECT_TESTS='cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts'
+PROJECT_TESTS='cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts --exclude __tests__/storytime-unit2-sound-stage.test.ts'   # skips the open Red file of storytime_l2_unit2_20261106 (PM 2026-11-18); take the exclude out when that track's Task 3.6 Green closes
 PROJECT_LINT='cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-print-*.test.ts'
 PROJECT_CHECKS='cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit'  # the whole command runs inside one heavy-run wrapper (line 12); no nested heavy-run; check-weeks exits 1 on any FAIL, so a FAIL or a crash fails the gate (F52, review round 8 of Phase 8)
 UX_REQUIRED=never   # print files: the visual checks are the contact-sheet tasks and Daniel's proof checks
