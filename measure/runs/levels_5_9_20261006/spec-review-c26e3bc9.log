@@ -1,0 +1,93 @@
+# Spec review round 3: levels_5_9_20261006, commit c26e3bc9
+
+Audited head: c26e3bc997a0f382dc9b3a4acc249acdabad1e0a (HEAD; author commit c26e3bc9, opencode-go/glm-5.3#high).
+Round 2 record: e12ac743 copied it into the track folder.
+Reviewer: spec-review subagent, opencode-go/deepseek-v4.1-flash. Date: 2026-11-19.
+
+## What the reviewer checked
+
+- `git rev-parse HEAD` equals audited_head_sha.
+- `git show c26e3bc9`: 9 added and 8 removed lines in `plan.md`, one replaced line in `spec.md`.
+- F11 fix: `displayPath` (plan line 34), the display rule (line 34), the intro (line 41), the display test and the absolute-path scan (line 42), and the Green rule (line 49).
+- The 1-4 exception: today's text is `Their title, summary, and passage stay in `data/duplicates-levels-1-4.json`.` (`plan-dedup.ts` line 86; `duplicates.md` line 5). `displayPath` of the default out-json would give `docs/content-plans/data/duplicates-levels-1-4.json`, so the 1-4 branch needs the literal. Plan line 34 states the exception, and the byte-identity test at line 37 enforces it.
+- F12 fix: plan line 36 says `printedIds` filled from the default printed file.
+- F13 fix: plan line 34 gives `{ ok: false; message; usage }`; line 46 fixes the message and the order; line 49 repeats it.
+- F14 fix: spec line 57 states the level 5 total and Daniel's final say.
+- F15 fix: plan line 50 records the current counts and makes a difference a note, not a failure.
+- The r2 orchestrator decisions are stated and not reopened (plan lines 22, 35, 40, 41, 50; spec line 57).
+- Zoom-out: no speculative feature, no premature optimization, correct reuse, correct file location, deletion stays in Phase 7.
+
+## Finding states
+
+| Id | State | Line and evidence |
+|---|---|---|
+| F11 | CLOSED | plan.md:34 `displayPath` and the display rule; :41 displayPath form in the intro; :42 both branches and the REPO_ROOT and os.tmpdir() scan; :49 Green rule |
+| F12 | CLOSED | plan.md:36 `printedIds` filled from the default printed file |
+| F13 | CLOSED | plan.md:34 failure type with `message`; :46 fixed message and order; :49 Green rule |
+| F14 | CLOSED | spec.md:57 the level 5 total is 50 new packages plus up to 50 kept old articles, provisional; Daniel decides the final total |
+| F15 | CLOSED | plan.md:50 current counts plus a difference note; a difference does not fail the task |
+
+## New findings
+
+- F16 [Nit] plan.md:45: the no-readAt example names a bare file name for a file that sits inside the repository.
+- F17 [Nit] plan.md:50: the difference note has no named channel.
+
+No Blocker and no Major are open. I considered a malformed `--printed` or inventory file (invalid JSON) and did not raise it: the plan's error list is complete for the new options, and the inventory parse inherits today's behavior.
+
+## Zero-decision check on Tasks 1.G1 to 1.G5
+
+- schema: exact exports and return shapes, now with `message` in the failure case.
+- API or CLI shape: 5 options, their defaults, 9 error cases, and the display helper are exact.
+- dependency: none added.
+- edge-case behavior: fewer online than target, printed at or above target, no `readAt`, mixed options, bad values, missing printed file, and the clean import are all named with expected text.
+- file location: the path rule and the default-write test pin the 2 defaults; the display rule pins the non-absolute output.
+- No Blocker and no Major.
+
+## Round 3 record
+
+Append this text to `measure/tracks/levels_5_9_20261006/spec-review.md`.
+
+```markdown
+
+## Round 3
+
+Date: 2026-11-19
+Reviewer: spec-review subagent, opencode-go/deepseek-v4.1-flash
+
+### What this track proposes
+
+This track delivers 550 packages for levels 5-9: 154 workbook lessons and 396 bank articles for the 11 books, with media, tags, and coverage reports. Commit c26e3bc9 amends the grouping tasks 1.G1 to 1.G5: it extends `dashboard/scripts/plan-dedup.ts` with level, target, printed, output, and path-display options, it fixes every error case, and it keeps the levels 1-4 output byte-identical. Task 1.G3 makes a provisional grouping of the old level 5-9 articles from a passages inventory, after the PM's go, with the targets 50, 100, 100, 150, and 150 as a provisional default. The output has no delete column and no absolute path, and Daniel decides the final level total and each kept article's fate. No deletion runs before Phase 7.
+
+### How the current system works, per this spec
+
+Today `dashboard/scripts/plan-dedup.ts` reads one inventory file and the fixed printed file `docs/content-plans/data/legacy-levels-1-4-2026-10-02.json`. It groups the online articles of each level by the cosine of a word bag (title 3, summary 2, passage 1) with average-link clustering, down to the level target minus the printed count. It keeps the best article of each group by student use, then approval, then date. It writes two fixed files under `docs/content-plans/` with paths resolved against `REPO_ROOT`, and its markdown names `data/duplicates-levels-1-4.json`. The module runs `main` at import, so an import prints the usage text.
+
+### Findings
+
+- F11 CLOSED: plan.md line 34 adds the `displayPath` export and the display rule, line 41 uses its form in the intro, line 42 tests both branches and scans the 2 output files for `REPO_ROOT` and `os.tmpdir()`, and line 49 gives the Green rule.
+- F12 CLOSED: plan.md line 36 says the parse returns `printedIds` filled from the default printed file.
+- F13 CLOSED: plan.md line 34 adds `message` to the failure type, line 46 fixes the missing-file message and the print order, and line 49 gives the Green rule.
+- F14 CLOSED: spec.md line 57 states the level 5 total as 50 new packages plus the kept old articles of the run (up to 50), provisional, and Daniel decides the final total.
+- F15 CLOSED: plan.md line 50 records the current counts and treats a difference from 92, 88, 4, 38, and 49 as a note that does not fail the task.
+- F16 [Nit] plan.md line 45: the no-readAt example gives `inventory of legacy-levels-5-9-2026-10-08.json`, but that file sits inside the repository, and `displayPath` returns the repo-relative form `docs/content-plans/data/legacy-levels-5-9-2026-10-08.json` for it; only a copy outside the repository gives the bare file name. Rationale: the Red must choose between the repository file and a temporary copy before it can write the expected string.
+- F17 [Nit] plan.md line 50: the Done-when says the run 'lists any difference from the 2026-10-08 counts ... as a note' and does not name the channel. Rationale: the md text is fixed by the exact strings of Task 1.G1 and the task commits only the 2 files, so the note can only be a log line; say so, or an acceptance role searches for it.
+```
+
+## Verdict
+
+PASS. No Blocker and no Major are open. F16 and F17 are Nits; the author can take FIX or DECLINE. Red can start Task 1.G1.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+phase: track setup
+track: levels_5_9_20261006
+audited_head_sha: c26e3bc997a0f382dc9b3a4acc249acdabad1e0a
+status: complete
+result: pass
+blocking_findings: none
+nonblocking_findings: F16 [Nit] plan.md:45: the no-readAt example gives a bare file name for a file that sits inside the repository, while displayPath returns the repo-relative form; the Red must pick the fixture form. Rationale: the expected string depends on the choice. F17 [Nit] plan.md:50: the difference note has no named channel, and the md text is fixed, so it can only be a log line. Rationale: an acceptance role must know where to look.
+retry_recommendation: none
+confidence: high
+dispositions: none
+handoff: PASS. Append the 'Round 3 record' section of this log to measure/tracks/levels_5_9_20261006/spec-review.md, then start Task 1.G1. F16 and F17 are Nits: FIX them in one sentence each, or DECLINE them. No question for Daniel.
+END_MEASURE_AGENT_RESULT

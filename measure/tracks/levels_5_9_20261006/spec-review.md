@@ -58,3 +58,26 @@ Today `dashboard/scripts/plan-dedup.ts` reads one inventory file and the fixed p
 - F13 [Nit] plan.md line 45 and line 48: G1 groups a missing `--printed` file with the cases that "print the usage text and exit 2", and G2 says that case "prints an error message that names the file"; the failure type `{ ok: false; usage: string }` has no field for the message. Rationale: the text that reaches stderr is open, and the test can assert either form.
 - F14 [Nit] spec.md line 57: "Each level total includes the 550 new packages" and "keep = target - printed: level 5 keeps 50 of 92" keep 50 old articles on top of the 50 new level 5 packages, and no sentence states the resulting level total. Rationale: the provisional label keeps the decision closed, but a reader can take either 50 or 100 as the level total.
 - F15 [Nit] plan.md line 49: the Done-when pins level 5 at 92 online and levels 6 to 9 at 88, 4, 38, and 49, and these numbers come from the 2026-10-08 copy, while 1.G3 reads the live legacy database at run time. Rationale: a drift in the database fails the gate without a code fault; name the expectations as the 2026-10-08 values and let the run record the current ones.
+
+## Round 3
+
+Date: 2026-11-19
+Reviewer: spec-review subagent, opencode-go/deepseek-v4.1-flash
+
+### What this track proposes
+
+This track delivers 550 packages for levels 5-9: 154 workbook lessons and 396 bank articles for the 11 books, with media, tags, and coverage reports. Commit c26e3bc9 amends the grouping tasks 1.G1 to 1.G5: it extends `dashboard/scripts/plan-dedup.ts` with level, target, printed, output, and path-display options, it fixes every error case, and it keeps the levels 1-4 output byte-identical. Task 1.G3 makes a provisional grouping of the old level 5-9 articles from a passages inventory, after the PM's go, with the targets 50, 100, 100, 150, and 150 as a provisional default. The output has no delete column and no absolute path, and Daniel decides the final level total and each kept article's fate. No deletion runs before Phase 7.
+
+### How the current system works, per this spec
+
+Today `dashboard/scripts/plan-dedup.ts` reads one inventory file and the fixed printed file `docs/content-plans/data/legacy-levels-1-4-2026-10-02.json`. It groups the online articles of each level by the cosine of a word bag (title 3, summary 2, passage 1) with average-link clustering, down to the level target minus the printed count. It keeps the best article of each group by student use, then approval, then date. It writes two fixed files under `docs/content-plans/` with paths resolved against `REPO_ROOT`, and its markdown names `data/duplicates-levels-1-4.json`. The module runs `main` at import, so an import prints the usage text.
+
+### Findings
+
+- F11 CLOSED: plan.md line 34 adds the `displayPath` export and the display rule, line 41 uses its form in the intro, line 42 tests both branches and scans the 2 output files for `REPO_ROOT` and `os.tmpdir()`, and line 49 gives the Green rule.
+- F12 CLOSED: plan.md line 36 says the parse returns `printedIds` filled from the default printed file.
+- F13 CLOSED: plan.md line 34 adds `message` to the failure type, line 46 fixes the missing-file message and the print order, and line 49 gives the Green rule.
+- F14 CLOSED: spec.md line 57 states the level 5 total as 50 new packages plus the kept old articles of the run (up to 50), provisional, and Daniel decides the final total.
+- F15 CLOSED: plan.md line 50 records the current counts and treats a difference from 92, 88, 4, 38, and 49 as a note that does not fail the task.
+- F16 [Nit] plan.md line 45: the no-readAt example gives `inventory of legacy-levels-5-9-2026-10-08.json`, but that file sits inside the repository, and `displayPath` returns the repo-relative form `docs/content-plans/data/legacy-levels-5-9-2026-10-08.json` for it; only a copy outside the repository gives the bare file name. Rationale: the Red must choose between the repository file and a temporary copy before it can write the expected string.
+- F17 [Nit] plan.md line 50: the Done-when says the run 'lists any difference from the 2026-10-08 counts ... as a note' and does not name the channel. Rationale: the md text is fixed by the exact strings of Task 1.G1 and the task commits only the 2 files, so the note can only be a log line; say so, or an acceptance role searches for it.
