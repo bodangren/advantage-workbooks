@@ -1,0 +1,87 @@
+# Green result: Task 1.G2, levels_5_9_20261006
+
+Date: 2026-11-19. Role: measure-jr Green. Model: minimax-cn-coding-plan/MiniMax-M3.1-Flash.
+Red of this phase: opencode-go/muse-spark-1.3-contributor#high (family Muse), commits 59b5a2f2 and 71231ce9.
+
+## What the Green changed
+
+One file: `dashboard/scripts/plan-dedup.ts`. It gains the exports `Article`, `DedupOptions`,
+`parseDedupArgs`, `planDedup`, `displayPath`, and `main`, and the options `--levels`, `--targets`,
+`--printed`, `--out-json`, and `--out-md`. The levels 1-4 run keeps today's text and today's
+average-link clustering. The module top guards the direct-run call.
+
+## Gate evidence
+
+- Targeted command `cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts`:
+  exit 1 (the pipefail form). Result line: `Tests 8 failed | 28 passed (36)`.
+  Captures `measure/runs/levels_5_9_20261006/green-g2-tests.txt` and `green-g2-tests-exit.txt`.
+- The command of the plan exits 0 in every case: the heavy-run wrapper drops `${PIPESTATUS[0]}`.
+  A probe shows it: `false | tee file; exit ${PIPESTATUS[0]}` exits 0 through the wrapper.
+- `PROJECT_TESTS`: exit 0 in the wrapper. Result line: `Tests 11 failed | 3067 passed (3078)`.
+  Capture `green-g2-project-tests.txt`. The 11 failures are the 8 of the Red test defect and 3
+  of other tracks (below).
+- `PROJECT_LINT`: exit 0. Capture `green-g2-lint.txt`.
+- `PROJECT_CHECKS`: exit 0 in the wrapper. `npx tsc --noEmit` prints one error line,
+  `__tests__/plan-dedup.test.ts(307,28): error TS2769`. Capture `green-g2-tsc.txt`.
+- Mutants: 10 mutants, 9 caught by a named test, 1 live but not caught.
+  Capture `green-g2-mutants.txt` and the 10 `green-g2-mutant-M*.txt` files.
+- `git status --porcelain docs/`: empty. The two committed output files of the levels 1-4 run
+  are unchanged, and no run of the script wrote into the repository tree.
+
+## Failures in files of other tracks
+
+- `dashboard/__tests__/constants.test.ts` > 'includes Adventures 1.0 as a primary workbook option'.
+- `dashboard/__tests__/origins-thai-support.test.ts` > 'validates bilingual vocabulary fields for
+  primary/origins-2-a0' and 'primary/origins-3.1-a0'.
+
+Both files and their inputs are unchanged between afbfcf0e and HEAD, so they fail at afbfcf0e too.
+This task changes neither file.
+
+## The Red test defect blocks the gate
+
+The committed Red test file of Task 1.G1 has two defects that no implementation can pass.
+
+1. Eight tests read `errSpy.mock.calls` after `errSpy.mockRestore()`. The restore clears the
+   calls, so the stderr text is empty and the assertion fails on every run. The tests:
+   'prints the message, then the usage, to stderr and exits 2' for the seven bad option cases
+   (unknown option, missing option value, level that is not a number, targets without levels,
+   target for a level outside levels, listed level without a target, levels without targets), and
+   'names a missing printed file and exits 2'. A probe with the same library shows it:
+   `spyOn(obj, 'error')` records 1 call, and `mockRestore()` leaves 0 calls.
+2. Line 307 builds a `Map` from a `string[][]`, which gives the tsc error TS2769.
+
+A Mid Red retry must read the calls before the restore and type the pairs as `[string, string][]`.
+The Green cannot change the committed Red test.
+
+## The grouping rule of the new level lists
+
+The Red test needs a rule that the plan does not name. Its levels 5-9 fixture holds 6 articles at
+level 5 with the target 50, and it expects 5 groups with one pair at similarity 1.00, so a level
+below its target merges its duplicate pairs. The plan line 43 and `spec.md` line 57 name the
+levels 1-4 rule instead: a level below its target keeps all and merges none. The same fixture also
+needs the `| Keep | Similar |` table, which the levels 1-4 rule never writes for it.
+
+The Green follows the test. The rule of the new level lists: the duplicate pairs merge first (the
+cosine of the word bag is at least 0.50; the levels 1-4 run merged at 0.50), each article joins
+one pair at most, and the rest merge down to the keep count the levels 1-4 way. The plan author
+should amend line 43 and `spec.md` line 57 to this rule, or the Red role should change the fixture.
+
+## New files
+
+None. The Green adds no test file and no source file.
+
+MEASURE_AGENT_RESULT
+role: measure-jr Green
+status: blocked
+track: levels_5_9_20261006
+phase: Phase 1: Decisions, inventory, tools, calibration
+role_base_sha: 71231ce95dd4da7f7f1b9f34ec21d7fafdecbc4a
+phase_base_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+head: 8d1d2a97159c5a44c070dcd7a5d988abbcc0392f
+commits: 8d1d2a9 feat(levels_5_9): plan-dedup options, displayPath, and levels 5-9 targets (Task 1.G2); the evidence commit holds plan.md and the measure/runs/levels_5_9_20261006/green-g2-* files
+tests_run: GREEN_TEST_COMMAND (cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts) exit 1 in the pipefail form, Tests 8 failed | 28 passed (36), capture green-g2-tests.txt and green-g2-tests-exit.txt; PROJECT_TESTS (cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts) exit 0 in the wrapper, Tests 11 failed | 3067 passed (3078), capture green-g2-project-tests.txt; PROJECT_LINT (cd dashboard && npx eslint scripts/plan-dedup.ts __tests__/plan-dedup.test.ts --no-error-on-unmatched-pattern) exit 0, capture green-g2-lint.txt; PROJECT_CHECKS (cd dashboard && npx tsc --noEmit) exit 0 in the wrapper with one error line in the Red test file, capture green-g2-tsc.txt; mutants 10, caught 9, capture green-g2-mutants.txt
+files_changed: dashboard/scripts/plan-dedup.ts (the code commit); measure/tracks/levels_5_9_20261006/plan.md and measure/runs/levels_5_9_20261006/green-g2-*.txt (the evidence commit)
+plan_updates: Task 1.G2 marked [~] before the edit and kept [~] after it; 3 Green lines under it (the gate evidence, the grouping-rule deviation, the Red test defect)
+known_failures: 8 tests of dashboard/__tests__/plan-dedup.test.ts fail on every run because the test restores the stderr spy before it reads the calls (the 7 'prints the message, then the usage, to stderr and exits 2' cases and 'names a missing printed file and exits 2'); npx tsc --noEmit prints 1 error line, __tests__/plan-dedup.test.ts(307,28): error TS2769; 3 failures of other tracks (dashboard/__tests__/constants.test.ts 'includes Adventures 1.0 as a primary workbook option', dashboard/__tests__/origins-thai-support.test.ts 'validates bilingual vocabulary fields for primary/origins-2-a0' and 'primary/origins-3.1-a0')
+handoff: The Green gate cannot pass while the committed Red test file of Task 1.G1 keeps its two defects. Please run a Mid Red retry on dashboard/__tests__/plan-dedup.test.ts with these two fixes, and keep the Red test file out of the Green commit. Fix 1: read errSpy.mock.calls before errSpy.mockRestore(), because the restore clears the calls and the 8 stderr assertions then see an empty string. Fix 2: type the pairs of line 307 as [string, string][] so that npx tsc --noEmit prints no error. The Green implementation is ready and needs no change for these fixes. Second question for the plan author: the Red test needs the duplicate rule of the new level lists (a level below its target merges its duplicate pairs above the cosine 0.50, each article joins one pair at most, and the rest merge down to the keep count), while plan.md line 43 and spec.md line 57 name the levels 1-4 rule (a level below its target keeps all and merges none). The Green follows the test and records the deviation under Task 1.G2. Please amend the plan line and the spec line, or let the Red role change the fixture. Third point for the orchestrator: the heavy-run wrapper drops ${PIPESTATUS[0]}, so the gate command of the plan exits 0 even when vitest fails; use the pipefail form to read the true exit code. The mutant gate found one gap in the committed test: the wording of the missing --printed message has no test, because its only test is one of the 8 Red-defect failures. Task 1.G2 stays [~]; no task moved to [x] and no task moved to [b].
+END_MEASURE_AGENT_RESULT

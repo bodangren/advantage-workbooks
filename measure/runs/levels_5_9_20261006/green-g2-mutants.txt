@@ -1,0 +1,95 @@
+Task 1.G2 mutant gate (levels_5_9_20261006), 2026-11-19.
+
+Method: each mutant copies dashboard/scripts/plan-dedup.ts, breaks one rule in the copy,
+runs the targeted command in its own heavy-run, reads the failing test names from the
+capture, restores the copy, and compares the copy with cmp.
+
+Command per mutant:
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts 2>&1 | tee ../measure/runs/levels_5_9_20261006/green-g2-mutant-<id>.txt; exit ${PIPESTATUS[0]}'
+
+The heavy-run wrapper drops ${PIPESTATUS[0]}, so every heavy-run exits 0. The result line of
+each run is the truth: the baseline is "Tests 8 failed | 28 passed (36)". The 8 baseline
+failures are the Red test defect of Task 1.G1 (the stderr spy is restored before its calls
+are read). A mutant is caught when a named test fails on top of those 8.
+
+Baseline failing tests (the Red defect, 8):
+  names a missing printed file and exits 2
+  prints the message, then the usage, to stderr and exits 2: unknown option
+  prints the message, then the usage, to stderr and exits 2: missing option value
+  prints the message, then the usage, to stderr and exits 2: level that is not a number
+  prints the message, then the usage, to stderr and exits 2: targets without levels
+  prints the message, then the usage, to stderr and exits 2: target for a level outside levels
+  prints the message, then the usage, to stderr and exits 2: listed level without a target
+  prints the message, then the usage, to stderr and exits 2: levels without targets
+
+M1  path resolve: the given --out-json and --out-md paths are not resolved against the
+    working directory. Caught by: resolves given --out-json and --out-md paths against the
+    working directory. Result line: Tests 9 failed | 27 passed (36). Restore cmp: equal.
+    Capture: green-g2-mutant-M1.txt
+
+M2  displayPath, repository branch: displayPath returns the file name for a path inside
+    the repository. Caught by: returns the repo-relative form inside the repository.
+    Result line: Tests 9 failed | 27 passed (36). Restore cmp: equal.
+    Capture: green-g2-mutant-M2.txt
+
+M3  displayPath, outside branch: displayPath returns the repository-relative form for a
+    path outside the repository. Caught by: returns only the file name outside the
+    repository (also: holds no absolute path in either output file; names the inventory
+    file in the source string and the intro, never undefined; writes the exact heading,
+    intro, table header, and level lines). Result line: Tests 12 failed | 24 passed (36).
+    Restore cmp: equal. Capture: green-g2-mutant-M3.txt
+
+M4  printed-count guard (F7): the branch that prints "the printed articles already meet the
+    target" is off. Caught by: keeps 0 online articles and writes no group of it.
+    Result line: Tests 9 failed | 27 passed (36). Restore cmp: equal.
+    Capture: green-g2-mutant-M4.txt
+
+M5  missing --printed message: the wording of the message changes. Result line:
+    Tests 8 failed | 28 passed (36), the baseline set. Restore cmp: equal.
+    Capture: green-g2-mutant-M5.txt
+    NOT CAUGHT by a test. The rule is live: a direct run of the script prints
+    "printed file not found: /tmp/opencode/g2/no-such-printed.json" and exits 2 in the
+    baseline, and "printed file is missing: ..." in the mutant. Its only test,
+    "names a missing printed file and exits 2", is one of the 8 Red-defect failures.
+
+M6  no-readAt source (F10): the inventory path stays raw when the inventory has no readAt.
+    Caught by: names the inventory file in the source string and the intro, never undefined.
+    Result line: Tests 9 failed | 27 passed (36). Restore cmp: equal.
+    Capture: green-g2-mutant-M6.txt
+
+M7  levels parse: a level that is not a number is dropped instead of failing the parse.
+    Caught by: returns ok false with a message and usage: level that is not a number.
+    Result line: Tests 9 failed | 27 passed (36). Restore cmp: equal.
+    Capture: green-g2-mutant-M7.txt
+    The first attempt of M7 changed only the mapping and not the check, so the parse still
+    failed and no test caught it (the baseline set, 8 failed). The corrected mutant changes
+    the check and the mapping; the capture holds the corrected run.
+
+M8  targets parse: a target for a level outside --levels is accepted.
+    Caught by: returns ok false with a message and usage: target for a level outside levels.
+    Result line: Tests 9 failed | 27 passed (36). Restore cmp: equal.
+    Capture: green-g2-mutant-M8.txt
+
+M9  byte-identity defaults: the default level list loses its last level.
+    Caught by: returns the default levels, targets, printed ids, and output paths (also:
+    returns the two committed files byte for byte; writes exactly the two default files
+    with the committed bytes; keeps the defaults when only the output paths are given;
+    keeps 179 groups with at least one merged group).
+    Result line: Tests 13 failed | 23 passed (36). Restore cmp: equal.
+    Capture: green-g2-mutant-M9.txt
+
+M10 byte-identity defaults: the default printed file gives no printed id.
+    Caught by: returns the default levels, targets, printed ids, and output paths (also:
+    returns the two committed files byte for byte; writes exactly the two default files
+    with the committed bytes; keeps the default printed file when the levels 1-4 options
+    are written out; fills printedIds from a given --printed file; keeps 0 online articles
+    and writes no group of it; keeps 179 groups with at least one merged group).
+    Result line: Tests 16 failed | 20 passed (36). Restore cmp: equal.
+    Capture: green-g2-mutant-M10.txt
+
+Final restore of the script: cmp of the copy with dashboard/scripts/plan-dedup.ts gives
+equal.
+
+Summary: 10 mutants, 9 caught by a named test, 1 (M5) live but not caught by a test.
+The gap of M5 is a gap of the committed Red test file: its only test is one of the 8
+Red-defect failures.
