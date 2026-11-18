@@ -4,25 +4,35 @@
 # order: PM order 2026-11-18, "Done must not get too long"
 
 1. Plan check: 0 lines matching ^\s*- \[ \] or ^\s*- \[~\] in all 6 plans. 0 [b] tasks.
+   Evidence per task is a checkpoint (check results, dates, or a commit in the task text).
 2. git mv measure/tracks/<t> measure/archive/<t> for the 6 tracks.
 3. metadata.json: status done, completed date added (the registry Completed date).
 4. measure/tracks.md: link line only, ./tracks/<t>/ -> ./archive/<t>/. No description change.
 5. Path references updated in 3 docs files. git grep for tracks/<id>: 0 hits.
 6. Closeout checker: 6 runs, exit 1 each. Capture: closeout-check.txt.
-   Expected: missing final acceptance (legacy lane).
-   Reported: plan tasks without a commit SHA, no registry description line,
-   entry kept in the active section (as a730048c), no per-track manifest.
+   Expected by the order: missing final acceptance (legacy lane).
+   Reported and not fixed:
+   - completed plan task lacks commit SHA (legacy plans record checkpoints, not SHAs)
+   - registry entry has no description (the order forbids description changes)
+   - track is still listed in the active section (the order and a730048c keep the entry)
+   - missing closeout manifest in measure/archive/<t>/ (one batch manifest is written here)
 7. Manifest: automation-supervisor-closeout-manifest.json (this folder).
+8. Real checks: the print invariant tests (print-fonts, print-transparency) 33 of 33 pass.
+9. A9: no shell test hardcodes one of the 6 track paths. measure/automation-script.sh builds
+   measure/tracks/<id>/plan.md, which is the launcher for an active track only.
+10. Commit: 9e541827. This log update is the only follow-up change.
 
 MEASURE_AGENT_RESULT
-status: pass
+status: fail
 role: measure-closeout
 batch: closeout-legacy-20261118
 lane: legacy (pre-orchestrator, precedent a730048c)
 final_acceptance: none: legacy track
 base_commit: 1c5385a6
-closeout_commit: pending
+closeout_commit: 9e541827
 tracks_moved: 6
-real_checks: closeout checker exit 1 x6 (legacy findings only); print invariant tests 33 of 33 pass
-result: PASS
+checker: exit 1 x6, legacy findings only (see closeout-check.txt)
+work: complete and committed; no track left out
+gate: not green (the closeout checker expects a final acceptance and a per-track manifest)
+result: FAIL
 END_MEASURE_AGENT_RESULT
