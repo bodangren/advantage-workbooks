@@ -1,0 +1,106 @@
+# Green result, r2: Task 1.G2, levels_5_9_20261006
+
+Date: 2026-11-19. Role: measure-jr Green. Model: opencode-go/deepseek-v4.1-flash (retry r2).
+Red of this phase: opencode-go/muse-spark-1.3-contributor#high (family Muse). This Green spawns no
+coder, so no Red-family model touches the code.
+Role base: f383c962. Phase base: afbfcf0e. The Red change of the phase sits in `afbfcf0e..f383c962`.
+
+## What changed
+
+One file: `dashboard/scripts/plan-dedup.ts`. The r2 change removes 57 lines and adds 1.
+
+- The `DUPLICATE_SIMILARITY` constant goes.
+- The `planLevelGroups` helper goes, with its duplicate-pairs-first step.
+- Every level now clusters the levels 1-4 way, with average-link clustering down to its keep
+  count. A level below its target keeps all its online articles and merges none. Plan line 43
+  holds.
+
+Everything else stays: the exports, the options, the path rule, `displayPath`, the printed-count
+guard, the text of the levels 1-4 run, and the module-top guard. The committed Red test file is
+unchanged. No test looked wrong, so this run needs no Red retry.
+
+## Gate evidence
+
+1. Targeted command, pipefail form, in a heavy-run:
+   `set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts`
+   - Before the edit: exit 1, `Tests 2 failed | 35 passed (37)`.
+   - After the edit: exit 0, `Tests 37 passed (37)`.
+   - Capture `measure/runs/levels_5_9_20261006/green-g2-tests-r2.txt`.
+2. `PROJECT_TESTS` in a heavy-run: exit 1, `Tests 3 failed | 3076 passed (3079)`,
+   `Test Files 2 failed | 159 passed (161)`. Capture `green-g2-project-tests-r2.txt`.
+   `__tests__/plan-dedup.test.ts` passes inside this run (37 tests).
+3. `PROJECT_LINT`: exit 0. Capture `green-g2-lint-r2.txt`.
+4. `PROJECT_CHECKS`: exit 0, 0 output lines. Capture `green-g2-tsc-r2.txt`.
+5. Mutants on the r2 code: 11 mutants, 11 caught. Capture `green-g2-mutants-r2.txt` and the 11
+   `green-g2-mutant-r2-M*.txt` files.
+
+`git status --porcelain docs/` is empty. `pnpm-lock.yaml` is unchanged. No run of the script
+touched a real inventory.
+
+## Failures in files of other tracks
+
+The 3 failures of `PROJECT_TESTS` are not in this track and not caused by this change.
+
+| File | Test |
+|---|---|
+| `dashboard/__tests__/constants.test.ts` | 'includes Adventures 1.0 as a primary workbook option' |
+| `dashboard/__tests__/origins-thai-support.test.ts` | 'validates bilingual vocabulary fields for primary/origins-2-a0' |
+| `dashboard/__tests__/origins-thai-support.test.ts` | 'validates bilingual vocabulary fields for primary/origins-3.1-a0' |
+
+Baseline proof at `afbfcf0e` with the work tree unchanged: `git archive afbfcf0e dashboard content
+docs primary | tar -x -C $T`, a `node_modules` link, and one heavy-run from `$T/dashboard`. The
+same 3 tests fail: `Test Files 2 failed (2)`, `Tests 3 failed | 3 passed (6)`. The tracked
+changes before and after the run are the same. Capture `green-g2-baseline-r2.txt`. A top-level
+`data` folder does not exist at `afbfcf0e`, so it is left out of the archive.
+
+The archive fails at `afbfcf0e` with or without this track's code, so Task 1.G5 will see the same
+3 failures until their own tracks fix them.
+
+## Mutant table (summary)
+
+| Mutant | Rule | Caught by | Result |
+|---|---|---|---|
+| M1 | path resolve | resolves given --out-json and --out-md paths | 1 failed |
+| M2 | displayPath, repository branch | returns the repo-relative form inside the repository | 1 failed |
+| M3 | displayPath, outside branch | returns only the file name outside the repository | 4 failed |
+| M4 | printed-count guard (F7) | keeps 0 online articles and writes no group of it | 1 failed |
+| M5 | missing --printed message | names a missing printed file and exits 2 | 1 failed |
+| M6 | no-readAt source (F10) | names the inventory file in the source string and the intro | 1 failed |
+| M7 | levels parse | returns ok false ... level that is not a number | 2 failed |
+| M8 | targets parse | returns ok false ... target for a level outside levels | 2 failed |
+| M9 | byte-identity defaults (levels) | returns the default levels, targets, printed ids, ... | 7 failed |
+| M10 | byte-identity defaults (printed file) | returns the default levels, targets, printed ids, ... | 8 failed |
+| M11 | below-target merges one pair (new) | keeps every online article below target, with no table | 8 failed |
+
+M5 closes the r1 gap: the wording of the missing `--printed` message now has a live test, because
+Red r3 reads the spy calls before the restore.
+
+## New files
+
+`measure/runs/levels_5_9_20261006/green-g2-tests-r2.txt`, `green-g2-project-tests-r2.txt`,
+`green-g2-lint-r2.txt`, `green-g2-tsc-r2.txt`, `green-g2-baseline-r2.txt`,
+`green-g2-mutants-r2.txt`, `green-g2-mutant-r2-M1.txt` to `M11` (11 files), and this log.
+The Green adds no test file and no source file.
+
+## Plan updates
+
+- Task 1.G2 turns `[x]` with `commit 99afc41` and evidence class automated.
+- The r1 deviation note becomes the one-line removal note.
+- One r2 evidence line is added.
+- No task turns `[b]`. No task moves to the archive. No closeout metadata changes.
+
+MEASURE_AGENT_RESULT
+role: measure-jr Green
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1: Decisions, inventory, tools, calibration
+role_base_sha: f383c962a13287e56e0e297708f24cb19069a50e
+phase_base_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+head: 99afc41469a2d781f7e4334513d910ef5739d579 at the code commit; the evidence commit follows
+commits: 99afc41 fix(levels_5_9): plan-dedup below-target levels merge none, no duplicate-pair rule (Task 1.G2 r2); the evidence commit holds measure/tracks/levels_5_9_20261006/plan.md and the measure/runs/levels_5_9_20261006/green-g2-*-r2 files plus green-g2-r2.log
+tests_run: gate 1 (set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts) exit 1 with 35 passed and 2 failed before the edit, exit 0 with 37 passed after it, capture green-g2-tests-r2.txt; gate 2 PROJECT_TESTS exit 1 in the pipefail form with Tests 3 failed | 3076 passed (3079), capture green-g2-project-tests-r2.txt, and the 3 failures reproduce at afbfcf0e in a git archive copy with the work tree unchanged, capture green-g2-baseline-r2.txt; gate 3 PROJECT_LINT exit 0, capture green-g2-lint-r2.txt; gate 4 PROJECT_CHECKS (npx tsc --noEmit) exit 0 with 0 output lines, capture green-g2-tsc-r2.txt; gate 5 mutants 11 of 11 caught, capture green-g2-mutants-r2.txt and green-g2-mutant-r2-M1..M11.txt
+files_changed: dashboard/scripts/plan-dedup.ts (code commit 99afc41: 1 insertion, 57 deletions); measure/tracks/levels_5_9_20261006/plan.md and measure/runs/levels_5_9_20261006/green-g2-*-r2 files and green-g2-r2.log (evidence commit)
+plan_updates: Task 1.G2 flips to [x] with commit 99afc41 and evidence class automated; the r1 deviation note is replaced by one line (no duplicate-pair rule, plan line 43 holds); one r2 evidence line is added; no task turns [b]
+known_failures: 3 tests of other tracks fail in PROJECT_TESTS and reproduce at phase_base afbfcf0e with no change to the work tree: dashboard/__tests__/constants.test.ts 'includes Adventures 1.0 as a primary workbook option', dashboard/__tests__/origins-thai-support.test.ts 'validates bilingual vocabulary fields for primary/origins-2-a0' and 'primary/origins-3.1-a0'; this track changes neither file nor their inputs
+handoff: The r2 code removes the r1 duplicate-pair rule that the plan does not name, so every level clusters the levels 1-4 way and a level below its target keeps all. Gate 1 exits 0 with 37 passed; lint, tsc, and all 11 mutants pass or are caught. Two things for the orchestrator. First, PROJECT_TESTS exits 1 with 3 failures of other tracks (constants.test.ts and origins-thai-support.test.ts), proven at afbfcf0e in a git archive copy; Task 1.G5 acceptance will meet the same 3 failures, so either their tracks fix them before acceptance or the acceptance role records them as pre-existing with this baseline capture. Second, the PM should confirm that the config exclude for __tests__/storytime-unit2-sound-stage.test.ts is still needed; this run kept it as the strategy says. No product decision blocks this run. Final state: code commit 99afc41, evidence commit next, and the untracked files of other tracks plus video/storytime-song/scripts/render.mjs stay untouched.
+END_MEASURE_AGENT_RESULT

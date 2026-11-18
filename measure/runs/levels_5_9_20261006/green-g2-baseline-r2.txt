@@ -1,0 +1,293 @@
+Baseline run of the 3 other-track failures at phase_base_sha afbfcf0e19924f48b49a4b9e92ec3b6671f623e7.
+The work tree is not changed: the files come from git archive into a temp folder.
+Temp root: /tmp/tmp.tusQWyykak
+Archive paths: dashboard content docs primary.
+Note: a top-level 'data' folder does not exist at afbfcf0e19924f48b49a4b9e92ec3b6671f623e7, so it is left out.
+
+work tree before (tracked changes):
+ M dashboard/scripts/plan-dedup.ts
+ M video/storytime-song/scripts/render.mjs
+
+git archive and tar exit: 0
+
+Command: cd $T/dashboard && CI=true npx vitest run __tests__/constants.test.ts __tests__/origins-thai-support.test.ts
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/tmp/tmp.tusQWyykak/dashboard[39m
+
+ [31m❯[39m __tests__/origins-thai-support.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 11[2mms[22m[39m
+[31m     [31m×[31m validates bilingual vocabulary fields for primary/origins-2-a0[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m validates bilingual vocabulary fields for primary/origins-3.1-a0[39m[32m 1[2mms[22m[39m
+ [31m❯[39m __tests__/constants.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 8[2mms[22m[39m
+[31m     [31m×[31m includes Adventures 1.0 as a primary workbook option[39m[32m 6[2mms[22m[39m
+     [32m✓[39m returns primary options for primary projects[32m 0[2mms[22m[39m
+     [32m✓[39m preserves metadata levels that are not in the predefined catalogue[32m 0[2mms[22m[39m
+     [32m✓[39m does not duplicate metadata levels already in the catalogue[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/constants.test.ts[2m > [22mworkbook level constants[2m > [22mincludes Adventures 1.0 as a primary workbook option
+[31m[1mAssertionError[22m: expected [ { value: '1', …(3) }, …(31) ] to deep equally contain { value: '1.0', …(3) }[39m
+
+[32m- Expected:[39m 
+{
+  "cefr": "A1",
+  "label": "1.0 - Adventures",
+  "series": "Adventures",
+  "value": "1.0",
+}
+
+[31m+ Received:[39m 
+[
+  {
+    "cefr": "A0",
+    "label": "1 - Origins",
+    "series": "Origins",
+    "value": "1",
+  },
+  {
+    "cefr": "A0",
+    "label": "2 - Origins",
+    "series": "Origins",
+    "value": "2",
+  },
+  {
+    "cefr": "A0",
+    "label": "3.1 - Origins",
+    "series": "Origins",
+    "value": "3.1",
+  },
+  {
+    "cefr": "A0",
+    "label": "3.2 - Origins",
+    "series": "Origins",
+    "value": "3.2",
+  },
+  {
+    "cefr": "A1",
+    "label": "4 - Quest",
+    "series": "Quest",
+    "value": "4",
+  },
+  {
+    "cefr": "A1",
+    "label": "5 - Quest",
+    "series": "Quest",
+    "value": "5",
+  },
+  {
+    "cefr": "A1",
+    "label": "6.1 - Quest",
+    "series": "Quest",
+    "value": "6.1",
+  },
+  {
+    "cefr": "A1",
+    "label": "6.2 - Quest",
+    "series": "Quest",
+    "value": "6.2",
+  },
+  {
+    "cefr": "A2",
+    "label": "7.1 - Adventure",
+    "series": "Adventure",
+    "value": "7.1",
+  },
+  {
+    "cefr": "A2",
+    "label": "7.2 - Adventure",
+    "series": "Adventure",
+    "value": "7.2",
+  },
+  {
+    "cefr": "A2",
+    "label": "8.1 - Adventure",
+    "series": "Adventure",
+    "value": "8.1",
+  },
+  {
+    "cefr": "A2",
+    "label": "8.2 - Adventure",
+    "series": "Adventure",
+    "value": "8.2",
+  },
+  {
+    "cefr": "A2",
+    "label": "8.3 - Adventure",
+    "series": "Adventure",
+    "value": "8.3",
+  },
+  {
+    "cefr": "A2",
+    "label": "9.1 - Adventure",
+    "series": "Adventure",
+    "value": "9.1",
+  },
+  {
+    "cefr": "A2",
+    "label": "9.2 - Adventure",
+    "series": "Adventure",
+    "value": "9.2",
+  },
+  {
+    "cefr": "A2",
+    "label": "9.3 - Adventure",
+    "series": "Adventure",
+    "value": "9.3",
+  },
+  {
+    "cefr": "B1",
+    "label": "10.1 - Hero",
+    "series": "Hero",
+    "value": "10.1",
+  },
+  {
+    "cefr": "B1",
+    "label": "10.2 - Hero",
+    "series": "Hero",
+    "value": "10.2",
+  },
+  {
+    "cefr": "B1",
+    "label": "11.1 - Hero",
+    "series": "Hero",
+    "value": "11.1",
+  },
+  {
+    "cefr": "B1",
+    "label": "11.2 - Hero",
+    "series": "Hero",
+    "value": "11.2",
+  },
+  {
+    "cefr": "B1",
+    "label": "11.3 - Hero",
+    "series": "Hero",
+    "value": "11.3",
+  },
+  {
+    "cefr": "B1",
+    "label": "12.1 - Hero",
+    "series": "Hero",
+    "value": "12.1",
+  },
+  {
+    "cefr": "B1",
+    "label": "12.2 - Hero",
+    "series": "Hero",
+    "value": "12.2",
+  },
+  {
+    "cefr": "B1",
+    "label": "12.3 - Hero",
+    "series": "Hero",
+    "value": "12.3",
+  },
+  {
+    "cefr": "B2",
+    "label": "13.1 - Legend",
+    "series": "Legend",
+    "value": "13.1",
+  },
+  {
+    "cefr": "B2",
+    "label": "13.2 - Legend",
+    "series": "Legend",
+    "value": "13.2",
+  },
+  {
+    "cefr": "B2",
+    "label": "14.1 - Legend",
+    "series": "Legend",
+    "value": "14.1",
+  },
+  {
+    "cefr": "B2",
+    "label": "14.2 - Legend",
+    "series": "Legend",
+    "value": "14.2",
+  },
+  {
+    "cefr": "B2",
+    "label": "14.3 - Legend",
+    "series": "Legend",
+    "value": "14.3",
+  },
+  {
+    "cefr": "B2",
+    "label": "15.1 - Legend",
+    "series": "Legend",
+    "value": "15.1",
+  },
+  {
+    "cefr": "B2",
+    "label": "15.2 - Legend",
+    "series": "Legend",
+    "value": "15.2",
+  },
+  {
+    "cefr": "B2",
+    "label": "15.3 - Legend",
+    "series": "Legend",
+    "value": "15.3",
+  },
+]
+
+[36m [2m❯[22m __tests__/constants.test.ts:[2m10:28[22m[39m
+    [90m  8| [39m[34mdescribe[39m([32m'workbook level constants'[39m[33m,[39m () [33m=>[39m {
+    [90m  9| [39m  [34mit[39m([32m'includes Adventures 1.0 as a primary workbook option'[39m[33m,[39m () [33m=>[39m {
+    [90m 10| [39m    [34mexpect[39m([33mPRIMARY_LEVELS[39m)[33m.[39m[34mtoContainEqual[39m({
+    [90m   | [39m                           [31m^[39m
+    [90m 11| [39m      value[33m:[39m [32m'1.0'[39m[33m,[39m
+    [90m 12| [39m      series[33m:[39m [32m'Adventures'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/origins-thai-support.test.ts[2m > [22mOrigins Thai support content[2m > [22mvalidates bilingual vocabulary fields for primary/origins-2-a0
+[31m[1mAssertionError[22m: primary/origins-2-a0/01-Pip the Curious Puppy Feels _workbook.json should satisfy WorkbookLessonSchema: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/origins-thai-support.test.ts:[2m26:99[22m[39m
+    [90m 24| [39m        [35mconst[39m result [33m=[39m [33mWorkbookLessonSchema[39m[33m.[39m[34msafeParse[39m(lesson)[33m;[39m
+    [90m 25| [39m
+    [90m 26| [39m        expect(result.success, `${projectDir}/${lessonFile} should sat…
+    [90m   | [39m                                                                                                  [31m^[39m
+    [90m 27| [39m        [35mif[39m ([33m![39mresult[33m.[39msuccess) [35mcontinue[39m[33m;[39m
+    [90m 28| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/origins-thai-support.test.ts[2m > [22mOrigins Thai support content[2m > [22mvalidates bilingual vocabulary fields for primary/origins-3.1-a0
+[31m[1mAssertionError[22m: primary/origins-3.1-a0/01-My New City Plane Trip _workbook.json should satisfy WorkbookLessonSchema: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/origins-thai-support.test.ts:[2m26:99[22m[39m
+    [90m 24| [39m        [35mconst[39m result [33m=[39m [33mWorkbookLessonSchema[39m[33m.[39m[34msafeParse[39m(lesson)[33m;[39m
+    [90m 25| [39m
+    [90m 26| [39m        expect(result.success, `${projectDir}/${lessonFile} should sat…
+    [90m   | [39m                                                                                                  [31m^[39m
+    [90m 27| [39m        [35mif[39m ([33m![39mresult[33m.[39msuccess) [35mcontinue[39m[33m;[39m
+    [90m 28| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 06:42:34
+[2m   Duration [22m 940ms[2m (transform 26ms, setup 65ms, import 62ms, tests 18ms, environment 608ms)[22m
+
+VITEST EXIT: 1
+
+work tree after (tracked changes):
+ M dashboard/scripts/plan-dedup.ts
+ M video/storytime-song/scripts/render.mjs

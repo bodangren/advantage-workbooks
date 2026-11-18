@@ -1,0 +1,66 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/plan-dedup.test.ts [2m([22m[2m37 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 395[2mms[22m[39m
+     [32m✓[39m parses --levels as a comma-separated level list[32m 2[2mms[22m[39m
+     [32m✓[39m parses --targets as one target for each listed level[32m 0[2mms[22m[39m
+     [32m✓[39m fills printedIds from a given --printed file[32m 0[2mms[22m[39m
+     [32m✓[39m keeps printedIds empty when --printed is omitted with another level list[32m 0[2mms[22m[39m
+     [32m✓[39m resolves given --out-json and --out-md paths against the working directory[32m 0[2mms[22m[39m
+     [32m✓[39m returns the default levels, targets, printed ids, and output paths[32m 1[2mms[22m[39m
+     [32m✓[39m returns the two committed files byte for byte[32m 79[2mms[22m[39m
+     [32m✓[39m keeps 179 groups with at least one merged group[32m 47[2mms[22m[39m
+     [32m✓[39m writes exactly the two default files with the committed bytes[32m 50[2mms[22m[39m
+     [32m✓[39m keeps the defaults when only the output paths are given[32m 51[2mms[22m[39m
+     [32m✓[39m keeps the default printed file when the levels 1-4 options are written out[32m 59[2mms[22m[39m
+     [32m✓[39m exits 0, writes only the given paths, and prints the pure log lines[32m 70[2mms[22m[39m
+     [32m✓[39m writes the exact heading, intro, table header, and level lines[32m 2[2mms[22m[39m
+     [32m✓[39m keeps every online article below target, with no table for the level[32m 1[2mms[22m[39m
+     [32m✓[39m merges down to the keep count above target, with the Keep-Similar table[32m 1[2mms[22m[39m
+[31m     [31m×[31m returns the repo-relative form inside the repository[39m[32m 4[2mms[22m[39m
+     [32m✓[39m returns only the file name outside the repository[32m 0[2mms[22m[39m
+     [32m✓[39m holds no absolute path in either output file[32m 1[2mms[22m[39m
+     [32m✓[39m keeps every online article with no merge[32m 1[2mms[22m[39m
+     [32m✓[39m keeps 0 online articles and writes no group of it[32m 1[2mms[22m[39m
+     [32m✓[39m names the inventory file in the source string and the intro, never undefined[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: unknown option[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: unknown option[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: missing option value[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: missing option value[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: level that is not a number[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: level that is not a number[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: targets without levels[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: targets without levels[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: target for a level outside levels[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: target for a level outside levels[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: listed level without a target[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: listed level without a target[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: levels without targets[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: levels without targets[32m 0[2mms[22m[39m
+     [32m✓[39m names a missing printed file and exits 2[32m 0[2mms[22m[39m
+     [32m✓[39m prints no usage and sets no exit code[32m 10[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mdisplay form[2m > [22mreturns the repo-relative form inside the repository
+[31m[1mAssertionError[22m: expected 'tmp-dupes.json' to be 'docs/content-plans/data/tmp-dupes.json' // Object.is equality[39m
+
+Expected: [32m"[7mdocs/content-plans/data/[27mtmp-dupes.json"[39m
+Received: [31m"tmp-dupes.json"[39m
+
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m597:93[22m[39m
+    [90m595| [39m[34mdescribe[39m([32m'display form'[39m[33m,[39m () [33m=>[39m {
+    [90m596| [39m  [34mit[39m([32m'returns the repo-relative form inside the repository'[39m[33m,[39m () [33m=>[39m {
+    [90m597| [39m    expect(mod.displayPath(path.join(REPO_ROOT, 'docs/content-plans/da…
+    [90m   | [39m                                                                                            [31m^[39m
+    [90m598| [39m      [32m'docs/content-plans/data/tmp-dupes.json'[39m[33m,[39m
+    [90m599| [39m    )[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m36 passed[39m[22m[90m (37)[39m
+[2m   Start at [22m 06:43:50
+[2m   Duration [22m 748ms[2m (transform 105ms, setup 39ms, import 149ms, tests 395ms, environment 0ms)[22m
+

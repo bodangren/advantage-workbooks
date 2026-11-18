@@ -1,0 +1,39 @@
+Task 1.G2 mutant gate, r2 (levels_5_9_20261006), 2026-11-19.
+Code under test: dashboard/scripts/plan-dedup.ts at sha256
+8002180e190634ac17e70fabc91c22c8b50049b44277f4edf66fb4b22b1d4353 (the r2 code, with the
+duplicate-pair rule removed).
+
+Method: each mutant starts as a copy of the r2 script. One rule of the copy breaks. The copy
+replaces the script for one run of the targeted command. The run names the failing tests. The
+r2 copy then goes back, and cmp proves the restore. The r2 code gives 37 passed, 0 failed, so
+every failing test of a mutant comes from that mutant.
+
+Command per mutant:
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts 2>&1 | tee ../measure/runs/levels_5_9_20261006/green-g2-mutant-r2-M<n>.txt'
+
+Heavy-run exit codes: each run drops the pipeline status, so the wrapper gives 0. The result
+line and the FAIL lines of each capture are the truth.
+
+Baseline of the r2 code: 37 passed, 0 failed. Capture green-g2-tests-r2.txt.
+
+| Mutant | Rule broken | Caught | Named failing tests | Result line | Restore cmp | Capture |
+|---|---|---|---|---|---|---|
+| M1 | path resolve: a given --out-json or --out-md path stays as given, not resolved against the working directory | yes | resolves given --out-json and --out-md paths against the working directory | 1 failed, 36 passed (37) | equal | green-g2-mutant-r2-M1.txt |
+| M2 | displayPath, repository branch: a path inside REPO_ROOT gives its file name | yes | returns the repo-relative form inside the repository | 1 failed, 36 passed (37) | equal | green-g2-mutant-r2-M2.txt |
+| M3 | displayPath, outside branch: a path outside REPO_ROOT gives the relative form | yes | returns only the file name outside the repository (also 3: holds no absolute path in either output file, names the inventory file in the source string and the intro, writes the exact heading, intro, table header, and level lines) | 4 failed, 33 passed (37) | equal | green-g2-mutant-r2-M3.txt |
+| M4 | printed-count guard (F7): the "printed articles already meet the target" branch is off | yes | keeps 0 online articles and writes no group of it | 1 failed, 36 passed (37) | equal | green-g2-mutant-r2-M4.txt |
+| M5 | missing --printed message: the message reads "printed file is missing" | yes | names a missing printed file and exits 2 | 1 failed, 36 passed (37) | equal | green-g2-mutant-r2-M5.txt |
+| M6 | no-readAt source (F10): the raw inventory path goes into source and intro | yes | names the inventory file in the source string and the intro, never undefined | 1 failed, 36 passed (37) | equal | green-g2-mutant-r2-M6.txt |
+| M7 | levels parse: a level that is not a number is dropped, not failed | yes | returns ok false with a message and usage: level that is not a number (also prints the message, then the usage, to stderr and exits 2: level that is not a number) | 2 failed, 35 passed (37) | equal | green-g2-mutant-r2-M7.txt |
+| M8 | targets parse: a target for a level outside --levels is accepted | yes | returns ok false with a message and usage: target for a level outside levels (also prints the message, then the usage, to stderr and exits 2: target for a level outside levels) | 2 failed, 35 passed (37) | equal | green-g2-mutant-r2-M8.txt |
+| M9 | byte-identity defaults: the default level list loses level 4 | yes | returns the default levels, targets, printed ids, and output paths (also 6: returns the two committed files byte for byte, keeps 179 groups with at least one merged group, writes exactly the two default files with the committed bytes, keeps the defaults when only the output paths are given, keeps the default printed file when the levels 1-4 options are written out, names a missing printed file and exits 2) | 7 failed, 30 passed (37) | equal | green-g2-mutant-r2-M9.txt |
+| M10 | byte-identity defaults: the default printed file gives no printed id | yes | returns the default levels, targets, printed ids, and output paths (also 7: fills printedIds from a given --printed file, returns the two committed files byte for byte, keeps 179 groups with at least one merged group, writes exactly the two default files with the committed bytes, keeps the defaults when only the output paths are given, keeps the default printed file when the levels 1-4 options are written out, keeps 0 online articles and writes no group of it) | 8 failed, 29 passed (37) | equal | green-g2-mutant-r2-M10.txt |
+| M11 | below-target merge, the new rule: a level that keeps all its online articles merges its single closest pair | yes | keeps every online article below target, with no table for the level (also 7: keeps every online article with no merge, writes the exact heading, intro, table header, and level lines, and the 5 byte-identity tests of the levels 1-4 run, because the mutation applies to every level list) | 8 failed, 29 passed (37) | equal | green-g2-mutant-r2-M11.txt |
+
+Restore proof: after every mutant, cp of the r2 copy onto dashboard/scripts/plan-dedup.ts and
+cmp of the two files give equal. The final sha256 of the script is
+8002180e190634ac17e70fabc91c22c8b50049b44277f4edf66fb4b22b1d4353, the same as at the start.
+
+Summary: 11 mutants, 11 caught by a named test, 0 live without a catch. M5 closes the gap of
+r1: the Red r3 commit reads the stderr spy calls before the restore, so the message of a missing
+--printed file now has a live test.

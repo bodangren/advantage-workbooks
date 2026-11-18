@@ -1,0 +1,493 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/plan-dedup.test.ts [2m([22m[2m37 tests[22m[2m | [22m[31m8 failed[39m[2m)[22m[33m 436[2mms[22m[39m
+     [32m✓[39m parses --levels as a comma-separated level list[32m 1[2mms[22m[39m
+     [32m✓[39m parses --targets as one target for each listed level[32m 0[2mms[22m[39m
+     [32m✓[39m fills printedIds from a given --printed file[32m 0[2mms[22m[39m
+     [32m✓[39m keeps printedIds empty when --printed is omitted with another level list[32m 0[2mms[22m[39m
+     [32m✓[39m resolves given --out-json and --out-md paths against the working directory[32m 0[2mms[22m[39m
+     [32m✓[39m returns the default levels, targets, printed ids, and output paths[32m 1[2mms[22m[39m
+[31m     [31m×[31m returns the two committed files byte for byte[39m[32m 88[2mms[22m[39m
+[31m     [31m×[31m keeps 179 groups with at least one merged group[39m[32m 49[2mms[22m[39m
+[31m     [31m×[31m writes exactly the two default files with the committed bytes[39m[32m 55[2mms[22m[39m
+[31m     [31m×[31m keeps the defaults when only the output paths are given[39m[32m 71[2mms[22m[39m
+[31m     [31m×[31m keeps the default printed file when the levels 1-4 options are written out[39m[32m 65[2mms[22m[39m
+     [32m✓[39m exits 0, writes only the given paths, and prints the pure log lines[32m 75[2mms[22m[39m
+[31m     [31m×[31m writes the exact heading, intro, table header, and level lines[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m keeps every online article below target, with no table for the level[39m[32m 1[2mms[22m[39m
+     [32m✓[39m merges down to the keep count above target, with the Keep-Similar table[32m 1[2mms[22m[39m
+     [32m✓[39m returns the repo-relative form inside the repository[32m 0[2mms[22m[39m
+     [32m✓[39m returns only the file name outside the repository[32m 0[2mms[22m[39m
+     [32m✓[39m holds no absolute path in either output file[32m 0[2mms[22m[39m
+[31m     [31m×[31m keeps every online article with no merge[39m[32m 1[2mms[22m[39m
+     [32m✓[39m keeps 0 online articles and writes no group of it[32m 1[2mms[22m[39m
+     [32m✓[39m names the inventory file in the source string and the intro, never undefined[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: unknown option[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: unknown option[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: missing option value[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: missing option value[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: level that is not a number[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: level that is not a number[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: targets without levels[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: targets without levels[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: target for a level outside levels[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: target for a level outside levels[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: listed level without a target[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: listed level without a target[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: levels without targets[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: levels without targets[32m 0[2mms[22m[39m
+     [32m✓[39m names a missing printed file and exits 2[32m 0[2mms[22m[39m
+     [32m✓[39m prints no usage and sets no exit code[32m 7[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 8 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mdefault run, byte-identical[2m > [22mreturns the two committed files byte for byte
+[31m[1mAssertionError[22m: expected '{\n "source": "scripts/plan-dedup.ts,…' to be '{\n "source": "scripts/plan-dedup.ts,…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -5279,12 +5279,28 @@[39m
+[2m      }[22m
+[2m     ][22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 4,[22m
+[32m-    "keep": "cmpy727af000ms601iy49sq0b",[39m
+[31m+    "keep": "cmuldmcjz0000s601cvsifilm",[39m
+[2m     "articles": [[22m
+[31m+     {[39m
+[31m+      "id": "cmuldmcjz0000s601cvsifilm",[39m
+[31m+      "title": "The Special Shoes",[39m
+[31m+      "type": "fiction",[39m
+[31m+      "genre": "Fashion",[39m
+[31m+      "approved": false,[39m
+[31m+      "createdAt": "2026-09-28T07:02:27.598Z",[39m
+[31m+      "words": 218,[39m
+[31m+      "use": {[39m
+[31m+       "progress": 0,[39m
+[31m+       "assignments": 0,[39m
+[31m+       "activityLogs": 0[39m
+[31m+      },[39m
+[31m+      "summary": "The girl is happy with the red shoes.",[39m
+[31m+      "passage": "The girl is in the room. The girl is sad. The owl is in the room. The owl is happy. The box is in the room. The box is big. The box is blue. The girl is near the box. The owl is near the box. The box is near the girl. The box is near the owl. The girl is happy with the box. The owl is happy with the box.\n\nThe shoes are in the box. The shoes are big. The shoes are red. The shoes are beautiful. The shoes are special. The shoes are on the girl. The red shoes are on the girl. The special shoes are on the girl. The girl is very happy. The owl is very happy. The shoes are very happy. The girl is with the shoes in the room. The owl is with the shoes in the room.\n\nThe girl is dancing in the room. The owl is dancing in the room. The red shoes are dancing in the room. The girl is happy. The owl is happy. The shoes are happy. The girl is dancing. The owl is dancing. The red shoes are dancing. The girl is very happy with the shoes. The owl is very happy with the shoes. The shoes are very happy in the room."[39m
+[31m+     },[39m
+[2m      {[22m
+[2m       "id": "cmpy727af000ms601iy49sq0b",[22m
+[2m       "title": "The Beach and the Box",[22m
+[2m       "type": "fiction",[22m
+[2m       "genre": "Adventure",[22m
+[33m@@ -5406,32 +5422,10 @@[39m
+[2m        "assignments": 0,[22m
+[2m        "activityLogs": 0[22m
+[2m       },[22m
+[2m       "summary": "The girl and her friend are here for a party with a cake and a hat.",[22m
+[2m       "passage": "She is a girl. She is with her friend. The girl is here. Her friend is here. They are here for a party. It is a party for the girl. It is a party with her friend. The party is here. She is a girl, and they are with her. The girl is with her friend, and the friend is with the girl.\n\nWhere is the cake? The cake is here. The cake is for the party. The cake is for the girl. The cake is for her friend. It is a cake for the party. Is the cake here? Yes, the cake is here. The cake is for the girl and her friend. The cake is here, and the cake is for the party.\n\nWhere is the hat? The hat is here. The hat is for the girl. The hat is for her friend. It is a hat for the party. Is the hat here? Yes, the hat is here. The hat is for the girl and her friend. It is a party with the hat. It is a party with the cake. The girl is here, her friend is here, the party is here, the cake is here, and the hat is here."[22m
+[32m-     }[39m
+[32m-    ][39m
+[32m-   },[39m
+[32m-   {[39m
+[32m-    "level": 4,[39m
+[32m-    "keep": "cmuldmcjz0000s601cvsifilm",[39m
+[32m-    "articles": [[39m
+[32m-     {[39m
+[32m-      "id": "cmuldmcjz0000s601cvsifilm",[39m
+[32m-      "title": "The Special Shoes",[39m
+[32m-      "type": "fiction",[39m
+[32m-      "genre": "Fashion",[39m
+[32m-      "approved": false,[39m
+[32m-      "createdAt": "2026-09-28T07:02:27.598Z",[39m
+[32m-      "words": 218,[39m
+[32m-      "use": {[39m
+[32m-       "progress": 0,[39m
+[32m-       "assignments": 0,[39m
+[32m-       "activityLogs": 0[39m
+[32m-      },[39m
+[32m-      "summary": "The girl is happy with the red shoes.",[39m
+[32m-      "passage": "The girl is in the room. The girl is sad. The owl is in the room. The owl is happy. The box is in the room. The box is big. The box is blue. The girl is near the box. The owl is near the box. The box is near the girl. The box is near the owl. The girl is happy with the box. The owl is happy with the box.\n\nThe shoes are in the box. The shoes are big. The shoes are red. The shoes are beautiful. The shoes are special. The shoes are on the girl. The red shoes are on the girl. The special shoes are on the girl. The girl is very happy. The owl is very happy. The shoes are very happy. The girl is with the shoes in the room. The owl is with the shoes in the room.\n\nThe girl is dancing in the room. The owl is dancing in the room. The red shoes are dancing in the room. The girl is happy. The owl is happy. The shoes are happy. The girl is dancing. The owl is dancing. The red shoes are dancing. The girl is very happy with the shoes. The owl is very happy with the shoes. The shoes are very happy in the room."[39m
+[2m      }[22m
+[2m     ][22m
+[2m    }[22m
+[2m   ][22m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m274:38[22m[39m
+    [90m272| [39m    [34mexpect[39m(files)[33m.[39m[34mtoHaveLength[39m([34m2[39m)[33m;[39m
+    [90m273| [39m    [35mconst[39m byPath [33m=[39m [35mnew[39m [33mMap[39m(files[33m.[39m[34mmap[39m((f) [33m=>[39m [f[33m.[39mpath[33m,[39m f[33m.[39mcontent]))[33m;[39m
+    [90m274| [39m    expect(byPath.get(DEFAULT_JSON)).toBe(fs.readFileSync(jsonCopy, 'u…
+    [90m   | [39m                                     [31m^[39m
+    [90m275| [39m    expect(byPath.get(DEFAULT_MD)).toBe(fs.readFileSync(mdCopy, 'utf8'…
+    [90m276| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mdefault run, byte-identical[2m > [22mkeeps 179 groups with at least one merged group
+[31m[1mAssertionError[22m: expected [ { level: 1, …(2) }, …(177) ] to have a length of 179 but got 178[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 179[39m
+[31m+ 178[39m
+
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m284:20[22m[39m
+    [90m282| [39m    const jsonText = new Map(files.map((f) => [f.path, f.content])).ge…
+    [90m283| [39m    const groups = (JSON.parse(jsonText) as { groups: { articles: unkn…
+    [90m284| [39m    [34mexpect[39m(groups)[33m.[39m[34mtoHaveLength[39m([34m179[39m)[33m;[39m
+    [90m   | [39m                   [31m^[39m
+    [90m285| [39m    [34mexpect[39m(groups[33m.[39m[34msome[39m((g) [33m=>[39m g[33m.[39marticles[33m.[39mlength [33m>[39m [34m1[39m))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m286| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mdefault write[2m > [22mwrites exactly the two default files with the committed bytes
+[31m[1mAssertionError[22m: expected '{\n "source": "scripts/plan-dedup.ts,…' to be '{\n "source": "scripts/plan-dedup.ts,…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -5279,12 +5279,28 @@[39m
+[2m      }[22m
+[2m     ][22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 4,[22m
+[32m-    "keep": "cmpy727af000ms601iy49sq0b",[39m
+[31m+    "keep": "cmuldmcjz0000s601cvsifilm",[39m
+[2m     "articles": [[22m
+[31m+     {[39m
+[31m+      "id": "cmuldmcjz0000s601cvsifilm",[39m
+[31m+      "title": "The Special Shoes",[39m
+[31m+      "type": "fiction",[39m
+[31m+      "genre": "Fashion",[39m
+[31m+      "approved": false,[39m
+[31m+      "createdAt": "2026-09-28T07:02:27.598Z",[39m
+[31m+      "words": 218,[39m
+[31m+      "use": {[39m
+[31m+       "progress": 0,[39m
+[31m+       "assignments": 0,[39m
+[31m+       "activityLogs": 0[39m
+[31m+      },[39m
+[31m+      "summary": "The girl is happy with the red shoes.",[39m
+[31m+      "passage": "The girl is in the room. The girl is sad. The owl is in the room. The owl is happy. The box is in the room. The box is big. The box is blue. The girl is near the box. The owl is near the box. The box is near the girl. The box is near the owl. The girl is happy with the box. The owl is happy with the box.\n\nThe shoes are in the box. The shoes are big. The shoes are red. The shoes are beautiful. The shoes are special. The shoes are on the girl. The red shoes are on the girl. The special shoes are on the girl. The girl is very happy. The owl is very happy. The shoes are very happy. The girl is with the shoes in the room. The owl is with the shoes in the room.\n\nThe girl is dancing in the room. The owl is dancing in the room. The red shoes are dancing in the room. The girl is happy. The owl is happy. The shoes are happy. The girl is dancing. The owl is dancing. The red shoes are dancing. The girl is very happy with the shoes. The owl is very happy with the shoes. The shoes are very happy in the room."[39m
+[31m+     },[39m
+[2m      {[22m
+[2m       "id": "cmpy727af000ms601iy49sq0b",[22m
+[2m       "title": "The Beach and the Box",[22m
+[2m       "type": "fiction",[22m
+[2m       "genre": "Adventure",[22m
+[33m@@ -5406,32 +5422,10 @@[39m
+[2m        "assignments": 0,[22m
+[2m        "activityLogs": 0[22m
+[2m       },[22m
+[2m       "summary": "The girl and her friend are here for a party with a cake and a hat.",[22m
+[2m       "passage": "She is a girl. She is with her friend. The girl is here. Her friend is here. They are here for a party. It is a party for the girl. It is a party with her friend. The party is here. She is a girl, and they are with her. The girl is with her friend, and the friend is with the girl.\n\nWhere is the cake? The cake is here. The cake is for the party. The cake is for the girl. The cake is for her friend. It is a cake for the party. Is the cake here? Yes, the cake is here. The cake is for the girl and her friend. The cake is here, and the cake is for the party.\n\nWhere is the hat? The hat is here. The hat is for the girl. The hat is for her friend. It is a hat for the party. Is the hat here? Yes, the hat is here. The hat is for the girl and her friend. It is a party with the hat. It is a party with the cake. The girl is here, her friend is here, the party is here, the cake is here, and the hat is here."[22m
+[32m-     }[39m
+[32m-    ][39m
+[32m-   },[39m
+[32m-   {[39m
+[32m-    "level": 4,[39m
+[32m-    "keep": "cmuldmcjz0000s601cvsifilm",[39m
+[32m-    "articles": [[39m
+[32m-     {[39m
+[32m-      "id": "cmuldmcjz0000s601cvsifilm",[39m
+[32m-      "title": "The Special Shoes",[39m
+[32m-      "type": "fiction",[39m
+[32m-      "genre": "Fashion",[39m
+[32m-      "approved": false,[39m
+[32m-      "createdAt": "2026-09-28T07:02:27.598Z",[39m
+[32m-      "words": 218,[39m
+[32m-      "use": {[39m
+[32m-       "progress": 0,[39m
+[32m-       "assignments": 0,[39m
+[32m-       "activityLogs": 0[39m
+[32m-      },[39m
+[32m-      "summary": "The girl is happy with the red shoes.",[39m
+[32m-      "passage": "The girl is in the room. The girl is sad. The owl is in the room. The owl is happy. The box is in the room. The box is big. The box is blue. The girl is near the box. The owl is near the box. The box is near the girl. The box is near the owl. The girl is happy with the box. The owl is happy with the box.\n\nThe shoes are in the box. The shoes are big. The shoes are red. The shoes are beautiful. The shoes are special. The shoes are on the girl. The red shoes are on the girl. The special shoes are on the girl. The girl is very happy. The owl is very happy. The shoes are very happy. The girl is with the shoes in the room. The owl is with the shoes in the room.\n\nThe girl is dancing in the room. The owl is dancing in the room. The red shoes are dancing in the room. The girl is happy. The owl is happy. The shoes are happy. The girl is dancing. The owl is dancing. The red shoes are dancing. The girl is very happy with the shoes. The owl is very happy with the shoes. The shoes are very happy in the room."[39m
+[2m      }[22m
+[2m     ][22m
+[2m    }[22m
+[2m   ][22m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m309:38[22m[39m
+    [90m307| [39m    [35mconst[39m byPath [33m=[39m [35mnew[39m [33mMap[39m(calls)[33m;[39m
+    [90m308| [39m    expect([...byPath.keys()].sort()).toEqual([DEFAULT_JSON, DEFAULT_M…
+    [90m309| [39m    [34mexpect[39m(byPath[33m.[39m[35mget[39m([33mDEFAULT_JSON[39m))[33m.[39m[34mtoBe[39m(committed[33m.[39mjson)[33m;[39m
+    [90m   | [39m                                     [31m^[39m
+    [90m310| [39m    [34mexpect[39m(byPath[33m.[39m[35mget[39m([33mDEFAULT_MD[39m))[33m.[39m[34mtoBe[39m(committed[33m.[39mmd)[33m;[39m
+    [90m311| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mmixed options[2m > [22mkeeps the defaults when only the output paths are given
+[31m[1mAssertionError[22m: expected '{\n "source": "scripts/plan-dedup.ts,…' to be '{\n "source": "scripts/plan-dedup.ts,…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -5279,12 +5279,28 @@[39m
+[2m      }[22m
+[2m     ][22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 4,[22m
+[32m-    "keep": "cmpy727af000ms601iy49sq0b",[39m
+[31m+    "keep": "cmuldmcjz0000s601cvsifilm",[39m
+[2m     "articles": [[22m
+[31m+     {[39m
+[31m+      "id": "cmuldmcjz0000s601cvsifilm",[39m
+[31m+      "title": "The Special Shoes",[39m
+[31m+      "type": "fiction",[39m
+[31m+      "genre": "Fashion",[39m
+[31m+      "approved": false,[39m
+[31m+      "createdAt": "2026-09-28T07:02:27.598Z",[39m
+[31m+      "words": 218,[39m
+[31m+      "use": {[39m
+[31m+       "progress": 0,[39m
+[31m+       "assignments": 0,[39m
+[31m+       "activityLogs": 0[39m
+[31m+      },[39m
+[31m+      "summary": "The girl is happy with the red shoes.",[39m
+[31m+      "passage": "The girl is in the room. The girl is sad. The owl is in the room. The owl is happy. The box is in the room. The box is big. The box is blue. The girl is near the box. The owl is near the box. The box is near the girl. The box is near the owl. The girl is happy with the box. The owl is happy with the box.\n\nThe shoes are in the box. The shoes are big. The shoes are red. The shoes are beautiful. The shoes are special. The shoes are on the girl. The red shoes are on the girl. The special shoes are on the girl. The girl is very happy. The owl is very happy. The shoes are very happy. The girl is with the shoes in the room. The owl is with the shoes in the room.\n\nThe girl is dancing in the room. The owl is dancing in the room. The red shoes are dancing in the room. The girl is happy. The owl is happy. The shoes are happy. The girl is dancing. The owl is dancing. The red shoes are dancing. The girl is very happy with the shoes. The owl is very happy with the shoes. The shoes are very happy in the room."[39m
+[31m+     },[39m
+[2m      {[22m
+[2m       "id": "cmpy727af000ms601iy49sq0b",[22m
+[2m       "title": "The Beach and the Box",[22m
+[2m       "type": "fiction",[22m
+[2m       "genre": "Adventure",[22m
+[33m@@ -5406,32 +5422,10 @@[39m
+[2m        "assignments": 0,[22m
+[2m        "activityLogs": 0[22m
+[2m       },[22m
+[2m       "summary": "The girl and her friend are here for a party with a cake and a hat.",[22m
+[2m       "passage": "She is a girl. She is with her friend. The girl is here. Her friend is here. They are here for a party. It is a party for the girl. It is a party with her friend. The party is here. She is a girl, and they are with her. The girl is with her friend, and the friend is with the girl.\n\nWhere is the cake? The cake is here. The cake is for the party. The cake is for the girl. The cake is for her friend. It is a cake for the party. Is the cake here? Yes, the cake is here. The cake is for the girl and her friend. The cake is here, and the cake is for the party.\n\nWhere is the hat? The hat is here. The hat is for the girl. The hat is for her friend. It is a hat for the party. Is the hat here? Yes, the hat is here. The hat is for the girl and her friend. It is a party with the hat. It is a party with the cake. The girl is here, her friend is here, the party is here, the cake is here, and the hat is here."[22m
+[32m-     }[39m
+[32m-    ][39m
+[32m-   },[39m
+[32m-   {[39m
+[32m-    "level": 4,[39m
+[32m-    "keep": "cmuldmcjz0000s601cvsifilm",[39m
+[32m-    "articles": [[39m
+[32m-     {[39m
+[32m-      "id": "cmuldmcjz0000s601cvsifilm",[39m
+[32m-      "title": "The Special Shoes",[39m
+[32m-      "type": "fiction",[39m
+[32m-      "genre": "Fashion",[39m
+[32m-      "approved": false,[39m
+[32m-      "createdAt": "2026-09-28T07:02:27.598Z",[39m
+[32m-      "words": 218,[39m
+[32m-      "use": {[39m
+[32m-       "progress": 0,[39m
+[32m-       "assignments": 0,[39m
+[32m-       "activityLogs": 0[39m
+[32m-      },[39m
+[32m-      "summary": "The girl is happy with the red shoes.",[39m
+[32m-      "passage": "The girl is in the room. The girl is sad. The owl is in the room. The owl is happy. The box is in the room. The box is big. The box is blue. The girl is near the box. The owl is near the box. The box is near the girl. The box is near the owl. The girl is happy with the box. The owl is happy with the box.\n\nThe shoes are in the box. The shoes are big. The shoes are red. The shoes are beautiful. The shoes are special. The shoes are on the girl. The red shoes are on the girl. The special shoes are on the girl. The girl is very happy. The owl is very happy. The shoes are very happy. The girl is with the shoes in the room. The owl is with the shoes in the room.\n\nThe girl is dancing in the room. The owl is dancing in the room. The red shoes are dancing in the room. The girl is happy. The owl is happy. The shoes are happy. The girl is dancing. The owl is dancing. The red shoes are dancing. The girl is very happy with the shoes. The owl is very happy with the shoes. The shoes are very happy in the room."[39m
+[2m      }[22m
+[2m     ][22m
+[2m    }[22m
+[2m   ][22m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m331:46[22m[39m
+    [90m329| [39m    }
+    [90m330| [39m    [34mexpect[39m(code)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m331| [39m    [34mexpect[39m(fs[33m.[39m[34mreadFileSync[39m(outJson[33m,[39m [32m'utf8'[39m))[33m.[39m[34mtoBe[39m(committed[33m.[39mjson)[33m;[39m
+    [90m   | [39m                                             [31m^[39m
+    [90m332| [39m    [34mexpect[39m(fs[33m.[39m[34mreadFileSync[39m(outMd[33m,[39m [32m'utf8'[39m))[33m.[39m[34mtoBe[39m(committed[33m.[39mmd)[33m;[39m
+    [90m333| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mmixed options[2m > [22mkeeps the default printed file when the levels 1-4 options are written out
+[31m[1mAssertionError[22m: expected '{\n "source": "scripts/plan-dedup.ts,…' to be '{\n "source": "scripts/plan-dedup.ts,…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -5279,12 +5279,28 @@[39m
+[2m      }[22m
+[2m     ][22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 4,[22m
+[32m-    "keep": "cmpy727af000ms601iy49sq0b",[39m
+[31m+    "keep": "cmuldmcjz0000s601cvsifilm",[39m
+[2m     "articles": [[22m
+[31m+     {[39m
+[31m+      "id": "cmuldmcjz0000s601cvsifilm",[39m
+[31m+      "title": "The Special Shoes",[39m
+[31m+      "type": "fiction",[39m
+[31m+      "genre": "Fashion",[39m
+[31m+      "approved": false,[39m
+[31m+      "createdAt": "2026-09-28T07:02:27.598Z",[39m
+[31m+      "words": 218,[39m
+[31m+      "use": {[39m
+[31m+       "progress": 0,[39m
+[31m+       "assignments": 0,[39m
+[31m+       "activityLogs": 0[39m
+[31m+      },[39m
+[31m+      "summary": "The girl is happy with the red shoes.",[39m
+[31m+      "passage": "The girl is in the room. The girl is sad. The owl is in the room. The owl is happy. The box is in the room. The box is big. The box is blue. The girl is near the box. The owl is near the box. The box is near the girl. The box is near the owl. The girl is happy with the box. The owl is happy with the box.\n\nThe shoes are in the box. The shoes are big. The shoes are red. The shoes are beautiful. The shoes are special. The shoes are on the girl. The red shoes are on the girl. The special shoes are on the girl. The girl is very happy. The owl is very happy. The shoes are very happy. The girl is with the shoes in the room. The owl is with the shoes in the room.\n\nThe girl is dancing in the room. The owl is dancing in the room. The red shoes are dancing in the room. The girl is happy. The owl is happy. The shoes are happy. The girl is dancing. The owl is dancing. The red shoes are dancing. The girl is very happy with the shoes. The owl is very happy with the shoes. The shoes are very happy in the room."[39m
+[31m+     },[39m
+[2m      {[22m
+[2m       "id": "cmpy727af000ms601iy49sq0b",[22m
+[2m       "title": "The Beach and the Box",[22m
+[2m       "type": "fiction",[22m
+[2m       "genre": "Adventure",[22m
+[33m@@ -5406,32 +5422,10 @@[39m
+[2m        "assignments": 0,[22m
+[2m        "activityLogs": 0[22m
+[2m       },[22m
+[2m       "summary": "The girl and her friend are here for a party with a cake and a hat.",[22m
+[2m       "passage": "She is a girl. She is with her friend. The girl is here. Her friend is here. They are here for a party. It is a party for the girl. It is a party with her friend. The party is here. She is a girl, and they are with her. The girl is with her friend, and the friend is with the girl.\n\nWhere is the cake? The cake is here. The cake is for the party. The cake is for the girl. The cake is for her friend. It is a cake for the party. Is the cake here? Yes, the cake is here. The cake is for the girl and her friend. The cake is here, and the cake is for the party.\n\nWhere is the hat? The hat is here. The hat is for the girl. The hat is for her friend. It is a hat for the party. Is the hat here? Yes, the hat is here. The hat is for the girl and her friend. It is a party with the hat. It is a party with the cake. The girl is here, her friend is here, the party is here, the cake is here, and the hat is here."[22m
+[32m-     }[39m
+[32m-    ][39m
+[32m-   },[39m
+[32m-   {[39m
+[32m-    "level": 4,[39m
+[32m-    "keep": "cmuldmcjz0000s601cvsifilm",[39m
+[32m-    "articles": [[39m
+[32m-     {[39m
+[32m-      "id": "cmuldmcjz0000s601cvsifilm",[39m
+[32m-      "title": "The Special Shoes",[39m
+[32m-      "type": "fiction",[39m
+[32m-      "genre": "Fashion",[39m
+[32m-      "approved": false,[39m
+[32m-      "createdAt": "2026-09-28T07:02:27.598Z",[39m
+[32m-      "words": 218,[39m
+[32m-      "use": {[39m
+[32m-       "progress": 0,[39m
+[32m-       "assignments": 0,[39m
+[32m-       "activityLogs": 0[39m
+[32m-      },[39m
+[32m-      "summary": "The girl is happy with the red shoes.",[39m
+[32m-      "passage": "The girl is in the room. The girl is sad. The owl is in the room. The owl is happy. The box is in the room. The box is big. The box is blue. The girl is near the box. The owl is near the box. The box is near the girl. The box is near the owl. The girl is happy with the box. The owl is happy with the box.\n\nThe shoes are in the box. The shoes are big. The shoes are red. The shoes are beautiful. The shoes are special. The shoes are on the girl. The red shoes are on the girl. The special shoes are on the girl. The girl is very happy. The owl is very happy. The shoes are very happy. The girl is with the shoes in the room. The owl is with the shoes in the room.\n\nThe girl is dancing in the room. The owl is dancing in the room. The red shoes are dancing in the room. The girl is happy. The owl is happy. The shoes are happy. The girl is dancing. The owl is dancing. The red shoes are dancing. The girl is very happy with the shoes. The owl is very happy with the shoes. The shoes are very happy in the room."[39m
+[2m      }[22m
+[2m     ][22m
+[2m    }[22m
+[2m   ][22m
+[2m  }[22m
+
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m362:46[22m[39m
+    [90m360| [39m    }
+    [90m361| [39m    [34mexpect[39m(code)[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m362| [39m    [34mexpect[39m(fs[33m.[39m[34mreadFileSync[39m(outJson[33m,[39m [32m'utf8'[39m))[33m.[39m[34mtoBe[39m(committed[33m.[39mjson)[33m;[39m
+    [90m   | [39m                                             [31m^[39m
+    [90m363| [39m    [34mexpect[39m(fs[33m.[39m[34mreadFileSync[39m(outMd[33m,[39m [32m'utf8'[39m))[33m.[39m[34mtoBe[39m(committed[33m.[39mmd)[33m;[39m
+    [90m364| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mlevels 5-9 run on a small fixture[2m > [22mwrites the exact heading, intro, table header, and level lines
+[31m[1mAssertionError[22m: expected '# Levels 5–9: old online articles, gr…' not to contain '| Keep | Similar |'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[31m+ # Levels 5–9: old online articles, grouped[39m
+[31m+[39m
+[31m+ Generated by `dashboard/scripts/plan-dedup.ts` (track levels_5_9_20261006) from the read-only passages inventory of 2026-11-19T00:00:00.000Z.[39m
+[31m+[39m
+[31m+ Provisional grouping for Daniel's level review. The level targets count the 550 new packages. Daniel decides for each kept old article: rebuild (same id) or delete. Targets: level 5 = 50, level 6 = 100, level 7 = 100, level 8 = 150, level 9 = 150.[39m
+[31m+[39m
+[31m+ In each group, **keep** is the best article (most student use, then approved, then newest). The others are similar to it. Their title, summary, and passage stay in `dupes-5-9.json`.[39m
+[31m+[39m
+[31m+ ## Level 5[39m
+[31m+[39m
+[31m+ 6 articles: 0 printed, 6 online. Keep 5 online articles; 1 are similar to a kept one. 1 groups have more than one article; the weakest merge had similarity 1.00.[39m
+[31m+[39m
+[31m+ | Keep | Similar |[39m
+[31m+ |---|---|[39m
+[31m+ | Tale of the quokka (`l5a`) | Tale of the quokka (`l5b`) |[39m
+[31m+[39m
+[31m+ ## Level 6[39m
+[31m+[39m
+[31m+ 3 articles: 0 printed, 3 online. Keep 2 online articles; 1 are similar to a kept one. 1 groups have more than one article; the weakest merge had similarity 0.43.[39m
+[31m+[39m
+[31m+ | Keep | Similar |[39m
+[31m+ |---|---|[39m
+[31m+ | Tale of the wombat (`l6b`) | Tale of the bandicoot (`l6a`) |[39m
+[31m+[39m
+[31m+ ## Level 7[39m
+[31m+[39m
+[31m+ 2 articles: 0 printed, 2 online. Keep 1 online articles; 1 are similar to a kept one. 1 groups have more than one article; the weakest merge had similarity 0.43.[39m
+[31m+[39m
+[31m+ | Keep | Similar |[39m
+[31m+ |---|---|[39m
+[31m+ | Tale of the tapir (`l7b`) | Tale of the capybara (`l7a`) |[39m
+[31m+[39m
+[31m+ ## Level 8[39m
+[31m+[39m
+[31m+ 2 articles: 0 printed, 2 online. Keep 1 online articles; 1 are similar to a kept one. 1 groups have more than one article; the weakest merge had similarity 0.43.[39m
+[31m+[39m
+[2m  | Keep | Similar |[22m
+[31m+ |---|---|[39m
+[31m+ | Tale of the dugong (`l8b`) | Tale of the aardvark (`l8a`) |[39m
+[31m+[39m
+[31m+ ## Level 9[39m
+[31m+[39m
+[31m+ 2 articles: 0 printed, 2 online. Keep 1 online articles; 1 are similar to a kept one. 1 groups have more than one article; the weakest merge had similarity 0.43.[39m
+[31m+[39m
+[31m+ | Keep | Similar |[39m
+[31m+ |---|---|[39m
+[31m+ | Tale of the markhor (`l9b`) | Tale of the gerenuk (`l9a`) |[39m
+[31m+[39m
+[31m+[39m
+
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m480:20[22m[39m
+    [90m478| [39m      'In each group, **keep** is the best article (most student use, …
+    [90m479| [39m    )[33m;[39m
+    [90m480| [39m    [34mexpect[39m(md)[33m.[39mnot[33m.[39m[34mtoContain[39m([32m'| Keep | Similar |'[39m)[33m;[39m
+    [90m   | [39m                   [31m^[39m
+    [90m481| [39m    [34mexpect[39m(md)[33m.[39mnot[33m.[39m[34mtoContain[39m([32m'| Keep | Delete'[39m)[33m;[39m
+    [90m482| [39m    [34mexpect[39m(
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mlevels 5-9 run on a small fixture[2m > [22mkeeps every online article below target, with no table for the level
+[31m[1mAssertionError[22m: expected [ …(5) ] to have a length of 6 but got 5[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 6[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m529:20[22m[39m
+    [90m527| [39m    }[33m;[39m
+    [90m528| [39m    [35mconst[39m level5 [33m=[39m data[33m.[39mgroups[33m.[39m[34mfilter[39m((g) [33m=>[39m g[33m.[39mlevel [33m===[39m [34m5[39m)[33m;[39m
+    [90m529| [39m    [34mexpect[39m(level5)[33m.[39m[34mtoHaveLength[39m([34m6[39m)[33m;[39m
+    [90m   | [39m                   [31m^[39m
+    [90m530| [39m    [34mexpect[39m(level5[33m.[39m[34mevery[39m((g) [33m=>[39m g[33m.[39marticles[33m.[39mlength [33m===[39m [34m1[39m))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m531| [39m    [35mconst[39m md [33m=[39m fs[33m.[39m[34mreadFileSync[39m(outMd[33m,[39m [32m'utf8'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22ma level below its target[2m > [22mkeeps every online article with no merge
+[31m[1mAssertionError[22m: expected [ Array(2) ] to have a length of 3 but got 2[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 3[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m670:20[22m[39m
+    [90m668| [39m    }[33m;[39m
+    [90m669| [39m    [35mconst[39m groups [33m=[39m data[33m.[39mgroups[33m.[39m[34mfilter[39m((g) [33m=>[39m g[33m.[39mlevel [33m===[39m [34m6[39m)[33m;[39m
+    [90m670| [39m    [34mexpect[39m(groups)[33m.[39m[34mtoHaveLength[39m([34m3[39m)[33m;[39m
+    [90m   | [39m                   [31m^[39m
+    [90m671| [39m    [34mexpect[39m(groups[33m.[39m[34mevery[39m((g) [33m=>[39m g[33m.[39marticles[33m.[39mlength [33m===[39m [34m1[39m))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m672| [39m    [34mexpect[39m([34mlevelLine[39m(fs[33m.[39m[34mreadFileSync[39m(outMd[33m,[39m [32m'utf8'[39m)[33m,[39m [34m6[39m))[33m.[39m[34mtoBe[39m(
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m8 failed[39m[22m[2m | [22m[1m[32m29 passed[39m[22m[90m (37)[39m
+[2m   Start at [22m 06:45:57
+[2m   Duration [22m 808ms[2m (transform 97ms, setup 39ms, import 138ms, tests 436ms, environment 0ms)[22m
+
