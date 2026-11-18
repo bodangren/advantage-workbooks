@@ -47,9 +47,6 @@ const DEFAULT_OUT_JSON = path.join(REPO_ROOT, 'docs/content-plans/data/duplicate
 /** The Markdown output of the levels 1 to 4 run, the default of `--out-md`. */
 const DEFAULT_OUT_MD = path.join(REPO_ROOT, 'docs/content-plans/level-plans/duplicates.md');
 
-/** The cosine at which two articles are duplicates of each other. The levels 1 to 4 run merged at 0.50. */
-const DUPLICATE_SIMILARITY = 0.5;
-
 const USAGE = `Groups similar old online articles per level and keeps the best one of each group
 (track level_banks_20261002; the levels 5-9 run is track levels_5_9_20261006).
 
@@ -200,57 +197,6 @@ export function parseDedupArgs(argv: string[]): DedupParse {
 }
 
 /**
- * The groups of the online articles of one level. The duplicate pairs come first; the rest merge
- * down to the keep count the levels 1 to 4 way.
- * @param items The online articles of the level.
- * @param keepCount The number of groups to keep.
- * @returns The groups of indexes, and the similarity at which each merge happened.
- */
-function planLevelGroups(items: Article[], keepCount: number): { groups: number[][]; mergedAt: number[] } {
-    const n = items.length;
-    if (keepCount <= 0) return { groups: [], mergedAt: [] };
-    const bags = items.map(bag);
-    const sim: number[][] = items.map((_, i) => items.map((__, j) => (i === j ? 0 : cosine(bags[i], bags[j]))));
-
-    const candidates: { i: number; j: number; s: number }[] = [];
-    for (let i = 0; i < n; i++) {
-        for (let j = i + 1; j < n; j++) candidates.push({ i, j, s: sim[i][j] });
-    }
-    candidates.sort((a, b) => b.s - a.s || a.i - b.i || a.j - b.j);
-
-    const groups: number[][] = items.map((_, i) => [i]);
-    const groupOf = new Map<number, number>();
-    for (let i = 0; i < n; i++) groupOf.set(i, i);
-    const taken = new Set<number>();
-    const mergedAt: number[] = [];
-    for (const candidate of candidates) {
-        if (candidate.s < DUPLICATE_SIMILARITY) break;
-        if (taken.has(candidate.i) || taken.has(candidate.j)) continue;
-        taken.add(candidate.i);
-        taken.add(candidate.j);
-        const gi = groupOf.get(candidate.i) as number;
-        const gj = groupOf.get(candidate.j) as number;
-        groups[gi] = groups[gi].concat(groups[gj]);
-        groups[gj] = [];
-        for (const member of groups[gi]) groupOf.set(member, gi);
-        mergedAt.push(candidate.s);
-    }
-
-    let kept = groups.filter((group) => group.length > 0);
-    if (kept.length > keepCount) {
-        const groupSim = (a: number[], b: number[]): number => {
-            let sum = 0;
-            for (const x of a) for (const y of b) sum += sim[x][y];
-            return sum / (a.length * b.length);
-        };
-        const merged = cluster(kept.length, (i, j) => groupSim(kept[i], kept[j]), keepCount);
-        kept = merged.groups.map((group) => group.flatMap((index) => kept[index]));
-        mergedAt.push(...merged.mergedAt);
-    }
-    return { groups: kept, mergedAt };
-}
-
-/**
  * Plans the two output files of the run. The function writes nothing.
  * @param inv The inventory of the run.
  * @param options The options of the run.
@@ -292,9 +238,7 @@ export function planDedup(
         const bags = online.map(bag);
         const planned = keepCount === 0
             ? { groups: [], mergedAt: [] }
-            : oneToFour
-                ? cluster(online.length, (i, j) => cosine(bags[i], bags[j]), keepCount)
-                : planLevelGroups(online, keepCount);
+            : cluster(online.length, (i, j) => cosine(bags[i], bags[j]), keepCount);
         const sorted = planned.groups
             .map((g) => g.map((i) => online[i]).sort(better))
             .sort((a, b) => b.length - a.length || a[0].title.localeCompare(b[0].title));
