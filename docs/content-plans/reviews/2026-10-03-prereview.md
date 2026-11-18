@@ -2,7 +2,7 @@
 
 Version 1.0 | Date 2026-10-03 | Status: Draft (for Daniel) | Owner: Daniel Bo | Internal
 
-Track: `measure/tracks/editorial_prereview_20261003/`. Claude read all 42 lessons before Daniel's
+Track: `measure/archive/editorial_prereview_20261003/`. Claude read all 42 lessons before Daniel's
 review: the text, the glossary, the question bank, the print set, the activities, the picture plans,
 and the pictures. Claude fixed the faults in the sources (`<book>/src/<lesson>.md`), converted them,
 and made new pictures and new audio where a part changed. All 42 lessons are still draft. Only Daniel

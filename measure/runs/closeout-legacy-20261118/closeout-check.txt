@@ -1,0 +1,97 @@
+# closeout-1c5385a6: closeout checker output (legacy lane batch, 2026-11-18)
+# command: python3 ~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py closeout --repo . --track <t>
+# base commit: 1c5385a6
+
+########## editorial_prereview_20261003
+FAIL: track is still listed in the active section of measure/tracks.md
+FAIL: completed plan task lacks commit SHA: - [x] Tests: author parse of `text @ x,y,w,h` and the errors (bad place, caption with " ; "); line
+FAIL: completed plan task lacks commit SHA: - [x] `lib/lesson-package/author.ts`, `lib/media/images.ts`, `lib/lesson-package/checks.ts`;
+FAIL: completed plan task lacks commit SHA: - [x] Read L01–L14 and the pictures; fix the sources; convert; checks PASS
+FAIL: completed plan task lacks commit SHA: - [x] Sign places; new pictures where a prompt changed; audio again where the text changed
+FAIL: completed plan task lacks commit SHA: - [x] Read P01–P14 and the pictures; fix the sources; convert; checks PASS
+FAIL: completed plan task lacks commit SHA: - [x] Sign places; new pictures; audio
+FAIL: completed plan task lacks commit SHA: - [x] Read L01–L14 and the pictures; fix the sources; convert; checks PASS
+FAIL: completed plan task lacks commit SHA: - [x] New pictures; audio
+FAIL: completed plan task lacks commit SHA: - [x] `docs/content-plans/reviews/2026-10-03-prereview.md`: each change and its reason; open
+FAIL: registry entry has no description for editorial_prereview_20261003
+FAIL: missing final acceptance: /home/daniebo/Desktop/Workbooks/measure/runs/editorial_prereview_20261003/final-acceptance-*.json
+FAIL: missing closeout manifest: /home/daniebo/Desktop/Workbooks/measure/archive/editorial_prereview_20261003/automation-supervisor-closeout-manifest.json
+EXIT=1
+
+########## origins2_test_package_20261008
+FAIL: track is still listed in the active section of measure/tracks.md
+FAIL: completed plan task lacks commit SHA: - [x] Move the 8 source files, `print/`, `test-media/`, and the zip from `primary/origins-2-a0/`
+FAIL: completed plan task lacks commit SHA: - [x] `build-test-audio.sh`: the audio path is the new folder
+FAIL: completed plan task lacks commit SHA: - [x] Check: `git status --porcelain primary/` is empty; no dashboard code reads a book folder
+FAIL: completed plan task lacks commit SHA: - [x] Daniel's decision: commit all files, or leave out the zip and `test-media/audio/_work`
+FAIL: registry entry has no description for origins2_test_package_20261008
+FAIL: missing final acceptance: /home/daniebo/Desktop/Workbooks/measure/runs/origins2_test_package_20261008/final-acceptance-*.json
+FAIL: missing closeout manifest: /home/daniebo/Desktop/Workbooks/measure/archive/origins2_test_package_20261008/automation-supervisor-closeout-manifest.json
+EXIT=1
+
+########## print_export_20261012
+FAIL: track is still listed in the active section of measure/tracks.md
+FAIL: completed plan task lacks commit SHA: - [x] Test first: `__tests__/print-export.test.ts` (bucket pictures, export record, document with and without the key)
+FAIL: completed plan task lacks commit SHA: - [x] `lib/print/book-lessons.ts` (from `make-lesson-pdfs.ts`) and `lib/print/print-export.ts`
+FAIL: completed plan task lacks commit SHA: - [x] `scripts/print/export-print-data.ts`; run with `--golden origins-3.2:5`
+FAIL: completed plan task lacks commit SHA: - [x] Check: 70 files; each lesson equals the print source except the picture URLs; 210 bucket
+FAIL: completed plan task lacks commit SHA: - [x] Check: every bucket URL answers HTTP 200 (210 of 210; 9 needed a second try after a network timeout)
+FAIL: completed plan task lacks commit SHA: - [x] Check: the golden differs from the PDF document of the lesson only in the 3 picture URLs; the
+FAIL: registry entry has no description for print_export_20261012
+FAIL: missing final acceptance: /home/daniebo/Desktop/Workbooks/measure/runs/print_export_20261012/final-acceptance-*.json
+FAIL: missing closeout manifest: /home/daniebo/Desktop/Workbooks/measure/archive/print_export_20261012/automation-supervisor-closeout-manifest.json
+EXIT=1
+
+########## print_ready_pdf_20261002
+FAIL: track is still listed in the active section of measure/tracks.md
+FAIL: completed plan task lacks commit SHA: - [x] Tests: Ghostscript arguments, the PDF/X definition file, and the checks on
+FAIL: completed plan task lacks commit SHA: - [x] `scripts/print/make-pdfx.ts`: profile from a local cache (download from Adobe on first use;
+FAIL: completed plan task lacks commit SHA: - [x] Tech stack note: Ghostscript and poppler for print; static fonts only
+FAIL: completed plan task lacks commit SHA: - [x] Tests: the print document has `@font-face` data URLs for each family, weight, and style in use,
+FAIL: completed plan task lacks commit SHA: - [x] `lib/document-wrapper/print-fonts.ts`; remove the `@import` from the template; Sarabun in each
+FAIL: completed plan task lacks commit SHA: - [x] Tests: no emoji or symbol characters, no `rgba(`, `opacity`, shadows, filters, or gradients
+FAIL: completed plan task lacks commit SHA: - [x] Inline SVG icons (Lucide, ISC; `lib/document-wrapper/icons.ts`, Handlebars helper `icon`)
+FAIL: completed plan task lacks commit SHA: - [x] Render Origins 3.2 (Playwright, Paged.js), convert, check: 0 pages as images, 0 Type 3 fonts.
+FAIL: completed plan task lacks commit SHA: - [x] Compare page pictures before and after: same layout; icons in place of emoji, solid boxes.
+FAIL: registry entry has no description for print_ready_pdf_20261002
+FAIL: missing final acceptance: /home/daniebo/Desktop/Workbooks/measure/runs/print_ready_pdf_20261002/final-acceptance-*.json
+FAIL: missing closeout manifest: /home/daniebo/Desktop/Workbooks/measure/archive/print_ready_pdf_20261002/automation-supervisor-closeout-manifest.json
+EXIT=1
+
+########## review_page_20261001
+FAIL: track is still listed in the active section of measure/tracks.md
+FAIL: completed plan task lacks commit SHA: - [x] API request and response types from the package schema; the approval-part enum (`lib/lesson-package/store.ts`, `lib/review/server.ts`)
+FAIL: completed plan task lacks commit SHA: - [x] Route tests: GET, PUT valid, PUT invalid (400 with the issues), approve, path guard (`app/api/packages/__tests__/routes.test.ts`, 7 tests; store tests, 8)
+FAIL: completed plan task lacks commit SHA: - [x] Route handlers (read and write under `content/primary/`; `/api/files` for media; `/api/cast` for the sheet choice)
+FAIL: completed plan task lacks commit SHA: - [x] `/review` list page
+FAIL: completed plan task lacks commit SHA: - [x] `/review/[book]/[lesson]` page with the sections and the keys
+FAIL: completed plan task lacks commit SHA: - [x] `/review/cast` page
+FAIL: completed plan task lacks commit SHA: - [x] Picture choice (`POST .../image`) and an "Ask for new pictures" flag (`images[].redo`) that `lesson-images.ts --redo-marked` reads; Claude runs the media scripts, so the page starts no mmx job
+FAIL: completed plan task lacks commit SHA: - [x] Run the dashboard on a scratch copy; a headless Chrome script edits, saves (Ctrl+S), approves (Ctrl+Enter), stars a fifth MCQ (print-set FAIL blocks the bank approval), saves an invalid title (400, file unchanged), and picks a cast sheet
+FAIL: completed plan task lacks commit SHA: - [x] Daniel approves the E12 pilot on the page (his review, not an agent's) — checked 2026-10-08: every part of `origins-3.1/e12.json` is approved (lesson on 2026-10-02), and E12 is injected
+FAIL: completed plan task lacks commit SHA: - [x] Update `measure/tech-debt.md` and `measure/lessons-learned.md`
+FAIL: registry entry has no description for review_page_20261001
+FAIL: missing final acceptance: /home/daniebo/Desktop/Workbooks/measure/runs/review_page_20261001/final-acceptance-*.json
+FAIL: missing closeout manifest: /home/daniebo/Desktop/Workbooks/measure/archive/review_page_20261001/automation-supervisor-closeout-manifest.json
+EXIT=1
+
+########## text_profile_lint_20260930
+FAIL: track is still listed in the active section of measure/tracks.md
+FAIL: completed plan task lacks commit SHA: - [x] Tests first: `__tests__/text-profile.test.ts` with a fixed vocabulary (tokens, sentences, lemmas, checks, draft parser)
+FAIL: completed plan task lacks commit SHA: - [x] `text.ts`: tokens, sentences, paragraphs, lemma candidates
+FAIL: completed plan task lacks commit SHA: - [x] `vocabulary.ts`: index from the graph JSON (form → lowest level; phrases; number words)
+FAIL: completed plan task lacks commit SHA: - [x] `sources.ts`: parse draft Markdown and lesson JSON; load a folder in order
+FAIL: completed plan task lacks commit SHA: - [x] `check.ts`: profiles and the per-lesson and book checks
+FAIL: completed plan task lacks commit SHA: - [x] `report.ts`: text report
+FAIL: completed plan task lacks commit SHA: - [x] `scripts/lint-text-profile.ts` (`--graph`, `--prior`, `--json`)
+FAIL: completed plan task lacks commit SHA: - [x] Graph test on the insert v0 text (skips when the graph file is absent)
+FAIL: completed plan task lacks commit SHA: - [x] Draft folder `docs/content-plans/origins-3.2-drafts/` with the insert v0 text; run the script on it
+FAIL: completed plan task lacks commit SHA: - [x] Update `measure/lessons-learned.md`, `measure/tech-debt.md`, and the 3.2 plan (task C3 done)
+FAIL: completed plan task lacks commit SHA: - [x] Test first: fewer new words than the target gives WARN; the level-3 profile has glossed Starters minimum 10
+FAIL: completed plan task lacks commit SHA: - [x] `check.ts`: `new` check gives WARN below the target; `glossedStartersMin` 11 → 10 (P08 glosses 2 Movers words and could never pass)
+FAIL: completed plan task lacks commit SHA: - [x] Spec table updated; 39 tests pass; ESLint clean
+FAIL: registry entry has no description for text_profile_lint_20260930
+FAIL: missing final acceptance: /home/daniebo/Desktop/Workbooks/measure/runs/text_profile_lint_20260930/final-acceptance-*.json
+FAIL: missing closeout manifest: /home/daniebo/Desktop/Workbooks/measure/archive/text_profile_lint_20260930/automation-supervisor-closeout-manifest.json
+EXIT=1
+

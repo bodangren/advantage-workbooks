@@ -1,0 +1,178 @@
+{
+  "batch": "closeout-legacy-20261118",
+  "role": "measure-closeout",
+  "order": "PM order 2026-11-18: archive the 6 finished legacy tracks (Done must not get too long)",
+  "lane": "legacy (pre-orchestrator, precedent a730048c)",
+  "final_acceptance": "none: legacy track",
+  "base_commit": "1c5385a6e8a7243eaa102a3774cce7f2f0d80d8c",
+  "date": "2026-11-18",
+  "tracks_moved": [
+    {
+      "id": "editorial_prereview_20261003",
+      "from": "measure/tracks/editorial_prereview_20261003",
+      "to": "measure/archive/editorial_prereview_20261003",
+      "completed": "2026-10-06",
+      "metadata": {
+        "status": "done",
+        "completed": "2026-10-06"
+      },
+      "open_tasks_before_move": 0,
+      "human_gated_tasks_before_move": 0,
+      "plan_tasks_complete": "all [x]",
+      "registry_before": "[x] with a Completed date",
+      "checker_exit": 1
+    },
+    {
+      "id": "origins2_test_package_20261008",
+      "from": "measure/tracks/origins2_test_package_20261008",
+      "to": "measure/archive/origins2_test_package_20261008",
+      "completed": "2026-10-09",
+      "metadata": {
+        "status": "done",
+        "completed": "2026-10-09"
+      },
+      "open_tasks_before_move": 0,
+      "human_gated_tasks_before_move": 0,
+      "plan_tasks_complete": "all [x]",
+      "registry_before": "[x] with a Completed date",
+      "checker_exit": 1
+    },
+    {
+      "id": "print_export_20261012",
+      "from": "measure/tracks/print_export_20261012",
+      "to": "measure/archive/print_export_20261012",
+      "completed": "2026-10-12",
+      "metadata": {
+        "status": "done",
+        "completed": "2026-10-12"
+      },
+      "open_tasks_before_move": 0,
+      "human_gated_tasks_before_move": 0,
+      "plan_tasks_complete": "all [x]",
+      "registry_before": "[x] with a Completed date",
+      "checker_exit": 1
+    },
+    {
+      "id": "print_ready_pdf_20261002",
+      "from": "measure/tracks/print_ready_pdf_20261002",
+      "to": "measure/archive/print_ready_pdf_20261002",
+      "completed": "2026-10-02",
+      "metadata": {
+        "status": "done",
+        "completed": "2026-10-02"
+      },
+      "open_tasks_before_move": 0,
+      "human_gated_tasks_before_move": 0,
+      "plan_tasks_complete": "all [x]",
+      "registry_before": "[x] with a Completed date",
+      "checker_exit": 1
+    },
+    {
+      "id": "review_page_20261001",
+      "from": "measure/tracks/review_page_20261001",
+      "to": "measure/archive/review_page_20261001",
+      "completed": "2026-10-08",
+      "metadata": {
+        "status": "done",
+        "completed": "2026-10-08"
+      },
+      "open_tasks_before_move": 0,
+      "human_gated_tasks_before_move": 0,
+      "plan_tasks_complete": "all [x]",
+      "registry_before": "[x] with a Completed date",
+      "checker_exit": 1
+    },
+    {
+      "id": "text_profile_lint_20260930",
+      "from": "measure/tracks/text_profile_lint_20260930",
+      "to": "measure/archive/text_profile_lint_20260930",
+      "completed": "2026-09-30",
+      "metadata": {
+        "status": "done",
+        "completed": "2026-09-30"
+      },
+      "open_tasks_before_move": 0,
+      "human_gated_tasks_before_move": 0,
+      "plan_tasks_complete": "all [x]",
+      "registry_before": "[x] with a Completed date",
+      "checker_exit": 1
+    }
+  ],
+  "registry_change": {
+    "file": "measure/tracks.md",
+    "action": "link line only: ./tracks/<t>/ -> ./archive/<t>/",
+    "descriptions_changed": 0,
+    "entries_kept_in_active_section": true,
+    "precedent": "a730048c"
+  },
+  "reference_updates": [
+    "docs/content-plans/origins-3.2-drafts/README.md",
+    "docs/content-plans/primary-origins-3.2-plan.md",
+    "docs/content-plans/reviews/2026-10-03-prereview.md"
+  ],
+  "reference_grep": {
+    "command": "git grep -n -E \"tracks/(editorial_prereview_20261003|origins2_test_package_20261008|print_export_20261012|print_ready_pdf_20261002|review_page_20261001|text_profile_lint_20260930)\"",
+    "result": "0 hits after the update"
+  },
+  "commands": [
+    "grep -cE '^[[:space:]]*- \\[( |~)\\]' measure/tracks/<t>/plan.md  (0 for all 6)",
+    "git mv measure/tracks/<t> measure/archive/<t>  (6 tracks)",
+    "python3 ~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py closeout --repo . --track <t>  (6 runs)",
+    "npx vitest run __tests__/print-fonts.test.ts __tests__/print-transparency.test.ts  (33 tests passed)",
+    "git grep -n -E 'tracks/(<the 6 ids>)'  (0 hits after the update)"
+  ],
+  "checker": {
+    "script": "~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py",
+    "subcommand": "closeout",
+    "capture": "measure/runs/closeout-legacy-20261118/closeout-check.txt",
+    "exit_codes": {
+      "editorial_prereview_20261003": 1,
+      "origins2_test_package_20261008": 1,
+      "print_export_20261012": 1,
+      "print_ready_pdf_20261002": 1,
+      "review_page_20261001": 1,
+      "text_profile_lint_20260930": 1
+    },
+    "expected_fail": "missing final acceptance: measure/runs/<t>/final-acceptance-*.json (legacy lane, no final-acceptance JSON exists)",
+    "reported_fail_classes": [
+      "track is still listed in the active section of measure/tracks.md (registry structure: the ordered change kept the entry in place, as a730048c)",
+      "registry entry has no description for <t> (legacy entries carry no description line; the order forbids description changes)",
+      "completed plan task lacks commit SHA (legacy plans record checkpoints, not commit SHAs)",
+      "missing final acceptance (legacy lane, expected)",
+      "missing closeout manifest in measure/archive/<t>/ (this batch writes one manifest under measure/runs/closeout-legacy-20261118/)"
+    ]
+  },
+  "audits": {
+    "a5_false_claim": {
+      "scan": "grep -nE 'PASS=[0-9]+.*FAIL=0|all checks pass' in the 6 plans",
+      "hits": [
+        "measure/archive/print_ready_pdf_20261002/plan.md:36",
+        "measure/archive/print_ready_pdf_20261002/plan.md:37"
+      ],
+      "evidence": "the cited invariant tests pass: __tests__/print-fonts.test.ts and __tests__/print-transparency.test.ts, 33 of 33 tests passed at 1c5385a6 plus this batch",
+      "verdict": "no false claim found"
+    },
+    "a6_registry_note": {
+      "scan": "grep -nE 'API-key encryption (was )?resolved|encryption.*resolved|completely fixed|fully solved|all (checks |tests )?pass' measure/tracks.md",
+      "hits": 0,
+      "verdict": "no overstated note"
+    },
+    "a9_archived_path": {
+      "scan": "git grep for measure/tracks/<id> in the repo outside measure/archive and measure/runs",
+      "hits": 0,
+      "note": "no shell test hardcodes one of the 6 track paths; no track_dir_resolve() change is needed"
+    }
+  },
+  "retained_evidence": [
+    "measure/runs/closeout-legacy-20261118/closeout-check.txt",
+    "measure/runs/closeout-legacy-20261118/automation-supervisor-closeout-manifest.json",
+    "measure/runs/closeout-legacy-20261118/closeout-1c5385a6.log"
+  ],
+  "artifact_cleanup": "none: the orchestrator identified no bulky run artifacts; no evidence file was deleted",
+  "lessons_learned_tech_debt": "no update: each track already recorded its lessons and debt at completion",
+  "deviations": [
+    "The 6 entries stay in the active section of measure/tracks.md with an archive link, as the order and a730048c require; the closeout checker expects them under '## Archived Tracks' and reports a FAIL.",
+    "Legacy plans carry no commit SHA per task; the closeout checker reports one FAIL per task line.",
+    "The order forbids description changes, so no description line was added; the closeout checker reports 'registry entry has no description'."
+  ]
+}

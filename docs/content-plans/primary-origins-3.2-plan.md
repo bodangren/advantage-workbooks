@@ -188,7 +188,7 @@ Print lead time is 3–4 weeks. Files at the printer on 2026-10-24 means books i
 Tasks:
 
 - **C1** Lesson briefs: one page per lesson with target objectives, text type, cast, place, 12 words, 4 recycled words, grammar focus, and the 4 MCQ targets.
-- **C3** Lint script: runs on the lesson JSON and the article text; uses the graph in `mastery-advantage/english/cefr-vocabulary/`. Done: `dashboard/scripts/lint-text-profile.ts`, spec in `measure/tracks/text_profile_lint_20260930/`.
+- **C3** Lint script: runs on the lesson JSON and the article text; uses the graph in `mastery-advantage/english/cefr-vocabulary/`. Done: `dashboard/scripts/lint-text-profile.ts`, spec in `measure/archive/text_profile_lint_20260930/`.
 - **C5** Tag file: until the tagging tables exist in the Primary database, keep `primary/origins-3.2-a0/mastery-tags.json` beside the lesson files. It lists, per lesson: article ID, GSE objective IDs (target and supporting), and vocabulary node IDs (glossed and recycled). Create the `origins-3.2-a0/` folder only together with its `project.json`: Tutor Advantage's importer reads every folder under `primary/` and fails on a folder with no `project.json`.
 - **C6** Coverage check: re-run the A0 tagging analysis on the final texts and record the real coverage numbers in this file.
 - **M1** Graph: add the Starters numbers 1–20 and the alphabet as vocabulary nodes.

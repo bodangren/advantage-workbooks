@@ -40,4 +40,4 @@ npx tsx scripts/lint-text-profile.ts ../docs/content-plans/origins-3.2-drafts
 npx tsx scripts/lint-text-profile.ts ../docs/content-plans/origins-3.2-drafts/p05-at-the-market.md
 ```
 
-The first command checks every draft and the book rules. The second checks one draft; the drafts before it count as earlier lessons. Earlier books (Origins 2 and Origins 3.1) always count. The checks and targets are in `measure/tracks/text_profile_lint_20260930/spec.md`.
+The first command checks every draft and the book rules. The second checks one draft; the drafts before it count as earlier lessons. Earlier books (Origins 2 and Origins 3.1) always count. The checks and targets are in `measure/archive/text_profile_lint_20260930/spec.md`.

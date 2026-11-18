@@ -21,10 +21,10 @@ This file tracks all major tracks for the project. Each track has its own detail
   *Link: [./tracks/primary_v2_look_20261020/](./tracks/primary_v2_look_20261020/)*
 
 - [x] **Track: Print data of the five printed Primary books (70 files with bucket pictures) and a golden lesson for the monorepo print kit.** *(Completed: 2026-10-12)*
-  *Link: [./tracks/print_export_20261012/](./tracks/print_export_20261012/)*
+  *Link: [./archive/print_export_20261012/](./archive/print_export_20261012/)*
 
 - [x] **Track: Origins 2 semester 1 test package out of `primary/`, into `content/primary/origins-2/assessments/semester-1/`.** *(Completed: 2026-10-09)*
-  *Link: [./tracks/origins2_test_package_20261008/](./tracks/origins2_test_package_20261008/)*
+  *Link: [./archive/origins2_test_package_20261008/](./archive/origins2_test_package_20261008/)*
 
 - [~] **Track: Book covers from data: a cover kit from the Canva SVGs, front and back templates, web PNGs and PDF/X-1a print files.** *(Created: 2026-10-07)*
   *Link: [./tracks/book_covers_20261007/](./tracks/book_covers_20261007/)*
@@ -33,13 +33,13 @@ This file tracks all major tracks for the project. Each track has its own detail
   *Link: [./tracks/levels_5_9_20261006/](./tracks/levels_5_9_20261006/)*
 
 - [x] **Track: Editorial pre-review of Origins 1, Origins 3.2, and Quest 4 before Daniel approves them, and sign text on the blank signs in the pictures.** *(Completed: 2026-10-06)*
-  *Link: [./tracks/editorial_prereview_20261003/](./tracks/editorial_prereview_20261003/)*
+  *Link: [./archive/editorial_prereview_20261003/](./archive/editorial_prereview_20261003/)*
 
 - [x] **Track: Levels 1–4 workbook lessons (Origins 1, Origins 3.2, Quest 4) and rebuilt online banks of 50 or more articles per level.** *(Completed: 2026-10-20)*
   *Link: [./archive/level_banks_20261002/](./archive/level_banks_20261002/)*
 
 - [x] **Track: Print-ready PDF/X-1a for the printer: real fonts, no transparency, and a convert-and-check command.** *(Completed: 2026-10-02)*
-  *Link: [./tracks/print_ready_pdf_20261002/](./tracks/print_ready_pdf_20261002/)*
+  *Link: [./archive/print_ready_pdf_20261002/](./archive/print_ready_pdf_20261002/)*
 
 - [~] **Track: Print layout audit: vocabulary write-in column collapse and other Paged.js page-break defects in the primary template.** *(Created: 2026-10-01)*
   *Link: [./tracks/print_layout_audit_20261001/](./tracks/print_layout_audit_20261001/)*
@@ -48,7 +48,7 @@ This file tracks all major tracks for the project. Each track has its own detail
   *Link: [./archive/lesson_packages_20261001/](./archive/lesson_packages_20261001/)*
 
 - [x] **Track: Review page: Daniel tweaks and approves lesson packages in the dashboard (task C8).** *(Completed: 2026-10-08)*
-  *Link: [./tracks/review_page_20261001/](./tracks/review_page_20261001/)*
+  *Link: [./archive/review_page_20261001/](./archive/review_page_20261001/)*
 
 - [x] **Track: Lesson media: character sheets, lesson images, and audio with mmx (task C9).** *(Completed: 2026-10-20)*
   *Link: [./archive/lesson_media_20261001/](./archive/lesson_media_20261001/)*
@@ -57,7 +57,7 @@ This file tracks all major tracks for the project. Each track has its own detail
   *Link: [./tracks/primary_injector_20261001/](./tracks/primary_injector_20261001/)*
 
 - [x] **Track: Text-profile lint for new Primary Origins lessons (task C3 of the Origins 3.2 plan): checks word counts, sentence length, Cambridge Starters share, and glossed words.** *(Completed: 2026-09-30)*
-  *Link: [./tracks/text_profile_lint_20260930/](./tracks/text_profile_lint_20260930/)*
+  *Link: [./archive/text_profile_lint_20260930/](./archive/text_profile_lint_20260930/)*
 
 - [x] **Track: E2E Testing & Visual Stabilization Phase 11: Expand E2E testing coverage for lesson editor persistence and AI features, and resolve minor linting/UI issues.** *(Completed: 2026-03-22)*
   *Link: [./archive/e2e_testing_and_visual_stabilization_phase_11_20260322/](./archive/e2e_testing_and_visual_stabilization_phase_11_20260322/)*
