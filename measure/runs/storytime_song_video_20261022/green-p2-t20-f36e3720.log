@@ -1,0 +1,38 @@
+# Green P2 T20 (provisional): storytime_song_video_20261022
+role_base_sha: f36e3720
+status: running
+plan_line_20: mark [~] pending
+renders: not started
+status: renders complete on 2026-11-19 (second pass); see green-p2-t20-renders.txt
+
+=== 2026-11-19 second pass ===
+npm ci in video/storytime-song: EXIT:0 after 15 s (349 packages). Retry rule not needed;
+  the PM fallback list (prefer-offline, copy node_modules) was not used.
+package-lock.json: no change (git status empty for that path). Not committed.
+@rspack/binding-linux-x64-gnu 1.x present after the install; no --force install was needed.
+
+renders, one heavy-run.sh command per week, node scripts/render.mjs l2/wNN --concurrency 2:
+  w02 EXIT:0, w03 EXIT:0, w05 EXIT:0, w06 EXIT:0, w04 EXIT:0, w07 EXIT:0
+  no --timeout flag: render.mjs accepts only --concurrency and --cut, and exits 2 on an unknown shape.
+  every week wrote song.mp4, song-phone.mp4, song-poster.jpg, song-phone-poster.jpg
+  w02, w03, w05, w06 carry the Forge scene.mp4 from prepare --scene; w04 and w07 use the placeholder art.
+  the gesture inset uses the placeholder sprite in all 6 weeks, because the cast cut-outs are missing.
+
+evidence in green-p2-t20-renders.txt: ffprobe (duration, size, bit rate, streams) and sha256 per output,
+  plus 24 frames at 10 s and 40 s (frames-wNN-classroom-10.jpg, frames-wNN-classroom-40.jpg,
+  frames-wNN-phone-10.jpg, frames-wNN-phone-40.jpg).
+
+not touched: content/storytime/l2/wNN.json (published weeks; the song video keys wait for Daniel),
+  scripts/render.mjs (uncommitted --cut karaoke change stays out of the commit), dashboard/raw.json.
+no paid generation in this pass.
+
+T20 marker: stays [~]. Open: the Forge scenes of w04 and w07, the cast cut-outs per week
+  (Pat in w02 and w03, Sam in w05, Mia in w06, Lily in w04, May in w07), the animals, props, and bubbles,
+  and the karaoke cuts when the instrumentals come.
+
+=== gate commands (2026-11-19) ===
+cd video/storytime-song && npm test (node --test tests/*.test.mjs): EXIT:0, tests 21, pass 21, fail 0
+the 6 renders above are the live gate for this task: each week wrote 2 cuts and 2 posters, and ffprobe reads
+  a 1920x1080 or 720x1280 h264 stream plus one aac stream in every cut.
+bash measure/doctor.sh: no such file in this repo, so no doctor run.
+measure/tracks/storytime_song_video_20261022/test-strategy.md: not present; the video project test suite is the strategy gate.

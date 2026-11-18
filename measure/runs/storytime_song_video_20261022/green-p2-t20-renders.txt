@@ -1,0 +1,463 @@
+# Green P2 T20 renders: storytime_song_video_20261022
+role_base_sha: f36e3720
+=== w02 prepare --forge --scene ===
+file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/forge.mjs:31
+    if (!front) throw new Error(`The Forge set has no cut-out of ${name}`);
+                      ^
+
+Error: The Forge set has no cut-out of Pat
+    at forgeSpec (file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/forge.mjs:31:23)
+    at copyForge (file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/prepare.mjs:235:21)
+    at file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/prepare.mjs:302:36
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+EXIT:1
+=== w02 prepare --forge STOP: The Forge set has no cut-out of Pat; fall back to --scene only ===
+scene /home/daniebo/Desktop/Workbooks/content/storytime/l2/media/w02/forge/scene.mp4
+spec /home/daniebo/Desktop/Workbooks/video/storytime-song/public/l2/w02/spec.json
+EXIT:0
+=== w03 prepare --forge --scene ===
+file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/forge.mjs:31
+    if (!front) throw new Error(`The Forge set has no cut-out of ${name}`);
+                      ^
+
+Error: The Forge set has no cut-out of Pat
+    at forgeSpec (file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/forge.mjs:31:23)
+    at copyForge (file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/prepare.mjs:235:21)
+    at file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/prepare.mjs:302:36
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+EXIT:1
+=== w03 prepare --forge STOP (recorded): The Forge set has no cut-out of Pat; fall back to --scene only ===
+scene /home/daniebo/Desktop/Workbooks/content/storytime/l2/media/w03/forge/scene.mp4
+spec /home/daniebo/Desktop/Workbooks/video/storytime-song/public/l2/w03/spec.json
+EXIT:0
+=== w05 prepare --forge STOP (recorded): The Forge set has no cut-out of Pat; fall back to --scene only ===
+scene /home/daniebo/Desktop/Workbooks/content/storytime/l2/media/w05/forge/scene.mp4
+spec /home/daniebo/Desktop/Workbooks/video/storytime-song/public/l2/w05/spec.json
+EXIT:0
+=== w06 prepare --forge STOP (recorded): The Forge set has no cut-out of Pat; fall back to --scene only ===
+scene /home/daniebo/Desktop/Workbooks/content/storytime/l2/media/w06/forge/scene.mp4
+spec /home/daniebo/Desktop/Workbooks/video/storytime-song/public/l2/w06/spec.json
+EXIT:0
+=== w04 prepare --forge (placeholder art expected; no scene) ===
+file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/forge.mjs:31
+    if (!front) throw new Error(`The Forge set has no cut-out of ${name}`);
+                      ^
+
+Error: The Forge set has no cut-out of Lily
+    at forgeSpec (file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/forge.mjs:31:23)
+    at copyForge (file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/prepare.mjs:235:21)
+    at file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/prepare.mjs:302:36
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+EXIT:1
+=== w07 prepare --forge (placeholder art expected; no scene) ===
+file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/forge.mjs:31
+    if (!front) throw new Error(`The Forge set has no cut-out of ${name}`);
+                      ^
+
+Error: The Forge set has no cut-out of May
+    at forgeSpec (file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/forge.mjs:31:23)
+    at copyForge (file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/prepare.mjs:235:21)
+    at file:///home/daniebo/Desktop/Workbooks/video/storytime-song/scripts/prepare.mjs:302:36
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0
+EXIT:1
+=== w04 prepare --forge STOP (recorded); fall back to placeholder (no flags) ===
+spec /home/daniebo/Desktop/Workbooks/video/storytime-song/public/l2/w04/spec.json
+EXIT:0
+=== w07 prepare --forge STOP (recorded); fall back to placeholder (no flags) ===
+spec /home/daniebo/Desktop/Workbooks/video/storytime-song/public/l2/w07/spec.json
+EXIT:0
+=== correction: w05 --forge stops with 'The Forge set has no cut-out of Sam'; w06 stops with 'The Forge set has no cut-out of Mia' (verified 2026-11-19) ===
+=== correction: w04 --forge stops with 'The Forge set has no cut-out of Lily'; w07 stops with 'The Forge set has no cut-out of May' ===
+
+=== 2026-11-19 continuation (Green P2 T20, second pass) ===
+role_base_sha: f36e3720 (HEAD f36e3720 when this pass started)
+
+--- task 1: install (video/storytime-song) ---
+npm ci -> EXIT:0 (349 packages, 15s). package-lock.json unchanged (git status empty for it).
+PM fallback list not used: step 1 (prefer-offline reinstall) and step 2 (copy node_modules) were not needed.
+@rspack/binding-linux-x64-gnu present after npm ci: yes
+node --version: v24.19.0
+
+--- task 2: renders (heavy-run.sh node scripts/render.mjs l2/wNN --concurrency 2) ---
+render.mjs options are --concurrency and --cut only; it rejects --timeout, so no --timeout flag was passed.
+
+=== w02
+EXIT:0
+song.mp4	36.6 MB
+song-poster.jpg	0.0 MB
+song-phone.mp4	3.8 MB
+song-phone-poster.jpg	0.0 MB
+
+=== w03
+EXIT:0
+song.mp4	72.5 MB
+song-poster.jpg	0.0 MB
+song-phone.mp4	4.6 MB
+song-phone-poster.jpg	0.0 MB
+
+=== w04
+EXIT:0
+song.mp4	16.2 MB
+song-poster.jpg	0.0 MB
+song-phone.mp4	2.3 MB
+song-phone-poster.jpg	0.0 MB
+
+=== w05
+EXIT:0
+song.mp4	30.4 MB
+song-poster.jpg	0.0 MB
+song-phone.mp4	3.1 MB
+song-phone-poster.jpg	0.0 MB
+
+=== w06
+EXIT:0
+song.mp4	37.1 MB
+song-poster.jpg	0.0 MB
+song-phone.mp4	3.9 MB
+song-phone-poster.jpg	0.0 MB
+
+=== w07
+EXIT:0
+song.mp4	10.4 MB
+song-poster.jpg	0.0 MB
+song-phone.mp4	2.1 MB
+song-phone-poster.jpg	0.0 MB
+
+--- task 3: ffprobe and sha256 of each output ---
+(paths relative to the repo root; the media files are gitignored by .gitignore lines 26 to 30)
+
+--- w02 classroom song.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=1920
+height=1080
+r_frame_rate=30/1
+nb_frames=2425
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3792
+duration=80.853000
+size=36562029
+bit_rate=3617629
+sha256 7b45df45a5c4173417b2384a5c438d4219ab110b8e4d97138573c33bbb84ec16
+--- w02 phone song-phone.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=720
+height=1280
+r_frame_rate=30/1
+nb_frames=2425
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3791
+duration=80.853000
+size=3767329
+bit_rate=372758
+sha256 7cf0b1d76a8e288e055ee6e08829250b3800388bcb42745bf994ab9266edd229
+--- w02 poster song-poster.jpg
+codec_name=mjpeg
+width=1280
+height=720
+pix_fmt=yuvj420p
+size=39563
+sha256 4e82986f2f161f33edb11fda41a6c0e3574aed4a38c1d900d2f3734e4e67d809
+--- w02 poster song-phone-poster.jpg
+codec_name=mjpeg
+width=720
+height=1280
+pix_fmt=yuvj420p
+size=38617
+sha256 b7f4270e707492ea9de02495e13d9cce8ad9cd692e834bfc572aacae0af5268a
+--- w03 classroom song.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=1920
+height=1080
+r_frame_rate=30/1
+nb_frames=2432
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3802
+duration=81.067000
+size=72524155
+bit_rate=7156959
+sha256 522a341f2122b33bbf600b2c7aab0291147d8190db61bed172b48ba58e1f14b3
+--- w03 phone song-phone.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=720
+height=1280
+r_frame_rate=30/1
+nb_frames=2432
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3801
+duration=81.066667
+size=4635276
+bit_rate=457428
+sha256 cb627cac668bda8275b69efd61e53f700b7881b4ca56825694281b7927c49982
+--- w03 poster song-poster.jpg
+codec_name=mjpeg
+width=1280
+height=720
+pix_fmt=yuvj420p
+size=29809
+sha256 9db9cd1b760d9c4a23bd78f6ae2cba3a13f018c058a997f8fe07988b4167ad79
+--- w03 poster song-phone-poster.jpg
+codec_name=mjpeg
+width=720
+height=1280
+pix_fmt=yuvj420p
+size=30384
+sha256 490607dba510c6b266a9948da90ca44ce17f306b27c6c6077e5208c456ab1302
+--- w04 classroom song.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=1920
+height=1080
+r_frame_rate=30/1
+nb_frames=2448
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3827
+duration=81.600000
+size=16205514
+bit_rate=1588775
+sha256 c46ff14f1e2059d5f03e6e9ed697fa6986199f1f360ef99b2b12a11fd1669fb0
+--- w04 phone song-phone.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=720
+height=1280
+r_frame_rate=30/1
+nb_frames=2448
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3826
+duration=81.600000
+size=2282619
+bit_rate=223786
+sha256 3d3afa7db7acd85a71ebc08b22460931a77460942f810508ec2216d03064282b
+--- w04 poster song-poster.jpg
+codec_name=mjpeg
+width=1280
+height=720
+pix_fmt=yuvj420p
+size=35550
+sha256 4008e62b2ceeba7eb0fb8b1ed7982fc791f58c60f5f4be38bba4b9911888cbf7
+--- w04 poster song-phone-poster.jpg
+codec_name=mjpeg
+width=720
+height=1280
+pix_fmt=yuvj420p
+size=35101
+sha256 d1bbaf48ffcd6a89ff383d548eba33269eb72835ef5bfe3eb5a10145a82915eb
+--- w05 classroom song.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=1920
+height=1080
+r_frame_rate=30/1
+nb_frames=2440
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3815
+duration=81.344000
+size=30420028
+bit_rate=2991741
+sha256 06e71d7c4565d92b3c9b8ccec01caa8c7a5b82a5021bb9820dbe002400268888
+--- w05 phone song-phone.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=720
+height=1280
+r_frame_rate=30/1
+nb_frames=2440
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3814
+duration=81.344000
+size=3130731
+bit_rate=307900
+sha256 ec2f5d9f7ae9f44647fdc20df117731bdc06b7a4124c279e7b7689108fa305a4
+--- w05 poster song-poster.jpg
+codec_name=mjpeg
+width=1280
+height=720
+pix_fmt=yuvj420p
+size=32216
+sha256 26594129d6a499c7770fd446fec2c04850fa25a8182a7cffb803736c9b62f458
+--- w05 poster song-phone-poster.jpg
+codec_name=mjpeg
+width=720
+height=1280
+pix_fmt=yuvj420p
+size=33162
+sha256 d1e0391e7b92d95906d66f0a19c7c8047220d5f9d406f0ee25a4457430504ed0
+--- w06 classroom song.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=1920
+height=1080
+r_frame_rate=30/1
+nb_frames=2404
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3759
+duration=80.149000
+size=37074842
+bit_rate=3700591
+sha256 7e21a2286df9c2b4211c7a1f26e9bde12175eeac6cfdde9a221a281fc2c7f417
+--- w06 phone song-phone.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=720
+height=1280
+r_frame_rate=30/1
+nb_frames=2404
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3758
+duration=80.149000
+size=3938834
+bit_rate=393151
+sha256 255ce66a3d424e2c472fa00aef31aff0dcb358f7e7ec1de756fe1797de9cbeac
+--- w06 poster song-poster.jpg
+codec_name=mjpeg
+width=1280
+height=720
+pix_fmt=yuvj420p
+size=34652
+sha256 ed27940ffa44ed306e7b126210f590d1a099b6d191e6de497561f46e07897f8c
+--- w06 poster song-phone-poster.jpg
+codec_name=mjpeg
+width=720
+height=1280
+pix_fmt=yuvj420p
+size=34665
+sha256 b7e4b1d51657bac4d81a59383a4fb1f7e3d03db1461142206ee3e92830235bd4
+--- w07 classroom song.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=1920
+height=1080
+r_frame_rate=30/1
+nb_frames=2362
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3693
+duration=78.741000
+size=10368354
+bit_rate=1053413
+sha256 6a1d8b754acb00e7bdacf7fd2e1d364c217bdbc9382fbbe45d589fbeacad1862
+--- w07 phone song-phone.mp4
+index=0
+codec_name=h264
+codec_type=video
+width=720
+height=1280
+r_frame_rate=30/1
+nb_frames=2362
+index=1
+codec_name=aac
+codec_type=audio
+r_frame_rate=0/0
+nb_frames=3692
+duration=78.741000
+size=2105617
+bit_rate=213928
+sha256 b6f2836fd8bee522d7553262524a89c9706a6b6ea8f2bb3e41454b07432f76f7
+--- w07 poster song-poster.jpg
+codec_name=mjpeg
+width=1280
+height=720
+pix_fmt=yuvj420p
+size=37631
+sha256 6fa042449c0c1e70888d8c071f623c5287803ef6e267d777e6c7576bbdf7a8eb
+--- w07 poster song-phone-poster.jpg
+codec_name=mjpeg
+width=720
+height=1280
+pix_fmt=yuvj420p
+size=36561
+sha256 dad3765371db856ba8fe11dce88ad411839beeb11c709811be0b8122c2030285
+
+--- task 3: frames (10 s and 40 s of each cut) ---
+all 24 frames written, no ffmpeg error; every cut is longer than 40 s (78.7 s to 81.6 s)
+
+w02 classroom 80.853 s 1920x1080 30 fps h264 + aac 36.6 MB  sha256 7b45df45
+w02 phone     80.853 s  720x1280 30 fps h264 + aac  3.8 MB  sha256 7cf0b1d7
+w03 classroom 81.067 s 1920x1080 30 fps h264 + aac 72.5 MB  sha256 522a341f
+w03 phone     81.067 s  720x1280 30 fps h264 + aac  4.6 MB  sha256 cb627cac
+w04 classroom 81.600 s 1920x1080 30 fps h264 + aac 16.2 MB  sha256 c46ff14f
+w04 phone     81.600 s  720x1280 30 fps h264 + aac  2.3 MB  sha256 3d3afa7d
+w05 classroom 81.344 s 1920x1080 30 fps h264 + aac 30.4 MB  sha256 06e71d7c
+w05 phone     81.344 s  720x1280 30 fps h264 + aac  3.1 MB  sha256 ec2f5d9f
+w06 classroom 80.149 s 1920x1080 30 fps h264 + aac 37.1 MB  sha256 7e21a228
+w06 phone     80.149 s  720x1280 30 fps h264 + aac  3.9 MB  sha256 255ce66a
+w07 classroom 78.741 s 1920x1080 30 fps h264 + aac 10.4 MB  sha256 6a1d8b75
+w07 phone     78.741 s  720x1280 30 fps h264 + aac  2.1 MB  sha256 b6f2836f
+
+posters: classroom 1280x720 mjpeg, phone 720x1280 mjpeg, all between 29.8 KB and 39.6 KB
+
+--- art source per week (from the prepare pass, see the head of this file) ---
+w02, w03, w05, w06: Forge scene.mp4 present (prepare --scene); the gesture inset uses the placeholder sprite
+                    because the --forge cast set has no cut-outs.
+w04, w07: placeholder art only (no Forge scene for these weeks).
+cast cut-outs still missing: Pat (w02, w03), Sam (w05), Mia (w06), Lily (w04), May (w07).
+
+--- look check of two frames (by eye, this session) ---
+frames-w02-classroom-40.jpg: the Forge 3D scene behind the actors; the lyric line sits in the bar; the inset holds the placeholder sprite.
+frames-w04-classroom-40.jpg: the flat placeholder backdrop; the same bar and inset.
+
+--- no content change ---
+content/storytime/l2/wNN.json: not touched in this pass (git status shows no change under content/).
