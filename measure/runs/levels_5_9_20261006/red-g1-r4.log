@@ -1,0 +1,39 @@
+# Red retry r4: Task 1.G1, levels_5_9_20261006
+
+Date: 2026-11-19. Role: measure-mid Red.
+
+## What changed
+
+Only `dashboard/__tests__/plan-dedup.test.ts`. The level 5 fixture follows plan line 43
+(6 online, target 50: 6 groups of one article, no table for the level). A new above-target
+level (4 online, target 2, two identical pairs) proves the merge path down to the keep count
+with the `| Keep | Similar |` table and its rows. All other tests are unchanged.
+
+## Gate evidence
+
+- `RED_TEST_COMMAND` with pipefail and tee: exit 1. Result: 35 passed, 2 failed.
+- The 2 failures both name the plan-text gap: Green merges the identical level 5 pair below
+  target, while plan line 43 and spec line 57 say a level below target keeps all and merges none.
+  Failing tests: `writes the exact heading, intro, table header, and level lines` and
+  `keeps every online article below target, with no table for the level`.
+- The above-target test `merges down to the keep count above target, with the Keep-Similar table`
+  passes, so the merge path itself is proven.
+- Capture: `measure/runs/levels_5_9_20261006/red-g1-r4.txt`.
+- tsc grep for the test file: 0 lines. Capture: `red-g1-r4-tsc.txt`.
+- `npx eslint __tests__/plan-dedup.test.ts`: exit 0.
+
+MEASURE_AGENT_RESULT
+role: measure-mid Red
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1: Decisions, inventory, tools, calibration
+role_base_sha: 27bd74c9c9f1951f88299e0867e38f91e0e2dc0b
+phase_base_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+head: 27bd74c9c9f1951f88299e0867e38f91e0e2dc0b at start; new SHA at commit time
+commits: test(levels_5_9): Red r4 for Task 1.G1, below-target level merges none (plan line 43)
+tests_run: RED_TEST_COMMAND with pipefail and tee exit 1, 35 passed, 2 failed, capture red-g1-r4.txt; tsc grep for plan-dedup.test 0 lines, capture red-g1-r4-tsc.txt; eslint __tests__/plan-dedup.test.ts exit 0
+files_changed: dashboard/__tests__/plan-dedup.test.ts (plan-text fixture, above-target test); plan.md (r4 evidence line); red-g1-r4.txt, red-g1-r4-tsc.txt, red-g1-r4.log (new)
+plan_updates: r4 evidence line added under Task 1.G1 (role_base_sha 27bd74c9, exit 1, 35 passed, 2 failed, tsc 0 lines, eslint 0)
+known_failures: writes the exact heading, intro, table header, and level lines; keeps every online article below target, with no table for the level. Both fail because Green merges the identical level 5 pair below target (5 groups, keep-5 line, table present) while plan line 43 and spec line 57 require 6 groups of one with no table. Green removes the 0.50 duplicate-pair rule next.
+handoff: The fixture now follows the plan text, and the 2 failures mark the exact Green gap against plan line 43, so the next Green run should turn them green by removing the duplicate-pair rule. The above-target test already passes and pins the merge path. Non-blocking question with a default from r1: may the committed levels 5-9 JSON carry passage text into this public repository, as the levels 1-4 file does? Default: allow it, and require the PM to confirm the passages are approved public content before Task 1.G3 commits.
+END_MEASURE_AGENT_RESULT

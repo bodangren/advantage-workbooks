@@ -364,18 +364,26 @@ describe('mixed options', () => {
   });
 });
 
+function levelSection(md: string, level: number): string {
+  const lines = md.split('\n');
+  const start = lines.findIndex((line) => line === `## Level ${level}`);
+  if (start < 0) throw new Error(`missing Level ${level} section`);
+  const rest = lines.slice(start + 1);
+  const end = rest.findIndex((line) => line.startsWith('## '));
+  return [...lines.slice(start, start + 1), ...rest.slice(0, end < 0 ? rest.length : end)].join('\n');
+}
+
 describe('levels 5-9 run on a small fixture', () => {
   function fixture5to9(): { readAt: string; articles: Article[] } {
-    // Plan line 43 names the levels 1-4 rule below target (keep all, merge none).
-    // This pair expects the duplicate-pair-first behavior Green implemented.
-    // The plan author has not named it yet; see the r3 handoff.
+    // Plan line 43: below target, a level keeps all and merges none.
+    // The l5a/l5b pair shares one invented passage; the other four use different words.
     const articles: Article[] = [
       inventArticle('l5a', 5, 'quokka', 5),
       inventArticle('l5b', 5, 'quokka'),
-      inventArticle('l5c', 5),
-      inventArticle('l5d', 5),
-      inventArticle('l5e', 5),
-      inventArticle('l5f', 5),
+      inventArticle('l5c', 5, 'jaguarundi'),
+      inventArticle('l5d', 5, 'kinkajou'),
+      inventArticle('l5e', 5, 'axolotl'),
+      inventArticle('l5f', 5, 'narwhal'),
       inventArticle('l6a', 6),
       inventArticle('l6b', 6),
       inventArticle('l6c', 6),
@@ -469,12 +477,15 @@ describe('levels 5-9 run on a small fixture', () => {
     expect(lines[6]).toBe(
       'In each group, **keep** is the best article (most student use, then approved, then newest). The others are similar to it. Their title, summary, and passage stay in `dupes-5-9.json`.',
     );
-    expect(md).toContain('| Keep | Similar |');
+    expect(md).not.toContain('| Keep | Similar |');
     expect(md).not.toContain('| Keep | Delete');
+    expect(
+      levelSection(md, 5)
+        .split('\n')
+        .filter((line) => line.startsWith('|')),
+    ).toHaveLength(0);
     const line5 = levelLine(md, 5);
-    expect(line5).toBe(
-      '6 articles: 0 printed, 6 online. Keep 5 online articles; 1 are similar to a kept one. 1 groups have more than one article; the weakest merge had similarity 1.00.',
-    );
+    expect(line5).toBe('6 articles: 0 printed, 6 online. Keep all 6 online articles; none is similar to another.');
     expect(parseLevelLine(line5)).toEqual({ all: 6, printed: 0, online: 6 });
     const line6 = levelLine(md, 6);
     expect(line6).toBe('3 articles: 0 printed, 3 online. Keep all 3 online articles; none is similar to another.');
@@ -485,7 +496,7 @@ describe('levels 5-9 run on a small fixture', () => {
     }
   });
 
-  it('keeps the best article of the merged pair and leaves the rest alone', () => {
+  it('keeps every online article below target, with no table for the level', () => {
     const dir = makeTmp();
     const inventoryPath = path.join(dir, 'inv-5-9.json');
     fs.writeFileSync(inventoryPath, JSON.stringify(fixture5to9()));
@@ -515,13 +526,69 @@ describe('levels 5-9 run on a small fixture', () => {
       groups: { level: number; keep: string; articles: { id: string }[] }[];
     };
     const level5 = data.groups.filter((g) => g.level === 5);
-    expect(level5).toHaveLength(5);
-    const sizes = level5.map((g) => g.articles.length).sort();
-    expect(sizes).toEqual([1, 1, 1, 1, 2]);
-    const pair = level5.find((g) => g.articles.length === 2);
-    expect(pair?.keep).toBe('l5a');
+    expect(level5).toHaveLength(6);
+    expect(level5.every((g) => g.articles.length === 1)).toBe(true);
     const md = fs.readFileSync(outMd, 'utf8');
-    expect(md).toContain('l5a');
+    expect(md).not.toContain('| Keep | Similar |');
+  });
+
+  it('merges down to the keep count above target, with the Keep-Similar table', () => {
+    // Above target, the run merges down to the keep count (plan line 41 template).
+    // The two identical pairs merge first at similarity 1.00 under any correct cosine.
+    const dir = makeTmp();
+    const inventoryPath = path.join(dir, 'inv-7.json');
+    fs.writeFileSync(
+      inventoryPath,
+      JSON.stringify({
+        readAt: '2026-11-19T00:00:00.000Z',
+        articles: [
+          inventArticle('t7a', 7, 'quokka', 5),
+          inventArticle('t7b', 7, 'quokka'),
+          inventArticle('t7c', 7, 'xylophone', 3),
+          inventArticle('t7d', 7, 'xylophone'),
+        ],
+      }),
+    );
+    const outJson = path.join(dir, 'out-7.json');
+    const outMd = path.join(dir, 'out-7.md');
+    const { log, err } = silence();
+    try {
+      expect(
+        mod.main([
+          '--inventory',
+          inventoryPath,
+          '--levels',
+          '7',
+          '--targets',
+          '7=2',
+          '--out-json',
+          outJson,
+          '--out-md',
+          outMd,
+        ]),
+      ).toBe(0);
+    } finally {
+      log.mockRestore();
+      err.mockRestore();
+    }
+    const data = JSON.parse(fs.readFileSync(outJson, 'utf8')) as {
+      groups: { level: number; keep: string; articles: { id: string }[] }[];
+    };
+    const level7 = data.groups.filter((g) => g.level === 7);
+    expect(level7).toHaveLength(2);
+    const sizes = level7.map((g) => g.articles.length).sort();
+    expect(sizes).toEqual([2, 2]);
+    expect(level7.map((g) => g.keep).sort()).toEqual(['t7a', 't7c']);
+    const md = fs.readFileSync(outMd, 'utf8');
+    expect(levelLine(md, 7)).toBe(
+      '4 articles: 0 printed, 4 online. Keep 2 online articles; 2 are similar to a kept one. 2 groups have more than one article; the weakest merge had similarity 1.00.',
+    );
+    const section = levelSection(md, 7);
+    expect(section).toContain('| Keep | Similar |');
+    const rows = section.split('\n').filter((line) => line.startsWith('| ') && line.includes('`'));
+    expect(rows).toHaveLength(2);
+    expect(rows.join('\n')).toContain('t7a');
+    expect(rows.join('\n')).toContain('t7c');
   });
 });
 
