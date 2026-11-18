@@ -1,0 +1,35 @@
+# Red retry r3: Task 1.G1, levels_5_9_20261006
+
+Date: 2026-11-19. Role: measure-mid Red.
+
+## What changed
+
+Only `dashboard/__tests__/plan-dedup.test.ts`. Fixes R1 (stderr text copied to a local before the spy restore, in the 7 bad-option tests and the missing-printed test) and R2 (write-spy pairs typed `[string, string][]`). One short comment marks the duplicate-pair fixture as beyond plan line 43.
+
+## Gate evidence
+
+- `RED_TEST_COMMAND` with pipefail and tee: exit 0. Result: 36 passed, 0 failed.
+- Capture: `measure/runs/levels_5_9_20261006/red-g1-r3.txt`.
+- tsc grep for the test file: 0 lines. Capture: `red-g1-r3-tsc.txt`.
+- `npx eslint __tests__/plan-dedup.test.ts`: exit 0.
+- R3 check: the missing-printed test asserts the exact stderr text `printed file not found: <path>` before the usage text, so mutant M5 fails.
+
+## R4 answer
+
+The level 5 fixture (6 online, target 50, one identical pair) expects 5 groups with one merged pair at 1.00. Plan line 43 and spec line 57 name the levels 1-4 rule instead (below target: keep all, merge none). Green implemented the duplicate-pair-first rule and recorded the deviation under Task 1.G2. The plan author amends line 43 and the spec line, or the Red role changes the fixture. This retry keeps the fixture and names the gap here.
+
+MEASURE_AGENT_RESULT
+role: measure-mid Red
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1: Decisions, inventory, tools, calibration
+role_base_sha: 12c76909c73d8dd6a97d55d08858aea8a7dfbce1
+phase_base_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+head: 12c76909c73d8dd6a97d55d08858aea8a7dfbce1 at start; new SHA at commit time
+commits: test(levels_5_9): Red r3 for Task 1.G1, read spy calls before restore, Map pair type
+tests_run: RED_TEST_COMMAND with pipefail and tee exit 0, 36 passed, 0 failed, capture red-g1-r3.txt; tsc grep for plan-dedup.test 0 lines, capture red-g1-r3-tsc.txt; eslint __tests__/plan-dedup.test.ts exit 0
+files_changed: dashboard/__tests__/plan-dedup.test.ts (R1, R2, R4 comment); plan.md (r3 evidence line); red-g1-r3.txt, red-g1-r3-tsc.txt, red-g1-r3.log (new)
+plan_updates: r3 evidence line added under Task 1.G1 (role_base_sha 12c76909, exit 0, 36 passed, tsc 0 lines, eslint 0)
+known_failures: none in this file; the duplicate-pair rule below target still waits for a plan-author amendment of plan line 43 and spec line 57, recorded as a deviation under Task 1.G2
+handoff: R1 and R2 are fixed and the gate is green on this file (36 passed; tsc 0 lines; eslint 0). R3 is confirmed: the missing-printed test pins the exact stderr text before usage, so mutant M5 fails. R4 stays open for the plan author: the level 5 fixture needs the duplicate-pair-first rule that plan line 43 and spec line 57 do not name; Green follows the test and records the deviation under Task 1.G2. Non-blocking question with a default from r1: may the committed levels 5-9 JSON carry passage text into this public repository, as the levels 1-4 file does? Default: allow it, and require the PM to confirm the passages are approved public content before Task 1.G3 commits.
+END_MEASURE_AGENT_RESULT

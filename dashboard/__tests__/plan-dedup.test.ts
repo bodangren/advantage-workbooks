@@ -303,7 +303,7 @@ describe('default write', () => {
     }
     expect(code).toBe(0);
     expect(writeSpy).toHaveBeenCalledTimes(2);
-    const calls = writeSpy.mock.calls.map((c) => [String(c[0]), String(c[1])]);
+    const calls: [string, string][] = writeSpy.mock.calls.map((c) => [String(c[0]), String(c[1])] as [string, string]);
     const byPath = new Map(calls);
     expect([...byPath.keys()].sort()).toEqual([DEFAULT_JSON, DEFAULT_MD].sort());
     expect(byPath.get(DEFAULT_JSON)).toBe(committed.json);
@@ -366,6 +366,9 @@ describe('mixed options', () => {
 
 describe('levels 5-9 run on a small fixture', () => {
   function fixture5to9(): { readAt: string; articles: Article[] } {
+    // Plan line 43 names the levels 1-4 rule below target (keep all, merge none).
+    // This pair expects the duplicate-pair-first behavior Green implemented.
+    // The plan author has not named it yet; see the r3 handoff.
     const articles: Article[] = [
       inventArticle('l5a', 5, 'quokka', 5),
       inventArticle('l5b', 5, 'quokka'),
@@ -723,14 +726,15 @@ describe('bad option values', () => {
       const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
       const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
       let code = 0;
+      let stderr = '';
       try {
         code = mod.main(argv(makeTmp()));
       } finally {
+        stderr = errSpy.mock.calls.map((c) => c.map(String).join(' ')).join('\n');
         errSpy.mockRestore();
         logSpy.mockRestore();
       }
       expect(code).toBe(2);
-      const stderr = errSpy.mock.calls.map((c) => c.map(String).join(' ')).join('\n');
       expect(stderr).toContain(fail.message);
       expect(stderr).toContain('Usage');
       expect(stderr.indexOf(fail.message)).toBeLessThan(stderr.indexOf('Usage'));
@@ -746,14 +750,15 @@ describe('bad option values', () => {
     const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     let code = 0;
+    let stderr = '';
     try {
       code = mod.main(['--inventory', path.join(dir, 'inv.json'), '--printed', missing]);
     } finally {
+      stderr = errSpy.mock.calls.map((c) => c.map(String).join(' ')).join('\n');
       errSpy.mockRestore();
       logSpy.mockRestore();
     }
     expect(code).toBe(2);
-    const stderr = errSpy.mock.calls.map((c) => c.map(String).join(' ')).join('\n');
     expect(stderr).toContain(`printed file not found: ${missing}`);
     expect(stderr.indexOf(`printed file not found: ${missing}`)).toBeLessThan(stderr.indexOf('Usage'));
   });
