@@ -1,0 +1,42 @@
+{
+  "note": "The faults per attempt of the final quest covers (track storytime_cover_options_20261106, task 2.8, section 4.9 of test-strategy.md). The orchestrator's look at native size. Result files are relative to ~/Desktop/print-ready/storytime/ unless the path starts with content/.",
+  "pictures": {
+    "Q-front": {
+      "file": "covers-quest-art-v1/Q-front-a3.jpg",
+      "attempts": {
+        "a1": "failed call (network error), no picture",
+        "a2": "AF-1 pass, AF-2 pass; fault: made-up letters on the boy's chest; minor: the girl has blue eyes",
+        "a3": "AF-1 pass (two white stripes, nothing else on the shirt); AF-2 pass (white star, no letters); no letters, numbers, or logo in the tiles; cast: 2 children and 1 puppy; minor: the girl has small side bunches, the boy has brown shoes"
+      },
+      "faults": [],
+      "result": "pass"
+    },
+    "back": {
+      "file": "covers-quest-art-v1/A-back-a1.jpg",
+      "attempts": {
+        "a1": "A-back-a1.jpg of the option round"
+      },
+      "faults": [],
+      "result": "pass (no fault in the option round; upscale only)"
+    },
+    "Q-teacher": {
+      "file": "content/storytime/l2/print/pictures/l2-u1-cover-quest-teacher-front-v1-300ppi.png",
+      "fallback": "not used (the Forge try m6 passed)",
+      "forge_source": {
+        "try": "m6",
+        "path": "/home/daniebo/Desktop/handoff/storytime-cover-teacher-front-forge/l2-u1-cover-quest-teacher-front-forge-v1.png",
+        "sha256": "c91719903d3803bc02498f8e097528c9a64ddae263102ebf28d06d8d37f11a53",
+        "size": "2480 x 3508 px, RGB, PNG density 25.4 ppi"
+      },
+      "attempts": {
+        "a1": "AF-3 pass; fault AF-4: the book faces the viewer and the children look at each other; fault: made-up marks between the boy's stripes; fault: the teacher has two top buns and looks like a girl; a second open book on the grass",
+        "a2": "AF-3 pass; fault AF-4: the teacher reads the book herself; fault: a top bun, not a low ponytail; fault: a made-up signature at the top left; fault: a red strip with ticks at the left edge; marks on the pages",
+        "a3": "AF-4 pass (the book is shown to the children, who point at it); fault AF-3: the clothes of the children are swapped (the girl wears a red dress with no star; the boy wears the orange shirt with the star and no stripes); fault: the teacher has two small buns and a side ponytail; the red circle on the white page looks like a national flag",
+        "forge-m6": "AF-1 pass (Sam's red T-shirt shows 2 white stripes across the chest); AF-3 pass (Nan's orange T-shirt shows a white star); AF-4 pass (Nan and Sam hold the large open book, which faces them, and point at it; Kim looks at the children, not at a book); no letters (the pages of both books, the spine of Kim's book, and the shirts are blank); note: Kim holds a second book with its cover to the viewer and does not read it; Kim has a low ponytail."
+      },
+      "faults": [],
+      "local_fix": "made-up marks between the boy's stripes and on the book spine filled from the nearby color (FR-8.5: made-up letters only)",
+      "result": "pass (Forge route, try m6; orchestrator look 2026-11-13)"
+    }
+  }
+}

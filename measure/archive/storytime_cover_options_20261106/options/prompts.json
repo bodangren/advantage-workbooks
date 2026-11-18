@@ -1,0 +1,125 @@
+{
+  "note": "Text prompts for mmx image-01 (track storytime_cover_options_20261106, FR-3). No call uses --subject-ref: no 3D render and no picture goes to the model. {NAN}, {SAM}, {PIP}, and {KIM} come from the cast sheet notes (advantage-forge/docs/storytime/l2-unit1/judge/cast.json), shortened. One composed prompt is at most 1500 characters.",
+  "cast": {
+    "NAN": "Nan: a 5-year-old Thai girl with light skin, chibi proportions (big round head, small body), black hair in exactly two round buns with red ring bands, big dark-brown eyes, plain orange T-shirt with one small white star and no letters, red shorts, white sneakers.",
+    "SAM": "Sam: a 5-year-old Thai boy with light skin, chibi proportions, short brown hair with a side-swept fringe, big brown eyes, big open-mouth smile, red T-shirt with exactly two white stripes across the chest and no star, blue shorts, blue shoes.",
+    "PIP": "Pip: a small puppy, golden-brown fur, cream chest and muzzle, cream stripe on the forehead, floppy ears with darker tips, big dark-brown eyes, black nose, fluffy tail, red collar with a small round gold tag.",
+    "KIM": "Teacher Kim: a young woman teacher, dark-brown hair in a low ponytail, soft green cardigan over a cream blouse, navy trousers, brown flat shoes, gentle smile."
+  },
+  "styles": {
+    "A": "Bright painted anime fantasy key art, like the key art of a Japanese role-playing game for children: soft cel shading, clean line art, lush detailed scenery, warm sunlight, vivid colors, big expressive eyes. Not 3D, not a render, not clay.",
+    "B": "A soft hand-painted children's picture book illustration in gouache and watercolor: visible brush texture and paper grain, gentle warm colors, golden afternoon light, rounded simple shapes, a cozy storybook feel. Not 3D, not a render, not a photo.",
+    "C": "A flat vector illustration like a cheerful mobile game for young children: bold clean dark-navy outlines, flat bright colors with one soft shadow tone, rounded shapes, sticker-like characters, simple clean background shapes. Not 3D, not a render."
+  },
+  "noText": "No letters, words, numbers, titles, signatures, watermarks, signs, or logos anywhere: a picture with no text.",
+  "pictures": [
+    {
+      "id": "A-front",
+      "option": "A",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "A sunny storybook adventure valley: a winding cobblestone path leads through a flower meadow toward a giant old tree with a round wooden door, cottages, a windmill; blue sky, green hills. Nan and Sam walk side by side toward the viewer and wave; Pip trots in front of them. Portrait picture: the top 30 percent is sky and treetops with no character; the children are large in the lower middle, heads at half height, feet near the bottom. {NAN} {SAM} {PIP}"
+    },
+    {
+      "id": "A-back",
+      "option": "A",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "The same sunny storybook adventure valley with no person and no animal: a cobblestone path through a flower meadow, a giant old tree with a round wooden door at the left edge, small cottages and a stream far away, blue sky with soft clouds. The middle 70 percent of the picture is calm open meadow and sky with little detail."
+    },
+    {
+      "id": "A-teacher",
+      "option": "A",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "Under a giant old tree in a sunny flower meadow of a storybook valley, Teacher Kim sits on a low tree stump and holds a big open picture book toward two children; Nan and Sam sit on the grass in front of her, look at the book, and smile. Sunlight through the leaves, a small stream behind. The open book shows only simple colored shapes. Portrait book cover composition: the top 30 percent is leaves and sky with no character; the group is in the lower middle. {KIM} {NAN} {SAM}"
+    },
+    {
+      "id": "A-reader",
+      "option": "A",
+      "size": [
+        2048,
+        1448
+      ],
+      "scene": "In a sunny park of a storybook valley, Nan stands on the grass at the left, smiles, and nods her head at the puppy Pip; Pip sits at the right, looks up at her, and wags his tail. A big leafy tree, a flower bush, blue sky. Landscape composition: both characters are whole from head to feet and fill the middle; the top 15 percent is sky and leaves. Exactly one dog, Pip, a small puppy as tall as Nan's knees; no other animal. {NAN} {PIP}"
+    },
+    {
+      "id": "B-front",
+      "option": "B",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "A picture-book garden at the edge of a friendly forest: a small wooden footbridge over a stream, a wooden signpost, a bird nest with three eggs in a low branch, tall sunflowers, soft hills. Nan and Sam walk over the footbridge toward the viewer and hold hands; Pip runs in front. Portrait picture: the top 30 percent is soft sky and leaves with no character; the children are large in the lower middle, heads at half height, feet near the bottom. {NAN} {SAM} {PIP}"
+    },
+    {
+      "id": "B-back",
+      "option": "B",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "The same picture-book garden at the edge of a friendly forest with no person and no animal: a stream, tall sunflowers at the right edge, a bird nest in a low branch at the top left, soft hills. The middle 70 percent of the picture is calm soft sky and meadow with little detail."
+    },
+    {
+      "id": "B-teacher",
+      "option": "B",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "In a picture-book garden at the edge of a friendly forest, Teacher Kim sits on a low wooden bench and holds a big open picture book toward two children; Nan and Sam sit on a picnic blanket in front of her, look at the book, and smile. Sunflowers and butterflies around them. The open book shows only simple colored shapes. Portrait book cover composition: the top 30 percent is soft sky and leaves with no character; the group is in the lower middle. {KIM} {NAN} {SAM}"
+    },
+    {
+      "id": "B-reader",
+      "option": "B",
+      "size": [
+        2048,
+        1448
+      ],
+      "scene": "In a picture-book garden, Nan stands on the grass at the left, smiles, and nods her head at the puppy Pip; Pip sits at the right, looks up at her, and wags his tail. A leafy tree, sunflowers, soft sky. Landscape composition: both characters are whole from head to feet and fill the middle; the top 15 percent is sky and leaves. Exactly one dog, Pip, a small puppy as tall as Nan's knees; no other animal. {NAN} {PIP}"
+    },
+    {
+      "id": "C-front",
+      "option": "C",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "A game level map seen from above: a winding path of round stepping stones runs up green hills to a playhouse; big simple objects stand along the path: a nest in a small tree, a net, a big nut, a pan, a spinning top, a pot; a pond and a sun. Nan and Sam stand at the start of the path, face the viewer, and wave; Pip sits in front. Portrait picture: the top 25 percent is sky and the far hill; the children are large, heads at half height. {NAN} {SAM} {PIP}"
+    },
+    {
+      "id": "C-back",
+      "option": "C",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "The same cheerful game level map with no person and no animal: green rolling hills, a path of round stepping stones, a blue pond, small round trees, and a round sun. The middle 70 percent of the picture is calm open green and sky with few objects."
+    },
+    {
+      "id": "C-teacher",
+      "option": "C",
+      "size": [
+        1448,
+        2048
+      ],
+      "scene": "On a green hill of a cheerful game level map, Teacher Kim sits on a big round stone and holds a big open picture book toward two children; Nan and Sam sit on the grass in front of her, look at the book, and smile. Round trees and a stepping-stone path behind them. The open book shows only simple colored shapes. Portrait composition: the top 25 percent is sky with no character; the group is in the lower middle. {KIM} {NAN} {SAM}"
+    },
+    {
+      "id": "C-reader",
+      "option": "C",
+      "size": [
+        2048,
+        1448
+      ],
+      "scene": "In a green park of a cheerful game world, Nan stands on the grass at the left, smiles, and nods her head at the puppy Pip; Pip sits at the right, looks up at her, and wags his tail. A round tree, flowers, a round sun. Landscape composition: both characters are whole from head to feet and fill the middle; the top 15 percent is sky. Exactly one dog, Pip, a small puppy as tall as Nan's knees; no other animal. {NAN} {PIP}"
+    }
+  ]
+}

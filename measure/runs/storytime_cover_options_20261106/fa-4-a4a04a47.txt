@@ -1,0 +1,55 @@
+FINAL ACCEPTANCE GATE 4 of 4 - PROJECT_TESTS - track storytime_cover_options_20261106
+audited HEAD a4a04a47e6e5f5489117cea4211b5d1801dd6a52
+host date 2026-11-18 20:49:51 to 21:02:33 ICT
+one heavy-run wrapper: HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400
+  bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'
+command: cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts
+  __tests__/print-pdfx.test.ts __tests__/quest-cover-*.test.ts --maxWorkers=1
+capture note: ANSI colour codes removed; the per-file lines, the failure list, and the totals are
+verbatim. no Thai text is in this capture.
+
+Totals (verbatim):
+ Test Files  1 failed | 93 passed (94)
+      Tests  24 failed | 2280 passed (2304)
+   Start at  20:49:51
+   Duration  761.81s (transform 2.23s, setup 3.01s, import 10.87s, tests 722.43s, environment 17.69s)
+
+HEAVY_EXIT=1
+
+Every one of the 24 failed tests is in the same file: __tests__/storytime-unit2-sound-stage.test.ts.
+0 tests of this track failed. The failing set:
+
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > R14-1 mix row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > R14-2 day-1 row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > each unit asks at most one position
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > each unit asks at most one position
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > each unit asks at most one position
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > each unit asks at most one position
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > each unit asks at most one position
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > each unit asks at most one position
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > each unit asks at most one position
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > R14-1 mix row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > R14-1 mix row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > R14-3 plan row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > R14-1 mix row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > R14-2 day-1 row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > the week asks the first and the last position across its units
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > w11 holds no medial-vowel tag
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 12 sound stages > R14-2 day-1 row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > R14-3 plan row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > R14-1 mix row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > R14-2 day-1 row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > the week asks the first and the last position across its units
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > R14-1 mix row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > R14-2 day-1 row passes
+__tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > R14-1 mix row passes
+
+The open Red window (the plan rule of line 32, and the brief's known class):
+  track storytime_l2_unit2_20261106, Task 3.5 (Red, commit bd2f8e32), Task 3.6 (Green) is [~].
+  The file fails by design until that Green lands. Its track does not own this track's gate.
+  Grep counts on the capture: "Protocol error" 0, "page.screenshot" 0.
+  A Chrome load flake did not occur in this run. A rerun was not necessary.
+
+Verdict: PROJECT_TESTS exits 1 with the failures of the open foreign Red file only.
+The plan rule holds: the failed tests are exactly the tests of that one open Red file.
+Every own-track test passed (the quest-cover files and the shared Storytime files).

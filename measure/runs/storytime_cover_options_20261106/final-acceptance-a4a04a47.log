@@ -1,0 +1,132 @@
+final-acceptance  track storytime_cover_options_20261106  audited HEAD a4a04a47  RESULT: PASS
+
+role: final-acceptance (measure-orchestrator), session "Final Accept · track · storytime_cover_options"
+route: opencode-go/deepseek-v4.1-flash
+phase: track review (final acceptance over Phase 1 and Phase 2)
+host date: 2026-11-18, about 20:30 to 21:15 ICT
+
+1. PROVENANCE
+   git rev-parse HEAD = a4a04a47e6e5f5489117cea4211b5d1801dd6a52 at role start and again after the
+   four gates. role_base_sha = audited_head_sha = that value. HEAD did not move.
+   The working tree still holds other sessions' work: the modified file
+   video/storytime-song/scripts/render.mjs and the untracked file dashboard/raw.json.
+   This role wrote only measure/runs/storytime_cover_options_20261106/.
+   pnpm-lock.yaml is unchanged, so no `git checkout --` was necessary.
+
+2. RECORDED DEVIATION (independence rule)
+   The rule "an auditor uses a family other than the family whose work it audits" is NOT met.
+   DeepSeek wrote Green work in this track: Green 1, Green 2, Green 3, Green 4 part 2, the A2 r2
+   Green, the readers r2 Green, and the frame r3 Green. Every family that the ra-quota pick offers
+   (Claude, GLM, DeepSeek) wrote or reviewed work here. Rule 4 holds: Review A ran on GLM
+   (review-ab-a-6cceee91.json) and the phase acceptance ran on Muse
+   (phase-acceptance-p2-a267b7b8.json). The PM ordered this route on 2026-11-18.
+
+3. GATES (one heavy-run wrapper each, p2, HEAVY_MIN_AVAIL_MB=1500, HEAVY_PREFLIGHT_WAIT_S=5400)
+   1 GREEN_TEST_COMMAND `cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts
+     --maxWorkers=1`: Test Files 19 passed (19), Tests 396 passed (396), 436.82 s, EXIT 0.
+     Capture fa-1-a4a04a47.txt.
+   2 PROJECT_LINT `cd dashboard && npx eslint lib/storytime scripts/storytime
+     __tests__/quest-cover-*.test.ts`: 0 errors, 1 warning (unused `quest` at
+     quest-cover-template.test.ts:1709), EXIT 0. Capture fa-2-a4a04a47.txt.
+   3 PROJECT_CHECKS `cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 &&
+     npx tsc --noEmit`: "Summary: 8 package(s), 0 failed check(s), 1 warning(s).", tsc printed no
+     line, EXIT 0. Capture fa-3-a4a04a47.txt.
+   4 PROJECT_TESTS: Test Files 1 failed | 93 passed (94), Tests 24 failed | 2280 passed (2304),
+     761.81 s, EXIT 1. All 24 failures sit in __tests__/storytime-unit2-sound-stage.test.ts, the
+     open Red file of track storytime_l2_unit2_20261106 (Task 3.5 Red commit bd2f8e32, Task 3.6
+     Green [~]). 0 own-track tests failed. The capture counts "Protocol error" 0 and
+     "page.screenshot" 0, so no Chrome load flake occurred and no rerun was needed.
+     Capture fa-4-a4a04a47.txt holds the 24 test names.
+   UX_REQUIRED=never, as the brief sets. No browser pass ran.
+
+4. RECORD CHECKS
+   - Task marks: 66 task lines, all [x]. 0 [ ], 0 [~], 0 [b]. No "deferred:" trailer.
+   - Task SHAs: the 74 cited commit references resolve with git cat-file -e and pass
+     git merge-base --is-ancestor <sha> HEAD. Plan line 275 is the one [x] line with no commit SHA
+     on the task line (finding F3).
+   - Phase results: exactly one passing result per phase.
+       Phase 1: phase-acceptance-p1-172cadc7.json, pass, baseline 3f638d98, head 172cadc7.
+       Phase 2: phase-acceptance-p2-a267b7b8.json, pass, baseline = head = a267b7b8.
+       The other Phase 2 result, phase-acceptance-p2-571d8779.json, is a fail; commit 1b468b5f
+       (the D6 pin move) superseded it, so it is not a second passing result.
+   - Ancestry: merge-base --is-ancestor returned yes for 172cadc7, 571d8779, a267b7b8, 3f638d98.
+     Each phase baseline is an ancestor of its audited HEAD, and each audited HEAD is an ancestor
+     of current HEAD.
+   - Coverage of the later commits: git diff --name-only a267b7b8 a4a04a47 lists 44 paths. The
+     commands and the full output sit in the evidence list of the result JSON. The 7 later commits
+     are a203608d, a25f4679, 00c9b959, 1c5385a6, 9e541827, 5514c211, and a4a04a47. No later commit
+     changes a code, test, art, or data path of this track. The path set of the track came from
+     git diff-tree over the 273 commits that touch measure/tracks/<track>/ or measure/runs/<track>/
+     and the 74 cited commits. Its intersection with the diff holds only the track plan file, four
+     evidence captures, the phase-acceptance JSON and log under measure/runs/<track>/, and the
+     shared registry measure/tracks.md. The plan file and the runs files are the allowed plan and
+     evidence files. measure/tracks.md is the shared registry of every track, not a deliverable of
+     this track.
+   - track_base_sha = f1c041ec, the parent of 3f638d98, the commit that created the track folder.
+
+5. ACCEPTANCE CRITERIA
+   AC-1 to AC-5 (Phase 1): the hand-off folder holds 75 files and `manifest.py --check` exits 0;
+   the 15 mockups and 3 options are present; Daniel picked option A on 2026-11-07. Phase 1
+   acceptance passed at 172cadc7.
+   AC-6: the gates above. Own-track tests pass. PROJECT_TESTS fails only in the foreign open file.
+   AC-7: the literal text is not met (finding F1). Four shared files changed:
+   readers.ts, student-book.ts, teacher-book-cover.ts, and make-pdfx.ts. The plan task lines order
+   the readers.ts page-12 wiring, and the PM order of 2026-11-10 17:50 orders the make-pdfx change.
+   The shared-glob tests pass, so the guard's purpose holds. The spec text was not amended.
+   AC-8: the Phase 2 spend log sums to 0.0245 USD, under the 0.9335 USD limit.
+   AC-9: print-gate.txt ends with PASS_LINES=45 and FAIL_LINES=0; print-gate-f10.txt ends with
+   SUMMARY FAIL_LINES=0. The build reports show the copy, Thai, QR, page-size, ppi, and band checks
+   as pass.
+   AC-10: look-phase2.md holds 32 pass lines and 0 fault lines.
+   AC-11: the 11-16 copy does not exist (finding F2). Task 2.11 records the deviation, because
+   Daniel looked at the covers on 2026-11-13.
+   AC-12: Daniel approved the reader covers on 2026-11-13 and the r6 book covers on 2026-11-14
+   06:20 ICT (Task 2.14 and Task 2.14b). The r6 folder MANIFEST hashes to a7f9b91c.
+   - Approved files of FR-11.7 keep their prefixes: 2964d9b6, e0e0365a, 3b992af2.
+   - The covers-quest-v1 MANIFEST has 133 lines, 133 of 133 match, and the file hashes to
+   8f1901a3.
+
+6. ANTI-PATTERN AUDIT (pre-closeout)
+   A5 false-claim text: no false claim found. The three PASS/FAIL claims checked against the runs
+   hold. The older PASS and WARN row counts belong to their own heads, and no plan sentence claims
+   this HEAD gives them.
+   A6 registry overstatement: the note makes no claim that the adversarial tests contradict;
+   adversarial round 3 passed. The note is stale on the r6 approval (finding F4).
+   A9 archived track path in tests/*.sh: the repository has no tests/ directory, so A9 does not
+   apply.
+   A10 generated facts: measure/generate.sh and measure/doctor.sh do not exist in this repository,
+   as plan line 48 records. The doctor step is PROJECT_CHECKS, which passes.
+
+7. FINDINGS
+   Blocking: none.
+   F1 [Nit] acceptance-criterion-AC7: the literal text of AC-7 and D-A3 is not met; four shared
+   files changed with a plan or PM order behind each change.
+   F2 [Nit] acceptance-criterion-AC11: the 11-16 copy is absent; the deviation is recorded.
+   F3 [Nit] plan-truthfulness: plan line 275 is [x] with no commit SHA on the task line; its two
+   evidence lines hold three SHAs.
+   F4 [Nit] registry-note: measure/tracks.md and metadata.json still say "release keeps r2 until
+   Daniel passes r6", but Daniel approved r6 on 2026-11-14 and the r6 proof folder exists.
+   F5 [Nit] deferred-finding: Review C F1 (checkArtName) is DEFER and promises a tech-debt row;
+   measure/tech-debt.md holds no row that names checkArtName.
+
+8. THAI RULE
+   This role is a non-Claude model. It read no file under content/storytime/**. It counted Thai
+   characters (U+0E00 to U+0E7F) and printed only the count: content/storytime/covers/quest.json 0,
+   content/storytime/l2/print/pictures-heads.json 0, fa-1 to fa-4 captures 0, this log 0.
+
+VERDICT: PASS. The work meets the spec at HEAD a4a04a47, and the four configured gates give the
+expected results. Five record defects stay open for closeout. None changes a shipped cover or a
+gate result.
+
+MEASURE_AGENT_RESULT
+role: final-acceptance
+status: complete
+track: storytime_cover_options_20261106
+phase: track review
+commits: none (this role commits nothing; audited a4a04a47)
+tests_run: GREEN_TEST_COMMAND 19 files 396 tests pass exit 0; PROJECT_LINT exit 0 (1 known warning); PROJECT_CHECKS exit 0 (0 failed checks, tsc clean); PROJECT_TESTS exit 1 with 24 failures all in the foreign open Red file storytime-unit2-sound-stage.test.ts and 0 own-track failures
+files_changed: measure/runs/storytime_cover_options_20261106/final-acceptance-a4a04a47.json, final-acceptance-a4a04a47.log, fa-1-a4a04a47.txt, fa-2-a4a04a47.txt, fa-3-a4a04a47.txt, fa-4-a4a04a47.txt
+plan_updates: none
+known_failures: dashboard/__tests__/storytime-unit2-sound-stage.test.ts fails 24 tests by design (open Red of track storytime_l2_unit2_20261106, Task 3.6 Green [~]); no own-track failure
+handoff: PASS. Route to measure-closeout. Closeout fixes four record items: the commit SHA on plan line 275, the stale r6 registry note in measure/tracks.md and metadata.json, the Review C F1 tech-debt row, and a note of the accepted AC-7 and AC-11 deviations. Independence deviation recorded: DeepSeek wrote Green work here and this audit runs on DeepSeek.
+END_MEASURE_AGENT_RESULT

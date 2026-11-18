@@ -1,0 +1,91 @@
+closeout  track storytime_cover_options_20261106  audited HEAD a4a04a47  RESULT: PASS
+
+role: measure-closeout (measure-orchestrator), session "Closeout · track · storytime_cover_options"
+route: opencode-go/hy4-flash-free#high
+track: storytime_cover_options_20261106
+phase: track review
+host date: 2026-11-18
+
+1. PROVENANCE
+   git rev-parse HEAD = a4a04a47e6e5f5489117cea4211b5d1801dd6a52 at role start.
+   The final acceptance result binds the same value: audited_head_sha = a4a04a47,
+   role_base_sha = a4a04a47. The pre-closeout state satisfies that provenance rule.
+   This role edits only measure/ files. It reads no file under content/storytime/** and
+   prints no Thai. It runs no git checkout, git restore, git reset or git push.
+
+2. INPUTS READ
+   measure/index.md, measure/tracks.md, the track spec.md and plan.md, the track
+   test-strategy.md, measure/anti-patterns.md, the track metadata.json,
+   final-acceptance-a4a04a47.json and .log, measure/lessons-learned.md and
+   measure/tech-debt.md, and the orchestrator closeout contract and closeout check.
+
+3. PRE-CLOSEOUT STATE
+   Plan marker scan: 66 task lines, all [x]; 0 [~], 0 [ ], 0 [b]. No deferred trailer.
+   One [x] task lacked a commit SHA: the Phase 2 user manual verification task.
+   Git blame and git log gave the fix: a203608d1ba9229952deff87eb1ec20276b984da,
+   "measure(runs): the Phase 2 re-acceptance of the option A covers". It resolves and
+   is an ancestor of HEAD. The Phase 1 analog task uses the runs commit 50fadae.
+   Final acceptance status pass, 0 blocking findings, 5 nonblocking findings F1 to F5.
+   The orchestrator role gate exited 0 with the one PROJECT_TESTS exclude deviation.
+
+4. RECORD EDITS BEFORE THE ARCHIVE MOVE
+   - The task line gained "commit a203608d". No SHA was invented.
+   - The accepted-deviations note was added to the plan. It cites the final acceptance
+     JSON, records the AC-7 text gap, the absent 11-16 check copy (AC-11), and the
+     PROJECT_TESTS exclude of the open Red file of storytime_l2_unit2_20261106.
+     The note writes no test count.
+   - The registry note in measure/tracks.md and metadata.json status_note now record
+     Daniel's r6 approval of 2026-11-14 06:20 ICT and the r6 release proof folder.
+   - Review C F1 was recorded as a tech-debt item for the hard-coded 'l2-' prefix of
+     checkArtName. It joins the existing cover-options row so tech-debt.md stays at 50 lines.
+   - One reusable lesson was added to lessons-learned.md: a shared test glob spans
+     tracks, so PROJECT_TESTS fails on an open Red file of another track. The lesson
+     joins the consolidated entry so the file stays at 50 lines.
+   - Old path strings inside the track plan, spec and test strategy now read
+     measure/archive/storytime_cover_options_20261106/. No tests/*.sh file exists.
+
+5. ARCHIVE
+   git mv moved measure/tracks/storytime_cover_options_20261106 to
+   measure/archive/storytime_cover_options_20261106.
+   measure/tracks.md lost the active entry and gained an archive entry whose description
+   equals the collapsed metadata.json description.
+   metadata.json now holds status "done", completed "2026-11-18", and the true status note.
+
+6. CLOSEOUT CHECK
+   Command: python3 ~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py
+   closeout --repo . --track storytime_cover_options_20261106
+   Exit code: 0. Capture: measure/runs/storytime_cover_options_20261106/closeout-check.txt.
+   Output: PASS: closeout checks passed.
+
+7. ANTI-PATTERN AUDIT
+   A5 pass: no false claim. The deviations cite the final acceptance JSON and write no count.
+   A6 pass: the archived note states the true owner and adversarial state. Daniel approved
+   r6 on 2026-11-14, the r6 proof folder exists, and adversarial round 3 passed.
+   A9 pass: the repository has no tests directory. No test referenced the old path.
+
+8. THAI RULE
+   This role is a non-Claude model. It read no file under content/storytime/**. It counted
+   Thai characters in the files it edited and printed only the counts. The new files hold
+   0 Thai characters. Two pre-existing memory files hold Thai from earlier tracks; this
+   role did not add to those counts.
+
+9. COMMIT AND CLEANUP
+   The role stages only its own paths and commits them through commit-paths. It does not
+   stage video/storytime-song/scripts/render.mjs, dashboard/raw.json, or any file of another
+   track. The WARN about measure/generate.sh exit 127 from commit-paths is harmless.
+   No run artifact was deleted, because the orchestrator named none for deletion.
+   No push.
+
+MEASURE_AGENT_RESULT
+role: measure-closeout
+status: complete
+track: storytime_cover_options_20261106
+phase: track review
+commits: the closeout pathspec commit follows this log; its short SHA is in the session result block
+tests_run: closeout check exit 0 (PASS: closeout checks passed); no code gate rerun in this role, because final acceptance ran all four gates at a4a04a47
+files_changed: measure/archive/storytime_cover_options_20261106/ (track folder and closeout manifest), measure/tracks.md, measure/tech-debt.md, measure/lessons-learned.md, measure/runs/storytime_cover_options_20261106/ (final acceptance JSON and log, fa-1 to fa-4, closeout-check.txt, closeout manifest, this log)
+plan_updates: added commit a203608d to the Phase 2 manual verification task; added the accepted-deviations note; updated old track paths in the archived documents
+known_failures: none in this role; the PROJECT_TESTS failure of the final acceptance sits in the open Red file of storytime_l2_unit2_20261106 and the role gate excludes that file
+closeout_check_exit_code: 0
+handoff: PASS. The track is archived, metadata is done with completion date 2026-11-18, and the closeout check passes. The orchestrator may run the audit subagent. The one deferred Review C F1 item is now a tech-debt row for the first cover set of another level.
+END_MEASURE_AGENT_RESULT

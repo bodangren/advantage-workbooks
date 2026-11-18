@@ -1,0 +1,41 @@
+FINAL ACCEPTANCE GATE 1 of 4 - GREEN_TEST_COMMAND - track storytime_cover_options_20261106
+audited HEAD a4a04a47e6e5f5489117cea4211b5d1801dd6a52
+host date 2026-11-18 20:40:00 to 20:49:16 ICT
+one heavy-run wrapper: HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400
+  bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'
+command: cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1
+capture note: ANSI colour codes removed; the per-file lines and the totals are verbatim; no Thai text is in this capture.
+
+RUN v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+
+Per test file (vitest "check" lines, tests, and duration):
+  quest-cover-build.test.ts              75 tests   363533 ms
+  quest-cover-template.test.ts          191 tests     4964 ms
+  quest-cover-f3f6.test.ts               14 tests    16060 ms
+  quest-cover-f7.test.ts                  9 tests    13578 ms
+  quest-cover-f8.test.ts                  3 tests     6537 ms
+  quest-cover-f10.test.ts                 9 tests     2014 ms
+  quest-cover-f1f2.test.ts                6 tests     4109 ms
+  quest-cover-standing-rules.test.ts      5 tests     2584 ms
+  quest-cover-readers-r2b.test.ts        14 tests     2030 ms
+  quest-cover-readers-r2c.test.ts        11 tests     1723 ms
+  quest-cover-plaque-fit.test.ts         10 tests     1625 ms
+  quest-cover-print-gate.test.ts          5 tests     1533 ms
+  quest-cover-heads.test.ts               2 tests     1523 ms
+  quest-cover-logo-tone.test.ts          11 tests     1382 ms
+  quest-cover-readers-r2.test.ts          6 tests     1279 ms
+  quest-cover-hlogo.test.ts               9 tests     1104 ms
+  quest-cover-story.test.ts               4 tests      107 ms
+  quest-cover-frame-r3.test.ts            6 tests      117 ms
+  quest-cover-leafmark.test.ts            6 tests        4 ms
+
+Totals (verbatim):
+ Test Files  19 passed (19)
+      Tests  396 passed (396)
+   Start at  20:40:00
+   Duration  436.82s (transform 801ms, setup 624ms, import 3.39s, tests 425.81s, environment 5.32s)
+
+HEAVY_EXIT=0
+
+Verdict: PASS. No flake, no rerun, no foreign file in this gate.
+The plan expected 19 files and 396 tests (the phase acceptance at a267b7b8 gave the same counts).

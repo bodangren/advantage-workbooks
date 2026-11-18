@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "summary": "Final acceptance passes at HEAD a4a04a47. The four configured gates ran once each in one heavy-run wrapper: GREEN_TEST_COMMAND exit 0 (19 files, 396 tests), PROJECT_LINT exit 0 (0 errors, 1 known warning), PROJECT_CHECKS exit 0 (0 failed checks, 1 warning, tsc clean), PROJECT_TESTS exit 1 with 24 failures that all sit in the open Red file of track storytime_l2_unit2_20261106 (by design) and 0 own-track failures. Every plan task is [x]; every cited commit SHA resolves and is an ancestor of HEAD. Phase 1 and Phase 2 each hold exactly one passing phase-acceptance result (phase-acceptance-p1-172cadc7.json, phase-acceptance-p2-a267b7b8.json); the Phase 2 result at 571d8779 is a fail that the pin-move commit 1b468b5f superseded. The later commits after a267b7b8 change the track's plan and evidence files and the shared registry only, so the audited work is covered. The record holds five nonblocking defects (the G-1 rule text, the 11-16 copy, one task line without a trailing commit SHA, the stale registry note, and a deferred review finding without its tech-debt row). None changes the shipped covers or a gate result.",
+  "route": "opencode-go/deepseek-v4.1-flash",
+  "role": "final-acceptance",
+  "track": "storytime_cover_options_20261106",
+  "phase": "track review",
+  "track_base_sha": "f1c041ece422273a3ebe3d754d011fec48d2a388",
+  "role_base_sha": "a4a04a47e6e5f5489117cea4211b5d1801dd6a52",
+  "audited_head_sha": "a4a04a47e6e5f5489117cea4211b5d1801dd6a52",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Nit] acceptance-criterion-AC7: the literal text of AC-7 and spec D-A3 is not met. Commits 23f746a4, 22d42ad8, 74ef6e4e, 310ad128, and 12f7aa75 changed dashboard/lib/storytime/print/readers.ts, student-book.ts, and teacher-book-cover.ts, and commit 805a2911 changed dashboard/scripts/print/make-pdfx.ts. Rationale: the plan's own task lines order the readers.ts page-12 wiring and the PM order of 2026-11-10 17:50 orders the make-pdfx change, and the shared-glob tests pass, so the guard's purpose holds. The spec text was not amended. Phase acceptance at a267b7b8 carried the same item as N1.",
+    "F2 [Nit] acceptance-criterion-AC11: the 11-16 check copy does not exist (~/Desktop/handoff/storytime-check-2026-11-16/covers is absent). Task 2.11 evidence records the deviation because Daniel looked at the covers on 2026-11-13. Rationale: the copy is moot and the print-ready folder passes its own manifest check.",
+    "F3 [Nit] plan-truthfulness: plan line 275 (Task: Measure - User Manual Verification (Phase 2)) is [x] with no commit SHA on the task line. The plan rule of line 23 and the closeout standard want a commit SHA on the task line. Rationale: the task holds three commit SHAs in its two evidence lines (84762c1e, a203608d, a25f4679), so the record is traceable but does not meet the letter of the rule.",
+    "F4 [Nit] registry-note: measure/tracks.md line 5 and metadata.json status_note read 'Reader covers approved 2026-11-13; book covers r6 fix round F10 (due 11-14 10:00); release keeps r2 until Daniel passes r6'. Task 2.14b records Daniel's r6 approval of 2026-11-14 06:20 ICT, and ~/Desktop/print-ready/storytime/proof-books-r6-v1 exists. Rationale: the note understates the state; it is stale, not false. A6 (registry overstatement of the adversarial state) does not occur, because the adversarial round passed.",
+    "F5 [Nit] deferred-finding: Review C F1 (checkArtName hard-codes the 'l2-' prefix) is DEFER with 'tech-debt row at phase close' (review-c-40053805.json). measure/tech-debt.md holds no row that names checkArtName. Rationale: the deferral loses its record unless closeout adds the row."
+  ],
+  "evidence": [
+    "PROVENANCE: git rev-parse HEAD = a4a04a47e6e5f5489117cea4211b5d1801dd6a52 at role start and again after all gates; equal to the brief's immutable audited HEAD. role_base_sha = audited_head_sha = current HEAD.",
+    "TRACK BASE: the first commit that added the track folder is 3f638d98 ('create track storytime_cover_options_20261106', 2026-11-06). git rev-parse 3f638d98^ = f1c041ece422273a3ebe3d754d011fec48d2a388. track_base_sha = f1c041ec.",
+    "PHASE RESULTS: exactly one passing phase-acceptance result per phase. Phase 1: phase-acceptance-p1-172cadc7.json, status pass, role_base_sha 3f638d98, audited_head_sha 172cadc7. Phase 2: phase-acceptance-p2-a267b7b8.json, status pass, role_base_sha = audited_head_sha = a267b7b8. The other Phase 2 result, phase-acceptance-p2-571d8779.json, has status fail (D6 of quest-cover-f3f6) and commit 1b468b5f (the D6 pin move) superseded it; it is not a second passing result.",
+    "BASELINE ANCESTRY: git merge-base --is-ancestor <sha> HEAD returned yes for 172cadc7, 571d8779, a267b7b8, and 3f638d98. The audited HEAD of every phase result is an ancestor of current HEAD.",
+    "TASK MARKS: python scan of plan.md task lines gives markers {x: 66}; 0 [ ], 0 [~], 0 [b]. No 'deferred:' trailer exists.",
+    "TASK SHAS: the 74 distinct commit references on the plan lines resolve with git cat-file -e <sha>^{commit} and pass git merge-base --is-ancestor <sha> HEAD (list: 3f638d9, 99c5127, ce5b90b, 50fadae, cb2d1c0c, f2c2a9c, 6605bd1, 7b2d8ce, 801c8c8, 5281b70, 686a8a8, c8e7c8d, d65955f, d398b2b, c3edec8, ee8d5fc, 40e4846, ace10cb, c3b4397, 1e78793, eee69aa, 0a2e73b, 4559212, 44a08b4, deb12ed, dbc2116, f7f3618, fc555b7, 5a4ac32, 805a291, 3f4d7f6, 93ad740, a0f5cb2, 75c847d, 1d3c861, b78f8da, 9b06aa2, 105fc31, 2aed3e0, 888d00a, 23f746a, 6567c20, 14b39927, 74ef6e4, a21289b, 310ad12, 291e499, 12f7aa7, 007b763, 3875c04, 5fb03dc, c61547f, 852a8db, d36a42a, fc5cc3e, 1b468b5f). Plan line 275 is the one [x] line without a commit SHA on the task line (F3).",
+    "PATH-DIFF COVERAGE command: git diff --name-only a267b7b8a3e5cdf2c549b292d47b1407aa51da02 a4a04a47e6e5f5489117cea4211b5d1801dd6a52",
+    "PATH-DIFF COVERAGE output (44 paths): content/storytime/l2/w02.json; content/storytime/l2/w03.json; content/storytime/l2/w04.json; content/storytime/l2/w05.json; content/storytime/l2/w06.json; content/storytime/l2/w07.json; dashboard/__tests__/storytime-loops-content.test.ts; dashboard/__tests__/storytime-loops-share-content.test.ts; dashboard/__tests__/storytime-print-contract-v2.test.ts; dashboard/__tests__/storytime-print-f3-script-order.test.ts; dashboard/__tests__/storytime-unit2-word-keys.test.ts; docs/content-plans/origins-3.2-drafts/README.md; docs/content-plans/primary-origins-3.2-plan.md; docs/content-plans/reviews/2026-10-03-prereview.md; measure/archive/editorial_prereview_20261003/metadata.json; measure/archive/editorial_prereview_20261003/plan.md; measure/archive/editorial_prereview_20261003/spec.md; measure/archive/origins2_test_package_20261008/metadata.json; measure/archive/origins2_test_package_20261008/plan.md; measure/archive/origins2_test_package_20261008/spec.md; measure/archive/print_export_20261012/metadata.json; measure/archive/print_export_20261012/plan.md; measure/archive/print_export_20261012/spec.md; measure/archive/print_ready_pdf_20261002/metadata.json; measure/archive/print_ready_pdf_20261002/plan.md; measure/archive/print_ready_pdf_20261002/spec.md; measure/archive/review_page_20261001/metadata.json; measure/archive/review_page_20261001/plan.md; measure/archive/review_page_20261001/spec.md; measure/archive/text_profile_lint_20260930/metadata.json; measure/archive/text_profile_lint_20260930/plan.md; measure/archive/text_profile_lint_20260930/spec.md; measure/runs/closeout-legacy-20261118/automation-supervisor-closeout-manifest.json; measure/runs/closeout-legacy-20261118/closeout-1c5385a6.log; measure/runs/closeout-legacy-20261118/closeout-check.txt; measure/runs/closeout-legacy-20261118/sha-check.txt; measure/runs/storytime_cover_options_20261106/pa2r3-1-a267b7b8.txt; measure/runs/storytime_cover_options_20261106/pa2r3-3-a267b7b8.txt; measure/runs/storytime_cover_options_20261106/pa2r3-4-a267b7b8.txt; measure/runs/storytime_cover_options_20261106/pa2r3-5-a267b7b8.txt; measure/runs/storytime_cover_options_20261106/phase-acceptance-p2-a267b7b8.json; measure/runs/storytime_cover_options_20261106/phase-acceptance-p2-a267b7b8.log; measure/tracks.md; measure/tracks/storytime_cover_options_20261106/plan.md",
+    "PATH-DIFF CLASSIFICATION: the 7 later commits are a203608d, a25f4679, 00c9b959, 1c5385a6, 9e541827, 5514c211, a4a04a47. None of them changes a deliverable path of this track. The only paths of the track in the diff are its plan file (measure/tracks/storytime_cover_options_20261106/plan.md), four evidence captures and the phase-acceptance JSON and log under measure/runs/storytime_cover_options_20261106/, and the shared registry measure/tracks.md. The plan file and the files under measure/runs/<track>/ are the plan and evidence files that the rule allows. measure/tracks.md is the shared registry of every track, not a deliverable of this track. Command used to find the track path set: git diff-tree -r --root --no-renames --no-commit-id --name-only <sha> over the 273 commits that touch measure/tracks/<track>/ or measure/runs/<track>/ and the 74 cited commits; the intersection with the diff above printed exactly those 8 paths and no code, test, art, or data path.",
+    "GATE 1 GREEN_TEST_COMMAND: cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1 -> Test Files 19 passed (19), Tests 396 passed (396), Duration 436.82 s, HEAVY_EXIT=0. Capture fa-1-a4a04a47.txt.",
+    "GATE 2 PROJECT_LINT: cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts -> 1 problem (0 errors, 1 warning 'quest' unused at quest-cover-template.test.ts:1709), HEAVY_EXIT=0. Capture fa-2-a4a04a47.txt.",
+    "GATE 3 PROJECT_CHECKS: cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit -> 'Summary: 8 package(s), 0 failed check(s), 1 warning(s).', tsc printed no line, HEAVY_EXIT=0. Capture fa-3-a4a04a47.txt.",
+    "GATE 4 PROJECT_TESTS: cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts __tests__/quest-cover-*.test.ts --maxWorkers=1 -> Test Files 1 failed | 93 passed (94), Tests 24 failed | 2280 passed (2304), Duration 761.81 s, HEAVY_EXIT=1. All 24 failures sit in __tests__/storytime-unit2-sound-stage.test.ts, the open Red file of track storytime_l2_unit2_20261106 (Task 3.5 Red commit bd2f8e32, Task 3.6 Green [~]). 0 tests of this track failed. 'Protocol error' count 0 and 'page.screenshot' count 0, so no Chrome load flake occurred and no rerun was needed. Capture fa-4-a4a04a47.txt with the 24 test names.",
+    "OWN-TRACK TEST MASS: 19 files of __tests__/quest-cover-*.test.ts hold 17852 lines; grep for '.skip(', '.only(', and '.todo(' returns no hit. The real build path runs in the suite (build tests 363533 ms of live Chrome work).",
+    "MUTANT TABLES: mutants-green1.txt 'mutants: 33, caught: 33, survivors: []'; mutants-green2.txt 'mutants: 22, caught: 22'; mutants-green2-qr.txt 'mutants: 23, caught: 23'; mutants-green3.txt 'mutants: 23, caught: 23'; mutants-green4.txt 'mutants: 27, caught: 26' with the survivor F17 named and later covered by the ADV3-6 test of adversarial round 3.",
+    "PRINT EVIDENCE (AC-9): measure/runs/storytime_cover_options_20261106/print-gate.txt ends with PASS_LINES=45 and FAIL_LINES=0; print-gate-f10.txt ends with 'SUMMARY PASS_LINES=20' and 'SUMMARY FAIL_LINES=0'.",
+    "MANIFEST (AC-4, AC-11): python3 -I -B measure/tracks/storytime_cover_options_20261106/options/manifest.py ~/Desktop/handoff/storytime-cover-options-2026-11-06 --check -> 'MANIFEST.txt matches 75 files', exit 0. ~/Desktop/print-ready/storytime/covers-quest-v1/MANIFEST.txt holds 133 lines, 133 of 133 SHA-256 values match, its own SHA-256 is 8f1901a39d9decc69a6b0a671b9c5c2ca8a4a1a3a88c0d0b6f9d07e4a2477a87. ~/Desktop/print-ready/storytime/covers-quest-v1-books-r6/MANIFEST.txt hashes to a7f9b91c1bed3dace547437d9c75fe822134e4859e392f2df3496bea8aba025f as Task 2.14b records.",
+    "APPROVED FILES (FR-11.7): sha256 of ~/Desktop/print-ready/storytime/print-v3/l2u1/cover.pdf = 2964d9b678afc7a0...; of print-v3/l2u1/Storytime-Advantage-L2-U1-Student-Book-Cover-v3_PDFX-1a.pdf = e0e0365a4ece8a5b...; of teacher-cover-l2u1/Storytime-Advantage-L2-U1-Teachers-Book-TH-Cover-v1_PDFX-1a.pdf = 3b992af216dc2238.... All three keep their recorded prefixes.",
+    "SPEND (AC-3, AC-8): the spend log of covers-quest-v1 holds 7 Phase 2 rows that sum to 0.0245 USD; the option round total is 0.0665 USD; the track total is 0.0910 USD, under the 0.9335 USD Phase 2 limit and the 1.00 USD track limit.",
+    "LOOK RECORD (AC-10): measure/tracks/storytime_cover_options_20261106/look-phase2.md holds 32 'page N: pass' lines and 0 fault lines (grep -c of each pattern).",
+    "GUARD G-1 SPOT PROOF: git show --name-only --format= of commit d36a42a1 lists dashboard/lib/storytime/print/cover-quest.ts only. The 24 commits up to d36a42a1 add only cover-quest.ts and the quest-cover-f10.test.ts file. Finding F1 lists the four shared files that other commits of the track changed.",
+    "THAI RULE: this role is a non-Claude model. It read no file under content/storytime/**. It counted Thai characters without printing them: content/storytime/covers/quest.json 0, content/storytime/l2/print/pictures-heads.json 0. Each capture fa-1 to fa-4 and this log holds 0 Thai characters (regex U+0E00..U+0E7F count printed as a number only).",
+    "ANTI-PATTERN A5: plan claims checked against the runs. 'PASS_LINES=45 / FAIL_LINES=0' (print-gate.txt) holds. 'SUMMARY PASS_LINES=20 / SUMMARY FAIL_LINES=0' (print-gate-f10.txt) holds. 'Summary: 8 package(s), 0 failed check(s)' holds at this HEAD. The PASS and WARN row counts of the older snapshots (305 PASS / 9 WARN, 335 PASS) differ because other tracks changed week files after 2026-11-13; no plan sentence claims this HEAD gives those counts.",
+    "ANTI-PATTERN A6: measure/tracks.md line 5 and metadata.json status_note make no false claim about the adversarial state; adversarial round 3 passed (adversarial3-6aa10755.json, 0 blocking findings). The note is stale about the r6 owner approval (F4).",
+    "ANTI-PATTERN A9: the repository has no tests/ directory (ls tests -> no such file), so no tests/*.sh file can reference an archived track path. A9 does not apply.",
+    "DOCTOR STEP: the repository has no measure/doctor.sh (ls -> no such file), as plan line 48 records. The doctor step of this track is the PROJECT_CHECKS gate, which passes.",
+    "REVIEW RECORDS: review-ab-a-6cceee91.json pass (0 Blocker, 0 Major, 1 Minor, 2 Nit), review-ab-b-6cceee91.json pass (0 Blocker, 0 Major, 3 Minor, 6 Nit), review-c-40053805.json pass (0 Blocker, 3 Nit), adversarial3-6aa10755.json pass (0 blocking), spec-review-ce5b90ba.json pass (0 Blocker, 4 Major, 2 Nit). No open Blocker remains in any review result.",
+    "WORKING TREE: git status --porcelain shows pnpm-lock.yaml unchanged. The untracked dashboard/raw.json and the modified video/storytime-song/scripts/render.mjs are outside this role's write scope and were not touched. This role wrote only measure/runs/storytime_cover_options_20261106/."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git merge-base --is-ancestor 172cadc7 HEAD; git merge-base --is-ancestor 571d8779 HEAD; git merge-base --is-ancestor a267b7b8 HEAD; git merge-base --is-ancestor 3f638d98 HEAD",
+    "git diff --name-only a267b7b8a3e5cdf2c549b292d47b1407aa51da02 a4a04a47e6e5f5489117cea4211b5d1801dd6a52",
+    "git log --reverse --diff-filter=A -- measure/tracks/storytime_cover_options_20261106/spec.md",
+    "git diff-tree -r --root --no-renames --no-commit-id --name-only <each cited or track-folder commit>",
+    "HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/quest-cover-*.test.ts --maxWorkers=1' -> HEAVY_EXIT=0",
+    "HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts' -> HEAVY_EXIT=0",
+    "HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit' -> HEAVY_EXIT=0",
+    "HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts __tests__/quest-cover-*.test.ts --maxWorkers=1' -> HEAVY_EXIT=1 (24 failures, all in the open foreign unit2 Red file)",
+    "python3 -I -B measure/tracks/storytime_cover_options_20261106/options/manifest.py ~/Desktop/handoff/storytime-cover-options-2026-11-06 --check -> exit 0, 75 files",
+    "python3 (sha256 of each MANIFEST.txt line of covers-quest-v1) -> 133 of 133 match, manifest SHA-256 8f1901a3...",
+    "python3 (sha256 of the 3 approved FR-11.7 files) -> all 3 prefixes match",
+    "grep -cE '^page [0-9]+: pass' measure/tracks/storytime_cover_options_20261106/look-phase2.md -> 32; grep -cE '^page [0-9]+: fault' -> 0",
+    "python3 -c (Thai character count of each capture and each file read) -> 0 in fa-1 to fa-4"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_cover_options_20261106/final-acceptance-a4a04a47.json",
+    "measure/runs/storytime_cover_options_20261106/final-acceptance-a4a04a47.log",
+    "measure/runs/storytime_cover_options_20261106/fa-1-a4a04a47.txt",
+    "measure/runs/storytime_cover_options_20261106/fa-2-a4a04a47.txt",
+    "measure/runs/storytime_cover_options_20261106/fa-3-a4a04a47.txt",
+    "measure/runs/storytime_cover_options_20261106/fa-4-a4a04a47.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "handoff": "Pass. The orchestrator may route to measure-closeout. Closeout must make these record edits before or with the archive move: (1) add 'commit <sha>' to plan line 275; (2) replace the stale registry note in measure/tracks.md and metadata.json status_note with the r6 approval of 2026-11-14 06:20 ICT and the r6 release proof; (3) add the Review C F1 tech-debt row for checkArtName; (4) record the AC-7 text gap and the missing 11-16 copy as accepted deviations. Recorded deviation of independence: DeepSeek wrote Green work in this track and this audit runs on DeepSeek, so the rule 'an auditor uses a family other than the family whose work it audits' is not met; every family that the ra-quota pick offers (Claude, GLM, DeepSeek) wrote or reviewed work here. Rule 4 holds: Review A ran on GLM and the phase acceptance ran on Muse. The PM ordered this route on 2026-11-18.",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "The 19 quest-cover test files pass 396 of 396 at HEAD a4a04a47, and the standing-rule tests S1 to S5 report 0 failing pages of 32 (fa-1-a4a04a47.txt)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "mutants-green1.txt gives 'mutants: 33, caught: 33' and mutants-green2-qr.txt gives 23 of 23; each Red claim has a positive control (quest-cover-f10.test.ts T1 to T9)."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 4,
+      "evidence": "Commit d36a42a1 lists only cover-quest.ts, but commits 23f746a4, 22d42ad8, 74ef6e4e, 310ad128, 12f7aa75, and 805a2911 changed four files that the spec D-A3 list names (finding F1)."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every gate was re-run at HEAD in one heavy-run wrapper, and each claim traces to a capture (fa-1 to fa-4), a manifest check, or a file:line such as print-gate-f10.txt 'SUMMARY FAIL_LINES=0'."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "unknown",
+      "agreed": true,
+      "score": 4,
+      "evidence": "review-ab-a-6cceee91.json gives pass with 0 Blocker; I re-checked the G-1 item it did not raise and report it as F1."
+    },
+    {
+      "reviewer_role": "review-b",
+      "reviewer_route": "unknown",
+      "agreed": true,
+      "score": 4,
+      "evidence": "review-ab-b-6cceee91.json gives pass with 0 Blocker and 3 Minor; its F2 and F7 symlink findings now hold as tests in quest-cover-build.test.ts (17252 ms of live runs)."
+    },
+    {
+      "reviewer_role": "review-c",
+      "reviewer_route": "unknown",
+      "agreed": true,
+      "score": 4,
+      "evidence": "review-c-40053805.json gives pass with 0 Blocker; its F1 DEFER has no tech-debt row, which I report as F5."
+    },
+    {
+      "reviewer_role": "adversarial",
+      "reviewer_route": "unknown",
+      "agreed": true,
+      "score": 5,
+      "evidence": "adversarial3-6aa10755.json gives pass with 0 blocking findings; its F17 survivor is covered by the ADV3-6 test, and fa-1 shows the concurrency test passing."
+    },
+    {
+      "reviewer_role": "phase-acceptance",
+      "reviewer_route": "unknown",
+      "agreed": true,
+      "score": 5,
+      "evidence": "phase-acceptance-p2-a267b7b8.json gives pass at a267b7b8; my re-run gives the same 19 files and 396 tests on GREEN_TEST_COMMAND."
+    },
+    {
+      "reviewer_role": "phase-acceptance",
+      "reviewer_route": "unknown",
+      "agreed": true,
+      "score": 5,
+      "evidence": "phase-acceptance-p2-571d8779.json gives fail on D6 of quest-cover-f3f6; commit 1b468b5f moved that pin and the test passes in fa-1, so the fail was correct at its head."
+    }
+  ]
+}

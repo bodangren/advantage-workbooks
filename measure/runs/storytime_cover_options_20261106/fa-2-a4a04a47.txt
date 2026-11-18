@@ -1,0 +1,17 @@
+FINAL ACCEPTANCE GATE 2 of 4 - PROJECT_LINT - track storytime_cover_options_20261106
+audited HEAD a4a04a47e6e5f5489117cea4211b5d1801dd6a52
+host date 2026-11-18 20:5x ICT
+one heavy-run wrapper: HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400
+  bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'
+command: cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/quest-cover-*.test.ts
+capture note: verbatim; no Thai text is in this capture.
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1709:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+1 problem (0 errors, 1 warning)
+
+HEAVY_EXIT=0
+
+Verdict: PASS. 0 errors. The 1 warning is the known `no-unused-vars` row of the template test
+(plan: 1 warning at line 1691, then 1695, then 1704, then 1706, then 1709 as the file grew).

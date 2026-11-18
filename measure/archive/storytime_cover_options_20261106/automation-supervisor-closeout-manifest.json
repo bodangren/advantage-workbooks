@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "role": "measure-closeout",
+  "track": "storytime_cover_options_20261106",
+  "short_id": "storytime_cover_options",
+  "closed_at": "2026-11-18T21:30:00+0700",
+  "timezone": "Asia/Bangkok",
+  "model": "opencode-go/hy4-flash-free#high",
+  "model_deviation": "The closeout ran on the opencode-go route. The track ran on Claude, MiniMax, DeepSeek, Kimi, MiMo, GLM, StepFun, Muse and DeepSeek routes; each substitution is recorded in the plan and in the run artifacts. Final acceptance ran on opencode-go/deepseek-v4.1-flash and recorded its independence deviation.",
+  "pre_closeout_head_sha": "a4a04a47e6e5f5489117cea4211b5d1801dd6a52",
+  "final_acceptance": {
+    "result_file": "measure/runs/storytime_cover_options_20261106/final-acceptance-a4a04a47.json",
+    "log_file": "measure/runs/storytime_cover_options_20261106/final-acceptance-a4a04a47.log",
+    "status": "pass",
+    "audited_head_sha": "a4a04a47e6e5f5489117cea4211b5d1801dd6a52",
+    "route": "opencode-go/deepseek-v4.1-flash",
+    "blocking": 0,
+    "nonblocking": 5,
+    "audited_head_equals_pre_closeout_head": true,
+    "role_gate_exit_code": 0,
+    "gates_at_head": {
+      "GREEN_TEST_COMMAND": "exit 0 (fa-1-a4a04a47.txt)",
+      "PROJECT_LINT": "exit 0, 0 errors, 1 known warning (fa-2-a4a04a47.txt)",
+      "PROJECT_CHECKS": "exit 0, 0 failed checks, tsc clean (fa-3-a4a04a47.txt)",
+      "PROJECT_TESTS": "the audit recorded exit 1 with all failures in the open Red file of track storytime_l2_unit2_20261106 (fa-4-a4a04a47.txt); the orchestrator role gate ran the same command with --exclude of that file and exited 0"
+    }
+  },
+  "phase_acceptances": [
+    {
+      "phase": "Phase 1",
+      "result_file": "measure/runs/storytime_cover_options_20261106/phase-acceptance-p1-172cadc7.json",
+      "status": "pass",
+      "audited_head_sha": "172cadc7",
+      "role_base_sha": "3f638d98"
+    },
+    {
+      "phase": "Phase 2",
+      "result_file": "measure/runs/storytime_cover_options_20261106/phase-acceptance-p2-a267b7b8.json",
+      "status": "pass",
+      "audited_head_sha": "a267b7b8"
+    }
+  ],
+  "superseded_phase_acceptance": {
+    "result_file": "measure/runs/storytime_cover_options_20261106/phase-acceptance-p2-571d8779.json",
+    "status": "fail",
+    "reason": "D6 of quest-cover-f3f6; the pin-move commit 1b468b5f superseded it"
+  },
+  "record_edits": [
+    {
+      "id": "R1",
+      "finding": "F3 plan-truthfulness",
+      "action": "Added the commit SHA to the Phase 2 user manual verification task in the archived plan.",
+      "detail": "The task line now ends with 'commit a203608d'. Git evidence: a203608d1ba9229952deff87eb1ec20276b984da, subject 'measure(runs): the Phase 2 re-acceptance of the option A covers (storytime_cover_options)'; it resolves, is an ancestor of HEAD, and writes the passing re-acceptance result. The Phase 1 analog task uses the runs commit 50fadae. No SHA was invented."
+    },
+    {
+      "id": "R2",
+      "finding": "F4 registry-note",
+      "action": "Made the registry note and the metadata status_note true at the current HEAD.",
+      "detail": "Both now record Daniel's r6 book-cover approval of 2026-11-14 06:20 ICT (Approved, Google Tasks, PM relay) and the r6 release proof folder ~/Desktop/print-ready/storytime/proof-books-r6-v1. The archived registry note also records final acceptance PASS and the passing adversarial round 3."
+    },
+    {
+      "id": "R3",
+      "finding": "F5 deferred-finding",
+      "action": "Recorded Review C F1 as a tech-debt item for checkArtName.",
+      "detail": "The item names the hard-coded 'l2-' prefix of checkArtName in dashboard/lib/storytime/print/cover-quest.ts and the fix trigger (the first cover set of another level). It was merged into the existing cover-options row of measure/tech-debt.md, which holds 50 lines and keeps that cap."
+    },
+    {
+      "id": "R4",
+      "finding": "F1 AC-7, F2 AC-11, and the PROJECT_TESTS exclude",
+      "action": "Added an accepted-deviations note to the archived plan.",
+      "detail": "The note cites final-acceptance-a4a04a47.json. It records the AC-7 text gap as accepted, the absent 11-16 check copy (AC-11) as accepted, and the PROJECT_TESTS exclude of __tests__/storytime-unit2-sound-stage.test.ts, the open Red file of track storytime_l2_unit2_20261106. The note writes no test count."
+    },
+    {
+      "id": "R5",
+      "finding": "lessons learned",
+      "action": "Added one reusable lesson to measure/lessons-learned.md.",
+      "detail": "A shared test glob spans tracks: PROJECT_TESTS of a closing track fails on an open Red file of another track. Classify each failure by file and name the foreign file and track, or exclude it with a recorded reason. The lesson was merged into the consolidated entry to keep the file at its 50-line cap."
+    },
+    {
+      "id": "R6",
+      "finding": "old track path",
+      "action": "Updated stale old-path references in the archived track documents.",
+      "detail": "Path strings in the archived plan.md, spec.md and test-strategy.md now read measure/archive/storytime_cover_options_20261106/ instead of measure/tracks/storytime_cover_options_20261106/. The registry link in measure/tracks.md now points to the archive folder. The repository has no tests/ directory and no tests/*.sh file; no test referenced the old path, so A9 was not triggered and no test needed a fix."
+    }
+  ],
+  "archive": {
+    "from": "measure/tracks/storytime_cover_options_20261106",
+    "to": "measure/archive/storytime_cover_options_20261106",
+    "command": "git mv measure/tracks/storytime_cover_options_20261106 measure/archive/storytime_cover_options_20261106",
+    "metadata_status": "done",
+    "metadata_completed": "2026-11-18",
+    "registry_active_entry_removed": true,
+    "registry_archive_entry_added": true,
+    "registry_description_equals_metadata": true
+  },
+  "audits": {
+    "A5": "pass: the archived plan holds no false claim. The final acceptance checked the PASS and FAIL claims against their captures at a4a04a47. The deviations added at closeout cite the final-acceptance JSON and write no test count.",
+    "A6": "pass: the archived registry note states the true owner and adversarial state. Daniel approved the r6 book covers on 2026-11-14, the r6 proof folder exists, and adversarial round 3 passed with 0 blocking findings. The note names no resolved state that a test contradicts.",
+    "A9": "pass: the repository has no tests directory and no tests/*.sh file. No test hardcoded the old track path. The path strings inside the archived documents were updated to the archive path so their fast gates remain runnable."
+  },
+  "test_references_fixed": [],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline -20 -- measure/tracks/storytime_cover_options_20261106/plan.md; git blame -L 274,277 -- the plan; git cat-file -e and git merge-base --is-ancestor for each candidate SHA",
+    "python3 Thai-line scan of the track markdown files, measure/tracks.md, measure/tech-debt.md and measure/lessons-learned.md (first command of the role, 0 Thai printed)",
+    "python3 simulation of plan_closeout_feedback on the active plan (one feedback item: the Phase 2 manual verification task lacked a commit SHA)",
+    "edit of the archived plan: added commit a203608d to the task line, added the accepted-deviations note, and updated three path strings",
+    "edit of spec.md and test-strategy.md: updated the remaining old-path strings",
+    "edit of measure/tracks.md: removed the active entry and added the archive entry with the metadata description",
+    "edit of metadata.json: status done, completed 2026-11-18, updated status_note and updated_at",
+    "edit of measure/tech-debt.md and measure/lessons-learned.md: recorded the Review C F1 item and the cross-track test-glob lesson within the 50-line caps",
+    "git mv measure/tracks/storytime_cover_options_20261106 measure/archive/storytime_cover_options_20261106",
+    "python3 ~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py closeout --repo . --track storytime_cover_options_20261106",
+    "ADVANTAGE_REPO=/home/daniebo/Desktop/Workbooks bash ~/Desktop/advantage-pr/scripts/jobs/commit-paths \"measure(closeout): archive storytime_cover_options_20261106 after final acceptance PASS (a4a04a47)\" <paths>"
+  ],
+  "closeout_check": {
+    "command": "python3 ~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py closeout --repo . --track storytime_cover_options_20261106",
+    "capture": "measure/runs/storytime_cover_options_20261106/closeout-check.txt",
+    "exit_code": 0,
+    "note": "Run after the manifest write. Output: PASS: closeout checks passed."
+  },
+  "retained_evidence": "measure/runs/storytime_cover_options_20261106/ holds final-acceptance-a4a04a47.json and .log, fa-1-a4a04a47.txt through fa-4-a4a04a47.txt, the phase-acceptance results, the closeout log closeout-a4a04a47.log, the closeout check capture closeout-check.txt, and this manifest.",
+  "artifact_cleanup": "No run artifact was deleted. The orchestrator named no bulky artifact for deletion, so the final acceptance and closeout evidence stay. Untracked files of other tracks and the modified video/storytime-song/scripts/render.mjs and dashboard/raw.json were not touched.",
+  "notes": "No push. The closeout re-ran the deterministic closeout check at the archived state. No code, test, art or data path changed in this role; the edits touch measure/ files only."
+}

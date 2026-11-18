@@ -2,9 +2,6 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
-- [~] **Track: Storytime cover options in the RPG-theme style of the Primary and Reading Advantage covers: 3 options of stylized art and frame for the Level 2 Unit 1 student, teacher, and reader covers, for Daniel's pick; the series template after the pick.** *(Created: 2026-11-06; Reader covers approved 2026-11-13; book covers r6 fix round F10 (due 11-14 10:00); release keeps r2 until Daniel passes r6)*
-  *Link: [./tracks/storytime_cover_options_20261106/](./tracks/storytime_cover_options_20261106/)*
-
 - [ ] **Track: Storytime Advantage Level 2 Unit 2 (weeks 9 to 16): the week texts, the picture list for Forge, the Thai parts for Daniel's check, the unit scope change of the makers, the print build with the unit 1 makers, and the hand-offs; unit 1 first; print-ready 2026-12-08 (internal). Series plan: `measure/storytime-series-plan.md`.** *(Created: 2026-11-06)*
   *Link: [./tracks/storytime_l2_unit2_20261106/](./tracks/storytime_l2_unit2_20261106/)*
 
@@ -199,6 +196,11 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [x] **Track: The Storytime write-in workbook cover system: the shared cover module, the data of the 16 student books, the three mock covers on Google Drive for Daniel's check, and the Level 2 Unit 1 cover print file.** *(Completed: 2026-11-02)*
   *Link: [./archive/storytime_covers_20261027/](./archive/storytime_covers_20261027/)*
   *Note: Phase 3 (the covers of the other 13 books) is one deferred task, `deferred:daniel`, after release 1.*
+
+- [x] **Track: Storytime cover options in the RPG-theme style of the Primary and Reading Advantage covers: 3 options of stylized art and frame for the Level 2 Unit 1 student, teacher, and reader covers, for Daniel's pick; the series template after the pick.** *(Completed: 2026-11-18)*
+  *Link: [./archive/storytime_cover_options_20261106/](./archive/storytime_cover_options_20261106/)*
+  *Storytime Advantage covers in the RPG-theme style of the Primary Advantage and Reading Advantage covers. Phase 1: 3 options as print-size mockups; Daniel picked option A, Storybook Quest (2026-11-07). Phase 2: the option A series cover template in the cover code and the final Level 2 Unit 1 covers (student front and back, teacher front and back, 14 A3 reader covers, 14 leaf covers).*
+  *Note: Daniel approved the reader covers on 2026-11-13 and the r6 book covers on 2026-11-14 at 06:20 ICT ("Approved", Google Tasks, PM relay). The r6 release proof folder `~/Desktop/print-ready/storytime/proof-books-r6-v1` holds them. Final acceptance PASS at a4a04a47 on 2026-11-18. The adversarial round 3 passed with 0 blocking findings. Accepted deviations: the AC-7 text gap, the absent 11-16 check copy (AC-11), and the PROJECT_TESTS exclude of the open Red file of track storytime_l2_unit2_20261106; none changes a shipped cover.*
 
 - [x] **Track: Storytime teaching loops: five teaching routines in the Level 2 week scripts (oral blend drill, correct-practise-retest loop, fast-way sight words, read-along question set, daily recall of 5), with checks, the Thai teacher book print, and the content of w01 to w08; Daniel's check by 2026-11-16, print order 2026-11-25.** *(Completed: 2026-11-16)*
   *Link: [./archive/storytime_teaching_loops_20261103/](./archive/storytime_teaching_loops_20261103/)*

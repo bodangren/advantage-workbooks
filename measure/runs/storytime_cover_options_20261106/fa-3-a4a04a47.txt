@@ -1,0 +1,30 @@
+FINAL ACCEPTANCE GATE 3 of 4 - PROJECT_CHECKS - track storytime_cover_options_20261106
+audited HEAD a4a04a47e6e5f5489117cea4211b5d1801dd6a52
+host date 2026-11-18 about 21:00 ICT
+one heavy-run wrapper: HEAVY_PRIORITY=p2 HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400
+  bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'
+command: cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit
+capture note: the 8 package summaries and the exact summary line; the per-row PASS lines are omitted
+because the row set is long and the binding facts are the FAIL count and the WARN count.
+no Thai text is in this capture.
+
+Packages read: st2/1 Hello!, st2/2 How Many?, st2/3 Paint!, st2/4 My Family, st2/5 I Have Two,
+st2/6 I Can See, st2/7 Is It a Ball?, st2/8 Unit 1 Review.
+
+The only WARN row:
+  st2/8 Unit 1 Review
+  WARN    print-missing   The print block of the week — no print block
+
+Summary line (verbatim):
+  Summary: 8 package(s), 0 failed check(s), 1 warning(s).
+
+`npx tsc --noEmit` printed no line.
+
+HEAVY_EXIT=0
+
+Verdict: PASS. 0 failed checks. The 1 warning is the `print-missing` row of the unit review week.
+A5 check: the plan claims "305 PASS, 9 WARN, 0 FAIL" (Green 1) and "335 PASS rows, 0 FAIL rows"
+(F10). The binding claim, 0 FAIL rows, holds at this HEAD. The PASS and WARN counts are not equal
+to those snapshots. The cause is later work of other tracks (week files and checks changed after
+2026-11-13). The plan names each count as measured at its own head. No plan sentence claims this
+HEAD gives 9 warnings.
