@@ -1,0 +1,370 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/plan-dedup.test.ts [2m([22m[2m36 tests[22m[2m | [22m[31m36 failed[39m[2m)[22m[32m 93[2mms[22m[39m
+[31m     [31m×[31m parses --levels as a comma-separated level list[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m parses --targets as one target for each listed level[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m fills printedIds from a given --printed file[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m keeps printedIds empty when --printed is omitted with another level list[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m resolves given --out-json and --out-md paths against the working directory[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns the default levels, targets, printed ids, and output paths[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns the two committed files byte for byte[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m keeps 179 groups with at least one merged group[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m writes exactly the two default files with the committed bytes[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m keeps the defaults when only the output paths are given[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m keeps the default printed file when the levels 1-4 options are written out[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m exits 0, writes only the given paths, and prints the pure log lines[39m[32m 35[2mms[22m[39m
+[31m     [31m×[31m writes the exact heading, intro, table header, and level lines[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m keeps the best article of the merged pair and leaves the rest alone[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns the repo-relative form inside the repository[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns only the file name outside the repository[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m holds no absolute path in either output file[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m keeps every online article with no merge[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m keeps 0 online articles and writes no group of it[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m names the inventory file in the source string and the intro, never undefined[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m returns ok false with a message and usage: unknown option[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m prints the message, then the usage, to stderr and exits 2: unknown option[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns ok false with a message and usage: missing option value[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m prints the message, then the usage, to stderr and exits 2: missing option value[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns ok false with a message and usage: level that is not a number[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m prints the message, then the usage, to stderr and exits 2: level that is not a number[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns ok false with a message and usage: targets without levels[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m prints the message, then the usage, to stderr and exits 2: targets without levels[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns ok false with a message and usage: target for a level outside levels[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m prints the message, then the usage, to stderr and exits 2: target for a level outside levels[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns ok false with a message and usage: listed level without a target[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m prints the message, then the usage, to stderr and exits 2: listed level without a target[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns ok false with a message and usage: levels without targets[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m prints the message, then the usage, to stderr and exits 2: levels without targets[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m names a missing printed file and exits 2[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m prints no usage and sets no exit code[39m[32m 12[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 36 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mnew options and defaults[2m > [22mparses --levels as a comma-separated level list
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m167:24[22m[39m
+    [90m165| [39m  [34mit[39m([32m'parses --levels as a comma-separated level list'[39m[33m,[39m () [33m=>[39m {
+    [90m166| [39m    [35mconst[39m dir [33m=[39m [34mmakeTmp[39m()[33m;[39m
+    [90m167| [39m    [35mconst[39m parsed [33m=[39m mod[33m.[39m[34mparseDedupArgs[39m([
+    [90m   | [39m                       [31m^[39m
+    [90m168| [39m      [32m'--inventory'[39m[33m,[39m
+    [90m169| [39m      path[33m.[39m[34mjoin[39m(dir[33m,[39m [32m'inv.json'[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mnew options and defaults[2m > [22mparses --targets as one target for each listed level
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m181:24[22m[39m
+    [90m179| [39m  [34mit[39m([32m'parses --targets as one target for each listed level'[39m[33m,[39m () [33m=>[39m {
+    [90m180| [39m    [35mconst[39m dir [33m=[39m [34mmakeTmp[39m()[33m;[39m
+    [90m181| [39m    [35mconst[39m parsed [33m=[39m mod[33m.[39m[34mparseDedupArgs[39m([
+    [90m   | [39m                       [31m^[39m
+    [90m182| [39m      [32m'--inventory'[39m[33m,[39m
+    [90m183| [39m      path[33m.[39m[34mjoin[39m(dir[33m,[39m [32m'inv.json'[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mnew options and defaults[2m > [22mfills printedIds from a given --printed file
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m197:24[22m[39m
+    [90m195| [39m    [35mconst[39m printedPath [33m=[39m path[33m.[39m[34mjoin[39m(dir[33m,[39m [32m'printed.json'[39m)[33m;[39m
+    [90m196| [39m    fs.writeFileSync(printedPath, JSON.stringify({ articles: [{ id: 'x…
+    [90m197| [39m    [35mconst[39m parsed [33m=[39m mod[33m.[39m[34mparseDedupArgs[39m([
+    [90m   | [39m                       [31m^[39m
+    [90m198| [39m      [32m'--inventory'[39m[33m,[39m
+    [90m199| [39m      path[33m.[39m[34mjoin[39m(dir[33m,[39m [32m'inv.json'[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mnew options and defaults[2m > [22mkeeps printedIds empty when --printed is omitted with another level list
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m213:24[22m[39m
+    [90m211| [39m  it('keeps printedIds empty when --printed is omitted with another le…
+    [90m212| [39m    [35mconst[39m dir [33m=[39m [34mmakeTmp[39m()[33m;[39m
+    [90m213| [39m    [35mconst[39m parsed [33m=[39m mod[33m.[39m[34mparseDedupArgs[39m([
+    [90m   | [39m                       [31m^[39m
+    [90m214| [39m      [32m'--inventory'[39m[33m,[39m
+    [90m215| [39m      path[33m.[39m[34mjoin[39m(dir[33m,[39m [32m'inv.json'[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mnew options and defaults[2m > [22mresolves given --out-json and --out-md paths against the working directory
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m226:24[22m[39m
+    [90m224| [39m
+    [90m225| [39m  it('resolves given --out-json and --out-md paths against the working…
+    [90m226| [39m    [35mconst[39m parsed [33m=[39m mod[33m.[39m[34mparseDedupArgs[39m([
+    [90m   | [39m                       [31m^[39m
+    [90m227| [39m      [32m'--inventory'[39m[33m,[39m
+    [90m228| [39m      [32m'inv.json'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mnew options and defaults[2m > [22mreturns the default levels, targets, printed ids, and output paths
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m245:24[22m[39m
+    [90m243| [39m
+    [90m244| [39m  it('returns the default levels, targets, printed ids, and output pat…
+    [90m245| [39m    const parsed = mod.parseDedupArgs(['--inventory', path.join(makeTm…
+    [90m   | [39m                       [31m^[39m
+    [90m246| [39m    if (!parsed.ok) throw new Error(`parse failed: ${(parsed as ParseF…
+    [90m247| [39m    [35mconst[39m ok [33m=[39m parsed [35mas[39m [33mParseOk[39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mdefault run, byte-identical[2m > [22mreturns the two committed files byte for byte
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m defaultOptions __tests__/plan-dedup.test.ts:[2m89:22[22m[39m
+    [90m 87| [39m
+    [90m 88| [39m[35mfunction[39m [34mdefaultOptions[39m(inventoryPath[33m:[39m string)[33m:[39m [33mDedupOptions[39m {
+    [90m 89| [39m  [35mconst[39m parsed [33m=[39m mod[33m.[39m[34mparseDedupArgs[39m([[32m'--inventory'[39m[33m,[39m inventoryPath])[33m;[39m
+    [90m   | [39m                     [31m^[39m
+    [90m 90| [39m  if (!parsed.ok) throw new Error(`default parse failed: ${(parsed as …
+    [90m 91| [39m  [35mreturn[39m (parsed [35mas[39m [33mParseOk[39m)[33m.[39moptions[33m;[39m
+[90m [2m❯[22m __tests__/plan-dedup.test.ts:[2m271:44[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mdefault run, byte-identical[2m > [22mkeeps 179 groups with at least one merged group
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m defaultOptions __tests__/plan-dedup.test.ts:[2m89:22[22m[39m
+    [90m 87| [39m
+    [90m 88| [39m[35mfunction[39m [34mdefaultOptions[39m(inventoryPath[33m:[39m string)[33m:[39m [33mDedupOptions[39m {
+    [90m 89| [39m  [35mconst[39m parsed [33m=[39m mod[33m.[39m[34mparseDedupArgs[39m([[32m'--inventory'[39m[33m,[39m inventoryPath])[33m;[39m
+    [90m   | [39m                     [31m^[39m
+    [90m 90| [39m  if (!parsed.ok) throw new Error(`default parse failed: ${(parsed as …
+    [90m 91| [39m  [35mreturn[39m (parsed [35mas[39m [33mParseOk[39m)[33m.[39moptions[33m;[39m
+[90m [2m❯[22m __tests__/plan-dedup.test.ts:[2m281:44[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mdefault write[2m > [22mwrites exactly the two default files with the committed bytes
+[31m[1mTypeError[22m: mod.main is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m299:18[22m[39m
+    [90m297| [39m    [35mlet[39m code [33m=[39m [34m2[39m[33m;[39m
+    [90m298| [39m    [35mtry[39m {
+    [90m299| [39m      code [33m=[39m mod[33m.[39m[34mmain[39m([[32m'--inventory'[39m[33m,[39m inventoryPath])[33m;[39m
+    [90m   | [39m                 [31m^[39m
+    [90m300| [39m    } [35mfinally[39m {
+    [90m301| [39m      log[33m.[39m[34mmockRestore[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mmixed options[2m > [22mkeeps the defaults when only the output paths are given
+[31m[1mTypeError[22m: mod.main is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m325:18[22m[39m
+    [90m323| [39m    [35mlet[39m code [33m=[39m [34m2[39m[33m;[39m
+    [90m324| [39m    [35mtry[39m {
+    [90m325| [39m      code = mod.main(['--inventory', inventoryPath, '--out-json', out…
+    [90m   | [39m                 [31m^[39m
+    [90m326| [39m    } [35mfinally[39m {
+    [90m327| [39m      log[33m.[39m[34mmockRestore[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mmixed options[2m > [22mkeeps the default printed file when the levels 1-4 options are written out
+[31m[1mTypeError[22m: mod.main is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m345:18[22m[39m
+    [90m343| [39m    [35mlet[39m code [33m=[39m [34m2[39m[33m;[39m
+    [90m344| [39m    [35mtry[39m {
+    [90m345| [39m      code [33m=[39m mod[33m.[39m[34mmain[39m([
+    [90m   | [39m                 [31m^[39m
+    [90m346| [39m        [32m'--inventory'[39m[33m,[39m
+    [90m347| [39m        inventoryPath[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mlevels 5-9 run on a small fixture[2m > [22mexits 0, writes only the given paths, and prints the pure log lines
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m409:50[22m[39m
+    [90m407| [39m      outMd[33m,[39m
+    [90m408| [39m    ][33m;[39m
+    [90m409| [39m    const expected = mod.planDedup(fixture, (mod.parseDedupArgs(argv) …
+    [90m   | [39m                                                 [31m^[39m
+    [90m410| [39m    [35mconst[39m printed[33m:[39m string[] [33m=[39m [][33m;[39m
+    [90m411| [39m    const logSpy = vi.spyOn(console, 'log').mockImplementation((...arg…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mlevels 5-9 run on a small fixture[2m > [22mwrites the exact heading, intro, table header, and level lines
+[31m[1mTypeError[22m: mod.main is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m440:13[22m[39m
+    [90m438| [39m    [35mtry[39m {
+    [90m439| [39m      [34mexpect[39m(
+    [90m440| [39m        mod[33m.[39m[34mmain[39m([
+    [90m   | [39m            [31m^[39m
+    [90m441| [39m          [32m'--inventory'[39m[33m,[39m
+    [90m442| [39m          inventoryPath[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mlevels 5-9 run on a small fixture[2m > [22mkeeps the best article of the merged pair and leaves the rest alone
+[31m[1mTypeError[22m: mod.main is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m494:13[22m[39m
+    [90m492| [39m    [35mtry[39m {
+    [90m493| [39m      [34mexpect[39m(
+    [90m494| [39m        mod[33m.[39m[34mmain[39m([
+    [90m   | [39m            [31m^[39m
+    [90m495| [39m          [32m'--inventory'[39m[33m,[39m
+    [90m496| [39m          inventoryPath[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mdisplay form[2m > [22mreturns the repo-relative form inside the repository
+[31m[1mTypeError[22m: mod.displayPath is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m527:16[22m[39m
+    [90m525| [39m[34mdescribe[39m([32m'display form'[39m[33m,[39m () [33m=>[39m {
+    [90m526| [39m  [34mit[39m([32m'returns the repo-relative form inside the repository'[39m[33m,[39m () [33m=>[39m {
+    [90m527| [39m    expect(mod.displayPath(path.join(REPO_ROOT, 'docs/content-plans/da…
+    [90m   | [39m               [31m^[39m
+    [90m528| [39m      [32m'docs/content-plans/data/tmp-dupes.json'[39m[33m,[39m
+    [90m529| [39m    )[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mdisplay form[2m > [22mreturns only the file name outside the repository
+[31m[1mTypeError[22m: mod.displayPath is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m534:16[22m[39m
+    [90m532| [39m  [34mit[39m([32m'returns only the file name outside the repository'[39m[33m,[39m () [33m=>[39m {
+    [90m533| [39m    [35mconst[39m outside [33m=[39m path[33m.[39m[34mjoin[39m([34mmakeTmp[39m()[33m,[39m [32m'dupes-5-9.json'[39m)[33m;[39m
+    [90m534| [39m    [34mexpect[39m(mod[33m.[39m[34mdisplayPath[39m(outside))[33m.[39m[34mtoBe[39m([32m'dupes-5-9.json'[39m)[33m;[39m
+    [90m   | [39m               [31m^[39m
+    [90m535| [39m  })[33m;[39m
+    [90m536| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mdisplay form[2m > [22mholds no absolute path in either output file
+[31m[1mTypeError[22m: mod.main is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m549:13[22m[39m
+    [90m547| [39m    [35mtry[39m {
+    [90m548| [39m      [34mexpect[39m(
+    [90m549| [39m        mod[33m.[39m[34mmain[39m([
+    [90m   | [39m            [31m^[39m
+    [90m550| [39m          [32m'--inventory'[39m[33m,[39m
+    [90m551| [39m          inventoryPath[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22ma level below its target[2m > [22mkeeps every online article with no merge
+[31m[1mTypeError[22m: mod.main is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m590:13[22m[39m
+    [90m588| [39m    [35mtry[39m {
+    [90m589| [39m      [34mexpect[39m(
+    [90m590| [39m        mod.main(['--inventory', inventoryPath, '--levels', '6', '--ta…
+    [90m   | [39m            [31m^[39m
+    [90m591| [39m      )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m592| [39m    } [35mfinally[39m {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22ma level at or above its target[2m > [22mkeeps 0 online articles and writes no group of it
+[31m[1mTypeError[22m: mod.main is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m626:13[22m[39m
+    [90m624| [39m    [35mtry[39m {
+    [90m625| [39m      [34mexpect[39m(
+    [90m626| [39m        mod[33m.[39m[34mmain[39m([
+    [90m   | [39m            [31m^[39m
+    [90m627| [39m          [32m'--inventory'[39m[33m,[39m
+    [90m628| [39m          inventoryPath[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22man inventory without readAt[2m > [22mnames the inventory file in the source string and the intro, never undefined
+[31m[1mTypeError[22m: mod.main is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m668:13[22m[39m
+    [90m666| [39m    [35mtry[39m {
+    [90m667| [39m      [34mexpect[39m(
+    [90m668| [39m        mod.main(['--inventory', inventoryPath, '--levels', '5', '--ta…
+    [90m   | [39m            [31m^[39m
+    [90m669| [39m      )[33m.[39m[34mtoBe[39m([34m0[39m)[33m;[39m
+    [90m670| [39m    } [35mfinally[39m {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mreturns ok false with a message and usage: unknown option
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mreturns ok false with a message and usage: missing option value
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mreturns ok false with a message and usage: level that is not a number
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mreturns ok false with a message and usage: targets without levels
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mreturns ok false with a message and usage: target for a level outside levels
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mreturns ok false with a message and usage: listed level without a target
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mreturns ok false with a message and usage: levels without targets
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m711:26[22m[39m
+    [90m709| [39m  [35mfor[39m ([35mconst[39m { name[33m,[39m argv } [35mof[39m cases) {
+    [90m710| [39m    [34mit[39m([32m`returns ok false with a message and usage: [39m[36m${[39mname[36m}[39m[32m`[39m[33m,[39m () [33m=>[39m {
+    [90m711| [39m      [35mconst[39m parsed [33m=[39m mod[33m.[39m[34mparseDedupArgs[39m([34margv[39m([34mmakeTmp[39m()))[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m712| [39m      [34mexpect[39m((parsed [35mas[39m [33mParseFail[39m)[33m.[39mok)[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+    [90m713| [39m      [35mconst[39m fail [33m=[39m parsed [35mas[39m [33mParseFail[39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mprints the message, then the usage, to stderr and exits 2: unknown option
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mprints the message, then the usage, to stderr and exits 2: missing option value
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mprints the message, then the usage, to stderr and exits 2: level that is not a number
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mprints the message, then the usage, to stderr and exits 2: targets without levels
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mprints the message, then the usage, to stderr and exits 2: target for a level outside levels
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mprints the message, then the usage, to stderr and exits 2: listed level without a target
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mprints the message, then the usage, to stderr and exits 2: levels without targets
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m721:26[22m[39m
+    [90m719| [39m
+    [90m720| [39m    it(`prints the message, then the usage, to stderr and exits 2: ${n…
+    [90m721| [39m      [35mconst[39m parsed [33m=[39m mod[33m.[39m[34mparseDedupArgs[39m([34margv[39m([34mmakeTmp[39m()))[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m722| [39m      [35mconst[39m fail [33m=[39m parsed [35mas[39m [33mParseFail[39m[33m;[39m
+    [90m723| [39m      const errSpy = vi.spyOn(console, 'error').mockImplementation(() …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mnames a missing printed file and exits 2
+[31m[1mTypeError[22m: mod.parseDedupArgs is not a function[39m
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m743:24[22m[39m
+    [90m741| [39m    [35mconst[39m dir [33m=[39m [34mmakeTmp[39m()[33m;[39m
+    [90m742| [39m    [35mconst[39m missing [33m=[39m path[33m.[39m[34mjoin[39m(dir[33m,[39m [32m'no-such-printed.json'[39m)[33m;[39m
+    [90m743| [39m    const parsed = mod.parseDedupArgs(['--inventory', path.join(dir, '…
+    [90m   | [39m                       [31m^[39m
+    [90m744| [39m    [34mexpect[39m((parsed [35mas[39m [33mParseFail[39m)[33m.[39mok)[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+    [90m745| [39m    expect((parsed as ParseFail).message).toBe(`printed file not found…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/36]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mclean import[2m > [22mprints no usage and sets no exit code
+[31m[1mAssertionError[22m: expected 'Groups similar old online articles pe…' not to contain 'Usage'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Usage[39m
+[31m+ Groups similar old online articles per level and keeps the best one of each group[39m
+[31m+ (track level_banks_20261002).[39m
+[31m+[39m
+[31m+ Usage: npx tsx scripts/plan-dedup.ts --inventory <inventory.json>[39m
+[31m+[39m
+[31m+ <inventory.json> is the output of scripts/inventory-legacy.ts --out (with the passages).[39m
+[31m+ Daniel (2026-10-02): "Keep information about all duplicates, but delete all but the best and[39m
+[31m+ rebuild that. ... The levels with two books need about 100 and the levels with one book need[39m
+[31m+ about 50." Level 3 has two books (Origins 3.1 and 3.2); levels 1, 2, and 4 have one.[39m
+[31m+[39m
+[31m+ Writes docs/content-plans/data/duplicates-levels-1-4.json (every group: the kept article and the[39m
+[31m+ articles to delete, with their title, summary, passage, and use counts) and[39m
+[31m+ docs/content-plans/level-plans/duplicates.md (the readable list).[39m
+
+[36m [2m❯[22m __tests__/plan-dedup.test.ts:[2m776:25[22m[39m
+    [90m774| [39m      logSpy[33m.[39m[34mmockRestore[39m()[33m;[39m
+    [90m775| [39m      errSpy[33m.[39m[34mmockRestore[39m()[33m;[39m
+    [90m776| [39m      [34mexpect[39m(calls)[33m.[39mnot[33m.[39m[34mtoContain[39m([32m'Usage'[39m)[33m;[39m
+    [90m   | [39m                        [31m^[39m
+    [90m777| [39m      [34mexpect[39m(exitAfter)[33m.[39m[34mtoBe[39m(savedExit)[33m;[39m
+    [90m778| [39m    }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/36]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m36 failed[39m[22m[90m (36)[39m
+[2m   Start at [22m 05:15:30
+[2m   Duration [22m 473ms[2m (transform 101ms, setup 43ms, import 157ms, tests 93ms, environment 0ms)[22m
+

@@ -1,0 +1,52 @@
+# Red result: Task 1.G1, levels_5_9_20261006
+
+Date: 2026-11-19. Role: measure-mid Red.
+
+## Gate evidence
+
+- `RED_TEST_COMMAND` (`cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts`): exit 1.
+- Result: 36 tests, 0 passed, 36 failed. All failures come from missing exports.
+- `npx eslint __tests__/plan-dedup.test.ts`: exit 0.
+- Capture: `measure/runs/levels_5_9_20261006/red-g1-afbfcf0e.txt`.
+- `git status --porcelain docs/`: empty.
+
+## Failure classes (all expected)
+
+- 35 tests: `TypeError` (`parseDedupArgs`, `planDedup`, `main`, or `displayPath` is not a function).
+- 1 test (clean import): the module prints usage text at import time.
+
+## Literal readings used
+
+- The missing `--printed` message uses the given path. The test passes an absolute path, so the typed and resolved forms match.
+- `displayPath` of a temp out-json path is its file name. The intro names that form.
+- The level 5 fixture shares one invented passage between two articles. Their similarity is 1.00, so the pair merges first under any correct cosine.
+- The porcelain check compares output before and after the run. The repo holds unrelated dirty files, so full emptiness is not attainable.
+
+```MEASURE_AGENT_RESULT
+status: complete
+baseline_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+role: measure-mid Red
+role_base_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+track: levels_5_9_20261006
+phase: Phase 1: Decisions, inventory, tools, calibration
+task: 1.G1 (Red)
+head: TBD at commit
+commits: [TBD Red commit]
+tests:
+  red_command: cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts
+  red_exit: 1
+  red_passed: 0
+  red_failed: 36
+  eslint_exit: 0
+  capture: measure/runs/levels_5_9_20261006/red-g1-afbfcf0e.txt
+files:
+  - dashboard/__tests__/plan-dedup.test.ts
+  - measure/tracks/levels_5_9_20261006/plan.md
+  - measure/runs/levels_5_9_20261006/red-g1-afbfcf0e.txt
+  - measure/runs/levels_5_9_20261006/red-g1-afbfcf0e.log
+remaining_failures:
+  - all 36 tests in dashboard/__tests__/plan-dedup.test.ts (missing parseDedupArgs, planDedup, displayPath, main exports and CLI options; Green Task 1.G2 implements them)
+handoff:
+  question: May the committed levels 5-9 JSON carry passage text from the private inventory into this public repository, as the levels 1-4 file does?
+  default: Yes, allow it, and require the PM to confirm the level 5-9 passages are approved public content before Task 1.G3 commits.
+```
