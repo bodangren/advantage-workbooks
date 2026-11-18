@@ -27,3 +27,34 @@ Today `dashboard/scripts/plan-dedup.ts` reads one inventory file and the fixed p
 - F8 [Nit] Task 1.G1, heading test: the targets line is given as 'for example `Targets: level 5 = 50, ...`' and the last paragraph only 'names the given out-json path'. Rationale: the exact strings that the test asserts are the Red's choice.
 - F9 [Nit] Task 1.G1 and Task 1.G2: the cited file `set-book-pictures.ts` line 170 is `dashboard/scripts/storytime/set-book-pictures.ts`. Rationale: a reader searches the wrong folder for the guard form.
 - F10 [Nit] Task 1.G2 and Task 1.G3: the JSON `source` string on an inventory with no `readAt` reads 'inventory of undefined' (plan-dedup.ts line 115), and no test asserts it. Rationale: the committed artifact that Daniel reads would hold a broken sentence.
+
+## Round 2
+
+Date: 2026-11-19
+Reviewer: spec-review subagent, opencode-go/deepseek-v4.1-flash
+
+### What this track proposes
+
+This track delivers 550 packages for levels 5-9: 154 workbook lessons and 396 bank articles for the 11 books, with media, tags, and coverage reports. Commit c01f7789 amends the grouping tasks 1.G1 to 1.G5: it extends `dashboard/scripts/plan-dedup.ts` with level, target, printed, and output options, it fixes the path rule and the error cases, and it keeps the levels 1-4 output byte-identical. Task 1.G3 makes a provisional grouping of the old level 5-9 articles from a passages inventory, after the PM's go, with the targets 50, 100, 100, 150, and 150 as a provisional default. The output has no delete column, and Daniel decides for each kept old article between rebuild and delete. No deletion runs before Phase 7.
+
+### How the current system works, per this spec
+
+Today `dashboard/scripts/plan-dedup.ts` reads one inventory file and the fixed printed file `docs/content-plans/data/legacy-levels-1-4-2026-10-02.json`. It groups the online articles of each level by the cosine of a word bag (title 3, summary 2, passage 1) with average-link clustering, down to the level target minus the printed count. It keeps the best article of each group by student use, then approval, then date. It writes two fixed files under `docs/content-plans/` and resolves both against `REPO_ROOT`. The module runs `main` at import, so an import prints the usage text.
+
+### Findings
+
+- F1 CLOSED: plan.md line 34 gives the path rule for every given path and for the defaults, line 38 tests the 2 default write paths, and line 49 runs 1.G3 from `dashboard/`.
+- F2 CLOSED: spec.md line 57 makes the keep count provisional, names Daniel's per-article choice, and states the passages-only input; plan.md line 49 states the provisional output with no delete column.
+- F3 CLOSED: plan.md line 22 runs the whole dashboard suite with the unit 2 Red file excluded, and line 27 states the coverage of the new test and `similarity.ts`.
+- F4 CLOSED: plan.md line 49 names the passages inventory as the only input, the PM's go, and the metadata file as not an input.
+- F5 CLOSED: plan.md line 47 removes the mutant clause from Red; line 48 places it in Green.
+- F6 CLOSED: plan.md line 35 defines the printed file in all cases, line 39 names the mixed-option tests, and line 45 names the missing file.
+- F7 CLOSED: plan.md line 43 gives the test, and line 48 gives the rule, for a level whose printed count is at or above its target.
+- F8 CLOSED: plan.md line 41 fixes the heading, the 3 intro paragraphs, the table header, and the level line.
+- F9 CLOSED: plan.md lines 46 and 48 give `dashboard/scripts/storytime/set-book-pictures.ts` line 170.
+- F10 CLOSED: plan.md line 44 gives the no-`readAt` test, and line 48 gives the rule.
+- F11 [Blocker] plan.md Task 1.G1 exact output strings (line 41), Task 1.G2 (line 48), and the path rule (line 34): the levels 5-9 intro says the passages stay in `<the given out-json path>`, but the path rule resolves every given path, `DedupOptions.outJson` is `string`, and the plan never says whether that field holds the typed string or the resolved path; with the resolved path, the 1.G3 run prints `/home/<user>/Desktop/Workbooks/docs/content-plans/data/duplicates-levels-5-9.json` into the committed `duplicates-levels-5-9.md`, and the exact-string test cannot tell, because it passes an absolute temporary path. Rationale: the implementer must choose between the typed string and the resolved path, and the wrong choice writes a machine path into a public document.
+- F12 [Nit] plan.md line 36: the default-parse bullet says the call "returns [...] the default printed file", while the interface holds `printedIds: ReadonlySet<string>` and line 35 says the parse fills the ids. Rationale: the test author must read one sentence through the other.
+- F13 [Nit] plan.md line 45 and line 48: G1 groups a missing `--printed` file with the cases that "print the usage text and exit 2", and G2 says that case "prints an error message that names the file"; the failure type `{ ok: false; usage: string }` has no field for the message. Rationale: the text that reaches stderr is open, and the test can assert either form.
+- F14 [Nit] spec.md line 57: "Each level total includes the 550 new packages" and "keep = target - printed: level 5 keeps 50 of 92" keep 50 old articles on top of the 50 new level 5 packages, and no sentence states the resulting level total. Rationale: the provisional label keeps the decision closed, but a reader can take either 50 or 100 as the level total.
+- F15 [Nit] plan.md line 49: the Done-when pins level 5 at 92 online and levels 6 to 9 at 88, 4, 38, and 49, and these numbers come from the 2026-10-08 copy, while 1.G3 reads the live legacy database at run time. Rationale: a drift in the database fails the gate without a code fault; name the expectations as the 2026-10-08 values and let the run record the current ones.

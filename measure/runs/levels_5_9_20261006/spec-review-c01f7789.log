@@ -1,0 +1,103 @@
+# Spec review round 2: levels_5_9_20261006, commit c01f7789
+
+Audited head: c01f778941259fa0ba599ddf62a9435dc308cbe3 (HEAD; author commit c01f7789, opencode-go/glm-5.3#high).
+Round 1 record: b03c6ec7 copied it into the track folder.
+Reviewer: spec-review subagent, opencode-go/deepseek-v4.1-flash. Date: 2026-11-19.
+
+## What the reviewer checked
+
+- `git rev-parse HEAD` equals audited_head_sha.
+- `git show c01f7789`: 18 added and 14 removed lines in `plan.md`, one line replaced in `spec.md`. The diff changes the gates, the G1 test list, G2, G3, and the spec's grouping-targets paragraph.
+- The orchestrator decisions of r2 are not reviewed for content. This record checks only that the plan states them: the provisional output with no delete column (plan line 49, plan line 41), the passages inventory as the only input of 1.G3 and its wait for the PM's go (plan line 49), the whole-suite PROJECT_TESTS with the unit 2 exclude (plan line 22), and the targets 5=50, 6=100, 7=100, 8=150, 9=150 as a provisional default (spec line 57, plan lines 35 and 40).
+- `--exclude` in vitest 4.0.18: the CLI option is documented in `node_modules/vitest/dist/chunks/cac.DVeoLl0M.js` line 1024 as "Additional file globs to be excluded from test", so the CLI value adds to the config value and the `e2e/**` exclude stays. The whole suite covers `__tests__/plan-dedup.test.ts`.
+- The changed G1 strings and rules against the current script: `plan-dedup.ts` line 92 computes `keepCount`, lines 55 to 67 cluster, lines 115 and 116 write the 2 files, line 120 runs `main` at import. The guard at `dashboard/scripts/storytime/set-book-pictures.ts` line 170 is the cited form.
+- The 1–4 fixture facts from round 1 still hold: 272 online articles in 179 groups, 28 printed articles (level 1: 0, 2: 26, 3: 2, 4: 0), no repeated id, no repeated `createdAt` inside a level.
+
+## Finding states
+
+| Id | State | Line and evidence |
+|---|---|---|
+| F1 | CLOSED | plan.md line 34: the path rule resolves every given path against the working directory and builds the defaults as absolute `REPO_ROOT` paths at parse time. plan.md line 38 tests the 2 default write paths. plan.md line 49 runs G3 from `dashboard/`. |
+| F2 | CLOSED | spec.md line 57: the keep count is provisional, Daniel decides for each kept article between rebuild and delete, the output shows no delete column, and the run takes passages only. plan.md line 49 states the provisional output. |
+| F3 | CLOSED | plan.md line 22 runs the whole dashboard suite with only the unit 2 Red file excluded; plan.md line 27 states that the suite covers the new test and `similarity.ts`. |
+| F4 | CLOSED | plan.md line 49: passages inventory only, made by `inventory-legacy.ts --out`, with the PM's go; the metadata file is named as not an input. |
+| F5 | CLOSED | plan.md line 47 removes the mutant clause from the Red Done-when; plan.md line 48 places it in Green. |
+| F6 | CLOSED | plan.md line 35 defines the printed file for the default list (written out or not) and for any other list; line 39 names the mixed-option tests; line 45 names the missing-file case. |
+| F7 | CLOSED | plan.md line 43 gives the printed at or above target case with `keepCount` 0, no cluster and no group; line 48 states the Green rule. |
+| F8 | CLOSED | plan.md line 41 fixes the heading, the 3 intro paragraphs, the table header, and the level line. |
+| F9 | CLOSED | plan.md lines 46 and 48 give `dashboard/scripts/storytime/set-book-pictures.ts` line 170. |
+| F10 | CLOSED | plan.md line 44 names the no-`readAt` test and the file-name rule; line 48 states the Green rule. |
+
+## New findings
+
+- F11 [Blocker] plan.md line 41, line 34, and Task 1.G2 line 48: the intro path.
+- F12 [Nit] plan.md line 36: the default parse "returns the default printed file" while the type holds `printedIds`.
+- F13 [Nit] plan.md line 45 and line 48: the missing `--printed` error text and the failure type.
+- F14 [Nit] spec.md line 57: the level total sentence.
+- F15 [Nit] plan.md line 49: the pinned counts come from the 2026-10-08 copy.
+
+## Zero-decision check on Tasks 1.G1 to 1.G5
+
+- schema: exact exports, interfaces, and return shapes; the failure type lacks a message field (F13).
+- API or CLI shape: the 5 options, their defaults, and the 9 error cases are exact; the missing-file error text is loose (F13).
+- dependency: none added; the script keeps `fs`, `path`, `REPO_ROOT`, and the similarity module.
+- edge-case behavior: fewer online than target, printed at or above target, no `readAt`, mixed options, bad values, and the clean import are all named with expected text.
+- file location: fixed by the path rule and the default-write test (F1 closed).
+- the intro path form is the one open choice (F11).
+
+## Round 2 record
+
+Append this text to `measure/tracks/levels_5_9_20261006/spec-review.md`.
+
+```markdown
+
+## Round 2
+
+Date: 2026-11-19
+Reviewer: spec-review subagent, opencode-go/deepseek-v4.1-flash
+
+### What this track proposes
+
+This track delivers 550 packages for levels 5-9: 154 workbook lessons and 396 bank articles for the 11 books, with media, tags, and coverage reports. Commit c01f7789 amends the grouping tasks 1.G1 to 1.G5: it extends `dashboard/scripts/plan-dedup.ts` with level, target, printed, and output options, it fixes the path rule and the error cases, and it keeps the levels 1-4 output byte-identical. Task 1.G3 makes a provisional grouping of the old level 5-9 articles from a passages inventory, after the PM's go, with the targets 50, 100, 100, 150, and 150 as a provisional default. The output has no delete column, and Daniel decides for each kept old article between rebuild and delete. No deletion runs before Phase 7.
+
+### How the current system works, per this spec
+
+Today `dashboard/scripts/plan-dedup.ts` reads one inventory file and the fixed printed file `docs/content-plans/data/legacy-levels-1-4-2026-10-02.json`. It groups the online articles of each level by the cosine of a word bag (title 3, summary 2, passage 1) with average-link clustering, down to the level target minus the printed count. It keeps the best article of each group by student use, then approval, then date. It writes two fixed files under `docs/content-plans/` and resolves both against `REPO_ROOT`. The module runs `main` at import, so an import prints the usage text.
+
+### Findings
+
+- F1 CLOSED: plan.md line 34 gives the path rule for every given path and for the defaults, line 38 tests the 2 default write paths, and line 49 runs 1.G3 from `dashboard/`.
+- F2 CLOSED: spec.md line 57 makes the keep count provisional, names Daniel's per-article choice, and states the passages-only input; plan.md line 49 states the provisional output with no delete column.
+- F3 CLOSED: plan.md line 22 runs the whole dashboard suite with the unit 2 Red file excluded, and line 27 states the coverage of the new test and `similarity.ts`.
+- F4 CLOSED: plan.md line 49 names the passages inventory as the only input, the PM's go, and the metadata file as not an input.
+- F5 CLOSED: plan.md line 47 removes the mutant clause from Red; line 48 places it in Green.
+- F6 CLOSED: plan.md line 35 defines the printed file in all cases, line 39 names the mixed-option tests, and line 45 names the missing file.
+- F7 CLOSED: plan.md line 43 gives the test, and line 48 gives the rule, for a level whose printed count is at or above its target.
+- F8 CLOSED: plan.md line 41 fixes the heading, the 3 intro paragraphs, the table header, and the level line.
+- F9 CLOSED: plan.md lines 46 and 48 give `dashboard/scripts/storytime/set-book-pictures.ts` line 170.
+- F10 CLOSED: plan.md line 44 gives the no-`readAt` test, and line 48 gives the rule.
+- F11 [Blocker] plan.md Task 1.G1 exact output strings (line 41), Task 1.G2 (line 48), and the path rule (line 34): the levels 5-9 intro says the passages stay in `<the given out-json path>`, but the path rule resolves every given path, `DedupOptions.outJson` is `string`, and the plan never says whether that field holds the typed string or the resolved path; with the resolved path, the 1.G3 run prints `/home/<user>/Desktop/Workbooks/docs/content-plans/data/duplicates-levels-5-9.json` into the committed `duplicates-levels-5-9.md`, and the exact-string test cannot tell, because it passes an absolute temporary path. Rationale: the implementer must choose between the typed string and the resolved path, and the wrong choice writes a machine path into a public document.
+- F12 [Nit] plan.md line 36: the default-parse bullet says the call "returns [...] the default printed file", while the interface holds `printedIds: ReadonlySet<string>` and line 35 says the parse fills the ids. Rationale: the test author must read one sentence through the other.
+- F13 [Nit] plan.md line 45 and line 48: G1 groups a missing `--printed` file with the cases that "print the usage text and exit 2", and G2 says that case "prints an error message that names the file"; the failure type `{ ok: false; usage: string }` has no field for the message. Rationale: the text that reaches stderr is open, and the test can assert either form.
+- F14 [Nit] spec.md line 57: "Each level total includes the 550 new packages" and "keep = target - printed: level 5 keeps 50 of 92" keep 50 old articles on top of the 50 new level 5 packages, and no sentence states the resulting level total. Rationale: the provisional label keeps the decision closed, but a reader can take either 50 or 100 as the level total.
+- F15 [Nit] plan.md line 49: the Done-when pins level 5 at 92 online and levels 6 to 9 at 88, 4, 38, and 49, and these numbers come from the 2026-10-08 copy, while 1.G3 reads the live legacy database at run time. Rationale: a drift in the database fails the gate without a code fault; name the expectations as the 2026-10-08 values and let the run record the current ones.
+```
+
+## Verdict
+
+The round 1 findings F1 to F10 are closed. One new Blocker (F11) and 4 new Nits remain. Red can start on no task until F11 is fixed, because F11 changes the strings that G1 asserts and the value that G2 passes to `planDedup`.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+phase: track setup
+track: levels_5_9_20261006
+audited_head_sha: c01f778941259fa0ba599ddf62a9435dc308cbe3
+status: complete
+result: fail
+blocking_findings: F11 [Blocker] plan.md line 41, line 34, and Task 1.G2 line 48: the levels 5-9 intro says the passages stay in `<the given out-json path>`, but the path rule resolves every given path and never says whether `options.outJson` holds the typed string or the resolved path; with the resolved path, the 1.G3 run prints an absolute home path into the committed `duplicates-levels-5-9.md`, and the exact-string test cannot tell, because it passes an absolute temporary path. Rationale: the implementer must choose between the typed string and the resolved path, and the wrong choice writes a machine path into a public document.
+nonblocking_findings: F12 [Nit] plan.md line 36: the bullet says the parse returns the default printed file while the type holds printedIds. Rationale: the test author reads one sentence through the other. F13 [Nit] plan.md line 45 and line 48: a missing --printed file prints the usage text in G1 and an error message in G2, and the failure type has no message field. Rationale: the stderr text is open. F14 [Nit] spec.md line 57: the level total sentence keeps 50 old articles on top of 50 new ones and never states the resulting total. Rationale: a reader can take 50 or 100. F15 [Nit] plan.md line 49: the Done-when pins counts from the 2026-10-08 copy while 1.G3 reads the live database. Rationale: a drift fails the gate without a code fault.
+retry_recommendation: escalate_human
+confidence: high
+dispositions: none
+handoff: F1 to F10 are closed. Append the 'Round 2 record' section of this log to measure/tracks/levels_5_9_20261006/spec-review.md. Route F11 to the plan author for FIX: say that the intro names the out-json path as typed on the command line, carry that string through the parse result (for example a new `outJsonArg` field or a second return value), and add a G1 test with a relative out path so the assertion separates the typed string from the resolved path. F12 to F15 are Nits; FIX them in the same edit. This record does not reopen the r2 orchestrator decisions; F14 and F15 ask only for a clearer statement. No question for Daniel.
+END_MEASURE_AGENT_RESULT
