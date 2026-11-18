@@ -1,6 +1,6 @@
 # Spec: Levels 5–9 workbook lessons and online banks
 
-Version 0.2 | Date 2026-10-06 | Status: Active | Owner: Daniel Bo | Internal
+Version 0.3 | Date 2026-11-19 | Status: Active | Owner: Daniel Bo | Internal
 
 ## Goal
 
@@ -53,6 +53,8 @@ The progression plan, with the tables, is `docs/content-plans/primary-levels-5-9
 ## Decisions
 
 Daniel (2026-10-06): "Approve all proposals, start Phase 1. Use four sonnet subagents at a time to work as quickly as possible." So D1–D7 in plan §11 are decisions: the 11 out-of-scope objectives; the text profiles of §5 (calibrated in Phase 1); the cast of §8; the levels 1–4 rule for old articles; one voice for each speaker in dialogue from Adventure 7 on; Quest 5 and 6 first, then Adventure in level order; Thai for each sentence (print shows Thai only in the glossary from Adventure 8 on).
+
+Grouping targets (2026-11-19, default of the orchestrator, waits for Daniel's word in the level review): the grouping run of `plan-dedup.ts` uses 50 articles per book, by the book list of `docs/content-plans/primary-levels-5-9-plan.md` §2. The book counts of that file: level 5 has 1 book (Quest 5), level 6 has 2 (Quest 6.1, Quest 6.2), level 7 has 2 (Adventure 7.1, 7.2), level 8 has 3 (Adventure 8.1, 8.2, 8.3), level 9 has 3 (Adventure 9.1, 9.2, 9.3). So the targets are 50, 100, 100, 150, 150. The 550 new packages already fill these book targets with new ids. So the run shows how many old online articles each level keeps under the rule: level 5 keeps 50 of 92; levels 6 to 9 keep all (88, 4, 38, 49, each below its target). Daniel decides in the level review whether a kept old article is rebuilt or deleted. No deletion happens in this track before Phase 7.
 
 ## Out of scope
 
