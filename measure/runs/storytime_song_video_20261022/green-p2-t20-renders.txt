@@ -461,3 +461,17 @@ frames-w04-classroom-40.jpg: the flat placeholder backdrop; the same bar and ins
 
 --- no content change ---
 content/storytime/l2/wNN.json: not touched in this pass (git status shows no change under content/).
+
+--- Forge art state on 2026-11-19 (what the render could use) ---
+advantage-forge/out/chibi-sprouts/r1 holds: week1, week2, week2-7, week3, week5, week6 (no week4, no week7).
+week2, week3, week5, week6 hold the song render tests under song/; the earlier pass took scene.mp4 from there.
+week2-7/gestures/manifest.json: cast is EMPTY, scenes is EMPTY, gestures holds 'adventurer' (17 keys) and 'pat' (25 keys).
+  that empty cast is the reason prepare --forge stops with 'The Forge set has no cut-out of <name>'.
+the week 1 set holds 20 tracked files with cast cut-outs sprout-pat, sprout-nan, sprout-mia, sprout-may, sprout-ben.
+  week 4 names Lily, and no set in r1 holds a cut-out of Lily.
+so the gesture inset keeps the placeholder sprite for weeks 2 to 7 until Forge writes the cast cut-outs.
+
+--- open items this pass did not touch ---
+content/storytime/l2/media/w02, w03, w05, w06/forge/ are untracked (28, 49, 20, 30 MB; scene.mp4 and scene.json).
+  w01/forge is tracked. The keeping of the new scene.mp4 copies is a closeout decision, so no commit here.
+measure/generate.sh does not exist, so commit-paths prints a WARN with exit code 127 on every commit (pre-existing).
