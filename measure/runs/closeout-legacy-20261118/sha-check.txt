@@ -1,0 +1,20 @@
+# sha-check: cited commit SHAs in the 6 archived legacy tracks (PM 2026-11-18)
+# batch: closeout-legacy-20261118; HEAD at the check: 5514c211
+# method: python3 scan of measure/archive/<t>/plan.md and measure/archive/<t>/metadata.json
+# rule: 7-40 hex chars, at least 1 letter and 1 digit, cited after commit/checkpoint:/sha, in backticks, or in parentheses
+# commands: git cat-file -e <sha>^{commit} ; git merge-base --is-ancestor <sha> master
+# 64-char hex values dropped (sha256 file hashes): 0
+# no plan, metadata or registry file was changed
+
+track=editorial_prereview_20261003 file=plan.md plan_line=9 sha=9c1a288 resolves=yes cat_file_exit=0 on_master=yes merge_base_exit=0 context=bracketed citation [9c1a288] for the Muse test fix
+track=editorial_prereview_20261003 file=plan.md plan_line=26 sha=de4a36e resolves=yes cat_file_exit=0 on_master=yes merge_base_exit=0 context='committed in de4a36e'
+track=origins2_test_package_20261008 file=plan.md plan_line=13 sha=f68a3aa resolves=yes cat_file_exit=0 on_master=yes merge_base_exit=0 context='Commit the chosen files (`f68a3aa`)'
+track=print_export_20261012 file=plan.md plan_line=14 sha=08bb160 resolves=yes cat_file_exit=0 on_master=yes merge_base_exit=0 context='Commit (`08bb160`)'
+
+TOTALS track=editorial_prereview_20261003 cited=2 resolves=2 on_master=2 unresolved=0 off_master=0 dropped_64=0
+TOTALS track=origins2_test_package_20261008 cited=1 resolves=1 on_master=1 unresolved=0 off_master=0 dropped_64=0
+TOTALS track=print_export_20261012 cited=1 resolves=1 on_master=1 unresolved=0 off_master=0 dropped_64=0
+TOTALS track=print_ready_pdf_20261002 cited=0 resolves=0 on_master=0 unresolved=0 off_master=0 dropped_64=0
+TOTALS track=review_page_20261001 cited=0 resolves=0 on_master=0 unresolved=0 off_master=0 dropped_64=0
+TOTALS track=text_profile_lint_20260930 cited=0 resolves=0 on_master=0 unresolved=0 off_master=0 dropped_64=0
+TOTALS all_tracks cited=4 resolves=4 on_master=4 dropped_64=0
