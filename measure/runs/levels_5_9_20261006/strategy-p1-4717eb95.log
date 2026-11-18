@@ -1,0 +1,66 @@
+MEASURE_AGENT_RESULT
+role: strategy
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1: Decisions, inventory, tools, calibration — Tasks 1.G1 to 1.G5
+role_base_sha: 4717eb95
+phase_base_sha: capture after the strategy commit; see capture_point
+date: 2026-11-19
+
+## What I read
+measure/workflow.md, measure/anti-patterns.md (A1/A8 retired; A2 to A10 active; no A11),
+measure/index.md, measure/tracks.md, the track plan.md (Rules, Gate commands, Tasks 1.G1 to 1.G5),
+track spec.md, track spec-review.md (round 3 passed), dashboard/scripts/plan-dedup.ts,
+dashboard/lib/lesson-package/similarity.ts, and the committed levels 1-4 outputs under
+docs/content-plans/ (the JSON holds 272 passage and 272 summary fields; no absolute path).
+
+## Gates assigned
+Review A correctness: applies, lead; one reviewer of a model family other than Red and Green.
+Review B security: applies, narrowly scoped, overrides the plan default. Local CLI with file
+  IO writes to a public repository. Scope: no absolute path in either output (F11), no private
+  passages inventory or metadata copy staged (git status --porcelain), and no private field
+  beyond the levels 1-4 precedent in the committed JSON.
+Review C UX/API: applies to the CLI contract only — flags, defaults, cwd resolution, exit codes,
+  stderr text, output locations, pure-versus-write behavior. No route or user flow.
+Adversarial testing: applies, one focused round on path resolution, displayPath, keepCount,
+  missing file, import side effect, no-readAt, and the negative count.
+UX browser review: not applicable — a Node CLI and two text files, with no page, route, DOM,
+  CSS, Paged.js render, or interactive flow.
+
+## Top risks
+1. Byte identity of the levels 1-4 run (both committed files, byte for byte).
+2. Path display (F11): no REPO_ROOT or os.tmpdir() in either output.
+3. Printed-count guard (F7): keepCount never negative; no cluster when printed >= target.
+4. Missing-file errors (F13): exact message, then usage, on stderr, with exit 2.
+
+## Files changed
+measure/tracks/levels_5_9_20261006/test-strategy.md (new, committed with this log).
+measure/runs/levels_5_9_20261006/strategy-p1-4717eb95.log (this file, committed).
+
+## Commit
+Subject: measure(levels_5_9): test strategy for Phase 1 grouping tasks G1-G5
+Only the two paths above. SHA is assigned at commit time; this file is part of that commit,
+so the orchestrator records it from `git log -1 --format=%h` after the commit.
+
+MEASURE_AGENT_RESULT
+role: strategy
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1 grouping tasks 1.G1 to 1.G5
+role_base_sha: 4717eb95
+head: 4717eb95 at authoring; the strategy commit is the new head after this commit lands
+commits: measure(levels_5_9): test strategy for Phase 1 grouping tasks G1-G5 (two paths only)
+tests_run: none. I ran no vitest, no tsc, and no gate (bounded role, and the PM rule bans heavy jobs here). I inspected the committed outputs with cat, sed, grep, ls, and git only.
+capture_point: immediately after the strategy commit, the orchestrator runs `git rev-parse HEAD` and records that value as the immutable phase_base_sha, before Task 1.G1 creates dashboard/__tests__/plan-dedup.test.ts. Do not use 4717eb95; it predates the strategy commit.
+gates: Review A yes (lead); Review B yes (narrow: path display plus git hygiene plus passage-text scope); Review C yes (CLI contract only); adversarial yes (one focused round); UX browser no (CLI, two text files).
+facts_changed: none. No price, date, status, number, or name moved by this strategy.
+handoff: |
+  Non-blocking question with a default. The committed levels 5-9 JSON carries passage text
+  from a private inventory into a public repository, as the committed levels 1-4 JSON does.
+  Scope Review B to allow that field and to forbid machine paths and staged private inputs.
+  Default: allow the passage field; ask the PM to confirm that the level 5-9 passages are
+  approved public content before Task 1.G3 commits. Do not block Red work on this question.
+  Recommended plan note (the orchestrator decides): the plan's Task 1.G4 default says Review B
+  and Review C do not apply; this strategy narrows both instead. Record that override in the
+  review result files so acceptance does not treat the change as a deviation.
+END_MEASURE_AGENT_RESULT
