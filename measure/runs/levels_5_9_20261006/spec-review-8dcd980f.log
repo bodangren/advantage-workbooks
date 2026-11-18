@@ -1,0 +1,93 @@
+# Spec review: levels_5_9_20261006, round 1, track setup
+
+Audited head: 8dcd980fc0ee6c4dc1224c6948cfe10f66b14fa5 (author commit 8dcd980f, opencode-go/glm-5.3#high).
+Reviewer: spec-review subagent, opencode-go/deepseek-v4.1-flash.
+Date: 2026-11-19.
+
+## What the reviewer checked
+
+- HEAD equals audited_head_sha (`git rev-parse HEAD`). The reviewed part is `git show 8dcd980f`: 38 added plan lines and one spec paragraph, plus the version bump to 0.3.
+- The inventory file: `docs/content-plans/data/legacy-levels-5-9-2026-10-08.json` holds 271 articles (92, 88, 4, 38, 49), no `readAt`, and no `summary` or `passage` key. 0 articles have a non-empty summary or passage. So the level 5-9 run compares titles only.
+- The byte-identity method of levels 1-4: `duplicates-levels-1-4.json` holds 272 articles in 179 groups, 0 repeated ids, and no repeated `createdAt` inside a level. The printed file holds 28 printed articles (level 1: 0, 2: 26, 3: 2, 4: 0). Target minus printed gives keep 50, 24, 98, 7, equal to the group counts of the committed file. So the rebuilt fixture reproduces the committed files, and the method is exact.
+- The current script: it reads the fixed printed file from REPO_ROOT, writes both outputs with `path.join(REPO_ROOT, ...)`, exports nothing, and runs `main` at import.
+- The reuse claims: `LEVEL_TARGETS` is exported and no other file imports it; the guard form at `dashboard/scripts/storytime/set-book-pictures.ts` line 170 matches the plan's description, but the plan gives the bare file name.
+- The gates: `dashboard/tsconfig.json` includes `**/*.ts`, so PROJECT_CHECKS covers the script and the test; `dashboard/eslint.config.mjs` sets rules for `scripts/**/*.ts` and `**/*.test.ts`, so PROJECT_LINT from dashboard is correct; no test imports `plan-dedup.ts` or `lib/lesson-package/similarity.ts`, so PROJECT_TESTS tests no code of this change.
+- The numbers: `docs/content-plans/primary-levels-5-9-plan.md` section 2 gives 1, 2, 2, 3, 3 books and 50, 100, 100, 150, 150 articles per level; section 11 D4 says keep and rebuild the best of each group (same id).
+- Zoom-out: no speculative feature, no premature optimization, correct reuse of the cluster, similarity, and inventory code, correct file location for the script, and the deletion stays in Phase 7 behind Daniel's approval.
+
+## Answers to the orchestrator questions
+
+1. Can Red write the tests of 1.G1 with no decision? Mostly yes. The signatures, the options, the defaults, the fixture forms, and the byte-identity method are exact. Three gaps remain: the output path base (F1), the printed-file rule for mixed options (F6), and the exact wording of the targets line and the last paragraph (F8).
+2. Can Green implement 1.G2 with no decision? No. The path base is open (F1), the missing summary and passage default is forced into plan-dedup.ts only by the "no other file changes" rule but is not stated, and the printed-count edge case is open (F7).
+3. The gates. PROJECT_LINT and PROJECT_CHECKS run from `dashboard/`, which is the right folder, and each covers the 2 files. PROJECT_TESTS is the print track's command; it tests no file that this change touches, so it is not a sensible gate here (F3).
+4. Is Task 1.G3 well-defined? Not fully (F4). It accepts a metadata inventory or a passages inventory with no rule that chooses between them, and the metadata form compares titles only. Recommendation: make the passages inventory the only input, or mark the metadata run as provisional in its heading and its intro and withhold the keep and delete columns. Do not present title-only groups as the delete list for the level 5 review. The keep count itself is arithmetic (target minus printed) and does not depend on the similarity.
+5. The targets 50, 100, 100, 150, 150. They follow section 2 and the book counts, and the plan labels them as an orchestrator default that waits for Daniel. Two problems: they sit in the Decisions section, where every other item is Daniel's, and Task 1.G3's Done-when freezes them at 50 kept and 42 deleted before Daniel answers (F2). Recommendation: keep the numbers as the run input, mark them provisional in the spec and in the generated markdown intro, and do not treat the keep count as a gate that Daniel's answer cannot change.
+
+## Findings
+
+- F1 [Blocker] plan.md Gate commands, Task 1.G1, Task 1.G3: the output path base is undefined, and the 1.G3 command and the defaults use two different bases.
+- F2 [Major] spec.md Decisions, grouping targets, and Task 1.G3: the keep count contradicts the filled level targets and D4.
+- F3 [Major] plan.md PROJECT_TESTS: the copied print command tests no code of this change.
+- F4 [Major] Task 1.G3: two input forms with no selection rule; the metadata form compares titles only.
+- F5 [Major] Task 1.G1 Done when: the mutant clause cannot be checked in a Red window.
+- F6 [Major] Task 1.G1 new options: the printed-file rule for mixed options is open, and `printedIds` contradicts the test text.
+- F7 [Major] Task 1.G1 edge cases: a level with printed count at or above its target crashes the cluster.
+- F8 [Nit] Task 1.G1 heading test: the targets line and the last paragraph wording are not fixed.
+- F9 [Nit] Task 1.G1 and 1.G2: the cited `set-book-pictures.ts` path misses `storytime/`.
+- F10 [Nit] Task 1.G2 and 1.G3: the JSON `source` string reads "inventory of undefined" when the inventory has no `readAt`.
+
+Verdict: fail (1 Blocker, 6 Major, 3 Nit). The author fixes F1 in spec.md or plan.md. F8 to F10 can take FIX or DECLINE. No question blocks this review.
+
+## Blocked artifacts
+
+Two delivery steps were refused by the environment: the write to the track record, and the commit.
+
+1. The write tools refuse every write to `measure/tracks/levels_5_9_20261006/spec-review.md` (permission denied for the write tool and for a shell redirect). The reviewer did not work around the refusal. The orchestrator must create that file, or grant the write. The round text below is the exact content, with the header lines that the template asks for.
+2. Every `git commit` command was refused with the same permission error. The 2 run files are written and untracked. The orchestrator must commit them with the same paths.
+
+```markdown
+# Spec Review: levels_5_9_20261006
+
+Author model: opencode-go/glm-5.3#high
+
+## Round 1
+
+Date: 2026-11-19
+Reviewer: spec-review subagent, opencode-go/deepseek-v4.1-flash
+
+### What this track proposes
+
+This track delivers 550 packages for levels 5-9: 154 workbook lessons and 396 bank articles for the 11 books, with media, tags, and coverage reports. Commit 8dcd980f adds Tasks 1.G1 to 1.G5. The tasks extend `dashboard/scripts/plan-dedup.ts` with level, target, printed, and output options, and they keep the levels 1-4 output byte-identical. Task 1.G3 runs the grouping at levels 5-9 with the targets 50, 100, 100, 150, and 150. Daniel decides in the level review whether a kept old article is rebuilt or deleted, and no deletion runs before Phase 7.
+
+### How the current system works, per this spec
+
+Today `dashboard/scripts/plan-dedup.ts` reads one inventory file and the fixed printed file `docs/content-plans/data/legacy-levels-1-4-2026-10-02.json`. It groups the online articles of each level by the cosine of a word bag (title 3, summary 2, passage 1) with average-link clustering, down to the level target minus the printed count. It keeps the best article of each group by student use, then approval, then date. It writes two fixed files under `docs/content-plans/` and resolves both against `REPO_ROOT`. The module runs `main` at import, so an import prints the usage text.
+
+### Findings
+
+- F1 [Blocker] plan.md Gate commands, Task 1.G1, Task 1.G3: `DedupOptions.outJson` and `outMd` carry the defaults `docs/content-plans/data/duplicates-levels-1-4.json` and `docs/content-plans/level-plans/duplicates.md`, and the script writes both with `path.join(REPO_ROOT, ...)` today (plan-dedup.ts lines 115 and 116), while Task 1.G3 passes `--out-json ../docs/content-plans/data/duplicates-levels-5-9.json` from `dashboard/`; no test pins where the default paths land, because the byte-identity run and the fixture run pass explicit temporary paths. Rationale: the plan leaves a file location choice to the implementer; a REPO_ROOT base sends the 1.G3 run to `~/Desktop/docs/...` with exit 0, a cwd base sends the default run to `dashboard/docs/...`, and no gate catches either.
+- F2 [Major] spec.md Decisions, grouping targets, and Task 1.G3: the paragraph says the 550 new packages already fill the book targets with new ids, and it still expects level 5 to keep 50 of 92 online articles; D4 decides keep and rebuild the best of each group, and the new paragraph leaves rebuild-or-delete to Daniel. Rationale: the run reports 50 kept old articles on top of the 50 new level 5 packages, so the level holds 100 articles and no reader can tell whether the level total is 50 or 100.
+- F3 [Major] plan.md PROJECT_TESTS: the command is the storytime print command, copied word for word, and it names no file that the change touches. Rationale: `plan-dedup.ts` imports `articleBag` and `cosine` from `lib/lesson-package/similarity.ts`, no test in the repository imports that module, and the plan itself records that PROJECT_TESTS holds no plan-dedup case; the gate adds runtime and no regression signal for this change.
+- F4 [Major] Task 1.G3: the task accepts the metadata inventory or a passages inventory and names no rule that chooses between them. Rationale: the metadata file holds no summary and no passage (271 articles, 0 with summary, 0 with passage), so the similarity compares titles only; the run then supplies the delete list for Daniel's level 5 review, and weak groups can put a wrong article in the delete column.
+- F5 [Major] Task 1.G1, Done when: the clause 'each new rule has a mutant that a test catches' cannot be checked in a Red window. Rationale: a mutant of the implementation needs the implementation, so the clause belongs to Task 1.G2 or to Task 1.G5, and the Red gate has no way to show it.
+- F6 [Major] Task 1.G1, new options: the rule 'no file with a new option given means: no article is printed' leaves three cases open: `--out-json` without `--levels` or `--printed`; `--levels 1,2,3,4` written out; and a `--printed` file that does not exist. Rationale: the level 2 keep count (24) depends on the default printed file, so each reading gives a different result or a different exit code, and no test names the mixed cases.
+- F7 [Major] Task 1.G1, edge cases: no test covers a level whose printed count is at or above its target, and that case makes `keepCount` negative (plan-dedup.ts line 92) and the cluster then throws on an undefined group (lines 55 to 67). Rationale: a `--printed` file for a small level reaches the crash, and the plan leaves the behavior to the implementer.
+- F8 [Nit] Task 1.G1, heading test: the targets line is given as 'for example `Targets: level 5 = 50, ...`' and the last paragraph only 'names the given out-json path'. Rationale: the exact strings that the test asserts are the Red's choice.
+- F9 [Nit] Task 1.G1 and Task 1.G2: the cited file `set-book-pictures.ts` line 170 is `dashboard/scripts/storytime/set-book-pictures.ts`. Rationale: a reader searches the wrong folder for the guard form.
+- F10 [Nit] Task 1.G2 and Task 1.G3: the JSON `source` string on an inventory with no `readAt` reads 'inventory of undefined' (plan-dedup.ts line 115), and no test asserts it. Rationale: the committed artifact that Daniel reads would hold a broken sentence.
+```
+
+MEASURE_AGENT_RESULT
+role: spec-review
+phase: track setup
+track: levels_5_9_20261006
+audited_head_sha: 8dcd980fc0ee6c4dc1224c6948cfe10f66b14fa5
+status: complete
+result: fail
+blocking_findings: F1 [Blocker] plan.md Gate commands, Task 1.G1, Task 1.G3: the output path base is undefined; the defaults are written with path.join(REPO_ROOT, ...) today and Task 1.G3 passes `../docs/...` from dashboard/, and no test pins where the default paths land. Rationale: the plan leaves a file location choice to the implementer; a REPO_ROOT base writes the 1.G3 files to ~/Desktop/docs/... with exit 0, and a cwd base writes the default run to dashboard/docs/..., and no gate catches either.
+nonblocking_findings: F2 [Major] spec.md Decisions, grouping targets, and Task 1.G3: the text says the 550 new packages fill the level targets and still keeps 50 of 92 at level 5, and D4 already decides keep and rebuild. Rationale: the level then holds 100 articles and no reader can tell whether the level total is 50 or 100. F3 [Major] plan.md PROJECT_TESTS: the copied storytime, covers, and print command names no file that this change touches, and no test imports plan-dedup or similarity. Rationale: the gate adds runtime and no regression signal. F4 [Major] Task 1.G3: two input forms with no rule to choose; the metadata file holds no summary and no passage, so the level 5 groups compare titles only. Rationale: weak groups become the delete list for Daniel's review. F5 [Major] Task 1.G1 Done when: the mutant clause needs the implementation, so a Red window cannot check it. Rationale: an unchecked gate item. F6 [Major] Task 1.G1 new options: the printed-file rule leaves --out-json without --levels, --levels 1,2,3,4 written out, and a missing --printed file open. Rationale: the level 2 keep count depends on that file, so the byte-identity result changes, and the DedupOptions field printedIds contradicts the test text. F7 [Major] Task 1.G1 edge cases: a level whose printed count is at or above its target makes keepCount negative and the cluster throws. Rationale: a --printed file reaches the crash and no test names it. F8 [Nit] Task 1.G1 heading test: the targets line is given as an example and the last paragraph wording is open. Rationale: the asserted strings are the Red's choice. F9 [Nit] Task 1.G1 and 1.G2: set-book-pictures.ts line 170 is dashboard/scripts/storytime/set-book-pictures.ts. Rationale: a reader searches the wrong folder. F10 [Nit] Task 1.G2 and 1.G3: the JSON source string reads 'inventory of undefined' when the inventory has no readAt. Rationale: the committed artifact holds a broken sentence.
+retry_recommendation: escalate_human
+confidence: high
+dispositions: none
+handoff: Artifact gap: the environment refused every write to measure/tracks/levels_5_9_20261006/spec-review.md and every git commit command; the 2 run files are written and untracked. Write the track file from the 'Blocked artifacts' section of this log, under the header 'Author model: opencode-go/glm-5.3#high', and commit the 3 paths, or grant the writes and re-run. Route F1 to the track author for FIX: name one path base for the inventory, printed, and both output paths, or resolve every value against the working directory and give the defaults as repo-root values at parse time; add a test that runs `main` with --inventory only from dashboard/ and asserts that the 2 default files keep their current bytes, so a wrong base fails. F2 needs Daniel's answer or a spec sentence that says the keep count is provisional and the level total includes the 550 new packages. F3 asks for a new PROJECT_TESTS that names `__tests__/plan-*.test.ts` and `__tests__/lesson-package*.test.ts`, or that runs the whole dashboard suite. F4: make the passages inventory the only input to 1.G3, or mark the metadata output provisional in its heading and intro and omit the delete column. F5 moves the mutant clause to 1.G2 or 1.G5. F6 and F7 name the mixed-option and printed-count cases in the test list. F8 to F10 can take FIX or DECLINE. No question for Daniel; my recommendation on the targets and on 1.G3 is in the log above.
+END_MEASURE_AGENT_RESULT
