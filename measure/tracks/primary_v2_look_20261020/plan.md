@@ -110,9 +110,11 @@ Phase gates (roles, not tasks; their results live in measure/runs/primary_v2_loo
 ## Phase S5: Page proofs for Daniel
 _Story ref: spec.md#story-s5_
 
-- [ ] Task: Proofs of Quest 5 lesson 1 and the longest Adventure 9 lesson: every page as a contact sheet, next to the app captures of the same steps (`parity-run2-2026-10-19/student/lesson-step*`)
-- [ ] Task: Daniel's notes fixed; new proofs until he approves (date and notes in this plan)
-- [ ] Task: Measure - User Manual Verification 'Phase S5: Page proofs for Daniel' (Protocol in workflow.md)
+- [x] Task: Proofs of Quest 5 lesson 1 and the longest Adventure 9 lesson: every page as a contact sheet, next to the app captures of the same steps (`parity-run2-2026-10-19/student/lesson-step*`) `commit 234d6792`
+    - Proof round 1 (2026-11-19): the proof folder is `~/Desktop/print-ready/primary-v2-look/proof-s5-r1/`; `quest5-l01.pdf` has 14 pages and `adventure92-l09.pdf` has 16 pages; the checks P1 to P9 exit 0 (`measure/runs/primary_v2_look_20261020/proof-s5/checks-r1.txt`); the manifest is `measure/runs/primary_v2_look_20261020/proof-s5/manifest-r1.txt`. Evidence class: automated. Daniel's look is task 2.
+    - Finding: the proof HTML loads Paged.js from unpkg.com and the driver injects it from node_modules, so the page rendered twice; the driver blocks the CDN; Review A decides the product side.
+- [b] Task: Daniel's notes fixed; new proofs until he approves (date and notes in this plan) — deferred:daniel
+- [b] Task: Measure - User Manual Verification 'Phase S5: Page proofs for Daniel' (Protocol in workflow.md) — deferred:daniel
 
 ## Phase S6: Quest 5 printer file
 _Story ref: spec.md#story-s6_

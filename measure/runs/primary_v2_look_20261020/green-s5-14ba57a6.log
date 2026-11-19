@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: 234d6792
+tests_run: the S5 proof checks P1 to P9, each in its own heavy-run, all exit 0 (measure/runs/primary_v2_look_20261020/proof-s5/checks-r1.txt); the Thai filter proof 0 Thai characters in 85 filtered output files; the longest-lesson proof (lesson-words.py) exit 0; no vitest file and no Red command in this phase, as the S5 strategy states
+files_changed: measure/runs/primary_v2_look_20261020/proof-s5/thai-filter.py, lesson-words.py, safe-print.py, make-proof-pdf.ts, make-contact-sheet.py, checks.py, manifest.py, manifest-r1.txt, checks-r1.txt, check-P1.txt to check-P9.txt, green-s5-14ba57a6.log; measure/tracks/primary_v2_look_20261020/plan.md
+plan_updates: the first S5 task is [x] with commit 234d6792 and the evidence sub-line (proof folder, 14 and 16 pages, P1 to P9 exit 0, evidence class automated, Daniel's look is task 2) and the finding sub-line; the second S5 task and the S5 manual verification are [b] deferred:daniel
+known_failures: none
+handoff: the proof folder is ~/Desktop/print-ready/primary-v2-look/proof-s5-r1/; quest5-l01.pdf has 14 pages and adventure92-l09.pdf has 16 pages; the contact sheets are quest5-l01-contact.jpg (2610x16968) and adventure92-l09-contact.jpg (2610x19378), every printed page at 100 dpi next to the app capture of the same step, printed steps 9 to 11 labelled with their printed names; the longest Adventure 9 lesson is content/primary/adventure-9.2/l09.json with 1310 prose words and 476 article paragraph words of 42 packages; the finding for Review A and the adversarial round: the proof HTML loads Paged.js from unpkg.com and the driver injects the polyfill from node_modules, so the page rendered twice (26 step headings, 31 page boxes, every step title on two pages), while the classic books print each lesson once (quest-4-a1.pdf: 234 pages, 14 lessons); the proof driver blocks the CDN request so the proof shows the page as the book prints it, and the product side is for Review A; the two proof HTML files hold Thai, stay untracked, and the checks read them by count only; the Thai filter ran before any package read and the filtered copies are under /tmp/opencode/thai-filtered/; no printer file exists before Daniel's approval (P9), so S6 stays blocked; Daniel's look of both sheets is task 2 and closes this phase
+END_MEASURE_AGENT_RESULT
