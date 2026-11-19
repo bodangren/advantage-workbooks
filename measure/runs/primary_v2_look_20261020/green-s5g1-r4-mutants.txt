@@ -1,0 +1,22 @@
+# S5.G1 r4 mutants (review A F5, P12) — green-s5g1-r4
+# File under test: dashboard/lib/document-wrapper/chibi-quest-styles.ts
+# Target: dashboard/__tests__/chibi-quest-picture-keep.test.ts (gate 1, unchanged Red r3 file)
+#
+# | Mutant | Change | Gate 1 exit | Failing test |
+# |---|---|---|---|
+# | M6a | remove the hero max-height rule | 1 | keeps the hero picture short enough for its caption in the chibi-quest look only |
+# | M6b | put max-height in the classic styles instead (styles.ts) | 1 | keeps the hero picture short enough for its caption in the chibi-quest look only; keeps the classic golden lesson byte-identical |
+#
+# M6a capture: green-s5g1-r4-mutant-M6a.txt
+#   AssertionError: .look-chibi-quest .hero-img-box img: expected false to be true
+# M6b capture: green-s5g1-r4-mutant-M6b.txt
+#   AssertionError: .look-chibi-quest .hero-img-box img: expected false to be true
+#   AssertionError: the classic golden differs (styles.ts holds hero-img-box)
+#
+# Restore proof: cmp against the saved originals, then sha256sum.
+# BOTH-RESTORED-CMP-OK
+# 9b07930345f4719c0c97172f897bf6b2c9e1f99303c0799421de16c5de29daef  dashboard/lib/document-wrapper/chibi-quest-styles.ts
+# dd7bb31dc2398c9313b2c6461f3a3cbcf212ef1a5bf3994f2a4aaec2ecf708f5  dashboard/lib/document-wrapper/styles.ts
+#
+# Gate 1 after restore: exit 0, 6 passed (green-s5g1-r4-tests.txt).
+# Caught: 2 of 2 mutants.

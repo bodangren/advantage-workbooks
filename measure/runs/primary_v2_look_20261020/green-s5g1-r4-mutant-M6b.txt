@@ -1,0 +1,67 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 62[2mms[22m[39m
+[31m     [31m×[31m keeps the hero picture short enough for its caption in the chibi-quest look only[39m[32m 5[2mms[22m[39m
+     [32m✓[39m keeps the inline figure with its caption in the chibi-quest styles only[32m 0[2mms[22m[39m
+     [32m✓[39m puts no keep rule on the hero wrappers, so Paged.js keeps the hero[32m 0[2mms[22m[39m
+     [32m✓[39m holds the image and its caption inside the same inline wrapper[32m 0[2mms[22m[39m
+[31m     [31m×[31m keeps the classic golden lesson byte-identical[39m[32m 55[2mms[22m[39m
+     [32m✓[39m keeps the chibi-quest styles flat with no transparency, shadow, or emoji[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-picture-keep.test.ts[2m > [22mchibi-quest picture keep (review A F5, r3)[2m > [22mkeeps the hero picture short enough for its caption in the chibi-quest look only
+[31m[1mAssertionError[22m: .look-chibi-quest .hero-img-box img: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-picture-keep.test.ts:[2m64:7[22m[39m
+    [90m 62| [39m      scopedDeclaration(css, '.look-chibi-quest .hero-img-box img', /m…
+    [90m 63| [39m      [32m'.look-chibi-quest .hero-img-box img'[39m[33m,[39m
+    [90m 64| [39m    )[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m 65| [39m    [35mconst[39m classic [33m=[39m fs[33m.[39m[34mreadFileSync[39m(
+    [90m 66| [39m      path[33m.[39m[34mjoin[39m(process[33m.[39m[34mcwd[39m()[33m,[39m [32m'lib'[39m[33m,[39m [32m'document-wrapper'[39m[33m,[39m [32m'styles.ts'[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-picture-keep.test.ts[2m > [22mchibi-quest picture keep (review A F5, r3)[2m > [22mkeeps the classic golden lesson byte-identical
+[31m[1mAssertionError[22m: expected '<!DOCTYPE html>\n<html lang="en">\n<h…' to be '<!DOCTYPE html>\n<html lang="en">\n<h…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -845,10 +845,11 @@[39m
+[2m      .gs-number {[22m
+[2m        font-weight: bold;[22m
+[2m        margin-right: 10px;[22m
+[2m        font-size: 12pt;[22m
+[2m      }[22m
+[31m+     .hero-img-box img { max-height: 240px; }[39m
+[2m    [22m
+[2m    </style>[22m
+[2m  </head>[22m
+[2m  <body>[22m
+[2m    <div id="lesson-0" class="lesson-section"><!DOCTYPE html>[22m
+
+[36m [2m❯[22m __tests__/chibi-quest-picture-keep.test.ts:[2m101:109[22m[39m
+    [90m 99| [39m    const withKey = fs.readFileSync(path.join(golden, 'lesson-05.html'…
+    [90m100| [39m    const noKey = fs.readFileSync(path.join(golden, 'lesson-05-no-key.…
+    [90m101| [39m    expect(await lessonDocument(record.lesson, record.lessonNumber, re…
+    [90m   | [39m                                                                                                            [31m^[39m
+    [90m102| [39m      withKey[33m,[39m
+    [90m103| [39m    )[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 23:21:55
+[2m   Duration [22m 688ms[2m (transform 81ms, setup 36ms, import 110ms, tests 62ms, environment 308ms)[22m
+

@@ -1,0 +1,45 @@
+Green r4 role log — track primary_v2_look_20261020, Phase S5, Task S5.G1 (r4) and Task S5.G2 (round 4)
+Session: Green · S5 S5.G1 · primary_v2_look · r4
+Model: opencode-go/deepseek-v4.1-flash
+Date: 2026-11-19
+
+phase_base_sha: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93 (immutable)
+role_base_sha: 33de20504c791653439740f60837b89ed73cf558
+Red r3: 33de2050 (Muse). Green model family differs from the Red family.
+
+Part 1, S5.G1 fix: dashboard/lib/document-wrapper/chibi-quest-styles.ts adds one scoped rule,
+.look-chibi-quest .hero-img-box img { max-height: 240px; }. The classic styles keep no rule.
+No test, template, golden, or lib/teacher-manual change.
+
+Part 1 gate results:
+G1 keep test file: exit 0, 6 passed. green-s5g1-r4-tests.txt (Red rerun exits 1, 1 of 6 fails).
+G2 look guards (4 files): exit 0, 34 passed. green-s5g1-r4-look-tests.txt
+G3 PROJECT_TESTS with the three documented excludes: exit 0, 3150 passed in 165 files.
+   Summary lines only, VITEST_EXIT=0. green-s5g1-r4-project-tests.txt
+G4 PROJECT_LINT (plan list plus the style file and the Red file): exit 0. green-s5g1-r4-lint.txt
+G5 tsc --noEmit: exit 0, no output lines. green-s5g1-r4-tsc.txt
+G6 Mutants: 2 of 2 caught: remove the max-height (M6a, hero height test); put max-height in the
+   classic styles instead (M6b, hero height test and the classic golden byte-identity test).
+   Both files restored with cmp and sha256. green-s5g1-r4-mutants.txt
+G7 Golden and pinned diff from 82c58b7e: empty. green-s5g1-r4-golden-diff.txt
+G8 Thai characters: 0 in every committed file.
+
+Part 2, S5.G2 proof round 4:
+Folder: /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r4/
+quest5-l01.pdf: 14 pages. adventure92-l09.pdf: 16 pages. Contact sheets: 14 and 16 tiles.
+Checks P1 to P12: each exit 0. checks-r4.txt says checks run 12, failures 0, RESULT: PASS.
+P11: 3 of 3 pictures for both proofs. P12: every caption on the page of its picture for both proofs.
+Records: proof-s5/checks-r4.txt and proof-s5/manifest-r4.txt.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: 95345e90 (S5.G1 r4 code), evidence commit after this log; Red r3 33de2050
+tests_run: G1 exit 0 (6 passed); G2 exit 0 (34 passed); G3 exit 0 (3150 passed, 165 files); G4 exit 0; G5 exit 0; G6 2 of 2 mutants caught; G7 empty; G8 Thai 0; proof P1 to P12 each exit 0 (checks-r4.txt RESULT: PASS)
+files_changed: dashboard/lib/document-wrapper/chibi-quest-styles.ts (code); measure/tracks/primary_v2_look_20261020/plan.md; measure/runs/primary_v2_look_20261020/green-s5g1-r4-* and green-s5-r4-33de2050.log; measure/runs/primary_v2_look_20261020/proof-s5/check-P1..P12-r4.txt, checks-r4.txt, manifest-r4.txt
+plan_updates: S5.R1 set [x] with commit 33de2050; S5.G1 set [x] with commit 0b2bd81f, fix 9b95646e, fix 95345e90; S5.G2 keeps commit 5cc50300 and gains the round 4 evidence
+known_failures: none; the three earlier failures of other tracks stay excluded from G3 as plan.md records
+handoff: S5.G2 round 4 is PASS, and review A F5 now has the hero caption on the hero's page (P12). Next: reviews A and B on the new head, one adversarial round, the UX/browser review (UX_REQUIRED), phase acceptance, and Daniel's gate. All three style commits, 0b2bd81f, 9b95646e, and 95345e90, are S7 styles.ts triggers: send them to the PM for the monorepo session. The r4 render overwrote the untracked proof HTML in proof-s5/; never stage it, the review-s5 files, strategy-s5-8b27c9ea.log, video/**, or dashboard/raw.json. Two tracked files of other sessions stay dirty: strategy-s5-8b27c9ea.log and video/storytime-song/scripts/render.mjs.
+END_MEASURE_AGENT_RESULT
