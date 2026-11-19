@@ -94,6 +94,15 @@ body.look-chibi-quest {
 /* Medals: the paragraph numbers and the deep-reading note numbers. */
 .look-chibi-quest .para-number, .look-chibi-quest .para-note-number { background: var(--cq-gold) !important; color: var(--cq-ink) !important; border: 2px solid var(--cq-wood-dark); font-weight: 700; }
 
+/* Inline pictures: the figure and its caption stay on one page (review A F5). The scoped rule wins
+   over the classic float rule, which Paged.js still splits. */
+.look-chibi-quest .article-image-box,
+.look-chibi-quest .article-image-area,
+.look-chibi-quest .inline-img-box {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
 /* Panels: a 3 px parchment-edge frame with a 14 px radius; label areas in parchment, write-in areas white. */
 .look-chibi-quest .short-answer-box, .look-chibi-quest .reflection-box, .look-chibi-quest .language-q-box,
 .look-chibi-quest .writing-section, .look-chibi-quest .translation-section, .look-chibi-quest .collection-box,
