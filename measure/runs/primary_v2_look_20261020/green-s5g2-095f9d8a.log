@@ -1,0 +1,42 @@
+Green run, Phase S5, Task S5.G2 (proof round 2). Track primary_v2_look_20261020.
+Date 2026-11-19. Session "Green · S5 S5.G2 · primary_v2_look".
+Model opencode-go/deepseek-v4.1-flash. Role base 095f9d8a. Phase base 82c58b7e.
+
+What this round did:
+- The Thai filter ran before the first proof command: 0 Thai characters in 2 filtered files.
+  One earlier package count printed ASCII picture paths only; a Thai counter over its output
+  gives 0 Thai characters.
+- Both proof HTML files render with the book name and level: "Quest 5"/A1 and "Adventure 9.2"/A2+.
+  The page-1 header and the PDF title now carry the book (check P10, exit 0).
+- The driver strips the unpkg tag (P7), refuses an existing PDF (B-F1 probe), and writes the
+  page-box count for P4. The contact sheet wraps its captions, names every start and the
+  continuation, and gives the Thai translation page its own label and no capture (P5).
+- Proof round 2: /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r2/
+  quest5-l01.pdf 14 pages, adventure92-l09.pdf 16 pages. Round 1 stays as it is.
+- Checks P1 to P10 exit 0. Check P11 exits 1.
+- P11 fail: the Adventure 9.2 hero picture is absent from the PDF (pdfimages 2 of 3; 3 of 3 in
+  round 1). Two probes and one control in proof-s5/g1-hero-drop.txt show the S5.G1 keep rule on
+  .article-image-area causes it: with the rule removed, the hero returns.
+- The gate does not pass. The keep rule is product CSS and the Red test requires that selector
+  (chibi-quest-picture-keep.test.ts lines 44 to 46). This role does not edit a committed Red test
+  or product code. The handoff asks for a Mid Red retry of the keep contract.
+- The falsification record of every strengthened check is proof-s5/falsification-r2.txt.
+  All 12 probes exit 1 on a broken copy in /tmp/opencode.
+
+The Adventure 9.2 page 6 clause of review A F2 has no support in the page text: the topmost word
+of that page is the step 4 heading (bbox gap 0.0 pt). The sheet labels it "starts step 4" and no
+continuation. Pages 10 (Quest 5) and 12 (Adventure 9.2) do continue step 9 and the sheet says so.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: blocked
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: 5cc50300 (driver, checks, manifest, .gitignore, proof records); this evidence commit follows
+tests_run: P1-P10 pass, P11 fails (Adventure 9.2 hero picture absent from the PDF); all 11 checks through heavy-run; 12 falsification probes exit 1; driver overwrite probe exits 1
+files_changed: measure/runs/primary_v2_look_20261020/proof-s5/{checks.py,make-contact-sheet.py,make-proof-pdf.ts,manifest.py,checks-r2.txt,check-P*-r2.txt,manifest-r2.txt,falsification-r2.txt,g1-hero-drop.txt}; .gitignore; plan.md
+plan_updates: Task S5.G2 stays [~] with a proof-round-2 evidence sub-line; not [x] because the gate fails
+known_failures: P11 exit 1: adventure92-l09.pdf holds 2 images; the package holds 3; the hero.jpg is absent (G1 keep rule)
+handoff: The round 2 proof harness is complete and the r2 proofs are built. The gate fails on a product defect: the S5.G1 keep rule on .article-image-area drops the Adventure 9.2 hero picture from the print. Ask the orchestrator for a Mid Red retry of chibi-quest-picture-keep.test.ts (scope the keep rule so the inline caption stays with its picture and the hero stays on the page), then a Green fix in chibi-quest-styles.ts. Evidence: proof-s5/g1-hero-drop.txt. Then rerun P1 to P11 into checks-r2.txt. The PDF title and page-1 header pass P10; the captions, labels, and captures pass P5.
+dispositions: A-F1=FIX; A-F2=FIX; A-F3=FIX; A-F4=FIX; B-F1=FIX; B-F2=FIX; B-F3=FIX; B-F4=FIX
+END_MEASURE_AGENT_RESULT
