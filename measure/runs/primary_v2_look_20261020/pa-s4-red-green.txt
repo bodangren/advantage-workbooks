@@ -1,0 +1,14 @@
+exit: 0
+elapsed_s: 404
+command: set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.test.ts
+---
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/chibi-quest-step-names.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 191[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m11 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 12:23:14
+[2m   Duration [22m 1.46s[2m (transform 285ms, setup 59ms, import 405ms, tests 191ms, environment 501ms)[22m
+

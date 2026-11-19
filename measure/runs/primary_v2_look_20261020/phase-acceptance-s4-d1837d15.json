@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S4: App step names in the v2 books",
+  "baseline_sha": "a4f52b9e968f47e062bfdf923b0de507a42644f0",
+  "role_base_sha": "43dbf848a61fc0f5970f8bca952afa1d9a1f0d9e",
+  "audited_head_sha": "d1837d1507219ae1778ba6227da5028ed8a5443d",
+  "status": "pass",
+  "summary": "PASS with 0 open blockers for Tasks S4.1 to S4.3. The audited head d1837d15 was HEAD at role start and at the read-only checks; during the gates HEAD moved to cd54ec96, a 2-line plan.md edit of track levels_5_9_20261006 by Daniel, and git diff d1837d15..cd54ec96 -- dashboard/ is empty (0 lines), so every gate ran on the byte-identical dashboard tree and every result applies verbatim to the audited head. Prerequisites: review-a-s4-43dbf848.json (GLM) PASS, review-b-s4-43dbf848.json (MiniMax) PASS, adversarial-s4-43dbf848.json PASS with 0 defects; the one commit between the review head 43dbf848 and the audited head, d1837d15, touches only the adversarial test file and measure/runs/ captures, so each prerequisite applies at the accepted head. Review C and browser review do not apply (test-strategy.md S4). All six gates hold: RED_TEST_COMMAND = GREEN_TEST_COMMAND exit 0 with 11 passed; adversarial + look guards exit 0 with 23 passed (7 adversarial, 10 workbook-look, 6 kit); PROJECT_TESTS exit 1 with exactly the 3 recorded earlier failures of other tracks (3 failed | 3114 passed of 3117); PROJECT_TESTS with the two earlier-failure files also excluded exit 0 with 3111 passed; PROJECT_LINT exit 0 with 0 output lines; PROJECT_CHECKS exit 0 with 0 output lines, a real incremental compile (tsconfig.tsbuildinfo rewritten at gate time). The phase diff holds exactly the planned files. The golden files content/primary/origins-3.2/print/golden/lesson-05.html and lesson-05-no-key.html and dashboard/lib/teacher-manual/ show a 0-line diff from a4f52b9e. The template commit id for the monorepo session is cbb076ef. The plan's Red, Green, mutant, and adversarial claims match the committed captures and my reruns.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "N1 [Nit] process: the review result files review-a-s4-43dbf848.json, review-a-s4-43dbf848.log, review-b-s4-43dbf848.json, and review-b-s4-43dbf848.log sit untracked in the working tree; the adversarial results were committed in d1837d15. The checkpoint commit can pick them up; the acceptance role commits nothing."
+  ],
+  "evidence": [
+    "Head: git rev-parse HEAD gives d1837d15 at role start and cd54ec96 at gate time; git diff --stat d1837d15..cd54ec96 lists only measure/tracks/levels_5_9_20261006/plan.md (2 lines), and git diff d1837d15..cd54ec96 -- dashboard/ is empty. No dashboard test reads that plan file (grep of dashboard/__tests__ for that path: no match), so the gate results apply verbatim to the audited head.",
+    "Prerequisite continuity: the one commit 43dbf848..d1837d15, d1837d15 itself, touches only dashboard/__tests__/chibi-quest-step-names.adversarial.test.ts and measure/runs/primary_v2_look_20261020/ captures, so the PASS results of Review A, Review B, and the adversarial round at 43dbf848 apply at the audited head; this acceptance records d1837d15 as the exact accepted head and names d1837d15 as the test-only commit it allowed.",
+    "Phase scope: git diff --stat a4f52b9e..d1837d15 -- dashboard/ lists exactly 5 files: chibi-quest-step-names.adversarial.test.ts, chibi-quest-step-names.test.ts, teacher-guide.ts, workbook-document-wrapper.ts, primary_template.html; no other dashboard file changes.",
+    "Golden and pinned: git diff a4f52b9e..d1837d15 --stat -- content/primary/origins-3.2/print/golden/ dashboard/lib/teacher-manual/ prints 0 changed lines; the golden files live at content/primary/origins-3.2/print/golden/lesson-05.html and lesson-05-no-key.html.",
+    "Template commit: git log a4f52b9e..d1837d15 -- dashboard/templates/primary_template.html holds only cbb076ef, so the monorepo handoff id cbb076ef is correct.",
+    "A5, Red claim: red-s4-a4f52b9e.txt records 3 failed | 8 passed of 11, exit 1, which matches plan.md Task S4.2.",
+    "A5, Green claims: my rerun of the same command exits 0 with 11 passed (pa-s4-red-green.txt); green-s4-look-tests.txt records 16 passed; my adversarial + look + kit rerun exits 0 with 23 passed; green-s4-mutants.txt records 6 of 6 rules with the M3 survivor, and the adversarial round closes M3 (ADV-M3a and ADV-M3b each exit 1 on the new file); adversarial-s4-43dbf848.txt records 18 passed.",
+    "A5, project claims: my PROJECT_TESTS run exits 1 with 3 failed | 3114 passed of 3117, and the 3 FAIL lines are exactly the recorded earlier failures: constants.test.ts 'includes Adventures 1.0 as a primary workbook option', origins-thai-support.test.ts 'validates bilingual vocabulary fields for primary/origins-2-a0' and 'primary/origins-3.1-a0'; with those two files also excluded the suite exits 0 with 3111 passed, so the 3 excluded failures were the only failures.",
+    "A3: the phase tests assert the 13 exact title strings with toEqual after toHaveLength(13) (chibi-quest-step-names.test.ts lines 99 to 234; chibi-quest-step-names.adversarial.test.ts lines 57 to 67); no digit-only count assertion exists in the phase diff.",
+    "A4: every absence assertion runs after toHaveLength(13), so an empty render fails the length check first; the phase has 3 [x] tasks, so no vacuous markers-consistent surface exists.",
+    "A6: measure/tracks.md is unchanged in the phase diff (git diff a4f52b9e..d1837d15 --name-only -- measure/tracks.md is empty) and holds no resolved claim for this track.",
+    "A7: the absence checks use exact strings for each of the nine classic-only names and each app-only name; the phase diff changes no filter.",
+    "Fake-gate check: PROJECT_CHECKS ran as a real compile; dashboard/tsconfig.json holds incremental: true and dashboard/tsconfig.tsbuildinfo was rewritten at gate time (12:53), so the 2-second exit 0 is an incremental no-change compile, not a skipped gate.",
+    "Task markers: plan.md holds S4.1 [x] commit 4323a816, S4.2 [x] commit a41e3a5b, S4.3 [x] commit cbb076ef, and the manual verification line [b] deferred:daniel (S5 proofs)."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> d1837d15 at role start, cd54ec96 at gate time; git diff d1837d15..cd54ec96 -- dashboard/ -> empty",
+    "git diff --stat a4f52b9e..d1837d15 -- dashboard/ -> exactly 5 planned files",
+    "git diff a4f52b9e..d1837d15 --stat -- content/primary/origins-3.2/print/golden/ dashboard/lib/teacher-manual/ -> 0 changed lines",
+    "git log --oneline a4f52b9e..d1837d15 -- dashboard/templates/primary_template.html -> cbb076ef only",
+    "heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.test.ts' -> exit 0, Tests 11 passed (11); capture pa-s4-red-green.txt",
+    "heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.adversarial.test.ts __tests__/workbook-look.test.ts __tests__/chibi-quest-kit.test.ts' -> exit 0, Tests 23 passed (23); capture pa-s4-adversarial-look.txt",
+    "heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts' -> exit 1, Tests 3 failed | 3114 passed (3117); the 3 failures are exactly the recorded earlier failures; capture pa-s4-project-tests.txt",
+    "heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts --exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts' -> exit 0, Tests 3111 passed (3111); capture pa-s4-project-tests-clean.txt",
+    "heavy-run 'set -o pipefail; cd dashboard && npx eslint lib/document-wrapper/sections/teacher-guide.ts lib/workbook-document-wrapper.ts __tests__/chibi-quest-step-names.test.ts --no-error-on-unmatched-pattern' -> exit 0, 0 output lines; capture pa-s4-lint.txt",
+    "heavy-run 'set -o pipefail; cd dashboard && npx tsc --noEmit' -> exit 0, 0 output lines; capture pa-s4-tsc.txt"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/phase-acceptance-s4-d1837d15.json",
+    "measure/runs/primary_v2_look_20261020/phase-acceptance-s4-d1837d15.log",
+    "measure/runs/primary_v2_look_20261020/pa-s4-red-green.txt",
+    "measure/runs/primary_v2_look_20261020/pa-s4-adversarial-look.txt",
+    "measure/runs/primary_v2_look_20261020/pa-s4-project-tests.txt",
+    "measure/runs/primary_v2_look_20261020/pa-s4-project-tests-clean.txt",
+    "measure/runs/primary_v2_look_20261020/pa-s4-lint.txt",
+    "measure/runs/primary_v2_look_20261020/pa-s4-tsc.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "All 13 titles match the S4.1 table at template lines 1555 to 2208 (steps 9, 10, 11 keep their names; step 6 keeps the grammar conditional at line 1806), and the teacher-guide heading flips by look at teacher-guide.ts line 14."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "The 18 step-name tests and 7 adversarial tests pass at the head (pa-s4-red-green.txt 11 passed; pa-s4-adversarial-look.txt 23 passed), and green-s4-mutants.txt plus the adversarial record show every mutant of the 6 rules caught after the adversarial round closed M3."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --stat a4f52b9e..d1837d15 -- dashboard/ lists exactly the 5 planned files; the golden files and dashboard/lib/teacher-manual/ show a 0-line diff from the base."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a command result: six gate runs with exit codes in pa-s4-*.txt, the golden diff (0 lines), and the template log (cbb076ef only)."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "opencode-go/glm-5.3#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "I re-checked all three findings: F1 and F3 are closed by the adversarial round (ADV-M3a, ADV-M3b, ADV-T1 each exit 1 in adversarial-s4-43dbf848.json), and F2's corrected golden path shows a 0-line diff in my own run."
+    },
+    {
+      "reviewer_role": "review-b",
+      "reviewer_route": "minimax-cn-coding-plan/MiniMax-M3#high",
+      "agreed": true,
+      "score": 4,
+      "evidence": "I re-checked the core surfaces myself: the teacher-guide heading is a closed-set literal (teacher-guide.ts line 14), the single caller passes the look (workbook-document-wrapper.ts line 98), and the gates confirm no cross-look leak; its tsx probes I did not rerun."
+    },
+    {
+      "reviewer_role": "adversarial",
+      "reviewer_route": "opencode-go/glm-5.3#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "My gate 2 rerun passes its 7 adversarial tests at the head, and its mutant protocol (3 of 3 mutants exit 1, restores proved by cmp) closes the last two Green coverage gaps."
+    }
+  ]
+}

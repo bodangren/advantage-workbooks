@@ -1,0 +1,4 @@
+exit: 0
+elapsed_s: 72
+command: set -o pipefail; cd dashboard && npx eslint lib/document-wrapper/sections/teacher-guide.ts lib/workbook-document-wrapper.ts __tests__/chibi-quest-step-names.test.ts --no-error-on-unmatched-pattern
+---

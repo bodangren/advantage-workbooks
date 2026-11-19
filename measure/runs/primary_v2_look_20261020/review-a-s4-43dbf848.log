@@ -1,0 +1,21 @@
+Track primary_v2_look_20261020, Phase S4, Review A (correctness), audited head 43dbf848, phase base a4f52b9e.
+
+Verdict: PASS. No blocking finding. Three non-blocking findings: F1 [Major] the narrow
+mutant M3 survives (the step 6 title suffix has no failing assertion; chibi-quest-step-names.test.ts
+line 82 strips the suffix and line 131 reads the Challenge token); F2 [Nit] the Green evidence
+cites 'dashboard/**/golden/**' for the golden proof, a path that is always empty (plan.md line 100;
+the real path content/primary/origins-3.2/print/golden/ shows a 0-line diff); F3 [Nit] the classic
+branch of the teacher-page heading has no test (teacher-guide.ts line 14).
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S4: App step names in the v2 books
+commits: none
+tests_run: heavy-run gate 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.test.ts __tests__/workbook-look.test.ts __tests__/chibi-quest-kit.test.ts' exit 0, 27 of 27 passed; read-only checks of the S4.1 sources in the monorepo (step-map.ts lines 21 to 33, messages/en.json lines 1586 to 1599) match the table; git diff a4f52b9e..43dbf848 --stat on dashboard/lib/teacher-manual/ and content/primary/origins-3.2/print/golden/ returns 0 lines
+files_changed: measure/runs/primary_v2_look_20261020/review-a-s4-43dbf848.json; measure/runs/primary_v2_look_20261020/review-a-s4-43dbf848.log
+plan_updates: none; report-only role
+known_failures: the 3 recorded earlier failures of other tracks stand (constants.test.ts 'includes Adventures 1.0', origins-2-a0, origins-3.1-a0; evidence green-s4-project-tests.txt); the narrow M3 gap and the two Nit gaps are recorded in the result JSON
+handoff: S4 is correct at 43dbf848: all 13 names match the S4.1 table in both looks, steps 9 to 11 keep their names, the step 6 conditional holds in both looks, the classic golden and the pinned lib/teacher-manual/ are unchanged, and the TOC shows no step name. Route F1 to Green when a next implementation window opens: one raw assertion per look on the rendered step 6 title with the grammar term ('Collect Sentences – Past tense' classic, 'Sentence Collection – Past tense' chibi-quest). F2 needs only a corrected evidence path in future records. F3 needs one classic wrapWorkbookDocument assertion with includeTeacherGuide. None blocks phase acceptance or the S5 proofs.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S4: App step names in the v2 books",
+  "baseline_sha": "a4f52b9e968f47e062bfdf923b0de507a42644f0",
+  "role_base_sha": "5b0ca44e",
+  "audited_head_sha": "43dbf848a61fc0f5970f8bca952afa1d9a1f0d9e",
+  "status": "pass",
+  "summary": "The head 43dbf848 equals the audited head. The dashboard diff a4f52b9e..43dbf848 holds exactly the 4 planned files. All 13 template titles match the S4.1 table word for word, in the chibi-quest branch and in the classic branch (template lines 1555, 1589, 1654, 1739, 1781, 1806, 1853, 1916, 1969, 2014, 2050, 2179, 2208). The table itself matches its cited monorepo sources: step-map.ts lines 21 to 33 and messages/en.json lines 1586 to 1599 (read-only check). Steps 9, 10, and 11 keep their names (lines 1969, 2014, 2050). Step 6 keeps its grammar conditional in both looks (line 1806). The step 7 title uses ../chibi_quest inside the each loop and both looks prove it (the chibi test shows Multiple Choice; the classic golden stays byte-identical). The teacher-guide heading reads Preview Vocabulary only for chibi-quest (teacher-guide.ts line 14); escapeHtml still guards the vocabulary data. The answer key keeps Multiple Choice: and Short Answer Hint: (answer-key.ts lines 37, 54). The classic golden files and dashboard/lib/teacher-manual/ show a 0-line diff from the phase base. The TOC code has no diff, and the test asserts the TOC block is identical across looks and holds no step name. The gate passed: 27 of 27 tests, exit 0. The Red and Green claims in the plan match the recorded run files. Three narrow non-blocking gaps stay open; none blocks the phase.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] tests: The narrow mutant M3 (delete only the step 6 title suffix, both looks) passes the suite. The test asserts html.toContain('Past tense') (chibi-quest-step-names.test.ts line 131), which the Challenge line of template line 1812 satisfies, and tpl.toContain('{{#if grammar_search_term}}') (test line 137), which the same token satisfies. The sectionTitles helper strips the suffix (test line 82), so no assertion sees the rendered title with its grammar term. Rationale: This gap matters narrowly. A surgical regression would drop the grammar topic from the printed step 6 sign in every book, and no test would fail; the golden lesson has no grammar term, so the golden guard does not catch it either (M3 capture shows exit 0). The caught form M3b proves the whole-conditional deletion fails. Fix with one raw assertion: expect the classic render to contain 'Collect Sentences – Past tense' and the chibi render to contain 'Sentence Collection – Past tense'. The S5 page proofs cover the near-term print visually, so this does not block S4.",
+    "F2 [Nit] evidence: The Green evidence records 'git diff a4f52b9e -- dashboard/**/golden/**' as the golden-unchanged proof (plan.md line 100; green-s4-18d02125.log line 46). The golden files live under content/primary/origins-3.2/print/golden/, not under dashboard/, so that command is empty on every tree and proves nothing. Rationale: The claim itself holds. I ran git diff a4f52b9e..43dbf848 --stat -- dashboard/lib/teacher-manual/ content/primary/origins-3.2/print/golden/ and got 0 changed lines, and the golden byte-identity test passed in the gate. Record the correct path next time a phase cites this proof.",
+    "F3 [Nit] tests: The classic branch of the teacher-page heading has no test. No test renders wrapWorkbookDocument with look 'classic' or no look plus includeTeacherGuide and asserts 'Key Vocabulary' on the h4. A mutant that makes both branches of teacher-guide.ts line 14 read 'Preview Vocabulary' passes the suite. Rationale: The chibi direction is covered (test lines 177 to 178), and the flip mutant is caught, so the risk is a one-sided classic regression in the 5 printed books. One extra assertion closes it."
+  ],
+  "evidence": [
+    "Head equals the audited head: git rev-parse HEAD gives 43dbf848a61fc0f5970f8bca952afa1d9a1f0d9e.",
+    "Scope: git diff a4f52b9e..43dbf848 --name-only -- dashboard/ lists exactly 4 files: the new test, teacher-guide.ts, workbook-document-wrapper.ts, primary_template.html.",
+    "All 13 titles read at template lines 1555, 1589, 1654, 1739, 1781, 1806, 1853, 1916, 1969, 2014, 2050, 2179, 2208. The chibi branch of each equals the app name of the S4.1 table; the classic branch of each equals the present name. Steps 9, 10, 11 keep Vocabulary Practice, Sentence Practice, Guided Writing.",
+    "S4.1 table sources verified read-only in the monorepo: step-map.ts lines 21 to 33 hold the 13 classic titles and the appSteps map as the table cites; messages/en.json lines 1586 to 1599 hold Introduction, Preview Vocabulary, First Reading, Vocabulary Collection, Deep Reading, Sentence Collection, Multiple Choice, Short Answer, Language Questions, Lesson Summary.",
+    "Step 6 conditional: template line 1806 holds ' – {{grammar_search_term}}' outside the chibi_quest conditional, so both looks keep it.",
+    "Step 7 each-loop context: template line 1853 uses ../chibi_quest; the chibi test (line 100, toEqual CHIBI_NAMES) and the classic golden test (lines 239 to 265) both pass in the gate, so the flag resolves in both looks.",
+    "Teacher pages: teacher-guide.ts line 14 sets the title by look; escapeHtml still wraps word, definition, and thaiDefinition. The caller change is one line at workbook-document-wrapper.ts line 98.",
+    "Answer key labels: answer-key.ts lines 37 and 54 hold Multiple Choice: and Short Answer Hint:, with no diff in the phase.",
+    "Pinned and golden paths: git diff a4f52b9e..43dbf848 --stat -- dashboard/lib/teacher-manual/ content/primary/origins-3.2/print/golden/ returns 0 lines.",
+    "A3 defense: the tests assert exact strings with toEqual in order (test lines 100, 223) and absence by exact name (lines 110, 235, 210). No digit-only count exists.",
+    "A4 defense: every absence assertion runs after toHaveLength(13) (test lines 99, 109, 119, 222, 234), so an empty render fails the length check first.",
+    "A5 defense: red-s4-a4f52b9e.txt records 3 failed, 8 passed of 11, exit 1 (log line 14), which matches plan.md line 97. green-s4-tests.txt records 11 passed. green-s4-look-tests.txt records 16 passed. green-s4-project-tests.txt records 3 failed, 3107 passed, and the 3 FAIL lines are exactly the recorded earlier failures: constants.test.ts 'includes Adventures 1.0', origins-2-a0, origins-3.1-a0. green-s4-lint.txt is empty (exit 0). green-s4-tsc.txt has 0 lines.",
+    "Mutant gate: green-s4-mutants.txt records 6 of 6 rules caught. The captures corroborate it: -M1.txt shows 1 failed, -M3.txt shows 11 passed (the honest survivor), -M3b.txt shows 1 failed, -M5.txt fails at test lines 177 to 178.",
+    "Gate rerun at the head: 3 files, 27 tests, 27 passed, exit 0. The stderr block in the output is the expected unknown-look negative test of workbook-look.test.ts, not a failure."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git diff a4f52b9e..43dbf848 --stat -- dashboard/",
+    "git diff a4f52b9e..43dbf848 -- dashboard/templates/primary_template.html",
+    "git diff a4f52b9e..43dbf848 --stat -- dashboard/lib/teacher-manual/ content/primary/origins-3.2/print/golden/",
+    "grep -n '<h2 class=\"section-title\"' dashboard/templates/primary_template.html",
+    "sed -n '21,33p' ~/Desktop/reading-advantage-monorepo/packages/domain/src/primary-books/step-map.ts (read-only)",
+    "sed -n '1580,1600p' ~/Desktop/reading-advantage-monorepo/apps/primary-advantage/messages/en.json (read-only)",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.test.ts __tests__/workbook-look.test.ts __tests__/chibi-quest-kit.test.ts' -> exit 0, 27 passed",
+    "grep -a 'failed|passed' measure/runs/primary_v2_look_20261020/red-s4-a4f52b9e.txt and the green-s4-*.txt run files"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/review-a-s4-43dbf848.json",
+    "measure/runs/primary_v2_look_20261020/review-a-s4-43dbf848.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "All 13 template titles match the S4.1 table and its monorepo sources; template lines 1555 to 2208; step-map.ts lines 21 to 33."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "Exact-string tests with mutant falsification (green-s4-mutants.txt: 6 of 6 caught), but M3 survives (exit 0 in green-s4-mutant-M3.txt) and the classic teacher-page branch is untested."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff a4f52b9e..43dbf848 --name-only -- dashboard/ lists exactly the 4 planned files; the pinned teacher-manual and golden paths show a 0-line diff."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Every plan claim matched a run file (red-s4-a4f52b9e.txt 3 failed, 8 passed; green-s4-project-tests.txt 3107 passed), but the golden proof cites the wrong path 'dashboard/**/golden/**' (plan.md line 100)."
+    }
+  ]
+}

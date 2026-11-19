@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S4: App step names in the v2 books
+commits: none
+tests_run: heavy-run "set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.test.ts" (exit 0, 11 tests passed); heavy-run "cd /home/daniebo/Desktop/Workbooks/dashboard && npx tsx /tmp/opencode/rb-s4-check.ts" (exit 0, cross-look and escaping probes A to J)
+files_changed: measure/runs/primary_v2_look_20261020/review-b-s4-43dbf848.json; measure/runs/primary_v2_look_20261020/review-b-s4-43dbf848.log
+plan_updates: none
+known_failures: none
+handoff: PASS at 43dbf848 with 0 blockers and 1 Nit. Scope 1 holds: the classic render shows no chibi-quest name and the chibi-quest render shows no classic name in the lesson pages, the answer key, or the teacher pages (teacher-guide.ts:14 and :21; answer-key.ts:37 and :54). A lesson field cannot flip the look, because template-renderer.ts:148 sets the flag after the lesson spread. Scope 2 holds: the dashboard diff holds no triple stash and no innerHTML, the only lesson value in a changed line keeps its double-stash, and a script payload in grammar_search_term and in the teacher vocabulary prints escaped. Scope 3 holds: no secret, no URL with a password, and no absolute path in the four source files of the range. F1 is a Nit: the new capture files print the vitest banner path, a known repository item. Two notes for the orchestrator: the template comments carry the app names in the classic HTML source and the classic names in the chibi-quest source, but those lines stand at the phase base a4f52b9e and do not print; the narrow M3 step 6 mutant survives and belongs to Review A and the adversarial round. No escalation is needed, and the S4 human gate stays with Daniel.
+END_MEASURE_AGENT_RESULT

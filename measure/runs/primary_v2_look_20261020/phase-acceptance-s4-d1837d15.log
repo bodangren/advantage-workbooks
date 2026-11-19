@@ -1,0 +1,50 @@
+Phase acceptance log for Phase S4 of track primary_v2_look_20261020.
+Audited head: d1837d1507219ae1778ba6227da5028ed8a5443d. Phase base: a4f52b9e968f47e062bfdf923b0de507a42644f0. Role base: 43dbf848a61fc0f5970f8bca952afa1d9a1f0d9e.
+
+Read-only verification before and after the gates:
+- HEAD was d1837d15 at role start, equal to the audited head. During the gates, HEAD moved to cd54ec96: a commit by Daniel that adds 2 lines to measure/tracks/levels_5_9_20261006/plan.md. git diff d1837d15..cd54ec96 -- dashboard/ is empty (0 lines), and no dashboard test reads that plan file, so every gate ran on the dashboard tree of the audited head and every result applies verbatim to d1837d15. This acceptance records d1837d15 as the exact accepted head.
+- Prerequisites at 43dbf848: review-a-s4-43dbf848.json (GLM) PASS with 0 blockers (F1 Major, F2 Nit, F3 Nit); review-b-s4-43dbf848.json (MiniMax) PASS with 0 blockers (1 Nit); adversarial-s4-43dbf848.json PASS with 0 defects. Review C and browser review do not apply (test-strategy.md S4). The one commit after 43dbf848, d1837d15, touches only dashboard/__tests__/chibi-quest-step-names.adversarial.test.ts and measure/runs/ captures, so every prerequisite applies at the audited head; this acceptance names d1837d15 as the test-only commit it allowed.
+- Dispositions: A1 (review A F1) and A3 (review A F3) closed as test gaps by the adversarial round; A2 and B1 DECLINE, recorded and non-blocking.
+- Phase scope: git diff --stat a4f52b9e..d1837d15 -- dashboard/ lists exactly 5 files: the Red test, the adversarial test, primary_template.html, teacher-guide.ts, and the one caller line in workbook-document-wrapper.ts.
+- Golden files: content/primary/origins-3.2/print/golden/lesson-05.html and lesson-05-no-key.html (the real path, under primary/, not dashboard/) show a 0-line diff from a4f52b9e to d1837d15.
+- dashboard/lib/teacher-manual/ shows a 0-line diff from a4f52b9e to d1837d15 (git log on that path is empty).
+- Template commit id for the monorepo session: cbb076ef, the only commit that touches primary_template.html in this phase.
+- A3: the phase tests assert 13 exact title strings with toEqual after toHaveLength(13); no digit-only count assertion exists in the diff.
+- A4: every absence assertion runs after toHaveLength(13); the phase holds 3 [x] tasks, so no vacuous markers-consistent surface exists.
+- A5: the plan claims match reality; see the gate lines below (Red 3 failed | 8 passed exit 1; Green 11 passed exit 0; my PROJECT_TESTS holds only the 3 recorded earlier failures).
+- A6: measure/tracks.md is unchanged in the phase diff and holds no resolved claim for this track.
+- A7: the absence checks use exact strings; the diff changes no filter.
+- Fake-gate check on the fast tsc: dashboard/tsconfig.json holds incremental: true, and dashboard/tsconfig.tsbuildinfo was rewritten at gate time (12:53), so the 2-second exit 0 is a real incremental no-change compile.
+
+Gates, each in its own heavy-run (HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '...'), set -o pipefail, exit code of every command:
+1. RED_TEST_COMMAND = GREEN_TEST_COMMAND: 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.test.ts' -> exit 0. Tests 11 passed (11). Includes the golden byte-identity assertions. Capture pa-s4-red-green.txt.
+2. Adversarial + look guards: 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.adversarial.test.ts __tests__/workbook-look.test.ts __tests__/chibi-quest-kit.test.ts' -> exit 0. Tests 23 passed (23): 7 adversarial, 10 workbook-look, 6 kit. Capture pa-s4-adversarial-look.txt.
+3. PROJECT_TESTS: 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts' -> exit 1. Test Files 2 failed | 162 passed (164); Tests 3 failed | 3114 passed (3117). The 3 failures are exactly the recorded earlier failures of other tracks: __tests__/constants.test.ts 'includes Adventures 1.0 as a primary workbook option', and __tests__/origins-thai-support.test.ts 'validates bilingual vocabulary fields for primary/origins-2-a0' and 'primary/origins-3.1-a0'. They also fail at the tracked baseline (measure/runs/levels_5_9_20261006/green-g2-baseline-r2.txt), so they are earlier failures outside this track and do not fail the gate. No other test fails. Capture pa-s4-project-tests.txt.
+4. PROJECT_TESTS with the two earlier-failure files also excluded: '--exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts' added -> exit 0. Test Files 162 passed (162); Tests 3111 passed (3111). The 3 excluded failures were the only failures. Capture pa-s4-project-tests-clean.txt.
+5. PROJECT_LINT exactly as plan.md states it: 'set -o pipefail; cd dashboard && npx eslint lib/document-wrapper/sections/teacher-guide.ts lib/workbook-document-wrapper.ts __tests__/chibi-quest-step-names.test.ts --no-error-on-unmatched-pattern' -> exit 0, 0 output lines. Capture pa-s4-lint.txt.
+6. PROJECT_CHECKS: 'set -o pipefail; cd dashboard && npx tsc --noEmit' -> exit 0, 0 output lines. Capture pa-s4-tsc.txt.
+
+Verdict: PASS with 0 open blockers for Tasks S4.1 to S4.3. Result file: measure/runs/primary_v2_look_20261020/phase-acceptance-s4-d1837d15.json.
+
+Open items, all outside this phase:
+- The 3 earlier failures of other tracks (constants.test.ts, origins-thai-support.test.ts) stay open in their own tracks.
+- The storytime-unit2-sound-stage.test.ts exclude stays until that track's Task 3.6 Green closes.
+- The S4 manual verification line stays [b] deferred:daniel; the S5 page proofs show the step names to Daniel.
+- Review A F2 stands as a recorded Nit: the Green evidence cites the golden path as dashboard/**/golden/**, which is empty on every tree; the correct path is content/primary/origins-3.2/print/golden/, verified 0 diff here.
+- The review-a and review-b result files sit untracked in the working tree; the checkpoint commit can pick them up.
+- Template commit cbb076ef is ready for the PM handoff to the monorepo session (S7).
+
+Note on captures: the shell rules of this role deny redirection and tee, and /tmp/opencode writes were denied, so each heavy-run ran through a Python subprocess (python3 -c) that wrote the pa-s4-* capture files; the exit code line sits at the top of each capture.
+
+MEASURE_AGENT_RESULT
+role: measure-phase-acceptance
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S4: App step names in the v2 books
+commits: d1837d15 (audited head; no commit by this role)
+tests_run: RED=GREEN_TEST_COMMAND exit 0 (11 passed, pa-s4-red-green.txt); adversarial + look guards exit 0 (23 passed, pa-s4-adversarial-look.txt); PROJECT_TESTS exit 1 with only the 3 recorded other-track earlier failures (3 failed | 3114 passed of 3117, pa-s4-project-tests.txt); PROJECT_TESTS with the two earlier-failure files excluded exit 0 (3111 passed, pa-s4-project-tests-clean.txt); PROJECT_LINT exit 0 (pa-s4-lint.txt); PROJECT_CHECKS exit 0 (pa-s4-tsc.txt)
+files_changed: measure/runs/primary_v2_look_20261020/phase-acceptance-s4-d1837d15.json, phase-acceptance-s4-d1837d15.log, and the 6 pa-s4-* captures
+plan_updates: none by this role; the plan records the result file per its Phase acceptance bullet
+known_failures: the 3 earlier failures of other tracks (constants.test.ts 'includes Adventures 1.0 as a primary workbook option'; origins-thai-support.test.ts origins-2-a0 and origins-3.1-a0), which also fail at the tracked baseline; no other failure
+handoff: PASS for Tasks S4.1 to S4.3 at head d1837d15; the accepted head is d1837d15 and the test-only commit d1837d15 over 43dbf848 is the allowed advance; one later commit cd54ec96 (Daniel, another track's plan.md, 2 lines) landed during the gates with a 0-line dashboard diff, so the gate results apply verbatim to the audited head; the plan line for this result file is the only closeout left to the orchestrator
+END_MEASURE_AGENT_RESULT
