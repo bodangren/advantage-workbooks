@@ -1,0 +1,57 @@
+Verdict: FAIL. Prerequisites block acceptance.
+Audited HEAD: d2c2304cac3f73e4e6d19794af61c17edfeeef73.
+The initial and final HEAD checks match. Inspection commands exited 0.
+
+F1 [Blocker] phase-acceptance: Review A, Review B, and adversarial results target older HEADs.
+Commit d784e945 changes plan.md. Commit d2c2304c changes plan.md and two memory files.
+These commits exceed the exception for test files and measure/runs/.
+Commit a788340f meets that exception, but the other commits prevent prerequisite reuse.
+The product paths have no change after Review A at 7b1d6600.
+Unchanged product bytes do not extend the exception to plan or memory changes.
+
+Acceptance gate exits:
+- Targeted picture tests: NOT RUN; no exit code.
+- Look guards: NOT RUN; no exit code.
+- PROJECT_TESTS with three exclusions: NOT RUN; no exit code.
+- PROJECT_LINT: NOT RUN; no exit code.
+- PROJECT_CHECKS: NOT RUN; no exit code.
+- P1: NOT RUN; no exit code.
+- P2: NOT RUN; no exit code.
+- P3: NOT RUN; no exit code.
+- P4: NOT RUN; no exit code.
+- P5: NOT RUN; no exit code.
+- P6: NOT RUN; no exit code.
+- P7: NOT RUN; no exit code.
+- P8: NOT RUN; no exit code.
+- P9: NOT RUN; no exit code.
+- P10: NOT RUN; no exit code.
+- P11: NOT RUN; no exit code.
+- P12: NOT RUN; no exit code.
+- P13: NOT RUN; no exit code.
+- Golden and teacher-manual gate: NOT RUN; no exit code.
+- Per-file Thai-count gate: NOT RUN; no exit code.
+
+The role stopped before gates because the prerequisite check failed.
+No heavy command started. No command waits for a heavy lock.
+The role wrote only the supplied JSON and log. It made no commit.
+It opened no proof HTML, PDF, image, package, or extracted page text.
+
+Open owner items:
+Daniel's notes and manual verification remain deferred:daniel.
+The brief routes UX-1 to the fix round after Daniel's notes.
+A-F15/UX-2 and UX-3 through UX-8 remain for Daniel's look.
+A-F20 includes record corrections. This run grants no print approval.
+
+MEASURE_AGENT_RESULT
+role: measure-phase-acceptance
+status: blocked
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: none; prerequisite inspection failed applicability; inspection commands exited 0; all acceptance gates remain NOT RUN
+files_changed: measure/runs/primary_v2_look_20261020/phase-acceptance-s5-d2c2304c.json; measure/runs/primary_v2_look_20261020/phase-acceptance-s5-d2c2304c.log
+plan_updates: none
+known_failures: F1; Review A, Review B, and adversarial results cannot advance across the nonexempt plan and memory commits
+handoff: Orchestrator must rerun Review A, Review B, and adversarial prerequisites at the audited HEAD. Then rerun acceptance. Daniel's gates remain deferred.
+END_MEASURE_AGENT_RESULT
+RESULT: FAIL

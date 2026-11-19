@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "phase_base_sha": "14ba57a6e82db161d1417b9d4f0d21ea769a069f",
+  "role_base_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "audited_head_sha": "d2c2304cac3f73e4e6d19794af61c17edfeeef73",
+  "status": "fail",
+  "summary": "FAIL: stale prerequisites block acceptance. No acceptance gate ran. The audited HEAD stayed current throughout the read-only inspection.",
+  "blocking_findings": [
+    "F1 [Blocker] phase-acceptance: Review A, Review B, and adversarial results do not apply to d2c2304c. Later plan and memory changes exceed the test-only exception. Rationale: acceptance requires applicable prerequisites before gates run. Route: orchestrator; rerun those prerequisites at the audited HEAD."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "git rev-parse HEAD returned d2c2304cac3f73e4e6d19794af61c17edfeeef73 at the initial and final inspections. The inspection command exited 0.",
+    "The brief supplies the original S5 base 14ba57a6 and the remediation base 82c58b7e. Both resolve to commits. test-strategy.md:378 names a later strategy capture, 73f459e4.",
+    "Read measure/index.md, the workflow references, spec.md, plan.md, test-strategy.md, the anti-pattern catalog, the registry entry, and project memory. Thai characters in memory were filtered before display.",
+    "Read the exact 14ba57a6..d2c2304c implementation and test diffs. The product change adds 10 scoped CSS lines. It changes no exported signature.",
+    "Read review-a-s5-7b1d6600.json, review-b-s5-d784e945.json, adversarial-s5-d784e945.json, and ux-browser-s5-d2c2304c.json. Each reports pass at its recorded HEAD.",
+    "Review A targets 7b1d6600a230f898bf8d445d979a6a24a561e676. Review B and adversarial target d784e945593ce76ab86a0575872945de8542a695. Only UX targets d2c2304c.",
+    "The per-commit path inspection allows a788340fb82bedc30bc135c1fcf4b5ee046f737c: it touches one test file and measure/runs/ only. This exception alone cannot validate the prerequisite chain.",
+    "d784e945593ce76ab86a0575872945de8542a695 changes plan.md in addition to measure/runs/. Therefore Review A cannot advance across that commit under the test-only exception.",
+    "d2c2304cac3f73e4e6d19794af61c17edfeeef73 changes plan.md, measure/lessons-learned.md, and measure/tech-debt.md. Therefore the older Review A, Review B, and adversarial results cannot advance across it.",
+    "git diff --name-only 7b1d6600..d2c2304c over dashboard/lib, dashboard/templates, dashboard/scripts, and content/ returned zero paths. This confirms unchanged product bytes, not an allowed exception for documentation commits.",
+    "Review C does not apply under test-strategy.md:348 and :421. The diff adds no product route, flag, or option.",
+    "UX reports webbridge_status not_run and direct inspection of 30 page tiles. This acceptance role opened no proof HTML, PDF, image, package, or extracted page text.",
+    "plan.md:113-128 marks task 1, S5.R1, S5.G1, S5.G2, and S5.A1 complete. Their acceptance remains unverified in this run.",
+    "plan.md:129-130 defers Daniel's notes and manual verification to Daniel. The brief routes UX-1 to the fix round after Daniel's notes. This report does not claim visual approval.",
+    "The remaining owner items include A-F15/UX-2, A-F17/UX-1, and UX-3 through UX-8. A-F20 includes record corrections. These dispositions do not validate stale review identities.",
+    "The tracked dirty paths are strategy-s5-8b27c9ea.log and video/storytime-song/scripts/render.mjs. This role preserved both paths and all unrelated untracked work.",
+    "A5 remains unverified: no current acceptance test ran to confirm the S5 pass claims. This report makes no all-checks-pass claim.",
+    "The phase diff changes no corresponding framework surface for A3, A4, or A7. The registry change contains no resolved claim that triggers A6."
+  ],
+  "commands": [
+    "Initial Thai filter: changed Storytime JSON inputs were filtered in memory before display; no package or proof text was printed.",
+    "git rev-parse HEAD; git diff --name-only HEAD; git diff --stat 14ba57a6..d2c2304c; git log --oneline 7b1d6600..d2c2304c. Inspection shell exit 0.",
+    "Python prerequisite inspection: read audited_head_sha from each result; inspect every intervening commit with git diff-tree; allow only test files or measure/runs/. Inspection shell exit 0; three prerequisites do not apply.",
+    "git diff 14ba57a6..d2c2304c -- .gitignore dashboard/lib/document-wrapper/chibi-quest-styles.ts dashboard/__tests__/chibi-quest-picture-keep.test.ts dashboard/__tests__/chibi-quest-picture-keep.adversarial.test.ts. Inspection shell exit 0.",
+    "git diff --name-only 7b1d6600..d2c2304c -- dashboard/lib dashboard/templates dashboard/scripts content/. Zero paths; inspection shell exit 0.",
+    "NOT RUN: targeted picture tests. No exit code; prerequisites failed before execution.",
+    "NOT RUN: look guards. No exit code; prerequisites failed before execution.",
+    "NOT RUN: PROJECT_TESTS with the three requested exclusions. No exit code; prerequisites failed before execution.",
+    "NOT RUN: PROJECT_LINT from plan.md. No exit code; prerequisites failed before execution.",
+    "NOT RUN: PROJECT_CHECKS. No exit code; prerequisites failed before execution.",
+    "NOT RUN: P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, and P13 on proof-s5-r5. No exit codes; prerequisites failed before execution.",
+    "NOT RUN: golden and teacher-manual gate against 14ba57a6. No exit code; prerequisites failed before execution.",
+    "NOT RUN: per-file Thai-count gate over 14ba57a6..d2c2304c. No exit code; prerequisites failed before execution."
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/phase-acceptance-s5-d2c2304c.json",
+    "measure/runs/primary_v2_look_20261020/phase-acceptance-s5-d2c2304c.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "openai/gpt-6.1-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "The exact product diff adds scoped picture rules, but this blocked run does not verify the printed behavior."},
+    {"axis": "test_meaning", "score": 3, "evidence": "chibi-quest-picture-keep.adversarial.test.ts includes exact-property and override controls; this blocked run executes no test."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The phase diff confines the product change to dashboard/lib/document-wrapper/chibi-quest-styles.ts."},
+    {"axis": "evidence_quality", "score": 3, "evidence": "Per-commit path inspection proves stale prerequisites, but no current acceptance gate supplies execution evidence."}
+  ],
+  "reviewer_ratings": [
+    {"reviewer_role": "review-a", "reviewer_route": "claude-code/claude-sonnet-5-5#max", "agreed": true, "score": 3, "evidence": "Review A identifies F18 parsing gaps visible in the Red test; its implementation verdict does not establish current prerequisite validity."},
+    {"reviewer_role": "review-b", "reviewer_route": "openai/gpt-6.1-sol#high", "agreed": true, "score": 3, "evidence": "checks.py:395-403 validates the manifest commit and uses --end-of-options; this blocked run does not repeat the security probes."},
+    {"reviewer_role": "adversarial", "reviewer_route": "openai/gpt-6.1-sol#high", "agreed": true, "score": 3, "evidence": "The new test contains controls for N2, N4, and N7 and labels its assertions as artifact tests; this run executes no mutant."}
+  ]
+}

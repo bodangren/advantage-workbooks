@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "role": "measure-ux-browser-review",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "phase_base_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "role_base_sha": "d2c2304cac3f73e4e6d19794af61c17edfeeef73",
+  "audited_head_sha": "d2c2304cac3f73e4e6d19794af61c17edfeeef73",
+  "route": "claude-code/claude-sonnet-5-5#max",
+  "model": "claude-sonnet-5-5",
+  "status": "pass",
+  "summary": "PASS with 0 Blocker and 8 nonblocking findings (1 Major, 7 Nit). I viewed all 30 page tiles of proof-s5-r5 and the 15 paired app captures. All 13 step names match the S4.1 table, in order, in both lessons. I found no clipped or overlapped text, no squashed picture, no split caption, no empty page, and no broken Thai. One Major finding needs a fix before Daniel looks: step headers touch the panel above on 5 pages (review A F17). F15 stays a Nit and goes to Daniel as a question.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "UX-1 [Major] ux-browser-review: Step headers touch the panel above them on 5 of 30 pages (review A F17). The pages are Quest 5 pages 5, 6, and 10 and Adventure 9.2 pages 8 and 12. The gap at 300 dpi is 0.0 mm under a framed panel and 0.25 mm under the word bank. The rule .look-chibi-quest div.section-header (chibi-quest-styles.ts line 86) has a bottom margin and no top margin. Green should add a top margin of about 4 mm and build proof r6. Daniel needs no question on this, because it is a defect and not a taste choice. Rationale: the gold medal merges with the panel border and looks like a print error, and one rule fixes it.",
+    "UX-2 [Nit] ux-browser-review: The hero picture prints smaller than the inline pictures and leaves blank space on page 3 of both lessons (review A F15). On Quest 5 page 3 the hero is 63.5 mm square, and the inline pictures on page 4 are 84.8 mm square. A blank strip of about 35 mm separates the hero from the first paragraph, which gets a 71 mm column. On Adventure 9.2 page 3 the reading key is the only item right of the hero, and about 71 x 92 mm stays blank. The float box is 93.5 mm wide, so the 240 px cap (the review A F11 fix) leaves the strip. The size is Daniel's choice, so send it to him as question 1, and it does not block his look. Rationale: the app shows the hero as the largest picture, so the page looks sparse and the picture sizes look reversed.",
+    "UX-3 [Nit] ux-browser-review: Labels and instructions print small for a child of 9 to 12. In Quest 5, six caps labels print at 6.7 pt and 32 labels print at 7.3 pt, such as 'Main idea:' and 'WORD n:'. Task instructions print at 8.0 pt on Quest 5 pages 6, 7, 8, and 10 and Adventure pages 8, 9, 10, and 12. The draft lines on Quest 5 page 11 and Adventure page 13 are 6.4 mm apart. A child of this age often needs 7 to 9 mm. Send this to Daniel as question 2, and it does not block his look. Rationale: the article and question text are good, but the classic Open Sans labels have heavier strokes than the light Quicksand.",
+    "UX-4 [Nit] ux-browser-review: Printed step numbers 12 and 13 differ from the app numbers 13 and 14. Quest 5 pages 12 and 13 and Adventure pages 14 and 15 show the step names 'Language Questions' and 'Lesson Summary'. Printed steps 9, 10, and 11 have no single app step. Three app signs differ from the app step list and the print (steps 4, 7, and 8). The print follows the S4.1 table and step-map.ts, so it is correct by the record. Send this to Daniel as question 3, and it does not block his look. Rationale: spec.md story S4 says the class finds the same step in both, but 'step 13' means two different steps.",
+    "UX-5 [Nit] ux-browser-review: The pages leave large blank areas, and the vocabulary list leaves widow cards. The blank area above the page number is 30 to 41 percent of the content height on Quest 5 pages 8, 9, and 12. It is also 30 to 41 percent on Adventure pages 4, 6, 10, 11, and 14. One card (12 of 12) stands alone at the top of Quest 5 page 3. Two cards stand alone at the top of Adventure page 3. The page rules of primary_template.html cause this, and this phase did not change that template. Rationale: this is not a defect of the look, but Daniel may want fuller pages.",
+    "UX-6 [Nit] ux-browser-review: Card edges in print are paler than in the app. The vocabulary cards and the write-in wells use a 2 px edge in parchment-2 (#e9d4a8) and a 10 px radius. These are the well tokens of spec.md line 23. The contrast of this edge on white is about 1.5 to 1. The app cards have a dark brown edge, and the app shows the word on a small wood sign. The pages are Quest 5 pages 1, 2, 3, 5, 10, and 11 and Adventure pages 1, 2, 3, 6, 7, 12, and 13. Rationale: this stays within print limits, but Daniel may want a darker edge.",
+    "UX-7 [Nit] ux-browser-review: Three Thai details are for Daniel's Thai check. The Thai glosses print in 8 pt Sarabun Italic (slanted). They appear on Quest 5 pages 1, 2, 3, and 9 and Adventure pages 1, 2, 3, and 11. The Latin words 'STAFF ONLY' in the Thai translation (Adventure page 16) print in light Quicksand and look thinner than the Thai text. The polite particle that ends the quoted line in paragraph 2 (Adventure page 16) breaks across two lines. Every vowel mark and tone mark is present, and none is clipped. Rationale: Daniel checks all Thai himself, and none of the three points blocks him.",
+    "UX-8 [Nit] ux-browser-review: The Quest 5 contact sheet pairs fewer app captures than spec story S5 asks for. The sheet shows no app capture for step 5 'Deep Reading', because page 5 shows only the step 4 capture. Printed steps 9 and 10 show the text 'no single app step'. But step-map.ts maps printed step 9 to app steps 9 and 10, and printed step 10 to app steps 11 and 12. Those captures exist, and the Adventure sheet shows step 5 on page 7. Fix: add the step 5 capture, and show the mapped captures for printed steps 9 and 10. Rationale: the change is cheap, and it helps Daniel compare the pages."
+  ],
+  "evidence": [
+    "Head check: git rev-parse HEAD gave d2c2304cac3f73e4e6d19794af61c17edfeeef73 at the start and at the end of the audit. The phase base is 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93. The brief gave no role base, so the role base equals the audited head. This role changes no repository file.",
+    "User-facing diff of the phase (git diff 82c58b7e..HEAD outside measure/): one product file, dashboard/lib/document-wrapper/chibi-quest-styles.ts, with 10 inserted lines. The lines are the inline picture keep rule and the hero cap. The diff also holds two test files and .gitignore. No commit after the proof git_head 178a4e2f changes dashboard/lib, dashboard/templates, dashboard/assets, or content/primary. The r5 print.html, PDF, and contact-sheet hashes equal manifest-r5.txt, so the proofs show the product at HEAD.",
+    "Pages viewed: all 30 page tiles (Quest 5 pages 1 to 14 and Adventure 9.2 pages 1 to 16). I also viewed 15 app captures of parity-run2-2026-10-19/student: lesson-step01 to lesson-step14 desktop, and lesson-step03-first-reading-pictures-desktop. I viewed 5 contact-sheet rows (Quest 5 rows 1, 3, and 9 and Adventure rows 3 and 16). I viewed 300 dpi crops of the step headers, the Thai text, the QR block, and the score box.",
+    "Check 1, names and numbers: pdftotext finds each of the 13 names of the S4.1 table once per PDF, in order. The Quest 5 pages are 1, 1, 3, 5, 5, 6, 6, 8, 9, 10, 11, 12, and 13. The Adventure pages are 1, 1, 3, 6, 7, 8, 8, 10, 11, 12, 13, 14, and 15. None of the 9 classic names appears. The step on each row of both tsv files matches the printed page.",
+    "Check 2, look: the PDF text colors equal the spec tokens (ink #3b291a, ink-soft #6a5337, on-wood #fff4db, wood-dark #5c381a, gold text #79530f, wrong text #6a1717). The panel edge samples (181,138,78), which is parchment-edge #b58a4e. The wood sign has the wood fill, the wood-dark border, a rivet at each end, a gold medal beside it, and a time chip. It has no gradient, no shadow, and no emoji.",
+    "Check 2, fonts: pdffonts lists 8 embedded CID TrueType faces and no Type 3 face. The faces are Quicksand regular and bold, Fredoka medium, semibold, and bold, Sarabun regular and italic, and Mitr bold. Signs and titles use Fredoka. Body text uses Quicksand. Thai text uses Sarabun, and the bold Thai heading uses Mitr.",
+    "Check 3, layout: pdftotext -bbox checked 1400 words (Quest 5) and 1829 words (Adventure). It found 0 pairs of overlapping word boxes and 0 words outside the side margins. The ink margins are 19.8 to 20.3 mm on all 30 pages. No heading stands alone at a page foot, and no page is empty.",
+    "Check 3, pictures: pdfimages -list gives the hero at 640 x 640 ppi and each inline picture at 479 x 479 ppi. So no picture is squashed (3 of 3 pictures in each lesson). Each caption prints under its picture on the same page.",
+    "Check 3, Thai: 300 dpi crops of Quest 5 pages 1 and 14 and Adventure page 16 show every vowel mark and tone mark. No mark is clipped, and no line collides with another line. The PDF text layer holds every Thai character of the package. Quest 5 has 950 of 950 translation characters (80 of 80 tone marks) and 105 of 105 gloss characters. Adventure has 1780 of 1780 and 107 of 107. The pdftohtml xml output omits some stacked tone marks, but pdftotext keeps them.",
+    "Check 4, readability: pdftohtml gives these text sizes (px divided by 1.5). Article text is 12.0 pt, questions are 10.7 pt, options are 10.0 pt, and Meaning lines are 8.7 pt. Instructions and Thai glosses are 8.0 pt, labels are 7.3 pt and 6.7 pt, and the Thai translation is 8.7 pt. The 6.7 pt labels are on Quest 5 pages 3 and 11 and Adventure pages 3 and 13. The 7.3 pt labels are on Quest 5 pages 3, 5, 11, and 12. The ruled-line pitch is 6.36 mm on the draft lines of Quest 5 page 11. It is 9.5 mm on the Sentence Collection lines and 9.6 mm on the Short Answer lines.",
+    "F17 measure: I scanned one pixel column through the medal on 300 dpi renders (python3 -I with PIL). The gap between the panel above and the medal is 0.0 mm on Quest 5 pages 5 and 6 and Adventure page 8. It is 0.25 mm on Quest 5 page 10 and Adventure page 12. The Quest 5 headers of steps 1, 2, and 3 have gaps of 4.2, 3.9, and 3.1 mm.",
+    "F15 measure: on Quest 5 page 3 the hero ends at 329 px and the text starts at 468 px (827 px tile). The strip is 35.3 mm. The rule .article-image-area (primary_template.html line 902) sets float: left and width: 55%. The rule .look-chibi-quest .hero-img-box img (chibi-quest-styles.ts line 105) caps the picture at 240 px. On Adventure page 3 the region x 468 to 748 px and y 677 to 1040 px holds 0 ink pixels (71 x 92 mm).",
+    "Blank area above the page number, in mm (the content height is 270 mm). Quest 5 pages 1 to 14: 26.7, 21.3, 41.7, 49.0, 35.6, 67.6, 9.4, 86.4, 82.0, 31.0, 18.0, 111.8, 34.8, 159.3. Adventure pages 1 to 16: 16.0, 40.6, 33.8, 104.9, 52.3, 84.6, 74.7, 67.6, 9.4, 86.4, 82.0, 31.0, 18.0, 111.8, 34.8, 95.8. In Quest 5, steps 4, 6, 8, 9, 11, 12, and 13 each start a new page.",
+    "Rating of the open Nits: review A rated F15 and F17 Nit. I confirm both defects. I rate F17 Major, because the 0.0 mm gap is a measured collision and not a taste choice. I keep F15 a Nit, because the page stays usable and the size is a design choice.",
+    "Not applicable to a print PDF: responsive behavior, keyboard use, accessibility snapshot, and loading, empty, and error states. I used no browser, so webbridge_status is not_run. test-strategy.md lines 217 and 218 allow this and keep Daniel's look binding. PROJECT_DEV_URL is not used, because no dev route serves the proof.",
+    "App capture quirk, outside this track: the app signs read 'Preview Vocabulary' (step 4), 'Task Multiple Choice' (step 7), and 'Task Short Answer' (step 8). The app step list reads 'Vocabulary Collection', 'Multiple Choice', and 'Short Answer'. The signs of steps 9 and 11 also carry the prefix 'Task'."
+  ],
+  "commands": [
+    "git rev-parse 82c58b7e HEAD; git diff --name-only 82c58b7e..HEAD -- . ':(exclude)measure'; git diff --stat 82c58b7e..HEAD -- dashboard content; git diff 82c58b7e..HEAD -- dashboard/lib/document-wrapper/chibi-quest-styles.ts; git log --oneline 178a4e2f..HEAD -- dashboard/lib dashboard/templates dashboard/assets content/primary",
+    "pdfinfo, pdffonts, and pdfimages -list on quest5-l01.pdf and adventure92-l09.pdf in ~/Desktop/print-ready/primary-v2-look/proof-s5-r5/",
+    "pdftotext (each page, plain and -bbox) and pdftohtml -xml -i -q -stdout on both PDFs, parsed with python3 -I",
+    "pdftoppm -r 300 for Quest 5 pages 1, 3, 5, 6, 10, 11, and 14 and Adventure pages 3, 8, 12, and 16; python3 -I with PIL for the crops, the pixel-column gap measure, the ruled-line pitch, and the blank-area table, written under /tmp/opencode/ux-s5/",
+    "python3 -I read of content/primary/quest-5/l01.json and content/primary/adventure-9.2/l09.json for the Thai character counts",
+    "sha256 of the r5 print.html, PDF, and contact-sheet files against measure/runs/primary_v2_look_20261020/proof-s5/manifest-r5.txt",
+    "python3 -I -B ~/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py role-gate --role measure-ux-browser-review --track primary_v2_look_20261020 --baseline 82c58b7e (read-only check of this result file and log)"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/ux-browser-s5-d2c2304c.json",
+    "measure/runs/primary_v2_look_20261020/ux-browser-s5-d2c2304c.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "ux_applicability": "applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {
+    "screenshots": [
+      "/home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r5/quest5-l01-pages/page-01.png to page-14.png (14 tiles viewed)",
+      "/home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r5/adventure92-l09-pages/page-01.png to page-16.png (16 tiles viewed)",
+      "/home/daniebo/Desktop/advantage-pr/assets/screenshots/primary-advantage/parity-run2-2026-10-19/student/lesson-step01-intro-desktop.png to lesson-step14-summary-desktop.png (14 captures viewed), and lesson-step03-first-reading-pictures-desktop.png",
+      "/tmp/opencode/ux-s5/f17-q5-p5.png, f17-q5-p6.png, f17-q5-p10.png (crops of the touching step headers)",
+      "/tmp/opencode/ux-s5/thai-q5-p1-gloss.png, thai-q5-p14-a.png, thai-a92-p16-a.png, thai-a92-p16-b.png (Thai crops at 300 dpi)",
+      "/tmp/opencode/ux-s5/hero-q5-p3.png, qr-q5-p11.png, score-q5-p7.png, cs-q5-row01.png, cs-q5-row03.png, cs-q5-row09.png, cs-a92-row03.png, cs-a92-row16.png (hero, QR, score, and contact-sheet crops)"
+    ],
+    "accessibility_snapshots": [
+      "A print PDF has no accessibility tree. The nearest evidence is the PDF text layer. pdftotext returns every Thai character of both packages. pdffonts shows a ToUnicode map (uni yes) for all 8 embedded faces."
+    ],
+    "interactions": [
+      "None. The proof is a static print PDF, so no keyboard, viewport, or state interaction exists."
+    ]
+  },
+  "open_nit_ratings": {
+    "F15": {
+      "rating": "Nit",
+      "blocks_daniels_look": false,
+      "route": "Daniel, as question 1; one Green rule can close the strip earlier",
+      "reason": "The page stays usable. The hero size is a design choice. The 35 mm strip is a side effect of the 240 px cap."
+    },
+    "F17": {
+      "rating": "Major",
+      "blocks_daniels_look": false,
+      "route": "Green fix (one top-margin rule) and proof r6 before Daniel looks; no Daniel question",
+      "reason": "The gap is 0.0 mm on 3 pages and 0.25 mm on 2 pages. This is a measured collision and not a taste choice. If the orchestrator skips a new round, tell Daniel that the gap is a known defect."
+    }
+  },
+  "questions_for_daniel": [
+    "Question 1 (first picture): On the first-reading page the first picture prints 63.5 mm wide, and the other pictures print 84.8 mm wide. A blank strip of about 35 mm sits beside it. Do you want it as big as the other pictures, or small as it is with the strip closed?",
+    "Question 2 (small print): Some labels print at 6.7 to 7.3 pt, and the task instructions print at 8 pt. The draft lines are 6.4 mm apart. Is this readable for a child of 9 to 12, or do you want about 1 pt more and wider lines? A bigger size moves the page breaks and needs a new proof.",
+    "Question 3 (step names and numbers): The book has 13 steps and the app has 14. Printed steps 12 and 13 are app steps 13 and 14. The app signs on steps 7 and 8 say 'Task Multiple Choice' and 'Task Short Answer'. The book says 'Multiple Choice' and 'Short Answer'. Do you accept the book numbers and names as they are?"
+  ]
+}

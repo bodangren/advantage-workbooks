@@ -1,0 +1,57 @@
+UX browser review, Phase S5: Page proofs for Daniel (FINAL)
+Track: primary_v2_look_20261020
+Phase base: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+Role base: d2c2304cac3f73e4e6d19794af61c17edfeeef73 (the brief gave none; this role changes no repository file)
+Audited head: d2c2304cac3f73e4e6d19794af61c17edfeeef73 (equals HEAD at audit start and at audit end)
+Result file: measure/runs/primary_v2_look_20261020/ux-browser-s5-d2c2304c.json
+
+Verdict: PASS with 0 Blocker and 8 nonblocking findings (1 Major: UX-1; 7 Nit: UX-2 to UX-8).
+The product is a print proof, not a web route. I judged the r5 page tiles against the app captures. I used no browser, so webbridge_status is not_run.
+
+Item 1: step names and numbers.
+- Each of the 13 names of the S4.1 table prints once per lesson, in order. None of the 9 classic names prints.
+- The printed step on every row of both tsv files matches the page. Quest 5 has 14 pages, and Adventure 9.2 has 16 pages.
+- Printed steps 12 and 13 carry the app names but not the app numbers (13 and 14). This is UX-4 (Nit), and it follows the S4.1 table.
+
+Item 2: look against the app.
+- The wood sign, the gold medal, the time chip, the parchment header panel, and the white write-in areas match the spec tokens. The PDF text colors equal the tokens.
+- The kit has no gradient, no shadow, and no emoji. All 8 fonts are embedded CID TrueType faces, and none is Type 3.
+- Card edges print paler than in the app (UX-6, Nit).
+
+Item 3: layout defects.
+- I found no clipped or overlapped text (0 overlapping word pairs in 3229 words). I found no squashed picture, no split caption, no empty page, and no broken Thai.
+- Step headers touch the panel above on 5 pages (UX-1, Major). The gap is 0.0 mm on 3 pages and 0.25 mm on 2 pages.
+- The hero is small and leaves blank space on page 3 of both lessons (UX-2, Nit).
+- Large blank areas and widow cards come from the shared page rules (UX-5, Nit).
+
+Item 4: readability for a child of 9 to 12.
+- The article text (12 pt) and the question text (10.7 pt) are good.
+- Labels (6.7 and 7.3 pt) and instructions (8.0 pt) are small, and the draft lines are 6.4 mm apart (UX-3, Nit).
+
+Item 5: the open Nits F15 and F17.
+- F15: Nit. The page stays usable, and the size is a design choice. Send it to Daniel as question 1. It does not block his look.
+- F17: Major. The gap is a measured collision and not a taste choice. Green should fix it with one top-margin rule and a proof r6 before Daniel looks. Daniel needs no question on it.
+- If the orchestrator skips a new round, tell Daniel up front that F17 is a known defect with a one-rule fix.
+
+Questions for Daniel, in plain words:
+1. The first picture on the reading page prints 63.5 mm wide, and the other pictures print 84.8 mm wide. Do you want it as big as the others, or small with the blank strip closed?
+2. Some labels print at 6.7 to 7.3 pt, and the instructions print at 8 pt. The writing lines are 6.4 mm apart. Is this readable for a child of 9 to 12, or do you want it bigger?
+3. The book has 13 steps and the app has 14, so printed steps 12 and 13 are app steps 13 and 14. The app signs on steps 7 and 8 say 'Task Multiple Choice' and 'Task Short Answer'. Do you accept the book numbers and names?
+
+Limits of this review:
+- A print PDF has no responsive layout, no keyboard use, no accessibility tree, and no loading, empty, or error state. These checks do not apply.
+- I did not render the 9 other Chibi Quest books or the complete books. The findings cover Quest 5 lesson 1 and Adventure 9.2 lesson 9 only.
+- Scratch images stay under /tmp/opencode/ux-s5/, outside the repository.
+
+MEASURE_AGENT_RESULT
+role: measure-ux-browser-review
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: no test suite run (print-proof audit); 30 page tiles viewed against 15 app captures; pdftotext, pdffonts, pdfimages, pdftohtml, and pdftoppm checks on both r5 PDFs: pass (13 names in order, 0 overlapping word pairs, 0 squashed pictures, Thai text layer complete); PIL measures of gaps, ruled lines, and blank areas; role-gate check of the result file: pass
+files_changed: measure/runs/primary_v2_look_20261020/ux-browser-s5-d2c2304c.json; measure/runs/primary_v2_look_20261020/ux-browser-s5-d2c2304c.log
+plan_updates: none; audit-only role
+known_failures: none blocking; open nonblocking findings UX-1 (Major) and UX-2 to UX-8 (Nit)
+handoff: No Blocker. Route UX-1 (review A F17) to Green: add a top margin of about 4 mm on step headers, then build proof r6. Send F15 (UX-2) and questions 1 to 3 of the result file to Daniel. Route UX-8 to the proof driver author. The other Nits go to Daniel's look.
+END_MEASURE_AGENT_RESULT

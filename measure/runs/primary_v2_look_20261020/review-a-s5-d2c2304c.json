@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "phase_base_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "role_base_sha": "7b1d6600a230f898bf8d445d979a6a24a561e676",
+  "audited_head_sha": "d2c2304cac3f73e4e6d19794af61c17edfeeef73",
+  "status": "fail",
+  "summary": "FAIL: the delta holds 1 Blocker (F21) and 1 Nit (F22), and the r3 verdict holds for the product. No product file changed after 7b1d6600, and the gate exits 0 with 50 tests passed. F18 is closed: the mutants N2, N4, and N7 each fail the new tests, and the control passes 16 tests. F19 is closed for its stated fault, but the narrowed P8 scope omits 9 render imports and the font folder. P8 therefore passes on a changed product, and 40 of the last 59 commits that changed an omitted input pass unseen. The plan, lessons, and tech-debt lines say true things, except the label 'render paths' (F22).",
+  "blocking_findings": [
+    "F21 [Blocker] review-a: The narrowed P8 scope omits render inputs, so P8 passes on a changed product (A4). P8_PATHS (checks.py lines 369 to 378, commit d784e945) lists 8 paths, and the import chain of `scripts/render-lesson-html.ts` holds 9 files outside the list. The render also reads the `.woff2` font files in `dashboard/assets/print-fonts` (29 files). The P8 git command exits 0 for 40 of the last 59 commits that changed one of these inputs. The same list limits `git status --porcelain`, so an uncommitted edit of these inputs also passes. Fix: add the 9 files and `dashboard/assets/print-fonts` to P8_PATHS. Rationale: the comment above P8_PATHS says that a change outside the list does not change a proof, and that claim is false."
+  ],
+  "nonblocking_findings": [
+    "F15 [Nit] review-a: Unchanged since r3, and for Daniel's look. The r5 hero prints 63.5 mm square, and the inline pictures print 84.8 mm square. On Quest 5 page 3 a blank strip of about 35 mm sits between the hero and the text column. On Adventure 9.2 page 3 the right column holds only the reading key, because paragraph 1 starts on page 4. Daniel decides if the hero size is right. A larger cap needs a new proof, because the 240 px cap cured F5. Rationale: the page stays usable, but the hero looks small next to the inline pictures.",
+    "F17 [Nit] review-a: Unchanged since r3, and for Daniel's look. Step headers sit flush under the previous panel. The medal touches the bottom border above it on Quest 5 pages 5, 6, and 10 and on Adventure 9.2 pages 8 and 12. The audited delta does not touch this spacing. Rationale: touching edges look like a layout error in print.",
+    "F20 [Nit] review-a: Unchanged since r3: records lag the shipped design in 5 places. plan.md line 117 calls the F5 picture an inline picture, but it is the hero picture. test-strategy.md line 133 still holds the printer date 2026-11-06, and line 419 still lists the spec and plan dates as open. The strategy table (line 387) cites `falsification-r2.txt` for the hero drop, but the record is `proof-s5/g1-hero-drop.txt`. The comment above the inline keep rule (chibi-quest-styles.ts line 97) cites F5, but the rule follows `spec.md` line 72. The plan has no S6 assertion for `seriesName`, `levelNumber`, or `cefrLevel` (strategy lines 325 and 419). Rationale: a later reader would trust a stale date or pointer; fix the comment with the next product edit, because P8 flags each product commit.",
+    "F22 [Nit] review-a: Records overstate the P8 scope. The checks.py header (lines 12 to 14) still says that P8 compares `dashboard` and `content`. plan.md line 126, green-s5-r6-7b1d6600.log line 15, and p8-hardening-r6.txt line 7 call the 8 paths 'the render paths' or 'the print renders'. test-strategy.md line 323 still gives `dashboard` and `content` as the status scope, and line 368 says that an uncommitted edit fails P8. Update these records with the F21 fix. Rationale: a later reader would trust a scope that the code does not have."
+  ],
+  "evidence": [
+    "Head equals the audited head: git rev-parse HEAD gives d2c2304cac3f73e4e6d19794af61c17edfeeef73. The delta 7b1d6600..d2c2304c holds 3 commits: d784e945 (P8 hardening), a788340f (adversarial test), and d2c2304c (records).",
+    "No product file changed after 7b1d6600: git diff --stat 7b1d6600..d2c2304c over dashboard/lib, dashboard/templates, dashboard/scripts, dashboard/app, and content is empty. Outside measure/, git diff --numstat lists one new file, dashboard/__tests__/chibi-quest-picture-keep.adversarial.test.ts (155 insertions). git status shows no tracked change in dashboard or content.",
+    "Gate GATE_EXIT=0: the heavy-run of the 6 files in the brief gives 6 passed files and 50 passed tests. The counts are 10 adversarial, 6 picture-keep, 10 look, 6 kit, 11 step-names, and 7 step-names adversarial.",
+    "F18 closed. I ran both picture-keep test files in scratch copies of dashboard under /tmp/opencode/review-a-s5-r3. The control N0 passes 16 tests. N2 (`max-width: auto` in place of `width: auto`) fails 1 test. N4 (a later `width: 100%` rule) fails the same test: 'uses the last active hero width declaration with its exact property name'. N7 (the hero rule inside a comment) fails 4 tests: the width, max-width, and max-height guards and the scoped-rule count. The old file alone passed N2, N4, and N7 in r3.",
+    "Other mutants with both files: T1 (caption moved outside the inline wrapper) and T2 (image removed from the wrapper) fail 5 tests each. These are the new render test, the 2 new classic-render tests, old test 4, and the old golden test. N8 (the inline keep rule loses page-break-inside) fails 2 tests. N9 (a keep rule on article-image-area) fails 2 tests. N10 (a gradient) fails the old flat-CSS test.",
+    "Limits of the new parser (not findings): three later overrides of the hero width pass all 16 tests. X1 is an `@media print` block, X2 uses a more specific selector, and X3 is `.look-chibi-quest img { width: 100% !important; }`. The parser reads top-level rules with the exact selector. I did not render X1 to X3. P12 and P13 would test their effect at the next proof.",
+    "ESLint on dashboard/__tests__/chibi-quest-picture-keep.adversarial.test.ts exits 0 with no output.",
+    "Trade-off (not a finding): the new classic-freeze test pins the phase base 82c58b7e with git show. styles.ts last changed on 10-03, and 3 Storytime tests use the same pinned-commit pattern. A later legitimate change of the classic styles or goldens needs a test update.",
+    "F19 closed for its stated fault. With the shipped P8_PATHS, the P8 git command exits 0 for commit 67fc356c (4 Storytime scene.json files) and for the Green fixture c9fa5cef against HEAD. It exits 1 for 95345e90 against HEAD (before the r5 style change). It exits 0 for 178a4e2f, the build commit of proof r5.",
+    "P8 hardening: COMMIT_ID accepts lowercase hex of 7 to 40 characters. It rejects `--output=/tmp/x`, `HEAD;rm`, uppercase hex, 6 and 41 characters, whitespace, a trailing newline, and an empty value. `--end-of-options` precedes the value (checks.py line 401). Each of the 8 P8_PATHS has tracked files (18, 1, 1, 1, 1, 1, 85, 85), so no path is vacuous.",
+    "P1 to P13 called read-only at HEAD d2c2304c on proof-s5-r5 with python3 -I -B: 13 checks, 0 failures. P8 shows git_head 178a4e2f, product_changed_since_manifest False, and 8 of 8 sha256 matches. checks-r5b.txt (head 7b1d6600) records the same: 13 checks, 0 failures, RESULT: PASS.",
+    "F21 closure: the import walk of scripts/render-lesson-html.ts and lib/print/render.ts reaches 29 files. 20 lie in P8_PATHS (the script, lib/print/render.ts, and the 18 files of lib/document-wrapper). The 9 others are lib/cutover.ts, lib/filesystem.ts, lib/lesson-package/build.ts, lib/lesson-package/schema.ts, lib/look.ts, lib/qr-generator.ts, lib/template-renderer.ts, lib/workbook-document-wrapper.ts, and lib/workbook-schema.ts. test-strategy.md line 142 names renderMultipleLessons and wrapWorkbookDocument as the render functions, and line 156 gives the render-lesson-html.ts command. The 2 functions live in 2 of the 9 omitted files.",
+    "F21 history: of the last 59 commits that changed an omitted input, the P8 command is blind to 40. Examples: 4625ff33 (build.ts, print answer positions), 2f1bf6b3 (schema.ts), a3556069 (template-renderer.ts and workbook-schema.ts), 6f8f7d99 (workbook-document-wrapper.ts), ed709c0e (qr-generator.ts), and 399d9cb0 (print-fonts). The r5 wide scope `dashboard content` sees 4625ff33 (exit 1).",
+    "The wide scope `dashboard content` now fails at HEAD, because of the new adversarial test file. git diff --quiet 178a4e2f HEAD over dashboard and content exits 1. So the F21 fix is to widen the 8-path list, not to restore the wide scope.",
+    "Plan, lessons, and tech-debt lines. plan.md line 126 (Green r6) is true for the commit-id validation, `--end-of-options`, and 'proof round 5 unchanged' (the hashes match). The label 'render paths' overstates the scope (F22). The S5.A1 line and the F18 evidence line are true. They claim 1 new test file, 10 new tests, 6 passing Red tests, exit 0 for Vitest and ESLint, and failing N2, N4, and N7. My runs confirm each claim. The lessons line states what the new test does. The tech-debt row is true. Strategy v1.18 (line 288) says that the Quest 5 printer file stays on hold with no date. Versions v1.19 to v1.24 do not change it.",
+    "The r3 verdict holds for the product: the 3 commits touch no product file, the gate passes, and P1 to P13 pass. The only blocking defect sits in proof-s5/checks.py.",
+    "A5: the claims 'checks run 13, failures 0, RESULT: PASS' (checks-r5b.txt) and '16 passed' (adversarial-s5-d784e945.txt) match my runs. The delta holds 0 Thai characters in its 1344 added lines.",
+    "F15, F17, and F20 are unchanged by the delta: it touches no CSS, no strategy file, and not plan.md line 117."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --format='%h %ad %s' 7b1d6600..HEAD; git diff --name-status 7b1d6600..d2c2304c; git diff --stat 7b1d6600..d2c2304c -- dashboard/lib dashboard/templates dashboard/scripts dashboard/app content; git diff --numstat 7b1d6600..d2c2304c -- . ':!measure'; git status --porcelain dashboard content",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-picture-keep.test.ts __tests__/chibi-quest-picture-keep.adversarial.test.ts __tests__/workbook-look.test.ts __tests__/chibi-quest-kit.test.ts __tests__/chibi-quest-step-names.test.ts __tests__/chibi-quest-step-names.adversarial.test.ts' (foreground, exit 0)",
+    "python3 -I -B import walk of scripts/render-lesson-html.ts and lib/print/render.ts (29 files), compared with P8_PATHS",
+    "python3 -I -B (importlib load of proof-s5/checks.py): P1 to P13 called read-only on proof-s5-r5 at HEAD; COMMIT_ID cases; git ls-files per P8 path",
+    "python3 -I -B: the P8 command git diff --quiet --end-of-options A B -- P8_PATHS on the pairs 67fc356c, c9fa5cef, 95345e90, 178a4e2f, and 4625ff33, and on the last 120 commits that touched an omitted input",
+    "One queued heavy-run job of /tmp/opencode/review-a-s5-r4/run_mutants.py: both picture-keep test files with GIT_DIR set, in scratch copies N0, N2, N4, N7, T1, T2, N8, N9, N10, X1, X2, and X3, then npx eslint of the adversarial test (exit 0)",
+    "read and grep of plan.md, lessons-learned.md, tech-debt.md, test-strategy.md, checks.py, p8-hardening-r6.txt, green-s5-r6-7b1d6600.log, adversarial-s5-d784e945.*, review-b-s5-d784e945.json, and product-strategy-2026-2027.md (Quest 5 printer-file hold)",
+    "python3 -I -B scan of the added lines of the delta for Thai characters (U+0E00 to U+0E7F)"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/review-a-s5-d2c2304c.json",
+    "measure/runs/primary_v2_look_20261020/review-a-s5-d2c2304c.log"
+  ],
+  "test_strategy_violations": [
+    "test-strategy.md line 323 sets the P8 `git status --porcelain` scope to `dashboard` and `content`, and line 368 says that an uncommitted edit makes P8 fail. checks.py P8 (commit d784e945) reads 8 paths only, so an uncommitted edit of 9 render imports or of dashboard/assets/print-fonts passes. The strategy was not updated."
+  ],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "claude-code/claude-sonnet-5-5#max",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 3,
+      "evidence": "checks.py lines 369 to 378: P8_PATHS omits 9 render imports and the font folder, so P8 misses 40 of 59 commits that changed them."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 3,
+      "evidence": "The mutants N2, N4, and N7 fail chibi-quest-picture-keep.adversarial.test.ts, but the P8 scope claim has no fixture and misses 9 render inputs."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --numstat 7b1d6600..d2c2304c outside measure/ lists one new test file, and no product file changed."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 3,
+      "evidence": "p8-hardening-r6.txt lines 7 and 23 to 26 record 4 fixtures, but its scope claim is false for 9 render inputs."
+    }
+  ]
+}

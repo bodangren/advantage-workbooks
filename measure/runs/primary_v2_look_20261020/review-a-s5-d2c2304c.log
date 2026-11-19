@@ -1,0 +1,58 @@
+Review A (correctness and architecture) round 4, delta only, Phase S5: Page proofs for Daniel
+Track: primary_v2_look_20261020
+Phase base: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+Role base: 7b1d6600a230f898bf8d445d979a6a24a561e676
+Audited head: d2c2304cac3f73e4e6d19794af61c17edfeeef73 (equals HEAD at audit start and at audit end)
+Result file: measure/runs/primary_v2_look_20261020/review-a-s5-d2c2304c.json
+
+Verdict: FAIL with 1 Blocker (F21) and 1 new Nit (F22). F15, F17, and F20 stay open as unchanged Nits.
+The r3 verdict holds for the product. The blocking defect sits in the proof script proof-s5/checks.py.
+Gate: GATE_EXIT=0. The heavy-run of the 6 files in the brief gives 6 passed files and 50 passed tests.
+
+Item 1: product files after 7b1d6600.
+- No product file changed. git diff --stat over dashboard/lib, dashboard/templates, dashboard/scripts, dashboard/app, and content is empty.
+- Outside measure/, the delta holds one new file: dashboard/__tests__/chibi-quest-picture-keep.adversarial.test.ts (155 insertions).
+- git status shows no tracked change in dashboard or content.
+
+Item 2: F18 is closed.
+- I ran both picture-keep test files in scratch copies of dashboard. The control N0 passes 16 tests.
+- N2 (`max-width: auto` in place of `width: auto`) and N4 (a later `width: 100%` rule) each fail 1 new test: the exact width guard.
+- N7 (the hero rule inside a comment) fails 4 new tests: the width, max-width, and max-height guards and the scoped-rule count.
+- T1 and T2 (template mutants) fail 5 tests each. N8 and N9 fail 2 tests each. N10 fails the old flat-CSS test. ESLint on the new file exits 0.
+- Limits, not findings: three later overrides of the hero width (X1 to X3) pass all 16 tests. X1 is an `@media print` block, X2 uses a more specific selector, and X3 is an important rule from another selector. P12 and P13 test their effect at the next proof.
+- Trade-off, not a finding: the classic-freeze test pins the phase base 82c58b7e. Three Storytime tests use the same pinned-commit pattern.
+
+Item 3: F19 and the new defect F21.
+- F19 is closed for its stated fault. An unrelated commit (67fc356c) and the Green fixture (c9fa5cef) now pass P8. The commit 95345e90 still fails it.
+- The commit-id validation is sound. The regex rejects an option, a command, uppercase hex, a short or long value, whitespace, and an empty value. `--end-of-options` precedes the value.
+- F21 is the new defect. The shipped list has 8 paths. The import chain of scripts/render-lesson-html.ts holds 29 files, and 9 of them lie outside the list.
+- The 9 files are lib/cutover.ts, lib/filesystem.ts, lib/lesson-package/build.ts, lib/lesson-package/schema.ts, lib/look.ts, lib/qr-generator.ts, lib/template-renderer.ts, lib/workbook-document-wrapper.ts, and lib/workbook-schema.ts.
+- The 29 `.woff2` font files of dashboard/assets/print-fonts are also render inputs. The r5 scope `dashboard content` covered all of them.
+- The P8 command is blind to 40 of the last 59 commits that changed one of these inputs. Example: 4625ff33 changed lib/lesson-package/build.ts (print answer positions), and P8 exits 0.
+- The same list limits `git status --porcelain`. An uncommitted edit of these inputs passes, and test-strategy.md lines 323 and 368 require a failure.
+- The wide scope `dashboard content` now fails at HEAD because of the new test file. So the fix is to widen the 8-path list.
+- P1 to P13 pass at HEAD d2c2304c on proof-s5-r5 (13 checks, 0 failures). They pass because no render input changed since the build commit 178a4e2f.
+
+Item 4: the plan, lessons, and tech-debt lines.
+- plan.md line 126 (Green r6) is true for the commit-id validation, `--end-of-options`, and 'proof round 5 unchanged'. The label 'render paths' overstates the scope (F22).
+- The S5.A1 line and the F18 evidence line are true. They claim 10 new tests, 6 Red tests, exit 0 for Vitest and ESLint, and failing N2, N4, and N7.
+- The lessons line is true. The tech-debt row is true. Strategy v1.18 says that the Quest 5 printer file stays on hold with no date. Versions v1.19 to v1.24 do not change it.
+
+Item 5: the r3 verdict.
+- The 3 commits touch no product file. The gate passes, and P1 to P13 pass. The r3 verdict holds for the product.
+- F21 blocks this head. F15, F17, and F20 are unchanged Nit findings. F22 is a new Nit.
+
+Scratch files stay under /tmp/opencode/review-a-s5-r3 and /tmp/opencode/review-a-s5-r4, outside the repo.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: heavy-run gate of the 6 files in the brief: GATE_EXIT=0, 6 files and 50 tests passed; proof checks P1 to P13 called read-only at HEAD on proof-s5-r5: 13 checks, 0 failures; one queued heavy-run job of both picture-keep files in scratch copies; N0 passes 16 tests; N2, N4, N7, T1, T2, N8, N9, and N10 fail a test; X1, X2, and X3 pass 16 tests; ESLint of the adversarial test: exit 0; the P8 git command on 5 commit pairs and on the last 120 commits that touched an omitted input; import walk of the proof script (29 files)
+files_changed: measure/runs/primary_v2_look_20261020/review-a-s5-d2c2304c.json; measure/runs/primary_v2_look_20261020/review-a-s5-d2c2304c.log
+plan_updates: none; report-only role
+known_failures: F21 Blocker: the P8 scope (checks.py lines 369 to 378) omits 9 render imports and the font folder, so P8 passes on a changed product; F22, F20, F17, and F15 are Nit findings
+handoff: Route F21 to Green with retry_implementation. Add lib/cutover.ts, lib/filesystem.ts, lib/lesson-package/build.ts, lib/lesson-package/schema.ts, lib/look.ts, lib/qr-generator.ts, lib/template-renderer.ts, lib/workbook-document-wrapper.ts, lib/workbook-schema.ts, and dashboard/assets/print-fonts to P8_PATHS. Add a P8 fixture: a commit that changes lib/template-renderer.ts must fail P8. Do not restore the wide scope, because it already fails at HEAD on the new test file. Route F22 to Green and the strategy author with the F21 fix. F20, F17, and F15 are unchanged Nits. The r3 verdict holds for the product, so Review A needs only a short delta review after the fix. The fix needs no product commit. The S7 commit ids stay 0b2bd81f, 9b95646e, 95345e90, and 178a4e2f.
+END_MEASURE_AGENT_RESULT

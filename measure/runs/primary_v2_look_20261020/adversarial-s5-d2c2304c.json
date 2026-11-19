@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "role": "measure-adversarial-testing",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "phase_base_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "role_base_sha": "d2c2304cac3f73e4e6d19794af61c17edfeeef73",
+  "audited_head_sha": "d2c2304cac3f73e4e6d19794af61c17edfeeef73",
+  "commits": "none",
+  "status": "pass",
+  "summary": "Verification passes at d2c2304c: Vitest exits 0 with 16 passed tests in 2 files. No product file changed after d784e945.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD equals d2c2304cac3f73e4e6d19794af61c17edfeeef73 before and after verification.",
+    "The exact delta from d784e945 contains only measure/ records and the adversarial test file committed in a788340f. No product file changed.",
+    "The foreground heavy-run exits 0. The adversarial file passes 10 tests; the Red file passes 6 tests. Total: 16 passed, 0 failed, 2 passed files.",
+    "Both test files remain byte-identical to their versions in a788340f. This verification round adds no tests and makes no production edit.",
+    "The style SHA256 remains 9421e19690b43dd9e1d89a5be30ecebdf780ade8fd81c1ed04848dc895534c0a, as recorded in round 1.",
+    "git status --porcelain dashboard/lib dashboard/templates returns no lines.",
+    "dispositions: A-F18=FIX. Round 1 caught N2, N4, and N7; this round reruns the unchanged tests without mutations.",
+    "Each of the three result files contains 0 Thai characters. This round opens no proof HTML, PDF, image, package, or pdftotext output.",
+    "The orchestrator corrected the commit instruction. These three files remain uncommitted; commits is none.",
+    "This round leaves plan.md, lessons-learned.md, and tech-debt.md unchanged. The round 1 scope correction remains with the orchestrator.",
+    "This result verifies artifact tests only. UX review, phase acceptance, whole-book pagination, and Daniel's visual gate remain separate."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git diff --name-only d784e945593ce76ab86a0575872945de8542a695..d2c2304cac3f73e4e6d19794af61c17edfeeef73",
+    "git diff --name-only d784e945593ce76ab86a0575872945de8542a695..d2c2304cac3f73e4e6d19794af61c17edfeeef73 -- dashboard/lib dashboard/templates content dashboard/scripts dashboard/public dashboard/assets (empty)",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-picture-keep.adversarial.test.ts __tests__/chibi-quest-picture-keep.test.ts 2>&1 | tee ../measure/runs/primary_v2_look_20261020/adversarial-s5-d2c2304c.txt' (foreground; exit 0)",
+    "git diff --quiet a788340f d2c2304c -- dashboard/__tests__/chibi-quest-picture-keep.adversarial.test.ts dashboard/__tests__/chibi-quest-picture-keep.test.ts (exit 0)",
+    "git status --porcelain dashboard/lib dashboard/templates (empty); Python SHA256 and per-file U+0E00 to U+0E7F counts (0 each)"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/adversarial-s5-d2c2304c.txt",
+    "measure/runs/primary_v2_look_20261020/adversarial-s5-d2c2304c.json",
+    "measure/runs/primary_v2_look_20261020/adversarial-s5-d2c2304c.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6.1-sol#high",
+  "commits": "none"
+}
