@@ -1,0 +1,66 @@
+role: strategy
+track: primary_v2_look_20261020
+phase: S4 — Phase S4: App step names in the v2 books
+role_base_sha: d42e36b072f0aa7e63cbc82119a7fb47282b7595
+status: complete
+date: 2026-11-19
+
+## What I read
+measure/workflow.md, measure/anti-patterns.md (A1 to A10), the active-track note,
+measure/tracks/primary_v2_look_20261020/spec.md (story S4, pinned paths) and plan.md
+(Gate commands, S4.1 step-name table, S4.2, S4.3, Phase gates, closeout).
+Named files: dashboard/templates/primary_template.html (the 13 h2.section-title lines 1555 to 2208,
+the step 6 grammar conditional at 1806), dashboard/lib/document-wrapper/sections/teacher-guide.ts
+(Key Vocabulary at line 12), dashboard/lib/look.ts, dashboard/lib/template-renderer.ts (chibi_quest
+flag at line 148), dashboard/lib/workbook-document-wrapper.ts (teacher-guide call at line 98),
+dashboard/lib/teacher-manual/i18n/en.ts and app-section.ts (pinned classic names and STEP_MAP),
+dashboard/lib/document-wrapper/sections/answer-key.ts (Multiple Choice: at 37, Short Answer Hint:
+at 54), dashboard/__tests__/workbook-look.test.ts and chibi-quest-kit.test.ts.
+Golden origins: content/primary/origins-3.2/print/golden/lesson-05{,-no-key}.html.
+Contracts: /home/daniebo/.agents/skills/measure-orchestrator/references/contracts.md.
+Graph: graph.db is stale (2026-08-08). A bounded build-graph query confirmed that
+generateTeacherGuideSection has one caller, wrapWorkbookDocument at workbook-document-wrapper.ts
+line 98. This matches the one-line look pass of S4.3.
+
+## Measured facts
+F1 S4 changes static print text only. No route, flag, or look option changes. Review C does not apply.
+F2 The 13 renamed titles must all gate on the chibi_quest flag from template-renderer.ts line 148.
+F3 Step 6 keeps its grammar conditional; steps 9, 10, and 11 keep their printed names.
+F4 teacher-manual/ is pinned. The new test reads en.ts and app-section.ts and asserts no change.
+F5 The answer key labels are already app names. The in-book teacher pages need the Preview Vocabulary
+   change only for chibi-quest. The TOC holds lesson titles only and must not change.
+F6 No dev route serves the print HTML. All S4 tests are artifact string tests. Browser review does
+   not apply. Visual proof of the printed names is S5. The S3 kit review covered the visual CSS.
+F7 PROJECT_TESTS has three recorded earlier failures from other tracks and one storytime exclude.
+F8 Gate commands run one heavy-run wrapper each, never nested.
+F9 phase_base_sha must be captured after the strategy commit. The role base SHA predates it.
+
+## Gates assigned
+Review A: applies, lead review (correctness of all 13 names, byte-identical classic, pinned paths).
+Review B: applies, narrow (no cross-look name leak, no un-escaped lesson data in a new string).
+Review C: does not apply; confirmed the plan's "not applicable" is correct.
+Adversarial testing: applies, one round, reusing the Green mutants.
+UX/API review: does not apply in S4 (API side is Review C; UX visual side was S3).
+Browser review: does not apply (no dev route for the print HTML; text only; visual proof in S5).
+
+## Top risks
+1. The two classic golden files stay byte-identical.
+2. The step 6 grammar conditional stays in both looks.
+3. Steps 9 to 11 keep their printed names.
+4. lib/teacher-manual/ stays pinned and unchanged.
+5. The answer key and the in-book teacher pages also change by look.
+6. The TOC holds no step name and must not change.
+
+MEASURE_AGENT_RESULT
+role: strategy
+status: complete
+track: primary_v2_look_20261020
+phase: S4 — Phase S4: App step names in the v2 books
+commits: the strategy commit "measure(primary_v2_look): test strategy for Phase S4" (short SHA = HEAD after that commit; see git log)
+tests_run: none (bounded strategy role; no vitest, tsc, lint, or heavy-run executed)
+files_changed: measure/tracks/primary_v2_look_20261020/test-strategy.md (new); measure/runs/primary_v2_look_20261020/strategy-s4-d42e36b0.log (new)
+plan_updates: none (plan.md untouched, as instructed)
+known_failures: none from this role. Three other-track failures are recorded earlier failures: constants.test.ts "includes Adventures 1.0 as a primary workbook option", and origins-thai-support.test.ts origins-2-a0 and origins-3.1-a0.
+phase_base_sha_capture_point: immediately after the strategy commit lands, the orchestrator records phase_base_sha = $(git rev-parse HEAD) at that commit and uses it for Red, Green, and every phase gate. Do not use role_base_sha d42e36b0; it predates the committed strategy. Recapture after any strategy refresh.
+handoff: Strategy committed. Capture phase_base_sha at the strategy commit before Red starts. Assign Review A, Review B, one adversarial round, and phase acceptance. Skip Review C, UX review, and browser review. Use the targeted Red command for S4.2, the four Green commands for S4.3, and the acceptance gate for closeout. Every test in the strategy has a falsification condition; A3, A4, A5, A6, A7, A9, and A10 are defended in the anti-pattern table.
+END_MEASURE_AGENT_RESULT
