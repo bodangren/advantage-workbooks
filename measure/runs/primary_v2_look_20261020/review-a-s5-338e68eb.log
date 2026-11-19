@@ -1,0 +1,63 @@
+Review A (correctness and architecture) round 2, Phase S5: Page proofs for Daniel
+Track: primary_v2_look_20261020
+Phase base: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+Role base: c8fe15bada3be896b8597f056da5b9810f3b828e
+Audited head: 338e68eb2a7993acf8c6e6c5dc85f8a40c3baa99 (equals HEAD at audit start and at audit end)
+Result file: measure/runs/primary_v2_look_20261020/review-a-s5-338e68eb.json
+
+Verdict: FAIL with 1 Blocker (F11), 1 Major (F13), and 5 Nit findings (F12 and F14 to F17).
+Gate: GATE_EXIT=0. The heavy-run of the 5 files in the brief gives 5 passed files and 40 passed tests.
+
+Item 1: F1 to F5 of round 1.
+- F1 closed. Page 1 of the r4 tiles reads "Primary Advantage • Quest 5 • A1" and "Primary Advantage • Adventure 9.2 • A2+". P10 exits 0.
+- F2 closed. The contact-sheet labels wrap to two lines and do not overprint. The Adventure sheet has a translation row.
+- F3 closed. P1, P2, P3, P5, P6, P11, and P12 fail on a missing deliverable. P4 and P8 raise FileNotFoundError.
+- F4 closed in code. P3, P4, and P5 fail on a doubled text, a frozen page-box file, and swapped captures.
+- F5 closed in letter and open in effect. The caption prints on the page of its picture (P12 passes, and the Adventure 9.2 page 3 tile shows it). The cure causes F11, so F5 closes only with F11.
+- F6 to F9 stay deferred (plan.md line 116). F10 stays open in part (F14).
+
+Item 2: the final product rules.
+- The hero cap is not correct. The rule max-height: 240px on .look-chibi-quest .hero-img-box img squashes the picture (F11).
+- The keep rule on .inline-img-box does no harm, but it changes no page in my renders (F12). The hero cap alone cures the caption split.
+- The chibi-quest styles carry no keep rule on the hero wrappers (test 3). The template still declares avoid on them inside @media print (lines 1206 and 1320 to 1331).
+- The classic golden, lib/teacher-manual, the template, and styles.ts are unchanged from 82c58b7e. The delta holds 3 files outside measure/: .gitignore, the new test file, and chibi-quest-styles.ts.
+
+Item 3: the tests.
+- The tests are real, but test 1 passes on the squashing rule, and test 4 matches a literal string of the test file. No mutant breaks the aspect ratio (F13).
+- Red r3 failed first on the hero cap (1 of 6 tests). The mutants M6a and M6b fail on test 1 and on the golden guard.
+
+Item 4: the checks P1 to P12 and falsification-r2.txt.
+- P1 to P12 pass at HEAD on proof-s5-r4. The falsification record gives a failing input with exit 1 for each of P1 to P11, and my own fixtures agree.
+- P12 is not vacuous. It fails on proof-s5-r3 (Adventure caption 1 on page 4, picture on page 3) and on proof-s5-r2 (2 pictures for 3 captions). It passes on r4.
+- No check compares x-ppi and y-ppi, so P1 to P12 pass a squashed picture (F11). P8 does not compare the manifest git_head with HEAD (F16).
+- A3 and A5: P4 and P12 read labeled fields and structured rows. The plan lines 118 to 124 match the captured runs.
+
+Item 5: visual defects in r4. I viewed all 30 page tiles and 5 contact-sheet crops.
+- The hero on page 3 of both lessons is squashed (F11). The 1600 x 1600 source prints at 93.4 x 63.5 mm. The inline pictures stay square.
+- The right column under the reading key on Adventure 9.2 page 3 is empty (F15). I keep the Nit rating of the orchestrator.
+- Step headers sit flush under the previous panel on Quest 5 pages 5, 6, and 10 and on Adventure 9.2 pages 8 and 12 (F17).
+- All captions print with their pictures. The Thai text renders correctly.
+
+Item 6: the 240px value and the other chibi-quest books.
+- All 154 hero.jpg files of the 11 CHIBI_QUEST_BOOKS (lib/look.ts lines 13 to 17) are 1600 x 1600 squares. At the 55 percent float width (about 353 CSS px) the cap applies to every hero and cuts its height by 32 percent. It does not spare small heroes, because no hero is smaller.
+- I rendered the complete Quest 5 book (204 pages) and the complete Adventure 9.2 book (223 pages) with the product at HEAD. Each book has 42 of 42 pictures, 0 captions off the picture page, and 14 of 14 heroes squashed.
+- I did not render the 9 other books. They use the same template, the same CSS, and the same source size, so the same squash follows.
+
+Fix for Green, checked by scratch render (outside the repo):
+- Rule: .look-chibi-quest .hero-img-box img { width: auto; max-width: 100%; max-height: 240px; }
+- Result: the hero of Quest 5 lesson 1 and of Adventure 9.2 lesson 9 prints at 640 and 640 ppi, and P12 passes on both. The complete Quest 5 book keeps its pagination and page text, with 0 squashed pictures.
+- P13 needs a tolerance of 2 percent: one inline picture of the Adventure 9.2 book shows 479 and 477 ppi (page 84) by rounding.
+- Design point for Daniel (F15): the hero then prints 63.5 mm square and leaves a blank strip of about 30 mm beside it.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: heavy-run gate of the 5 files in the brief: GATE_EXIT=0, 5 files and 40 tests passed; proof checks P1 to P12 called read-only at HEAD on proof-s5-r4: all pass; fixtures with a missing deliverable, a doubled text, a frozen page-box file, and swapped captures: the checks fail as designed; P12 on proof-s5-r2 and on proof-s5-r3: fails as designed; scratch renders of the variants control, nokeep, and fixA on 2 lessons and on the complete Quest 5 book; scratch render of the control on the complete Adventure 9.2 book; all 30 r4 page tiles viewed
+files_changed: measure/runs/primary_v2_look_20261020/review-a-s5-338e68eb.json; measure/runs/primary_v2_look_20261020/review-a-s5-338e68eb.log
+plan_updates: none; report-only role
+known_failures: F11 Blocker: max-height: 240px on .look-chibi-quest .hero-img-box img squashes the hero picture in 154 of 154 heroes; no test or check sees it; F13 Major: test 1 pins the squashing rule; test 4 cannot fail; no mutant or check covers the aspect ratio; F12 and F14 to F17 are Nit findings
+handoff: Route F11 and F13 to Green with retry_implementation. Replace the hero rule with `width: auto; max-width: 100%; max-height: 240px`. My scratch render of this rule gives 640 and 640 ppi, P12 passes, and the Quest 5 book keeps its pagination and page text. Add a failing-first test and a check P13 (x-ppi and y-ppi within 2 percent). Rebuild the proof as r5. The r4 proofs show the squashed hero on page 3 of both lessons, so tell Daniel before he judges the look. F12 accepts DECLINE with a reason. F14 goes to the plan author and the strategy author. F15 keeps the Nit rating and needs no extra round. F16 and F17 are Nit findings. After the fix, send the new commit id of chibi-quest-styles.ts to the PM for S7. The orchestrator decides the round limit for the next review.
+END_MEASURE_AGENT_RESULT

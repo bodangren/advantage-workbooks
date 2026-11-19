@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: no vitest run in this phase (the strategy states none exists); the phase gate is the check set P1 to P9; I re-verified the committed records with pdfinfo, pdffonts, sha256, git ls-files, and a scratch run of the real driver: all match, and the driver refused a mismatched folder with exit 1
+files_changed: measure/runs/primary_v2_look_20261020/review-b-s5-c8fe15ba.json and measure/runs/primary_v2_look_20261020/review-b-s5-c8fe15ba.log only; no commit
+plan_updates: none; the audit reports only
+known_failures: none blocking; 1 Major (F1, the round identity covers the HTML and packages but not the PDF, so a re-render with the same sources replaces an approved PDF) and 3 Nit (F2 the CDN block is a DNS mapping only, F3 P9 matches one exact file name, F4 the Thai proof HTML has no .gitignore guard)
+handoff: PASS at c8fe15ba with 0 Blockers. Scope 1 holds: the Thai filter ran first, 85 filtered copies and all 20 changed files hold 0 Thai characters, and git tracks neither proof HTML file. Scope 2 holds: the PDFs and sheets are under ~/Desktop/print-ready/primary-v2-look/proof-s5-r1/ and the repository holds no proof binary. Scope 3 holds: the real driver refused a folder with a different identity (exit 1, no file changed). Scope 4 holds: make-proof-pdf.ts:104 maps unpkg.com to NOTFOUND, and the pictures load from local file:// paths with no credential. Scope 5 holds: 0 secrets, 0 URLs with a password, and 4 needed local paths (repository root, capture folder, proof folder, /tmp/opencode/thai-filtered). A2 is not applicable; A6 holds (checks-r1.txt records exit 0 for P1 to P9, and I re-measured the facts). F1 goes to Green if the orchestrator wants the PDF in the round identity; F2, F3, and F4 are Nit recommendations. The proof PDFs hold Thai print content outside the repository, which is intended. Daniel's look stays the binding gate, and S6 stays blocked.
+END_MEASURE_AGENT_RESULT

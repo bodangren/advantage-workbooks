@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-b-security",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "14ba57a6e82db161d1417b9d4f0d21ea769a069f",
+  "phase_base_sha": "14ba57a6e82db161d1417b9d4f0d21ea769a069f",
+  "role_base_sha": "14ba57a6e82db161d1417b9d4f0d21ea769a069f",
+  "audited_head_sha": "c8fe15bada3be896b8597f056da5b9810f3b828e",
+  "security_applicability": "applicable",
+  "status": "pass",
+  "summary": "PASS with 0 Blockers and 1 Major. The test strategy assigns Review B to S5 in a narrow form, and the range adds proof scripts only: 20 files, none under dashboard/ or content/. Scope 1 holds: the Thai filter runs first, the 85 filtered copies hold 0 Thai characters, all 20 changed files hold 0 Thai characters, and git tracks neither proof HTML file. Scope 2 holds: the PDFs and contact sheets live under ~/Desktop/print-ready/primary-v2-look/proof-s5-r1/, and the repository holds no proof binary. Scope 3 holds in the letter of strategy step 4: a scratch run of the real driver refused a folder with a different identity, exited 1, and changed no file. Scope 4 holds: the driver maps unpkg.com to NOTFOUND, the pictures load from local file:// paths, and no credential exists. Scope 5 holds: 0 secrets, 0 URLs with a password, and 4 needed local paths. The Major finding records that the identity covers the HTML and the packages only, so a re-render of the same sources replaces an approved PDF. A2 is not applicable and A6 holds.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] review-b: the folder refusal reads only the HTML and package hashes, so a re-render with the same sources replaces the approved PDF and contact sheet. Rationale: roundIdentity builds the identity from roundHtml and roundPackages only (make-proof-pdf.ts:46-51); the gate compares that identity and nothing else (make-proof-pdf.ts:85-92); the driver then writes the PDF into the same folder (make-proof-pdf.ts:107). The docstring claim 'an approved proof is never overwritten' (make-proof-pdf.ts:8-9) is therefore false for the PDF. Strategy step 4 requires 'refuse a hash mismatch', and that requirement is met in the letter. Fix: refuse when the target --out already exists, or add the PDF sha256 to the identity and use a new versioned folder for each round.",
+    "F2 [Nit] review-b: the driver blocks the unpkg.com CDN request by DNS mapping only, while the product print scripts remove the script tag. Rationale: make-proof-pdf.ts:104 maps unpkg.com to ~NOTFOUND; the proof HTML keeps the tag with no integrity attribute (1 script element, 0 integrity= matches, 0 iframe elements); make-book-pdf.ts:60 and make-lesson-pdfs.ts:79 strip the tag before render. If a Chrome channel change or a proxy ignores the mapping, third-party JavaScript runs on the proof page. Fix: strip the tag in the driver as the product scripts do, in addition to the mapping.",
+    "F3 [Nit] review-b: P9 matches one exact file name, so a Quest 5 printer file under any other name passes the gate. Rationale: check_p9 walks ~/Desktop/print-ready for the exact name only (checks.py:247-252). I found 0 files with 'quest-5', 'quest5', or 'quest_5' outside the proof folder, and 52 PDFX files that belong to other books, so the current gate result stands. Fix: match the prefix 'Primary-Advantage-Quest-5'.",
+    "F4 [Nit] review-b: the two Thai proof HTML files sit inside the public repository working tree and no .gitignore rule covers them. Rationale: quest5-l01.html holds 1,035,899 bytes and 1167 Thai characters, and adventure92-l09.html holds 1,040,560 bytes and 2001 Thai characters; git ls-files returns 0 and git status shows both as untracked; checks.py:195-198 catches a staged file through the index; .gitignore holds no rule for proof HTML, so a later 'git add -A' in another session commits them. The Thai text is already public in content/primary/quest-5/l01.json (1147 characters, tracked) and content/primary/adventure-9.2/l09.json (2029 characters, tracked), so the residual risk is repository noise and local path exposure, not a new content leak. Fix: add the two file names to .gitignore."
+  ],
+  "evidence": [
+    "HEAD current: git rev-parse HEAD returns c8fe15bada3be896b8597f056da5b9810f3b828e, equal to audited_head_sha. No commit landed during the review. role_base_sha equals phase_base_sha because no role-specific base was supplied.",
+    "Thai rule, first command: one script counted characters U+0E00 to U+0E7F in all 20 files of 14ba57a6..c8fe15ba. Every count is 0. The script printed counts only.",
+    "Scope 1, filter output: the 85 JSON copies under /tmp/opencode/thai-filtered hold 0 Thai characters and 0 non-JSON files, equal to the P6 record (check-P6.txt).",
+    "Scope 1, repository state: git ls-files returns 0 for the two proof HTML files, and git status --porcelain shows both as untracked (??). checks.py:195-198 tests the index, so a staged file fails P6.",
+    "Scope 2, no proof binary in the repository: git ls-files over measure/runs/primary_v2_look_20261020/ returns 0 files with a pdf, jpg, or png suffix. The proof folder holds 2 PDF, 2 JPG, 2 TSV, and 1 TXT outside the repository.",
+    "Scope 3, refusal probe: I ran the real driver from dashboard with a scratch folder that held a different round-identity.txt. It printed 'REFUSED: /tmp/opencode/refusal-probe holds a different proof round; a proof folder is never overwritten', exited 1, and left the folder unchanged (quest5-l01.pdf still 1 byte, round-identity.txt still 33 bytes).",
+    "Scope 4, CDN block: make-proof-pdf.ts:104 passes --host-resolver-rules=MAP unpkg.com ~NOTFOUND to chromium.launch. The proof HTML holds exactly 1 remote script (unpkg.com) and 34 xmlns attributes (w3.org, not fetched), with 0 integrity attributes.",
+    "Scope 4, pictures: dashboard/scripts/render-lesson-html.ts:55 sets mediaBase to a file:// path under content/primary/, and each proof HTML names 3 local file:// images plus 2 data URIs. Content prevails: hero.jpg and the two inline JPG files exist in content/primary/quest-5/media/l01/ and content/primary/adventure-9.2/media/l09/. No picture download, no network host, no credential.",
+    "Scope 5, secrets: 7 patterns (AWS key, generic key/secret/token, bearer, sk-, URL userinfo, gh token) return 0 matches across the 20 changed files. The only URL is https://primary.reading-advantage.com/b/q5/<n> in plan.md (S6 text); it is a public product URL with no password.",
+    "Scope 5, absolute paths, each one needed: /home/daniebo/Desktop/Workbooks (thai-filter.py:18, checks.py:19, manifest.py:17, make-contact-sheet.py:21; repository root), /home/daniebo/Desktop/advantage-pr/assets/screenshots/primary-advantage/parity-run2-2026-10-19/student (checks.py:22; the app capture folder that the strategy names), /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r1 (checks-r1.txt:2, manifest-r1.txt:2; the proof output folder), /tmp/opencode/thai-filtered (thai-filter.py:17, checks.py:23, lesson-words.py:15; the filtered copy root outside the repository).",
+    "Scope 5, injection surface: 0 matches for shell=True, os.system, eval(, exec(, pickle, yaml.load, dangerouslySetInnerHTML, and innerHTML. Every subprocess call passes a list of arguments (checks.py:59, 95, 195, 237; manifest.py:39, 49; make-contact-sheet.py:48, 76, 88). The Chrome argument string is a constant (make-proof-pdf.ts:104).",
+    "Registry (A6): plan.md claims 'the checks P1 to P9 exit 0'. checks-r1.txt records exit 0 for all nine. I re-verified the underlying facts: pdfinfo gives 14 and 16 pages with page size 594.96 x 808.08 pt; pdffonts gives 8 fonts, 0 Type 3, 0 not embedded; 8 of 8 manifest sha256 values match for the 2 packages, 2 HTML files, 2 PDFs, and 2 contact sheets. measure/tracks.md holds no 'resolved' security claim for this track.",
+    "A2: the range holds no draft-to-published status flip. The only publish-adjacent gate is P9, an absence check for the printer file (checks.py:243-252); plan.md keeps S6 open and Daniel's gate deferred:daniel. A2 is not applicable.",
+    "Independent check of the P5 sheet geometry: both contact sheets exist with the sizes that checks-r1.txt records (2610x16968 and 2610x19378)."
+  ],
+  "commands": [
+    "python3 script: count U+0E00..U+0E7F per file over git diff --name-only 14ba57a6..c8fe15ba (20 files, all 0)",
+    "git rev-parse HEAD",
+    "git log --oneline -5",
+    "git ls-files measure/runs/primary_v2_look_20261020/proof-s5/ | grep -c -i '\\.html$' (result 0)",
+    "git status --porcelain --ignored measure/runs/primary_v2_look_20261020/proof-s5/",
+    "python3 script: URL host counts and absolute path list over the 20 changed files (1 host, 4 needed paths)",
+    "python3 script: 7 secret patterns over the 20 changed files (0 matches)",
+    "python3 script: Thai count in the 2 proof HTML files (1167 and 2001) and in the 85 filtered copies (0)",
+    "python3 script: URL hosts, img src kinds, script src, integrity and xmlns counts in the 2 proof HTML files",
+    "ls content/primary/quest-5/media/l01 and content/primary/adventure-9.2/media/l09",
+    "cd dashboard && ./node_modules/.bin/tsx ../measure/runs/primary_v2_look_20261020/proof-s5/make-proof-pdf.ts --folder /tmp/opencode/refusal-probe ... (REFUSED, EXIT=1)",
+    "pdfinfo -box on both proof PDFs (Pages 14 and 16, 594.96 x 808.08 pt)",
+    "pdffonts on both proof PDFs (8 fonts, 0 Type 3, 0 not embedded)",
+    "python3 script: sha256 of 8 manifest entries (8 of 8 match)",
+    "python3 script: pdftotext Thai count on both proof PDFs (1167 and 2001; intended print content, outside the repository)",
+    "find ~/Desktop/print-ready for PDFX names (52 files, none for Quest 5)",
+    "python3 script: scan measure/runs files for shell=True, os.system, eval, exec, innerHTML (0 matches)"
+  ],
+  "changed_files": [],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/deepseek-v4.1-flash",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "The nine recorded checks match independent measurement: pdfinfo gives 14 and 16 pages (check-P4.txt), pdffonts gives 0 Type 3 fonts (check-P2.txt), and 8 of 8 manifest hashes match (manifest-r1.txt). The identity gap of F1 keeps one edge open."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 3,
+      "evidence": "checks.py:255-258 defines nine falsifiable checks with recorded exit codes in checks-r1.txt, but the overwrite refusal has no automated test (I probed it by hand), and the CDN block has no artifact beyond the page count."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --stat 14ba57a6..c8fe15ba changes only measure/runs/primary_v2_look_20261020/ and plan.md; 0 files under dashboard/ or content/ (git diff --name-only piped to grep -c)."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Every scope claim has a file:line or a count in this audit, and the committed records are check-P1.txt to check-P9.txt plus manifest-r1.txt; the CDN-block claim rests on make-proof-pdf.ts:104 and the page count, with no network capture."
+    }
+  ]
+}

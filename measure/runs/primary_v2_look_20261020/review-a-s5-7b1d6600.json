@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "phase_base_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "role_base_sha": "338e68eb2a7993acf8c6e6c5dc85f8a40c3baa99",
+  "audited_head_sha": "7b1d6600a230f898bf8d445d979a6a24a561e676",
+  "status": "pass",
+  "summary": "PASS: no Blocker or Major finding remains, and only 5 Nit findings stay open (F15, F17, F18, F19, F20). No third remediation round is needed. HEAD equals the audited head 7b1d6600, and the gate exits 0 with 40 tests passed. F11 is closed: the hero prints at 640 and 640 ppi (63.5 mm square) in both r5 PDFs. F13 and F16 are closed, F14 is closed in part, and P13 and P8 are sound. I found no new defect in the lines that the remediation changed.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F15 [Nit] review-a: Unchanged since round 2, and for Daniel's look. The r5 hero prints 63.5 mm square, and the inline pictures print 84.8 mm square. On Quest 5 page 3 a blank strip of about 35 mm sits between the hero and the text column. On Adventure 9.2 page 3 the right column holds only the reading key, because paragraph 1 starts on page 4. Daniel decides if the hero size is right. A larger cap needs a new proof, because the 240 px cap cured F5. Rationale: the page stays usable, but the hero looks small next to the inline pictures.",
+    "F17 [Nit] review-a: Unchanged since round 2, and for Daniel's look. Step headers sit flush under the previous panel. The medal touches the bottom border above it on Quest 5 pages 5, 6, and 10 and on Adventure 9.2 pages 8 and 12. The audited delta does not touch this spacing. Rationale: touching edges look like a layout error in print.",
+    "F18 [Nit] review-a: Test 1 of chibi-quest-picture-keep.test.ts (lines 56 to 63) passes on 3 realistic faults. The regex `/width\\s*:\\s*auto/` has no property boundary, and the test reads the raw CSS text with its comments. Mutant N2 (`max-width: auto` in place of `width: auto`) passes, and the hero squashes again. Mutants N4 (a later rule `width: 100%` on the hero) and N7 (the hero rule inside a comment) pass too. Fix: strip the comments before the match. Anchor each property name, for example `(?:^|[\\s;{])width\\s*:\\s*auto`. Rationale: the unit test must guard the squash without a proof run. P12 and P13 would catch the three faults only at the next proof.",
+    "F19 [Nit] review-a: P8 compares the manifest git_head with HEAD for the scope `dashboard content` (checks.py lines 378 to 383). Any unrelated commit under those folders makes P8 fail. Example: 67fc356c (4 Storytime scene.json files) changes that scope, but it changes none of `dashboard/lib/document-wrapper`, `dashboard/templates`, `dashboard/lib/look.ts`, or `content/primary`. The scope came from my F16 text. The strategy author decides: keep the wide scope and accept a new proof after an unrelated commit, or name the print-product paths. Rationale: a false P8 failure delays a correct proof, and a missing path in a narrow list would hide a product change.",
+    "F20 [Nit] review-a: Records lag the shipped design in 5 places. plan.md line 117 calls the F5 picture an inline picture, but it is the hero picture. test-strategy.md line 133 still holds the printer date 2026-11-06, and line 419 still lists the spec and plan dates as open. The strategy table (line 387) cites `falsification-r2.txt` for the hero drop, but the record is `proof-s5/g1-hero-drop.txt`. The comment above the inline keep rule (chibi-quest-styles.ts line 97) cites F5, but the rule follows `spec.md` line 72. The plan has no S6 assertion for `seriesName`, `levelNumber`, or `cefrLevel` (strategy lines 325 and 419). Rationale: a later reader would trust a stale date or pointer; fix the comment with the next product edit, because P8 flags each product commit."
+  ],
+  "evidence": [
+    "Head equals the audited head: git rev-parse HEAD gives 7b1d6600a230f898bf8d445d979a6a24a561e676 at audit start and at audit end. git log 178a4e2f..HEAD -- dashboard content lists no commit.",
+    "Gate GATE_EXIT=0: the heavy-run of the 5 files in the brief gives 5 passed files and 40 passed tests.",
+    "Product delta (git diff --numstat 338e68eb..7b1d6600 outside measure/): chibi-quest-picture-keep.test.ts has 33 insertions and 28 deletions. chibi-quest-styles.ts has 2 insertions and 2 deletions (the hero rule and its comment). git diff --stat 82c58b7e over the golden folder, lib/teacher-manual, the template, styles.ts, and types.ts is empty.",
+    "F11 closed. The shipped rule is `.look-chibi-quest .hero-img-box img { width: auto; max-width: 100%; max-height: 240px; }` (chibi-quest-styles.ts line 105, commit 178a4e2f). It equals the fix of my round 2. My own pdfimages -list of proof-s5-r5 gives the hero on page 3 at x-ppi 640 and y-ppi 640 (63.5 x 63.5 mm). This holds for quest5-l01.pdf and adventure92-l09.pdf. The inline pictures give 479 and 479 ppi (84.8 mm). The r4 PDFs gave 435 and 640 ppi for the hero.",
+    "r5 identity: the print.html files of r5 hold the new hero rule once and the old rule 0 times. The r4 files hold the old rule once. The r5 PDF and contact-sheet hashes match manifest-r5.txt. Only page 3 of each lesson differs between the r4 and r5 tiles, and only inside the hero box.",
+    "Visual check: I viewed all 30 r5 page tiles (Quest 5 pages 1 to 14, Adventure 9.2 pages 1 to 16). The hero on page 3 of both lessons is square, and its caption prints below it. No new defect appears. The Thai text renders correctly.",
+    "F13 closed against its 3 asks. Test 4 reads templates/primary_template.html, and the mutants T1 (caption moved outside the inline wrapper) and T2 (image removed from the inline wrapper) fail it. Test 1 requires `max-height: 240px`, `width: auto`, and `max-width: 100%`. The mutant that drops `width: auto` is recorded as M7a in green-s5g1-r5-mutants.txt, and my N1 reproduces it.",
+    "The assertion that fails on a squash is in test 1, `caps the hero picture with its aspect ratio in the chibi-quest look only`. It is the expect on lines 56 to 63 of chibi-quest-picture-keep.test.ts. Mutant N1 (the r4 squash) fails it with `.look-chibi-quest .hero-img-box img: expected false to be true`. Mutants N3 (`width: 100%`), N5 (no `max-width: 100%`), and N6 (cap 300px) fail the same test. Red r4 failed first on test 1 (green-s5g1-r5-redrerun.txt: 1 failed, 5 passed).",
+    "Other mutants: N0 (control) passes 6 of 6. N8 (the inline keep rule loses page-break-inside) fails test 2. N9 (a keep rule on article-image-area) fails test 3. N10 (a gradient) fails test 6.",
+    "Surviving mutants (F18): N2, N4, and N7 give 6 passed and exit 0. Each mutant is a scratch copy of dashboard with one change under /tmp/opencode/review-a-s5-r3, and each ran through the heavy-run wrapper.",
+    "P1 to P13 called read-only at HEAD on proof-s5-r5 with python3 -I -B all pass. The record checks-r5.txt shows exit 0 for each of the 13 checks.",
+    "P13 is not vacuous (checks.py lines 495 to 521). It fails on proof-s5-r4 (hero at 435 and 640 ppi), on an empty folder, and on a text-only PDF folder. Pairs below and above 2 percent pass and fail as designed. The row parse uses the column positions 12 and 13 of pdfimages -list, which the header of the installed poppler confirms.",
+    "P8 is sound (checks.py lines 378 to 383). Fixture manifests with git_head 178a4e2f (the last product commit) and 7b1d6600 (HEAD) pass. Fixtures with the older heads 33de2050 and 95345e90, and with a bogus hash, fail.",
+    "F16 closed. The scope `dashboard content` of the new compare causes F19.",
+    "F14 closed in part. Closed: the strategy section 'Shipped design and checks (2026-11-20)'. It holds P11 to P13, 3 shipped rules, 6 assertions, and the F12 decline. Closed also: the dates in spec.md, plan.md, tracks.md, and metadata.json (grep finds 2026-11-06 only in test-strategy.md line 133). Open: F20.",
+    "F12 decline accepted: spec.md line 72 requires that inline pictures do not split, and my round 2 renders show that the rule changes no page. I do not re-raise F12.",
+    "F15 and F17 keep the Nit rating of the orchestrator and go to Daniel's look. The delta does not touch the step-header spacing.",
+    "Whole-book risk (not a finding): P12 and P13 cover 2 lessons. In round 2 I rendered the complete Quest 5 book with the r5 rule. It has the same pagination and page text as the control, and 0 squashed pictures. I rendered the complete Adventure 9.2 book only with the r4 rule: 42 of 42 pictures and 0 captions off the picture page. The 9 other CHIBI_QUEST_BOOKS were never rendered. They share the template, the rule, and the 1600 x 1600 hero source.",
+    "A3, A4, A5: P13 reads structured pdfimages -list rows (page, x-ppi, y-ppi), not bare digits, and it fails on a missing deliverable. The r5 plan lines match the captures in green-s5g1-r5-*.txt. Tests: 6 passed. Look tests: 34 passed. Project tests: 165 files and 3150 tests. Mutants: 2 of 2 caught. Golden diff: empty.",
+    "The product delta holds 0 Thai characters (scan of U+0E00 to U+0E7F).",
+    "Round limit: only Nit findings remain (F15, F17, F18, F19, F20). No Blocker and no Major finding stays open, so no third remediation round is needed."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline 338e68eb..HEAD; git log --oneline 178a4e2f..HEAD -- dashboard content; git diff --name-status 338e68eb..7b1d6600; git diff --numstat 338e68eb..7b1d6600 -- . ':!measure'; git diff --stat 82c58b7e -- content/primary/origins-3.2/print/golden dashboard/lib/teacher-manual dashboard/templates dashboard/lib/document-wrapper/styles.ts dashboard/lib/document-wrapper/types.ts",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-picture-keep.test.ts __tests__/workbook-look.test.ts __tests__/chibi-quest-kit.test.ts __tests__/chibi-quest-step-names.test.ts __tests__/chibi-quest-step-names.adversarial.test.ts' (foreground, exit 0)",
+    "pdfimages -list, pdfinfo, and sha256sum on the r4 and r5 PDFs and contact sheets; grep -c of the old and new hero rule in the r4 and r5 print.html files; python3 -I -B PIL diff of the r4 and r5 page tiles",
+    "python3 -I -B (importlib load of proof-s5/checks.py): P1 to P13 called read-only at HEAD on proof-s5-r5; P13 fixtures on proof-s5-r4, an empty folder, and a text-only PDF folder; P8 fixtures with 5 manifests (git_head 178a4e2f, 7b1d6600, 33de2050, 95345e90, and a bogus hash)",
+    "Mutation runs through the standard heavy-run wrapper (cd /tmp/opencode/review-a-s5-r3/v/<variant>/dashboard && CI=true npx vitest run __tests__/chibi-quest-picture-keep.test.ts) for N0 to N10, T1, and T2, each a scratch copy of dashboard with one change",
+    "git show --stat 67fc356c; git diff --quiet 67fc356c~1 67fc356c -- dashboard content (P8 scope: changed); the same with dashboard/lib/document-wrapper dashboard/templates dashboard/lib/look.ts content/primary (no change)",
+    "grep of plan.md, test-strategy.md, spec.md, tracks.md, and metadata.json for the old date, the inline picture wording, and the seriesName, levelNumber, and cefrLevel assertions; ls and grep of falsification-r2.txt and g1-hero-drop.txt",
+    "scan of the product delta for Thai characters (U+0E00 to U+0E7F); read of all 30 r5 page tiles (Quest 5 pages 1 to 14, Adventure 9.2 pages 1 to 16)"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/review-a-s5-7b1d6600.json",
+    "measure/runs/primary_v2_look_20261020/review-a-s5-7b1d6600.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "claude-code/claude-sonnet-5-5#max",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "pdfimages -list of proof-s5-r5 gives the hero on page 3 at x-ppi 640 and y-ppi 640 in both PDFs; P1 to P13 pass."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "Test 1 (chibi-quest-picture-keep.test.ts lines 56 to 63) fails on the squash mutant N1, but the mutants N2, N4, and N7 still pass."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --numstat 338e68eb..7b1d6600 outside measure/ lists 2 files (35 insertions, 30 deletions in total), and the golden folder, the template, and styles.ts are unchanged."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "The r5 plan lines match green-s5g1-r5-tests.txt and green-s5g1-r5-project-tests.txt, but test-strategy.md line 387 cites falsification-r2.txt for the hero drop and the record is g1-hero-drop.txt."
+    }
+  ]
+}

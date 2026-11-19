@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "14ba57a6e82db161d1417b9d4f0d21ea769a069f",
+  "phase_base_sha": "14ba57a6e82db161d1417b9d4f0d21ea769a069f",
+  "role_base_sha": "14ba57a6e82db161d1417b9d4f0d21ea769a069f",
+  "audited_head_sha": "c8fe15bada3be896b8597f056da5b9810f3b828e",
+  "status": "fail",
+  "summary": "FAIL with 1 Blocker. HEAD equals the audited head c8fe15ba. The range 14ba57a6..c8fe15ba holds 20 files, all under measure/. No product code, golden, or pinned path changed. I reran P1 to P9 at HEAD, and all nine pass. The proofs show the chibi-quest look. They show the 13 app names in S4.1 order, and each name occurs once. No classic name occurs. All 14 and 16 pages measure 210 x 285 mm. Each PDF holds 8 embedded fonts and no Type 3 font. All 3 pictures of each lesson show, and the Thai renders correctly. Blocker F1 is the H1 header. The cause is the proof path, not the product, because the driver passed no book name. Both proofs need a rebuild as proof-s5-r2 before Daniel looks. Decision on G1: no product fix, because every product PDF script strips the CDN tag. Major findings: the contact sheets overprint five captions and mislabel two page types (F2). P2 and P6 pass on a missing deliverable (F3). P3, P4, and P5 cannot see a double render, a frozen render, or a wrong pair (F4). Adventure 9.2 page 3 splits a picture from its caption (F5).",
+  "blocking_findings": [
+    "F1 [Blocker] review-a: The lesson header on page 1 of both proofs reads \"Primary Advantage • Primary Advantage • A1\" (\"• A2+\" for Adventure 9.2). The PDF title reads \"Primary Advantage Workbook - Primary Advantage\". The printed book reads \"Primary Advantage • Quest 5 • A1\". The cause is the proof path, not the product. Template line 1541 prints \"Primary Advantage • {{series_name}} • {{series_level}}\". The compile route sets series_name to the book name, for example \"Quest 4\" (route.ts lines 169-183). The script render-lesson-html.ts defaults it to \"Primary Advantage\" (line 30). The strategy command (test-strategy.md, S5 step 2) passes no --series and no --level. Fix: make a new folder proof-s5-r2. Rebuild the PDFs, tiles, sheets, TSV files, manifest, and checks with --series \"Quest 5\" --level A1 and --series \"Adventure 9.2\" --level A2+. Add a check P10 that fails when the header lacks the book name or repeats the product name. Rationale: Daniel would approve a header that the printed book does not carry, and none of P1 to P9 reads the header string."
+  ],
+  "nonblocking_findings": [
+    "F2 [Major] review-a: The contact sheets overprint five captions and mislabel two page types. (a) When a page starts two steps, the left caption is 1273 to 1315 px wide, but the room is 855 px. It overprints the capture caption on Quest 5 pages 1, 5, 6 and Adventure 9.2 pages 1, 8 (make-contact-sheet.py lines 121-128; the row 1 crop shows it). (b) Quest 5 page 10 and Adventure 9.2 page 12 carry the label \"step 10\" but start with part B of step 9. Adventure 9.2 page 6 carries the label \"step 4\" but starts with article paragraph 6 of step 3. (c) Quest 5 page 14 and Adventure 9.2 page 16 hold the Thai article translation. Their label reads \"step 13: Lesson Summary\", and the sheet pairs them with lesson-step14-summary-desktop.png. The rule at make-contact-sheet.py lines 60-69 takes the first step heading on the page, or else the last heading seen before it. Fix in r2: shorten or wrap the caption, label a page by the step at its top, and give the translation page its own label and no capture. Rationale: the sheet exists to pair a page with its app step, and P5 cannot see these errors (F4).",
+    "F3 [Major] review-a: P2 and P6 pass when the deliverable is missing (A4). P2 prints \"fonts 0, type3 0, not_embedded 0\" and passes on an empty proof folder. P6 prints \"filtered files 0, thai characters 0\" and passes when /tmp/opencode/thai-filtered does not exist. P2 also tests 'yes' not in row over every pdffonts column (checks.py line 99). A font that is not embedded but has a ToUnicode map (row \"Helvetica Type 1 WinAnsi no no yes\") therefore passes. Fix: fail P2 when it lists 0 fonts, and read the emb column as parsePdffonts in lib/print/pdfx.ts does. Fail P6 when it finds 0 filtered files. Rationale: the r1 data are real (8 fonts, 85 files), so the r1 results stand, but a rerun on missing input stays green.",
+    "F4 [Major] review-a: P3, P4, and P5 cannot detect faults that the strategy or the proof names. (a) P3 passes on a text where every step name occurs twice, so a double render like G1 passes P1 to P9. The real PDFs hold each name once. (b) P4 compares the PDF page count with tiles that the same run made from the same PDF (checks.py lines 131-135). The strategy falsification \"a frozen render gives a low count and fails\" therefore does not hold. (c) P5 passes when every capture pairs with the wrong step, because checks.py lines 165-169 test only that the capture file exists. (d) The strategy line \"a missing picture fails the proof\" has no check. Fix: count each step name exactly once. Compare the PDF page count with the page-box count that renderPagedPdf returns. Assert each TSV pair against the step-to-capture table of the plan. Fail when an img src file is missing. Rationale: a proof gate must fail on the faults that it names, and these four faults pass today.",
+    "F5 [Major] review-a: Adventure 9.2 lesson 9, pages 3 and 4: the hero picture ends page 3, and its caption \"The guide welcomes the Explorers.\" starts page 4. The right half of page 3 beside the picture stays empty. This breaks the S3 criterion \"inline pictures do not split\" (spec.md line 72), and plan.md line 57 records that S3 checked step 3 on Adventure 9 lessons. The template print CSS already holds break-inside: avoid on .article-image-area and .article-image-box (primary_template.html lines 1320-1331), so Paged.js splits a left float despite the rule. Fix: a Red/Green task that tests the split on this lesson and fixes it in chibi-quest-styles.ts only, so the classic golden stays byte-identical. A commit on a template path triggers S7. Rationale: Daniel sees the split on his first look.",
+    "F6 [Nit] review-a: P7 and P8 carry small gaps. P7 counts the string look-classic. The classic body tag has no class (workbook-document-wrapper.ts line 36), and the string occurs nowhere in dashboard source, so that assertion can never fail. The first-body-tag test carries the check. P8 reads the html line of the manifest but never compares it (checks.py lines 231-236). Its git diff also ignores uncommitted edits. Fix: drop or reword the classic assertion, compare the html hash, and add git status --porcelain over dashboard and content. Rationale: the claim text \"no classic body class\" tests nothing.",
+    "F7 [Nit] review-a: Two layout points for Daniel. A step sign that follows a panel on the same page sits 0 to 3 px (about 0.7 mm) below it: Quest 5 pages 5, 6, 10 and Adventure 9.2 pages 8, 12 (zoom crops of Quest 5 pages 6 and 10). The Quest 5 vocabulary table leaves one row (\"lots of\") alone at the top of page 3. Nothing is clipped. Rationale: both points show in the proof, and Daniel may note them.",
+    "F8 [Nit] review-a: The score box prints \"/ 5\", \"Excellent (5/5)\", and \"Good (4/5)\" (primary_template.html lines 1890-1895), but each lesson prints 4 questions. The field print.mcq holds 4 entries in each lesson package of every origins, quest, and adventure book. The classic golden has the same text, so the defect existed before this track. Fix: record it in measure/tech-debt.md for the template owner. Rationale: Daniel sees it on Quest 5 page 7 and Adventure 9.2 page 9.",
+    "F9 [Nit] review-a: Content outside S5. The short-answer hint on Adventure 9.2 page 10, \"Mia put her camera on the little bridge and set the ___.\", does not fit the question \"What did the guide tell the pairs to do first?\" (print.saqHint in content/primary/adventure-9.2/l09.json). Quest 5 lesson 1 fits: \"I am ___ years old.\" answers \"How old is Lily?\". Fix: send it to the levels_5_9 content owner. Rationale: the proof makes the mismatch visible before the print.",
+    "F10 [Nit] review-a: The track records need three updates. (a) plan.md line 5 and spec.md line 7 give the Quest 5 printer file as due on 2026-11-06. Strategy v1.18 (advantage-pr 08-strategy/product-strategy-2026-2027.md lines 69 and 221, 2026-10-30) puts it on hold with no date. (b) After the rebuild, plan.md line 114 must name proof-s5-r2 and manifest-r2. The S5 task must not stay [x] on r1 evidence. (c) The S6 test list (plan.md line 123) must assert seriesName, levelNumber, and cefrLevel of primary/quest-5-a1/project.json. The compile route falls back to \"Reading Advantage\" (route.ts line 169), and the header comes from those values. Owner: the user or the build session. Rationale: stale records and a missing S6 test would repeat the F1 header error in the printer file."
+  ],
+  "evidence": [
+    "Head equals the audited head: git rev-parse HEAD gives c8fe15bada3be896b8597f056da5b9810f3b828e. The brief gave phase_base_sha and audited_head_sha only. role_base_sha therefore equals phase_base_sha.",
+    "Scope: git diff --stat 14ba57a6..c8fe15ba lists 20 files, all under measure/runs/primary_v2_look_20261020/ or the plan.md of the track. The same diff over dashboard, content, and primary is empty. The only untracked file under dashboard/ is raw.json, which is outside the range.",
+    "I reran P1 to P9 at HEAD. I loaded checks.py and called the check functions without main, so no file changed. All nine pass with the numbers of checks-r1.txt. The sha256 of both HTML files matches manifest-r1.txt and round-identity.txt.",
+    "pdfinfo -f 1 -l 99: all 14 pages of quest5-l01.pdf and all 16 pages of adventure92-l09.pdf measure 594.96 x 808.08 pt (210 x 285 mm). P1 reads page 1 only, and this run covers every page.",
+    "pdffonts: each PDF holds 8 CID TrueType fonts, all embedded, and 0 Type 3 fonts. They are QuicksandLight Regular and Bold, FredokaLight Medium, SemiBold, and Bold, Mitr-Bold, and Sarabun Regular and Italic. Mitr-Bold covers the bold Thai sign text.",
+    "Step names: the flattened PDF text holds each of the 13 names exactly once in both PDFs. The tiles show the 13 signs in S4.1 order. Quest 5 pages: 1, 1, 3, 5, 5, 6, 6, 8, 9, 10, 11, 12, 13. Adventure 9.2 pages: 1, 1, 3, 6, 7, 8, 8, 10, 11, 12, 13, 14, 15. The nine classic-only names do not occur. The double render did not reach the r1 PDFs.",
+    "H1 evidence: both proof HTML files hold the workbook-title strings \"Primary Advantage • Primary Advantage • A1\" and \"Primary Advantage • Primary Advantage • A2+\". The classic golden content/primary/origins-3.2/print/golden/lesson-05.html holds \"Primary Advantage • Origins 3.2 • A0+\". The PDF Title field reads \"Primary Advantage Workbook - Primary Advantage\" (workbook-document-wrapper.ts line 43 uses options.seriesName).",
+    "H1 source: primary_template.html line 1541; compile route lines 169-183 (bookName = seriesName + levelNumber, seriesLevel = cefrLevel); render-lesson-html.ts lines 30 and 61 (series default \"Primary Advantage\"). The project.json of Quest 4 gives \"Quest 4\" and \"A1-\". The project.json of Origins 3.2 gives \"Origins 3.2\" and \"A0+\". The packages carry meta.cefrLevel A1 (Quest 5) and A2+ (Adventure 9.2), which equals the cefrLevel of the other books.",
+    "G1 evidence, product scripts: make-book-pdf.ts line 60 strips the unpkg script tag before renderPagedPdf (line 71) injects the node_modules polyfill (line 67). make-lesson-pdfs.ts line 79, make-teacher-manual-pdf.ts line 102, storytime/make-manual-pdf.ts line 119, and storytime/make-teacher-book-print.ts line 139 strip it too. workbook-document-wrapper.ts line 44 emits the tag for browser use.",
+    "G1 evidence, compile page and driver: compile/page.tsx lines 242 and 256 load the HTML through srcDoc with that tag and inject nothing, so one Paged.js runs. Each proof HTML holds 1 unpkg tag, and the driver blocks it with a host-resolver rule (make-proof-pdf.ts line 104). Review B F2 asks the driver to strip the tag as well, and this agrees with my decision. I did not re-render with the CDN open. The driver comment counts of 26 headings and 31 page boxes are not reproduced, and the decision does not depend on them.",
+    "A4 fixtures: with the PDF missing, P1 and P3 fail, P4, P5, P7, and P8 raise FileNotFoundError, and P2 passes with \"fonts 0\". With the filter folder missing, P6 passes with \"filtered files 0\". A fake pdffonts row \"Helvetica Type 1 WinAnsi no no yes\" passes P2. The same row with \"no no no\" fails.",
+    "Falsification fixtures: P3 fails on a leftover \"Before You Read\" and on a swapped pair of steps 2 and 3, so those two conditions hold. P3 passes on a text with every step twice. P5 passes with the capture column reversed, so that every capture pairs with the wrong step.",
+    "A3: checks.py reads counts by label (Pages:, Page size:, git_head, exit), and I found no bare-digit count. A5: plan.md line 114 claims 14 pages, 16 pages, and exit 0 for P1 to P9. The rerun agrees.",
+    "Contact sheets: the row 1 crop of the Quest 5 sheet shows the page 1 label overprinting \"app capture: lesson-step01-intro-desktop.png\". Label widths computed with andika-bold.ttf at 30 px give 1273 to 1315 px against 855 px of room for the five rows of F2. The row 14 crop shows the Thai translation page next to the Lesson Summary capture.",
+    "Captures: lesson-step01 to step08, step13, and step14 (desktop, with no night and no before-restyle variant) exist. They pair with printed steps 1 to 8, 12, and 13 as step-map.ts maps them. Printed steps 9 and 10 map to app steps 9-10 and 11-12, and those captures exist. The strategy leaves printed steps 9 to 11 without a capture, so the sheet follows the strategy.",
+    "Longest lesson: lesson-words.py exits 0 and names adventure-9.2/l09.json with 1310 prose words. By article paragraph words, adventure-9.3/l08.json leads with 478 against 476. The choice therefore holds on either measure.",
+    "Pictures and QR: each proof HTML holds 3 file:// pictures that exist and 2 QR data URIs. All 3 pictures show on pages 3 and 4 (Quest 5) and on pages 3, 4, and 5 (Adventure 9.2). The QR URL comes from buildWorkbookLesson (build.ts lines 15 and 114), the product builder.",
+    "Tile inspection: I viewed all 30 tiles. I found no empty page, no clipped text, no heading alone at the foot of a page, and no missing picture. Thai tone marks render correctly on Quest 5 pages 1 to 3, 9, 14 and Adventure 9.2 pages 1 to 3, 11, 16. The look shows wood signs with rivets, gold medals, parchment panels, white write-in areas, and SVG icons. It shows no gradient, shadow, or emoji.",
+    "Render path: render-lesson-html.ts calls renderMultipleLessons, wrapWorkbookDocument, and the same buildWorkbookLesson as the compile route. The driver calls renderPagedPdf as make-book-pdf.ts does. The differences are the header values (F1), lessonsOnly (no title page, TOC, or back matter), file:// pictures, and cover: false in getPrintStyles (page 1 gets margins and a page number). Only F1 shows as a defect.",
+    "Strategy v1.18 (advantage-pr 08-strategy/product-strategy-2026-2027.md lines 69 and 221) puts the Quest 5 printer file on hold with no date. plan.md line 5 and spec.md line 7 keep 2026-11-06."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline -5; git status --porcelain measure/runs/primary_v2_look_20261020/",
+    "git diff --stat 14ba57a6..c8fe15ba; git diff --stat 14ba57a6..HEAD -- dashboard content primary",
+    "python3 -I -B (importlib load of proof-s5/checks.py): the nine check functions called read-only at HEAD, all pass",
+    "python3 -I -B fixtures: empty proof folder (P1 to P8), missing filter folder (P6), fake pdffonts rows (P2), doubled and altered text (P3), reversed capture pairs (P5)",
+    "pdfinfo -box and pdfinfo -f 1 -l 99 on both PDFs; pdffonts on both PDFs",
+    "sha256sum of both HTML files, both PDFs, both contact sheets, and both packages against manifest-r1.txt",
+    "grep of workbook-title in both proof HTML files and in the classic golden lesson-05.html",
+    "python3 -I -B proof-s5/lesson-words.py (exit 0) and an article-word ranking of the 42 filtered packages",
+    "python3 -I -B PIL crops of both contact sheets and label widths computed with andika-bold.ttf at 30 px",
+    "read of all 30 page tiles in quest5-l01-pages and adventure92-l09-pages",
+    "grep for unpkg, srcDoc, and paged.polyfill in dashboard/scripts, dashboard/lib, and dashboard/app; read of render.ts, make-book-pdf.ts, workbook-document-wrapper.ts, compile/route.ts, and render-lesson-html.ts"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/review-a-s5-c8fe15ba.json",
+    "measure/runs/primary_v2_look_20261020/review-a-s5-c8fe15ba.log"
+  ],
+  "test_strategy_violations": [
+    "P4 does not implement its falsification \"a frozen render gives a low count and fails\": it compares the PDF page count with tiles that the same run made from the same PDF (checks.py lines 131-135).",
+    "P5 does not test \"paired with the matching app capture\": checks.py lines 165-169 test only that the capture file exists, and a run with every capture paired with the wrong step passes.",
+    "The strategy rule \"a missing picture fails the proof\" has no check: no P-check and no driver step reads the picture elements."
+  ],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "claude-code/claude-sonnet-5-5#max",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 3,
+      "evidence": "The proofs hold the look, the 13 names, the page size, and the fonts, but page 1 of both prints the product name twice (proof-s5/quest5-l01.html workbook-title) and the sheets mislabel two page types (make-contact-sheet.py lines 60-69)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 3,
+      "evidence": "P1, P3, P7, P8, and P9 fail on their stated faults, but P2 and P6 pass on a missing input and P5 passes with every capture paired wrongly (checks.py lines 99, 185-192, 165-169)."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --stat 14ba57a6..c8fe15ba shows 20 files, all under measure/runs/primary_v2_look_20261020/ or the plan.md of the track, and 0 files under dashboard/ or content/."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Every P-check has a check-P file and a manifest hash that my rerun reproduces, but the G1 counts (26 headings, 31 page boxes) have no captured run in measure/runs."
+    }
+  ]
+}

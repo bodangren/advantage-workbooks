@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "phase_base_sha": "82c58b7ecaa64da87eb69a755ce9111fa1ac3c93",
+  "role_base_sha": "c8fe15bada3be896b8597f056da5b9810f3b828e",
+  "audited_head_sha": "338e68eb2a7993acf8c6e6c5dc85f8a40c3baa99",
+  "status": "fail",
+  "summary": "FAIL with 1 Blocker (F11), 1 Major (F13), and 5 Nit findings (F12 and F14 to F17). HEAD equals the audited head 338e68eb, and the gate exits 0 with 40 tests passed. F1 to F4 are closed, and the F5 caption now prints on the page of its picture (P12 passes on both r4 proofs). The cure, max-height: 240px on .look-chibi-quest .hero-img-box img, squashes every hero picture: x-ppi 435 and y-ppi 640 for a square source. No test and no check of P1 to P12 sees the squash, and test 4 cannot fail. The classic golden and lib/teacher-manual are unchanged from 82c58b7e.",
+  "blocking_findings": [
+    "F11 [Blocker] review-a: The F5 fix squashes every hero picture. The rule `.look-chibi-quest .hero-img-box img { max-height: 240px; }` (chibi-quest-styles.ts line 105, commit 95345e90) caps the height only, because the template keeps `width: 100%` (primary_template.html lines 948 to 953). In both r4 PDFs the hero on page 3 prints at x-ppi 435 and y-ppi 640, but its source is square. All 154 heroes of the 11 books in CHIBI_QUEST_BOOKS have a 1600 x 1600 source. No test or check of P1 to P12 sees the squash. Fix: use `.look-chibi-quest .hero-img-box img { width: auto; max-width: 100%; max-height: 240px; }`. Add a failing-first test for a height cap that keeps `width: 100%`. Add a check P13 that fails when x-ppi and y-ppi of a picture differ by more than 2 percent. The r4 PDFs must fail P13. Rebuild the proof as r5. Rationale: a squashed illustration would print in every Chibi Quest book."
+  ],
+  "nonblocking_findings": [
+    "F12 [Nit] review-a: The rule `.look-chibi-quest .inline-img-box { break-inside: avoid; page-break-inside: avoid; }` (chibi-quest-styles.ts lines 99 to 102) changes no page in my renders. Without it, the pagination and the page text stay identical on Adventure 9.2 lesson 9 and on the complete Quest 5 book (30 inline pictures). The hero cap alone cures F5: proof r3 held this rule without the cap and still split the Adventure caption. F5 concerned the hero picture, not an inline picture. Remove the rule, or add a lesson where it changes a page break. Rationale: the rule set must hold only rules with a proven effect.",
+    "F13 [Major] review-a: The tests do not prove the claim of test 1, and test 4 cannot fail. Test 1 (chibi-quest-picture-keep.test.ts lines 59 to 70) pins `max-height: 240px` and passes on the squashing rule of F11. Test 4 (lines 86 to 91) matches a literal string that the test file defines (lines 19 to 24). No change of the template fails it. The strategy asks for this form (test-strategy.md line 264). The mutants M6a and M6b (green-s5g1-r4-mutants.txt) remove the cap or move it to the classic styles. No mutant breaks the aspect ratio. Make test 4 read the template. Add a failing-first assertion for the aspect ratio of the hero rule. Add a mutant that keeps the cap and removes `width: auto`. Rationale: 6 tests, 34 look tests, 3150 project tests, and P1 to P12 all passed a squashed picture.",
+    "F14 [Nit] review-a: The strategy and the plan lag the shipped design. test-strategy.md defines P1 to P10 only (line 323), so P11, P12, and the hero cap have no strategy entry. Its line 263 still requires a keep rule that names three wrappers, but test 3 now asserts that two of them carry none. plan.md line 117 and the title of strategy section 1 call the F5 picture an inline picture. It is the hero picture (strategy line 257). F10 stays open in part: spec.md lines 7, 31, 105, 139, and 151 and plan.md line 137 still say 2026-11-06. The S6 test list has no seriesName, levelNumber, or cefrLevel assertion. Rationale: a later reader would trust the strategy over the shipped rules.",
+    "F15 [Nit] review-a: I keep the Nit rating of the orchestrator for the empty right column on Adventure 9.2 page 3. The column is about 70 x 55 mm under the reading key, because paragraph 1 starts on page 4. It is white space and not a print defect. After the F11 fix the hero prints 63.5 mm square. The inline pictures print 84.8 mm square. A blank strip of about 30 mm sits beside the hero. Daniel decides if this size is right. A larger uniform cap, for example 300 px, is possible, and I did not render it. Rationale: the page stays usable, but the hero looks small next to the inline pictures.",
+    "F16 [Nit] review-a: P8 (checks.py lines 364 to 393) checks the artifact hashes and `git status --porcelain`, but it does not compare the manifest git_head with HEAD. A product commit after the proof stays unseen. Add `git diff --quiet <manifest git_head> HEAD -- dashboard content` to P8. Rationale: the proof must show the product at HEAD (test-strategy.md line 368).",
+    "F17 [Nit] review-a: Step headers sit flush under the previous panel. The medal touches the bottom border above it on Quest 5 pages 5, 6, and 10 and on Adventure 9.2 pages 8 and 12. The audited delta does not touch this spacing. Daniel decides at his look. Rationale: touching edges look like a layout error in print."
+  ],
+  "evidence": [
+    "Head equals the audited head: git rev-parse HEAD gives 338e68eb2a7993acf8c6e6c5dc85f8a40c3baa99.",
+    "Gate GATE_EXIT=0: the heavy-run of the 5 files in the brief gives 5 passed files and 40 passed tests (6 + 10 + 6 + 11 + 7). Plan lines 118 to 120 match green-s5g1-r4-tests.txt (6 passed), green-s5g1-r4-look-tests.txt (34 passed), green-s5g1-r4-project-tests.txt (165 files, 3150 tests), and green-s5g1-r4-mutants.txt (2 of 2 caught).",
+    "Product delta: git diff --name-only c8fe15ba..338e68eb outside measure/ lists .gitignore (+4), dashboard/__tests__/chibi-quest-picture-keep.test.ts (+127), and dashboard/lib/document-wrapper/chibi-quest-styles.ts (+10). git diff --stat 82c58b7e over content/primary/origins-3.2/print/golden, dashboard/lib/teacher-manual, dashboard/templates, and dashboard/lib/document-wrapper/styles.ts is empty.",
+    "F1 closed. The page 1 tiles of the r4 proofs read 'Primary Advantage • Quest 5 • A1' and 'Primary Advantage • Adventure 9.2 • A2+'. P10 exits 0 in checks-r4.txt.",
+    "F2 closed. The label bands under page 1 of Quest 5 and page 3 of Adventure 9.2 wrap to two lines without overprint. The last row of the Adventure sheet reads 'printed page 16 - Thai article translation (no app step)'.",
+    "F3 closed: on an empty proof folder P1, P2, P3, P5, P6, P11, and P12 fail, and P4 and P8 raise FileNotFoundError. A missing filter folder fails P6. Fake pdffonts rows with a non-embedded Helvetica or a Type 3 font fail P2.",
+    "F4 closed in code. P3 fails on a text with every step twice (once_each False). P4 fails on a page-box count of 3 against 14 pages. P5 fails when every capture has the wrong step.",
+    "F5 closed in letter and open in effect. P12 passes on both r4 proofs (3 of 3 captions on the page of the picture). The Adventure 9.2 page 3 tile shows the hero with its caption. The cure also causes F11, so F5 closes only with F11.",
+    "F6 to F9 stay deferred (plan.md line 116). F10 stays open in part (see F14).",
+    "P12 is not vacuous: it fails on proof-s5-r3 (Adventure caption 1 on page 4, picture on page 3; manifest-r3 git_head 9b95646e) and on proof-s5-r2 (2 pictures for 3 captions, counts_match False). It passes on proof-s5-r4. falsification-r2.txt gives a failing input with exit 1 for each of P1 to P11, and check-P12-r3.txt holds the P12 case.",
+    "P1 to P12 called read-only at HEAD on proof-s5-r4 with python3 -I -B all pass, and checks-r4.txt records exit 0 for each.",
+    "Squash: pdfimages -list -f 3 -l 5 of the r4 PDFs shows the hero on page 3 of both lessons. It has x-ppi 435 and y-ppi 640. The round 1 PDFs give 435 and 434 (Quest 5) and 435 and 435 (Adventure 9.2). The inline pictures give 479 and 479 in r4. The hero prints at 93.4 x 63.5 mm (ratio 1.47) from a 1600 x 1600 source.",
+    "The 240px value: all 154 hero.jpg files of the 11 CHIBI_QUEST_BOOKS (lib/look.ts lines 13 to 17) are 1600 x 1600 (11 books x 14 lessons). At the 55 percent float width (about 353 CSS px) the cap applies to every hero and cuts its height by 32 percent. It does not spare small pictures, because no hero is smaller. The 9 other books use the same template and the same source size, so the same squash follows. I did not render them.",
+    "Whole-book renders use a scratch copy of the renderPagedPdf steps in /tmp/opencode/review-a-s5-r2, outside the repo. The Quest 5 book has 204 pages, and the Adventure 9.2 book has 223 pages. Each book gives 42 of 42 pictures present and 0 captions off the picture page. In each book 14 of 14 heroes print squashed. The Quest 5 book without the inline keep rule gives the same pagination and page text. One inline picture of the Adventure 9.2 book (page 84) shows 479 and 477 ppi. This is a rounding difference of 0.4 percent and not a squash, so P13 needs a tolerance.",
+    "F11 fix check (same scratch render): the rule `width: auto; max-width: 100%; max-height: 240px` gives x-ppi 640 and y-ppi 640 for the hero. This holds for Quest 5 lesson 1 and Adventure 9.2 lesson 9. P12 passes on both. The Quest 5 book gives the same pagination and page text as the control, with 0 squashed pictures. I did not render the complete Adventure 9.2 book with the fix.",
+    "Template fact: the claim 'no avoid on the hero wrappers' holds for chibi-quest-styles.ts only (test 3). primary_template.html declares avoid on .article-image-area and .article-image-box inside @media print (lines 1206 and 1320 to 1331). The F5 split existed in round 1 with those rules.",
+    "Probe record: hero-caption-probes.txt line 2 states that no image, HTML, or PDF was opened, so the probes measured captions and pages only.",
+    "Visual check: I viewed all 30 r4 page tiles (Quest 5 pages 1 to 14, Adventure 9.2 pages 1 to 16) and 5 contact-sheet crops. The defects are the squashed hero on page 3 of both lessons (F11), the empty column (F15), and the flush step headers (F17). The Thai text renders correctly on the vocabulary, match, and translation pages.",
+    "A3 and A5: P4 and P12 read labeled fields (the Pages: line of pdfinfo) and structured rows (pdfimages -list rows, package JSON), not bare digits. The plan lines 118 to 124 match the captured runs, and no 'all pass' claim is false."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git diff --name-only c8fe15ba..338e68eb; git diff --stat 82c58b7e -- content/primary/origins-3.2/print/golden dashboard/lib/teacher-manual dashboard/templates dashboard/lib/document-wrapper/styles.ts; git diff --stat 82c58b7e..HEAD -- . ':!measure'",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-picture-keep.test.ts __tests__/workbook-look.test.ts __tests__/chibi-quest-kit.test.ts __tests__/chibi-quest-step-names.test.ts __tests__/chibi-quest-step-names.adversarial.test.ts' (foreground, exit 0)",
+    "python3 -I -B (importlib load of proof-s5/checks.py): P1 to P12 called read-only on proof-s5-r4; fixtures on an empty folder, a missing filter folder, fake pdffonts rows, a doubled text, a page-box file with 3 boxes, swapped captures, and the folders proof-s5-r2 and proof-s5-r3",
+    "pdfimages -list -f 3 -l 5 on the r1 and r4 PDFs; python3 -I -B PIL bounding boxes of the hero on the page 3 tiles of r1 and r4",
+    "python3 -I -B PIL sizes of every hero.jpg under content/primary (all 1600 x 1600); read of dashboard/lib/look.ts CHIBI_QUEST_BOOKS",
+    "node render.mjs (scratch copy of the renderPagedPdf steps) on the print copies: the variants control, nokeep, and fixA on the two lessons and on the complete Quest 5 book, and control on the complete Adventure 9.2 book, with pdfimages, pdftotext, and pdfinfo on each result",
+    "read of all 30 r4 page tiles and of 5 crops of the contact sheets"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/review-a-s5-338e68eb.json",
+    "measure/runs/primary_v2_look_20261020/review-a-s5-338e68eb.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "claude-code/claude-sonnet-5-5#max",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 2,
+      "evidence": "pdfimages -list of proof-s5-r4 gives the hero on page 3 at x-ppi 435 and y-ppi 640 in both PDFs, so chibi-quest-styles.ts line 105 prints a square source squashed."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 3,
+      "evidence": "chibi-quest-picture-keep.test.ts passes 6 of 6 on the squashing rule and test 4 (lines 86 to 91) matches a literal in the test file, but P12 fails on proof-s5-r3 and proof-s5-r2 as designed."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 4,
+      "evidence": "git diff --stat 82c58b7e..HEAD outside measure/ lists 3 files (+141 lines), and the inline keep rule (chibi-quest-styles.ts lines 99 to 102) changes no page in 30 rendered inline pictures."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "plan.md lines 118 to 124 match green-s5g1-r4-tests.txt, green-s5g1-r4-project-tests.txt, and checks-r4.txt, but hero-caption-probes.txt line 2 states that no image was opened."
+    }
+  ]
+}

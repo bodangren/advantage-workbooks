@@ -1,0 +1,53 @@
+Review A (correctness and architecture), Phase S5: Page proofs for Daniel
+Track: primary_v2_look_20261020
+Phase base: 14ba57a6e82db161d1417b9d4f0d21ea769a069f
+Audited head: c8fe15bada3be896b8597f056da5b9810f3b828e (equals HEAD at audit start)
+Result file: measure/runs/primary_v2_look_20261020/review-a-s5-c8fe15ba.json
+
+Verdict: FAIL with 1 Blocker (F1), 4 Major findings (F2 to F5), and 5 Nit findings (F6 to F10).
+
+What holds: the range holds 20 files, all under measure/. No product code, golden, or pinned path changed.
+I reran P1 to P9 at HEAD, and all nine pass. Both proofs show the chibi-quest look, the 13 app names in the
+S4.1 order (each name once), no classic name, the 210 x 285 mm page on every page, 8 embedded fonts with no
+Type 3, all 3 pictures of each lesson, and correct Thai. I viewed all 30 page tiles.
+
+Decision H1 (header "Primary Advantage • Primary Advantage • A1"): an artifact of the proof path, not a product defect.
+- Template: dashboard/templates/primary_template.html line 1541 prints "Primary Advantage • {{series_name}} • {{series_level}}".
+- Compile page: dashboard/app/api/projects/[projectId]/compile/route.ts lines 169-183 pass seriesName = bookName
+  (series name plus level number, for example "Quest 4") and seriesLevel = cefrLevel from project.json.
+  The classic golden lesson-05.html shows the product form: "Primary Advantage • Origins 3.2 • A0+".
+- Proof path: dashboard/scripts/render-lesson-html.ts line 30 defaults the series to "Primary Advantage".
+  The strategy command (test-strategy.md, S5 step 2) passes no --series and no --level.
+- Action: rebuild both proofs as proof-s5-r2 with --series "Quest 5" --level A1 and
+  --series "Adventure 9.2" --level A2+, and add a header check (P10). This is Blocker F1, routed to Green.
+
+Decision G1 (Paged.js from unpkg.com and from node_modules): no product fix is needed.
+- make-book-pdf.ts line 60 strips the unpkg script tag before renderPagedPdf injects the node_modules polyfill.
+  make-lesson-pdfs.ts line 79, make-teacher-manual-pdf.ts line 102, storytime/make-manual-pdf.ts line 119, and
+  storytime/make-teacher-book-print.ts line 139 do the same.
+- The compile page (app/projects/[projectId]/compile/page.tsx lines 242 and 256) loads the HTML in an iframe with
+  the CDN tag only and injects nothing, so one Paged.js runs.
+- The proof driver reads the render-lesson-html.ts output directly. That output keeps the CDN tag by design
+  (workbook-document-wrapper.ts line 44). The host-resolver block of the driver gives the same result as the strip.
+  Review B F2 asks the driver to strip the tag as well. That is a driver change, not a product change.
+- The real r1 PDFs hold each step name once, so the double render did not reach them.
+  P3 passes on a doubled text, so no P-check can see that fault (F4).
+
+Fixtures run (read-only; scratch files only under /tmp/opencode/review-a-s5/):
+- P2 passes on an empty proof folder ("fonts 0") and on a non-embedded font with a ToUnicode map.
+- P6 passes with 0 filtered files when the filter folder is missing.
+- P5 passes when every capture is paired with the wrong step.
+- P3 passes on a text with every step twice. It fails on a leftover classic name and on a swapped pair.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: no vitest and no heavy run (audit-only; the range holds no product code); proof checks P1 to P9 called read-only at HEAD through python3 -I -B, all nine pass; fixtures on an empty proof folder, a missing filter folder, fake pdffonts rows, doubled and altered PDF text, and reversed capture pairs found 2 vacuous passes (P2, P6) and 3 shallow checks (P3, P4, P5); pdfinfo, pdffonts, sha256sum, and lesson-words.py (exit 0) agree with manifest-r1.txt; all 30 page tiles viewed
+files_changed: measure/runs/primary_v2_look_20261020/review-a-s5-c8fe15ba.json; measure/runs/primary_v2_look_20261020/review-a-s5-c8fe15ba.log
+plan_updates: none; report-only role
+known_failures: F1 Blocker: the page 1 header of both proofs prints the product name twice and no book name (proof-path artifact; rebuild as proof-s5-r2); F2 to F5 Major: contact-sheet captions overprint on 5 rows and 2 page types are mislabeled, P2 and P6 pass on missing input, P3 to P5 cannot see a double render, a frozen render, or a wrong pair, and Adventure 9.2 page 3 splits a picture from its caption; no product source defect in the audited range
+handoff: Route F1 to Green: rebuild the whole round in a new folder proof-s5-r2 with --series "Quest 5" --level A1 and --series "Adventure 9.2" --level A2+, add check P10 for the header string and the PDF Title field, and fix F2 to F4 in the same run so Daniel gets one corrected set; the strategy command in test-strategy.md S5 step 2 needs the two flags too. H1 is a proof-path artifact and not a product defect: the template prints Primary Advantage, the series name, and the level, the compile route passes the book name, and render-lesson-html.ts defaults the series to Primary Advantage. G1 needs no product fix: make-book-pdf.ts, make-lesson-pdfs.ts, and three other print scripts strip the unpkg tag, and the compile page loads one Paged.js; Review B F2 (strip the tag in the driver too) is a driver change. F5 is a product finding for a Red/Green task before or after Daniel's look (the orchestrator decides): fix it in chibi-quest-styles.ts only, so the classic golden stays byte-identical, and tell S7. F6 to F10 are Nit findings; F10 holds three record updates for the user or the build session: the Quest 5 printer file is on hold in strategy v1.18, plan.md line 114 must name r2 after the rebuild, and the S6 tests must assert seriesName, levelNumber, and cefrLevel of the project.json.
+END_MEASURE_AGENT_RESULT

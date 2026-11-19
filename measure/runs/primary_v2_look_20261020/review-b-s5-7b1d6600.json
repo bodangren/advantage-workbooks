@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-b-security",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "338e68eb2a7993acf8c6e6c5dc85f8a40c3baa99",
+  "phase_base_sha": "73f459e41b17d5c4fc3fa9364e1ce63e2317bb2d",
+  "role_base_sha": "7b1d6600a230f898bf8d445d979a6a24a561e676",
+  "audited_head_sha": "7b1d6600a230f898bf8d445d979a6a24a561e676",
+  "security_applicability": "applicable",
+  "status": "fail",
+  "summary": "FAIL: P8 accepts a Git option from the manifest. A crafted value truncates a writable file while P8 passes. Other assigned security checks pass.",
+  "blocking_findings": [
+    "F5 [Blocker] review-b: P8 passes an unvalidated manifest git_head to Git at proof-s5/checks.py:373-380. Git interprets --output=<path> as an option. Rationale: an extracted P8 run used real Git and a synthetic manifest. The gate passed while Git truncated the supplied audit log from 451 bytes to zero. A crafted local manifest can therefore truncate any writable target, including an approved proof. Route: Green. Validate a full hexadecimal commit ID before invoking Git. Add an option-injection regression test that proves no target changes."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "The first command counted Thai characters per committed file in 338e68eb..7b1d6600. All 40 counts were zero.",
+    "test-strategy.md:378 identifies the newest phase base as strategy commit 73f459e4. baseline_sha preserves the broader delta that the orchestrator requested.",
+    "The audit captured role_base_sha from the current HEAD. It equals audited_head_sha.",
+    "Applicability: test-strategy.md:421 retains the narrow security review. The newest phase diff changes four public record files. The requested broader delta also changes CSS and P8/P13.",
+    "CSS: dashboard/lib/document-wrapper/chibi-quest-styles.ts:104-105 adds width:auto and max-width:100% under .look-chibi-quest. Added lines contain no url(), fetch(), remote URL, script, or data interpolation.",
+    "P13: proof-s5/checks.py:495-521 reads pdfimages -list output through an argument list. It adds no shell, remote fetch, or persistence path.",
+    "P13 synthetic probes executed the extracted actual functions. Square PPI passed. Distorted PPI, empty output, and zero PPI failed. No PDF or image was opened.",
+    "P13 recorded evidence: proof-s5/check-P13-r5.txt:1-9 records six images with equal x/y PPI and exit 0. These are source records, not independent image verification.",
+    "P8 normal probes used the extracted actual function and real Git. Current HEAD and an ancestor with identical product bytes passed. A stale product revision and an invalid revision failed.",
+    "F5 reproduction: a synthetic manifest used git_head --output=/home/daniebo/Desktop/Workbooks/measure/runs/primary_v2_look_20261020/review-b-s5-7b1d6600.log. P8 returned True. Git reduced that supplied artifact from 451 bytes to zero.",
+    "F5 reproduction limits: synthetic inputs replaced package and proof reads. Only the supplied audit log changed. This audit restored the log with patch.",
+    "P8 data flow: checks.py:372-379 reads a non-whitespace token without SHA validation. At :380 Git parses that token as an option before the path separator. Shell=False does not stop Git option parsing.",
+    "Committed-file scan: six credential patterns returned zero matches across all 40 delta files. Patterns covered private keys, AWS keys, provider tokens, bearer tokens, password URLs, and assigned secrets.",
+    "Absolute-path scan: zero paths occur outside the known Workbooks root, app capture directory, print-ready directory, and /tmp/opencode. New suffixes identify local proof rounds and test fixtures.",
+    "Repository guard: git ls-files returned zero HTML files under proof-s5/. make-proof-pdf.ts has no change in the requested delta.",
+    "Metadata: measure/tracks/primary_v2_look_20261020/metadata.json parsed successfully. Current bytes match the audited commit.",
+    "A2: no draft-to-published transition or publication authorization appears in this delta. plan.md:126-127 retains Daniel's blocked approval tasks.",
+    "A6: measure/tracks.md:17-18 keeps the track active and the printer file on hold. The registry makes no resolved security claim.",
+    "Scope boundaries: the CSS adds no authentication boundary, tenant scope, sensitive data path, database write, or migration. P8 introduces the file truncation described in F5.",
+    "Audit limits: no proof HTML, PDF, image, or package under content/ was opened or printed. All execution probes used heavy-run.sh without shell redirection.",
+    "Shared checkout: strategy-s5-8b27c9ea.log and video/storytime-song/scripts/render.mjs were already dirty. The audit left those files unchanged."
+  ],
+  "commands": [
+    "python3 -B -c <first-command per-file Thai counter over 338e68eb..7b1d6600>; all 40 counts zero",
+    "git rev-parse HEAD",
+    "git diff --stat 338e68eb..7b1d6600",
+    "git diff --name-only 73f459e4..7b1d6600",
+    "git diff 338e68eb..7b1d6600 -- dashboard/lib/document-wrapper/chibi-quest-styles.ts measure/runs/primary_v2_look_20261020/proof-s5/checks.py measure/tracks/primary_v2_look_20261020/metadata.json measure/tracks.md",
+    "bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh python3 -B -c <metadata, credential, absolute-path, HTML-index, CSS, and current-byte probes>; exit 0",
+    "bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh python3 -B -c <extracted P8 with real Git and synthetic manifests; extracted P13 with synthetic pdfimages output>; exit 0; F5 reproduced"
+  ],
+  "changed_files": ["measure/runs/primary_v2_look_20261020/review-b-s5-7b1d6600.json", "measure/runs/primary_v2_look_20261020/review-b-s5-7b1d6600.log"],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6.1-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 2, "evidence": "The P8 injection probe passed while Git truncated the supplied audit log at checks.py:380."},
+    {"axis": "test_meaning", "score": 3, "evidence": "P13 rejects distortion, but p8-fake-manifest-r4.txt tests stale product bytes rather than Git option injection."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --stat 338e68eb..7b1d6600 contains the requested CSS, tests, proof checks, strategy, and records."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The extracted actual P8 function used real Git and reduced the supplied audit log from 451 bytes to zero."}
+  ]
+}

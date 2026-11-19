@@ -124,6 +124,8 @@ _Story ref: spec.md#story-s5_
     - Proof round 4 (2026-11-19, model opencode-go/deepseek-v4.1-flash): the folder is `~/Desktop/print-ready/primary-v2-look/proof-s5-r4/`; `quest5-l01.pdf` has 14 pages and `adventure92-l09.pdf` has 16 pages; the contact sheets hold 14 and 16 tiles. P1 to P12 each exit 0 (`proof-s5/checks-r4.txt`, `proof-s5/manifest-r4.txt`). P11 shows 3 of 3 pictures, and P12 puts every caption on the page of its picture, for both proofs.
     - Proof round 5 (2026-11-20, model opencode-go/deepseek-v4.1-flash): the folder is `~/Desktop/print-ready/primary-v2-look/proof-s5-r5/`; `quest5-l01.pdf` has 14 pages and `adventure92-l09.pdf` has 16 pages; the contact sheets hold 14 and 16 tiles. P1 to P13 each exit 0 (`proof-s5/checks-r5.txt`, `proof-s5/manifest-r5.txt`). P11 shows 3 of 3 pictures, P12 puts every caption on its picture's page, and P13 keeps every image square-ratio within 2 percent. The hero prints at 63.5 x 63.5 mm (review A r2 F11).
     - Green r6 (2026-11-20): P8 validates the commit id and passes it after --end-of-options (review B r3 F5); P8 scope narrowed to the render paths (review A r3 F19); proof round 5 unchanged.
+- [x] Task S5.A1 (Adversarial): add F18 parsing guards and scoped render checks in one new test file. Evidence: automated; no product change. `commit a788340f`
+    - F18 evidence: 10 new tests and 6 Red tests pass; Vitest and ESLint exit 0. N2, N4, and N7 each fail the new tests. The style bytes are restored. Audit: `adversarial-s5-d784e945.json`.
 - [b] Task: Daniel's notes fixed; new proofs until he approves (date and notes in this plan) — deferred:daniel
 - [b] Task: Measure - User Manual Verification 'Phase S5: Page proofs for Daniel' (Protocol in workflow.md) — deferred:daniel
 

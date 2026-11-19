@@ -1,0 +1,61 @@
+Review A (correctness and architecture) round 3, Phase S5: Page proofs for Daniel
+Track: primary_v2_look_20261020
+Phase base: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+Role base: 338e68eb2a7993acf8c6e6c5dc85f8a40c3baa99
+Audited head: 7b1d6600a230f898bf8d445d979a6a24a561e676 (equals HEAD at audit start and at audit end)
+Result file: measure/runs/primary_v2_look_20261020/review-a-s5-7b1d6600.json
+
+Verdict: PASS with 0 Blocker, 0 Major, and 5 Nit findings (F15, F17, F18, F19, F20).
+Round limit: only Nit findings remain, so no third remediation round is needed.
+Gate: GATE_EXIT=0. The heavy-run of the 5 files in the brief gives 5 passed files and 40 passed tests.
+
+Item 1: F11, F13, F14, and F16.
+- F11 closed. The shipped rule `.look-chibi-quest .hero-img-box img { width: auto; max-width: 100%; max-height: 240px; }` (chibi-quest-styles.ts line 105, commit 178a4e2f) equals the fix of my round 2.
+- My pdfimages -list of the r5 PDFs gives the hero on page 3 at 640 and 640 ppi in both lessons (63.5 mm square). The r4 PDFs gave 435 and 640 ppi. The inline pictures give 479 and 479 ppi (84.8 mm).
+- The r5 hashes match manifest-r5.txt. Only page 3 of each lesson differs between the r4 and r5 tiles, and only inside the hero box.
+- F13 closed against its 3 asks. Test 4 reads the real template, and the mutants T1 and T2 fail it. Test 1 requires `width: auto` and `max-width: 100%`, and the mutants N1, N3, N5, and N6 fail it.
+- The mutant that drops `width: auto` is recorded as M7a (green-s5g1-r5-mutants.txt), and my N1 reproduces it. Three narrower mutants still pass test 1 (F18, Nit).
+- F14 closed in part. Closed: the strategy section "Shipped design and checks (2026-11-20)", and the dates in spec.md, plan.md, tracks.md, and metadata.json.
+- F14 open items go to F20 (Nit). They are plan.md line 117, test-strategy.md lines 133, 387, and 419, the comment above the inline keep rule, and the S6 assertions.
+- F16 closed. P8 compares the manifest git_head with HEAD (checks.py lines 378 to 383). The fixtures pass and fail as designed. The scope `dashboard content` raises F19 (Nit).
+
+Item 2: the assertion that fails on a squash.
+- The assertion that fails on a squash is in test 1: `it('caps the hero picture with its aspect ratio in the chibi-quest look only')`. It is the expect on lines 56 to 63 of chibi-quest-picture-keep.test.ts.
+- The mutant N1 (drop `width: auto`, the r4 squash) gives `.look-chibi-quest .hero-img-box img: expected false to be true`. Red r4 failed first on this test (1 failed, 5 passed).
+- N3 (`width: 100%`), N5 (no `max-width: 100%`), and N6 (cap 300px) fail test 1 too. T1 and T2 fail test 4. N8, N9, and N10 fail tests 2, 3, and 6. The control N0 passes 6 of 6.
+- N2, N4, and N7 pass 6 of 6. N2 has `max-width: auto` in place of `width: auto`. N4 has a later `width: 100%` rule. N7 has the hero rule inside a comment. This is F18 (Nit).
+- P12 and P13 would catch N2, N4, and N7 at the next proof. I did not render these three mutants.
+
+Item 3: P13 and P8.
+- P13 is sound (checks.py lines 495 to 521). It parses the pdfimages rows (page, x-ppi, y-ppi) and demands 1 image or more per proof. It passes on r5.
+- P13 fails on r4 (the hero at 435 and 640 ppi), on an empty folder, and on a text-only PDF folder. It is not a vacuous pass (A4).
+- P8 is sound. A manifest with git_head 178a4e2f or 7b1d6600 passes. A manifest with git_head 33de2050 or 95345e90, or with a bogus hash, fails.
+- P8 uses the scope `dashboard content`. An unrelated Storytime commit (67fc356c) changes that scope. This is F19 (Nit), and the scope came from my own F16 text.
+- P1 to P13 pass at HEAD on proof-s5-r5, and checks-r5.txt records exit 0 for each of the 13 checks.
+
+Item 4: new defects.
+- I found no defect in the lines that the remediation changed. The new findings are Nits: F18 (test 1 survivors), F19 (P8 scope), and F20 (records that lag the design).
+- I viewed all 30 r5 page tiles. The hero on page 3 of both lessons is square, and its caption prints below it. The Thai text renders correctly.
+- F15 and F17 stay unchanged and go to Daniel's look. The hero (63.5 mm) is smaller than the inline pictures (84.8 mm). On Quest 5 page 3 a blank strip of about 35 mm sits beside the hero.
+- The classic golden, lib/teacher-manual, the template, styles.ts, and types.ts are unchanged from 82c58b7e. The product delta holds 0 Thai characters.
+
+Item 5: the round limit.
+- Only Nit findings remain. No third remediation round is needed.
+- F12 stays declined, and I accept the decline: spec.md line 72 requires that inline pictures do not split, and the rule changes no page.
+- Residual risk, not a finding: P12 and P13 cover 2 lessons. In round 2 I rendered the complete Quest 5 book with the r5 rule: the same pagination, and 0 squashed pictures.
+- The complete Adventure 9.2 book was rendered only with the r4 rule. The 9 other books were never rendered. They share the template, the rule, and the 1600 x 1600 hero source.
+
+Scratch files stay under /tmp/opencode/review-a-s5-r3 and /tmp/opencode/review-a-s5-r2, outside the repo.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: heavy-run gate of the 5 files in the brief: GATE_EXIT=0, 5 files and 40 tests passed; proof checks P1 to P13 called read-only at HEAD on proof-s5-r5: all pass; P13 fixtures (r4 proof, empty folder, text-only PDF folder) and P8 fixtures (5 manifests): pass and fail as designed; mutation runs N0 to N10, T1, and T2 of the picture-keep test in scratch copies; N1, N3, N5, N6, N8, N9, N10, T1, and T2 fail a test; N0, N2, N4, and N7 pass 6 of 6; pdfimages measure of both r5 PDFs; all 30 r5 page tiles viewed
+files_changed: measure/runs/primary_v2_look_20261020/review-a-s5-7b1d6600.json; measure/runs/primary_v2_look_20261020/review-a-s5-7b1d6600.log
+plan_updates: none; report-only role
+known_failures: none blocking; Nit findings F15, F17, F18, F19, and F20 stay open
+handoff: No Green round is needed. Route F15 and F17 to Daniel's look, and tell Daniel that the hero prints 63.5 mm square and leaves a blank strip beside it. Route F18 to the next product edit: strip the comments in scopedRule and anchor the property names. Route F19 and the strategy part of F20 to the strategy author. Route the plan part of F20 to the plan author. After the next product commit, rebuild the proof, because P8 flags each product commit. Send the commit ids of chibi-quest-styles.ts (0b2bd81f, 9b95646e, 95345e90, 178a4e2f) to the PM for S7.
+END_MEASURE_AGENT_RESULT
