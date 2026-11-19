@@ -6,9 +6,11 @@ import { getChibiQuestStyles } from '../lib/document-wrapper/chibi-quest-styles'
 import { lessonDocument, type PrintExport } from '../lib/print/print-export';
 
 // Track primary_v2_look_20261020, story S5 fix round 2: print sizes in the
-// chibi-quest look (UX-1 step-header margin; PM decisions 1 and 2). All rules
-// are scoped to the chibi-quest look. The file reads no package, no Thai, and
-// no image; the golden guard compares digests and prints no text on pass.
+// chibi-quest look (UX-1 step-header margin; PM decisions 1 and 2), and the
+// retry r2 step 3 spacing that keeps the step 3 title with its article (P17,
+// spec line 72). All rules are scoped to the chibi-quest look. The file reads
+// no package, no Thai, and no image; the golden guard compares digests and
+// prints no text on pass.
 //
 // Unit conversion (CSS absolute units): 96 px = 1 in = 25.4 mm = 72 pt.
 // So 8 pt = 10.67 px, 4 mm = 15.12 px, and 8 mm = 30.24 px (about 30 px).
@@ -24,6 +26,8 @@ const LABELS = [
   '.look-chibi-quest .qr-label',
 ];
 const LINES = ['.look-chibi-quest .writing-line', '.look-chibi-quest .writing-line-small'];
+const STEP3_HEADER = '.look-chibi-quest .read-article-step .section-header';
+const STEP3_QR = '.look-chibi-quest .read-article-step .qr-box';
 
 /** Parse active rules after removing comments; CSSOM keeps property names separate. */
 function rules(css: string): CSSStyleRule[] {
@@ -97,6 +101,18 @@ function marginSide(css: string, selector: string, side: 'top' | 'bottom'): numb
   return Number.isNaN(px) ? 0 : px;
 }
 
+/** The winning vertical padding side in px, expanding the padding shorthand. */
+function paddingSide(css: string, selector: string, side: 'top' | 'bottom'): number {
+  const direct = toPx(winningProperty(css, selector, side === 'top' ? 'padding-top' : 'padding-bottom'));
+  if (!Number.isNaN(direct)) return direct;
+  const shorthand = winningProperty(css, selector, 'padding');
+  if (!shorthand) return 0;
+  const parts = shorthand.split(/\s+/);
+  const pick = side === 'top' ? parts[0] : parts.length >= 3 ? parts[2] : parts[0];
+  const px = toPx(pick ?? '');
+  return Number.isNaN(px) ? 0 : px;
+}
+
 /** The line pitch in px: min-height plus top and bottom margins. */
 function pitchOf(css: string, selector: string): number {
   const height = toPx(winningProperty(css, selector, 'min-height'));
@@ -155,6 +171,23 @@ describe('chibi-quest print sizes (S5 fix round 2)', () => {
         expect(rule.style.cssText, THAI).not.toMatch(/italic/);
       }
     }
+  });
+
+  it('keeps the step 3 title with its article by tightening step 3 spacing', () => {
+    const css = getChibiQuestStyles();
+    const headerMargin = winningProperty(css, STEP3_HEADER, 'margin-bottom');
+    expect(headerMargin, `${STEP3_HEADER} margin-bottom`).not.toBe('');
+    expect(toPx(headerMargin), `${STEP3_HEADER} margin-bottom`).toBeLessThanOrEqual(4);
+    const qrMargin = winningProperty(css, STEP3_QR, 'margin');
+    expect(qrMargin, `${STEP3_QR} margin`).not.toBe('');
+    expect(
+      marginSide(css, STEP3_QR, 'top') + marginSide(css, STEP3_QR, 'bottom'),
+      `${STEP3_QR} vertical margin`,
+    ).toBeLessThanOrEqual(6);
+    const qrPadding = winningProperty(css, STEP3_QR, 'padding');
+    expect(qrPadding, `${STEP3_QR} padding`).not.toBe('');
+    expect(paddingSide(css, STEP3_QR, 'top'), `${STEP3_QR} padding-top`).toBeLessThanOrEqual(4);
+    expect(paddingSide(css, STEP3_QR, 'bottom'), `${STEP3_QR} padding-bottom`).toBeLessThanOrEqual(4);
   });
 
   it('keeps the new size rules out of the classic styles', () => {

@@ -1,0 +1,51 @@
+Red retry r2 provisional log for S5.R2 (step 3 spacing, P17).
+
+HEAD at role start (role_base_sha): 52399a432ceae4e8adefa9efc19c7c4d4e8e2223
+Fix round 2 base: 04275398c9411b45685733e20fc003945524ad72 (strategy capture).
+Dirty scope at start: git status over the Red test, the plan, and the r2 evidence
+paths was empty. Other tracks stay untouched.
+
+Since S5.R2 (c10f4192): Green S5.G3 8178f200 and proof round 6 (8dd2c905, P1 to
+P16 pass). New Major on r6 Adventure 9.2: the full-width hero no longer fits on
+page 3, so the step 3 header "First Reading" and its QR box end page 3 and the
+article starts on page 4 (spec line 72: for step 3 the title and the box stay on
+one page). Green probes show break rules have no effect; option M works
+(proof-s5/step3-keep-probes.txt, new check P17):
+.look-chibi-quest .read-article-step .section-header { margin-bottom: 4px; }
+.look-chibi-quest .read-article-step .qr-box { margin: 2px 0 4px; padding: 4px 8px; }
+
+Template classes (read only): the step 3 block renders
+<section class="section phase-1 read-article-step"> with the section header and
+a <div class="qr-box"> inside, so the scoped selectors are
+.look-chibi-quest .read-article-step .section-header and
+.look-chibi-quest .read-article-step .qr-box. No such scoped rule exists at HEAD.
+The classic styles hold no such rule. The step-header top margin assertion and
+every other assertion stay.
+
+New assertions in chibi-quest-print-sizes.test.ts, same parsing style (comment
+strip, exact property names, last winning rule): step 3 header margin-bottom
+present and 4 px or less; step 3 QR box margin present with vertical total 6 px
+or less; step 3 QR box padding present with top and bottom 4 px or less. All
+three fail now on the missing rules; every other assertion passes.
+
+Gates:
+- Gate command exits 1: 23 tests, 1 failed, 22 passed. The failure is only the
+  new step 3 spacing assertion. All round-2 size assertions now pass with the
+  Green rules, and both picture files fully pass.
+- eslint on the changed test: exit 0.
+- tsc grep for the changed test: 0 lines (red-s5r2-r2-tsc.txt is empty).
+- Thai count is 0 on each committed file.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+baseline_sha: 04275398c9411b45685733e20fc003945524ad72
+commits: red-s5r2-r2-52399a43 (this Red retry commit; SHA in final reply)
+tests_run: gate command exit 1 (23 tests: 1 failed on the new step 3 assertion only, 22 passed); eslint exit 0; tsc grep 0 lines; Thai 0 on all committed files
+files_changed: dashboard/__tests__/chibi-quest-print-sizes.test.ts (new step 3 spacing assertions); measure/tracks/primary_v2_look_20261020/plan.md (S5.R2, S5.G3, S5.G4 back to [~] with r2 sub-lines); measure/runs/primary_v2_look_20261020/red-s5r2-r2-52399a43.txt; measure/runs/primary_v2_look_20261020/red-s5r2-r2-tsc.txt; measure/runs/primary_v2_look_20261020/red-s5r2-r2-52399a43.log
+plan_updates: Task S5.R2 back to [~] with the r2 sub-line; Task S5.G3 back to [~] with the P17 sub-line; Task S5.G4 back to [~] with the round 7 sub-line; all kept [~] for the Red gate
+known_failures: the step 3 spacing assertion FAILS as designed (no step 3 scoped rules at HEAD); the header top margin, labels, writing lines, Thai gloss, hero width, golden, classic, keep, no-avoid, template, flat, and adversarial guards pass
+handoff: Green owns the S5.G3 option-M fix and the S5.G4 proof round 7 with P17. Question: shall Green apply the step 3 spacing fix next? Default: yes, proceed.
+END_MEASURE_AGENT_RESULT
