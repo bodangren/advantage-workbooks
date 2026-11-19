@@ -1,0 +1,5 @@
+# S5.G1 r5 golden and pinned guard (gate 7)
+# base 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+# real golden path: content/primary/origins-3.2/print/golden (dashboard/__tests__/golden is absent)
+$ git diff --stat 82c58b7e -- dashboard/__tests__/golden dashboard/lib/teacher-manual content/primary/origins-3.2/print/golden
+(end of diff: empty above means no change)

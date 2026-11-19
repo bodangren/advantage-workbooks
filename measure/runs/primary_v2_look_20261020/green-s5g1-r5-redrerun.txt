@@ -1,0 +1,38 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 79[2mms[22m[39m
+[31m     [31m×[31m caps the hero picture with its aspect ratio in the chibi-quest look only[39m[32m 5[2mms[22m[39m
+     [32m✓[39m keeps the inline figure with its caption in the chibi-quest styles only[32m 0[2mms[22m[39m
+     [32m✓[39m puts no keep rule on the hero wrappers, so Paged.js keeps the hero[32m 0[2mms[22m[39m
+     [32m✓[39m holds the image and its caption inside the same inline wrapper in the template[32m 1[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical[32m 71[2mms[22m[39m
+     [32m✓[39m keeps the chibi-quest styles flat with no transparency, shadow, or emoji[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-picture-keep.test.ts[2m > [22mchibi-quest picture keep (review A F5, r4)[2m > [22mcaps the hero picture with its aspect ratio in the chibi-quest look only
+[31m[1mAssertionError[22m: .look-chibi-quest .hero-img-box img: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-picture-keep.test.ts:[2m63:7[22m[39m
+    [90m 61| [39m      ])[33m,[39m
+    [90m 62| [39m      [32m'.look-chibi-quest .hero-img-box img'[39m[33m,[39m
+    [90m 63| [39m    )[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m 64| [39m    [35mconst[39m classic [33m=[39m fs[33m.[39m[34mreadFileSync[39m(
+    [90m 65| [39m      path[33m.[39m[34mjoin[39m(process[33m.[39m[34mcwd[39m()[33m,[39m [32m'lib'[39m[33m,[39m [32m'document-wrapper'[39m[33m,[39m [32m'styles.ts'[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 00:31:51
+[2m   Duration [22m 940ms[2m (transform 91ms, setup 42ms, import 131ms, tests 79ms, environment 499ms)[22m
+

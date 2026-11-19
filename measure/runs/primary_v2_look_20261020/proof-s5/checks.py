@@ -6,7 +6,9 @@ counts, file names, and English step names only. They print no Thai text.
 
 Round 2 strengthens P2 to P6, adds P10 (the book header and the PDF title), and
 adds P11 (the lesson pictures). Round 3 adds P12 (every picture caption prints
-on the page of its picture). P7 also asserts that the stripped print copy
+on the page of its picture). Round 5 adds P13 (every picture keeps its aspect
+ratio) and makes P8 compare the manifest git_head with the product at HEAD.
+P7 also asserts that the stripped print copy
 holds no unpkg script tag, and P8 compares the proof HTML hash and the tracked
 state of `dashboard` and `content`.
 
@@ -373,6 +375,12 @@ def check_p8():
         lines.append('P8: FAIL the manifest has no git_head line')
         return False, lines
     lines.append(f'P8: manifest git_head {head.group(1)}')
+    head_now = subprocess.run(['git', '-C', REPO, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
+    built = head.group(1)
+    product = subprocess.run(['git', '-C', REPO, 'diff', '--quiet', built, head_now, '--', 'dashboard', 'content'], capture_output=True, text=True)
+    product_changed = product.returncode != 0
+    lines.append(f'P8: head at check {head_now}, same_head {head_now == built}, product_changed_since_manifest {product_changed}')
+    ok = ok and not product_changed
     for tag in PROOFS:
         entries = (
             ('package', PACKAGE[tag]),
@@ -484,10 +492,39 @@ def check_p12():
     return ok, lines
 
 
+def pdf_image_ppi(pdf):
+    """The page, x-ppi, and y-ppi of every image in the PDF, in document order."""
+    out = subprocess.run(['pdfimages', '-list', pdf], capture_output=True, text=True).stdout
+    rows = []
+    for line in out.splitlines():
+        if not re.match(r'^\s*\d+\s+\d+\s+image\b', line):
+            continue
+        parts = line.split()
+        rows.append((int(parts[0]), float(parts[12]), float(parts[13])))
+    return rows
+
+
+def check_p13():
+    """P13: every picture keeps its aspect ratio (x-ppi and y-ppi within 2 percent)."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        rows = pdf_image_ppi(os.path.join(FOLDER, f'{tag}.pdf'))
+        off = 0
+        for page, x_ppi, y_ppi in rows:
+            high = max(x_ppi, y_ppi)
+            delta = abs(x_ppi - y_ppi) / high if high else 1.0
+            square = delta <= 0.02
+            off += 0 if square else 1
+            lines.append(f'P13 {tag}: page {page} x_ppi {x_ppi:g} y_ppi {y_ppi:g} ratio_delta {delta:.4f} within_2pct {square}')
+        lines.append(f'P13 {tag}: images {len(rows)}, ratio_off {off}')
+        ok = ok and len(rows) > 0 and off == 0
+    return ok, lines
+
+
 CHECKS = {
     'P1': check_p1, 'P2': check_p2, 'P3': check_p3, 'P4': check_p4, 'P5': check_p5,
     'P6': check_p6, 'P7': check_p7, 'P8': check_p8, 'P9': check_p9, 'P10': check_p10,
-    'P11': check_p11, 'P12': check_p12,
+    'P11': check_p11, 'P12': check_p12, 'P13': check_p13,
 }
 
 

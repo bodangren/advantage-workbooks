@@ -1,0 +1,20 @@
+# S5.G1 r5 mutants (review A F11, aspect ratio) — green-s5g1-r5
+# File under test: dashboard/lib/document-wrapper/chibi-quest-styles.ts
+# Target: dashboard/__tests__/chibi-quest-picture-keep.test.ts (gate 1, unchanged Red r4 file)
+#
+# | Mutant | Change | Gate 1 exit | Failing test |
+# |---|---|---|---|
+# | M7a | drop width: auto (the squash of r4) | 1 | caps the hero picture with its aspect ratio in the chibi-quest look only |
+# | M7b | drop max-height: 240px | 1 | caps the hero picture with its aspect ratio in the chibi-quest look only |
+#
+# M7a capture: green-s5g1-r5-mutant-M7a.txt
+#   AssertionError: .look-chibi-quest .hero-img-box img: expected false to be true
+# M7b capture: green-s5g1-r5-mutant-M7b.txt
+#   AssertionError: .look-chibi-quest .hero-img-box img: expected false to be true
+#
+# Restore proof: cmp against the saved original, then sha256sum.
+# RESTORED-CMP-OK
+# 9421e19690b43dd9e1d89a5be30ecebdf780ade8fd81c1ed04848dc895534c0a  dashboard/lib/document-wrapper/chibi-quest-styles.ts
+#
+# Gate 1 after restore: exit 0, 6 passed (green-s5g1-r5-tests.txt).
+# Caught: 2 of 2 mutants.

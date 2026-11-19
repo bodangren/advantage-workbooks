@@ -1,0 +1,54 @@
+Green r5 role log — track primary_v2_look_20261020, Phase S5, Task S5.G1 (r5) and Task S5.G2 (round 5)
+Session: Green · S5 S5.G1 · primary_v2_look · r5
+Model: opencode-go/deepseek-v4.1-flash
+Date: 2026-11-20
+
+phase_base_sha: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93 (immutable)
+role_base_sha: fe95005bb60bc73a86a8b7abf04f47b6b4dc2e18
+Red r4: fe95005b (Muse). Green model family differs from the Red family.
+
+Part 1, S5.G1 fix (review A r2 F11): dashboard/lib/document-wrapper/chibi-quest-styles.ts holds
+.look-chibi-quest .hero-img-box img { width: auto; max-width: 100%; max-height: 240px; }.
+The inline keep rule and the hero no-avoid guard stay. No test, template, golden, or
+lib/teacher-manual change.
+
+Part 1 gate results:
+G1 keep test file: exit 0, 6 passed. green-s5g1-r5-tests.txt (Red rerun exits 1, 1 of 6 fails).
+G2 look guards (4 files): exit 0, 34 passed. green-s5g1-r5-look-tests.txt
+G3 PROJECT_TESTS with the three documented excludes: exit 0, 3150 passed in 165 files.
+   Summary lines only, VITEST_EXIT=0. green-s5g1-r5-project-tests.txt
+G4 PROJECT_LINT (plan list plus the style file and the Red file): exit 0. green-s5g1-r5-lint.txt
+G5 tsc --noEmit: exit 0, no output lines. green-s5g1-r5-tsc.txt
+G6 Mutants: 2 of 2 caught: drop width: auto (M7a, the squash); drop max-height (M7b).
+   Restore cmp and sha256 match. green-s5g1-r5-mutants.txt
+G7 Golden and pinned diff from 82c58b7e: empty. green-s5g1-r5-golden-diff.txt
+G8 Thai characters: 0 in every committed file.
+
+Part 2, driver (F11 check and F16 fix):
+- P13 added: every image in a proof PDF has x-ppi and y-ppi within 2 percent.
+  Fail proof on r4: check-P13-r4.txt, exit 1 (hero 435 x 640 ppi, delta 0.3203, both proofs).
+- P8 now reports head at check, same_head, and product_changed_since_manifest. It compares the
+  manifest git_head with HEAD and the dashboard and content at HEAD. Fail proof on a fake
+  manifest: p8-fake-manifest-r4.txt, exit 1 (product_changed_since_manifest True).
+
+Part 3, S5.G2 proof round 5:
+Folder: /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r5/
+quest5-l01.pdf: 14 pages. adventure92-l09.pdf: 16 pages. Contact sheets: 14 and 16 tiles.
+Checks P1 to P13: each exit 0. checks-r5.txt says checks run 13, failures 0, RESULT: PASS.
+P11: 3 of 3 pictures for both proofs. P12: every caption on the page of its picture.
+P13: every image square-ratio within 2 percent (hero 640 x 640 ppi, delta 0.0000).
+Hero printed size: 1600 x 1600 px at 640 ppi, 63.50 x 63.50 mm, both proofs.
+Records: proof-s5/checks-r5.txt and proof-s5/manifest-r5.txt.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: 178a4e2f (S5.G1 r5 code), evidence commit after this log; Red r4 fe95005b
+tests_run: G1 exit 0 (6 passed); G2 exit 0 (34 passed); G3 exit 0 (3150 passed, 165 files); G4 exit 0; G5 exit 0; G6 2 of 2 mutants caught; G7 empty; G8 Thai 0; P13 fail on r4, P8 fail on a fake manifest; proof P1 to P13 each exit 0 (checks-r5.txt RESULT: PASS)
+files_changed: dashboard/lib/document-wrapper/chibi-quest-styles.ts (code); measure/runs/primary_v2_look_20261020/proof-s5/checks.py (P13 and the P8 head check); measure/tracks/primary_v2_look_20261020/plan.md; green-s5g1-r5-* and green-s5-r5-fe95005b.log; proof-s5/check-P1..P13-r5.txt, check-P13-r4.txt, p8-fake-manifest-r4.txt, checks-r5.txt, manifest-r5.txt
+plan_updates: S5.R1 set [x] with commit fe95005b; S5.G1 set [x] with commit 0b2bd81f, fix 9b95646e, 95345e90, 178a4e2f; S5.G2 keeps commit 5cc50300 and gains the round 5 evidence
+known_failures: none; the three earlier failures of other tracks stay excluded from G3 as plan.md records
+handoff: S5.G2 round 5 is PASS. Review A r2 F11 is fixed: the hero keeps its square ratio and prints at 63.5 mm. F16 is fixed: P8 fails when the product moves after the build. Next: reviews A and B again on the new head, one adversarial round, the UX/browser review (UX_REQUIRED), phase acceptance, and Daniel's gate. All style commits, 0b2bd81f, 9b95646e, 95345e90, and 178a4e2f, are S7 styles.ts triggers: send them to the PM for the monorepo session. The r5 render overwrote the untracked proof HTML in proof-s5/; never stage it, the review-s5 files, strategy-s5-8b27c9ea.log, video/**, or dashboard/raw.json. Two tracked files of other sessions stay dirty: strategy-s5-8b27c9ea.log and video/storytime-song/scripts/render.mjs.
+END_MEASURE_AGENT_RESULT
