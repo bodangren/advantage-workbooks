@@ -4,19 +4,22 @@ import { describe, it, expect } from 'vitest';
 import { getChibiQuestStyles } from '../lib/document-wrapper/chibi-quest-styles';
 import { lessonDocument, type PrintExport } from '../lib/print/print-export';
 
-// Track primary_v2_look_20261020, story S5 remediation (review A F5): the inline
-// figure and its caption stay together in the chibi-quest look. The classic
+// Track primary_v2_look_20261020, story S5 remediation (review A F5), Red retry r2
+// (option A): the keep rule covers the inline picture box only. The hero
+// wrappers must not carry it: a tall hero area under break-inside: avoid is
+// dropped by Paged.js (P11 hero drop, proof-s5/g1-hero-drop.txt). The classic
 // golden stays byte-identical. This file reads no package, no Thai, and no image
 // except the golden byte-identity guard, which compares bytes and prints no text
 // on pass.
 
-// Minimal literal DOM fragment copied from dashboard/templates/primary_template.html
-// lines 1674 to 1681 (the images_hero branch). The caption sits inside the same
-// article-image-box wrapper as the image. The else branch is not copied here.
-const HERO_FRAGMENT = [
-  '<div class="article-image-box hero-img-box">',
-  '<img src="hero.jpg" alt="The guide">',
-  '<span class="article-image-caption">The guide welcomes the Explorers.</span>',
+// The inline figure wrapper, from dashboard/templates/primary_template.html
+// lines 1718 to 1720: the caption sits inside the same inline-img-box as the
+// image. The hero wrappers (the article-image-area of line 1674 and the
+// article-image-box of line 1677) carry no keep rule here.
+const INLINE_FRAGMENT = [
+  '<div class="article-image-box inline-img-box w-50">',
+  '<img src="inline.jpg" alt="The guide">',
+  '<span class="article-image-caption text-center">The guide welcomes the Explorers.</span>',
   '</div>',
 ].join('\n');
 
@@ -37,20 +40,24 @@ function scopedKeepRule(css: string, selector: string): boolean {
   }
 }
 
-describe('chibi-quest picture keep (review A F5)', () => {
+describe('chibi-quest picture keep (review A F5, r2)', () => {
   it('keeps the inline figure with its caption in the chibi-quest styles only', () => {
     const css = getChibiQuestStyles();
+    expect(scopedKeepRule(css, '.look-chibi-quest .inline-img-box'), '.look-chibi-quest .inline-img-box').toBe(true);
+  });
+
+  it('puts no keep rule on the hero wrappers, so Paged.js keeps the hero', () => {
+    const css = getChibiQuestStyles();
     for (const selector of [
-      '.look-chibi-quest .article-image-box',
       '.look-chibi-quest .article-image-area',
-      '.look-chibi-quest .inline-img-box',
+      '.look-chibi-quest .article-image-box',
     ]) {
-      expect(scopedKeepRule(css, selector), selector).toBe(true);
+      expect(scopedKeepRule(css, selector), selector).toBe(false);
     }
   });
 
-  it('holds the image and its caption inside the same figure wrapper', () => {
-    const box = HERO_FRAGMENT.match(/<div class="article-image-box[^"]*">([\s\S]*?)<\/div>/);
+  it('holds the image and its caption inside the same inline wrapper', () => {
+    const box = INLINE_FRAGMENT.match(/<div class="article-image-box inline-img-box[^"]*">([\s\S]*?)<\/div>/);
     expect(box).not.toBeNull();
     expect(box?.[1] ?? '').toMatch(/<img\b[^>]*>/);
     expect(box?.[1] ?? '').toContain('article-image-caption');
