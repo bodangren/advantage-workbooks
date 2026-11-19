@@ -1,0 +1,62 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S4: App step names in the v2 books
+task: S4.2 (Red)
+baseline_sha: a4f52b9e968f47e062bfdf923b0de507a42644f0
+role_base_sha: a4f52b9e968f47e062bfdf923b0de507a42644f0
+head: a4f52b9e968f47e062bfdf923b0de507a42644f0
+commits:
+  - test(primary_v2_look): Red for S4.2, chibi-quest app step names: one commit with the test, the plan, and the run evidence. The plan line carries no SHA. A commit cannot name its own SHA. The SHA is in the final reply and in git log.
+tests_run:
+  - command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.test.ts 2>&1 | tee ../measure/runs/primary_v2_look_20261020/red-s4-a4f52b9e.txt'
+    exit: 1
+    summary: Tests 3 failed | 8 passed (11)
+    files: Test Files 1 failed (1)
+    log: measure/runs/primary_v2_look_20261020/red-s4-a4f52b9e.txt
+  - command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsc --noEmit 2>&1 | grep chibi-quest-step-names ; true | tee ../measure/runs/primary_v2_look_20261020/red-s4-tsc.txt'
+    exit: 0
+    summary: 0 lines
+    log: measure/runs/primary_v2_look_20261020/red-s4-tsc.txt
+  - command: cd dashboard && npx eslint __tests__/chibi-quest-step-names.test.ts
+    exit: 0
+    summary: No lint problems.
+files_changed:
+  - dashboard/__tests__/chibi-quest-step-names.test.ts: The new Red test file only.
+  - measure/tracks/primary_v2_look_20261020/plan.md: Task S4.2 is [x] with Red evidence.
+  - measure/runs/primary_v2_look_20261020/red-s4-a4f52b9e.txt: Committed gate evidence.
+  - measure/runs/primary_v2_look_20261020/red-s4-tsc.txt: Committed gate evidence.
+  - measure/runs/primary_v2_look_20261020/red-s4-a4f52b9e.log: This file.
+plan_updates: Task S4.2 is [x] with Red evidence and no SHA. The Done condition asks only for automated evidence. No production file changed.
+known_failures:
+  - The 3 failing tests name the missing chibi-quest step names only. No syntax or import failure occurs.
+  - The 8 passing tests guard present behavior: steps 9 to 11, the step 6 conditional, the answer key, the TOC, the classic names, the golden files, and the pinned manual.
+  - The first run had 2 failures. The teacher-guide check passed on the template comment `<!-- STEP 2: Preview Vocabulary -->`. The exact h4 check now fails as a true Red.
+  - The first tsc grep found 3 TS2353 lines. The options held an unknown `tocEntries` key. The fix removed it. The final grep has 0 lines.
+failure_counts_by_plan_bullet:
+  - chibi-quest lesson render, 13 app names: 1.
+  - chibi-quest lesson render, no classic-only name: 1.
+  - chibi-quest book document, teacher pages: 1.
+environment:
+  - No exit 75 occurred. No lock warning blocked a run.
+  - dashboard/raw.json is untracked and predates this role. It stays outside the commit.
+  - measure/runs holds untracked files of other tracks. They stay outside the commit.
+handoff:
+  failing_test_names:
+    - chibi-quest step names in lesson pages > shows the 13 app names in order
+    - chibi-quest step names in lesson pages > shows no classic-only name
+    - chibi-quest step names in the book document > shows Preview Vocabulary in the in-book teacher pages
+  green_notes:
+    - Change dashboard/templates/primary_template.html: the 13 h2.section-title texts by the chibi_quest flag. Change dashboard/lib/document-wrapper/sections/teacher-guide.ts line 12 to Preview Vocabulary for chibi-quest. Pass look through lib/workbook-document-wrapper.ts line 98.
+    - Keep the step 6 grammar conditional in both looks. Change no file in lib/teacher-manual/.
+  decisions:
+    - Task S4.2 is [x] with Red evidence and no SHA on the line. The plan form asks only for automated evidence. A commit cannot name its own SHA.
+    - The teacher-guide assertion uses the exact h4 string. A bare substring would pass on the template comment.
+    - dashboard/raw.json stays untracked. It predates this role and belongs to other work.
+  question:
+    - text: Task S4.2 is [x] with Red evidence and no SHA on the line. Do you keep this marking?
+    - default: Yes. Green proceeds to S4.3. The orchestrator may append the commit SHA later.
+    - options: [keep, append-sha]
+facts_changed: Task S4.2 Red is complete. The Red test fails on the missing chibi-quest names. No product date or price changed.
+END_MEASURE_AGENT_RESULT
