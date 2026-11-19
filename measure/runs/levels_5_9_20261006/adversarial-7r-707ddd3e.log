@@ -1,0 +1,31 @@
+Adversarial round 2 for Phase 7R, track levels_5_9_20261006.
+Role: measure-adversarial-testing. Head audited: 707ddd3e48d6eca35c71ff4b3f53b6395dec48f4.
+Phase base: 3a929928f9f45791ca2c6a5945f26707f79a7f7d. Round 1 head (delta base): b5cab6dadeb08f40a36888a55c32ab84de681fd7.
+
+Task: verify only. The delta b5cab6da..707ddd3e holds the round 1 test commit 7d16f48f, the Green fix e256a6bc (dashboard/scripts/rebuild-map.ts only, 14 changed lines), and the evidence commit 707ddd3e.
+
+The fix in e256a6bc closes both round 1 defects:
+- DEFECT-1 (review B F1) fixed: readKeepGroups throws 'duplicates file holds no groups: <file>' when the groups key is missing, is not an array, or is empty; the throw path of main returns 2 before any write, so a wrong duplicates shape no longer replaces the out file.
+- DEFECT-2 (review B F2) fixed: the write sits in a try block; a write error prints 'cannot write the out file: <path> (<message>)' then the usage and returns 2, with no stack trace and no partial file.
+
+Verification run (capture adversarial-7r-707ddd3e.txt): exit 0, 'Tests 33 passed (33)', 'Test Files 2 passed (2)'. The 3 round 1 defect tests pass unchanged against the fix; the A-F1 default-input test still proves the committed map byte for byte through the script's own reader; the A-F2 tests and the 4 risk-edge tests stay green; the Red file keeps its 23 passes.
+
+No new risk appears in the delta, so the round adds no test. The new stderr message names the resolved absolute path, the same accepted convention as the existing 'duplicates file not found' message (Phase 1G review C F3, DECLINE).
+
+ADV-F3 (a group with no keep key maps to 'undefined'): DECLINE by the orchestrator. The committed map holds 0 'undefined' ids and the Red test pins the 229 real kept ids. The current-behavior test stays as it is and passes.
+
+Thai grep gives 0 on each committed file. git status --porcelain dashboard/ docs/ shows no change from this round.
+
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 7R: Rebuild map (Daniel 2026-11-19)
+commits: none before this log; the round commits only the three measure/runs captures of this round (the commit sha is in the orchestrator record; this log is written before the commit)
+tests_run: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.adversarial.test.ts __tests__/rebuild-map.test.ts 2>&1 | tee ../measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.txt' -> exit 0, Tests 33 passed (33), Test Files 2 passed (2): the adversarial file 10 passed (the 3 round 1 defect tests now pass against the e256a6bc fix) and the Red file 23 passed; grep -cP '[\x{0E00}-\x{0E7F}]' -> 0 on each of the 3 committed files
+files_changed: measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.txt, measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.json, measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.log
+plan_updates: none; the result file measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.json is the record of this round
+known_failures: none in this round; the 3 other-track failures of PROJECT_TESTS (constants.test.ts, origins-thai-support.test.ts) still fail at the phase base and are not touched here
+handoff: DEFECT-1 and DEFECT-2 are fixed in e256a6bc and verified: the combined run exits 0 with 33 passed and no test changed. ADV-F3 is DECLINE; keep the current-behavior test as it is. Phase 7R has no open adversarial finding; the phase can move to acceptance. Any later implementation commit to dashboard/scripts/rebuild-map.ts invalidates this result and needs this gate again.
+dispositions: A-F1=FIX; A-F2=FIX; B-F1=FIX; B-F2=FIX; ADV-F3=DECLINE
+END_MEASURE_AGENT_RESULT

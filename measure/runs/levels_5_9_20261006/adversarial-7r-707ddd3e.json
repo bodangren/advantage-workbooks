@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "role": "measure-adversarial-testing",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 7R: Rebuild map (Daniel 2026-11-19)",
+  "baseline_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "phase_base_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "role_base_sha": "b5cab6dadeb08f40a36888a55c32ab84de681fd7",
+  "audited_head_sha": "707ddd3e48d6eca35c71ff4b3f53b6395dec48f4",
+  "status": "pass",
+  "summary": "Adversarial round 2 (verify only) on the head 707ddd3e. The delta b5cab6da..707ddd3e holds the round 1 test commit 7d16f48f, the Green fix e256a6bc (dashboard/scripts/rebuild-map.ts only, 14 changed lines), and the evidence commit 707ddd3e. The fix closes both round 1 defects. DEFECT-1 (review B F1) fixed: readKeepGroups throws 'duplicates file holds no groups: <file>' when the groups key is missing, is not an array, or is empty, and the throw path of main returns 2 before any write, so a wrong duplicates shape no longer replaces the out file. DEFECT-2 (review B F2) fixed: the write sits in a try block that prints 'cannot write the out file: <path> (<message>)' then the usage and returns 2, with no stack trace and no partial file. The verification run in one foreground heavy-run gives exit 0 with 'Tests 33 passed (33)', 'Test Files 2 passed (2)': the 3 round 1 defect tests pass unchanged against the fix, the A-F1 default-input test still proves the committed map byte for byte through the script's own reader, the A-F2 guard tests and the 4 risk-edge tests stay green, and the Red file keeps its 23 passes. No new risk appears in the delta, so the round adds no test. ADV-F3 (a group with no keep key maps to 'undefined') is DECLINE by the orchestrator: the committed map holds 0 'undefined' ids and the Red test pins the 229 real kept ids; the current-behavior test stays unchanged and passes.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "Provenance: git rev-parse HEAD -> 707ddd3e48d6eca35c71ff4b3f53b6395dec48f4, equal to the reviewed head, before and after the round.",
+    "Delta scope: git log --oneline b5cab6da..707ddd3e lists 3 commits: 7d16f48f (round 1 tests), e256a6bc (the Green fix), 707ddd3e (evidence); git diff b5cab6da..707ddd3e -- dashboard/scripts/rebuild-map.ts shows 14 changed lines in that one production file only.",
+    "DEFECT-1 fixed in e256a6bc (dashboard/scripts/rebuild-map.ts, readKeepGroups): the groups check 'if (!Array.isArray(raw.groups) || raw.groups.length === 0) throw' covers a missing groups key and an empty groups array; the throw happens inside the try block of main, which prints the message then the usage to stderr and returns 2, so no write occurs. Tests 'rejects a duplicates file with no groups key: exit 2, out file byte-identical' and 'rejects a duplicates file with an empty groups array: exit 2, out file byte-identical' pass unchanged (capture adversarial-7r-707ddd3e.txt).",
+    "DEFECT-2 fixed in e256a6bc (dashboard/scripts/rebuild-map.ts, main): fs.writeFileSync sits in a try/catch; the catch prints 'cannot write the out file: <path> (<message>)' then the usage and returns 2, with no stack line. Test 'exits 2 when the out folder does not exist, with no stack trace, and writes nothing' passes unchanged (capture adversarial-7r-707ddd3e.txt).",
+    "Verification run: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.adversarial.test.ts __tests__/rebuild-map.test.ts 2>&1 | tee ../measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.txt' -> exit 0, 'Tests 33 passed (33)', 'Test Files 2 passed (2)'. The adversarial file holds 10 passed, the Red file 23 passed.",
+    "Regression: the A-F1 test 'a default-input run writes the committed map byte for byte' passes at 707ddd3e, so the fix changes no byte of the committed map; the A-F2 tests and the 4 risk-edge tests (an unknown level leaves the out file untouched, a cross-level duplicate keep id rejected, a group with no keep key pinned as 'undefined', a not-valid-JSON duplicates file rejected) all pass unchanged.",
+    "No new risk in the delta: the new stderr message 'duplicates file holds no groups: <file>' names the resolved absolute path, the same accepted convention as the existing 'duplicates file not found: <options.duplicates>' message (Phase 1G review C F3, DECLINE by the owner); a non-array groups value now fails with the clean message instead of a TypeError, and both forms exit 2 with no write; the round adds no test, as briefed.",
+    "ADV-F3 disposition DECLINE (orchestrator): the committed map holds 0 'undefined' ids and the Red test 'keeps 50, 88, 4, 38, 49 ids across 229 groups' pins the 229 real kept ids; the current-behavior test 'maps a group with no keep key to the keep id \"undefined\" (current behavior; uncontracted)' stays unchanged and passes in the run.",
+    "Hygiene: git status --porcelain dashboard/ docs/ shows no change from this round (the round commits only this track's 3 captures); every test writes only under os.tmpdir(); the Thai grep gives 0 on each committed file."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 707ddd3e48d6eca35c71ff4b3f53b6395dec48f4 (before and after the round)",
+    "git log --oneline b5cab6da..707ddd3e -> 7d16f48f, e256a6bc, 707ddd3e",
+    "git diff b5cab6da..707ddd3e -- dashboard/scripts/rebuild-map.ts -> the groups check and the write try/catch, 14 lines in one file",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.adversarial.test.ts __tests__/rebuild-map.test.ts 2>&1 | tee ../measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.txt' -> exit 0, Tests 33 passed (33), Test Files 2 passed (2)",
+    "grep -cP '[\\x{0E00}-\\x{0E7F}]' on each of the 3 committed files -> 0",
+    "git status --porcelain dashboard/ docs/ -> no change from this round"
+  ],
+  "changed_files": [
+    "measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.txt",
+    "measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.json",
+    "measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "Both defect paths now fail clean at 707ddd3e (exit 2, no write, no stack) per the e256a6bc diff, and the A-F1 test still proves the committed map byte for byte through the script's own reader (adversarial-7r-707ddd3e.txt: 33 passed)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "The 3 round 1 defect tests pass unchanged against the fix with no test edit in this round, and the run holds the Red file's 23 passes (capture: Tests 33 passed (33), exit 0)."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The round commits only this track's 3 measure/runs captures; no test file and no production file changes (git diff b5cab6da..707ddd3e names rebuild-map.ts only in e256a6bc, which this round did not write)."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a command result or a file:line: the 3-commit log, the 14-line script diff, the heavy-run exit 0 with the labeled Tests 33 passed (33) line, and the 0-count Thai grep on all 3 committed files."
+    }
+  ]
+}
