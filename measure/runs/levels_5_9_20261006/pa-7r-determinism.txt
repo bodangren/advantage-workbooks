@@ -1,0 +1,20 @@
+Phase acceptance gate 5 (determinism), Phase 7R, head 4fb8d2c5, 2026-11-19.
+Command (verbatim, one foreground heavy-run; a fresh default run writes /tmp/opencode/pa-7r-fresh.json through the script's own --out-json flag, then cmp compares it with the committed map):
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/pa-7r-fresh.json && cmp /tmp/opencode/pa-7r-fresh.json ../docs/content-plans/data/rebuild-map-levels-5-9.json'; echo "gate_exit=$?"
+Exit code: 0 (the run and cmp both exit 0; cmp prints nothing on equal files).
+
+Output (the script's own log lines):
+level 5: 50 kept ids, 50 packages, 50 mapped, 0 new ids
+level 6: 88 kept ids, 100 packages, 88 mapped, 12 new ids
+level 7: 4 kept ids, 100 packages, 4 mapped, 96 new ids
+level 8: 38 kept ids, 150 packages, 38 mapped, 112 new ids
+level 9: 49 kept ids, 150 packages, 49 mapped, 101 new ids
+total: 229 kept ids mapped, 321 new ids
+gate_exit=0
+
+Hash check after the gate (local):
+sha256sum /tmp/opencode/pa-7r-fresh.json docs/content-plans/data/rebuild-map-levels-5-9.json
+d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab  /tmp/opencode/pa-7r-fresh.json
+d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab  docs/content-plans/data/rebuild-map-levels-5-9.json
+
+Reading: the fresh run equals the committed map byte for byte (cmp exit 0, same sha256 d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab). The counts per level match the brief and the plan: kept 50, 88, 4, 38, 49 over packages 50, 100, 100, 150, 150; new ids 0, 12, 96, 112, 101; total 229 mapped and 321 new. This also refutes mutant d of the Green gate: the script's own reader order reproduces the committed file. The two-run byte comparison is covered by the test 'writes byte-identical files on two runs', which passed in gate 1.

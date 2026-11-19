@@ -1,0 +1,14 @@
+Phase acceptance gate 1 (RED=GREEN), Phase 7R, head 4fb8d2c5, 2026-11-19.
+Command (verbatim, one foreground heavy-run):
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts'
+Exit code: 0.
+
+Output (summary; the vitest banner path /home/daniebo/Desktop/Workbooks/dashboard is the known tech-debt path token, outside the map):
+ RUN  v4.0.18 /home/daniebo/Desktop/Workbooks/dashboard
+ ✓ __tests__/rebuild-map.test.ts (23 tests) 121ms
+ ✓ __tests__/rebuild-map.adversarial.test.ts (10 tests) 15ms
+ Test Files  2 passed (2)
+      Tests  33 passed (33)
+   Duration  659ms (transform 111ms, setup 71ms, import 211ms, tests 136ms, environment 0ms)
+
+Reading: exit 0 equals the plan r2 claim (33 passed in 2 files) and the adversarial round 2 capture adversarial-7r-707ddd3e.txt. The Red file passes after Green (RED_TEST_COMMAND = GREEN_TEST_COMMAND, both files named in one command per this phase's r2 gate).

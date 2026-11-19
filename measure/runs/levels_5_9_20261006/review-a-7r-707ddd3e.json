@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 7R: Rebuild map (Daniel 2026-11-19)",
+  "baseline_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "audited_head_sha": "707ddd3e48d6eca35c71ff4b3f53b6395dec48f4",
+  "status": "pass",
+  "summary": "HEAD equals the audited sha 707ddd3e. The delta b5cab6da..707ddd3e holds the adversarial test file (7d16f48f), a fix in dashboard/scripts/rebuild-map.ts only (e256a6bc, two hunks, +12 -2), evidence captures, and 3 plan lines. The fix is correct and minimal: readKeepGroups now throws when the duplicates file holds no groups key or an empty groups array, and main wraps the single write in a try that prints a clean message and the usage, returns 2, and leaves the out file untouched. The empty and missing groups inputs exit 2 and write nothing (B-F1 tests). A write failure exits 2 with no stack trace and no partial file (B-F2 test). The committed map is unchanged in the delta (0 diff lines) and my fresh default run at the new head still equals it byte for byte (sha256 d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab). The gate passed in my own foreground heavy-run: exit 0, 33 tests passed (23 original, 10 adversarial). My round 1 findings F1 and F2 are closed by named tests in the adversarial file. No blocking finding. No new finding.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD equals the audited sha: git rev-parse HEAD -> 707ddd3e48d6eca35c71ff4b3f53b6395dec48f4.",
+    "Delta scope: git log b5cab6da..707ddd3e lists 7d16f48f (adversarial tests), e256a6bc (script fix), 707ddd3e (evidence). git diff --stat holds one new test file, one script file changed (+14 -3 total across the two code files), the adversarial and green-7r-r2 captures, and 3 plan.md lines. No unrelated code changed.",
+    "Fix minimality: git diff b5cab6da..707ddd3e -- dashboard/scripts/rebuild-map.ts shows exactly two hunks. Hunk 1 adds the groups guard to readKeepGroups (rebuild-map.ts:92-99). Hunk 2 moves the single writeFileSync into a try that prints 'cannot write the out file: <path> (<message>)', then the usage, and returns 2 (rebuild-map.ts:235-241). No other behavior changed.",
+    "Empty or missing groups input: the new guard throws inside main's existing try, so main prints the message and the usage, returns 2, and never reaches the write. The B-F1 tests (rebuild-map.adversarial.test.ts:154-176) place a sentinel in the out file and assert exit 2 with the sentinel intact. Both passed in my gate run. At b5cab6da the same tests failed with exit 0 (green-7r-r2-red-rerun.txt, 3 failed), which proves fail-first: the pristine code overwrote the out file with an empty map.",
+    "Write failure: the B-F2 test (rebuild-map.adversarial.test.ts:180-191) gives a missing out folder, asserts exit 2, usage on stderr, zero '    at ' stack lines, and no created folder. It failed at b5cab6da with an uncaught ENOENT from the write (green-7r-r2-red-rerun.txt) and passes now. The guard covers the routed missing-folder class; a mid-write disk-full failure is outside the routed defect and stays uncontracted.",
+    "Committed map unchanged: git diff b5cab6da..707ddd3e -- docs/content-plans/data/rebuild-map-levels-5-9.json is empty (0 lines). My fresh run 'cd dashboard && npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/review-a-7r-r2-fresh.json' printed the same five level lines and total, and cmp reports the fresh file equal to the committed file; sha256 of both is d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab, the same hash as round 1 and green-7r-r2-determinism.txt.",
+    "Gate rerun: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts' -> exit 0, 2 files passed, 33 tests passed. This matches green-7r-r2-tests.txt.",
+    "Round 1 F1 CLOSED: the test 'a default-input run writes the committed map byte for byte' (rebuild-map.adversarial.test.ts:116) runs main with only --out-json, so the run reads the default duplicates JSON and enumerates the default content root with the script's own reader listPackages, then compares the written file with the committed map byte for byte. adversarial-7r-mutants.txt proves fail-first for the reader: mutant d (sort().reverse() in listPackages) makes that named test fail (4 failed under the mutant, failure 1 named A-F1), and the restore proof shows cmp equal and a clean git status. The gap I reported in round 1 no longer exists.",
+    "Round 1 F2 CLOSED: the tests 'throws from buildRebuildMap when a level has more kept ids than packages' and 'exits 2 from main and writes no file when a level has more kept ids than packages' (rebuild-map.adversarial.test.ts:127-150) cover the guard at rebuild-map.ts:183-185 at both the pure-function level and the main level, including the no-write claim. Both passed in my gate run.",
+    "A5 check on the plan r2 claims: green-7r-r2-tests.txt holds 33 passed in 2 files; green-7r-r2-project-tests.txt holds 3144 passed in 164 files; green-7r-r2-lint.txt holds exit 0 for the plan and the 3 Phase 7R files; green-7r-r2-tsc.txt is empty (0 lines); green-7r-r2-thai.txt shows thai_lines=0 on every committed file; green-7r-r2-red-rerun.txt holds the 3 defect failures at b5cab6da. Every claim matched.",
+    "A3 and A4 checks on the adversarial file: the exit codes and byte comparisons come from parsed values and expect() equality, not digit regex; every adversarial test asserts a real observable (an exit code, a byte comparison with a sentinel, a stack-line count, or a parsed map row). The pinned-behavior test for a group with no keep key states its uncontracted status in the file header (rebuild-map.adversarial.test.ts:25-27) and in the plan r2 evidence line.",
+    "Unrelated stray: dashboard/raw.json is untracked, dates from Oct 28, and holds image data. It is outside the delta and not mine. The modified file video/storytime-song/scripts/render.mjs of another track remains outside the audited diff.",
+    "Thai rule kept: I read no lesson package JSON under content/. The fresh run and the adversarial default-run test read the committed duplicates JSON (ids and counts) and list package file names only."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 707ddd3e48d6eca35c71ff4b3f53b6395dec48f4",
+    "git log --oneline b5cab6da..707ddd3e -> 707ddd3e, e256a6bc, 7d16f48f",
+    "git diff --stat b5cab6da..707ddd3e",
+    "git diff b5cab6da..707ddd3e -- dashboard/scripts/rebuild-map.ts",
+    "git diff b5cab6da..707ddd3e -- docs/content-plans/data/rebuild-map-levels-5-9.json -> empty",
+    "cd dashboard && npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/review-a-7r-r2-fresh.json -> exit 0, same log lines",
+    "cmp fresh vs committed -> identical; sha256sum both -> d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts' -> exit 0, 33 passed",
+    "git status --porcelain (phase paths) -> no change from this audit; dashboard/raw.json pre-dates the phase (Oct 28)"
+  ],
+  "changed_files": [
+    "dashboard/__tests__/rebuild-map.adversarial.test.ts",
+    "dashboard/scripts/rebuild-map.ts",
+    "measure/tracks/levels_5_9_20261006/plan.md",
+    "measure/runs/levels_5_9_20261006/ (adversarial-7r-b5cab6da.json/.log/.txt, adversarial-7r-mutants.txt, green-7r-r2-7d16f48f.log, green-7r-r2-tests.txt, green-7r-r2-project-tests.txt, green-7r-r2-lint.txt, green-7r-r2-tsc.txt, green-7r-r2-red-rerun.txt, green-7r-r2-determinism.txt, green-7r-r2-thai.txt)"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "The two defect tests fail-first at b5cab6da (green-7r-r2-red-rerun.txt, 3 failed) and pass after the fix; my fresh default run at the new head still equals the committed map byte for byte (sha256 d93bda9d, cmp identical)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "The A-F1 reader test is proven fail-first by the mutant run in adversarial-7r-mutants.txt (mutant d fails the named test, restore cmp equal), and the 3 defect tests failed at the pristine head before the fix."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The fix commit e256a6bc changes dashboard/scripts/rebuild-map.ts only, in two hunks; the evidence commit adds captures and 3 plan lines; the committed map is unchanged (0 diff lines)."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every plan r2 claim matched a capture or my own rerun: gate exit 0 with 33 passed, 3144 in 164 files, determinism sha d93bda9d, thai_lines=0, and the red-rerun failure list."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+Phase acceptance gate 3 (PROJECT_LINT), Phase 7R, head 4fb8d2c5, 2026-11-19.
+Command (verbatim, one foreground heavy-run; the first eslint call is the plan.md PROJECT_LINT word for word, the second lints the 3 Phase 7R files, per the plan r2 claim):
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && npx eslint scripts/plan-dedup.ts __tests__/plan-dedup.test.ts --no-error-on-unmatched-pattern && npx eslint scripts/rebuild-map.ts __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts --no-error-on-unmatched-pattern'; echo "gate_exit=$?"
+Exit code: 0 (both eslint calls; the && chain makes the exit 0 only when both pass).
+
+Output: 0 lines (eslint prints nothing on success).
+gate_exit=0
+
+Reading: exit 0 matches the plan r2 claim ("PROJECT_LINT exits 0 for the plan command and for the 3 Phase 7R files", green-7r-r2-lint.txt).

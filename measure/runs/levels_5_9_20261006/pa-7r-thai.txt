@@ -1,0 +1,21 @@
+Phase acceptance gate 6 (Thai scan of the whole phase diff), Phase 7R, head 4fb8d2c5, 2026-11-19.
+Command (verbatim, one foreground heavy-run; a python3 scan with no redirection counts U+0E00 to U+0E7F in every file of the phase diff):
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'python3 -c "<scan below>"'; echo "gate_exit=$?"
+The -c payload:
+import subprocess
+files = subprocess.check_output(["git", "diff", "--name-only", "3a929928..4fb8d2c5"], text=True).splitlines()
+bad = []
+for f in files:
+    text = open(f, encoding="utf-8", errors="replace").read()
+    n = sum(1 for ch in text if "\u0e00" <= ch <= "\u0e7f")
+    print(f, "thai_chars=" + str(n))
+    if n:
+        bad.append(f)
+print("files=" + str(len(files)), "with_thai=" + str(len(bad)))
+raise SystemExit(1 if bad else 0)
+Exit code: 0.
+
+Output: 38 files scanned, thai_chars=0 on every file, with_thai=0. The 38 files are the 3 code files (dashboard/__tests__/rebuild-map.adversarial.test.ts, dashboard/__tests__/rebuild-map.test.ts, dashboard/scripts/rebuild-map.ts), docs/content-plans/data/rebuild-map-levels-5-9.json, measure/tracks/levels_5_9_20261006/plan.md, and the 33 measure/runs/levels_5_9_20261006 captures of the phase.
+gate_exit=0
+
+Reading: 0 Thai characters in every committed file of 3a929928..4fb8d2c5. This covers both test files, which the earlier green-7r-thai.txt and green-7r-r2-thai.txt captures did not list. No file of the phase diff sits under content/.

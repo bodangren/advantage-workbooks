@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 7R: Rebuild map (Daniel 2026-11-19)",
+  "baseline_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "audited_head_sha": "b5cab6dadeb08f40a36888a55c32ab84de681fd7",
+  "status": "pass",
+  "summary": "HEAD equals the audited sha b5cab6da. The diff 3a929928..b5cab6da holds only the three plan-fixed files, plan evidence lines, and run captures. I recomputed the pairing rule from the committed duplicates JSON and the package folders with an independent script. The committed map equals that recomputation row for row: 229 kept ids (50, 88, 4, 38, 49) each map to one package of their own level, no package takes two ids, all 550 packages appear once across map and newIds, and newIds holds 0, 12, 96, 112, 101 rows. A fresh run of the script through its own folder reader gives the committed file byte for byte (sha256 d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab, same as Green's determinism capture). The map rows carry the legacy cuid and the new book/lesson id, the shape the Phase 7 injector needs per primary_legacy_id_map. The gate passed in my own heavy-run: exit 0, 23 tests passed. Every plan claim matched a capture or my rerun. Two Nits stay open; neither blocks.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Nit] dashboard/__tests__/rebuild-map.test.ts:128: the script's folder reader order (listPackages, dashboard/scripts/rebuild-map.ts:102) has no gate-1 test, because the test enumerates the folders itself. Mutant d (reversed reader order) passes all 23 tests; only the committed-map comparison catches it. Rationale: I judge the gap as real but not load-bearing. The test 'matches the committed map file with a fresh run' (rebuild-map.test.ts:489) pins the committed file to an independent enumeration, so a reader regression that regenerates the committed file fails that test. My own fresh script run reproduced the committed sha256. The residual risk is a silent wrong run by a maintainer who regenerates to a new path. Green may add one test that runs main on the real inputs and compares the output with the committed file.",
+    "F2 [Nit] dashboard/scripts/rebuild-map.ts:183: the guard 'more kept ids than packages' throws and main exits 2 before any write, but no named test covers it. Rationale: the real inputs never hit this edge and the plan's done-when does not list it. The guard behaves as designed; the test file simply does not prove it."
+  ],
+  "evidence": [
+    "HEAD equals the audited sha: git rev-parse HEAD -> b5cab6dadeb08f40a36888a55c32ab84de681fd7.",
+    "Diff scope: git diff --stat 3a929928..b5cab6da lists dashboard/scripts/rebuild-map.ts, dashboard/__tests__/rebuild-map.test.ts, docs/content-plans/data/rebuild-map-levels-5-9.json, measure/runs/levels_5_9_20261006/* captures, and 4 plan.md lines. No unrelated code changed.",
+    "Independent recomputation: python3 parsed duplicates-levels-5-9.json (229 groups; keeps per level 50, 88, 4, 38, 49; all unique), enumerated content/primary with LEVEL_BOOKS order plus bank-<level> and filename sort (550 unique packages: 50, 100, 100, 150, 150), and paired the i-th keep with the i-th package per level. The committed map, newIds, and levels rows equal this recomputation exactly (map match: True; newIds match: True; levels match: True).",
+    "One-to-one: the committed file uses each package once across map and newIds (550 unique of 550) and maps 229 unique keep ids; every map row pairs a keep id and a package of the same level (in-level pairing: True); newIds per level is 0, 12, 96, 112, 101 (expected ok: True).",
+    "Filename widths are uniform inside every folder (quest l01..l14, bank b001..b108), so the filename sort equals the lesson-number order of loadPackageFolder (dashboard/lib/lesson-package/files.ts:44 sorts filenames the same way).",
+    "Fresh run through the script's own reader: cd dashboard && npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/review-a-7r-fresh.json printed the same five level lines and total as green-7r-run.txt; cmp against the committed file reports identity; sha256 of both is d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab, the same hash as green-7r-determinism.txt line 4.",
+    "Gate rerun: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts' -> exit 0, 23 tests passed, 1 file passed.",
+    "Red is genuine: red-7r-3a929928.txt shows 23 tests skipped and a failed suite from 'Cannot find module' for the missing script, before Green.",
+    "A5 check on plan claims: green-7r-tests.txt holds 23 passed; green-7r-project-tests.txt holds 3134 passed in 163 files; green-7r-lint.txt holds plan_lint_exit=0 and phase_lint_exit=0; green-7r-tsc.txt is empty (0 lines); green-7r-thai.txt shows thai_lines=0 on every committed file; the map file is 39,495 bytes as the plan states. Every claim matched.",
+    "A3 check: count assertions parse labeled integers from JSON rows (rebuild-map.test.ts:441-448 uses toMatchObject with level, kept, packages, mapped; rebuild-map.test.ts:460-463 counts newIds rows). No bare-digit regex appears in the test file.",
+    "A4 check: no vacuous deliverable check exists. The real-input tests parse the committed duplicates JSON, enumerate the real folders, and compare content (rebuild-map.test.ts:431-492).",
+    "Injector shape: each map row holds the legacy cuid keepId, the new package id book/lesson, and its level; docs/content-plans/primary-db-field-map.md:140 defines primary_legacy_id_map (table_name, legacy_id, new_id). The injector can stamp db.legacy = keepId on the mapped package and leave newIds packages without a legacy id. No absolute path appears in the map text.",
+    "Mutant d judgment (brief item): the gap is real but does not matter for this deliverable. The committed map is pinned to an independent enumeration, so a wrong regenerated file fails gate 1; a wrong fresh run to another path does not touch the deliverable. See F1 for the residual risk.",
+    "Unrelated dirty work: git status shows ' M video/storytime-song/scripts/render.mjs' and many untracked measure/runs files of other tracks. None is in the audited diff. Other sessions own them.",
+    "Thai rule kept: I read no lesson package JSON under content/. I read file names only, plus docs and measure files."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> b5cab6dadeb08f40a36888a55c32ab84de681fd7",
+    "git diff --stat 3a929928..b5cab6da",
+    "git diff 3a929928..b5cab6da -- measure/tracks/levels_5_9_20261006/plan.md",
+    "python3 -c (duplicates groups count and per-level keeps) -> groups 229, levels 50/88/4/38/49, unique 229",
+    "python3 -c (package enumeration with LEVEL_BOOKS plus bank order) -> 50/100/100/150/150, 550 unique",
+    "python3 -c (pairing recomputation vs committed map) -> map match: True; newIds match: True; levels match: True; one-to-one: True; in-level: True; newIds per level ok: True",
+    "cd dashboard && npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/review-a-7r-fresh.json -> exit 0, same log lines as green-7r-run.txt",
+    "cmp /tmp/opencode/review-a-7r-fresh.json docs/content-plans/data/rebuild-map-levels-5-9.json -> identical; sha256sum both -> d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts' -> exit 0, 23 passed",
+    "git status --porcelain -> one unrelated modified file of another track, no change from this audit"
+  ],
+  "changed_files": [
+    "dashboard/__tests__/rebuild-map.test.ts",
+    "dashboard/scripts/rebuild-map.ts",
+    "docs/content-plans/data/rebuild-map-levels-5-9.json",
+    "measure/tracks/levels_5_9_20261006/plan.md",
+    "measure/runs/levels_5_9_20261006/ (red-7r-3a929928.log/.txt, red-7r-tsc.txt, green-7r-0718e305.log, green-7r-run.txt, green-7r-tests.txt, green-7r-project-tests.txt, green-7r-lint.txt, green-7r-tsc.txt, green-7r-red-rerun.txt, green-7r-determinism.txt, green-7r-mutants.txt, green-7r-mutant-a/b/c/d/d2.txt, green-7r-thai.txt)"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "The committed map equals my independent recomputation of the pairing rule, and a fresh script run reproduces the committed file byte for byte (sha256 d93bda9d, cmp identical)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "Red failed first on the missing module (red-7r-3a929928.txt, 23 skipped) and five mutants fail named tests, but the reader order (mutant d) has no gate-1 test and the keeps-exceed-packages guard (rebuild-map.ts:183) has no test."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --stat 3a929928..b5cab6da holds only the three plan-fixed files, plan evidence lines, and measure/runs captures."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every plan claim matched a capture or my own rerun: gate exit 0 with 23 passed in my heavy-run, 3134 in 163 files in green-7r-project-tests.txt, thai_lines=0 in green-7r-thai.txt, and the determinism sha equals mine."
+    }
+  ]
+}

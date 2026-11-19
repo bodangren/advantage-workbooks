@@ -1,0 +1,39 @@
+Review B (security and data handling) for track levels_5_9_20261006, Phase 7R: Rebuild map (Daniel 2026-11-19).
+
+Audit window: phase base 3a929928f9f45791ca2c6a5945f26707f79a7f7d to audited head b5cab6dadeb08f40a36888a55c32ab84de681fd7.
+The audited head is the current head: git rev-parse HEAD returns b5cab6da.
+
+Thai filter ran first, before any read of the committed files. All 22 committed files of the range hold 0 Thai characters.
+
+Verdict: pass for the Phase 7R Review B gate. Two nonblocking findings remain for a fix decision.
+
+Scope item 1, no database, network, or cloud import and one write only. The import closure of dashboard/scripts/rebuild-map.ts reaches 14 local files and 4 packages: fs, path, crypto, zod. No @aws-sdk/*, drizzle-orm, postgres, @supabase/*, pg, mysql, axios, http, https, net, tls, child_process, or next module appears. dashboard/scripts/rebuild-map.ts:231 holds the only fs.writeFileSync call and writes options.outJson.
+
+Scope item 2, no secret and no new absolute path. The scan over the 22 committed files found no AWS key, private key, JWT, bearer token, URL userinfo, api key assignment, or database URL value. The only /home/ hits are the vitest banner path in 9 captures and the literal /home/ assertion at dashboard/__tests__/rebuild-map.test.ts:329 and :466. This is the known tech-debt item.
+
+Scope item 3, no Thai character and ids and counts only. The map holds source, levels, map, and newIds. Each map row holds level, keepId, and package. Each newIds row holds level and package. The only string with a space is the source constant at dashboard/scripts/rebuild-map.ts:72. No lesson text appears.
+
+Scope item 4, argument handling. A --out-json with a missing parent directory threw ENOENT and wrote nothing. A --out-json that names a directory threw EISDIR and wrote nothing. A --content-root that names a missing folder returned 2 and wrote no file. A write outside the repo happened only where the operator named that path.
+
+A2 consent-blind publish gate does not apply. The range touches no content/ file and no status field.
+A6 registry overstatement does not apply. measure/tracks.md:29 keeps the track at [~] and marks no security state as resolved.
+
+Findings with file:line:
+F1 [Major] review-b: dashboard/scripts/rebuild-map.ts:93-94 and :231. A --duplicates file with no groups key, or with an empty groups array, yields a map with 0 map rows and 550 newIds rows, and main returns 0. The write then replaces the named --out-json file with that empty map. No check rejects zero kept ids. Fix: reject an empty keep list before the write.
+F2 [Nit] review-b: dashboard/scripts/rebuild-map.ts:231. The write sits outside the try block at :224-230, so a bad --out-json raises an uncaught ENOENT or EISDIR with a stack trace instead of exit 2. Fix: move the write inside the try block and return 2 on a write error.
+
+Evidence: measure/runs/levels_5_9_20261006/review-b-7r-b5cab6da.json.
+Gate check: the audit-result check printed PASS: audit result is valid. The review-b role-gate printed PASS: review-b gate passed.
+
+MEASURE_AGENT_RESULT
+role: review-b
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 7R: Rebuild map (Daniel 2026-11-19)
+commits: none (audit-only role, no commit); audited range 3a929928..b5cab6da holds 0718e305 Red, ef7c0fc1 Green, b5cab6da evidence
+tests_run: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts' gave 23 passed; the same command with --reporter=verbose gave 23 passed and named the 3 security tests green; npx tsx -e argument probes P1 to P8 on dashboard/scripts/rebuild-map.ts gave the exit codes and write results in the JSON evidence
+files_changed: measure/runs/levels_5_9_20261006/review-b-7r-b5cab6da.json, measure/runs/levels_5_9_20261006/review-b-7r-b5cab6da.log
+plan_updates: none, the plan task line already reads [x] with commit ef7c0fc1
+known_failures: none
+handoff: The Phase 7R Review B gate passes at audited head b5cab6da, which is the current head. Security applies and holds: no database, network, or cloud import, one write only, no secret, no new absolute path, 0 Thai characters in all 22 committed files, and a map of ids and counts only. Two nonblocking findings need a decision: F1 at dashboard/scripts/rebuild-map.ts:93-94 and :231, where a wrong --duplicates shape writes an empty map with exit 0, and F2 at dashboard/scripts/rebuild-map.ts:231, where a failed write raises an uncaught error instead of exit 2. The retry_recommendation is escalate_human per the role instruction, so please route F1 and F2 to Green or accept them as risks. The next phase, Phase 7, reads this map for the database load and needs its own gate for the consent and publish check, because this phase changes no package status.
+END_MEASURE_AGENT_RESULT

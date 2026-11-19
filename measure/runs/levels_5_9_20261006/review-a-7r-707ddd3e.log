@@ -1,0 +1,17 @@
+Review A round 2 audit of Phase 7R (track levels_5_9_20261006), head 707ddd3e, 2026-11-19.
+Verdict: PASS. Blocking findings: none. New findings: none.
+Round 1 findings: F1 CLOSED, F2 CLOSED.
+Gate: heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts' -> exit 0, 33 tests passed.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 7R: Rebuild map (Daniel 2026-11-19)
+commits: 7d16f48f, e256a6bc, 707ddd3e
+tests_run: heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts' -> exit 0, 33 passed (23 + 10); fresh 'npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/review-a-7r-r2-fresh.json' -> exit 0 and byte-equal to the committed map (sha256 d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab)
+files_changed: none in the repository (audit-only); wrote measure/runs/levels_5_9_20261006/review-a-7r-707ddd3e.json and review-a-7r-707ddd3e.log
+plan_updates: none
+known_failures: none
+handoff: PASS. The fix e256a6bc is correct and minimal: readKeepGroups rejects a missing or empty groups key (exit 2, out file untouched) and the single write sits in a try that exits 2 with a clean message and no stack trace. The committed map is unchanged and a fresh run still equals it. My round 1 F1 is closed by the default-run byte test (mutant d now fails that named test per adversarial-7r-mutants.txt) and F2 is closed by the keeps-exceed-packages tests at both levels. The 3 routed defect tests failed first at b5cab6da. A mid-write disk-full failure stays uncontracted and outside the routed defect; no action needed. The stray untracked dashboard/raw.json dates from Oct 28 and belongs to another session.
+END_MEASURE_AGENT_RESULT

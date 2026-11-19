@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "role": "review-b",
+  "track": "levels_5_9_20261006",
+  "phase": "Phase 7R: Rebuild map (Daniel 2026-11-19)",
+  "baseline_sha": "b5cab6dadeb08f40a36888a55c32ab84de681fd7",
+  "phase_base_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "role_base_sha": "5da7c561d7f793d5b3d797ecff9f5e1884984946",
+  "audited_head_sha": "707ddd3e48d6eca35c71ff4b3f53b6395dec48f4",
+  "security_applicability": "applicable",
+  "summary": "The Phase 7R Review B gate passes at audited head 707ddd3e. Both findings from round 1 are closed. F1 is closed: dashboard/scripts/rebuild-map.ts:95-97 rejects a duplicates file with no groups key or an empty groups array, and the throw sits inside the try block at :228, so the run exits 2, writes nothing, and leaves the out file byte-identical. F2 is closed: the write at dashboard/scripts/rebuild-map.ts:236 now sits inside the try block at :235, so a failed write exits 2 with a message and the usage, and no stack trace. The script still imports no database, network, or cloud module, still writes only its out path, and the 15 new committed files hold 0 Thai characters, no secret, and no new absolute path. The committed map is unchanged and a fresh run still equals it byte for byte.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "F1 withdrawn: closed at 707ddd3e. The guard at dashboard/scripts/rebuild-map.ts:95-97 throws when the groups key is missing or empty, and line 98 no longer defaults a missing key to an empty array. The throw sits inside the try block at dashboard/scripts/rebuild-map.ts:228-234, so main prints the message and the usage, returns 2, and writes nothing. My probe P1 gave exit 2 with the message duplicates file holds no groups, no stack trace, and an out file byte-identical to the sentinel. My probe P2 gave the same result for an empty groups array. The named tests rejects a duplicates file with no groups key and rejects a duplicates file with an empty groups array at dashboard/__tests__/rebuild-map.adversarial.test.ts:154 and :166 are green.",
+    "F2 withdrawn: closed at 707ddd3e. The write at dashboard/scripts/rebuild-map.ts:236 now sits inside the try block at :235-241, so a failed write prints cannot write the out file, prints the usage, and returns 2. My probe P3 gave exit 2, no stack trace, and no created folder. My probe P4 gave exit 2 and no stack trace for an out path that names a directory. The named test exits 2 when the out folder does not exist, with no stack trace, and writes nothing at dashboard/__tests__/rebuild-map.adversarial.test.ts:180 is green.",
+    "Thai filter ran first, before any read of the delta files. A script scanned git diff --name-only b5cab6da..707ddd3e for U+0E00 to U+0E7F and printed counts per file. All 15 files hold thai_chars=0.",
+    "Import closure of the fixed dashboard/scripts/rebuild-map.ts: 14 local files and 4 packages only (crypto, fs, path, zod). No @aws-sdk/*, drizzle-orm, postgres, @supabase/*, pg, mysql, axios, http, https, net, tls, child_process, or next module appears. The fix added no import.",
+    "One write only: dashboard/scripts/rebuild-map.ts:236 holds the single fs.writeFileSync call and writes options.outJson. The other fs calls are reads at lines 94, 111, and 222. The source holds no fetch call and no require call.",
+    "The committed map is unchanged by the fix. git diff --name-only b5cab6da..707ddd3e holds no docs/ path. The sha256 of docs/content-plans/data/rebuild-map-levels-5-9.json is d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab, equal to a fresh run in measure/runs/levels_5_9_20261006/green-7r-r2-determinism.txt. My control probe P5 gave exit 0 and a file byte-equal to the committed map.",
+    "Secret scan over the 15 committed files of b5cab6da..707ddd3e: no AWS key, private key, JWT, bearer token, URL userinfo, api key assignment, or environment value with a secret. The only /home/ hits are the vitest banner path in measure/runs/levels_5_9_20261006/adversarial-7r-b5cab6da.txt, green-7r-r2-red-rerun.txt, and green-7r-r2-tests.txt. This is the known tech-debt item.",
+    "Error handling probe P6: a duplicates file that is not valid JSON gave exit 2, no stack trace, and an out file byte-identical to the sentinel. The read sits inside the try block at dashboard/scripts/rebuild-map.ts:228.",
+    "Test gate in a foreground heavy-run: CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts gave 2 files passed and 33 tests passed. The 10 adversarial tests cover the F1 and F2 fixes and 4 risk edges.",
+    "Provenance: git rev-parse HEAD gives 707ddd3e48d6eca35c71ff4b3f53b6395dec48f4, so the audited head is the current head. The phase base 3a929928 and the role base 5da7c561 stay as in round 1.",
+    "Scope of the delta: 15 committed files and no content/ path. The adversarial commit 7d16f48f holds the new test file and 4 capture files. The fix commit e256a6bc holds dashboard/scripts/rebuild-map.ts only. The evidence commit 707ddd3e holds 8 capture files and the plan task line.",
+    "A2 consent-blind publish gate does not apply. The delta touches no content/ file and no status field, and the map holds ids and counts only. A6 registry overstatement does not apply. measure/tracks.md:29 keeps the track at [~] and marks no security state as resolved.",
+    "The adversarial Nit F3 stays open under the adversarial role. A group with no keep key maps to the id string undefined at dashboard/scripts/rebuild-map.ts:98. The plan records this as a remaining Nit. Review B does not restate it, because the adversarial role owns it and the committed duplicates file is well formed.",
+    "Gate check: measure_interphase_checks.py audit-result --role review-b --file measure/runs/levels_5_9_20261006/review-b-7r-707ddd3e.json printed PASS: audit result is valid. The role-gate for review-b with --phase 'Phase 7R: Rebuild map (Daniel 2026-11-19)' and --baseline b5cab6da printed PASS: review-b gate passed, exit 0."
+  ],
+  "commands": [
+    "python3 Thai filter over git diff --name-only b5cab6da..707ddd3e: all 15 files report thai_chars=0",
+    "git rev-parse HEAD: 707ddd3e48d6eca35c71ff4b3f53b6395dec48f4",
+    "git log --oneline b5cab6da..707ddd3e: 707ddd3e evidence, e256a6bc fix, 7d16f48f adversarial tests",
+    "git diff-tree -r --no-renames --name-only 7d16f48f, e256a6bc, 707ddd3e: the per-commit file lists",
+    "git diff b5cab6da..707ddd3e -- dashboard/scripts/rebuild-map.ts: the two fixes",
+    "python3 import-closure resolver on the fixed dashboard/scripts/rebuild-map.ts: 14 files, packages crypto, fs, path, zod, no forbidden module",
+    "grep -n 'fs\\.|writeFileSync|fetch(|require(' dashboard/scripts/rebuild-map.ts: one write at line 236, no fetch, no require",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts': 2 files passed, 33 tests passed",
+    "npx tsx -e probes P1 to P6 against the fixed dashboard/scripts/rebuild-map.ts: exit codes, stack line counts, and out file byte comparisons recorded in the evidence",
+    "python3 secret and absolute path scan over the 15 committed files of b5cab6da..707ddd3e: no secret match; only the known vitest banner paths",
+    "sha256sum docs/content-plans/data/rebuild-map-levels-5-9.json: d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab",
+    "git diff --name-only b5cab6da..707ddd3e -- docs/content-plans/data/rebuild-map-levels-5-9.json: empty, the committed map is unchanged",
+    "git status --porcelain: no Phase 7R code path is dirty",
+    "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py audit-result --role review-b --file measure/runs/levels_5_9_20261006/review-b-7r-707ddd3e.json: PASS: audit result is valid, exit 0",
+    "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py role-gate --role review-b --track levels_5_9_20261006 --phase 'Phase 7R: Rebuild map (Daniel 2026-11-19)' --baseline b5cab6dadeb08f40a36888a55c32ab84de681fd7 --result-file measure/runs/levels_5_9_20261006/review-b-7r-707ddd3e.json --log-file measure/runs/levels_5_9_20261006/review-b-7r-707ddd3e.log: PASS: review-b gate passed, exit 0"
+  ],
+  "changed_files": [
+    "measure/runs/levels_5_9_20261006/review-b-7r-707ddd3e.json",
+    "measure/runs/levels_5_9_20261006/review-b-7r-707ddd3e.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "minimax-cn-coding-plan/MiniMax-M3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "The fix at dashboard/scripts/rebuild-map.ts:95-97 and :235-241 makes both round 1 findings exit 2 with no write, and my control probe P5 still gives a file byte-equal to the committed map, sha256 d93bda9d."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "Each claim now has a named failing-first test: dashboard/__tests__/rebuild-map.adversarial.test.ts:154, :166, and :180 fail at b5cab6da and pass at 707ddd3e, and the heavy-run gives 33 tests passed."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff-tree shows the fix commit e256a6bc holds dashboard/scripts/rebuild-map.ts only, and the delta holds 15 files with no content/ path and no third code file."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a command result or a file:line, including the 33 passed heavy-run, my P1 to P6 probe results, the import closure, and the sha256 d93bda9d."
+    }
+  ]
+}

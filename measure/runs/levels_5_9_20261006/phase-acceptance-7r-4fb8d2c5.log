@@ -1,0 +1,45 @@
+Phase acceptance log for Phase 7R of track levels_5_9_20261006.
+Audited head: 4fb8d2c5a9ca031f4b18125eb01b5ae3d06ac839. Phase base: 3a929928f9f45791ca2c6a5945f26707f79a7f7d. Role base: 5da7c561d7f793d5b3d797ecff9f5e1884984946.
+
+Read-only verification before the gates:
+- HEAD is 4fb8d2c5 before and after all gates, equal to the audited head.
+- Prerequisites: review A round 1 PASS at b5cab6da (2 Nits, closed as named tests in 7d16f48f); review B round 1 PASS at b5cab6da (F1 Major and F2 Nit, routed as DEFECT-1 and DEFECT-2); the adversarial round 1 at b5cab6da FAILS with DEFECT-1 and DEFECT-2; Green r2 fixes both in e256a6bc (dashboard/scripts/rebuild-map.ts only); review A and B round 2 PASS at 707ddd3e with 0 findings; adversarial round 2 PASS at 707ddd3e (gate exit 0). The one commit after 707ddd3e, the commit 4fb8d2c5, touches only this track's measure/runs captures (adversarial-7r-707ddd3e.json, .log, .txt), so every prerequisite result applies at the accepted head. This acceptance records that exact head and names 4fb8d2c5 as the test-only commit it allowed.
+- Per-commit scope (git diff-tree): 0718e305 = the Red test file + plan; ef7c0fc1 = the script + the committed map (the closeout rule's exact 2 files); b5cab6da = plan (task [x]); 7d16f48f = the adversarial test file; e256a6bc = the script only; 707ddd3e = plan (r2 evidence); 4fb8d2c5 = this track's captures only. The phase diff 3a929928..4fb8d2c5 holds no content/ path and no other track's file.
+- The committed map (python3 read): level rows keep 50, 88, 4, 38, 49 over 50, 100, 100, 150, 150 packages; 229 map rows; 321 new ids (0, 12, 96, 112, 101 per level); 229 unique keep ids; 550 unique packages; 0 'undefined' keep ids (ADV-F3 DECLINE verified); no absolute path token; sha256 d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab at 39,495 bytes, equal to the plan Green evidence claim.
+- A5: every plan evidence claim matched its capture: red-rerun exit 1 with 'Cannot find module' and 23 skipped; gate 1 23 passed (r1) and 33 passed in 2 files (r2); PROJECT_TESTS 3134 passed in 163 files (r1) and 3144 passed in 164 files (r2); tsc captures 0 lines; determinism cmp exit 0 with sha256 d93bda9d; mutants a, b, c, d2 caught by a named test and d caught by the committed-map comparison; r2 red-rerun 3 failed at b5cab6da; Thai captures all 0.
+- A3: the count assertions in both test files are labeled integer parses (toMatchObject on level, kept, packages, mapped; toHaveLength), not digit regex.
+- A4: Phase 7R holds 1 [x] task, so no vacuous markers check exists. A6: measure/tracks.md keeps the track at [~]; no resolved claim. A7: no filter changed in the phase diff.
+- Review C and the UX browser review do not apply (test-strategy 7R.7: no route, no UI, no user flow).
+
+Gates, each in its own foreground heavy-run, exit code of every command:
+1. RED=GREEN: 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts' -> exit 0. Test Files 2 passed (2); Tests 33 passed (33). Capture pa-7r-red-green.txt.
+2. PROJECT_TESTS with the 3 documented excludes: 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts --exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts 2>&1 | grep -E "Test Files|Tests |Duration"' -> exit 0 (the pipeline exit under pipefail is vitest's own exit). Test Files 164 passed (164); Tests 3144 passed (3144). The output is filtered inside the command to the summary lines only, because other tests print Thai; no Thai text reached this role. The 3 excluded files are the open Red file of storytime_l2_unit2_20261106 and the 2 earlier-failure files that also fail at the phase base afbfcf0e (green-g2-baseline-r2.txt); neither of the 2 is in this phase's diff, so nothing this phase changed can mask them. No other test fails. Capture pa-7r-project-tests.txt.
+3. PROJECT_LINT: the plan.md command word for word ('cd dashboard && npx eslint scripts/plan-dedup.ts __tests__/plan-dedup.test.ts --no-error-on-unmatched-pattern') -> exit 0, then the 3 Phase 7R files ('npx eslint scripts/rebuild-map.ts __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts --no-error-on-unmatched-pattern') -> exit 0, 0 output lines. One heavy-run with an && chain. Capture pa-7r-lint.txt.
+4. PROJECT_CHECKS: 'set -o pipefail; cd dashboard && npx tsc --noEmit' -> exit 0, 0 output lines. Capture pa-7r-tsc.txt.
+5. Determinism: 'set -o pipefail; cd dashboard && npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/pa-7r-fresh.json && cmp /tmp/opencode/pa-7r-fresh.json ../docs/content-plans/data/rebuild-map-levels-5-9.json' -> exit 0. The run's log lines: kept 50, 88, 4, 38, 49; new ids 0, 12, 96, 112, 101; total 229 mapped, 321 new. sha256 of the fresh file and the committed map: both d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab. Capture pa-7r-determinism.txt.
+6. Thai scan: a python3 scan (no redirection) over every file of git diff --name-only 3a929928..4fb8d2c5 -> exit 0. 38 files, thai_chars=0 on every file, with_thai=0. Capture pa-7r-thai.txt.
+
+Post-gate hygiene: git status --porcelain on dashboard/, docs/, and pnpm-lock.yaml shows only the untracked dashboard/raw.json of another track (it pre-dates the phase, Oct 28); the modified video/storytime-song/scripts/render.mjs also belongs to another track and sits outside the phase diff; pnpm-lock.yaml is unchanged; HEAD stays 4fb8d2c5.
+
+Verdict: PASS with 0 open blockers for Task 7.0, the only task of Phase 7R. Result file: measure/runs/levels_5_9_20261006/phase-acceptance-7r-4fb8d2c5.json.
+
+Open items, all outside this phase:
+- The 3 earlier failures of other tracks (constants.test.ts, origins-thai-support.test.ts) stay open in their own tracks; the storytime-unit2 exclude stays until that track's Task 3.6 Green closes.
+- The declined Nit ADV-F3 stays recorded as an uncontracted edge: a group with no keep key maps to the id 'undefined'. The committed map holds 0 such ids.
+- Review B's retry_recommendation field reads escalate_human in both rounds while its status and role gate read pass; the field looks like a template leftover and routes nothing.
+- Phase 7 reads the accepted map at its precondition and keeps the deletion of old articles after Daniel approves each level.
+
+Note on captures: the shell rules of this role deny redirection and tee, so each heavy-run read its output in the tool result and the pa-7r-* capture files were written with the write tool; PROJECT_TESTS output was filtered to summary lines with grep inside the command, so no other test's Thai text reached this role.
+
+MEASURE_AGENT_RESULT
+role: measure-phase-acceptance
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 7R: Rebuild map (Daniel 2026-11-19)
+commits: 4fb8d2c5 (audited head; no commit by this role)
+tests_run: RED=GREEN exit 0 (33 passed in 2 files, pa-7r-red-green.txt); PROJECT_TESTS with the 3 documented excludes exit 0 (3144 passed in 164 files, pa-7r-project-tests.txt); PROJECT_LINT exit 0 for the plan command and the 3 Phase 7R files (pa-7r-lint.txt); PROJECT_CHECKS exit 0 with 0 output lines (pa-7r-tsc.txt); determinism exit 0 (fresh run byte-equal to the committed map, sha256 d93bda9d, kept 50/88/4/38/49, new 0/12/96/112/101, pa-7r-determinism.txt); Thai scan exit 0 (38 files, 0 Thai characters, pa-7r-thai.txt)
+files_changed: measure/runs/levels_5_9_20261006/phase-acceptance-7r-4fb8d2c5.json, phase-acceptance-7r-4fb8d2c5.log, and the 6 pa-7r-* captures
+plan_updates: none by this role; the plan records the result file per its phase acceptance line
+known_failures: the 3 earlier failures of other tracks (constants.test.ts 'includes Adventures 1.0 as a primary workbook option'; origins-thai-support.test.ts origins-2-a0 and origins-3.1-a0), which also fail at the phase base afbfcf0e (green-g2-baseline-r2.txt); both excluded files are outside this phase's diff
+handoff: PASS for Task 7.0 at head 4fb8d2c5; the accepted head is 4fb8d2c5 and the test-only commit 4fb8d2c5 over 707ddd3e is the allowed advance; Phase 7's precondition (the injector reads the accepted map) is met; the plan line for this result file is the only closeout left to the orchestrator
+END_MEASURE_AGENT_RESULT

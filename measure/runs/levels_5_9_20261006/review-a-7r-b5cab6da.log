@@ -1,0 +1,16 @@
+Review A audit of Phase 7R (track levels_5_9_20261006), head b5cab6da, 2026-11-19.
+Verdict: PASS. Blocking findings: none. Nonblocking findings: 2 Nits.
+Gate: heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts' -> exit 0, 23 tests passed.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 7R: Rebuild map (Daniel 2026-11-19)
+commits: 0718e305, ef7c0fc1, b5cab6da
+tests_run: heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts' -> exit 0, 23 passed; fresh 'npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/review-a-7r-fresh.json' -> exit 0 and byte-equal to the committed map (sha256 d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab)
+files_changed: none in the repository (audit-only); wrote measure/runs/levels_5_9_20261006/review-a-7r-b5cab6da.json and review-a-7r-b5cab6da.log
+plan_updates: none
+known_failures: none
+handoff: PASS. The committed map equals an independent recomputation of the pairing rule and a fresh script run. The shape fits the Phase 7 injector: each row holds the legacy cuid and the new book/lesson package, per primary_legacy_id_map. Two Nits: F1 the script's folder reader order has no gate-1 test (mutant d passes the suite; the committed-map test and my fresh-run check pin the deliverable, so the gap does not matter for correctness; Green may add one main-vs-committed test); F2 the keeps-exceed-packages guard (rebuild-map.ts:183) has no named test. A3, A4, and A5 checks are clean: count assertions are labeled integers, no vacuous deliverable check exists, and every plan claim matched a capture or my rerun.
+END_MEASURE_AGENT_RESULT

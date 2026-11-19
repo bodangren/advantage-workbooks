@@ -136,6 +136,7 @@ GREEN_TEST_COMMAND='set -o pipefail; cd dashboard && CI=true npx vitest run __te
 ```
 
 Files (names as default; the plan fixes no other name): the map is `docs/content-plans/data/rebuild-map-levels-5-9.json`, the script is `dashboard/scripts/rebuild-map.ts`, and the test file is `dashboard/__tests__/rebuild-map.test.ts`.
+- Phase acceptance (2026-11-19): phase-acceptance-7r-4fb8d2c5.json pass at 4fb8d2c5; role gate exit 0; RED=GREEN 0, PROJECT_TESTS (3 documented excludes) 0, lint 0, tsc 0, determinism 0, Thai scan 0. Reviews A and B pass (b5cab6da, 707ddd3e); adversarial defects B-F1 and B-F2 fixed in e256a6bc; ADV-F3 declined. Review A, adversarial, and acceptance ran on GLM as a substitution. The Phase 7 precondition (an accepted map) is met.
 
 ## Phase 7: Into the app
 

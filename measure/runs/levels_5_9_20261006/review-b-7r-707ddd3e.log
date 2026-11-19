@@ -1,0 +1,40 @@
+Review B round 2 (security and data handling) for track levels_5_9_20261006, Phase 7R: Rebuild map (Daniel 2026-11-19).
+
+Audit window: round 1 head b5cab6dadeb08f40a36888a55c32ab84de681fd7 to new audited head 707ddd3e48d6eca35c71ff4b3f53b6395dec48f4.
+The audited head is the current head: git rev-parse HEAD returns 707ddd3e.
+The phase base 3a929928 and the role base 5da7c561 stay as in round 1.
+
+Thai filter ran first, before any read of the delta files. All 15 committed files of the delta hold 0 Thai characters.
+
+Verdict: pass. F1 and F2 from round 1 are closed. No Review B finding stays open.
+
+F1 closed. The guard at dashboard/scripts/rebuild-map.ts:95-97 throws when the groups key is missing or empty, and line 98 no longer defaults a missing key to an empty array. The throw sits inside the try block at dashboard/scripts/rebuild-map.ts:228-234, so the run prints the message and the usage, returns 2, and writes nothing. Probe P1 gave exit 2, no stack trace, and an out file byte-identical to the sentinel. Probe P2 gave the same result for an empty groups array. The named tests at dashboard/__tests__/rebuild-map.adversarial.test.ts:154 and :166 are green.
+
+F2 closed. The write at dashboard/scripts/rebuild-map.ts:236 now sits inside the try block at :235-241, so a failed write prints cannot write the out file, prints the usage, and returns 2. Probe P3 gave exit 2, no stack trace, and no created folder. Probe P4 gave exit 2 and no stack trace for an out path that names a directory. The named test at dashboard/__tests__/rebuild-map.adversarial.test.ts:180 is green.
+
+Security invariants still hold. The import closure of the fixed script reaches 14 local files and 4 packages: crypto, fs, path, zod. No database, network, or cloud module appears. dashboard/scripts/rebuild-map.ts:236 holds the only fs.writeFileSync call. The source holds no fetch call and no require call.
+
+No secret and no new absolute path. The scan over the 15 committed files found no AWS key, private key, JWT, bearer token, URL userinfo, api key assignment, or secret value. The only /home/ hits are the vitest banner path in adversarial-7r-b5cab6da.txt, green-7r-r2-red-rerun.txt, and green-7r-r2-tests.txt. This is the known tech-debt item.
+
+The committed map is unchanged. The delta holds no docs/ path. The sha256 of docs/content-plans/data/rebuild-map-levels-5-9.json is d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab, equal to a fresh run. Control probe P5 gave exit 0 and a file byte-equal to the committed map.
+
+A2 consent-blind publish gate does not apply. The delta touches no content/ file and no status field.
+A6 registry overstatement does not apply. measure/tracks.md:29 keeps the track at [~].
+
+The adversarial Nit F3 stays open under the adversarial role. A group with no keep key maps to the id string undefined at dashboard/scripts/rebuild-map.ts:98. Review B does not restate it, because the adversarial role owns it and the committed duplicates file is well formed.
+
+Evidence: measure/runs/levels_5_9_20261006/review-b-7r-707ddd3e.json.
+Gate check: the audit-result check printed PASS: audit result is valid. The review-b role-gate printed PASS: review-b gate passed.
+
+MEASURE_AGENT_RESULT
+role: review-b
+status: complete
+track: levels_5_9_20261006
+phase: Phase 7R: Rebuild map (Daniel 2026-11-19)
+commits: none (audit-only role, no commit); audited delta b5cab6da..707ddd3e holds 7d16f48f adversarial tests, e256a6bc fix, 707ddd3e evidence
+tests_run: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts' gave 2 files passed and 33 tests passed; npx tsx -e probes P1 to P6 on the fixed dashboard/scripts/rebuild-map.ts gave the exit codes, stack line counts, and out file byte comparisons in the JSON evidence
+files_changed: measure/runs/levels_5_9_20261006/review-b-7r-707ddd3e.json, measure/runs/levels_5_9_20261006/review-b-7r-707ddd3e.log
+plan_updates: none, the plan task line already records the fix commit e256a6bc
+known_failures: none
+handoff: The Phase 7R Review B gate passes at audited head 707ddd3e, which is the current head. Both round 1 findings are closed. F1 is closed by the guard at dashboard/scripts/rebuild-map.ts:95-97 with the catch at :230, and F2 is closed by the write inside the try block at :235. A bad duplicates shape and a failed write now give exit 2, no write, an untouched out file, and no stack trace. The script still imports no database, network, or cloud module and still writes only its out path. The 15 new committed files hold 0 Thai characters, no secret, and no new absolute path. No Review B finding stays open, so the orchestrator needs no decision from the user. The retry_recommendation is escalate_human only because the role instruction sets that value. One item stays open under the adversarial role: its Nit F3, where a group with no keep key maps to the id string undefined at dashboard/scripts/rebuild-map.ts:98. Phase 7 still needs its own gate for the consent and publish check, because this phase changes no package status.
+END_MEASURE_AGENT_RESULT

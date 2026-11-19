@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "role": "review-b",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 7R: Rebuild map (Daniel 2026-11-19)",
+  "baseline_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "phase_base_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "role_base_sha": "5da7c561d7f793d5b3d797ecff9f5e1884984946",
+  "audited_head_sha": "b5cab6dadeb08f40a36888a55c32ab84de681fd7",
+  "security_applicability": "applicable",
+  "summary": "The Phase 7R Review B gate passes at audited head b5cab6da. The script imports no database, network, or cloud module, and writes only its --out-json path. No secret, URL with a password, token, or new absolute /home/ path sits in the 22 committed files of 3a929928..b5cab6da. Every committed file holds 0 Thai characters. The map holds ids and counts only, and no lesson text. A bad --out-json or --content-root path writes nothing outside the repo. Two nonblocking hardening items remain: a wrong --duplicates shape writes an empty map with exit 0, and a failed write raises an uncaught error instead of exit 2.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] review-b: dashboard/scripts/rebuild-map.ts:93-94: a --duplicates file with no groups key, or with an empty groups array, yields a map with 0 map rows and 550 newIds rows, and main returns 0. The write at dashboard/scripts/rebuild-map.ts:231 then replaces the named --out-json file with that empty map. Rationale: readKeepGroups defaults a missing groups key to an empty array, and no check rejects zero kept ids. A wrong input file thus replaces the Phase 7 injector input with an empty map, and exit 0 reports success. The tool is local and run-only, and the operator names every path, so this is a hardening gap and not a break of the Phase 7R scope.",
+    "F2 [Nit] review-b: dashboard/scripts/rebuild-map.ts:231: the write sits outside the try block at dashboard/scripts/rebuild-map.ts:224-230, so a bad --out-json raises an uncaught ENOENT or EISDIR with a stack trace instead of the exit 2 path. Rationale: the probes left the scratch folder empty, so no partial file and no file outside the repo appears. The run only prints a stack trace."
+  ],
+  "evidence": [
+    "Thai filter ran first, before any read of the committed files. A script scanned git diff --name-only 3a929928..b5cab6da for U+0E00 to U+0E7F and printed counts per file. All 22 files hold thai_chars=0.",
+    "Import closure of dashboard/scripts/rebuild-map.ts: 14 local files and 4 packages only (fs, path, crypto, zod). No @aws-sdk/*, drizzle-orm, postgres, @supabase/*, pg, mysql, axios, http, https, net, tls, child_process, or next module appears in the closure.",
+    "dashboard/scripts/rebuild-map.ts:231 holds the only fs.writeFileSync call, and it writes options.outJson. The other fs calls are reads: readFileSync at line 93, readdirSync at line 109, existsSync at lines 107 and 218.",
+    "The script never opens a content/primary package file. listPackages at dashboard/scripts/rebuild-map.ts:108-112 lists file names only, and the module guard at lines 236-237 keeps the run call out of import.",
+    "Vitest in a heavy-run: CI=true npx vitest run __tests__/rebuild-map.test.ts gave 23 passed. The verbose run names the security tests green: imports no database client and opens no socket (dashboard/__tests__/rebuild-map.test.ts:282), calls fetch never and writes exactly once at the given out path (dashboard/__tests__/rebuild-map.test.ts:287), and changes no repository file outside the given output (dashboard/__tests__/rebuild-map.test.ts:307).",
+    "Map content check on docs/content-plans/data/rebuild-map-levels-5-9.json: the top keys are source, levels, map, and newIds. Each map row holds level, keepId, and package. Each newIds row holds level and package. Each levels row holds level, kept, packages, and mapped. The only string with a space is the source constant at dashboard/scripts/rebuild-map.ts:72. Every keepId is a cuid string and every package id is a book/lesson string.",
+    "Secret scan over the 22 committed files of 3a929928..b5cab6da: no AWS key, private key, JWT, bearer token, URL userinfo, api key assignment, or DATABASE_URL value. The only /home/ hits are the vitest banner path in 9 captures and the literal /home/ assertion at dashboard/__tests__/rebuild-map.test.ts:329 and :466. The plan.md mention of MONOREPO_DATABASE_URL names the variable only.",
+    "Argument probes on dashboard/scripts/rebuild-map.ts: a --out-json with a missing parent directory threw ENOENT and wrote nothing. A --out-json that names a directory threw EISDIR and wrote nothing. A --content-root that names a missing folder returned 2 with the message level 5: 50 kept ids, 0 packages and wrote no file. A --duplicates that names a directory returned 2 with usage and wrote no file.",
+    "Argument probes, outside-repo writes: an explicit absolute --out-json wrote only to that named path under /tmp. A relative --out-json of ../p5-escape.json resolved against the working directory and wrote only to that named path. No write landed in any location that the operator did not name.",
+    "A2 consent-blind publish gate does not apply. The range touches no content/ file and no status field, and the plan records that every part of all 550 packages is still draft. The script writes one map JSON and changes no package state.",
+    "A6 registry overstatement does not apply. measure/tracks.md:29 keeps the track at [~] and marks no security state as resolved. The plan claim that the script writes no database is proven by the green named tests above.",
+    "Determinism: the sha256 of docs/content-plans/data/rebuild-map-levels-5-9.json is d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab, equal to the two fresh-run files in measure/runs/levels_5_9_20261006/green-7r-determinism.txt.",
+    "Provenance: phase base 3a929928 is the strategy commit and is an ancestor of the audited head. Role base 5da7c561 predates the strategy commit, as test-strategy.md 7R.1 requires. git rev-parse HEAD gives b5cab6dadeb08f40a36888a55c32ab84de681fd7, so the audited head is the current head.",
+    "Scope: the range holds 22 files and no content/ path. The Red commit 0718e305 holds the test file, 3 Red captures, and the plan task line. The Green commit ef7c0fc1 holds the script and the map. The evidence commit b5cab6da holds 15 Green captures and the plan task line.",
+    "Gate check: measure_interphase_checks.py audit-result --role review-b --file measure/runs/levels_5_9_20261006/review-b-7r-b5cab6da.json printed PASS: audit result is valid. The role-gate for review-b with --phase 'Phase 7R: Rebuild map (Daniel 2026-11-19)' and --baseline 3a929928 printed PASS: review-b gate passed, exit 0."
+  ],
+  "commands": [
+    "python3 Thai filter over git diff --name-only 3a929928..b5cab6da: all 22 files report thai_chars=0",
+    "git rev-parse HEAD: b5cab6dadeb08f40a36888a55c32ab84de681fd7",
+    "git merge-base --is-ancestor 3a929928 b5cab6da: exit 0",
+    "git rev-parse 5da7c561: 5da7c561d7f793d5b3d797ecff9f5e1884984946",
+    "git diff-tree -r --no-renames --name-only 0718e305, ef7c0fc1, b5cab6da: the per-commit file lists",
+    "git diff --stat 3a929928..b5cab6da: 22 files changed, 7749 insertions, 1 deletion",
+    "python3 import-closure resolver on dashboard/scripts/rebuild-map.ts: 14 files, packages fs, path, crypto, zod, no forbidden module",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts': 23 passed",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts --reporter=verbose': 23 passed, 3 security test names green",
+    "python3 secret and absolute path scan over the 22 committed files: no secret match; only the known vitest banner paths",
+    "python3 map content check on docs/content-plans/data/rebuild-map-levels-5-9.json: ids and counts only",
+    "sha256sum docs/content-plans/data/rebuild-map-levels-5-9.json: d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab",
+    "npx tsx -e argument probes P1 to P8 against dashboard/scripts/rebuild-map.ts: exit codes and write results recorded in the evidence",
+    "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py audit-result --role review-b --file measure/runs/levels_5_9_20261006/review-b-7r-b5cab6da.json: PASS: audit result is valid, exit 0",
+    "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py role-gate --role review-b --track levels_5_9_20261006 --phase 'Phase 7R: Rebuild map (Daniel 2026-11-19)' --baseline 3a929928f9f45791ca2c6a5945f26707f79a7f7d --result-file measure/runs/levels_5_9_20261006/review-b-7r-b5cab6da.json --log-file measure/runs/levels_5_9_20261006/review-b-7r-b5cab6da.log: PASS: review-b gate passed, exit 0",
+    "git status --porcelain: only files of other tracks; no Phase 7R path is dirty"
+  ],
+  "changed_files": [
+    "measure/runs/levels_5_9_20261006/review-b-7r-b5cab6da.json",
+    "measure/runs/levels_5_9_20261006/review-b-7r-b5cab6da.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "minimax-cn-coding-plan/MiniMax-M3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "23 of 23 contract tests pass and the committed map equals a fresh run byte for byte (green-7r-determinism.txt); my probes found two edge paths the contract does not cover, F1 and F2."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "Each security claim has a real test (dashboard/__tests__/rebuild-map.test.ts:282, :287, :307, :325); the F1 input shape has no test."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --stat 3a929928..b5cab6da holds 22 files: the test, the script, the map, the Green captures, and the plan task line; no content/ path and no third code file."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a command result or a file:line, including the 23 passed vitest run, the import closure, the sha256 d93bda9d, and the P1 to P8 probe results."
+    }
+  ]
+}

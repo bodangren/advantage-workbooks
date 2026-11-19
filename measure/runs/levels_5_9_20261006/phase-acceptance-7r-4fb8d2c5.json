@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 7R: Rebuild map (Daniel 2026-11-19)",
+  "baseline_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "phase_base_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "role_base_sha": "5da7c561d7f793d5b3d797ecff9f5e1884984946",
+  "audited_head_sha": "4fb8d2c5a9ca031f4b18125eb01b5ae3d06ac839",
+  "status": "pass",
+  "summary": "PASS for Task 7.0 at head 4fb8d2c5, with 0 open blockers. HEAD equals the audited head before and after all 6 gates. The one commit after the prerequisite head 707ddd3e, the commit 4fb8d2c5, touches only this track's measure/runs captures, so every prerequisite result (review A and B round 2 PASS, adversarial round 2 PASS, all cited role gates exit 0) applies at the audited head; this acceptance records that exact head and names 4fb8d2c5 as the test-only commit it allowed. Every gate ran at the head, each in its own foreground heavy-run, and every exit code is stated below: RED=GREEN (both test files in one command) exit 0 with 33 passed; PROJECT_TESTS with the 3 documented excludes exit 0 with 3144 passed in 164 files; PROJECT_LINT exit 0 for the plan command and for the 3 Phase 7R files; PROJECT_CHECKS (npx tsc --noEmit) exit 0 with 0 output lines; the determinism gate exit 0 with a fresh run byte-equal to the committed map (sha256 d93bda9d) and the per-level counts 50, 88, 4, 38, 49 kept and 0, 12, 96, 112, 101 new; the Thai scan exit 0 with 0 Thai characters in all 38 files of the phase diff. The committed map matches every plan claim: 229 map rows, 321 new ids, one-to-one keep ids and packages, 0 'undefined' keep ids (ADV-F3 DECLINE verified), and no absolute path token. A5: every plan evidence claim matched its capture and my own reruns. A3: the count assertions are labeled integer parses. A4, A6, and A7 hold. No fake-gate masking, no artifact-only test, no stale intentional-red in the suite, no plan/commit-SHA mismatch, no missing caller update (the Phase 7 precondition names the map), and no incomplete behavior.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "Provenance: git rev-parse HEAD returns 4fb8d2c5a9ca031f4b18125eb01b5ae3d06ac839 before and after all gates.",
+    "Test-only commit allowed: git diff --name-only 707ddd3e..4fb8d2c5 lists only measure/runs/levels_5_9_20261006/adversarial-7r-707ddd3e.json, .log, and .txt, so the prerequisite results at 707ddd3e apply at the audited head; this acceptance records the exact head 4fb8d2c5 and names 4fb8d2c5 as the test-only commit it allowed (implementation content unchanged between 707ddd3e and 4fb8d2c5).",
+    "Gate 1, RED=GREEN ('set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts'): exit 0, Test Files 2 passed (2), Tests 33 passed (33); capture measure/runs/levels_5_9_20261006/pa-7r-red-green.txt. This matches the plan r2 claim (green-7r-r2-tests.txt) and the adversarial round 2 capture.",
+    "Gate 2, PROJECT_TESTS with the 3 documented excludes ('set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts --exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts', output filtered inside the command to the summary lines only, so no other test's Thai text reached this role): exit 0, Test Files 164 passed (164), Tests 3144 passed (3144); capture pa-7r-project-tests.txt. The 3 excluded files are the open Red file of storytime_l2_unit2_20261106 (test-strategy 7R.10) and the 2 earlier-failure files that also fail at the phase base afbfcf0e (green-g2-baseline-r2.txt); neither of the 2 earlier-failure files is in the phase diff 3a929928..4fb8d2c5, so this phase changed nothing that could mask them. No other test fails.",
+    "Gate 3, PROJECT_LINT (the plan.md command word for word, then the 3 Phase 7R files, in one heavy-run with an && chain): 'cd dashboard && npx eslint scripts/plan-dedup.ts __tests__/plan-dedup.test.ts --no-error-on-unmatched-pattern' -> exit 0, then 'npx eslint scripts/rebuild-map.ts __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts --no-error-on-unmatched-pattern' -> exit 0, 0 output lines; capture pa-7r-lint.txt. This matches the plan r2 claim ('exits 0 for the plan command and for the 3 Phase 7R files').",
+    "Gate 4, PROJECT_CHECKS ('set -o pipefail; cd dashboard && npx tsc --noEmit'): exit 0 with 0 output lines; capture pa-7r-tsc.txt. This matches the plan r2 claim (green-7r-r2-tsc.txt, 0 lines).",
+    "Gate 5, determinism ('set -o pipefail; cd dashboard && npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/pa-7r-fresh.json && cmp /tmp/opencode/pa-7r-fresh.json ../docs/content-plans/data/rebuild-map-levels-5-9.json'): exit 0. The fresh run's own log lines give level 5: 50 kept, 0 new; level 6: 88 kept, 12 new; level 7: 4 kept, 96 new; level 8: 38 kept, 112 new; level 9: 49 kept, 101 new; total 229 mapped and 321 new. sha256sum gives d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab for both the fresh file and the committed map; capture pa-7r-determinism.txt. This refutes the Green mutant d (the reader order) at the head and matches the plan r2 determinism claim.",
+    "Gate 6, Thai scan (python3 over git diff --name-only 3a929928..4fb8d2c5, in a heavy-run): exit 0, 38 files, thai_chars=0 on every file, with_thai=0; capture pa-7r-thai.txt. The 38 files cover both test files, which the earlier green-7r-thai.txt and green-7r-r2-thai.txt captures did not list.",
+    "Post-gate hygiene: git status --porcelain on dashboard/, docs/, and pnpm-lock.yaml shows only the untracked dashboard/raw.json, which pre-dates the phase (Oct 28) and belongs to another track; the modified video/storytime-song/scripts/render.mjs also belongs to another track and sits outside the phase diff; pnpm-lock.yaml is unchanged; HEAD stays 4fb8d2c5.",
+    "Committed map content (python3 read): level rows kept 50, 88, 4, 38, 49 over packages 50, 100, 100, 150, 150 with mapped equal to kept; 229 map rows; 321 newIds rows; new ids per level 5:0, 6:12, 7:96, 8:112, 9:101; 229 unique keepIds; 550 unique packages across map and newIds; 0 keepIds equal to 'undefined'; no 'REPO_ROOT', 'tmpdir', or '/home/' token. sha256sum gives d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab and stat gives 39,495 bytes, equal to the plan Green evidence claim.",
+    "Phase scope: git diff --name-only 3a929928..4fb8d2c5 lists dashboard/__tests__/rebuild-map.test.ts, dashboard/__tests__/rebuild-map.adversarial.test.ts, dashboard/scripts/rebuild-map.ts, docs/content-plans/data/rebuild-map-levels-5-9.json, this track's measure/runs captures, and measure/tracks/levels_5_9_20261006/plan.md only. No content/ path and no other track's file.",
+    "Per-commit scope (git diff-tree -r --no-renames per commit): Red 0718e305 = the Red test file + plan; Green ef7c0fc1 = the script + the committed map (the closeout rule's exact 2 files); b5cab6da = plan only (task [x]); adversarial 7d16f48f = the adversarial test file; fix e256a6bc = dashboard/scripts/rebuild-map.ts only; 707ddd3e = plan only (r2 evidence); 4fb8d2c5 = this track's captures only.",
+    "A5, plan r1 claims vs captures: green-7r-red-rerun.txt holds exit 1 with 'Cannot find module' and Tests 23 skipped; green-7r-tests.txt holds 1 file, 23 passed; green-7r-project-tests.txt holds 163 files, 3134 passed; green-7r-tsc.txt holds 0 lines; green-7r-mutants.txt holds the claimed results (mutants a, b, c, d2 caught by a named test; mutant d caught by the committed-map comparison only); green-7r-thai.txt holds thai_lines=0 on every listed file.",
+    "A5, plan r2 claims vs captures and my reruns: green-7r-r2-red-rerun.txt holds 3 failed at b5cab6da (fail-first for both defects); green-7r-r2-tests.txt holds 2 files, 33 passed; green-7r-r2-project-tests.txt holds 164 files, 3144 passed; green-7r-r2-tsc.txt holds 0 lines; green-7r-r2-determinism.txt holds cmp exit 0 with sha256 d93bda9d; my gates 1, 2, 4, and 5 reproduce the same results at the audited head. Every claim matched.",
+    "A3, labeled counts: dashboard/__tests__/rebuild-map.test.ts parses the map JSON and asserts labeled integer fields (levelsByLevel with toMatchObject on level, kept, packages, mapped; toHaveLength on map, newIds, and filtered groups; the EXPECTED_KEPT and EXPECTED_PACKAGES records), so no count or baseline claim rests on a bare digit match.",
+    "A4, markers: Phase 7R holds exactly 1 task and it is [x] (Task 7.0, commit ef7c0fc1, fix e256a6bc), so a markers-consistency check is not vacuous here.",
+    "A6, registry: measure/tracks.md line 29 keeps the track at [~] and states no resolved or security claim for Phase 7R, so no registry overstatement exists.",
+    "A7, filters: the phase diff changes no filter and no banned-term check, so the over-broad-filter surface does not apply.",
+    "ADV-F3 DECLINE verified: the committed map holds 0 keepIds equal to 'undefined' (python3 count), the Red test pins the 229 real kept ids, and the adversarial current-behavior test stays green; the declined Nit stays recorded as an uncontracted edge.",
+    "Caller wiring: the Phase 7 precondition in plan.md names docs/content-plans/data/rebuild-map-levels-5-9.json as the injector input, and the committed map holds the shape the plan fixes (source, levels, map, newIds), so the caller contract is intact.",
+    "Prerequisites: review-a-7r-b5cab6da.json PASS with 2 Nits (closed as named tests in 7d16f48f); review-b-7r-b5cab6da.json PASS with F1 Major and F2 Nit (routed as DEFECT-1 and DEFECT-2); adversarial-7r-b5cab6da.json FAIL with DEFECT-1 and DEFECT-2, both fixed in e256a6bc (the script only); review-a-7r-707ddd3e.json, review-b-7r-707ddd3e.json, and adversarial-7r-707ddd3e.json all PASS with 0 findings; every cited role gate exits 0. Review C and the UX browser review do not apply (test-strategy 7R.7: no route, no UI, no user flow).",
+    "Thai rule kept: this role read and wrote no lesson package JSON under content/; the PROJECT_TESTS output was filtered inside the gate command to the summary lines only, and no Thai text reached this role's captures."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 4fb8d2c5a9ca031f4b18125eb01b5ae3d06ac839 (before and after all gates)",
+    "git diff --name-only 707ddd3e..4fb8d2c5 -> 3 measure/runs files of this track only",
+    "git diff --name-only 3a929928..4fb8d2c5 -> the 3 phase files, the committed map, plan.md, and captures only",
+    "git diff-tree -r --no-renames --name-only per commit 0718e305, ef7c0fc1, b5cab6da, 7d16f48f, e256a6bc, 707ddd3e, 4fb8d2c5 -> the per-commit scope above",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts' -> exit 0, Tests 33 passed (33)",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts --exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts 2>&1 | grep -E \"Test Files|Tests |Duration\"' -> exit 0, Test Files 164 passed (164), Tests 3144 passed (3144)",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'set -o pipefail; cd dashboard && npx eslint scripts/plan-dedup.ts __tests__/plan-dedup.test.ts --no-error-on-unmatched-pattern && npx eslint scripts/rebuild-map.ts __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts --no-error-on-unmatched-pattern' -> exit 0, 0 output lines",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'set -o pipefail; cd dashboard && npx tsc --noEmit' -> exit 0, 0 output lines",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'set -o pipefail; cd dashboard && npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/pa-7r-fresh.json && cmp /tmp/opencode/pa-7r-fresh.json ../docs/content-plans/data/rebuild-map-levels-5-9.json' -> exit 0; the log lines give kept 50/88/4/38/49 and new 0/12/96/112/101, total 229 and 321",
+    "sha256sum /tmp/opencode/pa-7r-fresh.json docs/content-plans/data/rebuild-map-levels-5-9.json -> both d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'python3 -c \"<Thai scan>\"' -> exit 0, 38 files, with_thai=0",
+    "python3 map read -> kept 50/88/4/38/49, packages 50/100/100/150/150, 229 map rows, 321 newIds, new per level 0/12/96/112/101, 0 undefined keepIds, no absolute path token",
+    "sha256sum + stat of the committed map -> d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab, 39495 bytes",
+    "grep of green-7r-*.txt and green-7r-r2-*.txt captures -> every plan evidence line matched",
+    "git status --porcelain dashboard/ docs/ pnpm-lock.yaml -> only the untracked dashboard/raw.json of another track; pnpm-lock.yaml unchanged"
+  ],
+  "changed_files": [
+    "measure/runs/levels_5_9_20261006/phase-acceptance-7r-4fb8d2c5.json",
+    "measure/runs/levels_5_9_20261006/phase-acceptance-7r-4fb8d2c5.log",
+    "measure/runs/levels_5_9_20261006/pa-7r-red-green.txt",
+    "measure/runs/levels_5_9_20261006/pa-7r-project-tests.txt",
+    "measure/runs/levels_5_9_20261006/pa-7r-lint.txt",
+    "measure/runs/levels_5_9_20261006/pa-7r-tsc.txt",
+    "measure/runs/levels_5_9_20261006/pa-7r-determinism.txt",
+    "measure/runs/levels_5_9_20261006/pa-7r-thai.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "Gate 5 at head 4fb8d2c5: a fresh default run reproduces the committed map byte for byte (cmp exit 0, sha256 d93bda9d) with kept 50/88/4/38/49 and new 0/12/96/112/101, and the defect paths exit 2 with no write (33 passed in gate 1)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "Every claim has a named falsifiable test: the 3 defect tests fail-first at b5cab6da (green-7r-r2-red-rerun.txt), mutants a, b, c, d2 are caught by named tests and d by the committed-map comparison (green-7r-mutants.txt), and my gate 1 rerun gives 33 passed."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff-tree per commit: ef7c0fc1 holds exactly the closeout rule's 2 files (the script and the map), e256a6bc holds the script only, 7d16f48f holds the adversarial test only, and the phase diff holds no unrelated file."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a gate exit code from my own foreground heavy-run (6 gates, all exit 0), a capture file, or a file:line, and every plan evidence line matched its capture."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "opencode-go/glm-5.3#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "Round 1 PASS at b5cab6da with 2 true Nits (the untested reader order and the untested overflow guard), both closed as named tests in 7d16f48f, re-verified by its round 2 PASS at 707ddd3e with its own heavy-run exit 0 and 33 passed."
+    },
+    {
+      "reviewer_role": "review-b",
+      "reviewer_route": "minimax-cn-coding-plan/MiniMax-M3#high",
+      "agreed": true,
+      "score": 4,
+      "evidence": "Round 1 F1 was a real Major defect (a wrong duplicates file overwrites the injector input and returns 0), fixed and verified in e256a6bc; its round 2 PASS is correct, though its retry_recommendation field reads escalate_human in both rounds while its status and role gate read pass."
+    },
+    {
+      "reviewer_role": "adversarial",
+      "reviewer_route": "opencode-go/glm-5.3#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "Round 1 correctly failed the gate with 2 real defects backed by failing tests at b5cab6da; round 2 verified both fixes with a foreground heavy-run exit 0, 33 passed, and named the DECLINE of ADV-F3, which my own map read confirms with 0 'undefined' ids."
+    }
+  ]
+}
