@@ -1,0 +1,29 @@
+Adversarial round for Phase 1G, track levels_5_9_20261006.
+Role: measure-adversarial-testing. Head audited: edeb8529d584cfbc2fa0e7c22066897bc348e286.
+Phase base: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7. Role base: edeb8529d584cfbc2fa0e7c22066897bc348e286.
+New file: dashboard/__tests__/plan-dedup.adversarial.test.ts, 16 tests. The Red file is unchanged.
+
+Surfaces attacked and results:
+- displayPath: a sibling folder whose name starts with REPO_ROOT (REPO_ROOT + '-other') counts as outside and shows only the basename; dot-dot segments resolve before the inside check; out paths through a symlinked temp folder run clean and leak no machine path. All pass (plan line 51).
+- keepCount (F7): printed 3 with target 2 keeps 0 and never a negative count; a target of 0 counts as met. All pass (plan lines 61 and 70).
+- Level and target edges: a negative, fractional, or empty target exits 2 with the message then the usage; a listed level with no article writes the exact empty line; an article whose level is outside --levels never reaches an output; an empty inventory and an inventory without an articles key both run. All pass.
+- no-readAt (F10): an empty readAt string falls back to the inventory basename, never 'inventory of .'. Passes (plan line 62).
+- Determinism: two runs of the same input give identical bytes, with two groups that hold one identical keep title each. The plan claims no input-order independence, so only same-order determinism is tested. Passes.
+- 1-4/5-9 separation: a levels 5-9 output holds none of the exact levels 1-4 strings. The scan uses exact strings, not bare words (A7 defense). Passes.
+- Missing file (F13): a relative missing --inventory names the resolved absolute path, then the usage, exits 2, with empty stdout and no stack line. This pins the accepted behavior of Review C F3 (DECLINE).
+
+Defects: none. No test fails against the plan rules, so nothing goes to Green.
+Nonblocking Nits: F1, a duplicated --levels entry emits the level twice (uncontracted); F2, --targets rejects spaces while --levels accepts them (uncontracted).
+
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)
+commits: none before this log; the round commits dashboard/__tests__/plan-dedup.adversarial.test.ts plus the three measure/runs captures of this round
+tests_run: heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.adversarial.test.ts __tests__/plan-dedup.test.ts 2>&1 | tee ../measure/runs/levels_5_9_20261006/adversarial-p1g-edeb8529.txt' -> exit 0, Tests 57 passed (57): 16 adversarial + 41 Red, Test Files 2 passed (2); npx eslint __tests__/plan-dedup.adversarial.test.ts -> exit 0; heavy-run 'cd dashboard && npx tsc --noEmit' -> exit 0, 0 output lines
+files_changed: dashboard/__tests__/plan-dedup.adversarial.test.ts (new), measure/runs/levels_5_9_20261006/adversarial-p1g-edeb8529.txt, measure/runs/levels_5_9_20261006/adversarial-p1g-edeb8529.json, measure/runs/levels_5_9_20261006/adversarial-p1g-edeb8529.log
+plan_updates: none; the result file measure/runs/levels_5_9_20261006/adversarial-p1g-edeb8529.json is the record of this round
+known_failures: none in this round. The 3 other-track failures of PROJECT_TESTS (constants.test.ts, origins-thai-support.test.ts) still fail at the phase base and are not touched here.
+handoff: No implementation defect. Route the 2 Nits (F1 duplicate --levels emits the level twice; F2 targets-space asymmetry) to Green or the plan author; both are uncontracted edges, so DECLINE is valid. The combined 57-test run is the regression proof for the acceptance role. Any later implementation commit to plan-dedup.ts invalidates this result and needs this gate again.
+END_MEASURE_AGENT_RESULT

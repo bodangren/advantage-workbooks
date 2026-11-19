@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "role": "measure-adversarial-testing",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)",
+  "baseline_sha": "afbfcf0e19924f48b49a4b9e92ec3b6671f623e7",
+  "phase_base_sha": "afbfcf0e19924f48b49a4b9e92ec3b6671f623e7",
+  "role_base_sha": "edeb8529d584cfbc2fa0e7c22066897bc348e286",
+  "audited_head_sha": "edeb8529d584cfbc2fa0e7c22066897bc348e286",
+  "status": "pass",
+  "summary": "One focused adversarial round on the Phase 1G diff afbfcf0e..edeb8529 (dashboard/scripts/plan-dedup.ts plus its Red test). 16 new tests in dashboard/__tests__/plan-dedup.adversarial.test.ts attack the surfaces of the strategy: path resolution, displayPath, keepCount, the missing file, no-readAt, level and target edges, determinism, and 1-4/5-9 output separation. All 16 pass; no plan rule breaks, so no defect goes to Green. The negative keepCount guard (Math.max), the sibling-prefix path trap, the symlink path trap, and the empty-readAt fallback each hold under direct attack. The combined run holds the Red file's 41 tests as well (57 passed total), so the levels 1-4 byte identity stands. Two uncontracted edges are pinned or reported as Nits: a duplicated --levels entry emits the level twice, and --targets rejects spaces while --levels accepts them.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Nit] adversarial-testing: --levels accepts a duplicate entry and the run emits the level twice. A live probe `npx tsx scripts/plan-dedup.ts --inventory <2-article fixture> --levels 5,5 --targets 5=50` exits 0, prints the level 5 log line twice, and writes 2 `## Level 5` sections and 4 JSON group entries (2 groups doubled). Rationale: plan.md line 52 lists the flag shape and line 63 lists the bad values, and neither names duplicates; the output is odd but no plan rule breaks. Owner: Green or the plan author. Fix: reject a duplicate level in parseLevels, or record the behavior in the plan.",
+    "F2 [Nit] adversarial-testing: --levels trims spaces around entries ('5, 6' parses) while --targets does not ('5=50, 6=100' fails with the generic pair message). Rationale: plan.md line 52 names no space rule for either flag; a user who writes spaces after one comma gets an error only on the targets side. Owner: Green or the plan author. Fix: trim the targets parts like the levels parts, or record the asymmetry in the plan."
+  ],
+  "evidence": [
+    "Provenance: git rev-parse HEAD returns edeb8529d584cfbc2fa0e7c22066897bc348e286, equal to the audited head, before and after the round.",
+    "Boundary: displayPath(path.join(REPO_ROOT + '-other', 'x.json')) returns 'x.json' and displayPath(path.join(REPO_ROOT + '2026', 'y.json')) returns 'y.json' — test 'treats a sibling folder whose name starts with the repository name as outside' (plan.md line 51: inside REPO_ROOT shows the repo-relative form, else the basename). A string-prefix check would fail this test.",
+    "Boundary: displayPath resolves dot-dot segments before the inside check; an inside path with '../data' shows the repo-relative form and REPO_ROOT + '/../dupes.json' shows the basename — test 'resolves dot-dot segments before the inside check'.",
+    "Integration: out paths through a symlinked temp folder run clean (exit 0), the files land in the real folder, and both outputs hold no REPO_ROOT and no os.tmpdir() string — test 'runs through the symlink and leaks no machine path' (plan.md line 51, display works on the given string).",
+    "Guard: with 3 printed, target 2, and 2 online, keepCount stays 0, the JSON holds no group of the level, and the line reads 'Keep 0 online articles; the printed articles already meet the target.' — test 'keeps 0 online articles and never a negative keep count' (plan.md line 70, F7). The target minus the printed count is -1 here, so a dropped Math.max guard would hang or crash the cluster loop.",
+    "Guard: a target of 0 keeps 0 online articles and writes no group — test 'treats a target of 0 as already met' (plan.md line 61, printed count at or above the target).",
+    "Contract: a negative ('5=-1'), fractional ('5=1.5'), and empty ('5=') target each return { ok: false }, print the message then the usage to stderr, leave stdout empty, and exit 2 — test 'rejects a negative, fractional, or empty target'.",
+    "Edge: a listed level with no article writes the section and the exact line '0 articles: 0 printed, 0 online. Keep all 0 online articles; none is similar to another.' — test 'writes the empty level line and no group'. Uncontracted, pinned.",
+    "Edge: an inventory article whose level is outside --levels never reaches the JSON or the Markdown — test 'ignores an article whose level is not listed'.",
+    "Edge: an empty inventory and an inventory without an articles key both exit 0, write no group, and name the inventory through displayPath — tests 'exits 0 and writes no group' and 'accepts an inventory without an articles key'.",
+    "F10 extension: readAt as an empty string falls back to the inventory basename in the source string and the intro — test 'falls back to the inventory file name' (plan.md line 62). A '||' to '??' mutant would print 'inventory of .' and fail this test.",
+    "Determinism: two runs of the same input give identical bytes in both files, with two groups that hold one identical keep title each and the exact level line '4 articles: 0 printed, 4 online. Keep 2 online articles; 2 are similar to a kept one. 2 groups have more than one article; the weakest merge had similarity 1.00.' — test 'gives the same bytes on two runs of the same input' (plan.md line 58 template; the plan claims no input-order independence, so only same-order determinism is tested).",
+    "Separation: a levels 5-9 output holds none of the exact levels 1-4 strings ('Levels 1\u20134', 'level_banks_20261002', 'duplicates-levels-1-4', '| Keep | Delete (similar) |', 'in total with the printed ones', 'delete all but the best') — test 'names no levels 1-4 string in a levels 5-9 output'. The scan uses exact strings, not bare words, so no hit can drop through a word filter (A7 defense).",
+    "Accepted deviation pinned: a relative missing --inventory prints 'inventory file not found: <resolved absolute path>', then the usage, exits 2, leaves stdout empty, and shows no stack line — test 'names the resolved path, then the usage, and exits 2' (Review C F3, DECLINE by the owner; plan.md line 75 says '<the given path>').",
+    "Regression: the combined vitest run passes the Red file's 41 tests together with the 16 new tests, so the levels 1-4 byte identity and all Task 1.G1 rules still hold at this head; capture measure/runs/levels_5_9_20261006/adversarial-p1g-edeb8529.txt shows 'Tests 57 passed (57)'.",
+    "Hygiene: npx eslint __tests__/plan-dedup.adversarial.test.ts exits 0; npx tsc --noEmit exits 0 in a heavy-run with 0 output lines, so the new file adds no type error to the PROJECT_CHECKS gate; git status --porcelain docs/ is empty at round end; every test writes only under os.tmpdir().",
+    "No vacuous pass (A4): each new test asserts concrete strings, counts, or exit codes; the empty-inventory tests assert exact lines rather than a bare absence.",
+    "Thai filter scope: this round read and wrote no content/storytime week file, so the non-Claude Thai filter rule does not apply."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> edeb8529d584cfbc2fa0e7c22066897bc348e286 (before and after)",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.adversarial.test.ts __tests__/plan-dedup.test.ts 2>&1 | tee ../measure/runs/levels_5_9_20261006/adversarial-p1g-edeb8529.txt' -> Tests 57 passed (57): 16 adversarial + 41 Red; Test Files 2 passed (2)",
+    "cd dashboard && npx eslint __tests__/plan-dedup.adversarial.test.ts -> exit 0",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsc --noEmit' -> exit 0, 0 output lines",
+    "cd dashboard && npx tsx scripts/plan-dedup.ts --inventory /tmp/opencode/adv-p1g/inv.json --levels 5,5 --targets 5=50 --out-json /tmp/opencode/adv-p1g/out.json --out-md /tmp/opencode/adv-p1g/out.md -> exit 0, level 5 log line twice, 2 '## Level 5' sections, 4 level-5 JSON group entries (basis of F1)",
+    "git status --porcelain docs/ -> empty at round end"
+  ],
+  "changed_files": [
+    "dashboard/__tests__/plan-dedup.adversarial.test.ts",
+    "measure/runs/levels_5_9_20261006/adversarial-p1g-edeb8529.txt",
+    "measure/runs/levels_5_9_20261006/adversarial-p1g-edeb8529.json",
+    "measure/runs/levels_5_9_20261006/adversarial-p1g-edeb8529.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "Every attacked plan rule holds at edeb8529: the sibling-prefix and symlink displayPath traps, the F7 negative and zero keep guards, the F10 empty-readAt fallback, and the 1-4/5-9 string separation all pass in adversarial-p1g-edeb8529.txt."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "The 16 new tests assert exact strings, counts, exit codes, and file contents, not mocks of the command path; main runs live against temporary files, and the Math.max mutant (a dropped keepCount floor) would hang or crash the new above-target test."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The round changes only dashboard/__tests__/plan-dedup.adversarial.test.ts plus this track's three measure/runs captures; no production file, no docs/ file, and no Red file line changed (git status --porcelain docs/ empty)."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Each claim names its test and its capture: adversarial-p1g-edeb8529.txt (Tests 57 passed), the eslint exit 0, the tsc heavy-run with 0 lines, and the /tmp duplicate-levels probe that grounds F1."
+    }
+  ]
+}
