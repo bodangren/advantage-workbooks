@@ -1,0 +1,4 @@
+run: cd dashboard && npx tsx scripts/rebuild-map.ts --out-json /tmp/opencode/r2-map-fresh.json -> exit 0
+cmp fresh vs committed: exit 0
+d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab  /tmp/opencode/r2-map-fresh.json
+d93bda9dfe5c1626a95f7f92d9705d9d8d5773ceab4b855eba0725b8965de8ab  docs/content-plans/data/rebuild-map-levels-5-9.json

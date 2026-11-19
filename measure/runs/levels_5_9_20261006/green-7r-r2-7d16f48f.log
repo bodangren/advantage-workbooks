@@ -1,0 +1,22 @@
+# Green r2 · Task 7.0 · levels_5_9_20261006 · provisional result
+
+Phase heading: `## Phase 7R: Rebuild map (Daniel 2026-11-19)`.
+Immutable `phase_base_sha`: `3a929928f9f45791ca2c6a5945f26707f79a7f7d`.
+`role_base_sha` (r2): `7d16f48f96688d9574cadb5ca96b370418621337` (the adversarial round, GLM).
+Round-1 code commit `ef7c0fc1`, round-1 evidence commit `b5cab6da`, r2 fix commit `e256a6bc`.
+
+The r2 fix changes `dashboard/scripts/rebuild-map.ts` only. The committed map stays
+byte-identical (sha256 `d93bda9d`). No test file changed.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 7R: Rebuild map (Daniel 2026-11-19)
+commits: e256a6bc (fix)
+tests_run: gate 1 `CI=true npx vitest run __tests__/rebuild-map.test.ts __tests__/rebuild-map.adversarial.test.ts` exit 0, 33 passed (baseline before the fix: exit 1, 3 failed); gate 2 project suite exit 0, 164 files and 3144 tests passed; gate 3 eslint exit 0 (plan command and the 3 Phase 7R files); gate 4 `npx tsc --noEmit` exit 0 with 0 lines; gate 5 a fresh default run equals the committed map (cmp exit 0, sha256 d93bda9d); gate 6 Thai grep gives 0 on every committed file
+files_changed: dashboard/scripts/rebuild-map.ts (fix, 12 insertions and 2 deletions); measure/tracks/levels_5_9_20261006/plan.md; captures measure/runs/levels_5_9_20261006/green-7r-r2-*.txt and green-7r-r2-7d16f48f.log
+plan_updates: Task 7.0 stays `[x]`; its task line reads `commit ef7c0fc1, fix e256a6bc`; one new evidence sub-line records the r2 fix and the gate exits
+known_failures: none
+handoff: DEFECT-1 (review B F1) and DEFECT-2 (review B F2) are fixed in 1 file. A duplicates file with no groups key or an empty groups array exits 2 with the message and the usage, and it leaves the out file untouched. A write failure, such as a missing out folder, exits 2 with the message and the usage and no stack trace. Nit F3 behavior stays: a group with no keep key still maps to the id `undefined`, as the adversarial test pins it. The map file and every test file are unchanged. Immutable phase_base_sha 3a929928f9f45791ca2c6a5945f26707f79a7f7d; r2 role_base_sha 7d16f48f; green HEAD e256a6bc plus the evidence commit.
+END_MEASURE_AGENT_RESULT
