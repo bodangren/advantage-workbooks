@@ -1,0 +1,62 @@
+P8 scope record (review A r4 F21, F22) — S5 fix round 2
+Track primary_v2_look_20261020, 2026-11-20. Exit codes and English lines only.
+
+P8 scope: four Git pathspecs. They cover every render input, the fonts, and the two lessons.
+  dashboard
+  :(exclude)dashboard/__tests__
+  content/primary/quest-5
+  content/primary/adventure-9.2
+
+The same pathspecs feed git diff and git status. COMMIT_ID validation, --end-of-options, the
+artifact hashes, and the head compare stay.
+
+| Fixture | Change | Exit | Result |
+|---|---|---|---|
+| inject-output | git_head --output=/tmp/opencode/x | 1 | FAIL: not a hex id; /tmp/opencode/x absent |
+| inject-command | git_head HEAD;rm | 1 | FAIL: not a hex id; no command ran |
+| product | dangling commit from HEAD with dashboard/lib/template-renderer.ts changed | 1 | FAIL: product_changed_since_manifest True |
+| tests-only | dangling commit from HEAD with dashboard/__tests__/chibi-quest-kit.test.ts changed | 0 | pass: product_changed_since_manifest False |
+
+The two dangling commits change no ref and no working-tree file.
+
+Captured outputs:
+--- manifest-inject-output ---
+P8: manifest git_head --output=/tmp/opencode/x
+P8: FAIL the manifest git_head is not a hex commit id; no manifest value reaches Git as an option
+exit 1
+
+--- manifest-inject-command ---
+P8: manifest git_head HEAD;rm
+P8: FAIL the manifest git_head is not a hex commit id; no manifest value reaches Git as an option
+exit 1
+
+--- manifest-product ---
+P8: manifest git_head 3851acbbc3e07968cc7efe0ccb7fbb51c9d9cc3e
+P8: head at check 8178f200a0a05ac1b45c164e8a8ad467616f6ff2, same_head False, product_changed_since_manifest True
+P8: render scope 4 pathspecs (dashboard except its tests; the 2 lesson folders)
+P8 quest5-l01: package sha256 match True
+P8 quest5-l01: html sha256 match True
+P8 quest5-l01: pdf sha256 match True
+P8 quest5-l01: contact sha256 match True
+P8 adventure92-l09: package sha256 match True
+P8 adventure92-l09: html sha256 match True
+P8 adventure92-l09: pdf sha256 match True
+P8 adventure92-l09: contact sha256 match True
+P8: tracked files edited in the render scope 0
+exit 1
+
+--- manifest-tests ---
+P8: manifest git_head 14ff74c859881ac5a35f722fefd3a48adcb677ac
+P8: head at check 8178f200a0a05ac1b45c164e8a8ad467616f6ff2, same_head False, product_changed_since_manifest False
+P8: render scope 4 pathspecs (dashboard except its tests; the 2 lesson folders)
+P8 quest5-l01: package sha256 match True
+P8 quest5-l01: html sha256 match True
+P8 quest5-l01: pdf sha256 match True
+P8 quest5-l01: contact sha256 match True
+P8 adventure92-l09: package sha256 match True
+P8 adventure92-l09: html sha256 match True
+P8 adventure92-l09: pdf sha256 match True
+P8 adventure92-l09: contact sha256 match True
+P8: tracked files edited in the render scope 0
+exit 0
+

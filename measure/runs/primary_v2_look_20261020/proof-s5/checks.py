@@ -9,6 +9,9 @@ adds P11 (the lesson pictures). Round 3 adds P12 (every picture caption prints
 on the page of its picture). Round 5 adds P13 (every picture keeps its aspect
 ratio) and makes P8 compare the manifest git_head with the product at HEAD.
 Round 6 adds the P8 commit-id validation and narrows the P8 render scope.
+Round 7 (S5 fix round 2) sets the P8 scope to four Git pathspecs (review A r4
+F21) and adds P14 (hero width 84.8 mm), P15 (step-header gap), and P16 (label
+size and italic face).
 P7 also asserts that the stripped print copy
 holds no unpkg script tag, and P8 compares the proof HTML hash and the tracked
 state of `dashboard` and `content`.
@@ -364,17 +367,13 @@ def check_p7():
     return ok, lines
 
 
-# The print-product paths that a proof render reads (review A r3 F19). A change outside this
-# list does not change a proof, so it does not fail P8.
-P8_PATHS = [
-    'dashboard/lib/document-wrapper',
-    'dashboard/templates/primary_template.html',
-    'dashboard/scripts/render-lesson-html.ts',
-    'dashboard/lib/print/render.ts',
-    'content/primary/quest-5/l01.json',
-    'content/primary/adventure-9.2/l09.json',
-    'content/primary/quest-5/media',
-    'content/primary/adventure-9.2/media',
+# The P8 render scope (review A r4 F21, review A r3 F19). Four Git pathspecs cover every render
+# input: the app code and fonts under dashboard (except its tests), and the two lesson folders.
+P8_SCOPE = [
+    'dashboard',
+    ':(exclude)dashboard/__tests__',
+    'content/primary/quest-5',
+    'content/primary/adventure-9.2',
 ]
 COMMIT_ID = re.compile(r'[0-9a-f]{7,40}')
 
@@ -398,12 +397,12 @@ def check_p8():
         return False, lines
     head_now = subprocess.run(['git', '-C', REPO, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
     product = subprocess.run(
-        ['git', '-C', REPO, 'diff', '--quiet', '--end-of-options', built, head_now, '--', *P8_PATHS],
+        ['git', '-C', REPO, 'diff', '--quiet', '--end-of-options', built, head_now, '--', *P8_SCOPE],
         capture_output=True, text=True,
     )
     product_changed = product.returncode != 0
     lines.append(f'P8: head at check {head_now}, same_head {head_now == built}, product_changed_since_manifest {product_changed}')
-    lines.append(f'P8: render scope {len(P8_PATHS)} paths (document-wrapper, template, render scripts, the 2 packages and their media)')
+    lines.append('P8: render scope 4 pathspecs (dashboard except its tests; the 2 lesson folders)')
     ok = ok and not product_changed
     for tag in PROOFS:
         entries = (
@@ -418,7 +417,7 @@ def check_p8():
             good = bool(found) and found.group(1) == want
             lines.append(f'P8 {tag}: {kind} sha256 match {good}')
             ok = ok and good
-    status = subprocess.run(['git', '-C', REPO, 'status', '--porcelain', '--', *P8_PATHS], capture_output=True, text=True).stdout.splitlines()
+    status = subprocess.run(['git', '-C', REPO, 'status', '--porcelain', '--', *P8_SCOPE], capture_output=True, text=True).stdout.splitlines()
     dirty = [line for line in status if not line.startswith('??')]
     lines.append(f'P8: tracked files edited in the render scope {len(dirty)}')
     ok = ok and not dirty
@@ -517,14 +516,14 @@ def check_p12():
 
 
 def pdf_image_ppi(pdf):
-    """The page, x-ppi, and y-ppi of every image in the PDF, in document order."""
+    """The page, pixel width, pixel height, x-ppi, and y-ppi of every image, in document order."""
     out = subprocess.run(['pdfimages', '-list', pdf], capture_output=True, text=True).stdout
     rows = []
     for line in out.splitlines():
         if not re.match(r'^\s*\d+\s+\d+\s+image\b', line):
             continue
         parts = line.split()
-        rows.append((int(parts[0]), float(parts[12]), float(parts[13])))
+        rows.append((int(parts[0]), float(parts[3]), float(parts[4]), float(parts[12]), float(parts[13])))
     return rows
 
 
@@ -534,7 +533,7 @@ def check_p13():
     for tag in PROOFS:
         rows = pdf_image_ppi(os.path.join(FOLDER, f'{tag}.pdf'))
         off = 0
-        for page, x_ppi, y_ppi in rows:
+        for page, _width, _height, x_ppi, y_ppi in rows:
             high = max(x_ppi, y_ppi)
             delta = abs(x_ppi - y_ppi) / high if high else 1.0
             square = delta <= 0.02
@@ -545,10 +544,122 @@ def check_p13():
     return ok, lines
 
 
+P15_DPI = 300
+P15_MIN_MM = 3.0
+P16_MIN_PX = 10.66
+WORD_BOX = re.compile(r'<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">([^<]*)</word>')
+
+
+def check_p14():
+    """P14: the hero prints at full inline width, 84.8 mm within 1 mm."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        rows = pdf_image_ppi(os.path.join(FOLDER, f'{tag}.pdf'))
+        page, width_px, _height, x_ppi, _y_ppi = rows[0] if rows else (0, 0, 0, 0, 0)
+        width_mm = width_px / x_ppi * 25.4 if x_ppi else 0
+        exact = abs(width_mm - 84.8) <= 1.0
+        lines.append(f'P14 {tag}: hero page {page} width_px {width_px:g} x_ppi {x_ppi:g} width_mm {width_mm:.2f} within_1mm {exact}')
+        ok = ok and exact
+    return ok, lines
+
+
+def page_title_boxes(pdf, page):
+    """The top, left, right (points) and step number of each step title on the page."""
+    out = subprocess.run(['pdftotext', '-bbox', '-f', str(page), '-l', str(page), pdf, '-'], capture_output=True, text=True).stdout
+    words = [(float(x0), float(y0), float(x1), float(y1), text) for x0, y0, x1, y1, text in WORD_BOX.findall(out)]
+    found = []
+    lines_by_y = {}
+    for word in words:
+        lines_by_y.setdefault(round(word[1], 1), []).append(word)
+    for items in lines_by_y.values():
+        items = sorted(items)
+        joined = ' '.join(item[4] for item in items)
+        for index, name in enumerate(NAMES, 1):
+            if name not in joined:
+                continue
+            parts = [item for item in items if item[4] in name.split()]
+            if parts:
+                found.append((min(part[1] for part in parts), min(part[0] for part in parts), max(part[2] for part in parts), index))
+    return found
+
+
+def pixel_gap_mm(image, top_pt, left_pt, right_pt):
+    """The white gap in mm between the header block and the nearest ink above it."""
+    scale = P15_DPI / 72.0
+    y = int(top_pt * scale)
+    cx = int((left_pt + right_pt) / 2 * scale)
+    if cx < 0 or cx >= image.width:
+        return None
+    pixels = image.load()
+
+    def dark(row):
+        r, g, b = pixels[cx, row][:3]
+        return min(r, g, b) < 245
+
+    while y >= 0 and dark(y):
+        y -= 1
+    sign_top = y
+    while y >= 0 and not dark(y):
+        y -= 1
+    if y < 0:
+        return None
+    return (sign_top - y) * 25.4 / P15_DPI
+
+
+def check_p15():
+    """P15: no step header sits within 3 mm of the element above it (300 dpi pixel column)."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        pdf = os.path.join(FOLDER, f'{tag}.pdf')
+        gaps = []
+        for page in range(1, page_count(pdf) + 1):
+            boxes = page_title_boxes(pdf, page)
+            if not boxes:
+                continue
+            prefix = os.path.join('/tmp/opencode', f'p15-{tag}-{page}')
+            subprocess.run(['pdftoppm', '-r', str(P15_DPI), '-f', str(page), '-l', str(page), '-png', '-singlefile', pdf, prefix], check=True)
+            image = Image.open(prefix + '.png').convert('RGB')
+            for top, left, right, index in boxes:
+                gap = pixel_gap_mm(image, top, left, right)
+                if gap is not None:
+                    gaps.append((gap, page, index))
+            os.remove(prefix + '.png')
+        tight = [row for row in gaps if row[0] < P15_MIN_MM]
+        for gap, page, index in gaps:
+            lines.append(f'P15 {tag}: page {page} step {index} gap_mm {gap:.2f}')
+        smallest = min((row[0] for row in gaps), default=0)
+        lines.append(f'P15 {tag}: headers {len(gaps)}, below_{P15_MIN_MM:g}mm {len(tight)}, method pixel_{P15_DPI}dpi, min_mm {smallest:.2f}')
+        ok = ok and len(gaps) > 0 and not tight
+    return ok, lines
+
+
+def check_p16():
+    """P16: no text run prints under 8 pt, and no italic face prints (counts only)."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        pdf = os.path.join(FOLDER, f'{tag}.pdf')
+        xml = subprocess.run(['pdftohtml', '-xml', '-i', '-stdout', pdf], capture_output=True, text=True).stdout
+        sizes = {int(m.group(1)): float(m.group(2)) for m in re.finditer(r'<fontspec id="(\d+)" size="([\d.]+)"', xml)}
+        runs = {}
+        for match in re.finditer(r'<text[^>]*font="(\d+)"', xml):
+            font = int(match.group(1))
+            runs[font] = runs.get(font, 0) + 1
+        under = sum(count for font, count in runs.items() if sizes.get(font, 0) < P16_MIN_PX)
+        smallest = min((sizes.get(font, 0) for font in runs), default=0)
+        fonts = subprocess.run(['pdffonts', pdf], capture_output=True, text=True).stdout.splitlines()[2:]
+        italic = [line.split()[0] for line in fonts if line.split() and re.search(r'italic|oblique', line.split()[0], re.I)]
+        lines.append(f'P16 {tag}: text runs {sum(runs.values())}, runs_under_8pt {under}, smallest_size_px {smallest:g}, italic_fonts {len(italic)}')
+        for name in italic:
+            lines.append(f'P16 {tag}: italic face {name}')
+        ok = ok and sum(runs.values()) > 0 and under == 0 and not italic
+    return ok, lines
+
+
 CHECKS = {
     'P1': check_p1, 'P2': check_p2, 'P3': check_p3, 'P4': check_p4, 'P5': check_p5,
     'P6': check_p6, 'P7': check_p7, 'P8': check_p8, 'P9': check_p9, 'P10': check_p10,
-    'P11': check_p11, 'P12': check_p12, 'P13': check_p13,
+    'P11': check_p11, 'P12': check_p12, 'P13': check_p13, 'P14': check_p14,
+    'P15': check_p15, 'P16': check_p16,
 }
 
 

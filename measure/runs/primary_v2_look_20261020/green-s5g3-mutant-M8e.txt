@@ -1,0 +1,40 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/chibi-quest-print-sizes.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 185[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.adversarial.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 215[2mms[22m[39m
+ [31m❯[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 75[2mms[22m[39m
+[31m     [31m×[31m prints the hero at full inline width with no height cap in the chibi-quest look only[39m[32m 5[2mms[22m[39m
+     [32m✓[39m keeps the inline figure with its caption in the chibi-quest styles only[32m 0[2mms[22m[39m
+     [32m✓[39m puts no keep rule on the hero wrappers, so Paged.js keeps the hero[32m 0[2mms[22m[39m
+     [32m✓[39m holds the image and its caption inside the same inline wrapper in the template[32m 1[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical[32m 68[2mms[22m[39m
+     [32m✓[39m keeps the chibi-quest styles flat with no transparency, shadow, or emoji[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-picture-keep.test.ts[2m > [22mchibi-quest picture keep (review A F5, S5 fix round 2)[2m > [22mprints the hero at full inline width with no height cap in the chibi-quest look only
+[31m[1mAssertionError[22m: hero rule: expected ' width: 84.8mm; max-width: 100%; heig…' not to match /max-height/[39m
+
+[32m- Expected:[39m 
+/max-height/
+
+[31m+ Received:[39m 
+" width: 84.8mm; max-width: 100%; height: auto; max-height: 240px; "
+
+[36m [2m❯[22m __tests__/chibi-quest-picture-keep.test.ts:[2m82:37[22m[39m
+    [90m 80| [39m    )[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m 81| [39m    for (const body of scopedBlocks(css, '.look-chibi-quest .hero-img-…
+    [90m 82| [39m      [34mexpect[39m(body[33m,[39m [32m'hero rule'[39m)[33m.[39mnot[33m.[39m[34mtoMatch[39m([36m/max-height/[39m)[33m;[39m
+    [90m   | [39m                                    [31m^[39m
+    [90m 83| [39m    }
+    [90m 84| [39m    [35mconst[39m classic [33m=[39m fs[33m.[39m[34mreadFileSync[39m(
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m21 passed[39m[22m[90m (22)[39m
+[2m   Start at [22m 04:46:01
+[2m   Duration [22m 2.09s[2m (transform 101ms, setup 98ms, import 230ms, tests 475ms, environment 951ms)[22m
+

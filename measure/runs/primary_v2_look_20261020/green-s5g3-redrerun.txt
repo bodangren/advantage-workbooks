@@ -1,0 +1,138 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-picture-keep.adversarial.test.ts [2m([22m[2m10 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 250[2mms[22m[39m
+[31m     [31m×[31m uses the last active hero width declaration with its exact property name[39m[32m 42[2mms[22m[39m
+     [32m✓[39m uses the last active hero max-width declaration with its exact property name[32m 9[2mms[22m[39m
+[31m     [31m×[31m uses the last active hero height declaration with its exact property name[39m[32m 5[2mms[22m[39m
+     [32m✓[39m rejects the F18 typo, later override, and commented rule in parser controls[32m 2[2mms[22m[39m
+     [32m✓[39m scopes every hero and inline rule to the chibi-quest look[32m 35[2mms[22m[39m
+     [32m✓[39m renders the hero and inline image inside their distinct wrappers with their captions[32m 82[2mms[22m[39m
+     [32m✓[39m adds the scoped picture rules only to the chibi-quest document[32m 4[2mms[22m[39m
+     [32m✓[39m keeps the classic styles and golden files unchanged from the phase base[32m 25[2mms[22m[39m
+     [32m✓[39m keeps the undefined classic render byte-identical without printing its text[32m 32[2mms[22m[39m
+     [32m✓[39m keeps the classic classic render byte-identical without printing its text[32m 13[2mms[22m[39m
+ [31m❯[39m __tests__/chibi-quest-print-sizes.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 220[2mms[22m[39m
+[31m     [31m×[31m lifts the step header off the panel above by 3 to 5 mm[39m[32m 48[2mms[22m[39m
+[31m     [31m×[31m sets every named label at 8 pt or more[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m spaces writing lines at least 8 mm apart[39m[32m 36[2mms[22m[39m
+[31m     [31m×[31m sets the Thai gloss upright at 8 pt or more[39m[32m 5[2mms[22m[39m
+     [32m✓[39m keeps the new size rules out of the classic styles[32m 0[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical without printing its text[32m 117[2mms[22m[39m
+ [31m❯[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 67[2mms[22m[39m
+[31m     [31m×[31m prints the hero at full inline width with no height cap in the chibi-quest look only[39m[32m 5[2mms[22m[39m
+     [32m✓[39m keeps the inline figure with its caption in the chibi-quest styles only[32m 0[2mms[22m[39m
+     [32m✓[39m puts no keep rule on the hero wrappers, so Paged.js keeps the hero[32m 0[2mms[22m[39m
+     [32m✓[39m holds the image and its caption inside the same inline wrapper in the template[32m 1[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical[32m 59[2mms[22m[39m
+     [32m✓[39m keeps the chibi-quest styles flat with no transparency, shadow, or emoji[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 7 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-picture-keep.adversarial.test.ts[2m > [22mS5 adversarial picture guards (review A F18)[2m > [22muses the last active hero width declaration with its exact property name
+[31m[1mAssertionError[22m: width: expected 'auto' to be '84.8mm' // Object.is equality[39m
+
+Expected: [32m"84.8mm"[39m
+Received: [31m"auto"[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-picture-keep.adversarial.test.ts:[2m75:78[22m[39m
+    [90m 73| [39m    [[32m'height'[39m[33m,[39m [32m'auto'[39m][33m,[39m
+    [90m 74| [39m  ])('uses the last active hero %s declaration with its exact property…
+    [90m 75| [39m    expect(winningProperty(getChibiQuestStyles(), HERO, property), pro…
+    [90m   | [39m                                                                             [31m^[39m
+    [90m 76| [39m  })[33m;[39m
+    [90m 77| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-picture-keep.adversarial.test.ts[2m > [22mS5 adversarial picture guards (review A F18)[2m > [22muses the last active hero height declaration with its exact property name
+[31m[1mAssertionError[22m: height: expected '' to be 'auto' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- auto[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-picture-keep.adversarial.test.ts:[2m75:78[22m[39m
+    [90m 73| [39m    [[32m'height'[39m[33m,[39m [32m'auto'[39m][33m,[39m
+    [90m 74| [39m  ])('uses the last active hero %s declaration with its exact property…
+    [90m 75| [39m    expect(winningProperty(getChibiQuestStyles(), HERO, property), pro…
+    [90m   | [39m                                                                             [31m^[39m
+    [90m 76| [39m  })[33m;[39m
+    [90m 77| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-picture-keep.test.ts[2m > [22mchibi-quest picture keep (review A F5, S5 fix round 2)[2m > [22mprints the hero at full inline width with no height cap in the chibi-quest look only
+[31m[1mAssertionError[22m: .look-chibi-quest .hero-img-box img: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-picture-keep.test.ts:[2m80:7[22m[39m
+    [90m 78| [39m      ])[33m,[39m
+    [90m 79| [39m      [32m'.look-chibi-quest .hero-img-box img'[39m[33m,[39m
+    [90m 80| [39m    )[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m      [31m^[39m
+    [90m 81| [39m    for (const body of scopedBlocks(css, '.look-chibi-quest .hero-img-…
+    [90m 82| [39m      [34mexpect[39m(body[33m,[39m [32m'hero rule'[39m)[33m.[39mnot[33m.[39m[34mtoMatch[39m([36m/max-height/[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-print-sizes.test.ts[2m > [22mchibi-quest print sizes (S5 fix round 2)[2m > [22mlifts the step header off the panel above by 3 to 5 mm
+[31m[1mAssertionError[22m: .look-chibi-quest div.section-header margin-top: expected '' not to be '' // Object.is equality[39m
+[36m [2m❯[22m __tests__/chibi-quest-print-sizes.test.ts:[2m119:45[22m[39m
+    [90m117| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m118| [39m    [35mconst[39m raw [33m=[39m [34mwinningProperty[39m(css[33m,[39m [33mHEADER[39m[33m,[39m [32m'margin-top'[39m)[33m;[39m
+    [90m119| [39m    [34mexpect[39m(raw[33m,[39m [32m`[39m[36m${[39m[33mHEADER[39m[36m}[39m[32m margin-top`[39m)[33m.[39mnot[33m.[39m[34mtoBe[39m([32m''[39m)[33m;[39m
+    [90m   | [39m                                            [31m^[39m
+    [90m120| [39m    [35mconst[39m mm [33m=[39m [34mtoMm[39m(raw)[33m;[39m
+    [90m121| [39m    [34mexpect[39m(mm[33m,[39m [32m`[39m[36m${[39m[33mHEADER[39m[36m}[39m[32m margin-top`[39m)[33m.[39m[34mtoBeGreaterThanOrEqual[39m([34m3[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-print-sizes.test.ts[2m > [22mchibi-quest print sizes (S5 fix round 2)[2m > [22msets every named label at 8 pt or more
+[31m[1mAssertionError[22m: .look-chibi-quest .q-label font-size: expected NaN to be greater than or equal to 10.67[39m
+[36m [2m❯[22m __tests__/chibi-quest-print-sizes.test.ts:[2m137:43[22m[39m
+    [90m135| [39m    [35mfor[39m ([35mconst[39m selector [35mof[39m [33mLABELS[39m) {
+    [90m136| [39m      [35mconst[39m px [33m=[39m [34mtoPx[39m([34mwinningProperty[39m(css[33m,[39m selector[33m,[39m [32m'font-size'[39m))[33m;[39m
+    [90m137| [39m      expect(px, `${selector} font-size`).toBeGreaterThanOrEqual(10.67…
+    [90m   | [39m                                          [31m^[39m
+    [90m138| [39m    }
+    [90m139| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-print-sizes.test.ts[2m > [22mchibi-quest print sizes (S5 fix round 2)[2m > [22mspaces writing lines at least 8 mm apart
+[31m[1mAssertionError[22m: .look-chibi-quest .writing-line pitch: expected 0 to be greater than or equal to 30[39m
+[36m [2m❯[22m __tests__/chibi-quest-print-sizes.test.ts:[2m144:59[22m[39m
+    [90m142| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m143| [39m    [35mfor[39m ([35mconst[39m selector [35mof[39m [33mLINES[39m) {
+    [90m144| [39m      expect(pitchOf(css, selector), `${selector} pitch`).toBeGreaterT…
+    [90m   | [39m                                                          [31m^[39m
+    [90m145| [39m    }
+    [90m146| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-print-sizes.test.ts[2m > [22mchibi-quest print sizes (S5 fix round 2)[2m > [22msets the Thai gloss upright at 8 pt or more
+[31m[1mAssertionError[22m: .look-chibi-quest .thai-translation font-size: expected NaN to be greater than or equal to 10.67[39m
+[36m [2m❯[22m __tests__/chibi-quest-print-sizes.test.ts:[2m151:37[22m[39m
+    [90m149| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m150| [39m    [35mconst[39m px [33m=[39m [34mtoPx[39m([34mwinningProperty[39m(css[33m,[39m [33mTHAI[39m[33m,[39m [32m'font-size'[39m))[33m;[39m
+    [90m151| [39m    [34mexpect[39m(px[33m,[39m [32m`[39m[36m${[39m[33mTHAI[39m[36m}[39m[32m font-size`[39m)[33m.[39m[34mtoBeGreaterThanOrEqual[39m([34m10.67[39m)[33m;[39m
+    [90m   | [39m                                    [31m^[39m
+    [90m152| [39m    expect(winningProperty(css, THAI, 'font-style'), `${THAI} font-sty…
+    [90m153| [39m    [35mfor[39m ([35mconst[39m rule [35mof[39m [34mrules[39m(css)) {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m3 failed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m7 failed[39m[22m[2m | [22m[1m[32m15 passed[39m[22m[90m (22)[39m
+[2m   Start at [22m 04:05:06
+[2m   Duration [22m 2.33s[2m (transform 131ms, setup 122ms, import 258ms, tests 536ms, environment 1.04s)[22m
+

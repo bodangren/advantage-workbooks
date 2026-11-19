@@ -1,0 +1,16 @@
+# S5.G3 mutants (UX-1, PM decisions 1 and 2) — green-s5g3
+# File under test: dashboard/lib/document-wrapper/chibi-quest-styles.ts
+# Gate: the 3 Red files (22 tests), unchanged.
+#
+# | Mutant | Change | Gate exit | Failing test |
+# |---|---|---|---|
+# | M8a | remove the step-header margin-top | 1 | lifts the step header off the panel above by 3 to 5 mm |
+# | M8b | one label (q-label) back to 7 pt | 1 | sets every named label at 8 pt or more |
+# | M8c | writing-line pitch back to 6.4 mm | 1 | spaces writing lines at least 8 mm apart |
+# | M8d | Thai gloss italic | 1 | sets the Thai gloss upright at 8 pt or more |
+# | M8e | hero max-height 240px back | 1 | prints the hero at full inline width with no height cap in the chibi-quest look only |
+#
+# Captures: green-s5g3-mutant-M8a.txt to green-s5g3-mutant-M8e.txt. Each holds one failed test.
+# Restore: cmp against the saved original after each mutant.
+# Gate 1 after restore: exit 0, 22 passed (green-s5g3-tests.txt).
+# Caught: 5 of 5 mutants.

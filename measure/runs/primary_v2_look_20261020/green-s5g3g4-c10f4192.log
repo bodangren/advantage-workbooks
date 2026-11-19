@@ -1,0 +1,63 @@
+Green S5.G3 and S5.G4 role log — track primary_v2_look_20261020, Phase S5
+Session: Green · S5 S5.G3 S5.G4 · primary_v2_look
+Model: opencode-go/deepseek-v4.1-flash
+Date: 2026-11-20
+
+phase_base_sha: 04275398 (fix round 2 strategy commit)
+role_base_sha: c10f4192c33223b0f59b6332e7095a0a2bcd48ce
+Red: c10f4192 (Muse). Green model family differs from the Red family.
+No template change. No classic golden change. No lib/teacher-manual change.
+
+Part 1, S5.G3 product (dashboard/lib/document-wrapper/chibi-quest-styles.ts only):
+- step header: margin-top 4mm on .look-chibi-quest div.section-header (UX-1).
+- labels: the six label selectors print at 11px (8.25 pt) (PM decision 2).
+- writing lines: min-height 8mm and margin 0, so the pitch is 8 mm or more (PM decision 2).
+- Thai gloss: 11px and font-style normal (PM decision 2).
+- hero: width 84.8mm, max-width 100%, height auto, no max-height (PM decision 1, review A F11).
+
+Gates:
+G1 the 3 Red files: exit 0, 22 passed. green-s5g3-tests.txt (Red rerun exits 1, 7 of 22 fail).
+G2 look guards (4 files): exit 0, 34 passed. green-s5g3-look-tests.txt
+G3 PROJECT_TESTS with the three documented excludes: exit 0, 3166 passed in 167 files.
+   Summary lines only, VITEST_EXIT=0. green-s5g3-project-tests.txt
+G4 PROJECT_LINT: exit 0. green-s5g3-lint.txt
+G5 tsc --noEmit: exit 0, no output lines. green-s5g3-tsc.txt
+G6 Mutants: 5 of 5 caught (margin, label 7 pt, pitch 6.4 mm, italic gloss, hero cap back).
+   Captures green-s5g3-mutant-M8a to M8e. green-s5g3-mutants.txt
+G7 Golden and teacher-manual diff from 04275398: empty. green-s5g3-golden-diff.txt
+G8 Thai characters: 0 in every committed file.
+
+Part 2, S5.G4 driver and proof:
+- P8 scope is now four Git pathspecs: dashboard, :(exclude)dashboard/__tests__,
+  content/primary/quest-5, content/primary/adventure-9.2 (review A r4 F21).
+  The pathspecs feed git diff and git status. COMMIT_ID validation and --end-of-options stay.
+  Fixtures (p8-scope-r6.txt): inject-output exit 1 (no file), inject-command exit 1 (no command),
+  template-renderer change exit 1, tests-only change exit 0. p8-hardening-r6.txt holds the F22
+  correction.
+- P14 (hero width 84.8 mm): fails r5 at 63.50 mm (check-P14-r5.txt, exit 1).
+- P15 (step-header gap, pixel 300 dpi): fails r5 at 2.12 mm and 2.03 mm (check-P15-r5.txt, exit 1).
+- P16 (no text run under 8 pt, no italic face): fails r5 with 6 runs under 8 pt and Sarabun-Italic
+  (check-P16-r5.txt, exit 1).
+
+Proof round 6:
+Folder: /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r6/
+quest5-l01.pdf: 15 pages. adventure92-l09.pdf: 17 pages. Contact sheets: 15 and 17 tiles.
+Checks P1 to P16: each exit 0. checks-r6.txt says checks run 16, failures 0, RESULT: PASS.
+P11 3 of 3 pictures. P12 every caption on its picture's page. P13 every image square-ratio within
+2 percent. P14 hero 84.67 mm (within 1 mm of 84.8). P15 min gap 3.89 mm. P16 0 runs under 8 pt and
+0 italic faces.
+Before/after crops (proof-s5-r6/before-after/): hero-quest5, hero-adventure92, label-area, and
+step-header, each with an r5 and an r6 PNG. The Adventure hero sits on page 3 in r5 and page 4 in r6.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: 8178f200 (S5.G3 code); driver and proof evidence commit follows this log; Red c10f4192
+tests_run: G1 exit 0 (22 passed); G2 exit 0 (34 passed); G3 exit 0 (3166 passed, 167 files); G4 exit 0; G5 exit 0; G6 5 of 5 mutants; G7 empty; G8 Thai 0; P8 fixtures 4; P14 to P16 fail on r5; proof P1 to P16 each exit 0 (checks-r6.txt RESULT: PASS)
+files_changed: dashboard/lib/document-wrapper/chibi-quest-styles.ts (code); proof-s5/checks.py (P8 scope, P14 to P16); p8-scope-r6.txt; p8-hardening-r6.txt (F22 correction); check-P14/15/16-r5.txt; check-P1..P16-r6.txt; checks-r6.txt; manifest-r6.txt; green-s5g3-* captures; plan.md; this log
+plan_updates: S5.R2 [x] commit c10f4192; S5.G3 [x] commit 8178f200; S5.G4 [x] with the driver commit id and the round 6 evidence
+known_failures: none; the three earlier failures of other tracks stay excluded from G3 as plan.md records
+handoff: S5.G3 and S5.G4 are complete. Review A r4 F21 and F22 are fixed in checks.py and the records it owns. test-strategy.md lines 323 and 368 still describe the old P8 status scope; the strategy author owns that file. Next: reviews A and B on the new head, the adversarial round, the UX browser review (UX-1 must pass P15), phase acceptance, and Daniel's one look. The style commit 8178f200 is an S7 styles.ts trigger: send it to the PM for the monorepo session. The r6 render overwrote the untracked proof HTML in proof-s5/; never stage it, strategy-s5-8b27c9ea.log, video/**, dashboard/raw.json, or review-b-s5-d2c2304c.*. Four tracked files of other sessions stay dirty: review-b-s5-d2c2304c.json, review-b-s5-d2c2304c.log, strategy-s5-8b27c9ea.log, and video/storytime-song/scripts/render.mjs.
+END_MEASURE_AGENT_RESULT

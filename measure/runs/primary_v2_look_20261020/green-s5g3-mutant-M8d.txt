@@ -1,0 +1,37 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-print-sizes.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 192[2mms[22m[39m
+     [32m✓[39m lifts the step header off the panel above by 3 to 5 mm[32m 40[2mms[22m[39m
+     [32m✓[39m sets every named label at 8 pt or more[32m 30[2mms[22m[39m
+     [32m✓[39m spaces writing lines at least 8 mm apart[32m 21[2mms[22m[39m
+[31m     [31m×[31m sets the Thai gloss upright at 8 pt or more[39m[32m 12[2mms[22m[39m
+     [32m✓[39m keeps the new size rules out of the classic styles[32m 0[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical without printing its text[32m 88[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.adversarial.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 219[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 66[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-print-sizes.test.ts[2m > [22mchibi-quest print sizes (S5 fix round 2)[2m > [22msets the Thai gloss upright at 8 pt or more
+[31m[1mAssertionError[22m: .look-chibi-quest .thai-translation font-style: expected 'italic' to be 'normal' // Object.is equality[39m
+
+Expected: [32m"normal"[39m
+Received: [31m"italic"[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-print-sizes.test.ts:[2m152:76[22m[39m
+    [90m150| [39m    [35mconst[39m px [33m=[39m [34mtoPx[39m([34mwinningProperty[39m(css[33m,[39m [33mTHAI[39m[33m,[39m [32m'font-size'[39m))[33m;[39m
+    [90m151| [39m    [34mexpect[39m(px[33m,[39m [32m`[39m[36m${[39m[33mTHAI[39m[36m}[39m[32m font-size`[39m)[33m.[39m[34mtoBeGreaterThanOrEqual[39m([34m10.67[39m)[33m;[39m
+    [90m152| [39m    expect(winningProperty(css, THAI, 'font-style'), `${THAI} font-sty…
+    [90m   | [39m                                                                           [31m^[39m
+    [90m153| [39m    [35mfor[39m ([35mconst[39m rule [35mof[39m [34mrules[39m(css)) {
+    [90m154| [39m      if (rule.selectorText.split(',').some((part) => part.trim() === …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m21 passed[39m[22m[90m (22)[39m
+[2m   Start at [22m 04:45:35
+[2m   Duration [22m 1.99s[2m (transform 106ms, setup 103ms, import 229ms, tests 478ms, environment 915ms)[22m
+

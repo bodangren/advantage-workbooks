@@ -84,3 +84,7 @@ P8 adventure92-l09: pdf sha256 match True
 P8 adventure92-l09: contact sha256 match True
 P8: tracked files edited in the render scope 0
 exit 0
+
+F22 correction (S5 fix round 2, 2026-11-20): the scope above (8 paths) is superseded.
+P8 now uses four Git pathspecs: dashboard, :(exclude)dashboard/__tests__, content/primary/quest-5,
+content/primary/adventure-9.2 (review A r4 F21). See proof-s5/p8-scope-r6.txt.

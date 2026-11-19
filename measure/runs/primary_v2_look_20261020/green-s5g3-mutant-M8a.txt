@@ -1,0 +1,33 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-print-sizes.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 193[2mms[22m[39m
+[31m     [31m×[31m lifts the step header off the panel above by 3 to 5 mm[39m[32m 39[2mms[22m[39m
+     [32m✓[39m sets every named label at 8 pt or more[32m 28[2mms[22m[39m
+     [32m✓[39m spaces writing lines at least 8 mm apart[32m 19[2mms[22m[39m
+     [32m✓[39m sets the Thai gloss upright at 8 pt or more[32m 12[2mms[22m[39m
+     [32m✓[39m keeps the new size rules out of the classic styles[32m 0[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical without printing its text[32m 93[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.adversarial.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 214[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 75[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-print-sizes.test.ts[2m > [22mchibi-quest print sizes (S5 fix round 2)[2m > [22mlifts the step header off the panel above by 3 to 5 mm
+[31m[1mAssertionError[22m: .look-chibi-quest div.section-header margin-top: expected '' not to be '' // Object.is equality[39m
+[36m [2m❯[22m __tests__/chibi-quest-print-sizes.test.ts:[2m119:45[22m[39m
+    [90m117| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m118| [39m    [35mconst[39m raw [33m=[39m [34mwinningProperty[39m(css[33m,[39m [33mHEADER[39m[33m,[39m [32m'margin-top'[39m)[33m;[39m
+    [90m119| [39m    [34mexpect[39m(raw[33m,[39m [32m`[39m[36m${[39m[33mHEADER[39m[36m}[39m[32m margin-top`[39m)[33m.[39mnot[33m.[39m[34mtoBe[39m([32m''[39m)[33m;[39m
+    [90m   | [39m                                            [31m^[39m
+    [90m120| [39m    [35mconst[39m mm [33m=[39m [34mtoMm[39m(raw)[33m;[39m
+    [90m121| [39m    [34mexpect[39m(mm[33m,[39m [32m`[39m[36m${[39m[33mHEADER[39m[36m}[39m[32m margin-top`[39m)[33m.[39m[34mtoBeGreaterThanOrEqual[39m([34m3[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m21 passed[39m[22m[90m (22)[39m
+[2m   Start at [22m 04:34:14
+[2m   Duration [22m 2.20s[2m (transform 103ms, setup 104ms, import 231ms, tests 482ms, environment 1.03s)[22m
+

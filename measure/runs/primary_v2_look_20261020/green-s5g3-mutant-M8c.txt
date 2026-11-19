@@ -1,0 +1,33 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-print-sizes.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 209[2mms[22m[39m
+     [32m✓[39m lifts the step header off the panel above by 3 to 5 mm[32m 47[2mms[22m[39m
+     [32m✓[39m sets every named label at 8 pt or more[32m 32[2mms[22m[39m
+[31m     [31m×[31m spaces writing lines at least 8 mm apart[39m[32m 13[2mms[22m[39m
+     [32m✓[39m sets the Thai gloss upright at 8 pt or more[32m 12[2mms[22m[39m
+     [32m✓[39m keeps the new size rules out of the classic styles[32m 0[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical without printing its text[32m 104[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.adversarial.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 225[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 71[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-print-sizes.test.ts[2m > [22mchibi-quest print sizes (S5 fix round 2)[2m > [22mspaces writing lines at least 8 mm apart
+[31m[1mAssertionError[22m: .look-chibi-quest .writing-line pitch: expected 24 to be greater than or equal to 30[39m
+[36m [2m❯[22m __tests__/chibi-quest-print-sizes.test.ts:[2m144:59[22m[39m
+    [90m142| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m143| [39m    [35mfor[39m ([35mconst[39m selector [35mof[39m [33mLINES[39m) {
+    [90m144| [39m      expect(pitchOf(css, selector), `${selector} pitch`).toBeGreaterT…
+    [90m   | [39m                                                          [31m^[39m
+    [90m145| [39m    }
+    [90m146| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m21 passed[39m[22m[90m (22)[39m
+[2m   Start at [22m 04:45:09
+[2m   Duration [22m 2.19s[2m (transform 111ms, setup 105ms, import 239ms, tests 505ms, environment 987ms)[22m
+
