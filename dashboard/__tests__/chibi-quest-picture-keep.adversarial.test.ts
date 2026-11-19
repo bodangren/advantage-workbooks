@@ -68,9 +68,9 @@ const lesson = WorkbookLessonSchema.parse({
 
 describe('S5 adversarial picture guards (review A F18)', () => {
   it.each([
-    ['width', 'auto'],
+    ['width', '84.8mm'],
     ['max-width', '100%'],
-    ['max-height', '240px'],
+    ['height', 'auto'],
   ])('uses the last active hero %s declaration with its exact property name', (property, value) => {
     expect(winningProperty(getChibiQuestStyles(), HERO, property), property).toBe(value);
   });

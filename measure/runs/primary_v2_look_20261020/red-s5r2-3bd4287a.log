@@ -1,0 +1,53 @@
+Red S5.R2 provisional log (fix round 2: print sizes and hero width).
+
+HEAD at role start (role_base_sha): 3bd4287a1e765681fd5c9d022538c63301153755
+Fix round 2 base (phase_base_sha): 04275398c9411b45685733e20fc003945524ad72
+Dirty scope at start: git status over the two Red tests, the adversarial test,
+the track dir, and the r2 evidence paths was empty. Other tracks stay untouched.
+
+Contract: test-strategy.md "S5 fix round 2". Evidence: ux-browser-s5-d2c2304c.json
+(UX-1 header gap 0.0 to 0.25 mm; UX-3 labels 6.7 and 7.3 pt, lines 6.4 mm apart;
+UX-7 Thai gloss 8 pt italic) and the PM look decisions in plan.md lines 132 to
+133. Template classes (read only): div.section-header, .q-label, .a-label,
+.para-note-label, .tip-label, .planning-label, .qr-label, .writing-line,
+.writing-line-small, .thai-translation, .hero-img-box. Classic styles.ts holds no
+.look-chibi-quest rule.
+
+New file chibi-quest-print-sizes.test.ts parses the scoped chibi-quest rules
+with CSSOM after comment stripping, exact property names, last rule wins.
+Conversion: 96 px = 1 in = 25.4 mm = 72 pt; 8 pt = 10.67 px; 8 mm = 30.24 px.
+Failing assertions: header margin-top 3 to 5 mm (none at HEAD); each of the six
+named labels at 8 pt or more (none at HEAD); writing-line pitch from min-height
+plus margins at 30 px or more (0 at HEAD); Thai gloss 8 pt or more and upright
+with no italic (no rule at HEAD). Guards: classic styles free of scoped rules
+and the digest golden pass.
+
+Changed picture-keep assertion 1: the hero rule now requires width 84.8mm,
+max-width 100%, and height auto with no max-height. It fails on the shipped
+240 px cap. Assertions 2 to 6 and the classic guard stay and pass.
+
+Adversarial file: the it.each at lines 70 to 76 pinned max-height 240px, so it
+now requires width 84.8mm, max-width 100%, and height auto. The two updated rows
+fail at HEAD; the parser controls and all other tests pass.
+
+Gates:
+- Gate command exits 1: 22 tests, 7 failed, 15 passed. The 7 failures are only
+  the new assertions: 4 size assertions, the hero width assertion, and the 2
+  updated adversarial hero rows. All 15 guards pass.
+- eslint on the style file and the three test files: exit 0.
+- tsc grep for the new and changed files: 0 lines (red-s5r2-tsc.txt is empty).
+- Thai count is 0 on each committed file.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+baseline_sha: 04275398c9411b45685733e20fc003945524ad72
+commits: red-s5r2-3bd4287a (this Red commit; SHA in final reply)
+tests_run: gate command exit 1 (22 tests: 7 failed on the new assertions only, 15 passed); eslint exit 0; tsc grep 0 lines; Thai 0 on all committed files
+files_changed: dashboard/__tests__/chibi-quest-print-sizes.test.ts (new); dashboard/__tests__/chibi-quest-picture-keep.test.ts (hero width 84.8mm); dashboard/__tests__/chibi-quest-picture-keep.adversarial.test.ts (hero rows at lines 70 to 76); measure/tracks/primary_v2_look_20261020/plan.md (S5.R2 to [~], kept [~]); measure/runs/primary_v2_look_20261020/red-s5r2-3bd4287a.txt; measure/runs/primary_v2_look_20261020/red-s5r2-tsc.txt; measure/runs/primary_v2_look_20261020/red-s5r2-3bd4287a.log
+plan_updates: Task S5.R2 set to [~] before work and kept [~] at the end for the Red gate
+known_failures: header margin, six labels, writing-line pitch, Thai gloss, hero width, and 2 adversarial hero rows FAIL as designed (no new rules at HEAD); the classic golden, classic styles, inline keep, hero no-avoid, template wrapper, flat-style, and adversarial parser guards pass
+handoff: Green owns task S5.G3 with the five scoped CSS changes and the S5.G4 proof round 6 with P14 to P16. Question: shall Green apply the five scoped size and width changes next? Default: yes, proceed.
+END_MEASURE_AGENT_RESULT

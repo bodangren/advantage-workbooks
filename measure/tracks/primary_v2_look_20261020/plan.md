@@ -126,7 +126,7 @@ _Story ref: spec.md#story-s5_
     - Green r6 (2026-11-20): P8 validates the commit id and passes it after --end-of-options (review B r3 F5); P8 scope narrowed to the render paths (review A r3 F19); proof round 5 unchanged.
 - [x] Task S5.A1 (Adversarial): add F18 parsing guards and scoped render checks in one new test file. Evidence: automated; no product change. `commit a788340f`
     - F18 evidence: 10 new tests and 6 Red tests pass; Vitest and ESLint exit 0. N2, N4, and N7 each fail the new tests. The style bytes are restored. Audit: `adversarial-s5-d784e945.json`.
-- [ ] Task S5.R2 (Red): the print size tests dashboard/__tests__/chibi-quest-print-sizes.test.ts and the hero width change in dashboard/__tests__/chibi-quest-picture-keep.test.ts, as "S5 fix round 2" of test-strategy.md states (UX-1 step-header margin; PM decisions 1 and 2). Evidence: automated.
+- [~] Task S5.R2 (Red): the print size tests dashboard/__tests__/chibi-quest-print-sizes.test.ts and the hero width change in dashboard/__tests__/chibi-quest-picture-keep.test.ts, as "S5 fix round 2" of test-strategy.md states (UX-1 step-header margin; PM decisions 1 and 2). Evidence: automated.
 - [ ] Task S5.G3 (Green): the chibi-quest style changes for UX-1 and PM decisions 1 and 2, in the files the strategy names; the classic golden stays byte-identical. Evidence: automated.
 - [ ] Task S5.G4 (Green, proof): proof round 6 in ~/Desktop/print-ready/primary-v2-look/proof-s5-r6/, the P8 scope fix (review A r4 F21, F22), and the new checks P14 to P16, as the strategy states. Evidence: automated.
 - [b] Task: Daniel's notes fixed; new proofs until he approves (date and notes in this plan) — deferred:daniel
