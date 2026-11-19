@@ -5,7 +5,8 @@ checks read produced bytes, source text, and rasterized pages. They print
 counts, file names, and English step names only. They print no Thai text.
 
 Round 2 strengthens P2 to P6, adds P10 (the book header and the PDF title), and
-adds P11 (the lesson pictures). P7 also asserts that the stripped print copy
+adds P11 (the lesson pictures). Round 3 adds P12 (every picture caption prints
+on the page of its picture). P7 also asserts that the stripped print copy
 holds no unpkg script tag, and P8 compares the proof HTML hash and the tracked
 state of `dashboard` and `content`.
 
@@ -439,10 +440,54 @@ def check_p11():
     return ok, lines
 
 
+def pdf_image_pages(pdf):
+    """The pages of the PDF images, in document order."""
+    out = subprocess.run(['pdfimages', '-list', pdf], capture_output=True, text=True).stdout
+    return [int(line.split()[0]) for line in out.splitlines() if re.match(r'^\s*\d+\s+\d+\s+image\b', line)]
+
+
+def pdf_page_text(pdf, page):
+    """The flattened text of one page, with single spaces."""
+    text = subprocess.run(['pdftotext', '-f', str(page), '-l', str(page), pdf, '-'], capture_output=True, text=True).stdout
+    return re.sub(r'\s+', ' ', text)
+
+
+def filtered_package(tag):
+    """The Thai-filtered package of a proof: English fields only."""
+    return os.path.join(FILTERED, os.path.relpath(PACKAGE[tag], REPO))
+
+
+def check_p12():
+    """P12: every picture caption prints on the page of its picture."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        with open(filtered_package(tag), encoding='utf-8') as handle:
+            captions = [image.get('caption') or '' for image in (json.load(handle).get('images') or [])]
+        pdf = os.path.join(FOLDER, f'{tag}.pdf')
+        total = page_count(pdf)
+        pictures = pdf_image_pages(pdf)
+        texts = [pdf_page_text(pdf, page) for page in range(1, total + 1)]
+        pairs = 0
+        for index, caption in enumerate(captions):
+            want = re.sub(r'\s+', ' ', caption).strip()
+            # A caption can also occur in the article prose, so P12 needs one occurrence on
+            # the page of the picture, not the only occurrence.
+            found = [page for page, text in enumerate(texts, 1) if want and want in text]
+            picture = pictures[index] if index < len(pictures) else 0
+            same = picture > 0 and picture in found
+            pairs += 1 if same else 0
+            where = ','.join(str(page) for page in found) or 'absent'
+            lines.append(f'P12 {tag}: caption {index + 1} pages {where}, picture page {picture}, same_page {same}')
+        counts = len(captions) > 0 and len(captions) == len(pictures)
+        lines.append(f'P12 {tag}: captions {len(captions)}, pictures {len(pictures)}, captions_on_picture_page {pairs}, counts_match {counts}')
+        ok = ok and counts and pairs == len(captions)
+    return ok, lines
+
+
 CHECKS = {
     'P1': check_p1, 'P2': check_p2, 'P3': check_p3, 'P4': check_p4, 'P5': check_p5,
     'P6': check_p6, 'P7': check_p7, 'P8': check_p8, 'P9': check_p9, 'P10': check_p10,
-    'P11': check_p11,
+    'P11': check_p11, 'P12': check_p12,
 }
 
 
