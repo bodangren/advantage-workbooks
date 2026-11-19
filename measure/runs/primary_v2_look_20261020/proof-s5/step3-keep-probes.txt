@@ -1,0 +1,39 @@
+S5 step 3 keep probes (spec.md line 72) — track primary_v2_look_20261020, 2026-11-20
+Probe only. Exit codes and English words only. No product file changed; every render came from a /tmp copy of the r6 print HTML.
+
+The fault in r6: Adventure 9.2 page 3 ends with the step 3 header and its QR box, then blank; the hero and paragraph 1 start on page 4.
+Root cause probe Z: hiding the QR box puts the hero on page 3. So the page lacks vertical room, not a keep rule.
+
+Break rules do not work in this render pipeline. Paged.js runs its layout BEFORE the print media switch
+(render.ts line 64), and every break rule below changed no page: B, C, E, F.
+
+| Option | Scoped rule (.look-chibi-quest unless noted) | Quest 5 pages | Adventure pages | P11 | P12 | P13 | P14 | P15 | P16 | P17 | Verdict |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| B | .read-article-step .section-header, .read-article-step .qr-box { break-after: avoid; } | 15 | 17 | pass | pass | pass | pass | pass | pass | FAIL | no effect |
+| C | .read-article-step .article-container { break-before: avoid; } | 15 | 17 | pass | pass | pass | pass | pass | pass | FAIL | no effect |
+| E | .read-article-step .section-header { break-before: page; } | 15 | 17 | pass | pass | pass | pass | pass | pass | FAIL | no effect |
+| F | .read-article-step { break-before: page; } | 15 | 17 | pass | pass | pass | pass | pass | pass | FAIL | no effect |
+| K | .read-article-step .qr-box { float: right; width: 40%; } | 15 | 17 | pass | pass | pass | pass | pass | pass | FAIL | no effect |
+| L | .read-article-step .qr-box { display: flex; align-items: center; gap: 12px; } | 15 | 17 | pass | pass | pass | pass | pass | pass | FAIL | too little room gained |
+| M | .read-article-step .section-header { margin-bottom: 4px; } .read-article-step .qr-box { margin: 2px 0 4px; padding: 4px 8px; } | 15 | 17 | pass | pass | pass | pass | pass | pass | pass | RECOMMENDED |
+
+Diagnostics (not candidates):
+- Z: .qr-box { display: none } puts the hero on page 3 (P17 pass). It removes content, so it is not a fix.
+- G0: hero at 40 mm puts the hero on page 3 (P17 pass) but fails P14, so it breaks the PM rule.
+- G: .workbook-container { break-before: page } changed no page (the rule is ignored).
+
+Measured values for option M:
+- P14: hero 84.67 mm on page 3 for both lessons.
+- P15: min gap 3.89 mm for both lessons.
+- P16: 0 text runs under 8 pt and 0 italic faces for both lessons.
+- P17: Quest 5 step 3 page 3 with the hero; Adventure step 3 page 3 with the hero (paragraph 1 on page 4, inside the same article flow).
+  Note: P17 accepts the hero picture or paragraph 1 on the step 3 page. On Adventure option M the hero is on page 3 and paragraph 1 follows on page 4, so the header is no longer cut from the article.
+
+Page counts: option M keeps Quest 5 at 15 pages and Adventure at 17 pages, as in r6.
+
+Classic golden: unaffected. The probes changed only /tmp copies; the real chibi-quest-styles.ts is untouched.
+Every candidate is scoped to .look-chibi-quest, and the classic wrapper never calls getChibiQuestStyles().
+
+Recommended rule (smallest option that passes P11 to P17 on both lessons):
+  .look-chibi-quest .read-article-step .section-header { margin-bottom: 4px; }
+  .look-chibi-quest .read-article-step .qr-box { margin: 2px 0 4px; padding: 4px 8px; }

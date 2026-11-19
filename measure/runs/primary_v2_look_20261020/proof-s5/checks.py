@@ -655,11 +655,46 @@ def check_p16():
     return ok, lines
 
 
+def step3_pages(pdf):
+    """The pages that print the step 3 header."""
+    found = []
+    for page in range(1, page_count(pdf) + 1):
+        if 'First Reading' in pdf_page_text(pdf, page):
+            found.append(page)
+    return found
+
+
+def paragraph_start(tag, words=6):
+    """The first words of paragraph 1 of the Thai-filtered package."""
+    with open(filtered_package(tag), encoding='utf-8') as handle:
+        paragraphs = (json.load(handle).get('text') or {}).get('paragraphs') or []
+    first = paragraphs[0] if paragraphs else ''
+    body = first if isinstance(first, str) else (first.get('text') or '')
+    return ' '.join(str(body).split()[:words])
+
+
+def check_p17():
+    """P17: the step 3 header shares its page with the hero picture or paragraph 1."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        pdf = os.path.join(FOLDER, f'{tag}.pdf')
+        pages = step3_pages(pdf)
+        rows = pdf_image_ppi(pdf)
+        hero_page = rows[0][0] if rows else 0
+        start = paragraph_start(tag)
+        with_start = [page for page in pages if start and start in pdf_page_text(pdf, page)]
+        same = len(pages) == 1 and (pages[0] == hero_page or pages[0] in with_start)
+        where = str(pages[0]) if len(pages) == 1 else (','.join(str(p) for p in pages) or 'absent')
+        lines.append(f'P17 {tag}: step3_page {where}, hero_page {hero_page}, paragraph1_page {",".join(str(p) for p in with_start) or "absent"}, same_page {same}')
+        ok = ok and same
+    return ok, lines
+
+
 CHECKS = {
     'P1': check_p1, 'P2': check_p2, 'P3': check_p3, 'P4': check_p4, 'P5': check_p5,
     'P6': check_p6, 'P7': check_p7, 'P8': check_p8, 'P9': check_p9, 'P10': check_p10,
     'P11': check_p11, 'P12': check_p12, 'P13': check_p13, 'P14': check_p14,
-    'P15': check_p15, 'P16': check_p16,
+    'P15': check_p15, 'P16': check_p16, 'P17': check_p17,
 }
 
 
