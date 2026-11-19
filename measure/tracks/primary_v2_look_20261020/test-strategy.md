@@ -370,3 +370,52 @@ A1 and A8 are retired. A2 to A10 are active. A11 is reserved in the catalog and 
 ### Handoff to the orchestrator (remediation)
 
 Capture the immutable base at the refresh commit, not at a SHA that predates it. Assign the F5 Red role and the F5 Green role first. Then assign the Green proof task for `proof-s5-r2`. Then assign Reviews A and B again, one adversarial round, the UX/browser review (UX_REQUIRED), phase acceptance, and Daniel's gate. Use the RED_TEST_COMMAND and GREEN_TEST_COMMAND of the F5 block above. Keep the three earlier `PROJECT_TESTS` failures and the storytime exclude as recorded earlier failures; do not fix them in this phase. Do not stage `strategy-s5-8b27c9ea.log`, the review files, the HTML files, `video/**`, or `dashboard/raw.json`. No push, amend, or reset.
+
+#### Shipped design and checks (2026-11-20)
+
+Review A at `338e68eb` returned one Blocker (F11, a squashed hero), one Major (F13, two weak test assertions), and Nits F12 and F14 to F17. Green shipped the fixes in commits `0b2bd81f`, `9b95646e`, `95345e90`, and `178a4e2f`. Proof round r5 passes P1 to P13 (`checks-r5.txt`, 13 checks, 0 failures). This part records the shipped design. It supersedes the r3 requirement in section 1 that the keep rule names three wrappers, and it renames the F5 subject from an inline picture to the hero picture. The r3 text stays as the record of that round.
+
+**phase_base_sha capture point (this refresh).** The capture commit has subject `measure(strategy): primary_v2_look S5 shipped design and checks P11 to P13 (review A F14)`. Immediately after that commit lands, the orchestrator runs `git rev-parse HEAD` once and sets `phase_base_sha` to that value. Do not use `a5f1938a` (role base), `82c58b7e` (the r3 strategy), or an earlier SHA. If another refresh lands, capture the base again after the newest strategy commit.
+
+**Risk classification: medium.** The shipped rules sit in `chibi-quest-styles.ts` and carry a `.look-chibi-quest` scope. The classic wrapper never calls `getChibiQuestStyles()`. The classic golden and `lib/teacher-manual/` stay unchanged. Six Red assertions, P11, P12, P13, and Daniel's gate bound the visual risk. No route, flag, or option changed.
+
+**The three shipped rules and the reason for each.**
+
+| Rule | Reason |
+|---|---|
+| `.look-chibi-quest .inline-img-box { break-inside: avoid; page-break-inside: avoid; }` (`0b2bd81f`, scoped in `9b95646e`) | It follows the S3 rule "inline pictures do not split" (`spec.md` line 72). It is scoped to the chibi-quest look. Test 2 guards it. |
+| No keep rule on the hero wrappers `.article-image-area` and `.article-image-box` in the chibi-quest styles (`9b95646e`) | An avoid rule on those wrappers made Paged.js drop the hero (round 2 probe, `falsification-r2.txt`). Test 3 guards the absence. The classic template keeps its own avoid rules at `primary_template.html` lines 1320 to 1331. |
+| `.look-chibi-quest .hero-img-box img { width: auto; max-width: 100%; max-height: 240px; }` (`95345e90` added the cap, `178a4e2f` added `width: auto`) | The cap keeps the hero caption on the picture's page (P12). `width: auto` with `max-width: 100%` keeps the square source square (P13). The cap alone gave x-ppi 435 and y-ppi 640 (`check-P13-r4.txt`, exit 1). The shipped rule gives 640 and 640 (`checks-r5.txt` P13). All 154 hero sources are 1600 x 1600. |
+
+**P11 to P13 in the form of the P1 to P10 table.** Each check runs through one heavy-run wrapper. Record each exit code. "All checks pass" is written only when all 13 exit 0.
+
+| ID | Check | Falsification condition | Round that proved it falsifiable |
+|---|---|---|---|
+| P11 | `pdfimages -list` count per lesson: package pictures, HTML `file://` srcs, and PDF images. Fail when a picture is absent or an `img src` file is missing. | A text-only PDF gives `package_pictures 3`, `pdf_images 0`, exit 1 (`falsification-r2.txt` line 17). | Round 2, `falsification-r2.txt`. |
+| P12 | For each caption of the Thai-filtered package, the `pdftotext` page text holds that caption on the page of its picture; caption and picture counts match. | The r3 Adventure hero caption is on page 4 while its picture is on page 3: `same_page False`, exit 1 (`check-P12-r3.txt`). | Round 3, `check-P12-r3.txt`; also fails on r2 (2 pictures for 3 captions, `counts_match False`). |
+| P13 | For every `pdfimages -list` row, x-ppi and y-ppi differ by at most 2 percent. | The r4 hero has x-ppi 435 and y-ppi 640: `ratio_delta 0.3203`, `within_2pct False`, exit 1 (`check-P13-r4.txt`). | Round 4, `check-P13-r4.txt`; r5 passes with 0 of 3 images off (`checks-r5.txt` lines 54 to 62). |
+
+P8 now also compares the manifest `git_head` with HEAD (Review A F16). `checks-r5.txt` line 27 records `same_head True` and `product_changed_since_manifest False`.
+
+**The six assertions of the Red file and what each guards.** The file is `dashboard/__tests__/chibi-quest-picture-keep.test.ts`.
+
+| Assertion | What it guards |
+|---|---|
+| 1. A scoped rule on `.look-chibi-quest .hero-img-box img` declares `max-height: 240px`, `width: auto`, and `max-width: 100%`; the classic `styles.ts` holds no `hero-img-box`. | F11: the hero keeps its aspect ratio. It also guards look isolation. Removing `width: auto` fails this assertion. |
+| 2. A scoped keep rule on `.look-chibi-quest .inline-img-box` declares both keep properties. | The S3 inline-picture rule and F5 retention. Removing either declaration fails. |
+| 3. No keep rule on `.look-chibi-quest .article-image-area` or `.look-chibi-quest .article-image-box`. | The P11 hero drop. Adding an avoid rule to either wrapper fails. |
+| 4. The real `primary_template.html` holds an `<img>` and an `article-image-caption` inside each `article-image-box inline-img-box` wrapper. | F13: the assertion reads the template, not a literal in the test file. Moving the caption out of the wrapper fails. |
+| 5. `lessonDocument` output stays byte-identical to `lesson-05.html` and `lesson-05-no-key.html` for the default, classic, no-key, and classic no-key variants. | The S1 classic byte identity. A one-byte change in a golden fails. |
+| 6. The chibi-quest styles hold no gradient, `rgba(`, `hsla(`, `opacity`, shadow, or emoji. | The S3 flat-fill rule and PDF/X-1a. Adding a gradient fails. |
+
+Mutants M6a and M6b were caught (`green-s5g1-r4-mutants.txt`). Add the mutant that keeps `max-height: 240px` and removes `width: auto`; assertion 1 and P13 must fail. Record the mutant, the catching check, and the exit code in the run log.
+
+**Decline of F12.** Keep the inline keep rule. Review A F12 found that it changes no page in the current proofs or in the whole-book renders: the Quest 5 book has 30 inline pictures, and pagination and page text stay the same with and without the rule. Decline the proposed removal. The rule follows the S3 acceptance criterion "inline pictures do not split" (`spec.md` line 72), and a future lesson may need it. The rule is scoped to `.look-chibi-quest`, so the classic output does not change. Assertion 2 guards the rule; assertion 3 keeps the hero wrappers clear. Record any future lesson where the rule changes a page break. No action now.
+
+**Open Nits for Daniel's look.** No Blocker stays after r5. The phase acceptance and Daniel's gate still run.
+
+- F15: Adventure 9.2 page 3 keeps an empty right column of about 70 x 55 mm under the reading key, because paragraph 1 starts on page 4. The column is white space and not a print defect. The hero now prints 63.5 mm square, while the inline pictures print 84.8 mm square. A strip of about 30 mm stays beside the hero. A larger uniform cap, for example 300 px, is possible and was not rendered. Daniel decides the hero size and the empty column.
+- F17: step headers touch the panel above on Quest 5 pages 5, 6, and 10 and on Adventure 9.2 pages 8 and 12. The audited delta does not change that spacing. Daniel decides at his look.
+- F10 stays open in part for the plan author: the stale date in `spec.md` and `plan.md`, and the missing `seriesName`, `levelNumber`, and `cefrLevel` assertions in the S6 test list. The strategy role owns none of those files.
+
+**Review applicability.** Review applicability stays as in the S5 remediation section. The three rules change scoped print CSS only. Review A, correctness, leads and checks R1 to R3, the six assertions, and P11 to P13. Review B, security, stays narrow and unchanged. Review C does not apply; no route, flag, or option changed. Adversarial testing applies, one round, and adds the `width: auto` mutant and the P13 squash fixture. UX and API review keeps UX_REQUIRED; the API side stays not applicable. Browser review applies (UX_REQUIRED) for the r5 proof HTML and contact sheets. Each review role uses a model family other than the Red and Green families. It reports and fixes nothing. No open Blocker may remain at closeout.
