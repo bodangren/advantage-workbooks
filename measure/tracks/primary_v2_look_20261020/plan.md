@@ -64,7 +64,7 @@ _Story ref: spec.md#story-s4_
 
 S3's open line (the User Manual Verification of the print kit) blocks nothing here. The kit code of 76b5975 is in the tree. S4 changes only the step names, so S3 stays as it is.
 
-- [x] Task S4.1 (Contract, plan-only): the step-name table. The 13 printed steps of the chibi-quest books, the present classic name of each, and the app name of each:
+- [x] Task S4.1 (Contract, plan-only) `commit 4323a816`: the step-name table. The 13 printed steps of the chibi-quest books, the present classic name of each, and the app name of each:
 
 | Step | Classic name (today) | Chibi Quest name | Sources |
 |---|---|---|---|
