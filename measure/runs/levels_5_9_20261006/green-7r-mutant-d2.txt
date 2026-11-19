@@ -1,0 +1,3040 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/rebuild-map.test.ts [2m([22m[2m23 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 154[2mms[22m[39m
+     [32m✓[39m defaults to the three committed paths as absolute paths[32m 1[2mms[22m[39m
+     [32m✓[39m resolves a given relative path against the working directory[32m 0[2mms[22m[39m
+     [32m✓[39m pairs each kept id with a package of its own level[32m 1[2mms[22m[39m
+     [32m✓[39m maps each keep id exactly once[32m 1[2mms[22m[39m
+     [32m✓[39m uses each package exactly once across map and newIds[32m 1[2mms[22m[39m
+     [32m✓[39m rejects a repeated keep id[32m 1[2mms[22m[39m
+     [32m✓[39m rejects a repeated package[32m 0[2mms[22m[39m
+     [32m✓[39m reports labeled kept, packages, and mapped counts per level[32m 1[2mms[22m[39m
+     [32m✓[39m returns byte-identical content for two calls on the same inputs[32m 0[2mms[22m[39m
+     [32m✓[39m exits 2 with usage and no output file[32m 2[2mms[22m[39m
+     [32m✓[39m imports no database client and opens no socket[32m 0[2mms[22m[39m
+     [32m✓[39m calls fetch never and writes exactly once at the given out path[32m 4[2mms[22m[39m
+     [32m✓[39m changes no repository file outside the given output[32m 76[2mms[22m[39m
+     [32m✓[39m holds no absolute path in the map content[32m 0[2mms[22m[39m
+     [32m✓[39m rejects an unknown flag[32m 1[2mms[22m[39m
+     [32m✓[39m rejects a flag with a missing value[32m 0[2mms[22m[39m
+     [32m✓[39m names a missing duplicates file and exits 2[32m 1[2mms[22m[39m
+     [32m✓[39m prints no usage and sets no exit code[32m 10[2mms[22m[39m
+     [32m✓[39m keeps 50, 88, 4, 38, 49 ids across 229 groups[32m 3[2mms[22m[39m
+     [32m✓[39m enumerates 50, 100, 100, 150, 150 packages across 550 files[32m 1[2mms[22m[39m
+     [32m✓[39m maps every kept id once, uses no package twice, and stays in-level[32m 11[2mms[22m[39m
+     [32m✓[39m writes byte-identical files on two runs[32m 6[2mms[22m[39m
+[31m     [31m×[31m matches the committed map file with a fresh run[39m[32m 24[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/rebuild-map.test.ts[2m > [22mreal committed inputs[2m > [22mmatches the committed map file with a fresh run
+[31m[1mAssertionError[22m: expected '{\n "source": "scripts/rebuild-map.ts…' to be '{\n "source": "scripts/rebuild-map.ts…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -34,2436 +34,2436 @@[39m
+[2m   ],[22m
+[2m   "map": [[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmpe74i1a002is601qzk02q4a",[22m
+[32m-    "package": "bank-5/b036"[39m
+[31m+    "package": "quest-5/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqv5x6701gjt79byny9w6et",[22m
+[32m-    "package": "bank-5/b035"[39m
+[31m+    "package": "quest-5/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmsxd3i01000ms601cf3ogkv7",[22m
+[32m-    "package": "bank-5/b034"[39m
+[31m+    "package": "quest-5/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cms4sdw0w001ws6018klrgtfb",[22m
+[32m-    "package": "bank-5/b033"[39m
+[31m+    "package": "quest-5/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtzy0l7p000ms601cyjnnkbo",[22m
+[32m-    "package": "bank-5/b032"[39m
+[31m+    "package": "quest-5/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmr27fz7o000ps601bfh49pai",[22m
+[32m-    "package": "bank-5/b031"[39m
+[31m+    "package": "quest-5/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtrdf1w8001ws60176m8asza",[22m
+[32m-    "package": "bank-5/b030"[39m
+[31m+    "package": "quest-5/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtrdcljv000ms601je5lnhbg",[22m
+[32m-    "package": "bank-5/b029"[39m
+[31m+    "package": "quest-5/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtu88dtf000ms601rz7o39xn",[22m
+[32m-    "package": "bank-5/b028"[39m
+[31m+    "package": "quest-5/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmrhx7wiq0000s601uof8scsd",[22m
+[32m-    "package": "bank-5/b027"[39m
+[31m+    "package": "quest-5/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtoihc2w000ms601wce7rfuw",[22m
+[32m-    "package": "bank-5/b026"[39m
+[31m+    "package": "quest-5/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmqfcc7hg000ms601q0a3tcde",[22m
+[32m-    "package": "bank-5/b025"[39m
+[31m+    "package": "quest-5/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmt8sm4jm000ms601rxridojy",[22m
+[32m-    "package": "bank-5/b024"[39m
+[31m+    "package": "quest-5/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmq876vd3000ns601o76k56ex",[22m
+[32m-    "package": "bank-5/b023"[39m
+[31m+    "package": "quest-5/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmqwhp78n000os601q66w4xdm",[22m
+[32m-    "package": "bank-5/b022"[39m
+[31m+    "package": "bank-5/b001"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmox1th28001xs6019nk0q4o9",[22m
+[32m-    "package": "bank-5/b021"[39m
+[31m+    "package": "bank-5/b002"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvmb7g01ret79b8g2ox0t8",[22m
+[32m-    "package": "bank-5/b020"[39m
+[31m+    "package": "bank-5/b003"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqulnnp014it79bvuynoxk9",[22m
+[32m-    "package": "bank-5/b019"[39m
+[31m+    "package": "bank-5/b004"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtpxvqq8000ms601nh5y63og",[22m
+[32m-    "package": "bank-5/b018"[39m
+[31m+    "package": "bank-5/b005"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmq6rou1m0000s601qajgt9a0",[22m
+[32m-    "package": "bank-5/b017"[39m
+[31m+    "package": "bank-5/b006"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgquzyh101cpt79bawnjty0k",[22m
+[32m-    "package": "bank-5/b016"[39m
+[31m+    "package": "bank-5/b007"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cms0hxp5l0000s601n54l0m88",[22m
+[32m-    "package": "bank-5/b015"[39m
+[31m+    "package": "bank-5/b008"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmp8h9gsx000os601eal6zohv",[22m
+[32m-    "package": "bank-5/b014"[39m
+[31m+    "package": "bank-5/b009"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmsbxltt7001bs601nqh9wol0",[22m
+[32m-    "package": "bank-5/b013"[39m
+[31m+    "package": "bank-5/b010"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmqdwznkz001as6012ikr5ifz",[22m
+[32m-    "package": "bank-5/b012"[39m
+[31m+    "package": "bank-5/b011"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmsosjh7g000os60137tbjatl",[22m
+[32m-    "package": "bank-5/b011"[39m
+[31m+    "package": "bank-5/b012"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmteihmzb001cs6012pj1n1jv",[22m
+[32m-    "package": "bank-5/b010"[39m
+[31m+    "package": "bank-5/b013"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmqmhn962001as601m18s81lp",[22m
+[32m-    "package": "bank-5/b009"[39m
+[31m+    "package": "bank-5/b014"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvfgcy01mxt79b5585ggdq",[22m
+[32m-    "package": "bank-5/b008"[39m
+[31m+    "package": "bank-5/b015"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqufr92010lt79befvvkv27",[22m
+[32m-    "package": "bank-5/b007"[39m
+[31m+    "package": "bank-5/b016"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqv4u3f01fwt79bbdci7vns",[22m
+[32m-    "package": "bank-5/b006"[39m
+[31m+    "package": "bank-5/b017"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqujtv40135t79b8p9f5wfk",[22m
+[32m-    "package": "bank-5/b005"[39m
+[31m+    "package": "bank-5/b018"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgquj02l012it79b181amsjy",[22m
+[32m-    "package": "bank-5/b004"[39m
+[31m+    "package": "bank-5/b019"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvnzfq01sot79bfvxgao4j",[22m
+[32m-    "package": "bank-5/b003"[39m
+[31m+    "package": "bank-5/b020"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqv8jpw01igt79bgbgl8ewj",[22m
+[32m-    "package": "bank-5/b002"[39m
+[31m+    "package": "bank-5/b021"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgquugn5019kt79bftt1x6is",[22m
+[32m-    "package": "bank-5/b001"[39m
+[31m+    "package": "bank-5/b022"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmu8ir6pd001bs601cctx72bt",[22m
+[32m-    "package": "quest-5/l14"[39m
+[31m+    "package": "bank-5/b023"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqudnv000zbt79bijjnm5n1",[22m
+[32m-    "package": "quest-5/l13"[39m
+[31m+    "package": "bank-5/b024"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvkflc01q4t79bptjzzfbf",[22m
+[32m-    "package": "quest-5/l12"[39m
+[31m+    "package": "bank-5/b025"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cms67q5q3000ms601svq8b2l6",[22m
+[32m-    "package": "quest-5/l11"[39m
+[31m+    "package": "bank-5/b026"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmt7dbj54001bs601gf9n0sl5",[22m
+[32m-    "package": "quest-5/l10"[39m
+[31m+    "package": "bank-5/b027"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmuldroty001as6012ch0c00x",[22m
+[32m-    "package": "quest-5/l09"[39m
+[31m+    "package": "bank-5/b028"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmu737edp000ms601zfhavo1e",[22m
+[32m-    "package": "quest-5/l08"[39m
+[31m+    "package": "bank-5/b029"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvn1mh01s1t79b6iaeyipj",[22m
+[32m-    "package": "quest-5/l07"[39m
+[31m+    "package": "bank-5/b030"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmq3wtvvv000ms601ifz62qys",[22m
+[32m-    "package": "quest-5/l06"[39m
+[31m+    "package": "bank-5/b031"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgquckp200yot79bc33dxlbu",[22m
+[32m-    "package": "quest-5/l05"[39m
+[31m+    "package": "bank-5/b032"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvlfor01qrt79bmcx09jk6",[22m
+[32m-    "package": "quest-5/l04"[39m
+[31m+    "package": "bank-5/b033"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgquvlo301a7t79br0mex3lc",[22m
+[32m-    "package": "quest-5/l03"[39m
+[31m+    "package": "bank-5/b034"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtvnr8un001as60117i09cqp",[22m
+[32m-    "package": "quest-5/l02"[39m
+[31m+    "package": "bank-5/b035"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmpfmeaqv001fs601g28g0l32",[22m
+[32m-    "package": "quest-5/l01"[39m
+[31m+    "package": "bank-5/b036"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmpe6xm0e000ms60162by7hhv",[22m
+[32m-    "package": "bank-6/b072"[39m
+[31m+    "package": "quest-6.1/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmou6pwwo001ps60164go45b9",[22m
+[32m-    "package": "bank-6/b071"[39m
+[31m+    "package": "quest-6.1/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmqchm3vk000qs6012nkktuno",[22m
+[32m-    "package": "bank-6/b070"[39m
+[31m+    "package": "quest-6.1/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmpwroufk0019s601ixztthth",[22m
+[32m-    "package": "bank-6/b069"[39m
+[31m+    "package": "quest-6.1/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmur3ooph001vs601zcoye6gv",[22m
+[32m-    "package": "bank-6/b068"[39m
+[31m+    "package": "quest-6.1/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cms7n9f2n000os601akija15l",[22m
+[32m-    "package": "bank-6/b067"[39m
+[31m+    "package": "quest-6.1/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmok7phtg001bs601bbpsohj4",[22m
+[32m-    "package": "bank-6/b066"[39m
+[31m+    "package": "quest-6.1/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmp9wq1cm000os6019xlywb3r",[22m
+[32m-    "package": "bank-6/b065"[39m
+[31m+    "package": "quest-6.1/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmorc1khs001bs601yvv09j2a",[22m
+[32m-    "package": "bank-6/b064"[39m
+[31m+    "package": "quest-6.1/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmozwknsg000ms601egevx0ss",[22m
+[32m-    "package": "bank-6/b063"[39m
+[31m+    "package": "quest-6.1/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmufnxdvw000os601oo1qa2jo",[22m
+[32m-    "package": "bank-6/b062"[39m
+[31m+    "package": "quest-6.1/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmou6y5la003ms6013rreb1wq",[22m
+[32m-    "package": "bank-6/b061"[39m
+[31m+    "package": "quest-6.1/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmq12173e001as60143m0upbr",[22m
+[32m-    "package": "bank-6/b060"[39m
+[31m+    "package": "quest-6.1/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmopwfmjf0018s601we8a44rj",[22m
+[32m-    "package": "bank-6/b059"[39m
+[31m+    "package": "quest-6.1/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmuwt3qcu0000s601nc8qcjkq",[22m
+[32m-    "package": "bank-6/b058"[39m
+[31m+    "package": "quest-6.2/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmt5xu2dt002bs601gzsdyi66",[22m
+[32m-    "package": "bank-6/b057"[39m
+[31m+    "package": "quest-6.2/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmtlnnxwu000os6013sw6blil",[22m
+[32m-    "package": "bank-6/b056"[39m
+[31m+    "package": "quest-6.2/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmubdm7ac001as601tbfu51ac",[22m
+[32m-    "package": "bank-6/b055"[39m
+[31m+    "package": "quest-6.2/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmsrnhwmn001xs6014i0fpv3d",[22m
+[32m-    "package": "bank-6/b054"[39m
+[31m+    "package": "quest-6.2/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmok6vok0001bs6015r2i3vh7",[22m
+[32m-    "package": "bank-6/b053"[39m
+[31m+    "package": "quest-6.2/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmtzy3200001as6015yfg9ofh",[22m
+[32m-    "package": "bank-6/b052"[39m
+[31m+    "package": "quest-6.2/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmtyio88p001bs601m4bx8tbt",[22m
+[32m-    "package": "bank-6/b051"[39m
+[31m+    "package": "quest-6.2/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmpjwpm74000os601p2n6uy2w",[22m
+[32m-    "package": "bank-6/b050"[39m
+[31m+    "package": "quest-6.2/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmon1tcvd000qs601yvwr5dh3",[22m
+[32m-    "package": "bank-6/b049"[39m
+[31m+    "package": "quest-6.2/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmq87blb7001ws601jbzl167o",[22m
+[32m-    "package": "bank-6/b048"[39m
+[31m+    "package": "quest-6.2/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmplcbreh001ws601g2ih6hc8",[22m
+[32m-    "package": "bank-6/b047"[39m
+[31m+    "package": "quest-6.2/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cms67t6yx0019s601pdhwmmx1",[22m
+[32m-    "package": "bank-6/b046"[39m
+[31m+    "package": "quest-6.2/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmst2y90i001as6012y3ckpcu",[22m
+[32m-    "package": "bank-6/b045"[39m
+[31m+    "package": "quest-6.2/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmoj1wo63001ys601taqmg2ug",[22m
+[32m-    "package": "bank-6/b044"[39m
+[31m+    "package": "bank-6/b001"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmtx37g2a000ps6011rostxad",[22m
+[32m-    "package": "bank-6/b043"[39m
+[31m+    "package": "bank-6/b002"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmosrtgzy001ws601l2tyoxhp",[22m
+[32m-    "package": "bank-6/b042"[39m
+[31m+    "package": "bank-6/b003"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmtbnktwv000os601ztjd811e",[22m
+[32m-    "package": "bank-6/b041"[39m
+[31m+    "package": "bank-6/b004"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmr52be3d0004s6018dp74urc",[22m
+[32m-    "package": "bank-6/b040"[39m
+[31m+    "package": "bank-6/b005"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmqfcft5s0019s6011yccu6tg",[22m
+[32m-    "package": "bank-6/b039"[39m
+[31m+    "package": "bank-6/b006"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmozwovrs001as60175i4t7yu",[22m
+[32m-    "package": "bank-6/b038"[39m
+[31m+    "package": "bank-6/b007"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmsvxqa6p001as601m991wwoz",[22m
+[32m-    "package": "bank-6/b037"[39m
+[31m+    "package": "bank-6/b008"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmsyso26o001xs601lhgwk6tp",[22m
+[32m-    "package": "bank-6/b036"[39m
+[31m+    "package": "bank-6/b009"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmuy8qica001ws6018c4bb1ik",[22m
+[32m-    "package": "bank-6/b035"[39m
+[31m+    "package": "bank-6/b010"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmoj5revp001bs601k35l9z7e",[22m
+[32m-    "package": "bank-6/b034"[39m
+[31m+    "package": "bank-6/b011"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmp1c2iqz001es601jtento4j",[22m
+[32m-    "package": "bank-6/b033"[39m
+[31m+    "package": "bank-6/b012"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmq3wxjmb0019s601okaqjht9",[22m
+[32m-    "package": "bank-6/b032"[39m
+[31m+    "package": "bank-6/b013"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqvcsiw01l0t79bjk9awrjq",[22m
+[32m-    "package": "bank-6/b031"[39m
+[31m+    "package": "bank-6/b014"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmosr9w4r000ms601mpkro0jy",[22m
+[32m-    "package": "bank-6/b030"[39m
+[31m+    "package": "bank-6/b015"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmt32v0wb0000s601d215fzc3",[22m
+[32m-    "package": "bank-6/b029"[39m
+[31m+    "package": "bank-6/b016"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmolm375v0000s601fa5mfk6q",[22m
+[32m-    "package": "bank-6/b028"[39m
+[31m+    "package": "bank-6/b017"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqumovu0155t79b29ksifuj",[22m
+[32m-    "package": "bank-6/b027"[39m
+[31m+    "package": "bank-6/b018"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgquwjca01aut79bmlghnpm8",[22m
+[32m-    "package": "bank-6/b026"[39m
+[31m+    "package": "bank-6/b019"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmoyh4xvg000ns601l23u439f",[22m
+[32m-    "package": "bank-6/b025"[39m
+[31m+    "package": "bank-6/b020"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgquete600zyt79bkmoy10wb",[22m
+[32m-    "package": "bank-6/b024"[39m
+[31m+    "package": "bank-6/b021"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgquynmr01c4t79bob9kn0wj",[22m
+[32m-    "package": "bank-6/b023"[39m
+[31m+    "package": "bank-6/b022"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqv6xzl01h6t79br2e2flpz",[22m
+[32m-    "package": "bank-6/b022"[39m
+[31m+    "package": "bank-6/b023"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqv26x501dzt79bmm1jr7xp",[22m
+[32m-    "package": "bank-6/b021"[39m
+[31m+    "package": "bank-6/b024"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqvowaw01tbt79bbuunw78y",[22m
+[32m-    "package": "bank-6/b020"[39m
+[31m+    "package": "bank-6/b025"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqvbrkb01kdt79bgoakchpf",[22m
+[32m-    "package": "bank-6/b019"[39m
+[31m+    "package": "bank-6/b026"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqus5u6017pt79b2hwwn50i",[22m
+[32m-    "package": "bank-6/b018"[39m
+[31m+    "package": "bank-6/b027"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqv9oth01j3t79b7mrvwj6n",[22m
+[32m-    "package": "bank-6/b017"[39m
+[31m+    "package": "bank-6/b028"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmpihad7q000os6011aqyo35n",[22m
+[32m-    "package": "bank-6/b016"[39m
+[31m+    "package": "bank-6/b029"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmpbc8lrh000os601o9a9bfkg",[22m
+[32m-    "package": "bank-6/b015"[39m
+[31m+    "package": "bank-6/b030"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqvjs5x01pht79bv670eqrl",[22m
+[32m-    "package": "bank-6/b014"[39m
+[31m+    "package": "bank-6/b031"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqv144u01dct79belgr18hx",[22m
+[32m-    "package": "bank-6/b013"[39m
+[31m+    "package": "bank-6/b032"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmppmk9hn000qs601cvaq8zjn",[22m
+[32m-    "package": "bank-6/b012"[39m
+[31m+    "package": "bank-6/b033"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmp5m9zk3000ms601cik86iv3",[22m
+[32m-    "package": "bank-6/b011"[39m
+[31m+    "package": "bank-6/b034"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmrqhy3pq001ws60166msirfz",[22m
+[32m-    "package": "bank-6/b010"[39m
+[31m+    "package": "bank-6/b035"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cms3cxhb0000os601c8yfdpza",[22m
+[32m-    "package": "bank-6/b009"[39m
+[31m+    "package": "bank-6/b036"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmpmroo0b001vs601bukdba5v",[22m
+[32m-    "package": "bank-6/b008"[39m
+[31m+    "package": "bank-6/b037"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmq5cdwgn001bs601fo5tdz6v",[22m
+[32m-    "package": "bank-6/b007"[39m
+[31m+    "package": "bank-6/b038"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmpmrjrl2000ms601b0it4kec",[22m
+[32m-    "package": "bank-6/b006"[39m
+[31m+    "package": "bank-6/b039"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmqpcg31r0000s601atnzanau",[22m
+[32m-    "package": "bank-6/b005"[39m
+[31m+    "package": "bank-6/b040"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmok7hj380000s60166ynom8r",[22m
+[32m-    "package": "bank-6/b004"[39m
+[31m+    "package": "bank-6/b041"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmst2tpzc000ms601bpakhe0y",[22m
+[32m-    "package": "bank-6/b003"[39m
+[31m+    "package": "bank-6/b042"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmoj1u77z000ns6014c26xfpn",[22m
+[32m-    "package": "bank-6/b002"[39m
+[31m+    "package": "bank-6/b043"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmur3lj4f000ns601dhls1zwh",[22m
+[32m-    "package": "bank-6/b001"[39m
+[31m+    "package": "bank-6/b044"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmski8259001as601594m7yur",[22m
+[32m-    "package": "quest-6.2/l14"[39m
+[31m+    "package": "bank-6/b045"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmt8sreju001vs601jiwkf01b",[22m
+[32m-    "package": "quest-6.2/l13"[39m
+[31m+    "package": "bank-6/b046"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmtoijcg8001bs601b0bc3qsc",[22m
+[32m-    "package": "quest-6.2/l12"[39m
+[31m+    "package": "bank-6/b047"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmtvnproj000ms601b0v1us51",[22m
+[32m-    "package": "quest-6.2/l11"[39m
+[31m+    "package": "bank-6/b048"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmoogzdbz0000s601bm64jhfy",[22m
+[32m-    "package": "quest-6.2/l10"[39m
+[31m+    "package": "bank-6/b049"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmoj5qb1v000os601kd6lhof1",[22m
+[32m-    "package": "quest-6.2/l09"[39m
+[31m+    "package": "bank-6/b050"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmooh6y7t001xs6019h9o1k3w",[22m
+[32m-    "package": "quest-6.2/l08"[39m
+[31m+    "package": "bank-6/b051"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmsesej3z000ms601jk3g0wfb",[22m
+[32m-    "package": "quest-6.2/l07"[39m
+[31m+    "package": "bank-6/b052"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmt4iabz0000cs601e3o36nxf",[22m
+[32m-    "package": "quest-6.2/l06"[39m
+[31m+    "package": "bank-6/b053"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqvas9701jqt79bqt1mycuu",[22m
+[32m-    "package": "quest-6.2/l05"[39m
+[31m+    "package": "bank-6/b054"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmgqupr330172t79b7z7j6rfj",[22m
+[32m-    "package": "quest-6.2/l04"[39m
+[31m+    "package": "bank-6/b055"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmopwotza001xs601bhf6eji8",[22m
+[32m-    "package": "quest-6.2/l03"[39m
+[31m+    "package": "bank-6/b056"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmovmdo2v0026s6016r5za94d",[22m
+[32m-    "package": "quest-6.2/l02"[39m
+[31m+    "package": "bank-6/b057"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmuy8k67c000ms601ax6lh4xy",[22m
+[32m-    "package": "quest-6.2/l01"[39m
+[31m+    "package": "bank-6/b058"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmok8wy0n000qs601p7a85sh6",[22m
+[32m-    "package": "quest-6.1/l14"[39m
+[31m+    "package": "bank-6/b059"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmt32xvzp000ps601nlfvcpt9",[22m
+[32m-    "package": "quest-6.1/l13"[39m
+[31m+    "package": "bank-6/b060"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[2m     "keepId": "cmosruish002is601f4e8epd1",[22m
+[32m-    "package": "bank-7/b072"[39m
+[31m+    "package": "adventure-7.1/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[2m     "keepId": "cmopwepzl000ms601wilpwz9j",[22m
+[32m-    "package": "bank-7/b071"[39m
+[31m+    "package": "adventure-7.1/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[2m     "keepId": "cmq6rpry10018s601v5b9n7ma",[22m
+[32m-    "package": "bank-7/b070"[39m
+[31m+    "package": "adventure-7.1/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[2m     "keepId": "cmtsssbrn001ds601oia8jnuw",[22m
+[32m-    "package": "bank-7/b069"[39m
+[31m+    "package": "adventure-7.1/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmrks4twd0000s60125kcn8cd",[22m
+[32m-    "package": "bank-8/b108"[39m
+[31m+    "package": "adventure-8.1/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmpe72b63001ws601e2isfab6",[22m
+[32m-    "package": "bank-8/b107"[39m
+[31m+    "package": "adventure-8.1/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cms92owy4000os6015rur4v51",[22m
+[32m-    "package": "bank-8/b106"[39m
+[31m+    "package": "adventure-8.1/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqsleql003lt79bpnkyxod8",[22m
+[32m-    "package": "bank-8/b105"[39m
+[31m+    "package": "adventure-8.1/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqt1i3b00dwt79bx5bq7bqj",[22m
+[32m-    "package": "bank-8/b104"[39m
+[31m+    "package": "adventure-8.1/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmur3noee0019s601apxurdgo",[22m
+[32m-    "package": "bank-8/b103"[39m
+[31m+    "package": "adventure-8.1/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmrghuii0001bs601qs2ldp3s",[22m
+[32m-    "package": "bank-8/b102"[39m
+[31m+    "package": "adventure-8.1/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmpvcawzj001ds601yn5jkaht",[22m
+[32m-    "package": "bank-8/b101"[39m
+[31m+    "package": "adventure-8.1/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmsesihcf001as6015wbm3e76",[22m
+[32m-    "package": "bank-8/b100"[39m
+[31m+    "package": "adventure-8.1/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmoj1xu15002ls601te98nak5",[22m
+[32m-    "package": "bank-8/b099"[39m
+[31m+    "package": "adventure-8.1/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmovmcojp001ks601x7pt8qse",[22m
+[32m-    "package": "bank-8/b098"[39m
+[31m+    "package": "adventure-8.1/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqtldcb00mht79bc7ullhm2",[22m
+[32m-    "package": "bank-8/b097"[39m
+[31m+    "package": "adventure-8.1/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqstn79008pt79b4qrap59a",[22m
+[32m-    "package": "bank-8/b096"[39m
+[31m+    "package": "adventure-8.1/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqsxw6l00bct79b8ynt7d0o",[22m
+[32m-    "package": "bank-8/b095"[39m
+[31m+    "package": "adventure-8.1/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqt0o7c00d9t79bxcwuvtvk",[22m
+[32m-    "package": "bank-8/b094"[39m
+[31m+    "package": "adventure-8.2/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmrnmyvva0000s60148y1sdul",[22m
+[32m-    "package": "bank-8/b093"[39m
+[31m+    "package": "adventure-8.2/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqtgai200jxt79bby3fqet7",[22m
+[32m-    "package": "bank-8/b092"[39m
+[31m+    "package": "adventure-8.2/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqtrvmn00qbt79bej7v11s4",[22m
+[32m-    "package": "bank-8/b091"[39m
+[31m+    "package": "adventure-8.2/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqu2po800wpt79bs2gf5x2w",[22m
+[32m-    "package": "bank-8/b090"[39m
+[31m+    "package": "adventure-8.2/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqszsoa00cmt79bhw9466o7",[22m
+[32m-    "package": "bank-8/b089"[39m
+[31m+    "package": "adventure-8.2/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqsqdg0006st79bczl3ebmp",[22m
+[32m-    "package": "bank-8/b088"[39m
+[31m+    "package": "adventure-8.2/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmp1c4x850020s6013tl0yogr",[22m
+[32m-    "package": "bank-8/b087"[39m
+[31m+    "package": "adventure-8.2/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmpcrmoko004as601fkynys87",[22m
+[32m-    "package": "bank-8/b086"[39m
+[31m+    "package": "adventure-8.2/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqtdd8p00i0t79b8mzz5rja",[22m
+[32m-    "package": "bank-8/b085"[39m
+[31m+    "package": "adventure-8.2/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqtbgwc00gqt79bye9wp36k",[22m
+[32m-    "package": "bank-8/b084"[39m
+[31m+    "package": "adventure-8.2/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqu1x6v00w2t79bzal712ko",[22m
+[32m-    "package": "bank-8/b083"[39m
+[31m+    "package": "adventure-8.2/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmrghstz6000ns601l5f4if1n",[22m
+[32m-    "package": "bank-8/b082"[39m
+[31m+    "package": "adventure-8.2/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqsrgez007ft79b02vo4m7u",[22m
+[32m-    "package": "bank-8/b081"[39m
+[31m+    "package": "adventure-8.2/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqtoqfx00oet79bdivrpxa0",[22m
+[32m-    "package": "bank-8/b080"[39m
+[31m+    "package": "adventure-8.3/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmp9wr7yb001ws601qclfohlv",[22m
+[32m-    "package": "bank-8/b079"[39m
+[31m+    "package": "adventure-8.3/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqsinyk002bt79bfcn5p1pt",[22m
+[32m-    "package": "bank-8/b078"[39m
+[31m+    "package": "adventure-8.3/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmq87bozj002is6015x5ir66c",[22m
+[32m-    "package": "bank-8/b077"[39m
+[31m+    "package": "adventure-8.3/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqteaaj00int79b7i4a5wki",[22m
+[32m-    "package": "bank-8/b076"[39m
+[31m+    "package": "adventure-8.3/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqsn5mt004vt79bfkxnva60",[22m
+[32m-    "package": "bank-8/b075"[39m
+[31m+    "package": "adventure-8.3/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmgqsm9fz0048t79btn4b1caq",[22m
+[32m-    "package": "bank-8/b074"[39m
+[31m+    "package": "adventure-8.3/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmu48e3lx000ns601zspg2uj3",[22m
+[32m-    "package": "bank-8/b073"[39m
+[31m+    "package": "adventure-8.3/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmplcbccj000os601pt0h2na9",[22m
+[32m-    "package": "bank-8/b072"[39m
+[31m+    "package": "adventure-8.3/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmp5micc4001ws601mkp6pokq",[22m
+[32m-    "package": "bank-8/b071"[39m
+[31m+    "package": "adventure-8.3/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmooh958z002js6016vdytsc6",[22m
+[32m-    "package": "bank-9/b108"[39m
+[31m+    "package": "adventure-9.1/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmrjcrobt0003s601jzgd4uk9",[22m
+[32m-    "package": "bank-9/b107"[39m
+[31m+    "package": "adventure-9.1/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqsx20u00apt79bp8uzc1ou",[22m
+[32m-    "package": "bank-9/b106"[39m
+[31m+    "package": "adventure-9.1/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmqwhr2mo001bs6019ele73ug",[22m
+[32m-    "package": "bank-9/b105"[39m
+[31m+    "package": "adventure-9.1/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtfaxr00jat79bnckkj3jl",[22m
+[32m-    "package": "bank-9/b104"[39m
+[31m+    "package": "adventure-9.1/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqthiqn00kkt79bpsao5297",[22m
+[32m-    "package": "bank-9/b103"[39m
+[31m+    "package": "adventure-9.1/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmpjwqs2f001as601ai8twvue",[22m
+[32m-    "package": "bank-9/b102"[39m
+[31m+    "package": "adventure-9.1/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmu1dj03a000os6012tlwcvbf",[22m
+[32m-    "package": "bank-9/b101"[39m
+[31m+    "package": "adventure-9.1/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmorc24e0001ys601w2nlfaqv",[22m
+[32m-    "package": "bank-9/b100"[39m
+[31m+    "package": "adventure-9.1/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmok6x8f6001ys6017basoivp",[22m
+[32m-    "package": "bank-9/b099"[39m
+[31m+    "package": "adventure-9.1/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmok8zcn5001ys601etkfr803",[22m
+[32m-    "package": "bank-9/b098"[39m
+[31m+    "package": "adventure-9.1/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmox1tz5g002js6013joy95gj",[22m
+[32m-    "package": "bank-9/b097"[39m
+[31m+    "package": "adventure-9.1/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqsuhiv009ht79bib6m29mk",[22m
+[32m-    "package": "bank-9/b096"[39m
+[31m+    "package": "adventure-9.1/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqsppir0065t79bnkn1fpro",[22m
+[32m-    "package": "bank-9/b095"[39m
+[31m+    "package": "adventure-9.1/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtqzgr00pot79b8opxc0wk",[22m
+[32m-    "package": "bank-9/b094"[39m
+[31m+    "package": "adventure-9.2/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqsvnli00a2t79b8xr79zo7",[22m
+[32m-    "package": "bank-9/b093"[39m
+[31m+    "package": "adventure-9.2/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmt7dbw7o001xs601ljt1gzun",[22m
+[32m-    "package": "bank-9/b092"[39m
+[31m+    "package": "adventure-9.2/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqt2t8u00eot79bz3h8yv74",[22m
+[32m-    "package": "bank-9/b091"[39m
+[31m+    "package": "adventure-9.2/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtmn2o00n4t79bd5976hfk",[22m
+[32m-    "package": "bank-9/b090"[39m
+[31m+    "package": "adventure-9.2/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtcd9a00hdt79b02cbrr1g",[22m
+[32m-    "package": "bank-9/b089"[39m
+[31m+    "package": "adventure-9.2/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqshtm2001ot79bx1zpmgrs",[22m
+[32m-    "package": "bank-9/b088"[39m
+[31m+    "package": "adventure-9.2/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtkcrw00lut79b9a3m17v1",[22m
+[32m-    "package": "bank-9/b087"[39m
+[31m+    "package": "adventure-9.2/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqsypw100bzt79b6qduo8ew",[22m
+[32m-    "package": "bank-9/b086"[39m
+[31m+    "package": "adventure-9.2/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqt9ckm00fbt79bpudfabkk",[22m
+[32m-    "package": "bank-9/b085"[39m
+[31m+    "package": "adventure-9.2/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmsyskh7q0000s601vzf2p26a",[22m
+[32m-    "package": "bank-9/b084"[39m
+[31m+    "package": "adventure-9.2/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqskgxy002yt79be60h40vu",[22m
+[32m-    "package": "bank-9/b083"[39m
+[31m+    "package": "adventure-9.2/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmok7sep8002ls601wu64sju3",[22m
+[32m-    "package": "bank-9/b082"[39m
+[31m+    "package": "adventure-9.2/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtadp500g3t79bmx7wihfh",[22m
+[32m-    "package": "bank-9/b081"[39m
+[31m+    "package": "adventure-9.2/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmsysmm4o001bs601nrsmm5xj",[22m
+[32m-    "package": "bank-9/b080"[39m
+[31m+    "package": "adventure-9.3/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtynjr00u5t79bkkfx7nxi",[22m
+[32m-    "package": "bank-9/b079"[39m
+[31m+    "package": "adventure-9.3/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqsogzy005it79b3j04v1lu",[22m
+[32m-    "package": "bank-9/b078"[39m
+[31m+    "package": "adventure-9.3/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmoj5ry7w001ys601zpa3nzvw",[22m
+[32m-    "package": "bank-9/b077"[39m
+[31m+    "package": "adventure-9.3/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtztt700ust79bq2944cnp",[22m
+[32m-    "package": "bank-9/b076"[39m
+[31m+    "package": "adventure-9.3/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtnwyn00nrt79bf3pntd4j",[22m
+[32m-    "package": "bank-9/b075"[39m
+[31m+    "package": "adventure-9.3/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqttyiz00rlt79blcezi5da",[22m
+[32m-    "package": "bank-9/b074"[39m
+[31m+    "package": "adventure-9.3/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqu15dn00vft79b7xebefff",[22m
+[32m-    "package": "bank-9/b073"[39m
+[31m+    "package": "adventure-9.3/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtps1u00p1t79bihm6ljvs",[22m
+[32m-    "package": "bank-9/b072"[39m
+[31m+    "package": "adventure-9.3/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtizw800l7t79b8yvw1nc2",[22m
+[32m-    "package": "bank-9/b071"[39m
+[31m+    "package": "adventure-9.3/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqsgosj000yt79b2qiee394",[22m
+[32m-    "package": "bank-9/b070"[39m
+[31m+    "package": "adventure-9.3/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmrrxd4l20018s601l45mcoq2",[22m
+[32m-    "package": "bank-9/b069"[39m
+[31m+    "package": "adventure-9.3/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmok6u980000os60123q3gm3p",[22m
+[32m-    "package": "bank-9/b068"[39m
+[31m+    "package": "adventure-9.3/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtsn0s00qyt79bh12lyne6",[22m
+[32m-    "package": "bank-9/b067"[39m
+[31m+    "package": "adventure-9.3/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqssrsd0082t79bqq1a3gum",[22m
+[32m-    "package": "bank-9/b066"[39m
+[31m+    "package": "bank-9/b001"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtxlkq00tit79by3sqw8di",[22m
+[32m-    "package": "bank-9/b065"[39m
+[31m+    "package": "bank-9/b002"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtwl9t00svt79bskrxn8e1",[22m
+[32m-    "package": "bank-9/b064"[39m
+[31m+    "package": "bank-9/b003"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cms1xeig2000ms601gc9fbtbv",[22m
+[32m-    "package": "bank-9/b063"[39m
+[31m+    "package": "bank-9/b004"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqtvf9x00s8t79bcq5ouen3",[22m
+[32m-    "package": "bank-9/b062"[39m
+[31m+    "package": "bank-9/b005"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmou6yrgv0048s601xhyh52ri",[22m
+[32m-    "package": "bank-9/b061"[39m
+[31m+    "package": "bank-9/b006"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmqjmsm9u000os601g1onlvv6",[22m
+[32m-    "package": "bank-9/b060"[39m
+[31m+    "package": "bank-9/b007"[39m
+[2m    }[22m
+[2m   ],[22m
+[2m   "newIds": [[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l12"[39m
+[31m+    "package": "bank-6/b061"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l11"[39m
+[31m+    "package": "bank-6/b062"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l10"[39m
+[31m+    "package": "bank-6/b063"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l09"[39m
+[31m+    "package": "bank-6/b064"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l08"[39m
+[31m+    "package": "bank-6/b065"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l07"[39m
+[31m+    "package": "bank-6/b066"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l06"[39m
+[31m+    "package": "bank-6/b067"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l05"[39m
+[31m+    "package": "bank-6/b068"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l04"[39m
+[31m+    "package": "bank-6/b069"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l03"[39m
+[31m+    "package": "bank-6/b070"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l02"[39m
+[31m+    "package": "bank-6/b071"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[32m-    "package": "quest-6.1/l01"[39m
+[31m+    "package": "bank-6/b072"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b068"[39m
+[31m+    "package": "adventure-7.1/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b067"[39m
+[31m+    "package": "adventure-7.1/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b066"[39m
+[31m+    "package": "adventure-7.1/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b065"[39m
+[31m+    "package": "adventure-7.1/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b064"[39m
+[31m+    "package": "adventure-7.1/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b063"[39m
+[31m+    "package": "adventure-7.1/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b062"[39m
+[31m+    "package": "adventure-7.1/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b061"[39m
+[31m+    "package": "adventure-7.1/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b060"[39m
+[31m+    "package": "adventure-7.1/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b059"[39m
+[31m+    "package": "adventure-7.1/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b058"[39m
+[31m+    "package": "adventure-7.2/l01"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b057"[39m
+[31m+    "package": "adventure-7.2/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b056"[39m
+[31m+    "package": "adventure-7.2/l03"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b055"[39m
+[31m+    "package": "adventure-7.2/l04"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b054"[39m
+[31m+    "package": "adventure-7.2/l05"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b053"[39m
+[31m+    "package": "adventure-7.2/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b052"[39m
+[31m+    "package": "adventure-7.2/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b051"[39m
+[31m+    "package": "adventure-7.2/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b050"[39m
+[31m+    "package": "adventure-7.2/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b049"[39m
+[31m+    "package": "adventure-7.2/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b048"[39m
+[31m+    "package": "adventure-7.2/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b047"[39m
+[31m+    "package": "adventure-7.2/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b046"[39m
+[31m+    "package": "adventure-7.2/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b045"[39m
+[31m+    "package": "adventure-7.2/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b044"[39m
+[31m+    "package": "bank-7/b001"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b043"[39m
+[31m+    "package": "bank-7/b002"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b042"[39m
+[31m+    "package": "bank-7/b003"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b041"[39m
+[31m+    "package": "bank-7/b004"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b040"[39m
+[31m+    "package": "bank-7/b005"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b039"[39m
+[31m+    "package": "bank-7/b006"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b038"[39m
+[31m+    "package": "bank-7/b007"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b037"[39m
+[31m+    "package": "bank-7/b008"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b036"[39m
+[31m+    "package": "bank-7/b009"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b035"[39m
+[31m+    "package": "bank-7/b010"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b034"[39m
+[31m+    "package": "bank-7/b011"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b033"[39m
+[31m+    "package": "bank-7/b012"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b032"[39m
+[31m+    "package": "bank-7/b013"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b031"[39m
+[31m+    "package": "bank-7/b014"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b030"[39m
+[31m+    "package": "bank-7/b015"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b029"[39m
+[31m+    "package": "bank-7/b016"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b028"[39m
+[31m+    "package": "bank-7/b017"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b027"[39m
+[31m+    "package": "bank-7/b018"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b026"[39m
+[31m+    "package": "bank-7/b019"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b025"[39m
+[31m+    "package": "bank-7/b020"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b024"[39m
+[31m+    "package": "bank-7/b021"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b023"[39m
+[31m+    "package": "bank-7/b022"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b022"[39m
+[31m+    "package": "bank-7/b023"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b021"[39m
+[31m+    "package": "bank-7/b024"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b020"[39m
+[31m+    "package": "bank-7/b025"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b019"[39m
+[31m+    "package": "bank-7/b026"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b018"[39m
+[31m+    "package": "bank-7/b027"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b017"[39m
+[31m+    "package": "bank-7/b028"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b016"[39m
+[31m+    "package": "bank-7/b029"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b015"[39m
+[31m+    "package": "bank-7/b030"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b014"[39m
+[31m+    "package": "bank-7/b031"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b013"[39m
+[31m+    "package": "bank-7/b032"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b012"[39m
+[31m+    "package": "bank-7/b033"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b011"[39m
+[31m+    "package": "bank-7/b034"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b010"[39m
+[31m+    "package": "bank-7/b035"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b009"[39m
+[31m+    "package": "bank-7/b036"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b008"[39m
+[31m+    "package": "bank-7/b037"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b007"[39m
+[31m+    "package": "bank-7/b038"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b006"[39m
+[31m+    "package": "bank-7/b039"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b005"[39m
+[31m+    "package": "bank-7/b040"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b004"[39m
+[31m+    "package": "bank-7/b041"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b003"[39m
+[31m+    "package": "bank-7/b042"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b002"[39m
+[31m+    "package": "bank-7/b043"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "bank-7/b001"[39m
+[31m+    "package": "bank-7/b044"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l14"[39m
+[31m+    "package": "bank-7/b045"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l13"[39m
+[31m+    "package": "bank-7/b046"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l12"[39m
+[31m+    "package": "bank-7/b047"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l11"[39m
+[31m+    "package": "bank-7/b048"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l10"[39m
+[31m+    "package": "bank-7/b049"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l09"[39m
+[31m+    "package": "bank-7/b050"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l08"[39m
+[31m+    "package": "bank-7/b051"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l07"[39m
+[31m+    "package": "bank-7/b052"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l06"[39m
+[31m+    "package": "bank-7/b053"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l05"[39m
+[31m+    "package": "bank-7/b054"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l04"[39m
+[31m+    "package": "bank-7/b055"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l03"[39m
+[31m+    "package": "bank-7/b056"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l02"[39m
+[31m+    "package": "bank-7/b057"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.2/l01"[39m
+[31m+    "package": "bank-7/b058"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l14"[39m
+[31m+    "package": "bank-7/b059"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l13"[39m
+[31m+    "package": "bank-7/b060"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l12"[39m
+[31m+    "package": "bank-7/b061"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l11"[39m
+[31m+    "package": "bank-7/b062"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l10"[39m
+[31m+    "package": "bank-7/b063"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l09"[39m
+[31m+    "package": "bank-7/b064"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l08"[39m
+[31m+    "package": "bank-7/b065"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l07"[39m
+[31m+    "package": "bank-7/b066"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l06"[39m
+[31m+    "package": "bank-7/b067"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l05"[39m
+[31m+    "package": "bank-7/b068"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l04"[39m
+[31m+    "package": "bank-7/b069"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l03"[39m
+[31m+    "package": "bank-7/b070"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l02"[39m
+[31m+    "package": "bank-7/b071"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[32m-    "package": "adventure-7.1/l01"[39m
+[31m+    "package": "bank-7/b072"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b070"[39m
+[31m+    "package": "adventure-8.3/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b069"[39m
+[31m+    "package": "adventure-8.3/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b068"[39m
+[31m+    "package": "adventure-8.3/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b067"[39m
+[31m+    "package": "adventure-8.3/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b066"[39m
+[31m+    "package": "bank-8/b001"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b065"[39m
+[31m+    "package": "bank-8/b002"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b064"[39m
+[31m+    "package": "bank-8/b003"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b063"[39m
+[31m+    "package": "bank-8/b004"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b062"[39m
+[31m+    "package": "bank-8/b005"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b061"[39m
+[31m+    "package": "bank-8/b006"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b060"[39m
+[31m+    "package": "bank-8/b007"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b059"[39m
+[31m+    "package": "bank-8/b008"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b058"[39m
+[31m+    "package": "bank-8/b009"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b057"[39m
+[31m+    "package": "bank-8/b010"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b056"[39m
+[31m+    "package": "bank-8/b011"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b055"[39m
+[31m+    "package": "bank-8/b012"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b054"[39m
+[31m+    "package": "bank-8/b013"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b053"[39m
+[31m+    "package": "bank-8/b014"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b052"[39m
+[31m+    "package": "bank-8/b015"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b051"[39m
+[31m+    "package": "bank-8/b016"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b050"[39m
+[31m+    "package": "bank-8/b017"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b049"[39m
+[31m+    "package": "bank-8/b018"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b048"[39m
+[31m+    "package": "bank-8/b019"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b047"[39m
+[31m+    "package": "bank-8/b020"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b046"[39m
+[31m+    "package": "bank-8/b021"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b045"[39m
+[31m+    "package": "bank-8/b022"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b044"[39m
+[31m+    "package": "bank-8/b023"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b043"[39m
+[31m+    "package": "bank-8/b024"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b042"[39m
+[31m+    "package": "bank-8/b025"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b041"[39m
+[31m+    "package": "bank-8/b026"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b040"[39m
+[31m+    "package": "bank-8/b027"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b039"[39m
+[31m+    "package": "bank-8/b028"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b038"[39m
+[31m+    "package": "bank-8/b029"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b037"[39m
+[31m+    "package": "bank-8/b030"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b036"[39m
+[31m+    "package": "bank-8/b031"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b035"[39m
+[31m+    "package": "bank-8/b032"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b034"[39m
+[31m+    "package": "bank-8/b033"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b033"[39m
+[31m+    "package": "bank-8/b034"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b032"[39m
+[31m+    "package": "bank-8/b035"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b031"[39m
+[31m+    "package": "bank-8/b036"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b030"[39m
+[31m+    "package": "bank-8/b037"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b029"[39m
+[31m+    "package": "bank-8/b038"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b028"[39m
+[31m+    "package": "bank-8/b039"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b027"[39m
+[31m+    "package": "bank-8/b040"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b026"[39m
+[31m+    "package": "bank-8/b041"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b025"[39m
+[31m+    "package": "bank-8/b042"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b024"[39m
+[31m+    "package": "bank-8/b043"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b023"[39m
+[31m+    "package": "bank-8/b044"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b022"[39m
+[31m+    "package": "bank-8/b045"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b021"[39m
+[31m+    "package": "bank-8/b046"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b020"[39m
+[31m+    "package": "bank-8/b047"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b019"[39m
+[31m+    "package": "bank-8/b048"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b018"[39m
+[31m+    "package": "bank-8/b049"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b017"[39m
+[31m+    "package": "bank-8/b050"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b016"[39m
+[31m+    "package": "bank-8/b051"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b015"[39m
+[31m+    "package": "bank-8/b052"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b014"[39m
+[31m+    "package": "bank-8/b053"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b013"[39m
+[31m+    "package": "bank-8/b054"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b012"[39m
+[31m+    "package": "bank-8/b055"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b011"[39m
+[31m+    "package": "bank-8/b056"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b010"[39m
+[31m+    "package": "bank-8/b057"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b009"[39m
+[31m+    "package": "bank-8/b058"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b008"[39m
+[31m+    "package": "bank-8/b059"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b007"[39m
+[31m+    "package": "bank-8/b060"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b006"[39m
+[31m+    "package": "bank-8/b061"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b005"[39m
+[31m+    "package": "bank-8/b062"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b004"[39m
+[31m+    "package": "bank-8/b063"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b003"[39m
+[31m+    "package": "bank-8/b064"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b002"[39m
+[31m+    "package": "bank-8/b065"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "bank-8/b001"[39m
+[31m+    "package": "bank-8/b066"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l14"[39m
+[31m+    "package": "bank-8/b067"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l13"[39m
+[31m+    "package": "bank-8/b068"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l12"[39m
+[31m+    "package": "bank-8/b069"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l11"[39m
+[31m+    "package": "bank-8/b070"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l10"[39m
+[31m+    "package": "bank-8/b071"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l09"[39m
+[31m+    "package": "bank-8/b072"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l08"[39m
+[31m+    "package": "bank-8/b073"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l07"[39m
+[31m+    "package": "bank-8/b074"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l06"[39m
+[31m+    "package": "bank-8/b075"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l05"[39m
+[31m+    "package": "bank-8/b076"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l04"[39m
+[31m+    "package": "bank-8/b077"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l03"[39m
+[31m+    "package": "bank-8/b078"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l02"[39m
+[31m+    "package": "bank-8/b079"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.3/l01"[39m
+[31m+    "package": "bank-8/b080"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l14"[39m
+[31m+    "package": "bank-8/b081"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l13"[39m
+[31m+    "package": "bank-8/b082"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l12"[39m
+[31m+    "package": "bank-8/b083"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l11"[39m
+[31m+    "package": "bank-8/b084"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l10"[39m
+[31m+    "package": "bank-8/b085"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l09"[39m
+[31m+    "package": "bank-8/b086"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l08"[39m
+[31m+    "package": "bank-8/b087"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l07"[39m
+[31m+    "package": "bank-8/b088"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l06"[39m
+[31m+    "package": "bank-8/b089"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l05"[39m
+[31m+    "package": "bank-8/b090"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l04"[39m
+[31m+    "package": "bank-8/b091"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l03"[39m
+[31m+    "package": "bank-8/b092"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l02"[39m
+[31m+    "package": "bank-8/b093"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.2/l01"[39m
+[31m+    "package": "bank-8/b094"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l14"[39m
+[31m+    "package": "bank-8/b095"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l13"[39m
+[31m+    "package": "bank-8/b096"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l12"[39m
+[31m+    "package": "bank-8/b097"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l11"[39m
+[31m+    "package": "bank-8/b098"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l10"[39m
+[31m+    "package": "bank-8/b099"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l09"[39m
+[31m+    "package": "bank-8/b100"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l08"[39m
+[31m+    "package": "bank-8/b101"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l07"[39m
+[31m+    "package": "bank-8/b102"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l06"[39m
+[31m+    "package": "bank-8/b103"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l05"[39m
+[31m+    "package": "bank-8/b104"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l04"[39m
+[31m+    "package": "bank-8/b105"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l03"[39m
+[31m+    "package": "bank-8/b106"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l02"[39m
+[31m+    "package": "bank-8/b107"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[32m-    "package": "adventure-8.1/l01"[39m
+[31m+    "package": "bank-8/b108"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b059"[39m
+[31m+    "package": "bank-9/b008"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b058"[39m
+[31m+    "package": "bank-9/b009"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b057"[39m
+[31m+    "package": "bank-9/b010"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b056"[39m
+[31m+    "package": "bank-9/b011"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b055"[39m
+[31m+    "package": "bank-9/b012"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b054"[39m
+[31m+    "package": "bank-9/b013"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b053"[39m
+[31m+    "package": "bank-9/b014"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b052"[39m
+[31m+    "package": "bank-9/b015"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b051"[39m
+[31m+    "package": "bank-9/b016"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b050"[39m
+[31m+    "package": "bank-9/b017"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b049"[39m
+[31m+    "package": "bank-9/b018"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b048"[39m
+[31m+    "package": "bank-9/b019"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b047"[39m
+[31m+    "package": "bank-9/b020"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b046"[39m
+[31m+    "package": "bank-9/b021"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b045"[39m
+[31m+    "package": "bank-9/b022"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b044"[39m
+[31m+    "package": "bank-9/b023"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b043"[39m
+[31m+    "package": "bank-9/b024"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b042"[39m
+[31m+    "package": "bank-9/b025"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b041"[39m
+[31m+    "package": "bank-9/b026"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b040"[39m
+[31m+    "package": "bank-9/b027"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b039"[39m
+[31m+    "package": "bank-9/b028"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b038"[39m
+[31m+    "package": "bank-9/b029"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b037"[39m
+[31m+    "package": "bank-9/b030"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b036"[39m
+[31m+    "package": "bank-9/b031"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b035"[39m
+[31m+    "package": "bank-9/b032"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b034"[39m
+[31m+    "package": "bank-9/b033"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b033"[39m
+[31m+    "package": "bank-9/b034"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b032"[39m
+[31m+    "package": "bank-9/b035"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b031"[39m
+[31m+    "package": "bank-9/b036"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b030"[39m
+[31m+    "package": "bank-9/b037"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b029"[39m
+[31m+    "package": "bank-9/b038"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b028"[39m
+[31m+    "package": "bank-9/b039"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b027"[39m
+[31m+    "package": "bank-9/b040"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b026"[39m
+[31m+    "package": "bank-9/b041"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b025"[39m
+[31m+    "package": "bank-9/b042"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b024"[39m
+[31m+    "package": "bank-9/b043"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b023"[39m
+[31m+    "package": "bank-9/b044"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b022"[39m
+[31m+    "package": "bank-9/b045"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b021"[39m
+[31m+    "package": "bank-9/b046"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b020"[39m
+[31m+    "package": "bank-9/b047"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b019"[39m
+[31m+    "package": "bank-9/b048"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b018"[39m
+[31m+    "package": "bank-9/b049"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b017"[39m
+[31m+    "package": "bank-9/b050"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b016"[39m
+[31m+    "package": "bank-9/b051"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b015"[39m
+[31m+    "package": "bank-9/b052"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b014"[39m
+[31m+    "package": "bank-9/b053"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b013"[39m
+[31m+    "package": "bank-9/b054"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b012"[39m
+[31m+    "package": "bank-9/b055"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b011"[39m
+[31m+    "package": "bank-9/b056"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b010"[39m
+[31m+    "package": "bank-9/b057"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b009"[39m
+[31m+    "package": "bank-9/b058"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b008"[39m
+[31m+    "package": "bank-9/b059"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b007"[39m
+[31m+    "package": "bank-9/b060"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b006"[39m
+[31m+    "package": "bank-9/b061"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b005"[39m
+[31m+    "package": "bank-9/b062"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b004"[39m
+[31m+    "package": "bank-9/b063"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b003"[39m
+[31m+    "package": "bank-9/b064"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b002"[39m
+[31m+    "package": "bank-9/b065"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "bank-9/b001"[39m
+[31m+    "package": "bank-9/b066"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l14"[39m
+[31m+    "package": "bank-9/b067"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l13"[39m
+[31m+    "package": "bank-9/b068"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l12"[39m
+[31m+    "package": "bank-9/b069"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l11"[39m
+[31m+    "package": "bank-9/b070"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l10"[39m
+[31m+    "package": "bank-9/b071"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l09"[39m
+[31m+    "package": "bank-9/b072"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l08"[39m
+[31m+    "package": "bank-9/b073"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l07"[39m
+[31m+    "package": "bank-9/b074"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l06"[39m
+[31m+    "package": "bank-9/b075"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l05"[39m
+[31m+    "package": "bank-9/b076"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l04"[39m
+[31m+    "package": "bank-9/b077"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l03"[39m
+[31m+    "package": "bank-9/b078"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l02"[39m
+[31m+    "package": "bank-9/b079"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.3/l01"[39m
+[31m+    "package": "bank-9/b080"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l14"[39m
+[31m+    "package": "bank-9/b081"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l13"[39m
+[31m+    "package": "bank-9/b082"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l12"[39m
+[31m+    "package": "bank-9/b083"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l11"[39m
+[31m+    "package": "bank-9/b084"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l10"[39m
+[31m+    "package": "bank-9/b085"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l09"[39m
+[31m+    "package": "bank-9/b086"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l08"[39m
+[31m+    "package": "bank-9/b087"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l07"[39m
+[31m+    "package": "bank-9/b088"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l06"[39m
+[31m+    "package": "bank-9/b089"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l05"[39m
+[31m+    "package": "bank-9/b090"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l04"[39m
+[31m+    "package": "bank-9/b091"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l03"[39m
+[31m+    "package": "bank-9/b092"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l02"[39m
+[31m+    "package": "bank-9/b093"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.2/l01"[39m
+[31m+    "package": "bank-9/b094"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l14"[39m
+[31m+    "package": "bank-9/b095"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l13"[39m
+[31m+    "package": "bank-9/b096"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l12"[39m
+[31m+    "package": "bank-9/b097"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l11"[39m
+[31m+    "package": "bank-9/b098"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l10"[39m
+[31m+    "package": "bank-9/b099"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l09"[39m
+[31m+    "package": "bank-9/b100"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l08"[39m
+[31m+    "package": "bank-9/b101"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l07"[39m
+[31m+    "package": "bank-9/b102"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l06"[39m
+[31m+    "package": "bank-9/b103"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l05"[39m
+[31m+    "package": "bank-9/b104"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l04"[39m
+[31m+    "package": "bank-9/b105"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l03"[39m
+[31m+    "package": "bank-9/b106"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l02"[39m
+[31m+    "package": "bank-9/b107"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[32m-    "package": "adventure-9.1/l01"[39m
+[31m+    "package": "bank-9/b108"[39m
+[2m    }[22m
+[2m   ][22m
+[2m  }[22m
+
+
+[36m [2m❯[22m __tests__/rebuild-map.test.ts:[2m491:52[22m[39m
+    [90m489| [39m  [34mit[39m([32m'matches the committed map file with a fresh run'[39m[33m,[39m () [33m=>[39m {
+    [90m490| [39m    const fresh = mod.buildRebuildMap(readKeepGroups(), enumeratePacka…
+    [90m491| [39m    [34mexpect[39m(fs[33m.[39m[34mreadFileSync[39m([33mCOMMITTED_MAP[39m[33m,[39m [32m'utf8'[39m))[33m.[39m[34mtoBe[39m(fresh)[33m;[39m
+    [90m   | [39m                                                   [31m^[39m
+    [90m492| [39m  })[33m;[39m
+    [90m493| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m22 passed[39m[22m[90m (23)[39m
+[2m   Start at [22m 15:45:06
+[2m   Duration [22m 538ms[2m (transform 120ms, setup 40ms, import 169ms, tests 154ms, environment 0ms)[22m
+

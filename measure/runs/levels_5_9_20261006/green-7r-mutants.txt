@@ -1,0 +1,19 @@
+# Task 7.0 mutants (Phase 7R), 2026-11-19
+
+Source under mutation: `dashboard/scripts/rebuild-map.ts`. For each mutant: copy the file,
+apply one change, run gate 1 in a heavy-run, restore the file, and compare with the copy.
+
+| # | Mutant | Gate 1 result | Named test or other gate that catches it | Restore |
+|---|---|---|---|---|
+| a | Pair a level 5 keep id with a level 6 package (`packagesByLevel.get(level === 5 ? 6 : level)`) | exit 1, 8 failed | `pairs each kept id with a package of its own level`; `maps every kept id once, uses no package twice, and stays in-level`; `matches the committed map file with a fresh run` | cmp equal |
+| b | Skip the first level 5 kept id (`keeps.slice(1)` for level 5) | exit 1, 5 failed | `maps each keep id exactly once`; `maps every kept id once, uses no package twice, and stays in-level`; `matches the committed map file with a fresh run` | cmp equal |
+| c | Give one package two ids (`levelPackages[index === 1 ? 0 : index]`) | exit 1, 2 failed | `maps every kept id once, uses no package twice, and stays in-level`; `matches the committed map file with a fresh run` | cmp equal |
+| d | Reverse the package order of the folder reader (`sort().reverse()` in `listPackages`) | exit 0, 23 passed | Not caught by gate 1: the test enumerates the folders itself, so it never reads the script's reader. Gate 5 catches it: the fresh run differs from the committed map at byte 615, line 39 (`cmp` exit 1) | cmp equal |
+| d2 | Reverse the package order inside `buildRebuildMap` before pairing | exit 1, 1 failed | `matches the committed map file with a fresh run` | cmp equal |
+
+Readings for mutant d: the committed-map test builds its input from its own folder
+listing. The script's reader order therefore has no test in gate 1. The committed map
+from the script covers that order: a fresh run must equal the committed file (gate 5).
+
+Captures: `green-7r-mutant-a.txt`, `green-7r-mutant-b.txt`, `green-7r-mutant-c.txt`,
+`green-7r-mutant-d.txt`, `green-7r-mutant-d2.txt`.

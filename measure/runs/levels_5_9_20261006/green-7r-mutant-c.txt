@@ -1,0 +1,137 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/rebuild-map.test.ts [2m([22m[2m23 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 131[2mms[22m[39m
+     [32m✓[39m defaults to the three committed paths as absolute paths[32m 1[2mms[22m[39m
+     [32m✓[39m resolves a given relative path against the working directory[32m 0[2mms[22m[39m
+     [32m✓[39m pairs each kept id with a package of its own level[32m 1[2mms[22m[39m
+     [32m✓[39m maps each keep id exactly once[32m 1[2mms[22m[39m
+     [32m✓[39m uses each package exactly once across map and newIds[32m 4[2mms[22m[39m
+     [32m✓[39m rejects a repeated keep id[32m 1[2mms[22m[39m
+     [32m✓[39m rejects a repeated package[32m 0[2mms[22m[39m
+     [32m✓[39m reports labeled kept, packages, and mapped counts per level[32m 1[2mms[22m[39m
+     [32m✓[39m returns byte-identical content for two calls on the same inputs[32m 0[2mms[22m[39m
+     [32m✓[39m exits 2 with usage and no output file[32m 1[2mms[22m[39m
+     [32m✓[39m imports no database client and opens no socket[32m 0[2mms[22m[39m
+     [32m✓[39m calls fetch never and writes exactly once at the given out path[32m 3[2mms[22m[39m
+     [32m✓[39m changes no repository file outside the given output[32m 74[2mms[22m[39m
+     [32m✓[39m holds no absolute path in the map content[32m 0[2mms[22m[39m
+     [32m✓[39m rejects an unknown flag[32m 1[2mms[22m[39m
+     [32m✓[39m rejects a flag with a missing value[32m 0[2mms[22m[39m
+     [32m✓[39m names a missing duplicates file and exits 2[32m 0[2mms[22m[39m
+     [32m✓[39m prints no usage and sets no exit code[32m 8[2mms[22m[39m
+     [32m✓[39m keeps 50, 88, 4, 38, 49 ids across 229 groups[32m 3[2mms[22m[39m
+     [32m✓[39m enumerates 50, 100, 100, 150, 150 packages across 550 files[32m 1[2mms[22m[39m
+[31m     [31m×[31m maps every kept id once, uses no package twice, and stays in-level[39m[32m 8[2mms[22m[39m
+     [32m✓[39m writes byte-identical files on two runs[32m 6[2mms[22m[39m
+[31m     [31m×[31m matches the committed map file with a fresh run[39m[32m 5[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/rebuild-map.test.ts[2m > [22mreal committed inputs[2m > [22mmaps every kept id once, uses no package twice, and stays in-level
+[31m[1mAssertionError[22m: expected 545 to be 550 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 550[39m
+[31m+ 545[39m
+
+[36m [2m❯[22m __tests__/rebuild-map.test.ts:[2m452:32[22m[39m
+    [90m450| [39m    expect([...parsed.map.map((row) => row.keepId)].sort()).toEqual([.…
+    [90m451| [39m    const used = [...parsed.map.map((row) => row.package), ...parsed.n…
+    [90m452| [39m    [34mexpect[39m([35mnew[39m [33mSet[39m(used)[33m.[39msize)[33m.[39m[34mtoBe[39m([34m550[39m)[33m;[39m
+    [90m   | [39m                               [31m^[39m
+    [90m453| [39m    expect([...used].sort()).toEqual([...packages.map((p) => p.id)].so…
+    [90m454| [39m    [35mconst[39m groupLevel [33m=[39m [35mnew[39m [33mMap[39m(groups[33m.[39m[34mmap[39m((g) [33m=>[39m [g[33m.[39mkeep[33m,[39m g[33m.[39mlevel]))[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/rebuild-map.test.ts[2m > [22mreal committed inputs[2m > [22mmatches the committed map file with a fresh run
+[31m[1mAssertionError[22m: expected '{\n "source": "scripts/rebuild-map.ts…' to be '{\n "source": "scripts/rebuild-map.ts…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -39,11 +39,11 @@[39m
+[2m     "package": "quest-5/l01"[22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqv5x6701gjt79byny9w6et",[22m
+[32m-    "package": "quest-5/l01"[39m
+[31m+    "package": "quest-5/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmsxd3i01000ms601cf3ogkv7",[22m
+[2m     "package": "quest-5/l03"[22m
+[33m@@ -289,11 +289,11 @@[39m
+[2m     "package": "quest-6.1/l01"[22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmou6pwwo001ps60164go45b9",[22m
+[32m-    "package": "quest-6.1/l01"[39m
+[31m+    "package": "quest-6.1/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmqchm3vk000qs6012nkktuno",[22m
+[2m     "package": "quest-6.1/l03"[22m
+[33m@@ -729,11 +729,11 @@[39m
+[2m     "package": "adventure-7.1/l01"[22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[2m     "keepId": "cmopwepzl000ms601wilpwz9j",[22m
+[32m-    "package": "adventure-7.1/l01"[39m
+[31m+    "package": "adventure-7.1/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 7,[22m
+[2m     "keepId": "cmq6rpry10018s601v5b9n7ma",[22m
+[2m     "package": "adventure-7.1/l03"[22m
+[33m@@ -749,11 +749,11 @@[39m
+[2m     "package": "adventure-8.1/l01"[22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cmpe72b63001ws601e2isfab6",[22m
+[32m-    "package": "adventure-8.1/l01"[39m
+[31m+    "package": "adventure-8.1/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 8,[22m
+[2m     "keepId": "cms92owy4000os6015rur4v51",[22m
+[2m     "package": "adventure-8.1/l03"[22m
+[33m@@ -939,11 +939,11 @@[39m
+[2m     "package": "adventure-9.1/l01"[22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmrjcrobt0003s601jzgd4uk9",[22m
+[32m-    "package": "adventure-9.1/l01"[39m
+[31m+    "package": "adventure-9.1/l02"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 9,[22m
+[2m     "keepId": "cmgqsx20u00apt79bp8uzc1ou",[22m
+[2m     "package": "adventure-9.1/l03"[22m
+
+[36m [2m❯[22m __tests__/rebuild-map.test.ts:[2m491:52[22m[39m
+    [90m489| [39m  [34mit[39m([32m'matches the committed map file with a fresh run'[39m[33m,[39m () [33m=>[39m {
+    [90m490| [39m    const fresh = mod.buildRebuildMap(readKeepGroups(), enumeratePacka…
+    [90m491| [39m    [34mexpect[39m(fs[33m.[39m[34mreadFileSync[39m([33mCOMMITTED_MAP[39m[33m,[39m [32m'utf8'[39m))[33m.[39m[34mtoBe[39m(fresh)[33m;[39m
+    [90m   | [39m                                                   [31m^[39m
+    [90m492| [39m  })[33m;[39m
+    [90m493| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m21 passed[39m[22m[90m (23)[39m
+[2m   Start at [22m 15:43:43
+[2m   Duration [22m 485ms[2m (transform 108ms, setup 38ms, import 155ms, tests 131ms, environment 0ms)[22m
+

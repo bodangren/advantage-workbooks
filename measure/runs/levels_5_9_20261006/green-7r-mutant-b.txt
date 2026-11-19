@@ -1,0 +1,439 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/rebuild-map.test.ts [2m([22m[2m23 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[32m 123[2mms[22m[39m
+     [32m✓[39m defaults to the three committed paths as absolute paths[32m 1[2mms[22m[39m
+     [32m✓[39m resolves a given relative path against the working directory[32m 0[2mms[22m[39m
+[31m     [31m×[31m pairs each kept id with a package of its own level[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m maps each keep id exactly once[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m uses each package exactly once across map and newIds[39m[32m 0[2mms[22m[39m
+     [32m✓[39m rejects a repeated keep id[32m 0[2mms[22m[39m
+     [32m✓[39m rejects a repeated package[32m 0[2mms[22m[39m
+     [32m✓[39m reports labeled kept, packages, and mapped counts per level[32m 1[2mms[22m[39m
+     [32m✓[39m returns byte-identical content for two calls on the same inputs[32m 0[2mms[22m[39m
+     [32m✓[39m exits 2 with usage and no output file[32m 1[2mms[22m[39m
+     [32m✓[39m imports no database client and opens no socket[32m 0[2mms[22m[39m
+     [32m✓[39m calls fetch never and writes exactly once at the given out path[32m 3[2mms[22m[39m
+     [32m✓[39m changes no repository file outside the given output[32m 69[2mms[22m[39m
+     [32m✓[39m holds no absolute path in the map content[32m 0[2mms[22m[39m
+     [32m✓[39m rejects an unknown flag[32m 0[2mms[22m[39m
+     [32m✓[39m rejects a flag with a missing value[32m 0[2mms[22m[39m
+     [32m✓[39m names a missing duplicates file and exits 2[32m 0[2mms[22m[39m
+     [32m✓[39m prints no usage and sets no exit code[32m 9[2mms[22m[39m
+     [32m✓[39m keeps 50, 88, 4, 38, 49 ids across 229 groups[32m 3[2mms[22m[39m
+     [32m✓[39m enumerates 50, 100, 100, 150, 150 packages across 550 files[32m 1[2mms[22m[39m
+[31m     [31m×[31m maps every kept id once, uses no package twice, and stays in-level[39m[32m 4[2mms[22m[39m
+     [32m✓[39m writes byte-identical files on two runs[32m 6[2mms[22m[39m
+[31m     [31m×[31m matches the committed map file with a fresh run[39m[32m 6[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 5 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/rebuild-map.test.ts[2m > [22msame-level pairing[2m > [22mpairs each kept id with a package of its own level
+[31m[1mAssertionError[22m: expected [ { level: 5, …(2) }, …(1) ] to have a length of 3 but got 2[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 3[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m __tests__/rebuild-map.test.ts:[2m173:24[22m[39m
+    [90m171| [39m    [35mconst[39m { content } [33m=[39m mod[33m.[39m[34mbuildRebuildMap[39m(groups[33m,[39m packages)[33m;[39m
+    [90m172| [39m    [35mconst[39m parsed [33m=[39m [34mparseContent[39m(content)[33m;[39m
+    [90m173| [39m    [34mexpect[39m(parsed[33m.[39mmap)[33m.[39m[34mtoHaveLength[39m([34m3[39m)[33m;[39m
+    [90m   | [39m                       [31m^[39m
+    [90m174| [39m    [35mconst[39m groupLevel [33m=[39m [35mnew[39m [33mMap[39m(groups[33m.[39m[34mmap[39m((g) [33m=>[39m [g[33m.[39mkeep[33m,[39m g[33m.[39mlevel]))[33m;[39m
+    [90m175| [39m    [35mconst[39m packageLevel [33m=[39m [35mnew[39m [33mMap[39m(packages[33m.[39m[34mmap[39m((p) [33m=>[39m [p[33m.[39mid[33m,[39m p[33m.[39mlevel]))[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/rebuild-map.test.ts[2m > [22mone-to-one ids and packages[2m > [22mmaps each keep id exactly once
+[31m[1mAssertionError[22m: expected [ 'keep-5-b', 'keep-6-a' ] to deeply equal [ 'keep-5-a', 'keep-5-b', 'keep-6-a' ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[32m-   "keep-5-a",[39m
+[2m    "keep-5-b",[22m
+[2m    "keep-6-a",[22m
+[2m  ][22m
+
+[36m [2m❯[22m __tests__/rebuild-map.test.ts:[2m188:33[22m[39m
+    [90m186| [39m    [35mconst[39m { content } [33m=[39m mod[33m.[39m[34mbuildRebuildMap[39m(groups[33m,[39m [34mfixturePackages[39m())[33m;[39m
+    [90m187| [39m    [35mconst[39m keepIds [33m=[39m [34mparseContent[39m(content)[33m.[39mmap[33m.[39m[34mmap[39m((row) [33m=>[39m row[33m.[39mkeepId)[33m;[39m
+    [90m188| [39m    expect([...keepIds].sort()).toEqual(['keep-5-a', 'keep-5-b', 'keep…
+    [90m   | [39m                                [31m^[39m
+    [90m189| [39m    [34mexpect[39m([35mnew[39m [33mSet[39m(keepIds)[33m.[39msize)[33m.[39m[34mtoBe[39m(keepIds[33m.[39mlength)[33m;[39m
+    [90m190| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/rebuild-map.test.ts[2m > [22mone-to-one ids and packages[2m > [22muses each package exactly once across map and newIds
+[31m[1mAssertionError[22m: expected [] to have a length of 1 but got +0[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m __tests__/rebuild-map.test.ts:[2m199:24[22m[39m
+    [90m197| [39m    ][33m;[39m
+    [90m198| [39m    const parsed = parseContent(mod.buildRebuildMap(groups, packages).…
+    [90m199| [39m    [34mexpect[39m(parsed[33m.[39mmap)[33m.[39m[34mtoHaveLength[39m([34m1[39m)[33m;[39m
+    [90m   | [39m                       [31m^[39m
+    [90m200| [39m    [34mexpect[39m(parsed[33m.[39mnewIds)[33m.[39m[34mtoHaveLength[39m([34m1[39m)[33m;[39m
+    [90m201| [39m    const used = [...parsed.map.map((row) => row.package), ...parsed.n…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/rebuild-map.test.ts[2m > [22mreal committed inputs[2m > [22mmaps every kept id once, uses no package twice, and stays in-level
+[31m[1mAssertionError[22m: expected [ { level: 5, …(2) }, …(227) ] to have a length of 229 but got 228[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 229[39m
+[31m+ 228[39m
+
+[36m [2m❯[22m __tests__/rebuild-map.test.ts:[2m438:24[22m[39m
+    [90m436| [39m    [34mexpect[39m(second)[33m.[39m[34mtoBe[39m(first)[33m;[39m
+    [90m437| [39m    [35mconst[39m parsed [33m=[39m [34mparseContent[39m(first)[33m;[39m
+    [90m438| [39m    [34mexpect[39m(parsed[33m.[39mmap)[33m.[39m[34mtoHaveLength[39m([34m229[39m)[33m;[39m
+    [90m   | [39m                       [31m^[39m
+    [90m439| [39m    [34mexpect[39m(parsed[33m.[39msource)[33m.[39mnot[33m.[39m[34mtoHaveLength[39m([34m0[39m)[33m;[39m
+    [90m440| [39m    [35mconst[39m byLevel [33m=[39m [34mlevelsByLevel[39m(parsed)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/rebuild-map.test.ts[2m > [22mreal committed inputs[2m > [22mmatches the committed map file with a fresh run
+[31m[1mAssertionError[22m: expected '{\n "source": "scripts/rebuild-map.ts…' to be '{\n "source": "scripts/rebuild-map.ts…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -33,252 +33,257 @@[39m
+[2m    }[22m
+[2m   ],[22m
+[2m   "map": [[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[32m-    "keepId": "cmgqv5x6701gjt79byny9w6et",[39m
+[31m+    "keepId": "cmpe74i1a002is601qzk02q4a",[39m
+[2m     "package": "quest-5/l01"[22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[32m-    "keepId": "cmsxd3i01000ms601cf3ogkv7",[39m
+[31m+    "keepId": "cmgqv5x6701gjt79byny9w6et",[39m
+[2m     "package": "quest-5/l02"[22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[32m-    "keepId": "cms4sdw0w001ws6018klrgtfb",[39m
+[31m+    "keepId": "cmsxd3i01000ms601cf3ogkv7",[39m
+[2m     "package": "quest-5/l03"[22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[32m-    "keepId": "cmtzy0l7p000ms601cyjnnkbo",[39m
+[31m+    "keepId": "cms4sdw0w001ws6018klrgtfb",[39m
+[2m     "package": "quest-5/l04"[22m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[31m+    "keepId": "cmtzy0l7p000ms601cyjnnkbo",[39m
+[31m+    "package": "quest-5/l05"[39m
+[31m+   },[39m
+[31m+   {[39m
+[31m+    "level": 5,[39m
+[2m     "keepId": "cmr27fz7o000ps601bfh49pai",[22m
+[32m-    "package": "quest-5/l05"[39m
+[31m+    "package": "quest-5/l06"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtrdf1w8001ws60176m8asza",[22m
+[32m-    "package": "quest-5/l06"[39m
+[31m+    "package": "quest-5/l07"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtrdcljv000ms601je5lnhbg",[22m
+[32m-    "package": "quest-5/l07"[39m
+[31m+    "package": "quest-5/l08"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtu88dtf000ms601rz7o39xn",[22m
+[32m-    "package": "quest-5/l08"[39m
+[31m+    "package": "quest-5/l09"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmrhx7wiq0000s601uof8scsd",[22m
+[32m-    "package": "quest-5/l09"[39m
+[31m+    "package": "quest-5/l10"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtoihc2w000ms601wce7rfuw",[22m
+[32m-    "package": "quest-5/l10"[39m
+[31m+    "package": "quest-5/l11"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmqfcc7hg000ms601q0a3tcde",[22m
+[32m-    "package": "quest-5/l11"[39m
+[31m+    "package": "quest-5/l12"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmt8sm4jm000ms601rxridojy",[22m
+[32m-    "package": "quest-5/l12"[39m
+[31m+    "package": "quest-5/l13"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmq876vd3000ns601o76k56ex",[22m
+[32m-    "package": "quest-5/l13"[39m
+[31m+    "package": "quest-5/l14"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmqwhp78n000os601q66w4xdm",[22m
+[32m-    "package": "quest-5/l14"[39m
+[31m+    "package": "bank-5/b001"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmox1th28001xs6019nk0q4o9",[22m
+[32m-    "package": "bank-5/b001"[39m
+[31m+    "package": "bank-5/b002"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvmb7g01ret79b8g2ox0t8",[22m
+[32m-    "package": "bank-5/b002"[39m
+[31m+    "package": "bank-5/b003"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqulnnp014it79bvuynoxk9",[22m
+[32m-    "package": "bank-5/b003"[39m
+[31m+    "package": "bank-5/b004"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtpxvqq8000ms601nh5y63og",[22m
+[32m-    "package": "bank-5/b004"[39m
+[31m+    "package": "bank-5/b005"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmq6rou1m0000s601qajgt9a0",[22m
+[32m-    "package": "bank-5/b005"[39m
+[31m+    "package": "bank-5/b006"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgquzyh101cpt79bawnjty0k",[22m
+[32m-    "package": "bank-5/b006"[39m
+[31m+    "package": "bank-5/b007"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cms0hxp5l0000s601n54l0m88",[22m
+[32m-    "package": "bank-5/b007"[39m
+[31m+    "package": "bank-5/b008"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmp8h9gsx000os601eal6zohv",[22m
+[32m-    "package": "bank-5/b008"[39m
+[31m+    "package": "bank-5/b009"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmsbxltt7001bs601nqh9wol0",[22m
+[32m-    "package": "bank-5/b009"[39m
+[31m+    "package": "bank-5/b010"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmqdwznkz001as6012ikr5ifz",[22m
+[32m-    "package": "bank-5/b010"[39m
+[31m+    "package": "bank-5/b011"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmsosjh7g000os60137tbjatl",[22m
+[32m-    "package": "bank-5/b011"[39m
+[31m+    "package": "bank-5/b012"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmteihmzb001cs6012pj1n1jv",[22m
+[32m-    "package": "bank-5/b012"[39m
+[31m+    "package": "bank-5/b013"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmqmhn962001as601m18s81lp",[22m
+[32m-    "package": "bank-5/b013"[39m
+[31m+    "package": "bank-5/b014"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvfgcy01mxt79b5585ggdq",[22m
+[32m-    "package": "bank-5/b014"[39m
+[31m+    "package": "bank-5/b015"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqufr92010lt79befvvkv27",[22m
+[32m-    "package": "bank-5/b015"[39m
+[31m+    "package": "bank-5/b016"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqv4u3f01fwt79bbdci7vns",[22m
+[32m-    "package": "bank-5/b016"[39m
+[31m+    "package": "bank-5/b017"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqujtv40135t79b8p9f5wfk",[22m
+[32m-    "package": "bank-5/b017"[39m
+[31m+    "package": "bank-5/b018"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgquj02l012it79b181amsjy",[22m
+[32m-    "package": "bank-5/b018"[39m
+[31m+    "package": "bank-5/b019"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvnzfq01sot79bfvxgao4j",[22m
+[32m-    "package": "bank-5/b019"[39m
+[31m+    "package": "bank-5/b020"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqv8jpw01igt79bgbgl8ewj",[22m
+[32m-    "package": "bank-5/b020"[39m
+[31m+    "package": "bank-5/b021"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgquugn5019kt79bftt1x6is",[22m
+[32m-    "package": "bank-5/b021"[39m
+[31m+    "package": "bank-5/b022"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmu8ir6pd001bs601cctx72bt",[22m
+[32m-    "package": "bank-5/b022"[39m
+[31m+    "package": "bank-5/b023"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqudnv000zbt79bijjnm5n1",[22m
+[32m-    "package": "bank-5/b023"[39m
+[31m+    "package": "bank-5/b024"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvkflc01q4t79bptjzzfbf",[22m
+[32m-    "package": "bank-5/b024"[39m
+[31m+    "package": "bank-5/b025"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cms67q5q3000ms601svq8b2l6",[22m
+[32m-    "package": "bank-5/b025"[39m
+[31m+    "package": "bank-5/b026"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmt7dbj54001bs601gf9n0sl5",[22m
+[32m-    "package": "bank-5/b026"[39m
+[31m+    "package": "bank-5/b027"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmuldroty001as6012ch0c00x",[22m
+[32m-    "package": "bank-5/b027"[39m
+[31m+    "package": "bank-5/b028"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmu737edp000ms601zfhavo1e",[22m
+[32m-    "package": "bank-5/b028"[39m
+[31m+    "package": "bank-5/b029"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvn1mh01s1t79b6iaeyipj",[22m
+[32m-    "package": "bank-5/b029"[39m
+[31m+    "package": "bank-5/b030"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmq3wtvvv000ms601ifz62qys",[22m
+[32m-    "package": "bank-5/b030"[39m
+[31m+    "package": "bank-5/b031"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgquckp200yot79bc33dxlbu",[22m
+[32m-    "package": "bank-5/b031"[39m
+[31m+    "package": "bank-5/b032"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgqvlfor01qrt79bmcx09jk6",[22m
+[32m-    "package": "bank-5/b032"[39m
+[31m+    "package": "bank-5/b033"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmgquvlo301a7t79br0mex3lc",[22m
+[32m-    "package": "bank-5/b033"[39m
+[31m+    "package": "bank-5/b034"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmtvnr8un001as60117i09cqp",[22m
+[32m-    "package": "bank-5/b034"[39m
+[31m+    "package": "bank-5/b035"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 5,[22m
+[2m     "keepId": "cmpfmeaqv001fs601g28g0l32",[22m
+[32m-    "package": "bank-5/b035"[39m
+[31m+    "package": "bank-5/b036"[39m
+[2m    },[22m
+[2m    {[22m
+[2m     "level": 6,[22m
+[2m     "keepId": "cmpe6xm0e000ms60162by7hhv",[22m
+[2m     "package": "quest-6.1/l01"[22m
+
+[36m [2m❯[22m __tests__/rebuild-map.test.ts:[2m491:52[22m[39m
+    [90m489| [39m  [34mit[39m([32m'matches the committed map file with a fresh run'[39m[33m,[39m () [33m=>[39m {
+    [90m490| [39m    const fresh = mod.buildRebuildMap(readKeepGroups(), enumeratePacka…
+    [90m491| [39m    [34mexpect[39m(fs[33m.[39m[34mreadFileSync[39m([33mCOMMITTED_MAP[39m[33m,[39m [32m'utf8'[39m))[33m.[39m[34mtoBe[39m(fresh)[33m;[39m
+    [90m   | [39m                                                   [31m^[39m
+    [90m492| [39m  })[33m;[39m
+    [90m493| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m5 failed[39m[22m[2m | [22m[1m[32m18 passed[39m[22m[90m (23)[39m
+[2m   Start at [22m 15:43:20
+[2m   Duration [22m 483ms[2m (transform 105ms, setup 38ms, import 152ms, tests 123ms, environment 0ms)[22m
+

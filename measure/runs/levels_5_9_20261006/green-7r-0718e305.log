@@ -1,0 +1,27 @@
+# Green · Task 7.0 · levels_5_9_20261006 · provisional result
+
+Phase heading: `## Phase 7R: Rebuild map (Daniel 2026-11-19)`.
+Immutable `phase_base_sha`: `3a929928f9f45791ca2c6a5945f26707f79a7f7d`.
+`role_base_sha`: `0718e30559040ae03526e3425b5d134ec33a7679` (Red of Muse, inside `phase_base_sha..HEAD`).
+Green HEAD (code): `ef7c0fc12392da11e7933e622163df10ae5dc6e8`.
+
+Build command for the committed map: `cd dashboard && npx tsx scripts/rebuild-map.ts`
+(the 3 defaults). Map counts per level: kept 50, 88, 4, 38, 49 over packages
+50, 100, 100, 150, 150; new ids 0, 12, 96, 112, 101 (321 total).
+
+Gate exits: 1 = 0 (23 passed); 2 = 0 (163 files, 3134 tests passed); 3 = 0;
+4 = 0 (0 output lines); 5 = 0 (byte-identical, sha256 `d93bda9d`);
+6 = 0 (all 5 mutants caught, mutant d only by gate 5); 7 = 0 (0 Thai lines).
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 7R: Rebuild map (Daniel 2026-11-19)
+commits: ef7c0fc1 (code)
+tests_run: gate 1 `CI=true npx vitest run __tests__/rebuild-map.test.ts` exit 0, 23 passed; gate 2 project suite exit 0, 163 files and 3134 tests passed; gate 3 eslint exit 0 (plan command and the 2 Phase 7R files); gate 4 `npx tsc --noEmit` exit 0 with 0 lines; gate 5 two runs and the committed map byte-identical (sha256 d93bda9d); mutants a, b, c caught by named tests, d caught by the committed-map comparison, d2 caught by `matches the committed map file with a fresh run`
+files_changed: dashboard/scripts/rebuild-map.ts (new); docs/content-plans/data/rebuild-map-levels-5-9.json (new, 39,495 bytes); measure/tracks/levels_5_9_20261006/plan.md; captures measure/runs/levels_5_9_20261006/green-7r-*.txt and green-7r-0718e305.log
+plan_updates: Task 7.0 turned `[x]` in Phase 7R with `commit ef7c0fc1`, evidence class automated, 1 evidence sub-line; no archive move and no closeout metadata change
+known_failures: none
+handoff: Reviewers can scope to 1 new script and 1 new JSON file; no committed Red test changed. The committed Red test does not cover the script's folder reader order: the committed-map test enumerates the folders itself. Mutant d (reverse the reader sort) survives gate 1 and is caught by the gate 5 comparison of the committed map with a fresh run. Task 7.0 is the only task of Phase 7R; Phase 7 precondition now reads the accepted map. Immutable phase_base_sha 3a929928f9f45791ca2c6a5945f26707f79a7f7d; green HEAD ef7c0fc1 plus the evidence commit.
+END_MEASURE_AGENT_RESULT
