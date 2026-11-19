@@ -1,0 +1,14 @@
+Provisional record authored before the strategy commit. The commits line holds the subject, not a SHA. The orchestrator records the new short SHA from git after the commit lands.
+
+MEASURE_AGENT_RESULT
+role: strategy
+status: complete
+track: levels_5_9_20261006
+phase: Phase 7R: Rebuild map (Daniel 2026-11-19) — Task 7.0
+commits: measure(strategy): levels_5_9 Phase 7R test strategy for the rebuild map (two paths only; SHA assigned at commit time)
+tests_run: none. Bounded strategy role. I read measure/workflow.md, measure/index.md, measure/tracks.md, measure/anti-patterns.md, the track plan.md, spec.md, and the existing test-strategy.md. I read the duplicates JSON, the field map around primary_legacy_id_map, plan-dedup.ts and its test, and the package folders. repo-graph queries against graph.db found no relevant symbols; the graph is stale and I did not change it. I ran no vitest, no tsc, and no gate.
+files_changed: measure/tracks/levels_5_9_20261006/test-strategy.md (Phase 7R section appended, sections 1 to 10 unchanged); measure/runs/levels_5_9_20261006/strategy-7r-5da7c561.log (this file, provisional)
+plan_updates: none. Task 7.0 stays [ ]; it is the orchestrator's gate to mark it [~] before Red work outside measure/.
+known_failures: none in this role. Three PROJECT_TESTS failures predate the phase (constants.test.ts and two cases in origins-thai-support.test.ts) and stay outside this phase; evidence green-g2-baseline-r2.txt.
+handoff: Capture the immutable phase_base_sha with git rev-parse HEAD immediately after this strategy commit and before Red work; do not use role base 5da7c561, which predates the strategy commit. No single manifest lists the 550 packages; they are the top-level *.json files in content/primary/<book>/, grouped by LEVEL_BOOKS, WORKBOOK_LESSONS, and BANK_COUNTS in dashboard/lib/lesson-package/bank-plan.ts and read by loadPackageFolder in dashboard/lib/lesson-package/files.ts; my default is to enumerate those folders. Default pairing rule: kept ids in the order of the groups array in duplicates-levels-5-9.json, paired with packages in source order inside the same level (LEVEL_BOOKS books first, then bank-<level>, each folder in loadPackageFolder order). RED_TEST_COMMAND and GREEN_TEST_COMMAND stay as the plan states them. Review A applies as lead; Review B applies narrowly (no database or network import, no secret, no Thai in outputs); Review C and UX browser review do not apply (no route, no UI); one adversarial round applies.
+END_MEASURE_AGENT_RESULT
