@@ -129,7 +129,7 @@ Decisions in this session (Daniel, 2026-10-20):
 
 - Print: PDF/X-1a, Japan Color 2001 Coated, 210 × 285 mm, no bleed. Flat solid fills of the tokens only. Static fonts only. Check every page of each print PDF.
 - Pinned paths (catalogue pin 08bb160): the 70 packages of the five printed books, `dashboard/lib/teacher-manual/i18n`, and `Teacher guide/step-*.md` do not change.
-- Heavy jobs (book PDFs, test sweeps): message the monorepo session first, and run them with `flock ~/Desktop/primary-parity-progress/heavy.lock`.
+- Heavy commands (book PDFs, every vitest run, every tsc run): run them through ONE wrapper, never nested: `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'` (PM rule, advantage-pr 0e091de, 2026-10-25). Exit 75 means: the pre-flight hold outlasted its wait.
 - Spelling: American English. Daniel checks all Thai.
 
 ## Acceptance Criteria (track)
