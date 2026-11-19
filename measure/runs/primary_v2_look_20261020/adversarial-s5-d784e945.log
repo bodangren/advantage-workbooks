@@ -1,0 +1,13 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: heavy-run Vitest exit 0, 2 files and 16 tests passed; ESLint exit 0; N2 exit 1, N4 exit 1, N7 exit 1
+files_changed: one new adversarial test file; audit JSON, log, Vitest capture, and mutant record
+plan_updates: S5.A1 marked in progress before edits; the orchestrator retains the plan update
+known_failures: none in the restored implementation; the mutation failures are expected
+handoff: A-F18 is fixed by 10 new tests. No implementation defect surfaced. The style bytes are restored. UX review, phase acceptance, and Daniel's gate remain open. Any implementation commit requires this gate again. Facts changed: F18 has tests; 16 tests pass; three mutants fail.
+dispositions: A-F18=FIX
+END_MEASURE_AGENT_RESULT

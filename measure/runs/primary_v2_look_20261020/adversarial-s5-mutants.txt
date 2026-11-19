@@ -1,0 +1,33 @@
+Control: Vitest exit 0; 10 new tests and 6 Red tests pass.
+Original style SHA256: 9421e19690b43dd9e1d89a5be30ecebdf780ade8fd81c1ed04848dc895534c0a
+Mutation command: one heavy-run wrapper around npx vitest run __tests__/chibi-quest-picture-keep.adversarial.test.ts __tests__/chibi-quest-picture-keep.test.ts, from dashboard.
+N2: replace width: auto with max-width: auto in the hero rule.
+Result: Vitest exit 1; 1 failed and 15 passed.
+Catching test: uses the last active hero width declaration with its exact property name.
+New tests: 1 failed, 9 passed. Red tests: 6 passed.
+The original style bytes were restored after the run.
+Thai characters in the raw N2 output: 0.
+Capture parser correction: the first summary assertion expected file counts in the combined summary. The summary holds total counts.
+N4: add a later hero rule with width: 100%.
+Result: Vitest exit 1; 1 failed and 15 passed.
+Catching test: uses the last active hero width declaration with its exact property name.
+New tests: 1 failed, 9 passed. Red tests: 6 passed.
+The original style bytes were restored after the run.
+Thai characters in the raw N4 output: 0.
+N7: put the complete hero rule inside a CSS comment.
+Result: Vitest exit 1; 4 failed and 12 passed.
+Catching tests: the width, max-width, and max-height guards, plus the scoped-rule count.
+New tests: 4 failed, 6 passed. Red tests: 6 passed.
+The original style bytes were restored after the run. The byte comparison exited 0.
+Thai characters in the raw N7 output: 0.
+All three mutants fail the new tests. All three mutants pass the unchanged Red file.
+Supplemental check probes use PATH executables that intercept the actual subprocess commands.
+A7: P3 control passes. A banned classic name beside never and do not fails. Empty text fails.
+P2: empty output fails. A font row with emb=no and uni=yes fails.
+P13: equal ppi passes. The 435/640 squash fails. Empty output fails.
+P13 boundary: a 2 percent difference passes; a 2.1 percent difference fails.
+Intercepted calls: pdftotext 6; pdffonts 4; pdfimages 10. Output Thai characters: 0.
+A4 marker fixture: not applicable. This repository has no tests/ directory and no markers-consistent implementation.
+A4 scoped defense: the empty P3 and P13 fixtures fail; a commented hero rule fails four new tests.
+A5: the only exact claim-pattern match is the historical S3 PDF claim at plan.md:59.
+The S5 Red file exits 0 on the restored implementation. This run does not recheck the S3 PDF claim.
