@@ -4,7 +4,7 @@ Track: `primary_v2_look_20261020`. Type: feature (story-shaped).
 
 ## Overview
 
-**Sprint goal:** Quest 5 goes to the printer by 2026-11-06 in the Chibi Quest look of the app, and the books of levels 1–4 print exactly as before.
+**Sprint goal:** Quest 5 goes to the printer on hold, no date (strategy v1.18) in the Chibi Quest look of the app, and the books of levels 1–4 print exactly as before.
 
 Daniel approved the Chibi Quest look of the 14 app lesson steps on 2026-10-20 (advantage-pr `CHANGELOG.md`, `assets/screenshots/CURRENT.md` v1.6). His workbook look decisions of 2026-10-20 are in advantage-pr `02-brand/naming-conventions.md` v1.4 (ad6dca9, 2bbcfd4):
 
@@ -28,7 +28,7 @@ Decisions in this session (Daniel, 2026-10-20):
 - Depth: the look and the app step names.
 - Page: a white page. Parchment, wood, and gold are accents only (step signs, panel frames, labels). Write-in areas stay white.
 - Fonts: Fredoka (Latin) and Mitr (Thai) for signs, titles, and labels. Quicksand (the app's story font) and Sarabun (Thai) for the article and question text.
-- Order: Quest 5 first. Its printer file is due on 2026-11-06.
+- Order: Quest 5 first. Its printer file is on hold, no date (strategy v1.18).
 
 ## Stories
 
@@ -102,7 +102,7 @@ Decisions in this session (Daniel, 2026-10-20):
 
 ### Story S6: Quest 5 printer file
 **As** the printer
-**I want** the Quest 5 interior as a PDF/X-1a file by 2026-11-06
+**I want** the Quest 5 interior as a PDF/X-1a file on hold, no date (strategy v1.18)
 **So that** the books arrive for semester 2
 
 **Acceptance Criteria:**
@@ -136,7 +136,7 @@ Decisions in this session (Daniel, 2026-10-20):
 
 - The classic output is byte-identical for the five printed books.
 - Daniel approved the page proofs.
-- The Quest 5 PDF/X-1a file passes every check and is in `~/Desktop/print-ready/` by 2026-11-06.
+- The Quest 5 PDF/X-1a file passes every check and is in `~/Desktop/print-ready/` on hold, no date (strategy v1.18).
 
 ## Out of Scope
 
@@ -148,6 +148,6 @@ Decisions in this session (Daniel, 2026-10-20):
 ## Dependencies and Risks
 
 - Daniel must approve the Quest 5 content (track `levels_5_9_20261006`) before the print.
-- The Quest 5 cover (covers track, Phase 4) is also due on 2026-11-06.
+- The Quest 5 cover (covers track, Phase 4) is also on hold, no date (strategy v1.18).
 - The Quest 5 articles must be in the new Primary database before the print (QR links). The levels 5–9 load comes after the cutover.
 - Fredoka is a variable font in the app. The print needs static instances, and Quicksand too.

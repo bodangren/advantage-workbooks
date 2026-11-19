@@ -135,7 +135,7 @@ _Story ref: spec.md#story-s6_
     - [ ] `primary/quest-5-a1/` project from the packages (`scripts/build-workbook-json.ts`)
     - [ ] Book PDF (`make-book-pdf.ts`), PDF/X-1a (`make-pdfx.ts --keep-fonts`), and the 14 lesson PDFs (`make-lesson-pdfs.ts`), under the lock
 - [ ] Task: Verify: every `make-pdfx.ts` check passes; every page looked at; answer key on the last page of each lesson PDF; QR codes scanned on 3 lessons
-- [ ] Task: Deliver: `~/Desktop/print-ready/Primary-Advantage-Quest-5_PDFX-1a.pdf` by 2026-11-06
+- [ ] Task: Deliver: `~/Desktop/print-ready/Primary-Advantage-Quest-5_PDFX-1a.pdf` on hold, no date (strategy v1.18)
 - [ ] Task: Measure - User Manual Verification 'Phase S6: Quest 5 printer file' (Protocol in workflow.md)
 
 ## Phase S7: Monorepo print kit sync
