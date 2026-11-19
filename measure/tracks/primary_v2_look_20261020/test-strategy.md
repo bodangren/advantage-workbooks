@@ -130,9 +130,9 @@ Capture the immutable `phase_base_sha` at the commit of this file, before Red st
 
 ## Phase S5: Page proofs for Daniel
 
-**Risk classification: medium.** No product code changes. A wrong proof sends Daniel to the wrong pages and delays the printer file due 2026-11-06. No production write happens before his approval.
+**Risk classification: medium.** The original proofs changed no product code. A wrong proof sends Daniel to the wrong pages and delays the printer file due 2026-11-06. No production write happens before his approval. The F5 remediation below adds a bounded CSS change; its own risk note governs that change.
 
-**phase_base_sha capture point (S5).** The strategy commit is the commit with subject `measure(strategy): primary_v2_look Phase S5 test strategy for the page proofs`. Immediately after that commit lands, the orchestrator captures `phase_base_sha = $(git rev-parse HEAD)`. That SHA is immutable for the phase. Do not use `8b27c9ea` from the role brief; it predates the strategy commit. If the strategy is refreshed, capture the base again after the newest strategy commit. No proof file, driver, or gate run may start before the capture. This paragraph supersedes the historical S4 capture paragraph above for Phase S5.
+**phase_base_sha capture point (S5).** The strategy commit is the commit with subject `measure(strategy): primary_v2_look Phase S5 test strategy for the page proofs`. Immediately after that commit lands, the orchestrator captures `phase_base_sha = $(git rev-parse HEAD)`. That SHA is immutable for the phase. Do not use `8b27c9ea` from the role brief; it predates the strategy commit. If the strategy is refreshed, capture the base again after the newest strategy commit. No proof file, driver, or gate run may start before the capture. This paragraph supersedes the historical S4 capture paragraph above for Phase S5. It is now superseded for this refresh by the capture point in "S5 remediation (2026-11-19)" below; use the newest strategy commit only.
 
 ### Inputs and what exists
 
@@ -242,4 +242,131 @@ A1 and A8 are retired. The active classes are A2 to A10. Each defense below name
 
 ### Handoff to the orchestrator
 
-Capture the immutable base at the strategy commit, as stated above. Assign Review A, Review B, one adversarial round, the UX/browser review (UX_REQUIRED), phase acceptance, and then Daniel's gate. Run no Red or Green role for S5. The capture directory is `/home/daniebo/Desktop/advantage-pr/assets/screenshots/primary-advantage/parity-run2-2026-10-19/student/`. The long lesson is `adventure-9.2/l09.json`. No product code change is needed.
+Capture the immutable base at the strategy commit, as stated above. Assign Review A, Review B, one adversarial round, the UX/browser review (UX_REQUIRED), phase acceptance, and then Daniel's gate. Run no Red or Green role for the original proofs. The F5 remediation below adds one Red/Green task. The capture directory is `/home/daniebo/Desktop/advantage-pr/assets/screenshots/primary-advantage/parity-run2-2026-10-19/student/`. The long lesson is `adventure-9.2/l09.json`. The original proofs needed no product code change.
+
+### S5 remediation (2026-11-19)
+
+Reviews A and B at `c8fe15ba` returned one Blocker and five Major findings. Review A adds Nits F6 to F10; Review B adds Nits F2 to F4. This sub-section records the fixes and restates the gates. It adds P10, strengthens P2 to P6, and adds an F5 Red/Green task. It does not remove a check above.
+
+**phase_base_sha capture point (authoritative for this refresh).** The capture commit is the commit with subject `measure(strategy): primary_v2_look S5 remediation, picture keep fix and proof r2`. Immediately after that commit lands, the orchestrator runs `git rev-parse HEAD` once and sets `phase_base_sha` to that value. The SHA is immutable for the rest of Phase S5. Do not use `14ba57a6` (the first S5 strategy) or `c8fe15ba` (the role base and the review head). Both predate this committed strategy. If another refresh lands, capture the base again after the newest strategy commit. No Red file, Green fix, driver edit, proof build, or gate run starts before the capture.
+
+**Risk classification: medium.** F5 changes print CSS in `dashboard/lib/document-wrapper/chibi-quest-styles.ts` only. The rule is scoped to `.look-chibi-quest`. The classic wrapper never calls `getChibiQuestStyles()`; `workbook-document-wrapper.ts` line 30 is the only production call. A byte-identity test on the two classic golden files bounds the risk. The r2 proof, the UX/browser review, and Daniel's gate prove the visual result. If a fix needs a change in `primary_template.html` or `workbook-document-wrapper.ts`, the risk becomes high. Refresh this strategy again before that work starts.
+
+#### 1. F5 product change: keep the inline picture with its caption
+
+Review A F5: on Adventure 9.2 lesson 9, pages 3 and 4, the hero picture ends page 3 and its caption "The guide welcomes the Explorers." starts page 4. The template already sets `break-inside: avoid` on `.article-image-area` and `.article-image-box` (`primary_template.html` lines 1320 to 1331), but `.article-image-area` floats left at 55% width. Paged.js splits the float. The fix adds a scoped keep rule in the chibi-quest styles only. The classic golden stays byte-identical.
+
+Red file: `dashboard/__tests__/chibi-quest-picture-keep.test.ts`.
+
+The test asserts:
+
+- `getChibiQuestStyles()` holds a rule scoped to the inline figure wrapper. The rule names `.look-chibi-quest .article-image-box`, `.look-chibi-quest .article-image-area`, and `.look-chibi-quest .inline-img-box`. The rule declares both `break-inside: avoid` and `page-break-inside: avoid`. A bare selector or a repeat of the classic template rule does not count. The test reads the declaration under the `.look-chibi-quest` prefix.
+- A minimal literal DOM fragment copied from the template lines 1674 to 1687 holds the `<img>` and its `.article-image-caption` inside the same `.article-image-box` wrapper that carries the keep rule. The test reads no package, no Thai, and no image.
+- The two classic golden files `content/primary/origins-3.2/print/golden/lesson-05.html` and `lesson-05-no-key.html` stay byte-identical.
+- The styles keep the S3 flat-fill rule: no `gradient`, `rgba(`, `opacity`, shadow, or emoji.
+
+RED_TEST_COMMAND (F5):
+
+```
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-picture-keep.test.ts'
+```
+
+Red condition: the new file exists and compiles. It fails only on the new keep-rule assertion. The golden byte-identity, flat-CSS, and DOM-fragment assertions pass at Red, because they protect present behavior. A Red that fails on a syntax error or a missing import is not a valid Red. Exit 75 means the pre-flight hold outlasted its wait; rerun and do not record a pass.
+
+GREEN_TEST_COMMAND (F5): the same targeted command, which must exit 0 after the CSS fix.
+
+Green gates for F5. Each runs through one heavy-run wrapper, never nested.
+
+- `GREEN_TEST_COMMAND`: the targeted command above; exit 0.
+- `PROJECT_TESTS`: `set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts`; exit 0 apart from the three recorded earlier failures.
+- `PROJECT_LINT`: `set -o pipefail; cd dashboard && npx eslint lib/document-wrapper/chibi-quest-styles.ts __tests__/chibi-quest-picture-keep.test.ts --no-error-on-unmatched-pattern`; exit 0.
+- `PROJECT_CHECKS`: `set -o pipefail; cd dashboard && npx tsc --noEmit`; exit 0.
+
+Mutants for F5. Record each mutant, the catching test, and the exit code in the run log.
+
+- Remove `break-inside: avoid` from the chibi-quest figure rule: the keep-rule assertion fails.
+- Add `!important` to the classic template rule instead: the scoped-rule assertion fails and the golden changes.
+- Put the caption outside the `.article-image-box` wrapper: the DOM-fragment assertion fails.
+- Change one byte in a golden file: the byte-identity assertion fails.
+- Add a gradient to the chibi-quest styles: the flat-fill assertion fails.
+
+Changed-contract risk: `getChibiQuestStyles()` is called once in production (`workbook-document-wrapper.ts` line 30) and by three test files. Keep its signature. Do not add a parameter. A second production caller is a changed contract and needs a fresh strategy. The fix changes no template path, so the classic golden does not change. Treat the `chibi-quest-styles.ts` commit as an S7 `styles.ts` trigger: send its commit id to the PM for the monorepo session.
+
+Live-behavior proof for F5: the CSS test is an artifact test. The real page split is proven only by the r2 Adventure 9.2 contact sheet, the UX/browser review, and Daniel's look. Do not record the CSS assertion as visual proof.
+
+#### 2. Green proof task: driver and checks for proof-s5-r2
+
+Owner: Green, after the F5 product fix and its four Green gates pass. Scope: `measure/runs/primary_v2_look_20261020/proof-s5/` and `.gitignore`. No product source changes in this task.
+
+Build a new folder `~/Desktop/print-ready/primary-v2-look/proof-s5-r2/`. Render with the book name and level so the header matches the printed book. Use one heavy-run wrapper per command, never nested.
+
+```
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/render-lesson-html.ts ../content/primary/quest-5/l01.json --out ../measure/runs/primary_v2_look_20261020/proof-s5/quest5-l01.html --look chibi-quest --series "Quest 5" --level A1'
+```
+
+The second command uses `../content/primary/adventure-9.2/l09.json`, output `adventure92-l09.html`, `--series "Adventure 9.2"`, and `--level A2+`. Run the Thai filter first as in step 1 above. The filter prints 0 Thai characters before any non-Claude role reads a package. Keep all proof binaries outside the repository.
+
+Fixes to the driver and checks:
+
+- P10 (new): read the `workbook-title` string of each proof. Require `Primary Advantage • Quest 5 • A1` and `Primary Advantage • Adventure 9.2 • A2+`. Fail when the book name is absent or when "Primary Advantage" occurs twice. Falsification: the r1 string `Primary Advantage • Primary Advantage • A1` fails P10.
+- P2 (strengthened): fail when `pdffonts` lists 0 fonts. Read the `emb` column as `parsePdffonts` in `lib/print/pdfx.ts` does; do not test `yes` not in row. Falsification: an empty folder or a row `Helvetica Type 1 WinAnsi no no yes` fails.
+- P3 (strengthened): each of the 13 S4.1 names occurs exactly once, in order; the nine classic-only names occur 0 times. Falsification: a doubled render or a swapped pair fails.
+- P4 (strengthened): compare the PDF page count with the page-box count returned by `renderPagedPdf`, not with tiles made from the same PDF. Falsification: a frozen render with a low page-box count fails.
+- P5 (strengthened): assert each TSV pair against the step-to-capture table of the plan. Fail when an `img src` file is missing. Falsification: a reversed capture column or a missing picture fails.
+- P6 (strengthened): fail when 0 filtered files are found. Falsification: a missing filter folder fails.
+- Contact sheet (Review A F2): shorten or wrap the five overprinting captions. Label a page by the step at its top. Give the Thai translation page its own label and no capture. Falsification: a label wider than its room or a translation page paired with the Lesson Summary capture fails the sheet check.
+- Overwrite (Review B F1): refuse to write when the target `--out` already exists. Keep the round-identity refusal. Falsification: a second run against an existing PDF exits 1 and changes no file.
+- CDN (Review B F2): strip the unpkg script tag in the driver, as `make-book-pdf.ts` does, in addition to the DNS mapping. Falsification: a proof HTML that still holds the unpkg tag fails.
+- P9 (Review B F3): match the prefix `Primary-Advantage-Quest-5`. Falsification: a renamed printer file in `~/Desktop/print-ready/` fails P9.
+- `.gitignore` (Review B F4): add the two proof HTML names `measure/runs/primary_v2_look_20261020/proof-s5/quest5-l01.html` and `measure/runs/primary_v2_look_20261020/proof-s5/adventure92-l09.html`. Falsification: `git status --porcelain` lists either file as untracked.
+
+P1, P7, P8, and P9 stay as above. P8 also adds `git status --porcelain` over `dashboard` and `content`. All checks P1 to P10 run through one heavy-run wrapper each; record every exit code. "All checks pass" is written only when all ten exit 0.
+
+F6 to F9 stay deferred as tech debt. F10 is for the plan author: fix the stale Quest 5 date in `plan.md` and `spec.md`, name `proof-s5-r2` and `manifest-r2` in the S5 task, and add the `seriesName`, `levelNumber`, and `cefrLevel` assertions to the S6 test list. The strategy role owns none of those files.
+
+#### 3. Order of work
+
+Run these steps in order. Do not start a later step while an earlier gate is open.
+
+1. Capture `phase_base_sha` at the refresh commit.
+2. Red F5: write the Red file and run RED_TEST_COMMAND; record the failure.
+3. Green F5: apply the CSS fix and run the four Green gates. Send the commit id to the PM for S7.
+4. Green proof task: fix the driver and checks, build `proof-s5-r2`, and run P1 to P10.
+5. Review A and Review B again on the new head.
+6. One adversarial round, then the UX/browser review (UX_REQUIRED).
+7. Phase acceptance on the new head.
+8. Daniel's human gate. S6 stays blocked until his dated approval line.
+
+An open Blocker at any step stops the sequence.
+
+#### 4. Review applicability
+
+Review applicability is unchanged from the S5 section above unless the F5 code change alters it. The fix stays inside `chibi-quest-styles.ts`, so no review gate is added or dropped.
+
+- Review A, correctness: applies as lead. Add the picture-keep rule, the classic golden byte-identity, the P10 header, the strengthened P2 to P6, and the corrected contact-sheet labels to its checks.
+- Review B, security: applies, narrow. Add the no-overwrite refusal, the CDN tag strip, the printer-file prefix, and the `.gitignore` rule to its checks.
+- Review C, route or CLI contract: does not apply. No route, flag, or option changes.
+- Adversarial testing: applies, one round. Add the five F5 mutants and the P2 to P6 falsification fixtures.
+- UX and API review: UX applies and is required (UX_REQUIRED). The API side is Review C and does not apply. Add the fixed page-3 and page-4 split to the visual checks.
+- Browser review: applies (UX_REQUIRED), for the same reason. It audits the r2 proof HTML and contact sheets, not a dev route.
+
+Each review role uses a model family other than the Red and Green families. It reports and fixes nothing. No open Blocker may remain at closeout.
+
+#### 5. Anti-pattern coverage and falsification for the remediation
+
+A1 and A8 are retired. A2 to A10 are active. A11 is reserved in the catalog and has no definition, so no class is defined for it. Every test below has a falsification condition.
+
+| Anti-pattern | Defense in the remediation | Falsification condition |
+|---|---|---|
+| A2, consent-blind publish gate | P9 prefix match and P10 header, plus no printer file before the dated approval in `plan.md`. | A `Primary-Advantage-Quest-5*` file exists before the approval line. The gate fails. |
+| A3, digit-only as a labeled count | P1 and P4 parse labeled integers from `pdfinfo` and the page-box result. The F5 test asserts exact CSS declarations, not a digit count. | A date passes a bare regex but fails the labeled parse. The CSS test passes on a wrong digit count. |
+| A4, vacuous-pass on nothing-done | P3 asserts 13 exact names once each before the absence assertions. The F5 test asserts the keep rule before the golden byte assertion. | An empty render passes "no classic name" but fails the count. A CSS file with no keep rule fails the F5 test. |
+| A5, false-claim text versus test reality | Record the real exit of RED_TEST_COMMAND, GREEN_TEST_COMMAND, the three Green gates, and P1 to P10. | Red exits 0 before Green, or a recorded non-zero exit carries a pass claim. The claim is false. |
+| A6, registry-note overstatement | No approval claim before the dated note. No "resolved" claim while a Review A Blocker is open. | An approval claim without the dated note is false. |
+| A7, over-broad filter swallowing real hits | P3, P6, and P10 use exact strings. P5 uses the exact step-to-capture table. No bare English filter token. | A filter that drops a line holding "never" hides a classic-name leak. P3 fails. |
+| A9, pre-existing test references archived track paths | The Red file and the driver name live paths only. A static check resolves each `measure/tracks/<id>` reference. | A reference to `measure/archive/<id>` fails the resolve check. |
+| A10, generated-facts drift after structural change | P8 records HEAD, package SHA256, and `git status --porcelain`. The S7 handoff sends the F5 commit id. | A stale package or an uncommitted edit makes the manifest differ. The check fails. |
+
+### Handoff to the orchestrator (remediation)
+
+Capture the immutable base at the refresh commit, not at a SHA that predates it. Assign the F5 Red role and the F5 Green role first. Then assign the Green proof task for `proof-s5-r2`. Then assign Reviews A and B again, one adversarial round, the UX/browser review (UX_REQUIRED), phase acceptance, and Daniel's gate. Use the RED_TEST_COMMAND and GREEN_TEST_COMMAND of the F5 block above. Keep the three earlier `PROJECT_TESTS` failures and the storytime exclude as recorded earlier failures; do not fix them in this phase. Do not stage `strategy-s5-8b27c9ea.log`, the review files, the HTML files, `video/**`, or `dashboard/raw.json`. No push, amend, or reset.
