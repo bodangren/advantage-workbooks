@@ -1,0 +1,31 @@
+Gate 6: the 2 committed output files do not change under the r3 code.
+The Task 1.G3 command runs with --out-json and --out-md in a temp folder.
+Temp folder: /tmp/tmp.CpyCFpuzIK
+Inventory: /home/daniebo/Desktop/handoff/levels-5-9-passages-2026-11-19/crosscheck-levels-5-9-merged.json
+The committed docs/ files are only read, never written.
+
+level 5: 92 online → keep 50, 42 similar (23 groups of 2+; weakest merge 0.31)
+level 6: 88 online → keep 88, 0 similar (0 groups of 2+; weakest merge 1.00)
+level 7: 4 online → keep 4, 0 similar (0 groups of 2+; weakest merge 1.00)
+level 8: 38 online → keep 38, 0 similar (0 groups of 2+; weakest merge 1.00)
+level 9: 49 online → keep 49, 0 similar (0 groups of 2+; weakest merge 1.00)
+RUN EXIT: 0
+
+CMP JSON EXIT: 0
+
+--- md diff against the committed file (path line only; the md holds no passage) ---
+7c7
+< In each group, **keep** is the best article (most student use, then approved, then newest). The others are similar to it. Their title, summary, and passage stay in `docs/content-plans/data/duplicates-levels-5-9.json`.
+---
+> In each group, **keep** is the best article (most student use, then approved, then newest). The others are similar to it. Their title, summary, and passage stay in `duplicates-levels-5-9.json`.
+DIFF MD EXIT: 1
+
+Byte counts:
+ 515094 /tmp/tmp.CpyCFpuzIK/duplicates-levels-5-9.json
+ 515094 /home/daniebo/Desktop/Workbooks/docs/content-plans/data/duplicates-levels-5-9.json
+1030188 total
+4777 /tmp/tmp.CpyCFpuzIK/duplicates-levels-5-9.md
+4801 /home/daniebo/Desktop/Workbooks/docs/content-plans/level-plans/duplicates-levels-5-9.md
+9578 total
+
+git status --porcelain docs/ (must be empty):

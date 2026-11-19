@@ -1,0 +1,31 @@
+Task 1.G2 mutant gate, r3 (levels_5_9_20261006), 2026-11-19.
+Code under test: dashboard/scripts/plan-dedup.ts at sha256
+1aac262ed7d78d97bc22614bb92f7117a56b505dea58099adf22db175de81ffc (the r3 code).
+
+Method: each mutant starts as a copy of the r3 script. One new rule of the copy breaks. The copy
+replaces the script for one run of the targeted command. The run names the failing tests. The r3
+copy then goes back, and cmp proves the restore. The r3 code gives 41 passed, 0 failed, so every
+failing test of a mutant comes from that mutant.
+
+Runs 1 to 11 of the r2 mutant gate still hold: the 3 new rules add 3 mutants, and the rest of the
+r3 code is the r2 code with no change.
+
+Command per mutant:
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts 2>&1 | tee ../measure/runs/levels_5_9_20261006/green-g2-mutant-r3-N<n>.txt'
+
+Heavy-run exit codes: each run drops the pipeline status, so the wrapper gives 0. The result line
+and the FAIL lines of each capture are the truth.
+
+Baseline of the r3 code: 41 passed, 0 failed. Capture green-g2-tests-r3.txt.
+
+| Mutant | Rule broken | Caught | Named failing tests | Result line | Restore cmp | Capture |
+|---|---|---|---|---|---|---|
+| N1 | missing --inventory: the required-option check of `parseDedupArgs` goes, so an argv without --inventory reaches `path.resolve(undefined)` | yes | returns ok false for a missing --inventory; prints missing --inventory, then the usage, to stderr and exits 2 with empty stdout | 2 failed, 39 passed (41) | equal | green-g2-mutant-r3-N1.txt |
+| N2 | multi-"=" targets item: the item splits on every "=" and the first two parts pass, so `5=50=x` is accepted | yes | rejects a targets item with more than one equals sign | 1 failed, 40 passed (41) | equal | green-g2-mutant-r3-N2.txt |
+| N3 | missing inventory file: the `fs.existsSync` guard of `main` goes, so `fs.readFileSync` throws ENOENT | yes | names a missing inventory file and exits 2 without a stack trace | 1 failed, 40 passed (41) | equal | green-g2-mutant-r3-N3.txt |
+
+Restore proof: after every mutant, cp of the r3 copy onto dashboard/scripts/plan-dedup.ts and cmp
+of the two files give equal. The final sha256 of the script is
+1aac262ed7d78d97bc22614bb92f7117a56b505dea58099adf22db175de81ffc, the same as at the start.
+
+Summary: 3 new mutants, 3 caught by a named test, 0 live without a catch.

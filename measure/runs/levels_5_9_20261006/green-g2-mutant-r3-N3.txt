@@ -1,0 +1,67 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/plan-dedup.test.ts [2m([22m[2m41 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 403[2mms[22m[39m
+     [32m✓[39m parses --levels as a comma-separated level list[32m 2[2mms[22m[39m
+     [32m✓[39m parses --targets as one target for each listed level[32m 0[2mms[22m[39m
+     [32m✓[39m fills printedIds from a given --printed file[32m 0[2mms[22m[39m
+     [32m✓[39m keeps printedIds empty when --printed is omitted with another level list[32m 0[2mms[22m[39m
+     [32m✓[39m resolves given --out-json and --out-md paths against the working directory[32m 0[2mms[22m[39m
+     [32m✓[39m returns the default levels, targets, printed ids, and output paths[32m 1[2mms[22m[39m
+     [32m✓[39m returns the two committed files byte for byte[32m 78[2mms[22m[39m
+     [32m✓[39m keeps 179 groups with at least one merged group[32m 48[2mms[22m[39m
+     [32m✓[39m writes exactly the two default files with the committed bytes[32m 51[2mms[22m[39m
+     [32m✓[39m keeps the defaults when only the output paths are given[32m 53[2mms[22m[39m
+     [32m✓[39m keeps the default printed file when the levels 1-4 options are written out[32m 60[2mms[22m[39m
+     [32m✓[39m exits 0, writes only the given paths, and prints the pure log lines[32m 71[2mms[22m[39m
+     [32m✓[39m writes the exact heading, intro, table header, and level lines[32m 2[2mms[22m[39m
+     [32m✓[39m keeps every online article below target, with no table for the level[32m 1[2mms[22m[39m
+     [32m✓[39m merges down to the keep count above target, with the Keep-Similar table[32m 1[2mms[22m[39m
+     [32m✓[39m returns the repo-relative form inside the repository[32m 0[2mms[22m[39m
+     [32m✓[39m returns only the file name outside the repository[32m 0[2mms[22m[39m
+     [32m✓[39m holds no absolute path in either output file[32m 1[2mms[22m[39m
+     [32m✓[39m keeps every online article with no merge[32m 1[2mms[22m[39m
+     [32m✓[39m keeps 0 online articles and writes no group of it[32m 1[2mms[22m[39m
+     [32m✓[39m names the inventory file in the source string and the intro, never undefined[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: unknown option[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: unknown option[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: missing option value[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: missing option value[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: level that is not a number[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: level that is not a number[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: targets without levels[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: targets without levels[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: target for a level outside levels[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: target for a level outside levels[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: listed level without a target[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: listed level without a target[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: levels without targets[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: levels without targets[32m 0[2mms[22m[39m
+     [32m✓[39m names a missing printed file and exits 2[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false for a missing --inventory[32m 0[2mms[22m[39m
+     [32m✓[39m prints missing --inventory, then the usage, to stderr and exits 2 with empty stdout[32m 0[2mms[22m[39m
+     [32m✓[39m rejects a targets item with more than one equals sign[32m 0[2mms[22m[39m
+[31m     [31m×[31m names a missing inventory file and exits 2 without a stack trace[39m[32m 4[2mms[22m[39m
+     [32m✓[39m prints no usage and sets no exit code[32m 9[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mnames a missing inventory file and exits 2 without a stack trace
+[31m[1mError[22m: ENOENT: no such file or directory, open '/tmp/plan-dedup-red-NB6zzQ/no-such-inventory.json'[39m
+[36m [2m❯[22m Module.main scripts/plan-dedup.ts:[2m304:31[22m[39m
+    [90m302| [39m        [35mreturn[39m [34m2[39m[33m;[39m
+    [90m303| [39m    }
+    [90m304| [39m    const raw = JSON.parse(fs.readFileSync(parsed.inventory, 'utf8')) …
+    [90m   | [39m                              [31m^[39m
+    [90m305| [39m    const inv = { readAt: raw.readAt || displayPath(parsed.inventory),…
+    [90m306| [39m    [35mconst[39m { files[33m,[39m log } [33m=[39m [34mplanDedup[39m(inv[33m,[39m parsed[33m.[39moptions)[33m;[39m
+[90m [2m❯[22m __tests__/plan-dedup.test.ts:[2m898:18[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m40 passed[39m[22m[90m (41)[39m
+[2m   Start at [22m 08:32:38
+[2m   Duration [22m 783ms[2m (transform 109ms, setup 39ms, import 153ms, tests 403ms, environment 0ms)[22m
+

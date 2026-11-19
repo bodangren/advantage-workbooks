@@ -1,0 +1,101 @@
+# Green result, r3: Task 1.G2, levels_5_9_20261006
+
+Date: 2026-11-19. Role: measure-jr Green. Model: opencode-go/deepseek-v4.1-flash.
+Phase: "## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)".
+Role base: 9f223935 (HEAD at start). Red of this phase: Muse; Red r5 is 9f223935.
+This Green spawns no coder, so no Red-family model touches the code.
+
+## What changed
+
+One file: `dashboard/scripts/plan-dedup.ts`. The r3 commit gives 12 insertions and 3 deletions.
+Three rules land, for review A F1 and F2 and review C F1 and F2.
+
+1. A missing `--inventory` is a parse error. `parseDedupArgs` returns
+   `{ ok: false, message: 'missing option: --inventory', usage }`. `main` prints the message and
+   then the usage to stderr, returns 2, and writes nothing to stdout. Before this change the
+   parse reached `path.resolve(undefined)` and threw a TypeError.
+2. A `--targets` item with more than one `=` is a bad value. The item must split into exactly two
+   parts, so `5=50=x` fails the parse. The message holds the item, and `main` exits 2.
+   Before this change the first two parts passed, so `5=50=x` was read as level 5, target 50.
+3. An `--inventory` path that does not exist gives `inventory file not found: <the resolved given
+   path>`, then the usage, on stderr, with exit 2 and no stack trace. The check sits in `main`
+   and not in `parseDedupArgs`, because the existing tests parse paths that are not on disk yet.
+
+The check of item 1 sits after the flag loop and before the levels and targets checks. No test
+looked wrong, so this run needs no Red retry. No test file changes.
+
+Review A F3 and review B F1 are declined, and no code change comes from them.
+
+## Gate evidence
+
+1. Targeted command, pipefail form, in a heavy-run:
+   `set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts`
+   exit 0, `Tests 41 passed (41)`. Capture `green-g2-tests-r3.txt`.
+2. `PROJECT_TESTS` in a heavy-run: exit 1, `Test Files 2 failed | 159 passed (161)`,
+   `Tests 3 failed | 3080 passed (3083)`. Capture `green-g2-project-tests-r3.txt`.
+   The 3 failures are the same other-track failures that fail at the phase base afbfcf0e, with
+   the evidence of `green-g2-baseline-r2.txt`: `__tests__/constants.test.ts` 'includes Adventures
+   1.0 as a primary workbook option', and `__tests__/origins-thai-support.test.ts`
+   'validates bilingual vocabulary fields for primary/origins-2-a0' and 'primary/origins-3.1-a0'.
+   No other test fails. `__tests__/plan-dedup.test.ts` passes inside this run (41 tests).
+3. `PROJECT_LINT`: exit 0. Capture `green-g2-lint-r3.txt`.
+4. `PROJECT_CHECKS`: exit 0, 0 output lines. Capture `green-g2-tsc-r3.txt`.
+5. Mutants for the 3 new rules: 3 mutants, 3 caught. Capture `green-g2-mutants-r3.txt` and
+   `green-g2-mutant-r3-N1.txt` to `N3`.
+6. Committed outputs: the Task 1.G3 command runs again with both output paths in a temp folder.
+   `cmp` of the JSON and `docs/content-plans/data/duplicates-levels-5-9.json` exits 0, so the
+   JSON is byte-identical (515094 bytes on each side). The MD differs on one line only: line 7
+   names `duplicates-levels-5-9.json` instead of
+   `docs/content-plans/data/duplicates-levels-5-9.json`, because the temp out-json path sits
+   outside REPO_ROOT and `displayPath` returns the file name there. That is the difference Review
+   C found, and this run does not write the committed files. Capture `green-g2-outputs-r3.txt`.
+   The run keeps 50 of the 92 level 5 articles (42 similar, 23 groups of 2+, weakest merge 0.31)
+   and all of levels 6 to 9 (88, 4, 38, 49). No passage text appears in any capture.
+
+`git status --porcelain docs/` is empty at the end. `pnpm-lock.yaml` is unchanged.
+
+## Mutant table
+
+| Mutant | Rule broken | Caught by | Result |
+|---|---|---|---|
+| N1 | missing `--inventory` check removed | `returns ok false for a missing --inventory` and `prints missing --inventory, then the usage, to stderr and exits 2 with empty stdout` | 2 failed, 39 passed |
+| N2 | multi-`=` targets item accepted | `rejects a targets item with more than one equals sign` | 1 failed, 40 passed |
+| N3 | missing inventory file guard removed | `names a missing inventory file and exits 2 without a stack trace` | 1 failed, 40 passed |
+
+Every restore is `cmp`-equal. Final script sha256:
+`1aac262ed7d78d97bc22614bb92f7117a56b505dea58099adf22db175de81ffc`, the start value.
+
+## New files
+
+`green-g2-tests-r3.txt`, `green-g2-project-tests-r3.txt`, `green-g2-lint-r3.txt`,
+`green-g2-tsc-r3.txt`, `green-g2-outputs-r3.txt`, `green-g2-mutants-r3.txt`,
+`green-g2-mutant-r3-N1.txt` to `N3`, and this log. No test file and no source file added.
+
+## Plan updates
+
+- Task 1.G2 stays `[x]`; its task line names `commit 99afc41, commit 61ab994`.
+- One r3 evidence line is added under Task 1.G2.
+- No task turns `[b]`. No archive move, no closeout metadata change.
+
+## Routed finding ids
+
+The brief labels the findings A-F1, A-F2, A-F3, B-F1, C-F1, and C-F2. The dispositions line uses
+the id form that the role gate accepts, so A-F1 is `A1`, A-F2 is `A2`, A-F3 is `A3`, B-F1 is
+`B1`, C-F1 is `C1`, and C-F2 is `C2`. A1 and C1 are the same finding, and both take FIX.
+
+MEASURE_AGENT_RESULT
+role: measure-jr Green
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)
+role_base_sha: 9f223935ac9f4abaf6f7b0d6d7019529d54d4190
+phase_base_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+head: 61ab994e35ec7da666deea296eb83e8f21eb32d4 at the code commit; the evidence commit follows
+commits: 61ab994 fix(levels_5_9): plan-dedup missing --inventory, bad targets item, missing inventory file exit 2 (review A F1/F2, C F1/F2); the evidence commit holds measure/tracks/levels_5_9_20261006/plan.md and the measure/runs/levels_5_9_20261006/green-g2-*-r3 files plus green-g2-r3.log
+tests_run: gate 1 (set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts) exit 0 with 41 passed of 41, capture green-g2-tests-r3.txt; gate 2 PROJECT_TESTS exit 1 with Tests 3 failed | 3080 passed (3083), the 3 failures are the other-track failures proven at afbfcf0e, capture green-g2-project-tests-r3.txt; gate 3 PROJECT_LINT exit 0, capture green-g2-lint-r3.txt; gate 4 PROJECT_CHECKS exit 0 with 0 output lines, capture green-g2-tsc-r3.txt; gate 5 mutants 3 of 3 caught, capture green-g2-mutants-r3.txt and green-g2-mutant-r3-N1..N3.txt; gate 6 cmp of the rerun JSON against the committed file exit 0 and the MD differs only on the displayPath line, capture green-g2-outputs-r3.txt
+files_changed: dashboard/scripts/plan-dedup.ts (12 insertions, 3 deletions); measure/tracks/levels_5_9_20261006/plan.md; 9 r3 captures and green-g2-r3.log
+plan_updates: Task 1.G2 stays [x] and its task line reads commit 99afc41, commit 61ab994; one r3 evidence line is added; no [b] task
+known_failures: 3 tests of other tracks fail in PROJECT_TESTS and also fail at phase_base afbfcf0e: dashboard/__tests__/constants.test.ts 'includes Adventures 1.0 as a primary workbook option', dashboard/__tests__/origins-thai-support.test.ts 'validates bilingual vocabulary fields for primary/origins-2-a0' and 'primary/origins-3.1-a0'
+handoff: The 3 FIX items of the reviews land in dashboard/scripts/plan-dedup.ts. Gate 1 exits 0 with 41 passed; lint, tsc, and the 3 new mutants pass; the committed JSON does not change. Review A F1 and C F1 are one finding and both take FIX; the dispositions line uses the id form A1, A2, A3, B1, C1, C2 that the role gate accepts, so A-F3 is A3 and B-F1 is B1. The MD of a temp run differs on the displayPath line only, as Review C found, so a reviewer who compares MD files must read that line as expected. The 3 other-track failures stay open for Task 1.G5 acceptance. No product decision blocks this run.
+dispositions: A1=FIX; A2=FIX; A3=DECLINE; B1=DECLINE; C1=FIX; C2=FIX
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,81 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/plan-dedup.test.ts [2m([22m[2m41 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 401[2mms[22m[39m
+     [32m✓[39m parses --levels as a comma-separated level list[32m 2[2mms[22m[39m
+     [32m✓[39m parses --targets as one target for each listed level[32m 0[2mms[22m[39m
+     [32m✓[39m fills printedIds from a given --printed file[32m 0[2mms[22m[39m
+     [32m✓[39m keeps printedIds empty when --printed is omitted with another level list[32m 0[2mms[22m[39m
+     [32m✓[39m resolves given --out-json and --out-md paths against the working directory[32m 0[2mms[22m[39m
+     [32m✓[39m returns the default levels, targets, printed ids, and output paths[32m 1[2mms[22m[39m
+     [32m✓[39m returns the two committed files byte for byte[32m 76[2mms[22m[39m
+     [32m✓[39m keeps 179 groups with at least one merged group[32m 47[2mms[22m[39m
+     [32m✓[39m writes exactly the two default files with the committed bytes[32m 51[2mms[22m[39m
+     [32m✓[39m keeps the defaults when only the output paths are given[32m 51[2mms[22m[39m
+     [32m✓[39m keeps the default printed file when the levels 1-4 options are written out[32m 61[2mms[22m[39m
+     [32m✓[39m exits 0, writes only the given paths, and prints the pure log lines[32m 73[2mms[22m[39m
+     [32m✓[39m writes the exact heading, intro, table header, and level lines[32m 2[2mms[22m[39m
+     [32m✓[39m keeps every online article below target, with no table for the level[32m 1[2mms[22m[39m
+     [32m✓[39m merges down to the keep count above target, with the Keep-Similar table[32m 1[2mms[22m[39m
+     [32m✓[39m returns the repo-relative form inside the repository[32m 0[2mms[22m[39m
+     [32m✓[39m returns only the file name outside the repository[32m 0[2mms[22m[39m
+     [32m✓[39m holds no absolute path in either output file[32m 1[2mms[22m[39m
+     [32m✓[39m keeps every online article with no merge[32m 1[2mms[22m[39m
+     [32m✓[39m keeps 0 online articles and writes no group of it[32m 1[2mms[22m[39m
+     [32m✓[39m names the inventory file in the source string and the intro, never undefined[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: unknown option[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: unknown option[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: missing option value[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: missing option value[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: level that is not a number[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: level that is not a number[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: targets without levels[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: targets without levels[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: target for a level outside levels[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: target for a level outside levels[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: listed level without a target[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: listed level without a target[32m 0[2mms[22m[39m
+     [32m✓[39m returns ok false with a message and usage: levels without targets[32m 0[2mms[22m[39m
+     [32m✓[39m prints the message, then the usage, to stderr and exits 2: levels without targets[32m 0[2mms[22m[39m
+     [32m✓[39m names a missing printed file and exits 2[32m 0[2mms[22m[39m
+[31m     [31m×[31m returns ok false for a missing --inventory[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m prints missing --inventory, then the usage, to stderr and exits 2 with empty stdout[39m[32m 1[2mms[22m[39m
+     [32m✓[39m rejects a targets item with more than one equals sign[32m 0[2mms[22m[39m
+     [32m✓[39m names a missing inventory file and exits 2 without a stack trace[32m 0[2mms[22m[39m
+     [32m✓[39m prints no usage and sets no exit code[32m 9[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mreturns ok false for a missing --inventory
+[31m[1mTypeError[22m: The "paths[0]" argument must be of type string. Received undefined[39m
+[36m [2m❯[22m Module.parseDedupArgs scripts/plan-dedup.ts:[2m198:40[22m[39m
+    [90m196| [39m        outMd: values['--out-md'] !== undefined ? path.resolve(values[…
+    [90m197| [39m    }[33m;[39m
+    [90m198| [39m    return { ok: true, inventory: path.resolve(values['--inventory']),…
+    [90m   | [39m                                       [31m^[39m
+    [90m199| [39m}
+    [90m200| [39m
+[90m [2m❯[22m __tests__/plan-dedup.test.ts:[2m835:26[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/plan-dedup.test.ts[2m > [22mbad option values[2m > [22mprints missing --inventory, then the usage, to stderr and exits 2 with empty stdout
+[31m[1mTypeError[22m: The "paths[0]" argument must be of type string. Received undefined[39m
+[36m [2m❯[22m parseDedupArgs scripts/plan-dedup.ts:[2m198:40[22m[39m
+    [90m196| [39m        outMd: values['--out-md'] !== undefined ? path.resolve(values[…
+    [90m197| [39m    }[33m;[39m
+    [90m198| [39m    return { ok: true, inventory: path.resolve(values['--inventory']),…
+    [90m   | [39m                                       [31m^[39m
+    [90m199| [39m}
+    [90m200| [39m
+[90m [2m❯[22m Module.main scripts/plan-dedup.ts:[2m296:20[22m[39m
+[90m [2m❯[22m __tests__/plan-dedup.test.ts:[2m850:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m39 passed[39m[22m[90m (41)[39m
+[2m   Start at [22m 08:31:17
+[2m   Duration [22m 811ms[2m (transform 116ms, setup 43ms, import 163ms, tests 401ms, environment 0ms)[22m
+
