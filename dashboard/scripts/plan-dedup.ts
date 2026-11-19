@@ -132,12 +132,14 @@ function parseLevels(value: string): number[] | null {
     return parts.map((part) => Number(part));
 }
 
-/** The targets of a `--targets` value, or null when a target is not a number. */
+/** The targets of a `--targets` value, or null when an item is not one `level=target` pair. */
 function parseTargets(value: string): Record<number, number> | null {
     const targets: Record<number, number> = {};
     for (const part of value.split(',')) {
-        const [level, count] = part.split('=');
-        if (!/^\d+$/.test(level ?? '') || !/^\d+$/.test(count ?? '')) return null;
+        const pair = part.split('=');
+        if (pair.length !== 2) return null;
+        const [level, count] = pair;
+        if (!/^\d+$/.test(level) || !/^\d+$/.test(count)) return null;
         targets[Number(level)] = Number(count);
     }
     return targets;
@@ -160,6 +162,8 @@ export function parseDedupArgs(argv: string[]): DedupParse {
         values[flag] = value;
         i++;
     }
+
+    if (values['--inventory'] === undefined) return fail('missing option: --inventory');
 
     const levelsGiven = values['--levels'] !== undefined;
     const targetsGiven = values['--targets'] !== undefined;
@@ -295,6 +299,11 @@ export function main(argv: string[]): number {
     if (!parsed.ok) {
         console.error(parsed.message);
         console.error(parsed.usage);
+        return 2;
+    }
+    if (!fs.existsSync(parsed.inventory)) {
+        console.error(`inventory file not found: ${parsed.inventory}`);
+        console.error(USAGE);
         return 2;
     }
     const raw = JSON.parse(fs.readFileSync(parsed.inventory, 'utf8')) as { readAt?: string; articles?: Article[] };
