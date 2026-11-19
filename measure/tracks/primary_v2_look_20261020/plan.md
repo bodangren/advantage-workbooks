@@ -2,7 +2,7 @@
 
 Track: `primary_v2_look_20261020`. Spec: [spec.md](./spec.md).
 
-Dates (printer file due 2026-11-06): S1–S4 by 2026-10-27; proofs to Daniel on 2026-10-28 (S5); Quest 5 build 2026-11-02 to 05 (S6). Every heavy command (every vitest run, every tsc run, every book PDF) runs through ONE wrapper, never nested: `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'` (PM rule, advantage-pr 0e091de, 2026-10-25). Exit 75 means: the pre-flight hold outlasted its wait. Every commit on a template path: send the id to the monorepo session through the PM (S7).
+Dates (printer file on hold, no date (strategy v1.18)): S1–S4 by 2026-10-27; proofs to Daniel on 2026-10-28 (S5); Quest 5 build 2026-11-02 to 05 (S6). Every heavy command (every vitest run, every tsc run, every book PDF) runs through ONE wrapper, never nested: `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'` (PM rule, advantage-pr 0e091de, 2026-10-25). Exit 75 means: the pre-flight hold outlasted its wait. Every commit on a template path: send the id to the monorepo session through the PM (S7).
 
 ## Gate commands (orchestrator environment)
 
@@ -113,6 +113,10 @@ _Story ref: spec.md#story-s5_
 - [x] Task: Proofs of Quest 5 lesson 1 and the longest Adventure 9 lesson: every page as a contact sheet, next to the app captures of the same steps (`parity-run2-2026-10-19/student/lesson-step*`) `commit 234d6792`
     - Proof round 1 (2026-11-19): the proof folder is `~/Desktop/print-ready/primary-v2-look/proof-s5-r1/`; `quest5-l01.pdf` has 14 pages and `adventure92-l09.pdf` has 16 pages; the checks P1 to P9 exit 0 (`measure/runs/primary_v2_look_20261020/proof-s5/checks-r1.txt`); the manifest is `measure/runs/primary_v2_look_20261020/proof-s5/manifest-r1.txt`. Evidence class: automated. Daniel's look is task 2.
     - Finding: the proof HTML loads Paged.js from unpkg.com and the driver injects it from node_modules, so the page rendered twice; the driver blocks the CDN; Review A decides the product side.
+    - Review A at c8fe15ba: FAIL (F1 Blocker: the proof header lacks the book name, from the proof path; F5 Major: a product picture split). Round 1 proofs are superseded by round 2 (Task S5.G2). Dispositions: A-F1 to A-F5 FIX, B-F1 to B-F4 FIX, A-F6 to A-F9 DEFER (tech debt), A-F10 FIX (plan date).
+- [ ] Task S5.R1 (Red): the picture keep test `dashboard/__tests__/chibi-quest-picture-keep.test.ts`, as the S5 remediation of test-strategy.md states (review A F5: the inline picture caption splits from its picture in the chibi-quest look, Adventure 9.2 pages 3 and 4). RED_TEST_COMMAND and GREEN_TEST_COMMAND: the command of the strategy sub-section. Evidence: automated.
+- [ ] Task S5.G1 (Green): the chibi-quest style fix for review A F5, in the file the strategy names only; the classic golden stays byte-identical. Evidence: automated.
+- [ ] Task S5.G2 (Green, proof): proof round 2 in `~/Desktop/print-ready/primary-v2-look/proof-s5-r2/` with --series "Quest 5" --level A1 and --series "Adventure 9.2" --level A2+, the new check P10 (header), the strengthened P2 to P6, and the driver fixes of review A F1 to F4 and review B F1 to F4, as the strategy sub-section states. Evidence: automated.
 - [b] Task: Daniel's notes fixed; new proofs until he approves (date and notes in this plan) — deferred:daniel
 - [b] Task: Measure - User Manual Verification 'Phase S5: Page proofs for Daniel' (Protocol in workflow.md) — deferred:daniel
 
