@@ -1,15 +1,24 @@
-import { TeacherGuideEntry, ThemeColors } from '../types';
+import { TeacherGuideEntry, ThemeColors, WorkbookLook } from '../types';
 import { escapeHtml } from '../utils';
 
-export function generateTeacherGuideSection(entries?: TeacherGuideEntry[], theme?: ThemeColors): string {
+/**
+ * Builds the in-book teacher pages.
+ * @param entries One entry for each lesson, or none for no section.
+ * @param theme The book colors.
+ * @param look The print look: `chibi-quest` names step 2 `Preview Vocabulary`.
+ * @returns The teacher guide section HTML.
+ */
+export function generateTeacherGuideSection(entries?: TeacherGuideEntry[], theme?: ThemeColors, look?: WorkbookLook): string {
   if (!entries || entries.length === 0) return '';
+
+  const vocabularyTitle = look === 'chibi-quest' ? 'Preview Vocabulary' : 'Key Vocabulary';
 
   const pages = entries.map(entry => {
     let vocabHtml = '';
     if (entry.vocabulary && entry.vocabulary.length > 0) {
       vocabHtml = `
         <div class="tg-section">
-          <h4 class="tg-section-title">Key Vocabulary</h4>
+          <h4 class="tg-section-title">${vocabularyTitle}</h4>
           <ul class="tg-vocab-list">
             ${entry.vocabulary.map(v => `<li><strong>${escapeHtml(v.word)}</strong>: ${escapeHtml(v.definition)} ${v.thaiDefinition ? `<em>(${escapeHtml(v.thaiDefinition)})</em>` : ''}</li>`).join('')}
           </ul>

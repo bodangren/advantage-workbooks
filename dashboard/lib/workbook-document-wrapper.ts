@@ -95,7 +95,7 @@ ${bodyTag(options)}
   const glossarySection = generateGlossarySection(options.glossary);
   const answerKeySection = generateAnswerKeySection(options.answerKey);
   const flashcardsSection = options.includeFlashcards ? generateFlashcardsSection(options.glossary) : '';
-  const teacherGuideSection = options.includeTeacherGuide ? generateTeacherGuideSection(options.teacherGuide, theme) : '';
+  const teacherGuideSection = options.includeTeacherGuide ? generateTeacherGuideSection(options.teacherGuide, theme, options.look) : '';
   const spellingPracticeSection = options.includeSpellingPractice ? generateSpellingPracticeSection(options.spellingPractice, theme) : '';
   const selfAssessmentSection = options.includeSelfAssessment ? generateSelfAssessmentSection(theme) : '';
   const certificateSection = options.includeCertificate ? generateCertificateSection(options, theme) : '';

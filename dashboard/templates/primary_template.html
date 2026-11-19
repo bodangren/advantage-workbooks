@@ -1552,7 +1552,7 @@
         <section class="keep-section section phase-1">
             <div class="section-header">
                 <div class="section-icon icon-intro">1</div>
-                <h2 class="section-title">Before You Read</h2>
+                <h2 class="section-title">{{#if chibi_quest}}Introduction{{else}}Before You Read{{/if}}</h2>
                 <span class="section-time">{{icon "timer"}} 5 min</span>
                 <!-- <span class="phase-label phase-1">Phase 1</span> -->
             </div>
@@ -1586,7 +1586,7 @@
         <section class="section phase-1">
             <div class="section-header">
                 <div class="section-icon icon-vocab">2</div>
-                <h2 class="section-title">Key Vocabulary</h2>
+                <h2 class="section-title">{{#if chibi_quest}}Preview Vocabulary{{else}}Key Vocabulary{{/if}}</h2>
                 <span class="section-time">{{icon "timer"}} 8 min</span>
             </div>
 
@@ -1651,7 +1651,7 @@
         <section class="section phase-1 read-article-step">
             <div class="section-header">
                 <div class="section-icon icon-read">3</div>
-                <h2 class="section-title">Read the Article</h2>
+                <h2 class="section-title">{{#if chibi_quest}}First Reading{{else}}Read the Article{{/if}}</h2>
                 <span class="section-time">{{icon "timer"}} 10 min</span>
                 <!-- <span class="phase-label phase-1">Phase 1</span> -->
             </div>
@@ -1736,7 +1736,7 @@
         <section class="keep-section section phase-1">
             <div class="section-header">
                 <div class="section-icon icon-collect">4</div>
-                <h2 class="section-title">Collect Vocabulary</h2>
+                <h2 class="section-title">{{#if chibi_quest}}Vocabulary Collection{{else}}Collect Vocabulary{{/if}}</h2>
                 <span class="section-time">{{icon "timer"}} 5 min</span>
                 <!-- <span class="phase-label phase-1">Phase 1</span> -->
             </div>
@@ -1778,7 +1778,7 @@
         <section class="keep-section section phase-2">
             <div class="section-header">
                 <div class="section-icon icon-read bg-orange">5</div>
-                <h2 class="section-title">Deep Reading Notes</h2>
+                <h2 class="section-title">{{#if chibi_quest}}Deep Reading{{else}}Deep Reading Notes{{/if}}</h2>
                 <span class="section-time">{{icon "timer"}} 10 min</span>
                 <!-- <span class="phase-label phase-2">Phase 2</span> -->
             </div>
@@ -1803,7 +1803,7 @@
         <section class="keep-section section phase-2">
             <div class="section-header">
                 <div class="section-icon icon-collect">6</div>
-                <h2 class="section-title">Collect Sentences{{#if grammar_search_term}} – {{grammar_search_term}}{{/if}}</h2>
+                <h2 class="section-title">{{#if chibi_quest}}Sentence Collection{{else}}Collect Sentences{{/if}}{{#if grammar_search_term}} – {{grammar_search_term}}{{/if}}</h2>
                 <span class="section-time">{{icon "timer"}} 5 min</span>
                 <!-- <span class="phase-label phase-2">Phase 2</span> -->
             </div>
@@ -1850,7 +1850,7 @@
                 {{#if @first}}<div class="keep-together">
                 <div class="section-header">
                     <div class="section-icon icon-question">7</div>
-                    <h2 class="section-title">Comprehension Check</h2>
+                    <h2 class="section-title">{{#if ../chibi_quest}}Multiple Choice{{else}}Comprehension Check{{/if}}</h2>
                     <span class="section-time">{{icon "timer"}} 10 min</span>
                 </div>{{/if}}
                 <div class="question-box">
@@ -1913,7 +1913,7 @@
         <section class="keep-section section phase-3">
             <div class="section-header">
                 <div class="section-icon icon-question">8</div>
-                <h2 class="section-title">Guided Response</h2>
+                <h2 class="section-title">{{#if chibi_quest}}Short Answer{{else}}Guided Response{{/if}}</h2>
                 <span class="section-time">{{icon "timer"}} 8 min</span>
                 <!-- <span class="phase-label phase-3">Phase 3</span> -->
             </div>
@@ -2205,7 +2205,7 @@
         <section class="keep-section section">
             <div class="section-header">
                 <div class="section-icon icon-reflect">13</div>
-                <h2 class="section-title">Lesson Reflection</h2>
+                <h2 class="section-title">{{#if chibi_quest}}Lesson Summary{{else}}Lesson Reflection{{/if}}</h2>
                 <span class="section-time">{{icon "timer"}} 5 min</span>
             </div>
 
