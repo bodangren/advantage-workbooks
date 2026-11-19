@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)",
+  "baseline_sha": "afbfcf0e19924f48b49a4b9e92ec3b6671f623e7",
+  "phase_base_sha": "afbfcf0e19924f48b49a4b9e92ec3b6671f623e7",
+  "role_base_sha": "4717eb9529b9196eee8f259485d7dbebe47e3873",
+  "audited_head_sha": "3c87971ad7a84a1e94ec411e55035a92314a893e",
+  "contract_applicability": "applicable",
+  "status": "pass",
+  "summary": "PASS. The plan-specified CLI contract holds in live runs. The six options parse, and the defaults match the plan. Given paths resolve against the working directory. Parse errors print the message, then the usage, on stderr, and exit 2. The usage names all six options. A run writes exactly the two given files and exits 0. Importing the script prints nothing and sets no exit code. g3-crosscheck exits 2 with the exact message for a missing environment variable. Two error paths outside the plan's list exit 1 with a raw stack trace. One path lacks the --inventory option (F1, Major). The other path names a missing inventory file (F2, Nit). F1 is a regression against afbfcf0e.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] review-c: dashboard/scripts/plan-dedup.ts:196 and 293-299 - a run without --inventory exits 1 with a path.resolve TypeError and prints no message and no usage. The usage marks --inventory required at line 55, and the base afbfcf0e printed usage and exited 2. Rationale: the exit-code contract names only 0 and 2, and parseDedupArgs declares ok:false for bad input instead of throwing. Owner: Green. Fix: fail in parseDedupArgs when --inventory is absent, print message and usage, and exit 2. Note: Review A F1 names the same defect; one fix closes both.",
+    "F2 [Nit] review-c: dashboard/scripts/plan-dedup.ts:300 - a run whose --inventory names a missing file exits 1 with a raw ENOENT stack. Line 183 answers a missing --printed file with a message, then usage, and exit 2. Rationale: the plan promises no behavior for this input and the base behaved the same, so the gap is error-response consistency only. Owner: Green. Fix: check the inventory file in main, print 'inventory file not found: <the given path>', then usage, and exit 2."
+  ],
+  "evidence": [
+    "Provenance: git rev-parse HEAD returns 3c87971ad7a84a1e94ec411e55035a92314a893e, equal to audited_head_sha; phase base afbfcf0e19924f48b49a4b9e92ec3b6671f623e7; role base 4717eb95 from test-strategy.md line 4.",
+    "contract_applicability applicable: test-strategy.md section 3 names Review C for the CLI contract, and the phase diff changes plan-dedup.ts, its test, and two outputs.",
+    "Live matrix of nine plan-dedup argv cases: every plan-specified error case exits 2 with message then usage; the success case exits 0.",
+    "F1 probe: bare invocation exits 1; stderr starts node:path:1257; no Usage line; stdout empty; argv without --inventory behaves the same.",
+    "F1 regression proof: git show afbfcf0e:dashboard/scripts/plan-dedup.ts shows main printed USAGE with console.error and returned 2 when --inventory was missing.",
+    "F2 probe: --inventory to a missing file exits 1; stderr starts node:fs:484; no message and no usage; stdout empty.",
+    "Usage coverage: live stderr of an unknown option contains --inventory, --levels, --targets, --printed, --out-json, and --out-md.",
+    "Defaults check: test lines 244-257 pin levels 1,2,3,4, targets 1=50,2=50,3=100,4=50, 28 printed ids, and the two absolute default output paths.",
+    "cwd resolution: the run from dashboard/ with relative out paths wrote both files only into the mktemp folder, and git status stayed unchanged.",
+    "Full-size run on the 271-article handoff inventory exits 0; log lines give keep counts 50, 88, 4, 38, and 49.",
+    "Output parity: cmp of my JSON against the committed file exits 0; diff of my Markdown shows only the displayPath line.",
+    "Path scan: grep for /home/, /tmp/, and /Users/ in both outputs finds 0 matches; the Markdown has no Delete column.",
+    "Import probe: npx tsx probe-import.mts exits 0; exports list; process.exitCode undefined before and after; no Usage printed.",
+    "Pure plan: planDedup holds no fs or console call; main writes at line 303, and the test spy counts exactly two writes.",
+    "g3-crosscheck without MONOREPO_DATABASE_URL exits 2 and prints Set MONOREPO_DATABASE_URL to the database URL on stderr; stdout empty.",
+    "g3-crosscheck options: unknown option, missing option, and missing value each exit 2 with message then usage naming the three options.",
+    "Wiring: g3-daniel-run.sh lines 117-120 pass --inventory, --out, and --report, and set MONOREPO_DATABASE_URL only for that command.",
+    "Test run: cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts exits 0 with Tests 37 passed (37).",
+    "Write scope: git status --porcelain docs/ is empty at audit end; only the pre-existing untracked dashboard/raw.json remains.",
+    "Route parity: no route, page, or browser flow exists in this phase, so route parity does not apply.",
+    "Scope note: this audit read no content/storytime week file, so the Thai filter rule does not apply.",
+    "Review overlap: Review A F1 records the same missing-inventory defect; this audit adds the missing-file path and the live exit matrix."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse 4717eb95; git rev-parse afbfcf0e (HEAD equals audited_head_sha 3c87971a)",
+    "git diff --stat afbfcf0e19924f48b49a4b9e92ec3b6671f623e7..3c87971ad7a84a1e94ec411e55035a92314a893e (plan-dedup.ts, plan-dedup.test.ts, two docs outputs, plan.md, g3 scripts, run captures)",
+    "cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts (exit 0; Tests 37 passed (37))",
+    "node spawnSync probe of 9 plan-dedup argv cases from dashboard/ (exits 1,2,2,2,2,1,1,2,2; stdout empty in every case; usage flag coverage checked)",
+    "cd dashboard && npx tsx scripts/plan-dedup.ts --inventory /home/daniebo/Desktop/handoff/levels-5-9-passages-2026-11-19/legacy-levels-5-9-passages.json --levels 5,6,7,8,9 --targets 5=50,6=100,7=100,8=150,9=150 --out-json ../../../../../tmp/opencode/review-c-p1g-3c87971a/out-dupes-5-9.json --out-md ../../../../../tmp/opencode/review-c-p1g-3c87971a/out-dupes-5-9.md (exit 0; 5 log lines; 2 files in mktemp)",
+    "cmp /tmp/opencode/review-c-p1g-3c87971a/out-dupes-5-9.json docs/content-plans/data/duplicates-levels-5-9.json (exit 0)",
+    "diff /tmp/opencode/review-c-p1g-3c87971a/out-dupes-5-9.md docs/content-plans/level-plans/duplicates-levels-5-9.md (exit 1; only line 7 displayPath differs)",
+    "grep -c -E '/home/|/tmp/|/Users/' on both mktemp outputs (0 matches each; grep exit 1)",
+    "cd dashboard && npx tsx /tmp/opencode/review-c-p1g-3c87971a/probe-import.mts (exit 0; no Usage; exitCode undefined)",
+    "node spawnSync probe of 4 g3-crosscheck cases with MONOREPO_DATABASE_URL deleted (all exit 2; stdout empty)",
+    "git show afbfcf0e:dashboard/scripts/plan-dedup.ts (base main printed USAGE and returned 2 without --inventory)",
+    "git status --porcelain docs/ (empty at audit end)"
+  ],
+  "changed_files": [
+    "measure/runs/levels_5_9_20261006/review-c-p1g-3c87971a.json",
+    "measure/runs/levels_5_9_20261006/review-c-p1g-3c87971a.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/mimo-v2.6-flash",
+  "ratings": [
+    {"axis": "correctness", "score": 4, "evidence": "Every plan-specified case passes live (9-case probe matrix, exit 2 with message then usage), but two unenumerated paths exit 1 (plan-dedup.ts:196, 300)."},
+    {"axis": "test_meaning", "score": 3, "evidence": "37 tests pin defaults, byte identity, exact strings, and error cases (plan-dedup.test.ts), yet every case passes an --inventory argv, so the F1 path is untested."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --stat afbfcf0e..3c87971a lists only the planned script, test, two outputs, plan.md, g3 scripts, and run captures."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "Each claim carries a command result or file:line, for example the live exit matrix, cmp exit 0, and plan-dedup.ts:196 with the afbfcf0e base comparison."}
+  ],
+  "ux_applicability": "not_applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {
+    "screenshots": [],
+    "accessibility_snapshots": [],
+    "interactions": []
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "summary": "Re-review of the remediation commits 9f223935 (Red r5) and 61ab994e/edeb8529 (Green r3) since my r1 at 3c87971a. My F1 (no-args crash) and F2 (multi-equals targets item) are closed and proven by my own runs in a git archive copy of edeb8529: a bare invocation now prints 'missing option: --inventory' then the usage to stderr and exits 2, and '--targets 7=100=x' fails with a message that names the item. A third rule also landed (review C): a missing inventory file gives 'inventory file not found: <path>' then the usage, exit 2, no stack trace; I ran that case too. The 4 new tests mean what they claim: the r5 capture shows 4 failed | 37 passed before Green (only the new cases fail), and the r3 mutant gate proves each new rule, when removed, fails its named test. No regression: I reran my r1 byte-identity proof at edeb8529 (rebuilt levels 1-4 inventory, run with only --inventory) and cmp reports both committed levels 1-4 files byte-identical; the 2 committed levels 5-9 outputs are unchanged in the diff and the r3 outputs capture shows the JSON cmp equal, with the MD differing only on the displayPath line that names the temp output path, as designed. GREEN_TEST_COMMAND exits 0 with 41 tests passed. F3 stays declined (run-only tool, the delivered run gave 271 = 271). No open finding.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "F1 closed (disposition FIX): dashboard/scripts/plan-dedup.ts:166 now returns { ok: false, message: 'missing option: --inventory', usage } before any path.resolve; my own run of `./node_modules/.bin/tsx scripts/plan-dedup.ts` with no arguments in the archive copy of edeb8529 prints the message, then the usage, and exits 2 with no stack trace (my r1 showed TypeError and exit 1).",
+    "F2 closed (disposition FIX): dashboard/scripts/plan-dedup.ts:137-141 now rejects an item whose split on '=' is not exactly 2 parts; my own run `--targets 7=100=x` prints `--targets needs a comma-separated list of level=target pairs: 7=100=x` then the usage and exits 2.",
+    "New rule (review C, covered): a missing inventory file gives `inventory file not found: <resolved path>` then the usage, exit 2, no stack trace; my own run `--inventory no-such-inventory.json` confirms; the message goes to stderr only, so no output file rule (F11) is touched.",
+    "Test meaning: red-g1-r5.txt shows `Tests 4 failed | 37 passed (41)` with only the 4 new cases failing; the 4 new tests read spy calls before restore and assert message-then-Usage order, empty stdout for the missing --inventory case, and no '    at ' stack lines for the missing-file case.",
+    "Mutant gate: green-g2-mutants-r3.txt records 3 new mutants (N1 required-option check removed, N2 multi-equals accepted, N3 existsSync guard removed), each caught by its named test, with restore cmp equal and the script sha256 1aac262ed7d78d97bc22614bb92f7117a56b505dea58099adf22db175de81ffc; the current dashboard/scripts/plan-dedup.ts hashes to the same value.",
+    "Byte identity rerun: git archive edeb8529 into /tmp/opencode/p1g-audit-r2, rebuilt the levels 1-4 inventory per plan line 54 (272 online, 28 printed, readAt 2026-10-02T02:41:26.855Z), ran the script with only --inventory: exit 0, and cmp exit 0 for both docs/content-plans/data/duplicates-levels-1-4.json and docs/content-plans/level-plans/duplicates.md against the committed files.",
+    "No regression of the levels 5-9 outputs: the diff 3c87971a..edeb8529 holds no docs/ change, and green-g2-outputs-r3.txt shows the r3 run reproduces the committed JSON byte for byte (CMP JSON EXIT: 0) and the MD differs only on the intro path line, which names the temp out-json path through displayPath, the designed behavior.",
+    "Green r3 captures: green-g2-tests-r3.txt shows `Tests 41 passed (41)`; green-g2-tsc-r3.txt and green-g2-lint-r3.txt are 0 lines (both exit 0); green-g2-project-tests-r3.txt holds the 3 known other-track failures that also fail at afbfcf0e.",
+    "F3 stays declined: the dispositions line says DECLINE (run-only tool, the run gave 271 = 271); g3-crosscheck.ts is unchanged in this diff.",
+    "Plan evidence lines match the captures: the Red r5 line (4 failed, only the new cases) and the Green r3 line (41 passed, 3 mutants caught, outputs proof, declined findings named).",
+    "Scope: git diff 3c87971a..edeb8529 --stat shows only dashboard/scripts/plan-dedup.ts, the test file, this track's measure/runs captures, and the track plan; the work tree's only tracked change (video/storytime-song/scripts/render.mjs) belongs to another track."
+  ],
+  "commands": [
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts' -> exit 0, Tests 41 passed (41)",
+    "git archive edeb8529 copy; rebuilt inventory 272 online + 28 printed = 300; tsx scripts/plan-dedup.ts --inventory ../inv-levels-1-4.json -> exit 0; cmp on both default levels 1-4 outputs -> identical",
+    "tsx scripts/plan-dedup.ts (no arguments) -> 'missing option: --inventory' then usage, exit 2",
+    "tsx scripts/plan-dedup.ts ... --targets 7=100=x -> '--targets needs a comma-separated list of level=target pairs: 7=100=x' then usage, exit 2",
+    "tsx scripts/plan-dedup.ts ... --inventory no-such-inventory.json -> 'inventory file not found: <path>' then usage, exit 2",
+    "sha256sum dashboard/scripts/plan-dedup.ts -> 1aac262ed7d78d97bc22614bb92f7117a56b505dea58099adf22db175de81ffc (equals the r3 mutant-gate restore record)",
+    "git diff 3c87971a..edeb8529 --stat -> 16 files: the script, the test, 13 measure/runs captures, plan.md; no docs/ or other production change"
+  ],
+  "changed_files": [
+    "dashboard/scripts/plan-dedup.ts",
+    "dashboard/__tests__/plan-dedup.test.ts",
+    "measure/tracks/levels_5_9_20261006/plan.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "My own runs in the archive copy of edeb8529 prove the no-args case (exit 2 with usage), the multi-equals targets item (exit 2 naming the item), and the missing inventory file (exit 2, no stack trace); the r1 edge gaps are closed."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "red-g1-r5.txt shows the 4 new tests failing before Green (37 passed | 4 failed) and green-g2-mutants-r3.txt shows each of the 3 new rules, when mutated, fails its named test; my gate run gives 41 passed."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff 3c87971a..edeb8529 --stat lists only plan-dedup.ts, the test file, this track's captures, and the track plan; no other file changed."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every r3 plan claim was reproduced: the 41-passed capture, the 3 caught mutants with the script sha256 matching my hash, and my own cmp proving the levels 1-4 byte identity still holds."
+    }
+  ]
+}

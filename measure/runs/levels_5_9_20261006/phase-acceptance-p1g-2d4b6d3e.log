@@ -1,0 +1,42 @@
+Phase acceptance log for Phase 1G of track levels_5_9_20261006.
+Audited head: 2d4b6d3e3bc348a98c807aa7eb8cd2061e74a918. Phase base: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7. Role base: edeb8529d584cfbc2fa0e7c22066897bc348e286.
+
+Read-only verification before the gates:
+- HEAD is 2d4b6d3e before and after all gates, equal to the audited head.
+- Prerequisites at edeb8529: review A (GLM), review B (Kimi), and review C (MiMo) all PASS with 0 open blockers; the adversarial round PASSES with 0 defects and 2 declined uncontracted-edge Nits; spec review passed in round 3. The one commit after edeb8529, 2d4b6d3e, touches only dashboard/__tests__/plan-dedup.adversarial.test.ts and this track's measure/runs captures, so every prerequisite result applies at the accepted head. This acceptance records that exact head and names 2d4b6d3e as the test-only commit it allowed.
+- sha256 of the 2 committed outputs equals the plan 1.G3 evidence line: json 1df3f1ec6fdfbe6869f6ed0cce70530e365324c1e5315b42300deb621c949466, md 15bf6a37503c3141685b6a96a3423f3c03651955631b7cb346d79002aab7a7a3.
+- git diff afbfcf0e..2d4b6d3e on the levels 1-4 output files is empty.
+- No passages inventory is in git; the committed legacy metadata files hold no summary and no passage key.
+- git status --porcelain docs/ is empty; pnpm-lock.yaml is unchanged after all gates.
+- sha256sum dashboard/scripts/plan-dedup.ts gives 1aac262ed7d78d97bc22614bb92f7117a56b505dea58099adf22db175de81ffc, equal to the Green r3 mutant-gate restore record.
+
+Gates, each in its own heavy-run, exit code of every command:
+1. RED_TEST_COMMAND = GREEN_TEST_COMMAND: 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts' -> exit 0. Tests 41 passed (41). Capture pa-p1g-red-green.txt.
+2. Adversarial file: 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.adversarial.test.ts' -> exit 0. Tests 16 passed (16). Capture pa-p1g-adversarial.txt.
+3. PROJECT_TESTS: 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts' -> exit 1. Test Files 2 failed | 160 passed (162); Tests 3 failed | 3096 passed (3099). The 3 failures are exactly the recorded earlier failures of other tracks: __tests__/constants.test.ts 'includes Adventures 1.0 as a primary workbook option', and __tests__/origins-thai-support.test.ts 'validates bilingual vocabulary fields for primary/origins-2-a0' and 'primary/origins-3.1-a0'. They also fail at the phase base afbfcf0e (capture green-g2-baseline-r2.txt), so they are earlier failures outside this track and do not fail the gate. No other test fails. Capture pa-p1g-project-tests.txt.
+4. PROJECT_TESTS with the 2 earlier-failure files also excluded: '--exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts' added -> exit 0. Test Files 160 passed (160); Tests 3093 passed (3093). The 3 excluded failures are the only failures. Capture pa-p1g-project-tests-clean.txt.
+5. PROJECT_LINT (no heavy-run): cd dashboard && npx eslint scripts/plan-dedup.ts __tests__/plan-dedup.test.ts __tests__/plan-dedup.adversarial.test.ts --no-error-on-unmatched-pattern -> exit 0, 0 output lines. Capture pa-p1g-lint.txt.
+6. PROJECT_CHECKS: 'set -o pipefail; cd dashboard && npx tsc --noEmit' -> exit 0, 0 output lines. Capture pa-p1g-tsc.txt.
+
+Verdict: PASS with 0 open blockers for Tasks 1.G1 to 1.G3. Result file: measure/runs/levels_5_9_20261006/phase-acceptance-p1g-2d4b6d3e.json.
+
+Open items, all outside this phase:
+- The 3 earlier failures of other tracks (constants.test.ts, origins-thai-support.test.ts) stay open in their own tracks.
+- The storytime-unit2-sound-stage.test.ts exclude stays until that track's Task 3.6 Green closes.
+- Phase 7 keeps the deletion of old articles, after Daniel approves each level.
+- Two declined Nits stay recorded as uncontracted edges: a duplicate --levels entry emits the level twice; --targets rejects spaces while --levels accepts them. One declined Nit stays recorded on the plan wording: the not-found message prints the resolved path.
+
+Note on captures: the shell rules of this role deny redirection and tee, so each heavy-run ran through a Python subprocess that wrote the pa-p1g-* capture files; the exit code line sits at the top of each capture.
+
+MEASURE_AGENT_RESULT
+role: measure-phase-acceptance
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)
+commits: 2d4b6d3e (audited head; no commit by this role)
+tests_run: RED=GREEN_TEST_COMMAND exit 0 (41 passed, pa-p1g-red-green.txt); adversarial file exit 0 (16 passed, pa-p1g-adversarial.txt); PROJECT_TESTS exit 1 with only the 3 recorded other-track earlier failures (3 failed | 3096 passed, pa-p1g-project-tests.txt); PROJECT_TESTS with the 2 earlier-failure files excluded exit 0 (3093 passed, pa-p1g-project-tests-clean.txt); PROJECT_LINT exit 0 (pa-p1g-lint.txt); PROJECT_CHECKS exit 0 (pa-p1g-tsc.txt)
+files_changed: measure/runs/levels_5_9_20261006/phase-acceptance-p1g-2d4b6d3e.json, phase-acceptance-p1g-2d4b6d3e.log, and the 6 pa-p1g-* captures
+plan_updates: none by this role; the plan records the result file per its Phase acceptance bullet
+known_failures: the 3 earlier failures of other tracks (constants.test.ts 'includes Adventures 1.0 as a primary workbook option'; origins-thai-support.test.ts origins-2-a0 and origins-3.1-a0), which also fail at afbfcf0e; no other failure
+handoff: PASS for Tasks 1.G1 to 1.G3 at head 2d4b6d3e; the accepted head is 2d4b6d3e and the test-only commit 2d4b6d3e over edeb8529 is the allowed advance; the plan line for this result file is the only closeout left to the orchestrator
+END_MEASURE_AGENT_RESULT

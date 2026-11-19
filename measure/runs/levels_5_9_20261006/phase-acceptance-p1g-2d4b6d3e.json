@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)",
+  "baseline_sha": "afbfcf0e19924f48b49a4b9e92ec3b6671f623e7",
+  "phase_base_sha": "afbfcf0e19924f48b49a4b9e92ec3b6671f623e7",
+  "role_base_sha": "edeb8529d584cfbc2fa0e7c22066897bc348e286",
+  "audited_head_sha": "2d4b6d3e3bc348a98c807aa7eb8cd2061e74a918",
+  "status": "pass",
+  "summary": "PASS for Tasks 1.G1 to 1.G3 at head 2d4b6d3e, with 0 open blockers. Every gate ran at the head, each in its own heavy-run, and every exit code is stated below. RED_TEST_COMMAND and GREEN_TEST_COMMAND are the same command and exit 0 with 41 passed. The adversarial file exits 0 with 16 passed. PROJECT_TESTS exits 1 with exactly the 3 known earlier failures of other tracks (constants.test.ts 'includes Adventures 1.0 as a primary workbook option'; origins-thai-support.test.ts origins-2-a0 and origins-3.1-a0), which also fail at the phase base afbfcf0e; the same command with those 2 files also excluded exits 0 with 3093 passed, so no other test fails. PROJECT_LINT exits 0 with 0 output lines. PROJECT_CHECKS (npx tsc --noEmit) exits 0 with 0 output lines. Read-only verification: the 2 committed outputs hash to the 1.G3 evidence sha256 values; the levels 1-4 output files are unchanged since afbfcf0e; no passages inventory is in git; git status --porcelain docs/ is empty; pnpm-lock.yaml is unchanged. Prerequisites: review A, B, and C at edeb8529 all PASS with 0 open blockers; the adversarial round PASSes with 0 defects; spec review passed in round 3. The one commit after edeb8529, 2d4b6d3e, touches only the adversarial test file and this track's measure/runs captures, so every prerequisite result applies at the accepted head; this acceptance records that test-only commit as allowed.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "Provenance: git rev-parse HEAD returns 2d4b6d3e3bc348a98c807aa7eb8cd2061e74a918 before and after all gates; git status --porcelain docs/ and pnpm-lock.yaml is empty (exit 0).",
+    "Gate 1, RED_TEST_COMMAND = GREEN_TEST_COMMAND ('set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts'): exit 0, Tests 41 passed (41); capture measure/runs/levels_5_9_20261006/pa-p1g-red-green.txt.",
+    "Gate 2, the adversarial file ('set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.adversarial.test.ts'): exit 0, Tests 16 passed (16); capture pa-p1g-adversarial.txt.",
+    "Gate 3, PROJECT_TESTS ('set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts'): exit 1, Test Files 2 failed | 160 passed (162), Tests 3 failed | 3096 passed (3099). The 3 failures are exactly the known earlier failures of other tracks: __tests__/constants.test.ts 'includes Adventures 1.0 as a primary workbook option' and __tests__/origins-thai-support.test.ts 'validates bilingual vocabulary fields for primary/origins-2-a0' and 'primary/origins-3.1-a0' (grep of the capture names all 3). They also fail at the phase base afbfcf0e (capture green-g2-baseline-r2.txt), so the plan records them as earlier failures outside this track; no other test fails. Capture pa-p1g-project-tests.txt.",
+    "Gate 4, PROJECT_TESTS with the 2 earlier-failure files also excluded ('--exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts'): exit 0, Test Files 160 passed (160), Tests 3093 passed (3093). This proves the 3 excluded failures are the only failures. Capture pa-p1g-project-tests-clean.txt.",
+    "Gate 5, PROJECT_LINT ('cd dashboard && npx eslint scripts/plan-dedup.ts __tests__/plan-dedup.test.ts __tests__/plan-dedup.adversarial.test.ts --no-error-on-unmatched-pattern', no heavy-run): exit 0 with 0 output lines; capture pa-p1g-lint.txt.",
+    "Gate 6, PROJECT_CHECKS ('set -o pipefail; cd dashboard && npx tsc --noEmit'): exit 0 with 0 output lines in a heavy-run; capture pa-p1g-tsc.txt.",
+    "Outputs: sha256sum gives 1df3f1ec6fdfbe6869f6ed0cce70530e365324c1e5315b42300deb621c949466 for docs/content-plans/data/duplicates-levels-5-9.json and 15bf6a37503c3141685b6a96a3423f3c03651955631b7cb346d79002aab7a7a3 for docs/content-plans/level-plans/duplicates-levels-5-9.md, equal to the plan 1.G3 evidence line.",
+    "Levels 1-4 unchanged: git diff afbfcf0e..2d4b6d3e -- docs/content-plans/data/duplicates-levels-1-4.json docs/content-plans/level-plans/duplicates.md prints 0 lines, and the byte-identity test passes in gate 1.",
+    "No passages inventory in git: git ls-files finds only the 2 metadata files docs/content-plans/data/legacy-levels-1-4-2026-10-02.json and legacy-levels-5-9-2026-10-08.json; a python3 key scan of the 5-9 metadata file shows 271 articles with no summary key and no passage key, so no passages inventory is committed.",
+    "Task states: plan.md holds 1.G1 [x] commit f383c962, 1.G2 [x] commit 99afc41 and 61ab994, 1.G3 [x] commit 9aaa689; every SHA resolves in git log afbfcf0e..2d4b6d3e, so no plan/commit mismatch exists.",
+    "Prerequisites: review-a-p1g-edeb8529.json (GLM), review-b-p1g-edeb8529.json (Kimi), review-c-p1g-edeb8529.json (MiMo) all hold status pass with 0 blocking findings at head edeb8529; adversarial-p1g-edeb8529.json holds pass with 0 defects and 2 declined uncontracted-edge Nits (duplicate --levels entry, targets-space asymmetry); spec-review passed in round 3 (spec-review-c26e3bc9.json).",
+    "Test-only commit allowed: git diff-tree of 2d4b6d3e lists dashboard/__tests__/plan-dedup.adversarial.test.ts and this track's measure/runs captures only, so the edeb8529 prerequisite results apply at the accepted head 2d4b6d3e; this acceptance records that exact head.",
+    "A5 check: every pass claim of the phase evidence lines matches a capture with an exit code (Red r5 exit 1 with 4 new cases failing first; Green r3 exit 0 with 41 passed; my 6 gate reruns above). The declined Nit on the plan's 'given path' wording (review-c r2 F3, DECLINE with the resolved path recorded in the message) is a closed disposition, pinned by the adversarial test 'names the resolved path, then the usage, and exits 2'.",
+    "Script identity: sha256sum dashboard/scripts/plan-dedup.ts gives 1aac262ed7d78d97bc22614bb92f7117a56b505dea58099adf22db175de81ffc, equal to the Green r3 mutant-gate restore record that review A re-checked.",
+    "Scope: git diff --stat afbfcf0e..2d4b6d3e holds dashboard/__tests__/plan-dedup.test.ts, dashboard/__tests__/plan-dedup.adversarial.test.ts, dashboard/scripts/plan-dedup.ts, the 2 new docs/content-plans outputs, this track's measure/ files, and measure/tracks/levels_5_9_20261006/plan.md only; the dirty work-tree files (video/storytime-song/scripts/render.mjs, dashboard/raw.json) sit outside docs/ and belong to other tracks.",
+    "Thai filter scope: this role read and wrote no content/storytime week file, so the non-Claude Thai filter rule does not apply."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 2d4b6d3e3bc348a98c807aa7eb8cd2061e74a918 (before and after the gates)",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts' -> exit 0, Tests 41 passed (41)",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.adversarial.test.ts' -> exit 0, Tests 16 passed (16)",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts' -> exit 1, Tests 3 failed | 3096 passed (3099); the 3 failures are the recorded earlier failures of other tracks",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts --exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts' -> exit 0, Tests 3093 passed (3093)",
+    "cd dashboard && npx eslint scripts/plan-dedup.ts __tests__/plan-dedup.test.ts __tests__/plan-dedup.adversarial.test.ts --no-error-on-unmatched-pattern -> exit 0, 0 output lines",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 heavy-run -c 'set -o pipefail; cd dashboard && npx tsc --noEmit' -> exit 0, 0 output lines",
+    "sha256sum docs/content-plans/data/duplicates-levels-5-9.json docs/content-plans/level-plans/duplicates-levels-5-9.md -> both equal the plan 1.G3 evidence hashes",
+    "git diff afbfcf0e..2d4b6d3e -- docs/content-plans/data/duplicates-levels-1-4.json docs/content-plans/level-plans/duplicates.md -> 0 lines",
+    "git status --porcelain docs/ -> empty, exit 0 (pnpm-lock.yaml also unchanged)"
+  ],
+  "changed_files": [
+    "measure/runs/levels_5_9_20261006/phase-acceptance-p1g-2d4b6d3e.json",
+    "measure/runs/levels_5_9_20261006/phase-acceptance-p1g-2d4b6d3e.log",
+    "measure/runs/levels_5_9_20261006/pa-p1g-red-green.txt",
+    "measure/runs/levels_5_9_20261006/pa-p1g-adversarial.txt",
+    "measure/runs/levels_5_9_20261006/pa-p1g-project-tests.txt",
+    "measure/runs/levels_5_9_20261006/pa-p1g-project-tests-clean.txt",
+    "measure/runs/levels_5_9_20261006/pa-p1g-lint.txt",
+    "measure/runs/levels_5_9_20261006/pa-p1g-tsc.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "The CLI rules hold at the head: my gate 1 run passes all 41 tests, including the byte-identity test of the levels 1-4 outputs, and the 2 committed levels 5-9 outputs hash to the plan evidence values (sha256sum above)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "Red failed first (red-g1-afbfcf0e.txt: 36 failed; red-g1-r5.txt: only the 4 new cases fail), Green r3 catches all 11+3 mutants, and the adversarial file adds 16 live probes that pass (pa-p1g-adversarial.txt, exit 0)."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --stat afbfcf0e..2d4b6d3e lists only the script, the 2 test files, the 2 new outputs, this track's measure/ files, and the track plan; no third production file changed."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim in this report names a command with its exit code: 6 gate reruns at the head with pa-p1g-* captures, plus sha256sum, git diff, and git status results."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "opencode-go/glm-5.3#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "Review A re-ran the byte-identity proof, the no-args and bad-targets probes, and the mutant restore hash in its own archive copy; its PASS at edeb8529 matches my gate results, and the script sha256 it recorded still matches the file at 2d4b6d3e."
+    },
+    {
+      "reviewer_role": "review-b",
+      "reviewer_route": "kimi-code-plan-cn/kimi-for-coding",
+      "agreed": true,
+      "score": 5,
+      "evidence": "Review B's security scan of the r3 range found no secret, no URL, and no passage text in the new captures; my own scan confirms the committed 5-9 metadata file holds no summary and no passage key, and git status --porcelain docs/ is empty."
+    },
+    {
+      "reviewer_role": "review-c",
+      "reviewer_route": "opencode-go/mimo-v2.6-flash",
+      "agreed": true,
+      "score": 5,
+      "evidence": "Review C's 11 live argv probes and the import probe all hold at the head (the 41-test gate passes), and its one Nit on the not-found message wording was correctly dispositioned DECLINE and pinned by the adversarial test."
+    },
+    {
+      "reviewer_role": "adversarial",
+      "reviewer_route": "opencode-go/glm-5.3#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "The adversarial 16-test file passes in my own heavy-run (exit 0) and its 2 uncontracted-edge Nits are recorded DECLINE by the owner, so no defect reaches Green."
+    }
+  ]
+}

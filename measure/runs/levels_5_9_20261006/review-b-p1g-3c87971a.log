@@ -1,0 +1,89 @@
+# Review B (security and data handling) — Phase 1G, track levels_5_9_20261006
+# Audited head: 3c87971ad7a84a1e94ec411e55035a92314a893e (confirmed current: git rev-parse HEAD matches)
+# Phase base: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7 | Role base: 4717eb95
+# Route: kimi-code-plan-cn/kimi-for-coding
+# Verdict: PASS. One Nit (machine paths in committed run captures, a pre-existing repo norm).
+
+Provenance and applicability.
+HEAD equals the audited head 3c87971ad7a84a1e94ec411e55035a92314a893e. The role
+base of the test strategy is 4717eb95 (test-strategy.md line 5); the phase base is
+afbfcf0e19924f48b49a4b9e92ec3b6671f623e7. Review B applies, narrow, per test-strategy.md
+section 3. The audited range adds a CLI with file IO, a committed JSON that carries
+passage text from a private database export, and two database scripts.
+
+Check 1. Path display (F11) — PASS.
+git grep at the audited head over the two public outputs
+(docs/content-plans/data/duplicates-levels-5-9.json and
+docs/content-plans/level-plans/duplicates-levels-5-9.md) finds no /home/, /tmp,
+postgres://, email, password, or key. A python3 scan of the JSON finds 0 absolute
+paths, 0 URLs, and 0 Thai characters. The md names no path at all. The run captures
+of this range (red-g1-*.txt, green-g2-*.txt, green-g2-mutant*.txt) carry the machine
+checkout path in vitest banners. This is a pre-existing norm: 1404 committed files
+under measure/runs at the phase base already contain /home/daniebo, against 1433 at
+the head. Recorded as F1 Nit, not a blocker, because the public outputs are clean and
+the phase did not introduce the pattern.
+
+Check 2. Git hygiene — PASS.
+No credential value sits in any committed file of the range. g3-daniel-run.sh names
+the secrets (DATABASE_URL, PRIMARY_V2_DATABASE_URL, gcloud project and instance) at
+lines 30-38 and fetches them through gcloud at lines 95 and 113 without printing
+values. The passages inventory and the merged inventory are not in git: they live in
+~/Desktop/handoff/levels-5-9-passages-2026-11-19/ (outside the repository), git
+ls-files lists no passages file, git status --porcelain -- docs/content-plans/ is
+empty, and nothing is staged. The committed captures g3-crosscheck.txt and
+g3-run.txt hold counts and ids only.
+
+Check 3. Passage-text scope (PM rule 2026-11-19) — PASS.
+The committed JSON matches the levels 1-4 precedent: the article field set is
+identical (approved, createdAt, genre, id, passage, summary, title, type, use, words);
+no new private field. Personal-data scan of all 271 articles (1897 strings), counts
+and matched tokens only: 0 emails; phone-form matches are 271 createdAt ISO dates,
+not phone numbers; 0 address-like patterns; capitalized two-word tokens after the
+series-cast filter are fictional characters (Little Bao, Doctor Dan, Postman Mike,
+Papa Panda, Luna, Barnaby) or title and genre fragments (The Happy, Daily Life).
+Cast source: docs/content-plans/primary-quest-adventure-series-bible.md sections 1-5
+plus the Origins bible carry-over. No full names of real children or parents, no real
+school names, no credentials, no level-test items.
+
+Check 4. Database scripts — PASS (inspection only; the scripts were not run).
+g3-crosscheck.ts is read-only in form: SET default_transaction_read_only (line 296),
+BEGIN READ ONLY (line 297), isReadOnlySql on both SELECTs (line 289), ROLLBACK (line
+306), client.end() in finally (line 308), and the URL comes from
+MONOREPO_DATABASE_URL with an error text that holds no value (line 334). Its writes
+go only to the --out, --report, and merged paths. g3-daniel-run.sh starts the Cloud
+SQL proxy in the background (line 76) and stops it through trap cleanup EXIT (lines
+54-60); every write target is OUT_DIR, the handoff folder (line 29); set -euo
+pipefail holds (line 25); the script refuses to run when port 5433 is already in use
+(lines 67-70). Nothing is written inside the git tree.
+
+A2 (consent-blind publish gate) — not triggered.
+No test or script of this range flips a draft to a published status. The two outputs
+are plan documents committed under the PM go recorded in plan.md line 76.
+
+A6 (registry overstatement) — holds.
+measure/tracks.md line 30 records the track as [~] (active). No security state is
+claimed resolved in the range. The Task 1.G3 evidence sha256 values match the
+committed files by direct sha256sum.
+
+Findings.
+F1 [Nit] review-b: committed run captures of this range carry the machine checkout
+path in vitest banners (measure/runs/levels_5_9_20261006/green-g2-project-tests.txt:2,
+red-g1-afbfcf0e.txt:2, green-g2-mutant-M1.txt:2 print /home/daniebo/Desktop/Workbooks/
+dashboard). Pre-existing norm: 1404 committed files at the phase base already carry
+/home/daniebo under measure/runs. Rationale: the account name and checkout path are
+already public across the run history; a track-wide banner cleanup is optional and
+outside this phase.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)
+commits: none (audit only)
+tests_run: no test suites; inspection commands: git diff --stat afbfcf0e..3c87971a; git grep for paths/secrets at 3c87971a; git grep -l -F /home/daniebo at afbfcf0e and 3c87971a (1404 vs 1433 files); python3 scans of duplicates-levels-5-9.json (emails 0, phones 0 real, names filtered against the series cast, fields identical to the 1-4 precedent, Thai 0, absolute paths 0); sha256sum of both outputs matches plan evidence; git status and git ls-files confirm the passages inventory and the merged inventory stay out of git
+files_changed: measure/runs/levels_5_9_20261006/review-b-p1g-3c87971a.json; measure/runs/levels_5_9_20261006/review-b-p1g-3c87971a.log
+plan_updates: none
+known_failures: none
+handoff: PASS with one Nit (F1). The Nit does not block the phase. Route it to the user or record it as accepted; a future track could strip vitest banners from run captures repo-wide. Result JSON: measure/runs/levels_5_9_20261006/review-b-p1g-3c87971a.json.
+dispositions: none
+END_MEASURE_AGENT_RESULT

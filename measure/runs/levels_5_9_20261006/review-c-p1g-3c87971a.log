@@ -1,0 +1,42 @@
+Review C (UX and API end-to-end contract), track levels_5_9_20261006, Phase 1G.
+Verdict: PASS, 0 blocking findings, 2 nonblocking findings (F1 Major, F2 Nit).
+
+Provenance:
+- git rev-parse HEAD returns 3c87971ad7a84a1e94ec411e55035a92314a893e, equal to audited_head_sha, at audit start and at audit end.
+- phase_base_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7. role_base_sha: 4717eb9529b9196eee8f259485d7dbebe47e3873 (test-strategy.md line 4).
+- contract_applicability: applicable. test-strategy.md section 3 assigns Review C the CLI contract, and the exact phase diff afbfcf0e..3c87971a changes dashboard/scripts/plan-dedup.ts, dashboard/__tests__/plan-dedup.test.ts, two docs outputs, plan.md, the two g3 scripts, and run captures.
+- No route, page, or browser flow exists. No browser and no webbridge ran. Route parity does not apply.
+
+Scope read: plan.md Tasks 1.G1 to 1.G3 and the phase gates, test-strategy.md, dashboard/scripts/plan-dedup.ts, dashboard/__tests__/plan-dedup.test.ts, measure/runs/levels_5_9_20261006/g3-crosscheck.ts, and g3-daniel-run.sh.
+
+Commands and exit codes (no shell redirection; outputs only under /tmp/opencode/review-c-p1g-3c87971a):
+- git rev-parse HEAD (exit 0, 3c87971a equals the audited head).
+- git diff --stat afbfcf0e..3c87971a (exit 0, planned file sets only).
+- cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts (exit 0; Tests 37 passed (37)).
+- node spawnSync probe of 9 plan-dedup argv cases from dashboard/: no-args exit 1, --help exit 2, unknown option exit 2, missing value exit 2, missing printed file exit 2, missing inventory file exit 1, no inventory option exit 1, levels without targets exit 2, bad level exit 2. stdout empty in every case. The usage text of the unknown-option error names all six options.
+- Live success run from dashboard/ with relative out paths: exit 0, 5 log lines, 2 files in the mktemp folder, git status unchanged.
+- cmp of my JSON against the committed duplicates-levels-5-9.json: exit 0. diff of my Markdown against the committed file: exit 1, only line 7 (the displayPath name) differs.
+- grep for /home/, /tmp/, and /Users/ on both outputs: 0 matches each (grep exit 1).
+- Import probe (npx tsx probe-import.mts): exit 0, exports listed, process.exitCode undefined before and after, no Usage printed.
+- g3-crosscheck probes with MONOREPO_DATABASE_URL deleted: no-env-var exit 2 with the exact message, unknown option exit 2, missing option exit 2, missing value exit 2; message then usage on stderr; stdout empty.
+- git show afbfcf0e:dashboard/scripts/plan-dedup.ts: the base main printed USAGE with console.error and returned 2 when --inventory was missing.
+- git status --porcelain docs/: empty (exit 0).
+
+Findings:
+- F1 [Major] review-c: a run without --inventory exits 1 with a path.resolve TypeError and no message and no usage (plan-dedup.ts:196, 293-299). This is a regression against afbfcf0e. It overlaps Review A F1; one Green fix closes both.
+- F2 [Nit] review-c: a run whose --inventory names a missing file exits 1 with a raw ENOENT stack (plan-dedup.ts:300), while line 183 answers a missing --printed file with message, usage, and exit 2.
+
+This role changed no code, test, plan, or content file. The only files of this role are the two result files below.
+
+MEASURE_AGENT_RESULT
+role: review-c
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)
+commits: audited afbfcf0e..3c87971a, no commit by this role
+tests_run: cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts exit 0, Tests 37 passed (37); 14 live CLI probes recorded in the result JSON; no heavy-run wrapper, because this role's shell rules deny redirection
+files_changed: measure/runs/levels_5_9_20261006/review-c-p1g-3c87971a.json, measure/runs/levels_5_9_20261006/review-c-p1g-3c87971a.log (report only)
+plan_updates: none by this role; the two result files feed the plan's Task 1.G4 review-gates block
+known_failures: none blocking; F1 Major (missing --inventory exits 1) and F2 Nit (missing inventory file exits 1) wait for Green
+handoff: PASS with 0 blockers. Route F1 to Green; it overlaps Review A F1. F2 is a Nit. The specified CLI contract holds in live runs. The audited HEAD is current and git status --porcelain docs/ is empty.
+END_MEASURE_AGENT_RESULT

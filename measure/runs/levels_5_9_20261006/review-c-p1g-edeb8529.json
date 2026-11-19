@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)",
+  "baseline_sha": "afbfcf0e19924f48b49a4b9e92ec3b6671f623e7",
+  "phase_base_sha": "afbfcf0e19924f48b49a4b9e92ec3b6671f623e7",
+  "role_base_sha": "3c87971ad7a84a1e94ec411e55035a92314a893e",
+  "audited_head_sha": "edeb8529d584cfbc2fa0e7c22066897bc348e286",
+  "contract_applicability": "applicable",
+  "status": "pass",
+  "summary": "Review C round 2 at edeb8529. PASS with 0 blockers. Both round 1 findings are fixed and verified: a run without --inventory now exits 2 with message then usage, and a missing inventory file exits 2 with a clean message and no stack. All 10 argv probes exit 2 with empty stdout, and the import probe stays clean. The 41 tests pass, and Red r5 failed 4 of them first. One new Nit: the not-found message prints the resolved path, while plan.md line 75 says the given path.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F3 [Nit] review-c: dashboard/scripts/plan-dedup.ts:305 prints `inventory file not found: ${parsed.inventory}`, the resolved absolute path, while plan.md:75 (Green r3 evidence) claims `<the given path>` and the sibling message at plan-dedup.ts:187 prints the raw given value. Given no-such-inv.json, the message shows /home/daniebo/Desktop/Workbooks/dashboard/no-such-inv.json. Rationale: exit code, order, and no-stack all hold, so the fix works; only the wording claim and the sibling path form differ. Owner: the plan author or Green. Fix: change `<the given path>` to `<the resolved path>` at plan.md:75."
+  ],
+  "evidence": [
+    "Provenance: git rev-parse HEAD returns edeb8529d584cfbc2fa0e7c22066897bc348e286, equal to audited_head_sha, at start and end of this round. Round 1 audited 3c87971a.",
+    "Round range 3c87971a..edeb8529 holds Red r5 9f223935, Green r3 61ab994e, and evidence edeb8529; the diff touches the script, the test, plan.md, and run captures only.",
+    "C1 (round 1 F1) verified fixed: parseDedupArgs line 166 fails with 'missing option: --inventory'; the no-args and no-inventory-option probes exit 2 with message then usage and empty stdout.",
+    "C2 (round 1 F2) verified fixed: main line 303 guards with fs.existsSync; the missing-file probe exits 2 with 'inventory file not found: <path>' then usage and 0 stack lines.",
+    "All 10 argv probes exit 2 with stdout length 0, 0 stack lines, and the message before Usage; --help still exits 2 as an unknown option.",
+    "Relative-path probe: given no-such-inv.json, the message shows the resolved /home/daniebo/Desktop/Workbooks/dashboard/no-such-inv.json (basis of F3).",
+    "Import probe exits 0; exports listed; process.exitCode undefined before and after; no Usage printed.",
+    "Test run: cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts exits 0 with Tests 41 passed (41).",
+    "Red r5 capture shows 4 failed and 37 passed of 41, so the four remediation tests failed first (red-g1-r5.txt).",
+    "Mutant gate r3: N1, N2, and N3 are each caught by a named test with restore cmp equal (green-g2-mutants-r3.txt).",
+    "Boundary note: an inventory path that is a directory or holds malformed JSON still exits 1 with a stack; both file inputs behave the same, and the plan promises neither case.",
+    "docs/: git status --porcelain docs/ is empty at audit end, and the remediation range changes no docs file.",
+    "Green r3 cmp evidence: the rerun JSON matches the committed file, and the Markdown differs only on the displayPath line (green-g2-outputs-r3.txt).",
+    "Route parity: no route, page, or browser flow exists in this phase, so no browser ran.",
+    "Scope note: this audit read no content/storytime week file, so the Thai filter rule does not apply."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline 3c87971a..edeb8529 (Red r5 9f223935, Green r3 61ab994e, evidence edeb8529)",
+    "git diff --stat 3c87971a..edeb8529 (script +15/-4, test +88, plan.md +/-4, run captures; no docs file)",
+    "git diff 3c87971a..edeb8529 -- dashboard/scripts/plan-dedup.ts (presence check line 166, existsSync guard lines 303-307, parseTargets pair check)",
+    "cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts (exit 0; Tests 41 passed (41))",
+    "node spawnSync probe of the 9 round-1 argv cases plus 1 relative-path case from dashboard/ (all exit 2; stdout empty; 0 stack lines; message before Usage)",
+    "npx tsx /tmp/opencode/review-c-p1g-edeb8529/probe-import.mts (exit 0; no Usage; exitCode undefined)",
+    "directory-inventory and malformed-JSON probes (exit 1 each with a stack; uncontracted edges, evidence only)",
+    "tail measure/runs/levels_5_9_20261006/red-g1-r5.txt (4 failed | 37 passed (41)); cat green-g2-tests-r3.txt (41 passed); cat green-g2-mutants-r3.txt (3 of 3 caught)",
+    "git status --porcelain docs/ (empty at audit end); git rev-parse HEAD (edeb8529)",
+    "python3 measure_interphase_checks.py audit-result --role review-c --file measure/runs/levels_5_9_20261006/review-c-p1g-edeb8529.json (exit 0, PASS: audit result is valid)"
+  ],
+  "changed_files": [
+    "measure/runs/levels_5_9_20261006/review-c-p1g-edeb8529.json",
+    "measure/runs/levels_5_9_20261006/review-c-p1g-edeb8529.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/mimo-v2.6-flash",
+  "ratings": [
+    {"axis": "correctness", "score": 4, "evidence": "Both round-1 findings are fixed and every specified case now exits 2 with message then usage; F3 keeps the plan's path-form claim imprecise for relative input."},
+    {"axis": "test_meaning", "score": 4, "evidence": "Red r5 failed the 4 new cases first, Green r3 passes 41 tests, and mutants N1-N3 are caught; the relative-path message form has no test."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --stat 3c87971a..edeb8529 lists the script, the test, plan.md, and run captures only, and docs/ is untouched."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "Each claim carries a probe exit, a capture line, or a file:line, for example plan-dedup.ts:166 and 305 and red-g1-r5.txt with 4 failed | 37 passed."}
+  ],
+  "ux_applicability": "not_applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {
+    "screenshots": [],
+    "accessibility_snapshots": [],
+    "interactions": []
+  }
+}

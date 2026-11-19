@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-b-security",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)",
+  "baseline_sha": "afbfcf0e19924f48b49a4b9e92ec3b6671f623e7",
+  "phase_base_sha": "afbfcf0e19924f48b49a4b9e92ec3b6671f623e7",
+  "role_base_sha": "4717eb95",
+  "audited_head_sha": "3c87971ad7a84a1e94ec411e55035a92314a893e",
+  "security_applicability": "applicable",
+  "status": "pass",
+  "summary": "PASS. The two public outputs hold no absolute path, no user name, no URL, and no secret. The passages inventory and the merged inventory live in ~/Desktop/handoff/levels-5-9-passages-2026-11-19/ and are not in git. The committed JSON matches the levels 1-4 field set exactly and holds no personal data of private people: 0 emails, 0 phone numbers (phone-form matches are all createdAt ISO dates), 0 address-like strings, and capitalized two-word tokens are series cast, fictional characters, or title fragments. g3-crosscheck.ts is read-only in form (SET default_transaction_read_only, BEGIN READ ONLY, isReadOnlySql on each SELECT, ROLLBACK, env URL never printed) and g3-daniel-run.sh stops the proxy on exit and writes only to the handoff folder. Plan evidence sha256 values match the committed files. A2 not triggered (no draft to published flip). A6 holds (tracks.md records the track as active; no resolved security claim).",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Nit] review-b: committed run captures of this range carry the machine checkout path in vitest banners (measure/runs/levels_5_9_20261006/green-g2-project-tests.txt:2, red-g1-afbfcf0e.txt:2, green-g2-mutant-M1.txt:2 print /home/daniebo/Desktop/Workbooks/dashboard). The two public outputs are clean. This is a pre-existing repository norm, not a new exposure: 1404 committed files under measure/runs at phase base afbfcf0e already contain /home/daniebo. Rationale: the account name and checkout path are already public across the run history; this phase adds 29 more files in the same form. A future track-wide cleanup could strip vitest banners, but this phase's scope does not require it."
+  ],
+  "evidence": [
+    "HEAD current: git rev-parse HEAD returns 3c87971ad7a84a1e94ec411e55035a92314a893e, equal to audited_head_sha.",
+    "Scope (1) path display: git grep at 3c87971a over the two outputs finds no /home/, /tmp, postgres://, email, password, or key; python3 scan of duplicates-levels-5-9.json finds 0 absolute paths, 0 URLs, 0 Thai characters (U+0E00-U+0E7F).",
+    "Scope (1) md output: docs/content-plans/level-plans/duplicates-levels-5-9.md names no path; its source line names only the inventory timestamp.",
+    "Scope (2) git hygiene: git grep at 3c87971a over the 57 changed files finds no credential value; g3-daniel-run.sh lines 34-38 and 113 name the secrets (DATABASE_URL, PRIMARY_V2_DATABASE_URL) and fetch them through gcloud without printing values.",
+    "Scope (2) private inputs out of git: ls ~/Desktop/handoff/levels-5-9-passages-2026-11-19/ shows legacy-levels-5-9-passages.json and crosscheck-levels-5-9-merged.json; git ls-files lists no passages file; git status --porcelain -- docs/content-plans/ is empty; nothing is staged.",
+    "Scope (3) field parity: python3 comparison of duplicates-levels-5-9.json against duplicates-levels-1-4.json shows an identical 10-field article set (approved, createdAt, genre, id, passage, summary, title, type, use, words); no new private field.",
+    "Scope (3) personal data scan of duplicates-levels-5-9.json (271 articles, 1897 strings): 0 emails; 271 phone-form matches are all createdAt ISO dates, not phone numbers; 0 address-like patterns; capitalized two-word tokens after the series-cast filter (cast source: docs/content-plans/primary-quest-adventure-series-bible.md sections 1-5 and primary-origins-series-bible.md carry-over) are fictional characters (Little Bao, Doctor Dan, Postman Mike, Papa Panda, Luna, Barnaby) or title and genre fragments (The Happy, Daily Life, Reading Dragon).",
+    "Scope (4) g3-crosscheck.ts read-only form: SET default_transaction_read_only at line 296, BEGIN READ ONLY at line 297, isReadOnlySql guard on both SELECTs at line 289, ROLLBACK at line 306, client.end() in finally at line 308, URL from MONOREPO_DATABASE_URL with the error text at line 334 holding no value.",
+    "Scope (4) g3-daniel-run.sh: proxy started at line 76 and stopped by trap cleanup EXIT at lines 54-60; every write target is OUT_DIR (line 29, the handoff folder); set -euo pipefail at line 25; the script refuses to run when port 5433 is already in use (lines 67-70).",
+    "Scope (4) committed captures: g3-crosscheck.txt and g3-run.txt hold counts and ids only, no URLs; sha256sum of the two committed outputs matches the plan evidence of Task 1.G3 (json 1df3f1ec..., md 15bf6a37...).",
+    "A2: no test or script of this range flips a draft to a published status; the two outputs are plan documents committed under the PM go of 2026-11-19 recorded in plan.md line 76.",
+    "A6: measure/tracks.md line 30 records the track as [~] (active); no security state is claimed resolved anywhere in the range."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git diff afbfcf0e19924f48b49a4b9e92ec3b6671f623e7..3c87971ad7a84a1e94ec411e55035a92314a893e --stat",
+    "git grep -n -E '(/home/|/Users/|/tmp/|postgres(ql)?://|@gmail|@yahoo|@hotmail|AKIA[0-9A-Z]{16}|-----BEGIN|[Pp]assword|[Ss]ecret[_-]?[Kk]ey|api[_-]?key)' 3c87971ad7a84a1e94ec411e55035a92314a893e -- docs/content-plans/data/duplicates-levels-5-9.json docs/content-plans/level-plans/duplicates-levels-5-9.md measure/runs/levels_5_9_20261006/ dashboard/scripts/plan-dedup.ts dashboard/__tests__/plan-dedup.test.ts measure/tracks/levels_5_9_20261006/plan.md",
+    "git grep -l -F '/home/daniebo' afbfcf0e19924f48b49a4b9e92ec3b6671f623e7 -- measure/runs | wc -l (result 1404)",
+    "git grep -l -F '/home/daniebo' 3c87971ad7a84a1e94ec411e55035a92314a893e -- measure/runs | wc -l (result 1433)",
+    "python3 -c email/phone scan of duplicates-levels-5-9.json (0 emails; phone-form matches are ISO dates)",
+    "python3 -c capitalized two-word name scan with the series-cast filter (319 unique non-cast tokens, all fictional or title fragments)",
+    "python3 -c field-set comparison against duplicates-levels-1-4.json (identical)",
+    "python3 -c Thai/absolute-path/URL scan of duplicates-levels-5-9.json (0, 0, 0)",
+    "sha256sum docs/content-plans/data/duplicates-levels-5-9.json docs/content-plans/level-plans/duplicates-levels-5-9.md",
+    "git status --porcelain -- docs/content-plans/ ; git diff --cached --stat ; git ls-files | grep -i passages",
+    "ls ~/Desktop/handoff/levels-5-9-passages-2026-11-19/",
+    "read of measure/runs/levels_5_9_20261006/g3-crosscheck.ts and g3-daniel-run.sh (no run of the database scripts)"
+  ],
+  "changed_files": [],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "kimi-code-plan-cn/kimi-for-coding",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "sha256sum of both committed outputs matches the plan evidence, and every scope check (paths, secrets, personal data, read-only form) passed by command result."},
+    {"axis": "test_meaning", "score": 3, "evidence": "F11 path display and git hygiene have real checks (g3-checks.txt PASS lines and byte-identity tests), but the passage-scope personal-data rule and the read-only form of g3-crosscheck.ts have no failing-first test."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --stat afbfcf0e..3c87971a lists exactly the 4 planned file sets plus run captures and plan.md evidence."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "Each claim carries a command result or a file:line, for example g3-crosscheck.ts:289-306 for the read-only form and measure/tracks.md:30 for A6."}
+  ]
+}

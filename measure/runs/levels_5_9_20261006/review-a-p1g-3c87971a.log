@@ -1,0 +1,45 @@
+Review A (correctness) - Phase 1G, track levels_5_9_20261006
+Audited head: 3c87971a (equals HEAD). phase_base_sha afbfcf0e. Role: measure-review-a-correctness.
+
+What I audited
+- plan.md Phase 1G (Tasks 1.G1 to 1.G3 and the phase gates block), spec.md, test-strategy.md, spec-review.md, measure/anti-patterns.md.
+- git diff afbfcf0e..3c87971a: dashboard/scripts/plan-dedup.ts, dashboard/__tests__/plan-dedup.test.ts, the 2 committed outputs, the g3 cross-check and run scripts, the run captures, and the track plan.
+- The committed outputs docs/content-plans/data/duplicates-levels-5-9.json and docs/content-plans/level-plans/duplicates-levels-5-9.md against the plan text.
+
+Gate run
+- GREEN_TEST_COMMAND in one heavy-run: `set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts`. Exit 0. Tests 37 passed (37).
+
+Independent proofs
+- Byte identity: I copied the audited head with git archive into /tmp/opencode/p1g-audit, rebuilt the levels 1-4 inventory per plan line 54 (272 online articles from duplicates-levels-1-4.json, 28 printed with empty summary and passage, readAt 2026-10-02T02:41:26.855Z, sorted by raLevel then createdAt), and ran the script with only --inventory. Exit 0. cmp reports both default outputs byte-identical to the committed levels 1-4 files.
+- Committed outputs: sha256 equals the plan evidence values (1df3f1ec... json, 15bf6a37... md). Heading, the 3 intro paragraphs, the Keep-Similar table with no delete column, the level lines 92/88/4/38/49, and level 5 keeps 50 with 42 similar in 23 groups. 229 JSON groups (50/88/4/38/49), 271 unique ids, no absolute path in either file.
+- Cross-check script: read-only form (SET default_transaction_read_only, BEGIN READ ONLY, ROLLBACK, isReadOnlySql on both SELECTs), join on primary_legacy_id_map with table_name 'article', trimmed compare with null equal to empty, merged inventory that takes the monorepo text of a differing id. The committed g3-crosscheck.txt shows 271 in both, 0 one side only, 0 differing text.
+- No duplicate-pair rule left: plan-dedup.ts holds no planLevelGroups and no DUPLICATE_SIMILARITY; a below-target level keeps all and merges none (proven by the level 6-9 lines of the committed md and by the tests).
+
+Verdict: PASS. No blocking finding. Three non-blocking findings:
+
+- F1 [Major] dashboard/scripts/plan-dedup.ts:196 - a bare invocation without --inventory crashes with TypeError ERR_INVALID_ARG_TYPE and exit 1. The old script at afbfcf0e printed the usage and returned 2, and the new usage text still names --inventory as required. Changed contract without test coverage; the plan bad-option list (plan.md line 63) does not name this case, so the plan text leaves the gap. Green can fix it or the plan can answer it.
+- F2 [Nit] dashboard/scripts/plan-dedup.ts:138-140 - parseTargets silently drops text after a second '=' (`5=50=x` parses as 5=50).
+- F3 [Nit] measure/runs/levels_5_9_20261006/g3-crosscheck.ts:286-301 - a duplicate legacy_id row in primary_legacy_id_map would double-count counts.monorepo; no impact on the delivered run (271 on both sides).
+
+Anti-pattern checks
+- A3: parseLevelLine parses labeled integers from the level line; g3-checks.txt greps use labeled patterns. No bare-digit count assertion found.
+- A4: the byte-identity tests assert positive content, 179 groups with a merged group, and exactly 2 stubbed writes. No vacuous-pass check found.
+- A5: the plan claim "All checks pass (g3-checks.txt)" matches the capture, and I reproduced its claims (sha256, counts, keep counts, path greps) with my own commands. The Green r2 and Red r4 captures match their plan lines.
+- A7: the path scans use path tokens (/home/, /tmp, REPO_ROOT, os.tmpdir), not English words.
+- A9: the test imports the live dashboard/scripts/plan-dedup.ts.
+- A10: the byte-identity test pins the levels 1-4 outputs and my cmp run confirms them; the sha256 pins the levels 5-9 outputs.
+
+Scope: the diff holds only the 4 planned files plus this track's measure/runs files and the track plan. The work tree holds no modification of any file this phase touched.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)
+commits: audited afbfcf0e..3c87971a, no commit by this role
+tests_run: heavy-run GREEN_TEST_COMMAND 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts' exit 0, Tests 37 passed (37); independent archive-copy run with only --inventory, cmp exit 0 on both committed levels 1-4 files; no-args tsx run exits 1 with TypeError (finding F1)
+files_changed: measure/runs/levels_5_9_20261006/review-a-p1g-3c87971a.json, measure/runs/levels_5_9_20261006/review-a-p1g-3c87971a.log (report only, no production change)
+plan_updates: none by this role; result file for the plan's Task 1.G4 review-gates block
+known_failures: none blocking; F1 [Major] no-args crash, F2 and F3 [Nit] listed in the result JSON for a Green fix or a plan answer
+handoff: Verdict PASS with 0 blockers and 3 non-blocking findings. Route F1 to Green (code owner) as FIX or CONTEST; F2 and F3 are Nits. Tasks 1.G1 to 1.G3 match the plan word for word; the levels 1-4 byte identity is proven independently; the 2 committed levels 5-9 outputs match the plan text and the recorded hashes.
+END_MEASURE_AGENT_RESULT

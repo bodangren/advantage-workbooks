@@ -1,0 +1,54 @@
+# Review B (security and data handling) r2 — Phase 1G, track levels_5_9_20261006
+# Audited head: edeb8529d584cfbc2fa0e7c22066897bc348e286 (confirmed current: git rev-parse HEAD matches)
+# Prior head: 3c87971ad7a84a1e94ec411e55035a92314a893e | Phase base: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+# Route: kimi-code-plan-cn/kimi-for-coding
+# Verdict: PASS. No findings. The r1 Nit F1 (machine paths in run captures) is DECLINE by the
+# owner (present before the phase, moved to tech debt) and is not re-raised.
+
+Scope of this re-review: the new diff 3c87971a..edeb8529 only. It holds Red r5
+(dashboard/__tests__/plan-dedup.test.ts, +88), Green r3 (dashboard/scripts/plan-dedup.ts,
+12 insertions, 3 deletions), evidence captures, and plan.md evidence lines.
+
+Check 1. Secrets and URLs — PASS.
+git grep at edeb8529 over the new captures finds no postgres://, no :// URL, no
+password, no secret, no key, and no email domain. The plan.md range diff is evidence
+text only.
+
+Check 2. Public outputs — PASS (untouched).
+The two public outputs docs/content-plans/data/duplicates-levels-5-9.json and
+docs/content-plans/level-plans/duplicates-levels-5-9.md are not in this range. The
+green-g2-outputs-r3.txt gate shows cmp of a fresh temp run against the committed JSON
+gives equal, and the md differs only on the displayPath intro line.
+
+Check 3. Passage text in new captures — PASS.
+A fragment scan of all 8 new capture files against every committed passage and summary
+prefix (271 articles) finds 0 hits. The md diff shown in the outputs capture is the
+intro path line only.
+
+Check 4. New error messages — PASS.
+plan-dedup.ts adds three error paths. parseDedupArgs returns
+missing option: --inventory. parseTargets rejects an item that is not one level=target
+pair. main checks fs.existsSync on the inventory and prints
+inventory file not found: <the given path>, then the usage, exit 2. Every new message
+prints the given path only; no file contents enter an error path.
+
+Check 5. Machine paths — recorded under the DECLINE of r1 F1.
+The new captures carry vitest banner paths and the outputs capture names the handoff
+inventory path. The owner DECLINE of r1 F1 covers this class (present before the
+phase, moved to tech debt). Not re-raised.
+
+Findings: none.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: levels_5_9_20261006
+phase: ## Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)
+commits: none (audit only)
+tests_run: no test suites; inspection commands: git rev-parse HEAD; git diff --stat 3c87971a..edeb8529; git diff of dashboard/scripts/plan-dedup.ts; git grep at edeb8529 over the new captures for secrets and URLs; python3 fragment scan of the 8 new capture files against all passage and summary prefixes (0 hits)
+files_changed: measure/runs/levels_5_9_20261006/review-b-p1g-edeb8529.json; measure/runs/levels_5_9_20261006/review-b-p1g-edeb8529.log
+plan_updates: none
+known_failures: none
+handoff: PASS, 0 findings. The DECLINE of r1 F1 stands and is not re-raised. Result JSON: measure/runs/levels_5_9_20261006/review-b-p1g-edeb8529.json.
+dispositions: none
+END_MEASURE_AGENT_RESULT

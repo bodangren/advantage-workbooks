@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "summary": "Tasks 1.G1 to 1.G3 match the plan word for word. The exports, the flags, the path and display rules, the printed-count guard, the below-target rule (no duplicate-pair rule left in dashboard/scripts/plan-dedup.ts), the import guard, and the exact levels 5-9 strings all check out against the source and the committed outputs. An independent run in a git archive copy of 3c87971a (rebuilt levels 1-4 inventory: 272 online, 28 printed) with only --inventory rewrote both committed levels 1-4 files byte-identically (cmp exit 0). The 2 committed levels 5-9 outputs match the plan text and the evidence line: heading, 3 intro paragraphs, Keep-Similar table with no delete column, counts 92/88/4/38/49, level 5 keeps 50, and sha256 values equal to the recorded ones. The cross-check script is read-only (READ ONLY transaction, rolled back, isReadOnlySql on both SELECTs), joins on primary_legacy_id_map with table_name 'article', compares trimmed text, and writes the merged inventory. GREEN_TEST_COMMAND exits 0 with 37 tests passed. Three non-blocking findings: the no-args invocation regressed from a clean usage message with exit 2 (old code) to an unhandled TypeError with exit 1, and two small parse edge cases.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] review-a: dashboard/scripts/plan-dedup.ts:196 runs `path.resolve(values['--inventory'])` without checking that --inventory was given, so a bare invocation `npx tsx scripts/plan-dedup.ts` crashes with TypeError ERR_INVALID_ARG_TYPE and exit 1. The old script at afbfcf0e printed the usage and returned 2 for a missing --inventory, and the new usage text still names --inventory as required. Rationale: a changed CLI contract with no test coverage; the plan bad-option list (plan.md line 63) does not name this case, so the plan text leaves the gap. Green can fix it (fail with a message and the usage, exit 2) or the plan can answer it.",
+    "F2 [Nit] review-a: dashboard/scripts/plan-dedup.ts:138-140 `parseTargets` destructures `part.split('=')` into two values, so `--targets 5=50=x` is accepted silently as target 50 for level 5. Rationale: a malformed target value slips through the CLI contract 'one target for each level'; degenerate input, no plan rule breaks.",
+    "F3 [Nit] review-a: measure/runs/levels_5_9_20261006/g3-crosscheck.ts:286-301 counts `monorepoIds` raw, so a duplicate legacy_id row in primary_legacy_id_map (a re-import scenario) would double-count counts.monorepo and could repeat an id in the monorepo-only list. Rationale: no impact on the delivered run (the committed g3-crosscheck.txt shows 271 on both sides, 0 one-side-only, 0 differing); robustness note for any future re-run."
+  ],
+  "evidence": [
+    "Independent byte-identity proof: git archive 3c87971a into /tmp/opencode/p1g-audit, rebuilt the levels 1-4 inventory per plan.md line 54 (272 online from duplicates-levels-1-4.json, 28 printed with empty summary and passage, readAt 2026-10-02T02:41:26.855Z, sorted by raLevel then createdAt), ran `./node_modules/.bin/tsx scripts/plan-dedup.ts --inventory ../inv-levels-1-4.json` with only --inventory: exit 0, log lines 64/30/171/7 online, and `cmp` exit 0 for both docs/content-plans/data/duplicates-levels-1-4.json and docs/content-plans/level-plans/duplicates.md against the committed files.",
+    "No-args regression proof: same archive copy, `./node_modules/.bin/tsx scripts/plan-dedup.ts` with no arguments prints `TypeError [ERR_INVALID_ARG_TYPE] ... at parseDedupArgs (plan-dedup.ts:196)` and exits 1, with no usage text.",
+    "Committed outputs: sha256 of docs/content-plans/data/duplicates-levels-5-9.json is 1df3f1ec6fdfbe6869f6ed0cce70530e365324c1e5315b42300deb621c949466 and of docs/content-plans/level-plans/duplicates-levels-5-9.md is 15bf6a37503c3141685b6a96a3423f3c03651955631b7cb346d79002aab7a7a3, both equal to the plan evidence line (plan.md line 79).",
+    "Committed JSON structure: 229 groups at 50/88/4/38/49 keeps, 271 unique article ids, source string `scripts/plan-dedup.ts, inventory of 2026-11-19T00:15:57.035Z`, targets 5=50,6=100,7=100,8=150,9=150; no /home/, REPO_ROOT, or tmpdir string in either committed output (grep 0 hits).",
+    "Committed md text matches plan.md line 58 word for word: heading `# Levels 5-9: old online articles, grouped`, the 3 intro paragraphs (550 new packages, targets line, displayPath form `docs/content-plans/data/duplicates-levels-5-9.json`), header `| Keep | Similar |`, 23 table rows for level 5, and the level lines 92/88/4/38/49 with level 5 `Keep 50 online articles; 42 are similar to a kept one.`.",
+    "Below-target rule and no duplicate-pair rule: dashboard/scripts/plan-dedup.ts:237-241 computes keepCount = max(0, min(online, target - printed)) and clusters down to keepCount; the file holds no planLevelGroups helper and no DUPLICATE_SIMILARITY constant; levels 6-9 of the committed md read `Keep all <n> online articles; none is similar to another.`",
+    "Printed-count guard (F7): dashboard/scripts/plan-dedup.ts:239-241 skips the cluster call when keepCount is 0, and line 251-252 gives the exact at-target line; test 'keeps 0 online articles and writes no group of it' covers it.",
+    "Path rule (F1) and display rule (F11): parseDedupArgs resolves every given path with path.resolve (lines 182, 193-196), defaults are REPO_ROOT-absolute (lines 42-48), displayPath (lines 110-114) returns the repo-relative form inside REPO_ROOT else basename; the intro of the levels 5-9 branch names only displayPath(options.outJson) (line 228); the no-readAt fallback uses displayPath (line 301).",
+    "Import guard: dashboard/scripts/plan-dedup.ts:308-309 matches the guard form of dashboard/scripts/storytime/set-book-pictures.ts:170; the 'clean import' test passes in the gate run.",
+    "Cross-check script: measure/runs/levels_5_9_20261006/g3-crosscheck.ts:283-289 both queries are single SELECTs joining primary_legacy_id_map to articles on new_id with table_name 'article' and pass isReadOnlySql; lines 296-306 run SET default_transaction_read_only, BEGIN READ ONLY, and ROLLBACK; norm() trims both sides (line 120-122); the merged inventory takes the monorepo title, summary, and passage of a differing id and recomputes words (lines 216-224).",
+    "Run script: measure/runs/levels_5_9_20261006/g3-daniel-run.sh writes only to $HOME/Desktop/handoff/levels-5-9-passages-2026-11-19/, pipes both gcloud secret reads through node scripts/db/proxy-url.js, and never prints a URL; the committed g3-crosscheck.txt shows 271 in both, 0 one side only, 0 differing text.",
+    "Evidence captures verified: green-g2-tests-r2.txt shows `Tests 37 passed (37)`; red-g1-r4.txt shows 2 failed | 35 passed with the below-target failures; g3-checks.txt claims match my own checks (counts, keep counts, sha256, no machine paths); g3-prep-tsc.txt shows exit 0.",
+    "Test quality: parseLevelLine (dashboard/__tests__/plan-dedup.test.ts:95-99) parses labeled integers, not bare digits (A3); the byte-identity tests assert positive content and 179 groups with a merged group (A4); the default-write test stubs writeFileSync and asserts exactly 2 writes at the 2 default absolute paths with byte-equal content; the levels 5-9 fixture test compares git status --porcelain before and after; no test passes for a wrong reason found.",
+    "Scope: git diff afbfcf0e..3c87971a holds only dashboard/scripts/plan-dedup.ts, dashboard/__tests__/plan-dedup.test.ts, the 2 committed outputs, this track's measure/runs files, and the track plan; similarity.ts and all other production files are unchanged."
+  ],
+  "commands": [
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts' -> exit 0, Tests 37 passed (37)",
+    "git archive 3c87971a | tar -x -C /tmp/opencode/p1g-audit; rebuilt inventory 272 online + 28 printed = 300 articles; tsx scripts/plan-dedup.ts --inventory ../inv-levels-1-4.json -> exit 0; cmp on both default outputs -> identical",
+    "tsx scripts/plan-dedup.ts (no arguments) -> TypeError ERR_INVALID_ARG_TYPE at plan-dedup.ts:196, exit 1",
+    "sha256sum docs/content-plans/data/duplicates-levels-5-9.json docs/content-plans/level-plans/duplicates-levels-5-9.md -> equal to the plan evidence values",
+    "node count over duplicates-levels-5-9.json -> 271 unique ids, 229 groups, level keeps 50/88/4/38/49",
+    "grep '/home/|REPO_ROOT|tmpdir|Workbooks' on both committed outputs -> 0 hits",
+    "git status --porcelain -> no modification of any file this phase touched; the only tracked change (video/storytime-song/scripts/render.mjs) and the untracked files belong to other tracks"
+  ],
+  "changed_files": [
+    "dashboard/scripts/plan-dedup.ts",
+    "dashboard/__tests__/plan-dedup.test.ts",
+    "docs/content-plans/data/duplicates-levels-5-9.json",
+    "docs/content-plans/level-plans/duplicates-levels-5-9.md",
+    "measure/runs/levels_5_9_20261006/g3-crosscheck.ts",
+    "measure/runs/levels_5_9_20261006/g3-daniel-run.sh",
+    "measure/tracks/levels_5_9_20261006/plan.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "The cmp proof in the archive copy reproduced both committed levels 1-4 files byte for byte, and the committed levels 5-9 outputs match every plan string; the uncovered no-args edge crashes (TypeError at plan-dedup.ts:196) instead of the old usage-and-exit-2."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "37 tests pass in the heavy-run with labeled count parsing (plan-dedup.test.ts:95-99), a stubbed-write live-behavior proof (lines 290-311), and a git-status guard (lines 400-439); the bare-invocation contract case has no test."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff afbfcf0e..3c87971a --stat shows only plan-dedup.ts, its test, the 2 committed outputs, this track's measure/runs files, and the track plan; no other production file changed."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every plan claim I audited has a command result: sha256 equal to the evidence line, g3-checks.txt claims reproduced, captures green-g2-tests-r2.txt and red-g1-r4.txt matching the plan text, and my own archive-copy run."
+    }
+  ]
+}

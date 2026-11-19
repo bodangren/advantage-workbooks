@@ -1,0 +1,40 @@
+Review A r2 (correctness) - Phase 1G, track levels_5_9_20261006
+Audited head: edeb8529 (equals HEAD). Base of this round: my r1 at 3c87971a. Role: measure-review-a-correctness.
+
+What changed since r1
+- Red r5 9f223935: 4 remediation tests (missing --inventory, bad targets item, missing inventory file).
+- Green r3 61ab994e: dashboard/scripts/plan-dedup.ts, 12 insertions, 3 deletions. edeb8529 holds the evidence.
+- Dispositions of my r1 findings: F1 FIX, F2 FIX, F3 DECLINE (run-only tool, the run gave 271 = 271).
+
+Finding states
+- F1 (no-args crash) CLOSED. plan-dedup.ts:166 returns { ok: false, message: 'missing option: --inventory', usage }. My own run with no arguments prints the message, then the usage, and exits 2. The TypeError and exit 1 of r1 are gone.
+- F2 (multi-equals targets item) CLOSED. plan-dedup.ts:137-141 rejects an item whose split on '=' is not exactly 2 parts. My own run with --targets 7=100=x exits 2 and the message names the item.
+- F3 DECLINE accepted. g3-crosscheck.ts is unchanged; the delivered run gave 271 = 271.
+
+Test meaning of the 4 new tests
+- red-g1-r5.txt: Tests 4 failed | 37 passed (41); only the new cases fail before Green.
+- Each test reads the spy calls before restore, asserts message-then-Usage order, asserts empty stdout for the missing --inventory case, and asserts no stack lines for the missing-file case.
+- green-g2-mutants-r3.txt: 3 new mutants (N1 the required-option check, N2 the multi-equals split, N3 the existsSync guard), each caught by its named test, restore cmp equal, script sha256 1aac262e... matches the file I hashed after the gate.
+- The r3 outputs capture shows the committed levels 5-9 JSON reproduced byte for byte (CMP JSON EXIT: 0); the MD differs only on the intro path line that names the temp out-json path, the designed displayPath behavior.
+
+No regression
+- I reran my r1 proof at edeb8529: git archive copy, rebuilt levels 1-4 inventory (272 online, 28 printed, readAt 2026-10-02T02:41:26.855Z), ran the script with only --inventory. Exit 0. cmp reports both committed levels 1-4 files byte-identical.
+- The diff 3c87971a..edeb8529 holds no docs/ change; the 2 committed levels 5-9 outputs are untouched.
+
+Gate run
+- GREEN_TEST_COMMAND in one heavy-run: `set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts`. Exit 0. Tests 41 passed (41).
+
+Verdict: PASS. No open finding, no blocking finding, no new finding.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)
+commits: audited 3c87971a..edeb8529 (9f223935, 61ab994e, edeb8529), no commit by this role
+tests_run: heavy-run GREEN_TEST_COMMAND 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/plan-dedup.test.ts' exit 0, Tests 41 passed (41); independent archive-copy runs: only --inventory cmp equal on both committed levels 1-4 files, no-args exit 2 with usage, --targets 7=100=x exit 2, missing inventory file exit 2 without a stack trace
+files_changed: measure/runs/levels_5_9_20261006/review-a-p1g-edeb8529.json, measure/runs/levels_5_9_20261006/review-a-p1g-edeb8529.log (report only, no production change)
+plan_updates: none by this role; result file for the plan's Task 1.G4 review-gates block
+known_failures: none; r1 F1 and F2 closed by Green r3 and proven by my own runs; F3 declined as routed
+handoff: Verdict PASS with 0 findings open at edeb8529. The levels 1-4 byte identity still holds (my rerun proof). The 4 remediation tests mean what they claim (Red r5 failing-first, 3 mutants caught). Review A has no further item for this head; the remaining review-gates work is Review B, Review C, and the adversarial round.
+END_MEASURE_AGENT_RESULT
