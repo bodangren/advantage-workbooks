@@ -88,10 +88,14 @@ folder. The other packages get new ids.`;
  * Reads the keep groups of a duplicates JSON.
  * @param file The absolute path of the file.
  * @returns The groups in file order; ids and counts only.
+ * @throws When the file holds no `groups` key or an empty `groups` array.
  */
 function readKeepGroups(file: string): KeepGroup[] {
     const raw = JSON.parse(fs.readFileSync(file, 'utf8')) as { groups?: { level?: unknown; keep?: unknown }[] };
-    return (raw.groups ?? []).map((group) => ({ level: Number(group.level), keep: String(group.keep) }));
+    if (!Array.isArray(raw.groups) || raw.groups.length === 0) {
+        throw new Error(`duplicates file holds no groups: ${file}`);
+    }
+    return raw.groups.map((group) => ({ level: Number(group.level), keep: String(group.keep) }));
 }
 
 /**
@@ -228,7 +232,13 @@ export function main(argv: string[]): number {
         console.error(USAGE);
         return 2;
     }
-    fs.writeFileSync(options.outJson, result.content);
+    try {
+        fs.writeFileSync(options.outJson, result.content);
+    } catch (e) {
+        console.error(`cannot write the out file: ${options.outJson} (${(e as Error).message})`);
+        console.error(USAGE);
+        return 2;
+    }
     for (const line of result.log) console.log(line);
     return 0;
 }
