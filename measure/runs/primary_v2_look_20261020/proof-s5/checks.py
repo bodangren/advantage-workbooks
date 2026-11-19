@@ -8,6 +8,7 @@ Round 2 strengthens P2 to P6, adds P10 (the book header and the PDF title), and
 adds P11 (the lesson pictures). Round 3 adds P12 (every picture caption prints
 on the page of its picture). Round 5 adds P13 (every picture keeps its aspect
 ratio) and makes P8 compare the manifest git_head with the product at HEAD.
+Round 6 adds the P8 commit-id validation and narrows the P8 render scope.
 P7 also asserts that the stripped print copy
 holds no unpkg script tag, and P8 compares the proof HTML hash and the tracked
 state of `dashboard` and `content`.
@@ -363,6 +364,21 @@ def check_p7():
     return ok, lines
 
 
+# The print-product paths that a proof render reads (review A r3 F19). A change outside this
+# list does not change a proof, so it does not fail P8.
+P8_PATHS = [
+    'dashboard/lib/document-wrapper',
+    'dashboard/templates/primary_template.html',
+    'dashboard/scripts/render-lesson-html.ts',
+    'dashboard/lib/print/render.ts',
+    'content/primary/quest-5/l01.json',
+    'content/primary/adventure-9.2/l09.json',
+    'content/primary/quest-5/media',
+    'content/primary/adventure-9.2/media',
+]
+COMMIT_ID = re.compile(r'[0-9a-f]{7,40}')
+
+
 def check_p8():
     """P8: the manifest matches the HTML, the packages, the PDFs, and the sheets."""
     lines, ok = [], True
@@ -374,12 +390,20 @@ def check_p8():
     if not head:
         lines.append('P8: FAIL the manifest has no git_head line')
         return False, lines
-    lines.append(f'P8: manifest git_head {head.group(1)}')
-    head_now = subprocess.run(['git', '-C', REPO, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
     built = head.group(1)
-    product = subprocess.run(['git', '-C', REPO, 'diff', '--quiet', built, head_now, '--', 'dashboard', 'content'], capture_output=True, text=True)
+    lines.append(f'P8: manifest git_head {built}')
+    # Review B r3 F5: a crafted value must never reach Git as an option.
+    if not COMMIT_ID.fullmatch(built):
+        lines.append('P8: FAIL the manifest git_head is not a hex commit id; no manifest value reaches Git as an option')
+        return False, lines
+    head_now = subprocess.run(['git', '-C', REPO, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
+    product = subprocess.run(
+        ['git', '-C', REPO, 'diff', '--quiet', '--end-of-options', built, head_now, '--', *P8_PATHS],
+        capture_output=True, text=True,
+    )
     product_changed = product.returncode != 0
     lines.append(f'P8: head at check {head_now}, same_head {head_now == built}, product_changed_since_manifest {product_changed}')
+    lines.append(f'P8: render scope {len(P8_PATHS)} paths (document-wrapper, template, render scripts, the 2 packages and their media)')
     ok = ok and not product_changed
     for tag in PROOFS:
         entries = (
@@ -394,9 +418,9 @@ def check_p8():
             good = bool(found) and found.group(1) == want
             lines.append(f'P8 {tag}: {kind} sha256 match {good}')
             ok = ok and good
-    status = subprocess.run(['git', '-C', REPO, 'status', '--porcelain', '--', 'dashboard', 'content'], capture_output=True, text=True).stdout.splitlines()
+    status = subprocess.run(['git', '-C', REPO, 'status', '--porcelain', '--', *P8_PATHS], capture_output=True, text=True).stdout.splitlines()
     dirty = [line for line in status if not line.startswith('??')]
-    lines.append(f'P8: tracked files edited in dashboard or content {len(dirty)}')
+    lines.append(f'P8: tracked files edited in the render scope {len(dirty)}')
     ok = ok and not dirty
     return ok, lines
 

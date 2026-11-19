@@ -1,0 +1,43 @@
+Green r6 role log — track primary_v2_look_20261020, Phase S5, driver-only round
+Session: Green · S5 S5.G2 · primary_v2_look · r6
+Model: opencode-go/deepseek-v4.1-flash
+Date: 2026-11-20
+
+phase_base_sha: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93 (immutable)
+role_base_sha: 7b1d6600a230f898bf8d445d979a6a24a561e676
+No product code changed. Proof round 5 stays as it is; no PDF was rebuilt.
+
+Review B r3 F5 (Blocker): P8 passed an unvalidated manifest git_head to Git.
+Fix: P8 accepts git_head only when it matches [0-9a-f]{7,40}. A bad value fails P8 before any
+Git call. Every Git call uses an argument list with --end-of-options before the manifest value.
+
+Review A r3 F19 (Nit): the old P8 scope was "dashboard content", so an unrelated commit failed it.
+Fix: P8 reads and diffs only the print renders: dashboard/lib/document-wrapper,
+dashboard/templates/primary_template.html, dashboard/scripts/render-lesson-html.ts,
+dashboard/lib/print/render.ts, content/primary/quest-5/l01.json,
+content/primary/adventure-9.2/l09.json, content/primary/quest-5/media, and
+content/primary/adventure-9.2/media.
+
+Fixture results (p8-hardening-r6.txt):
+- git_head --output=/tmp/opencode/x: exit 1, clear FAIL, /tmp/opencode/x absent.
+- git_head HEAD;rm: exit 1, clear FAIL, no command ran.
+- only an unrelated dashboard test file differs from HEAD: exit 0 (product_changed False).
+- chibi-quest-styles.ts differs (head 95345e90): exit 1 (product_changed True).
+- P8 on proof round 5 at HEAD: exit 0 (same_head False, product_changed False).
+
+Proof round 5 re-check: P1 to P13 each exit 0. checks-r5b.txt says checks run 13, failures 0,
+RESULT: PASS. P11 3 of 3 pictures; P12 every caption on its picture's page; P13 every image
+square-ratio within 2 percent.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: evidence commit holds this log and the driver change; no product commit in this round
+tests_run: P8 fixtures 4 (2 injection fail, unrelated pass, changed product fail); P8 on r5 exit 0; P1 to P13 on r5 exit 0 (checks-r5b.txt RESULT: PASS)
+files_changed: measure/runs/primary_v2_look_20261020/proof-s5/checks.py (P8 only); p8-hardening-r6.txt; check-P1..P13-r5b.txt; checks-r5b.txt; green-s5-r6-7b1d6600.log; measure/tracks/primary_v2_look_20261020/plan.md
+plan_updates: one sub-line under Task S5.G2 for Green r6; Task S5.G2 stays [x]
+known_failures: none; P8 no longer fails on an unrelated measure or test commit
+handoff: Review B r3 F5 and review A r3 F19 are fixed in checks.py only. The r5 proofs stay valid, and checks-r5b.txt re-proves P1 to P13 at HEAD 7b1d6600. Next: reviews A and B on the new head, the adversarial round, the UX/browser review, phase acceptance, and Daniel's gate. Never stage the untracked proof HTML in proof-s5/, the review-s5 files, strategy-s5-8b27c9ea.log, video/**, or dashboard/raw.json. Two tracked files of other sessions stay dirty: strategy-s5-8b27c9ea.log and video/storytime-song/scripts/render.mjs. The unused fixture commit object c9fa5cef stays dangling in the object store; it changes no ref.
+END_MEASURE_AGENT_RESULT

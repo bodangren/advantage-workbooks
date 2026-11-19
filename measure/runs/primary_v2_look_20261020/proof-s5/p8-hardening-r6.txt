@@ -1,0 +1,86 @@
+P8 hardening record (review B r3 F5, review A r3 F19) — green-s5-r6
+Track primary_v2_look_20261020, 2026-11-20. Outputs are English text and exit codes only.
+
+Code change in proof-s5/checks.py:
+- git_head is used only when it matches [0-9a-f]{7,40}; otherwise P8 fails before any Git call.
+- Every Git call takes an argument list, no shell, and puts --end-of-options before the manifest value.
+- The P8 scope is the print renders only. Git status also reads that scope.
+
+Final P8 scope (8 paths):
+  dashboard/lib/document-wrapper
+  dashboard/templates/primary_template.html
+  dashboard/scripts/render-lesson-html.ts
+  dashboard/lib/print/render.ts
+  content/primary/quest-5/l01.json
+  content/primary/adventure-9.2/l09.json
+  content/primary/quest-5/media
+  content/primary/adventure-9.2/media
+
+Fixture runs (S5_MANIFEST points at a copy of manifest-r5.txt with one git_head value changed):
+
+| Fixture | git_head value | Exit | Result |
+|---|---|---|---|
+| inject-output | --output=/tmp/opencode/x | 1 | FAIL: not a hex commit id; no file created |
+| inject-command | HEAD;rm | 1 | FAIL: not a hex commit id; no command ran |
+| unrelated | c9fa5cef (differs from HEAD only in dashboard/__tests__/chibi-quest-kit.test.ts) | 0 | pass: product_changed_since_manifest False |
+| cq-changed | 95345e90 (before the r5 chibi-quest-styles.ts change) | 1 | FAIL: product_changed_since_manifest True |
+
+The unrelated fixture commit is a dangling object made with git read-tree, hash-object, update-index, write-tree, and commit-tree. It changes no ref and no working-tree file.
+
+After the injection fixture: /tmp/opencode/x is absent.
+
+Captured outputs:
+--- inject-output ---
+P8: manifest git_head --output=/tmp/opencode/x
+P8: FAIL the manifest git_head is not a hex commit id; no manifest value reaches Git as an option
+exit 1
+
+--- inject-command ---
+P8: manifest git_head HEAD;rm
+P8: FAIL the manifest git_head is not a hex commit id; no manifest value reaches Git as an option
+exit 1
+
+--- unrelated ---
+P8: manifest git_head c9fa5ceff2f8e9d80ed3aae3894bdd29eed4cf14
+P8: head at check 7b1d6600a230f898bf8d445d979a6a24a561e676, same_head False, product_changed_since_manifest False
+P8: render scope 8 paths (document-wrapper, template, render scripts, the 2 packages and their media)
+P8 quest5-l01: package sha256 match True
+P8 quest5-l01: html sha256 match True
+P8 quest5-l01: pdf sha256 match True
+P8 quest5-l01: contact sha256 match True
+P8 adventure92-l09: package sha256 match True
+P8 adventure92-l09: html sha256 match True
+P8 adventure92-l09: pdf sha256 match True
+P8 adventure92-l09: contact sha256 match True
+P8: tracked files edited in the render scope 0
+exit 0
+
+--- cq-changed ---
+P8: manifest git_head 95345e90
+P8: head at check 7b1d6600a230f898bf8d445d979a6a24a561e676, same_head False, product_changed_since_manifest True
+P8: render scope 8 paths (document-wrapper, template, render scripts, the 2 packages and their media)
+P8 quest5-l01: package sha256 match True
+P8 quest5-l01: html sha256 match True
+P8 quest5-l01: pdf sha256 match True
+P8 quest5-l01: contact sha256 match True
+P8 adventure92-l09: package sha256 match True
+P8 adventure92-l09: html sha256 match True
+P8 adventure92-l09: pdf sha256 match True
+P8 adventure92-l09: contact sha256 match True
+P8: tracked files edited in the render scope 0
+exit 1
+
+P8 on proof round 5 at HEAD 7b1d6600 (real manifest, check-P8-r5b.txt):
+P8: manifest git_head 178a4e2f3718db40359455dd5850a387254b01d6
+P8: head at check 7b1d6600a230f898bf8d445d979a6a24a561e676, same_head False, product_changed_since_manifest False
+P8: render scope 8 paths (document-wrapper, template, render scripts, the 2 packages and their media)
+P8 quest5-l01: package sha256 match True
+P8 quest5-l01: html sha256 match True
+P8 quest5-l01: pdf sha256 match True
+P8 quest5-l01: contact sha256 match True
+P8 adventure92-l09: package sha256 match True
+P8 adventure92-l09: html sha256 match True
+P8 adventure92-l09: pdf sha256 match True
+P8 adventure92-l09: contact sha256 match True
+P8: tracked files edited in the render scope 0
+exit 0
