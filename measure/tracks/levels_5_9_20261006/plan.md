@@ -120,7 +120,22 @@ Phase gates (roles, not tasks; their results live in measure/runs/levels_5_9_202
 - [x] bank-9: 108 packages; QA; media — plan generated again with --a2key-from (cceb53a); 108 written and edited (108 PASS; 272 change rows); report `reviews/2026-10-07-prereview-bank-9.md`; media complete (da0b043, 2026-10-09)
 - [~] A2 band report: every A2 objective, 90% of A2 Key; tags export; Daniel's review — 2026-10-08: 156 of 156 A2 objectives taught with 3+ practice after (bank-7 b064 now supports R32.8); level 9 meets every objective goal. A2 Key 496 of 578 (85.8%): 72 of the 82 missing words are in no text (British forms, UK money and titles, adult topics), and 5 are glossed but not counted (headwords with "/" or "!"). Daniel chose option 1 of `level-plans/a2-key-gap.md` (2026-10-08): British-only forms and UK money and titles are out of the goal (like CD/DVD) → A2 Key 496 of 547 (90.7%) ✔; every goal of levels 5–9 met
 
-## Phase 7: Into the app
+## Phase 7R: Rebuild map (Daniel 2026-11-19)
+
+This phase holds the rebuild map task only, so that its gates read this task (orchestrator, 2026-11-19).
 
 - [ ] Task 7.0 (rebuild map, D4 and Daniel 2026-11-19): a map from each kept old article id (docs/content-plans/data/duplicates-levels-5-9.json, the keep of each group) to the new package that takes its id at the load, per level: level 5 has 50 kept ids and 50 new packages (Quest 5 14, bank-5 36); levels 6 to 9 have fewer kept ids (88, 4, 38, 49) than new packages (100, 100, 150, 150), so each kept id maps to one new package of its level and the other new packages get new ids. The map is a committed JSON file with a script and a test (Red and Green); it writes no database. Done when: every kept id maps to exactly one package of its level, no package takes two ids, and a second run gives the same file. Evidence: automated.
+
+Gates of this phase (the `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` of the top block apply unchanged; the pipefail form gives the true exit code in a heavy-run, as Phase 1G learned):
+
+```bash
+RED_TEST_COMMAND='set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts'    # must fail after Red, before Green
+GREEN_TEST_COMMAND='set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.test.ts'  # must pass after Green
+```
+
+Files (names as default; the plan fixes no other name): the map is `docs/content-plans/data/rebuild-map-levels-5-9.json`, the script is `dashboard/scripts/rebuild-map.ts`, and the test file is `dashboard/__tests__/rebuild-map.test.ts`.
+
+## Phase 7: Into the app
+
 - [ ] For each approved level: backup, injection into the new database, verify, similar old articles deleted (after Daniel approves the level), tags export. Status 2026-10-20: every part of all 550 packages is still `draft`. The pre-review reports wait for Daniel: "for Daniel" (workbooks) and "provisional approval after Claude's check" (banks). The live Primary app is still the legacy build (`primary-advantage-app`, Cloud Run project `primary-advantage`), so the new database is not live yet
+  - Precondition: Phase 7R (the rebuild map) is accepted; the injector reads docs/content-plans/data/rebuild-map-levels-5-9.json.
