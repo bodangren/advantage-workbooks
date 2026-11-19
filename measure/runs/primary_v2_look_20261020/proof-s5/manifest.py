@@ -5,6 +5,8 @@ SHA-256 of every package, proof HTML, stripped print copy, PDF, and contact
 sheet, the page-box count, and the page count of every PDF. It prints file
 names, hashes, and counts only.
 
+The proof folder is set by S5_FOLDER (default proof-s5-r2).
+
 Usage: python3 -I -B manifest.py [--out <file>]
 """
 
@@ -17,7 +19,7 @@ import sys
 
 REPO = '/home/daniebo/Desktop/Workbooks'
 RUNS = os.path.join(REPO, 'measure/runs/primary_v2_look_20261020/proof-s5')
-FOLDER = os.path.expanduser('~/Desktop/print-ready/primary-v2-look/proof-s5-r2')
+FOLDER = os.path.expanduser(os.environ.get('S5_FOLDER') or '~/Desktop/print-ready/primary-v2-look/proof-s5-r2')
 PROOFS = ['quest5-l01', 'adventure92-l09']
 HTML = {tag: os.path.join(RUNS, f'{tag}.html') for tag in PROOFS}
 PACKAGE = {
@@ -58,7 +60,7 @@ def main(argv):
     args = parser.parse_args(argv)
     head = subprocess.run(['git', '-C', REPO, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
     lines = [
-        'S5 proof manifest, round 2',
+        f"S5 proof manifest, round {os.path.basename(FOLDER).rsplit('-', 1)[-1]}",
         f'proof_folder {FOLDER}',
         f'git_head {head}',
         'look chibi-quest',

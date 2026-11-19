@@ -1,0 +1,46 @@
+S5 proof checks, round r3
+proof folder /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r3
+
+P1: exit 0
+  P1 quest5-l01: page_size 594.96 x 808.08 pt (want 595.28 x 807.87, slack 2)
+  P1 adventure92-l09: page_size 594.96 x 808.08 pt (want 595.28 x 807.87, slack 2)
+P2: exit 0
+  P2 quest5-l01: fonts 8, type3 0, not_embedded 0
+  P2 adventure92-l09: fonts 8, type3 0, not_embedded 0
+P3: exit 0
+  P3 quest5-l01: names_present 13 of 13, once_each True, in_order True, classic_only_present 0
+  P3 adventure92-l09: names_present 13 of 13, once_each True, in_order True, classic_only_present 0
+P4: exit 0
+  P4 quest5-l01: pdf_pages 14, page_boxes 14, tiles 14, sheet_rows 14
+  P4 adventure92-l09: pdf_pages 16, page_boxes 16, tiles 16, sheet_rows 16
+P5: exit 0
+  P5 quest5-l01: tiles 14 of 14 pages, capture_pairs 10, sheet 2610x17808 (want 2610x17808)
+  P5 adventure92-l09: tiles 16 of 16 pages, capture_pairs 12, sheet 2610x20338 (want 2610x20338)
+P6: exit 0
+  P6: filtered files 85, thai characters 0
+  P6: proof HTML files tracked by git 0 of 2 (the Thai files stay untracked)
+P7: exit 0
+  P7 quest5-l01: first_body_tag_holds_chibi True, classic_class_count 0, print_copy_unpkg 0
+  P7 adventure92-l09: first_body_tag_holds_chibi True, classic_class_count 0, print_copy_unpkg 0
+P8: exit 0
+  P8: manifest git_head 9b95646e1e3443298ad5cb5364b97220ce034023
+  P8 quest5-l01: package sha256 match True
+  P8 quest5-l01: html sha256 match True
+  P8 quest5-l01: pdf sha256 match True
+  P8 quest5-l01: contact sha256 match True
+  P8 adventure92-l09: package sha256 match True
+  P8 adventure92-l09: html sha256 match True
+  P8 adventure92-l09: pdf sha256 match True
+  P8 adventure92-l09: contact sha256 match True
+  P8: tracked files edited in dashboard or content 0
+P9: exit 0
+  P9: printer files before approval 0
+P10: exit 0
+  P10 quest5-l01: workbook_title_exact True, product_name_doubled False, pdf_title_has_book True
+  P10 adventure92-l09: workbook_title_exact True, product_name_doubled False, pdf_title_has_book True
+P11: exit 0
+  P11 quest5-l01: package_pictures 3, html_file_pictures 3, pdf_images 3, missing_srcs 0
+  P11 adventure92-l09: package_pictures 3, html_file_pictures 3, pdf_images 3, missing_srcs 0
+
+checks run 11, failures 0
+RESULT: PASS

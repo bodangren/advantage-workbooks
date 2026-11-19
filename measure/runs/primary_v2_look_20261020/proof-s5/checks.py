@@ -9,9 +9,9 @@ adds P11 (the lesson pictures). P7 also asserts that the stripped print copy
 holds no unpkg script tag, and P8 compares the proof HTML hash and the tracked
 state of `dashboard` and `content`.
 
-Every path can be overridden for a falsification run: S5_RUNS, S5_FOLDER,
-S5_CAPTURES, S5_FILTERED, S5_MANIFEST, S5_PRINT_READY, and S5_RESULTS. The real
-run sets none of them.
+The round is set by S5_ROUND (default r2), and every path can be overridden for
+a falsification run: S5_RUNS, S5_FOLDER, S5_CAPTURES, S5_FILTERED, S5_MANIFEST,
+S5_PRINT_READY, and S5_RESULTS. The real run sets none of them.
 
 Usage: python3 -I -B checks.py --check P1 ... --assemble
 """
@@ -27,9 +27,9 @@ import sys
 from PIL import Image, ImageFont
 
 REPO = '/home/daniebo/Desktop/Workbooks'
-ROUND = 'r2'
+ROUND = os.environ.get('S5_ROUND') or 'r2'
 RUNS = os.environ.get('S5_RUNS') or os.path.join(REPO, 'measure/runs/primary_v2_look_20261020/proof-s5')
-FOLDER = os.environ.get('S5_FOLDER') or os.path.expanduser('~/Desktop/print-ready/primary-v2-look/proof-s5-r2')
+FOLDER = os.environ.get('S5_FOLDER') or os.path.expanduser(f'~/Desktop/print-ready/primary-v2-look/proof-s5-{ROUND}')
 CAPTURES = os.environ.get('S5_CAPTURES') or '/home/daniebo/Desktop/advantage-pr/assets/screenshots/primary-advantage/parity-run2-2026-10-19/student'
 FILTERED = os.environ.get('S5_FILTERED') or '/tmp/opencode/thai-filtered'
 PRINT_READY = os.environ.get('S5_PRINT_READY') or os.path.expanduser('~/Desktop/print-ready')
@@ -453,7 +453,7 @@ def result_path(name):
 
 def assemble():
     """Writes the check record with the exit code of every check."""
-    lines = [f'S5 proof checks, round 2', f'proof folder {FOLDER}', '']
+    lines = [f'S5 proof checks, round {ROUND}', f'proof folder {FOLDER}', '']
     failures = 0
     for name in sorted(CHECKS, key=lambda item: int(item[1:])):
         path = result_path(name)

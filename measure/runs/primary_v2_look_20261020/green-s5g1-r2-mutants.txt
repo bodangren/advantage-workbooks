@@ -1,0 +1,21 @@
+# S5.G1 r2 mutants (review A F5 / P11) — green-s5g1-r2
+# File under test: dashboard/lib/document-wrapper/chibi-quest-styles.ts
+# Target: dashboard/__tests__/chibi-quest-picture-keep.test.ts (gate 1, unchanged Red r2 file)
+#
+# | Mutant | Change | Gate 1 exit | Failing test |
+# |---|---|---|---|
+# | M4 | widen the keep rule back to .article-image-area | 1 | puts no keep rule on the hero wrappers, so Paged.js keeps the hero |
+# | M5 | drop the inline keep rule | 1 | keeps the inline figure with its caption in the chibi-quest styles only |
+#
+# M4 capture: green-s5g1-r2-mutant-M4.txt
+#   AssertionError: .look-chibi-quest .article-image-area: expected true to be false
+# M5 capture: green-s5g1-r2-mutant-M5.txt
+#   AssertionError: .look-chibi-quest .inline-img-box: expected false to be true
+#
+# Restore proof: cmp against the saved original, then sha256sum.
+# RESTORED-CMP-OK
+# e5e375d11299739aba701f0a38332e98e34a5a4cf1212e84de32c5f4faa7620f  dashboard/lib/document-wrapper/chibi-quest-styles.ts
+# e5e375d11299739aba701f0a38332e98e34a5a4cf1212e84de32c5f4faa7620f  /tmp/opencode/cqs-r2-orig.ts
+#
+# Gate 1 after restore: exit 0, 5 passed (green-s5g1-r2-tests.txt).
+# Caught: 2 of 2 mutants.

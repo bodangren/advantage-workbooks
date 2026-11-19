@@ -1,0 +1,45 @@
+Green r2 role log — track primary_v2_look_20261020, Phase S5, Task S5.G1 (r2) and Task S5.G2 (round 3)
+Session: Green · S5 S5.G1 · primary_v2_look · r2
+Model: opencode-go/deepseek-v4.1-flash
+Date: 2026-11-19
+
+phase_base_sha: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93 (immutable)
+role_base_sha: e9782e0767218359ac93915c168e6b1dfdd1bba6
+Red r2: e9782e07 (Muse). Green model family differs from the Red family.
+
+Part 1, S5.G1 fix: dashboard/lib/document-wrapper/chibi-quest-styles.ts holds one scoped keep rule
+for .look-chibi-quest .inline-img-box only. The hero wrappers carry no keep rule, so Paged.js keeps
+the tall Adventure 9.2 hero (P11). No test, template, golden, or lib/teacher-manual change.
+
+Part 1 gate results:
+G1 keep test file: exit 0, 5 passed. green-s5g1-r2-tests.txt (Red rerun exits 1, 1 of 5 fails).
+G2 look guards (4 files): exit 0, 34 passed. green-s5g1-r2-look-tests.txt
+G3 PROJECT_TESTS with the three documented excludes: exit 0, 3149 passed in 165 files.
+   Summary lines only, VITEST_EXIT=0. green-s5g1-r2-project-tests.txt
+G4 PROJECT_LINT (plan list plus the style file and the Red file): exit 0. green-s5g1-r2-lint.txt
+G5 tsc --noEmit: exit 0, no output lines. green-s5g1-r2-tsc.txt
+G6 Mutants: 2 of 2 caught: widen to .article-image-area (M4, hero guard), drop the inline rule
+   (M5, inline keep test). Restore cmp and sha256 match. green-s5g1-r2-mutants.txt
+G7 Golden and pinned diff from 82c58b7e: empty. green-s5g1-r2-golden-diff.txt
+G8 Thai characters: 0 in every committed file.
+
+Part 2, S5.G2 proof round 3:
+Folder: /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r3/
+quest5-l01.pdf: 14 pages. adventure92-l09.pdf: 16 pages. Contact sheets: 14 and 16 tiles.
+Checks P1 to P11: each exit 0. checks-r3.txt says checks run 11, failures 0, RESULT: PASS.
+P11: 3 of 3 pictures for both proofs (pdf_images 3, missing_srcs 0).
+Driver change: checks.py takes S5_ROUND, and manifest.py takes S5_FOLDER. No product code change.
+Records: proof-s5/checks-r3.txt and proof-s5/manifest-r3.txt.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: 9b95646e (S5.G1 r2 code), evidence commit after this log; Red r2 e9782e07
+tests_run: G1 exit 0 (5 passed); G2 exit 0 (34 passed); G3 exit 0 (3149 passed, 165 files); G4 exit 0; G5 exit 0; G6 2 of 2 mutants caught; G7 empty; G8 Thai 0; proof P1 to P11 each exit 0 (checks-r3.txt RESULT: PASS)
+files_changed: dashboard/lib/document-wrapper/chibi-quest-styles.ts (code); measure/tracks/primary_v2_look_20261020/plan.md; measure/runs/primary_v2_look_20261020/green-s5g1-r2-* and green-s5-r3-e9782e07.log; measure/runs/primary_v2_look_20261020/proof-s5/checks.py and manifest.py (round option); proof-s5/check-P1..P11-r3.txt, checks-r3.txt, manifest-r3.txt
+plan_updates: S5.R1 set [x] with commit e9782e07; S5.G1 set [x] with commit 0b2bd81f, fix 9b95646e; S5.G2 set [x] with commit 5cc50300 and the round 3 evidence
+known_failures: none; the three earlier failures of other tracks stay excluded from G3 as plan.md records
+handoff: S5.G2 round 3 is PASS at r3, with P11 3 of 3 pictures for both proofs. Next: reviews A and B on the new head, one adversarial round, the UX/browser review (UX_REQUIRED), phase acceptance, and Daniel's gate. P11 needs the visual look of the r3 Adventure 9.2 page 3 in the UX review. Both style commits, 0b2bd81f and 9b95646e, are S7 styles.ts triggers: send them to the PM for the monorepo session. The r3 render overwrote the untracked proof HTML in proof-s5/; never stage it, the review-s5 files, strategy-s5-8b27c9ea.log, video/**, or dashboard/raw.json. Two tracked files of other sessions stay dirty: strategy-s5-8b27c9ea.log and video/storytime-song/scripts/render.mjs.
+END_MEASURE_AGENT_RESULT
