@@ -1,0 +1,44 @@
+# Task 1.G3 run checks (outputs of the provisional grouping)
+
+files:
+  docs/content-plans/data/duplicates-levels-5-9.json
+  docs/content-plans/level-plans/duplicates-levels-5-9.md
+
+## Paths and characters
+PASS grep /home/ in the json: 0
+PASS grep /tmp in the json: 0
+PASS grep /home/ in the md: 0
+PASS grep /tmp in the md: 0
+PASS Thai characters in the json (U+0E00-U+0E7F): 0
+PASS Thai characters in the md (U+0E00-U+0E7F): 0
+
+## Task 1.G1 strings
+PASS heading: 1
+PASS intro, generated line: 1
+PASS intro, provisional line: 1
+PASS intro, keep rule line: 1
+
+## Table
+PASS Keep and Similar header: 1
+PASS separator rows (one table): 1
+PASS Delete column: 0
+PASS level 5 keeps at most 50: 1
+
+## Levels below target keep all, no group
+PASS level 6 keep-all line: 1
+PASS level 7 keep-all line: 1
+PASS level 8 keep-all line: 1
+PASS level 9 keep-all line: 1
+
+## Per-level counts and keep counts
+  5: 92 articles: 0 printed, 92 online. Keep 50 online articles; 42 are similar to a kept one. 23 groups have more than one article; the weakest merge had similarity 0.31.
+  6: 88 articles: 0 printed, 88 online. Keep all 88 online articles; none is similar to another.
+  7: 4 articles: 0 printed, 4 online. Keep all 4 online articles; none is similar to another.
+  8: 38 articles: 0 printed, 38 online. Keep all 38 online articles; none is similar to another.
+  9: 49 articles: 0 printed, 49 online. Keep all 49 online articles; none is similar to another.
+
+## Note: counts against the 2026-10-08 inventory (92, 88, 4, 38, 49)
+PASS counts 92 88 4 38 49: 92 88 4 38 49
+  note: no difference from the 2026-10-08 counts
+
+result: all checks pass
