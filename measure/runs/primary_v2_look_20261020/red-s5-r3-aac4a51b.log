@@ -1,0 +1,40 @@
+Red retry r3 provisional log (review A F5: hero caption off the hero page).
+
+HEAD at role start (role_base_sha): aac4a51b42bd3d74964301578f06e5d64c7d95f1
+Phase base (phase_base_SHA): 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+Dirty scope at start: git status over the test, the template, the track dir, and
+the r3 evidence paths was empty. Other tracks stay untouched.
+
+Since r2: Green r2 (9b95646e) narrowed the keep rule to .inline-img-box; proof r3
+prints all 3 pictures (P11). Review A F5 stays open: the hero caption "The guide
+welcomes the Explorers." prints on page 4, apart from the hero on page 3. Green
+probes (hero-caption-probes.txt, new proof check P12) show the smallest working
+rule: max-height 240px on the hero image; break-before avoid on the caption does
+not work; an avoid rule on the hero wrapper drops the hero.
+
+Template check (read only): line 1677 wraps the hero in
+<div class="article-image-box hero-img-box">, so the hero image selector is
+.look-chibi-quest .hero-img-box img. The classic styles.ts holds no hero-img-box
+rule.
+
+Gates:
+- RED_TEST_COMMAND exits 1: 6 tests, 1 failed, 5 passed. The failure is only the
+  new max-height assertion (no 240px rule at HEAD). The inline keep, hero
+  no-avoid, DOM-fragment, golden byte-identity, and flat-style guards pass.
+- tsc grep for the new file: 0 lines (red-s5-r3-tsc.txt is empty).
+- eslint on the new file: exit 0.
+- Thai count is 0 on the test, the plan, and both evidence files.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+baseline_sha: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+commits: red-s5-r3-aac4a51b (this Red retry commit; SHA in final reply)
+tests_run: RED_TEST_COMMAND exit 1 (6 tests: 1 failed on the new max-height assertion only, 5 passed); tsc grep 0 lines; eslint exit 0; Thai 0 on all committed files
+files_changed: dashboard/__tests__/chibi-quest-picture-keep.test.ts (new hero max-height assertion); measure/tracks/primary_v2_look_20261020/plan.md (S5.R1 and S5.G1 back to [~] with r3 sub-lines); measure/runs/primary_v2_look_20261020/red-s5-r3-aac4a51b.txt; measure/runs/primary_v2_look_20261020/red-s5-r3-tsc.txt; measure/runs/primary_v2_look_20261020/red-s5-r3-aac4a51b.log
+plan_updates: Task S5.R1 back to [~] with the r3 sub-line; Task S5.G1 back to [~] with the reopened sub-line; both kept [~] for the Red gate
+known_failures: the hero max-height assertion FAILS as designed (no 240px rule at HEAD); the inline keep, hero no-avoid, DOM-fragment, golden byte-identity, and flat-style guards pass
+handoff: Green owns the S5.G1 fix: add max-height 240px on .look-chibi-quest .hero-img-box img in chibi-quest-styles.ts only (keep the classic golden byte-identical), then run the F5 Green gates plus P11 and P12 on both proofs. Question: shall Green apply the hero max-height fix next? Default: yes, proceed.
+END_MEASURE_AGENT_RESULT

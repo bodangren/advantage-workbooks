@@ -4,10 +4,10 @@ import { describe, it, expect } from 'vitest';
 import { getChibiQuestStyles } from '../lib/document-wrapper/chibi-quest-styles';
 import { lessonDocument, type PrintExport } from '../lib/print/print-export';
 
-// Track primary_v2_look_20261020, story S5 remediation (review A F5), Red retry r2
-// (option A): the keep rule covers the inline picture box only. The hero
-// wrappers must not carry it: a tall hero area under break-inside: avoid is
-// dropped by Paged.js (P11 hero drop, proof-s5/g1-hero-drop.txt). The classic
+// Track primary_v2_look_20261020, story S5 remediation (review A F5), Red retry r3:
+// the hero picture gets a max-height of 240px in the chibi-quest look, so the
+// hero caption stays on the hero's page (F5, P12, proof-s5/hero-caption-probes.txt).
+// The inline keep rule and the hero no-avoid guard of r2 stay. The classic
 // golden stays byte-identical. This file reads no package, no Thai, and no image
 // except the golden byte-identity guard, which compares bytes and prints no text
 // on pass.
@@ -22,6 +22,21 @@ const INLINE_FRAGMENT = [
   '<span class="article-image-caption text-center">The guide welcomes the Explorers.</span>',
   '</div>',
 ].join('\n');
+
+/** True when the CSS holds the selector in a rule block that declares the declaration. */
+function scopedDeclaration(css: string, selector: string, declaration: RegExp): boolean {
+  let from = 0;
+  for (;;) {
+    const at = css.indexOf(selector, from);
+    if (at < 0) return false;
+    const open = css.indexOf('{', at + selector.length);
+    if (open < 0) return false;
+    const close = css.indexOf('}', open + 1);
+    if (close < 0) return false;
+    if (declaration.test(css.slice(open + 1, close))) return true;
+    from = close + 1;
+  }
+}
 
 /** True when the CSS holds the selector in a rule block that declares both keep properties. */
 function scopedKeepRule(css: string, selector: string): boolean {
@@ -40,7 +55,19 @@ function scopedKeepRule(css: string, selector: string): boolean {
   }
 }
 
-describe('chibi-quest picture keep (review A F5, r2)', () => {
+describe('chibi-quest picture keep (review A F5, r3)', () => {
+  it('keeps the hero picture short enough for its caption in the chibi-quest look only', () => {
+    const css = getChibiQuestStyles();
+    expect(
+      scopedDeclaration(css, '.look-chibi-quest .hero-img-box img', /max-height\s*:\s*240px/),
+      '.look-chibi-quest .hero-img-box img',
+    ).toBe(true);
+    const classic = fs.readFileSync(
+      path.join(process.cwd(), 'lib', 'document-wrapper', 'styles.ts'),
+      'utf8',
+    );
+    expect(classic, 'classic styles').not.toContain('hero-img-box');
+  });
   it('keeps the inline figure with its caption in the chibi-quest styles only', () => {
     const css = getChibiQuestStyles();
     expect(scopedKeepRule(css, '.look-chibi-quest .inline-img-box'), '.look-chibi-quest .inline-img-box').toBe(true);
