@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "role": "measure-adversarial-testing",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S4: App step names in the v2 books",
+  "baseline_sha": "a4f52b9e968f47e062bfdf923b0de507a42644f0",
+  "role_base_sha": "43dbf848",
+  "audited_head_sha": "43dbf848a61fc0f5970f8bca952afa1d9a1f0d9e",
+  "status": "pass",
+  "summary": "PASS. The adversarial round added 7 tests in one new file, dashboard/__tests__/chibi-quest-step-names.adversarial.test.ts, and changed no production code. The routed test gaps are closed. Review A F1 (A1) is closed: the test 'prints the grammar term in the step 6 title of both looks' asserts the rendered h2.section-title text, 'Collect Sentences – Past tense' in classic and 'Sentence Collection – Past tense' in chibi-quest, so Green's surviving mutant M3 now fails (ADV-M3b, 1 failed, exit 1) and the chibi-only form fails too (ADV-M3a, 1 failed, exit 1). Review A F3 (A3) is closed: two tests assert '<h4 class=\"tg-section-title\">Key Vocabulary</h4>' for the classic look and for no look, so the both-branches 'Preview Vocabulary' mutant fails (ADV-T1, 2 failed, exit 1). The risk guards also pass: an empty grammar_search_term leaves no dangling separator in either look; parseLook throws on every value outside the closed set and defaults undefined and null to classic; the classic book document keeps the answer key labels 'Multiple Choice:' and 'Short Answer Hint:' (plan.md line 88) with no classic step-7 or step-8 label; and no classic name appears in the chibi-quest visible text after style, script, and comment stripping (the names live only in comments and CSS, which do not print). The final gate ran both step-name files in one heavy-run: 18 passed (7 new, 11 Red), exit 0, capture adversarial-s4-43dbf848.txt. eslint on the new file exits 0. The mutant captures stayed outside the repository because a failure diff can print lesson content; a UTF-8 scan found no Thai character in the committed capture or the test file. git status --porcelain dashboard/templates dashboard/lib is empty, so no production path changed. No defect was found: every new test passes at the audited head.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "A1 guard: the test file line 59 asserts classicTitles[5] to equal 'Collect Sentences – Past tense' and line 60 asserts chibiTitles[5] to equal 'Sentence Collection – Past tense'; the titles come from the h2.section-title elements, so the Challenge line of template line 1812 cannot satisfy them.",
+    "A1 falsification, chibi-only form (ADV-M3a): the grammar suffix moved into the classic branch; the run exits 1 with 'expected Sentence Collection to be Sentence Collection – Past tense' at the new file line 60; 1 failed, 6 passed.",
+    "A1 falsification, both-looks form (ADV-M3b): the exact Green M3 change of green-s4-mutants.txt line 11; the run exits 1 with 'expected Collect Sentences to be Collect Sentences – Past tense' at the new file line 59; 1 failed, 6 passed. The surviving Green mutant no longer survives.",
+    "A3 guard: the tests 'prints Key Vocabulary in the classic teacher pages' and 'prints Key Vocabulary in the teacher pages when the look is absent' assert the exact h4 string of teacher-guide.ts line 14; the lesson page h2 'Key Vocabulary' cannot satisfy them.",
+    "A3 falsification (ADV-T1): teacher-guide.ts line 14 set to 'Preview Vocabulary' for both looks; the run exits 1 with both named tests failed; 2 failed, 5 passed.",
+    "Empty grammar term: with grammar_search_term set to the empty string, the step 6 title equals 'Collect Sentences' in classic and 'Sentence Collection' in chibi-quest, and no title holds the separator dash; plan.md line 76 keeps the conditional in both looks.",
+    "Closed look set: parseLook returns classic for undefined and null, accepts only classic and chibi-quest, and throws 'unknown look' for 'riven-lands', 'Classic', 'CHIBI-QUEST', 'chibi-quest ', the empty string, 42, and true (dashboard/lib/look.ts lines 26 to 31).",
+    "Answer key: the classic book document holds '<strong>Multiple Choice:</strong>' and '<strong>Short Answer Hint:</strong>' and holds neither '<strong>Comprehension Check:</strong>' nor '<strong>Guided Response:</strong>' (plan.md line 88, answer-key.ts lines 37 and 54).",
+    "Cross-look leak: after style, script, and comment stripping, none of the nine classic-only names appears in the chibi-quest lesson HTML or in the chibi-quest book document with teacher guide, answer key, and TOC; the classic names sit only in HTML comments (template lines 1735, 1777, 1802) and in the CSS comment of template line 1022, which do not print.",
+    "Final gate: one heavy-run, both files, 18 passed (7 new, 11 Red), exit 0; capture measure/runs/primary_v2_look_20261020/adversarial-s4-43dbf848.txt.",
+    "Mutant protocol: each mutant file was copied back and proved with cmp; git status --porcelain dashboard/templates dashboard/lib printed no line at the end; the record is measure/runs/primary_v2_look_20261020/adversarial-s4-mutants.txt.",
+    "Lint: npx eslint __tests__/chibi-quest-step-names.adversarial.test.ts exits 0.",
+    "No Thai in committed artifacts: a UTF-8 scan (perl -CSD, range U+0E00 to U+0E7F) found no character in adversarial-s4-43dbf848.txt or in the test file; the three mutant captures with failure diffs stayed in /tmp/opencode and were not committed.",
+    "A4 defense: every title assertion runs after toHaveLength(13), so an empty render fails first; the closed-set and parseLook assertions run against the real parseLook export, not a mock.",
+    "A7 defense: the absence checks use exact strings per name; the visibleText filter removes only style, script, and comment syntax, and the ADV runs show a real classic name in a title fails a test."
+  ],
+  "commands": [
+    "npx eslint __tests__/chibi-quest-step-names.adversarial.test.ts -> exit 0",
+    "heavy-run -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.adversarial.test.ts' with ADV-M3a applied -> exit 1, 1 failed, 6 passed",
+    "same command with ADV-M3b applied -> exit 1, 1 failed, 6 passed",
+    "same command with ADV-T1 applied -> exit 1, 2 failed, 5 passed",
+    "heavy-run -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.adversarial.test.ts __tests__/chibi-quest-step-names.test.ts 2>&1 | tee ../measure/runs/primary_v2_look_20261020/adversarial-s4-43dbf848.txt' -> exit 0, 18 passed",
+    "cmp of each restored production file with its backup -> 0 difference, three times",
+    "git status --porcelain dashboard/templates dashboard/lib -> no output",
+    "perl -CSD Thai scan of the committed capture and the test file -> no match"
+  ],
+  "changed_files": [
+    "dashboard/__tests__/chibi-quest-step-names.adversarial.test.ts",
+    "measure/runs/primary_v2_look_20261020/adversarial-s4-43dbf848.txt",
+    "measure/runs/primary_v2_look_20261020/adversarial-s4-43dbf848.json",
+    "measure/runs/primary_v2_look_20261020/adversarial-s4-43dbf848.log",
+    "measure/runs/primary_v2_look_20261020/adversarial-s4-mutants.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "The 18 tests of both step-name files pass at the head; the step 6 title with a grammar term reads exactly per plan.md line 76 in both looks (test lines 59 and 60)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "adversarial-s4-mutants.txt records 3 of 3 mutants caught by named tests; the surviving Green M3 and the classic teacher branch were the last two untested regressions."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git status --porcelain dashboard/templates dashboard/lib is empty; the round adds one test file and four run artifacts, and the Red file is untouched."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a command result: three mutant runs with exit codes, the 18-pass final run in adversarial-s4-43dbf848.txt, and the eslint exit 0."
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+Adversarial round for primary_v2_look_20261020, Phase S4.
+Role: measure-adversarial-testing. Route: opencode-go/glm-5.3#high.
+Phase base: a4f52b9e968f47e062bfdf923b0de507a42644f0.
+Role base and audited head: 43dbf848a61fc0f5970f8bca952afa1d9a1f0d9e.
+
+Inputs read: plan.md (S4.1 table lines 69 to 89, S4.2 lines 90 to 97, S4.3 lines
+98 to 100), spec.md story S4, test-strategy.md (risks lines 22 to 29, mutant set
+lines 112 to 123, anti-pattern lines 98 to 110), review-a-s4-43dbf848.json (F1,
+F2, F3), review-b-s4-43dbf848.json, green-s4-mutants.txt, the Red file
+chibi-quest-step-names.test.ts, the template lines 1555 to 2208, teacher-guide.ts,
+answer-key.ts, look.ts, and workbook-document-wrapper.ts.
+
+Routed work: A1 FIX (review A F1) and A3 FIX (review A F3) as test gaps in this
+round. A2 and B1 were declined by the orchestrator, so this round does not act
+on them.
+
+New file: dashboard/__tests__/chibi-quest-step-names.adversarial.test.ts, 7 tests.
+1. prints the grammar term in the step 6 title of both looks (A1). The
+   assertions read the h2.section-title text: 'Collect Sentences – Past tense'
+   and 'Sentence Collection – Past tense'. The Challenge line cannot satisfy
+   them.
+2. prints no dangling separator when the grammar term is empty (risk guard).
+3. throws on a look outside the closed set and defaults to classic (risk
+   guard, parseLook).
+4. prints Key Vocabulary in the classic teacher pages (A3).
+5. prints Key Vocabulary in the teacher pages when the look is absent (A3).
+6. keeps the answer key labels in the classic book document (risk guard,
+   plan.md line 88).
+7. shows no classic step name in the lesson pages or the book document (risk
+   guard; style, script, and comment text does not print).
+
+Mutant gate. One heavy-run per mutant, the new file alone. Each broken file was
+copied back and proved with cmp.
+- ADV-M3a, chibi branch loses the step 6 suffix: exit 1, 1 failed (the A1 test,
+  the chibi assertion at line 60).
+- ADV-M3b, both looks lose the suffix, the exact Green M3 form: exit 1, 1
+  failed (the A1 test, the classic assertion at line 59). The surviving Green
+  mutant no longer survives.
+- ADV-T1, both teacher branches read Preview Vocabulary: exit 1, 2 failed (the
+  two A3 tests).
+
+Final gate. One heavy-run, both step-name files: 18 passed (7 new, 11 Red),
+exit 0. Capture: adversarial-s4-43dbf848.txt.
+
+Lint: eslint on the new file exits 0.
+
+Production safety: git status --porcelain dashboard/templates dashboard/lib is
+empty at the end. No golden file was written. The three mutant captures stayed
+in /tmp/opencode, because a failure diff can print lesson content. A UTF-8 scan
+found no Thai character in the committed capture, the test file, or this log.
+
+No defect was found. Every new test passes at the audited head, so the
+implementation breaks no plan rule that the new tests cover.
+
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S4: App step names in the v2 books
+commits: none yet; the commit of this round follows this log
+tests_run: heavy-run vitest, adversarial file alone, three mutant runs, each exit 1 with the named test failed (ADV-M3a 1 failed, ADV-M3b 1 failed, ADV-T1 2 failed); final heavy-run of both step-name files, 18 passed (7 new, 11 Red), exit 0 (adversarial-s4-43dbf848.txt); eslint on the new file, exit 0
+files_changed: dashboard/__tests__/chibi-quest-step-names.adversarial.test.ts (new), measure/runs/primary_v2_look_20261020/adversarial-s4-43dbf848.txt, adversarial-s4-43dbf848.json, adversarial-s4-43dbf848.log, adversarial-s4-mutants.txt
+plan_updates: none; plan.md line 106 already names the adversarial result file
+known_failures: none in the 18 tests of the final gate; the 3 earlier failures of other tracks in PROJECT_TESTS were not in scope for this round
+handoff: Green mutant M3 and the classic teacher-page branch are now guarded; any later implementation commit on the S4 paths needs this gate rerun; the step 6 title assertions use the en dash U+2013, as the template does
+dispositions: A1=FIX; A3=FIX
+END_MEASURE_AGENT_RESULT

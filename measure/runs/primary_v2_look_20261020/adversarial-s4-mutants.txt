@@ -1,0 +1,32 @@
+Track primary_v2_look_20261020, Phase S4, adversarial round. Mutant gate.
+
+Role base and audited head: 43dbf848a61fc0f5970f8bca952afa1d9a1f0d9e.
+Phase base: a4f52b9e968f47e062bfdf923b0de507a42644f0.
+Test file under attack: dashboard/__tests__/chibi-quest-step-names.adversarial.test.ts (7 tests).
+Every run went through one heavy-run wrapper. No nested wrapper.
+Each mutant run used this command:
+  set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.adversarial.test.ts
+Every broken file was copied back and proved with cmp before the next mutant.
+The mutant captures stayed outside the repository, because a failure diff can print lesson content.
+
+| Mutant | File | Change | Exit | Named failing test(s) |
+|---|---|---|---|---|
+| ADV-M3a | dashboard/templates/primary_template.html | step 6 title: the grammar suffix moved into the classic branch, so only the chibi branch loses it (review A F1, the routed form) | 1 | prints the grammar term in the step 6 title of both looks (the chibi assertion, line 60; 1 failed, 6 passed) |
+| ADV-M3b | dashboard/templates/primary_template.html | step 6 title: the grammar suffix conditional deleted, both looks (the surviving Green mutant M3 of green-s4-mutants.txt) | 1 | prints the grammar term in the step 6 title of both looks (the classic assertion, line 59; 1 failed, 6 passed) |
+| ADV-T1 | dashboard/lib/document-wrapper/sections/teacher-guide.ts | line 14 reads Preview Vocabulary for both looks (review A F3, the both-branches form) | 1 | prints Key Vocabulary in the classic teacher pages; prints Key Vocabulary in the teacher pages when the look is absent (2 failed, 5 passed) |
+
+Result: 3 of 3 mutants caught by a named test.
+
+The surviving Green mutant M3 no longer survives: ADV-M3b repeats the exact
+change of green-s4-mutants.txt line 11, and the new test fails on it. The
+chibi-only form ADV-M3a also fails, so each branch of the step 6 title has its
+own guard. The classic teacher-page branch has its guard now: ADV-T1 fails two
+named tests, and the Red file already covers the chibi branch (its test at
+lines 177 to 178).
+
+Restore proof: cmp returned 0 for each file after each run, and
+git status --porcelain dashboard/templates dashboard/lib printed no line at the
+end of the round.
+
+Final gate: both step-name files together, 18 passed (7 new, 11 Red), exit 0.
+Capture: adversarial-s4-43dbf848.txt.
