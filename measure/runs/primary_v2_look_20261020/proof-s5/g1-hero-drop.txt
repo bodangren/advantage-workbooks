@@ -1,0 +1,33 @@
+S5 round 2: the Adventure 9.2 hero picture is absent from the print (check P11)
+Track primary_v2_look_20261020, 2026-11-19. Commands print counts only; no Thai text.
+Round 2 files: /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r2/
+
+The failure of P11:
+- adventure92-l09.pdf lists 2 images with `pdfimages -list`: pages 4 and 4, 461K and 671K.
+- quest5-l01.pdf lists 3 images: pages 3, 4, and 4.
+- Round 1 had 3 images for Adventure 9.2: page 3 hero (663K), page 4 (461K), page 5 (671K).
+- The hero.jpg of adventure-9.2/media/l09 does not appear in the round 2 PDF at all.
+
+The cause is the S5.G1 keep rule, not the round 2 driver and not the header:
+- Probe A: the round 2 print copy, rendered again in /tmp/opencode/adv-probe, gives 2 images.
+- Probe B: the same print copy with the 9-line keep rule removed gives 3 images (hero on page 3).
+  The PDF grows from 1414157 to 2094409 bytes.
+- Probe C: the round 1 header (--series "Primary Advantage") with the keep rule gives 2 images.
+  The book-name header is therefore not the cause.
+- Ink coverage, `gs -sDEVICE=inkcov`, page 3: round 1 0.30010, round 2 0.19041.
+  Page 4: round 1 0.15744, round 2 0.26108.
+
+The keep rule is in dashboard/lib/document-wrapper/chibi-quest-styles.ts (commit 0b2bd81f) and
+names .article-image-box, .article-image-area, and .inline-img-box. The Red file
+dashboard/__tests__/chibi-quest-picture-keep.test.ts lines 44 to 46 requires all three names.
+The hero sits in .article-image-area, so the rule drops it from the Adventure 9.2 print.
+The two inline pictures (.inline-img-box) survive.
+
+Next step: a Mid Red retry of the keep-rule contract, then a Green fix. The fix must keep the
+inline caption with its picture and keep the hero picture on the page. The classic golden must
+stay byte-identical.
+
+The proof commands:
+  pdfimages -list  .../proof-s5-r1/adventure92-l09.pdf
+  pdfimages -list  .../proof-s5-r2/adventure92-l09.pdf
+  gs -q -dNOPAUSE -dBATCH -sDEVICE=inkcov -dFirstPage=3 -dLastPage=3 -o - .../adventure92-l09.pdf

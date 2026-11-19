@@ -3,10 +3,13 @@
  *
  * It makes one Chrome PDF from one proof HTML with `renderPagedPdf`, the same
  * function `scripts/print/make-book-pdf.ts` calls, and the Paged.js polyfill
- * from `node_modules`. It writes into a versioned proof folder. The folder holds
- * the identity of the whole proof round (the HTML and the package of every
- * proof). The driver refuses a folder that holds a different round identity,
- * so an approved proof is never overwritten.
+ * from `node_modules`. It removes the unpkg CDN tag from the document, as the
+ * product print scripts do, and writes the stripped copy into the proof folder
+ * for check P7. It writes into a versioned proof folder. The folder holds the
+ * identity of the whole proof round (the HTML and the package of every proof).
+ * The driver refuses a folder that holds a different round identity and refuses
+ * a PDF that already exists, so an approved proof is never overwritten. It also
+ * writes the page-box count of Paged.js for check P4.
  *
  * Usage: npx tsx make-proof-pdf.ts --round-html <file.html> --round-html <file.html>
  *          --round-package <package.json> --round-package <package.json>
@@ -80,6 +83,10 @@ function parseArgs(argv: string[]): Args {
  */
 async function main(argv: string[]): Promise<number> {
     const args = parseArgs(argv);
+    if (fs.existsSync(args.out)) {
+        console.error(`REFUSED: ${args.out} already exists; a proof PDF is never overwritten`);
+        return 1;
+    }
     const proof = roundIdentity(args);
     const identityFile = path.join(args.folder, 'round-identity.txt');
     if (fs.existsSync(args.folder)) {
@@ -98,16 +105,26 @@ async function main(argv: string[]): Promise<number> {
     // polyfill from node_modules. Both renderers then run on the same page: the
     // document holds the lesson twice (26 step headings, 31 page boxes) and the
     // PDF prints every step on two pages. The classic product books print each
-    // lesson once (quest-4-a1.pdf: 234 pages, 14 lessons). The rule keeps the
-    // polyfill of node_modules the only renderer, so the proof shows the page
-    // as the book prints it.
+    // lesson once (quest-4-a1.pdf: 234 pages, 14 lessons). The driver removes the
+    // CDN tag, as `make-book-pdf.ts` line 60 does, and keeps the polyfill of
+    // node_modules as the only renderer, so the proof shows the page as the book
+    // prints it. The stripped copy stays in the proof folder for check P7.
+    const source = fs.readFileSync(args.html, 'utf8');
+    const stripped = source.replace(/<script src="https:\/\/unpkg[^>]*><\/script>/, '');
+    if (stripped.includes('unpkg')) throw new Error(`${args.html} still holds an unpkg reference after the strip`);
+    const printCopy = path.join(args.folder, `${args.tag}.print.html`);
+    fs.writeFileSync(printCopy, stripped);
+
     const browser = await chromium.launch({ channel: 'chrome', args: ['--host-resolver-rules=MAP unpkg.com ~NOTFOUND'] });
     let pages: number;
     try {
-        pages = await renderPagedPdf(browser, args.html, args.out, pagedSrc);
+        pages = await renderPagedPdf(browser, printCopy, args.out, pagedSrc);
     } finally {
         await browser.close();
     }
+    // The page-box count of Paged.js, written for check P4. The PDF page count is
+    // compared with it, so a frozen render with fewer boxes fails the check.
+    fs.writeFileSync(path.join(args.folder, `${args.tag}-pagebox.txt`), `${pages}\n`);
     console.log(`PDF ${args.tag}: ${args.out} (${pages} pages, ${fs.statSync(args.out).size} bytes, sha256 ${sha256(args.out)})`);
     return 0;
 }

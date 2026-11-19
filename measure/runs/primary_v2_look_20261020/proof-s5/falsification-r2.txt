@@ -1,0 +1,35 @@
+S5 proof checks, round 2: the falsification record (track primary_v2_look_20261020)
+Every probe uses a broken copy under /tmp/opencode. S5_RESULTS=/tmp/opencode/probe-results
+keeps the probe output out of the real check record. No probe touches a real proof.
+
+The broken input of each check, and the exit:
+- P1, an A4 PDF as quest5-l01.pdf: exit 1. Page 595.0 x 842.0 pt, want 595.28 x 807.87.
+- P2a, an empty proof folder (a missing PDF): exit 1. Fonts 0.
+- P2b, a Ghostscript PDF with Helvetica, not embedded (row "Helvetica Type 1 Standard no no yes"): exit 1. not_embedded 1. The r1 test "'yes' not in row" passed this row.
+- P3, a Ghostscript PDF with each of the 13 names twice: exit 1. once_each False, 13 names doubled.
+- P4, a copy of the round 2 folder with page 1 removed from quest5-l01.pdf and pagebox 14: exit 1. pdf_pages 13, page_boxes 14.
+- P5, a copy of the round 2 folder with page 1 capture set to lesson-step02-preview-vocabulary-desktop.png: exit 1. "page 1 capture ... but the step wants lesson-step01-intro-desktop.png".
+- P6, an empty filter folder: exit 1. Filtered files 0.
+- P7, a proof folder whose quest5-l01.print.html still holds the unpkg tag: exit 1. print_copy_unpkg 1.
+- P8, a manifest with a wrong quest5-l01 pdf hash: exit 1. pdf sha256 match False.
+- P9, a print-ready folder that holds Primary-Advantage-Quest-5_test.pdf: exit 1. printer files 1.
+- P10, proof HTML copies whose title reads "Primary Advantage • Primary Advantage • A1": exit 1. workbook_title_exact False, product_name_doubled True.
+- P11, a text-only PDF as quest5-l01.pdf: exit 1. package_pictures 3, pdf_images 0.
+
+The driver overwrite refusal (review B F1):
+- A second run with an existing quest5-l01.pdf in /tmp/opencode/refuse prints
+  "REFUSED: ... already exists; a proof PDF is never overwritten", exits 1, and leaves the file hash unchanged.
+
+Commands (one per probe):
+  env S5_FOLDER=/tmp/opencode/fix-p1 S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P1
+  env S5_FOLDER=/tmp/opencode/fix-empty S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P2
+  env S5_FOLDER=/tmp/opencode/fix-p2 S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P2
+  env S5_FOLDER=/tmp/opencode/fix-p3 S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P3
+  env S5_FOLDER=/tmp/opencode/fix-p4 S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P4
+  env S5_FOLDER=/tmp/opencode/fix-p5 S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P5
+  env S5_FILTERED=/tmp/opencode/fix-empty S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P6
+  env S5_FOLDER=/tmp/opencode/fix-p7 S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P7
+  env S5_MANIFEST=/tmp/opencode/fix-manifest.txt S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P8
+  env S5_PRINT_READY=/tmp/opencode/print-ready-fixture S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P9
+  env S5_RUNS=/tmp/opencode/fix-p10 S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P10
+  env S5_FOLDER=/tmp/opencode/fix-p11 S5_RESULTS=/tmp/opencode/probe-results python3 -I -B checks.py --check P11

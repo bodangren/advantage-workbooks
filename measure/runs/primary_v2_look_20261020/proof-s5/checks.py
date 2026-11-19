@@ -1,43 +1,75 @@
-"""The S5 proof checks (track primary_v2_look_20261020, Phase S5).
+"""The S5 proof checks (track primary_v2_look_20261020, Phase S5, round 2).
 
 Each check of the strategy runs alone and writes its own result file. The
 checks read produced bytes, source text, and rasterized pages. They print
 counts, file names, and English step names only. They print no Thai text.
+
+Round 2 strengthens P2 to P6, adds P10 (the book header and the PDF title), and
+adds P11 (the lesson pictures). P7 also asserts that the stripped print copy
+holds no unpkg script tag, and P8 compares the proof HTML hash and the tracked
+state of `dashboard` and `content`.
+
+Every path can be overridden for a falsification run: S5_RUNS, S5_FOLDER,
+S5_CAPTURES, S5_FILTERED, S5_MANIFEST, S5_PRINT_READY, and S5_RESULTS. The real
+run sets none of them.
 
 Usage: python3 -I -B checks.py --check P1 ... --assemble
 """
 
 import argparse
 import hashlib
+import json
 import os
 import re
 import subprocess
 import sys
 
-from PIL import Image
+from PIL import Image, ImageFont
 
 REPO = '/home/daniebo/Desktop/Workbooks'
-RUNS = os.path.join(REPO, 'measure/runs/primary_v2_look_20261020/proof-s5')
-FOLDER = os.path.expanduser('~/Desktop/print-ready/primary-v2-look/proof-s5-r1')
-CAPTURES = '/home/daniebo/Desktop/advantage-pr/assets/screenshots/primary-advantage/parity-run2-2026-10-19/student'
-FILTERED = '/tmp/opencode/thai-filtered'
+ROUND = 'r2'
+RUNS = os.environ.get('S5_RUNS') or os.path.join(REPO, 'measure/runs/primary_v2_look_20261020/proof-s5')
+FOLDER = os.environ.get('S5_FOLDER') or os.path.expanduser('~/Desktop/print-ready/primary-v2-look/proof-s5-r2')
+CAPTURES = os.environ.get('S5_CAPTURES') or '/home/daniebo/Desktop/advantage-pr/assets/screenshots/primary-advantage/parity-run2-2026-10-19/student'
+FILTERED = os.environ.get('S5_FILTERED') or '/tmp/opencode/thai-filtered'
+PRINT_READY = os.environ.get('S5_PRINT_READY') or os.path.expanduser('~/Desktop/print-ready')
 PROOFS = ['quest5-l01', 'adventure92-l09']
 HTML = {tag: os.path.join(RUNS, f'{tag}.html') for tag in PROOFS}
 PACKAGE = {
     'quest5-l01': os.path.join(REPO, 'content/primary/quest-5/l01.json'),
     'adventure92-l09': os.path.join(REPO, 'content/primary/adventure-9.2/l09.json'),
 }
-MANIFEST = os.path.join(RUNS, 'manifest-r1.txt')
+MANIFEST = os.environ.get('S5_MANIFEST') or os.path.join(RUNS, f'manifest-{ROUND}.txt')
+RESULTS = os.environ.get('S5_RESULTS') or RUNS
+SERIES = {'quest5-l01': 'Quest 5', 'adventure92-l09': 'Adventure 9.2'}
+LEVEL = {'quest5-l01': 'A1', 'adventure92-l09': 'A2+'}
 THAI = re.compile('[\u0e00-\u0e7f]')
 PAGE = {'width': 595.28, 'height': 807.87, 'slack': 2}
 TILE = {'width': 827, 'height': 1123, 'dpi': 100}
-ROW_H, GAP, HEAD, CAPTION = 1123, 28, 70, 54
-NAMES = [
-    'Introduction', 'Preview Vocabulary', 'First Reading', 'Vocabulary Collection',
-    'Deep Reading', 'Sentence Collection', 'Multiple Choice', 'Short Answer',
-    'Vocabulary Practice', 'Sentence Practice', 'Guided Writing', 'Language Questions',
-    'Lesson Summary',
-]
+ROW_H, GAP, HEAD = 1123, 28, 70
+CAPTION_LINES, LINE_H = 3, 38
+CAPTION = CAPTION_LINES * LINE_H
+GAP_LIMIT = 20.0
+WORD = re.compile(r'<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="[\d.]+" yMax="[\d.]+">([^<]*)</word>')
+FONT_FILE = os.path.join(REPO, 'dashboard', 'assets', 'print-fonts', 'andika-bold.ttf')
+# The printed step of every page and the app capture of that step (plan.md task
+# S4.1 and the app step map; steps 9, 10, and 11 have no single app step).
+STEPS = {
+    1: ('Introduction', 'lesson-step01-intro-desktop.png'),
+    2: ('Preview Vocabulary', 'lesson-step02-preview-vocabulary-desktop.png'),
+    3: ('First Reading', 'lesson-step03-first-reading-desktop.png'),
+    4: ('Vocabulary Collection', 'lesson-step04-vocabulary-collection-desktop.png'),
+    5: ('Deep Reading', 'lesson-step05-deep-reading-desktop.png'),
+    6: ('Sentence Collection', 'lesson-step06-sentence-collection-desktop.png'),
+    7: ('Multiple Choice', 'lesson-step07-mcq-desktop.png'),
+    8: ('Short Answer', 'lesson-step08-short-answer-desktop.png'),
+    9: ('Vocabulary Practice', None),
+    10: ('Sentence Practice', None),
+    11: ('Guided Writing', None),
+    12: ('Language Questions', 'lesson-step13-language-questions-desktop.png'),
+    13: ('Lesson Summary', 'lesson-step14-summary-desktop.png'),
+}
+NAMES = [STEPS[number][0] for number in sorted(STEPS)]
 CLASSIC_ONLY = [
     'Before You Read', 'Key Vocabulary', 'Read the Article', 'Collect Vocabulary',
     'Deep Reading Notes', 'Collect Sentences', 'Comprehension Check', 'Guided Response',
@@ -65,10 +97,84 @@ def page_count(pdf):
     return int(match.group(1)) if match else 0
 
 
+def pagebox(tag):
+    """The page-box count that the driver got from `renderPagedPdf`, or 0."""
+    path = os.path.join(FOLDER, f'{tag}-pagebox.txt')
+    if not os.path.isfile(path):
+        return 0
+    match = re.search(r'^\s*(\d+)\s*$', open(path, encoding='utf-8').read(), re.M)
+    return int(match.group(1)) if match else 0
+
+
 def pdf_text(pdf):
     """The flattened text of a PDF (no whitespace)."""
     text = subprocess.run(['pdftotext', pdf, '-'], capture_output=True, text=True).stdout
     return re.sub(r'\s+', '', text)
+
+
+def page_geometry(pdf, page):
+    """The step names at the top of the page, the gap above the first of them, and the Thai count."""
+    out = subprocess.run(['pdftotext', '-bbox', '-f', str(page), '-l', str(page), pdf, '-'], capture_output=True, text=True).stdout
+    words = [(float(x), float(y), text) for x, y, text in WORD.findall(out)]
+    if not words:
+        return [], -1.0, 0, 0
+    top = min(y for _x, y, _text in words)
+    lines = {}
+    for x, y, text in words:
+        lines.setdefault(round(y), []).append((x, text))
+    found = {}
+    for y, items in lines.items():
+        line = ''.join(text for _x, text in sorted(items))
+        for number in sorted(STEPS):
+            if STEPS[number][0].replace(' ', '') in line:
+                found[number] = min(found.get(number, y), y)
+    ordered = sorted(found.items(), key=lambda item: item[1])
+    thai = sum(len(THAI.findall(text)) for _x, _y, text in words)
+    total = sum(len(text) for _x, _y, text in words)
+    gap = ordered[0][1] - top if ordered else -1.0
+    return [number for number, _y in ordered], gap, thai, total
+
+
+def expected_rows(pdf, pages):
+    """The step data of every page: what starts on it and what continues."""
+    rows = []
+    previous = 0
+    for page in range(1, pages + 1):
+        found, gap, thai, total = page_geometry(pdf, page)
+        translation = not found and total > 0 and thai * 2 > total
+        continued = 0
+        if not translation and previous and previous not in found and (not found or gap > GAP_LIMIT):
+            continued = previous
+        primary = 0 if translation else (found[0] if found else continued)
+        rows.append({'page': page, 'primary': primary, 'others': found[1:], 'continued': continued, 'translation': translation})
+        if found:
+            previous = found[-1]
+    return rows
+
+
+def wrap_label(label, font, max_width):
+    """The label split into drawn lines that each fit the room."""
+    segments = [part.strip() for part in label.split(';') if part.strip()]
+    lines, current = [], ''
+    for segment in segments:
+        candidate = f'{current}; {segment}' if current else segment
+        if font.getlength(candidate) <= max_width:
+            current = candidate
+            continue
+        if current:
+            lines.append(current)
+        current = ''
+        for word in segment.split():
+            candidate = f'{current} {word}' if current else word
+            if font.getlength(candidate) <= max_width:
+                current = candidate
+            else:
+                if current:
+                    lines.append(current)
+                current = word
+    if current:
+        lines.append(current)
+    return lines
 
 
 def check_p1():
@@ -89,91 +195,123 @@ def check_p1():
 
 
 def check_p2():
-    """P2: every font is embedded and no font is Type 3."""
+    """P2: the PDF lists fonts, every font is embedded, and no font is Type 3."""
     lines, ok = [], True
     for tag in PROOFS:
         out = subprocess.run(['pdffonts', os.path.join(FOLDER, f'{tag}.pdf')], capture_output=True, text=True).stdout
         rows = [line.split() for line in out.splitlines() if line.strip() and not line.startswith('-')]
         rows = [row for row in rows if row and row[0] != 'name']
         type3 = [row[0] for row in rows if 'Type 3' in ' '.join(row)]
-        loose = [row[0] for row in rows if 'yes' not in row]
+        # As `parsePdffonts` in lib/print/pdfx.ts reads the `emb` column.
+        loose = [row[0] for row in rows if len(row) < 5 or row[-5] != 'yes']
         lines.append(f'P2 {tag}: fonts {len(rows)}, type3 {len(type3)}, not_embedded {len(loose)}')
-        ok = ok and not type3 and not loose
+        ok = ok and bool(rows) and not type3 and not loose
     return ok, lines
 
 
 def check_p3():
-    """P3: the 13 names of the S4.1 table in order, and no classic-only name."""
+    """P3: each of the 13 names occurs once, in order, and no classic-only name occurs."""
     lines, ok = [], True
     for tag in PROOFS:
         text = pdf_text(os.path.join(FOLDER, f'{tag}.pdf'))
-        positions = []
-        for name in NAMES:
-            key = re.sub(r'\s+', '', name)
-            position = text.find(key)
-            positions.append((name, position))
-        missing = [name for name, position in positions if position < 0]
-        order_ok = all(positions[i][1] < positions[i + 1][1] for i in range(len(positions) - 1)) if not missing else False
+        counts = {name: text.count(re.sub(r'\s+', '', name)) for name in NAMES}
+        missing = [name for name in NAMES if counts[name] == 0]
+        doubled = [name for name in NAMES if counts[name] > 1]
+        positions = [text.find(re.sub(r'\s+', '', name)) for name in NAMES]
+        order_ok = not missing and all(positions[i] < positions[i + 1] for i in range(len(positions) - 1))
         classic = [name for name in CLASSIC_ONLY if re.sub(r'\s+', '', name) in text]
-        lines.append(f'P3 {tag}: names_present {len(NAMES) - len(missing)} of {len(NAMES)}, in_order {order_ok}, classic_only_present {len(classic)}')
+        lines.append(f'P3 {tag}: names_present {len(NAMES) - len(missing)} of {len(NAMES)}, once_each {not doubled}, in_order {order_ok}, classic_only_present {len(classic)}')
         if missing:
             lines.append(f'P3 {tag}: missing {", ".join(missing)}')
+        if doubled:
+            lines.append(f'P3 {tag}: name occurs more than once {", ".join(doubled)}')
         if classic:
             lines.append(f'P3 {tag}: classic names present {", ".join(classic)}')
-        ok = ok and not missing and order_ok and not classic
+        ok = ok and not missing and not doubled and order_ok and not classic
     return ok, lines
 
 
 def check_p4():
-    """P4: the labeled page count is above zero and equals the tile count."""
+    """P4: the PDF page count equals the independent page-box count and the tiles."""
     lines, ok = [], True
     for tag in PROOFS:
         pages = page_count(os.path.join(FOLDER, f'{tag}.pdf'))
+        boxes = pagebox(tag)
         tiles = len([name for name in os.listdir(os.path.join(FOLDER, f'{tag}-pages')) if name.endswith('.png')])
         rows = sum(1 for _line in open(os.path.join(FOLDER, f'{tag}-pages.tsv'), encoding='utf-8').read().splitlines()[1:])
-        lines.append(f'P4 {tag}: pages {pages}, tiles {tiles}, sheet_rows {rows}')
-        ok = ok and pages > 0 and pages == tiles == rows
+        lines.append(f'P4 {tag}: pdf_pages {pages}, page_boxes {boxes}, tiles {tiles}, sheet_rows {rows}')
+        ok = ok and pages > 0 and pages == boxes == tiles == rows
     return ok, lines
 
 
 def check_p5():
-    """P5: one rasterized tile per page at 100 dpi, paired with the app capture."""
+    """P5: one tile per page, the right capture on each row, and a label that fits."""
     lines, ok = [], True
+    font = ImageFont.truetype(FONT_FILE, 30)
     for tag in PROOFS:
-        pages = page_count(os.path.join(FOLDER, f'{tag}.pdf'))
+        pdf = os.path.join(FOLDER, f'{tag}.pdf')
+        pages = page_count(pdf)
         sheet = os.path.join(FOLDER, f'{tag}-contact.jpg')
         sheet_ok = os.path.isfile(sheet) and os.path.getsize(sheet) > 0
+        if not sheet_ok:
+            lines.append(f'P5 {tag}: FAIL no contact sheet')
+            ok = False
+            continue
         with Image.open(sheet) as image:
             sheet_size = image.size
         rows = [line.split('\t') for line in open(os.path.join(FOLDER, f'{tag}-pages.tsv'), encoding='utf-8').read().splitlines()[1:]]
         want_h = HEAD + GAP + len(rows) * (ROW_H + CAPTION + GAP)
         want_w = GAP + TILE['width'] + GAP + 1699 + GAP
+        expected = expected_rows(pdf, pages)
+        problems = []
         pairs = 0
-        missing_captures = []
-        bad_tiles = []
+        previous = 0
         for row in rows:
-            page = int(row[0])
+            page, step, name, capture, others, continues, label = int(row[0]), int(row[1]), row[2], row[3], row[4], row[5], row[6]
+            if page != previous + 1:
+                problems.append(f'page {page} is out of order')
+            previous = page
             tile = os.path.join(FOLDER, f'{tag}-pages', f'page-{page:02d}.png')
             if not os.path.exists(tile):
                 tile = os.path.join(FOLDER, f'{tag}-pages', f'page-{page}.png')
             if not os.path.exists(tile):
-                bad_tiles.append(f'page {page} has no tile')
-                continue
-            with Image.open(tile) as image:
-                if abs(image.width - TILE['width']) > 2 or abs(image.height - TILE['height']) > 2:
-                    bad_tiles.append(f'page {page} tile {image.width}x{image.height}')
-            if row[3] != '-':
-                if os.path.isfile(os.path.join(CAPTURES, row[3])):
-                    pairs += 1
+                problems.append(f'page {page} has no tile')
+            else:
+                with Image.open(tile) as image:
+                    if abs(image.width - TILE['width']) > 2 or abs(image.height - TILE['height']) > 2:
+                        problems.append(f'page {page} tile {image.width}x{image.height}')
+            want = expected[page - 1] if page <= len(expected) else {'primary': -1, 'others': [], 'continued': 0, 'translation': False}
+            want_step, want_others, continued, translation = want['primary'], want['others'], want['continued'], want['translation']
+            want_capture = '-' if not want_step else (STEPS[want_step][1] or '-')
+            if step != want_step:
+                problems.append(f'page {page} step {step} but the page holds {want_step}')
+            if (others if others != '-' else '') != ' '.join(str(number) for number in want_others):
+                problems.append(f'page {page} also_starts {others} but the page holds {want_others}')
+            if (continues if continues != '-' else '') != (str(continued) if continued else ''):
+                problems.append(f'page {page} continues {continues} but the page holds {continued}')
+            if capture != want_capture:
+                problems.append(f'page {page} capture {capture} but the step wants {want_capture}')
+            if capture != '-':
+                if not os.path.isfile(os.path.join(CAPTURES, capture)):
+                    problems.append(f'page {page} capture file missing {capture}')
                 else:
-                    missing_captures.append(row[3])
-        labelled = [row for row in rows if row[3] == '-']
-        lines.append(f'P5 {tag}: tiles {len(rows)} of {pages} pages, capture_pairs {pairs}, labelled_rows_without_capture {len(labelled)}, sheet {sheet_size[0]}x{sheet_size[1]} (want {want_w}x{want_h})')
-        if bad_tiles:
-            lines.append(f'P5 {tag}: tile problem {", ".join(bad_tiles)}')
-        if missing_captures:
-            lines.append(f'P5 {tag}: missing capture {", ".join(missing_captures)}')
-        ok = ok and sheet_ok and not bad_tiles and not missing_captures and len(rows) == pages and sheet_size == (want_w, want_h)
+                    pairs += 1
+            if translation and 'Thai article translation' not in label:
+                problems.append(f'page {page} is the translation page but the label does not say so')
+            if not translation and 'Thai article translation' in label:
+                problems.append(f'page {page} is not the translation page but the label says so')
+            if f'printed page {page}' not in label:
+                problems.append(f'page {page} label has no page number')
+            wrapped = wrap_label(label, font, TILE['width'])
+            if len(wrapped) > CAPTION_LINES:
+                problems.append(f'page {page} label needs {len(wrapped)} lines of {CAPTION_LINES}')
+            for line in wrapped:
+                if font.getlength(line) > TILE['width']:
+                    problems.append(f'page {page} label line is {round(font.getlength(line))} px of {TILE["width"]}')
+        lines.append(f'P5 {tag}: tiles {len(rows)} of {pages} pages, capture_pairs {pairs}, sheet {sheet_size[0]}x{sheet_size[1]} (want {want_w}x{want_h})')
+        if problems:
+            lines.append(f'P5 {tag}: problems {"; ".join(problems[:12])}')
+        ok = ok and not problems and len(rows) == pages and sheet_size == (want_w, want_h)
     return ok, lines
 
 
@@ -196,12 +334,12 @@ def check_p6():
         if result.returncode == 0:
             untracked.append(tag)
     lines.append(f'P6: proof HTML files tracked by git {len(untracked)} of {len(PROOFS)} (the Thai files stay untracked)')
-    ok = ok and total == 0 and not untracked
+    ok = ok and files > 0 and total == 0 and not untracked
     return ok, lines
 
 
 def check_p7():
-    """P7: the wrapper body holds the chibi-quest class and no classic class."""
+    """P7: the chibi-quest body, and a stripped print copy with no unpkg tag."""
     lines, ok = [], True
     for tag in PROOFS:
         with open(HTML[tag], encoding='utf-8') as handle:
@@ -209,14 +347,21 @@ def check_p7():
         body = re.search(r'<body[^>]*>', text)
         first = body.group(0) if body else ''
         classic = text.count('look-classic')
-        good = 'look-chibi-quest' in first and classic == 0
-        lines.append(f'P7 {tag}: first_body_tag_holds_chibi {"look-chibi-quest" in first}, classic_class_count {classic}')
+        print_copy = os.path.join(FOLDER, f'{tag}.print.html')
+        stripped = 0
+        if os.path.isfile(print_copy):
+            with open(print_copy, encoding='utf-8') as handle:
+                stripped = handle.read().count('unpkg')
+        else:
+            lines.append(f'P7 {tag}: FAIL no stripped print copy {print_copy}')
+        good = 'look-chibi-quest' in first and classic == 0 and os.path.isfile(print_copy) and stripped == 0
+        lines.append(f'P7 {tag}: first_body_tag_holds_chibi {"look-chibi-quest" in first}, classic_class_count {classic}, print_copy_unpkg {stripped}')
         ok = ok and good
     return ok, lines
 
 
 def check_p8():
-    """P8: the manifest records the git HEAD, the packages, the PDFs, and the sheets."""
+    """P8: the manifest matches the HTML, the packages, the PDFs, and the sheets."""
     lines, ok = [], True
     if not os.path.isfile(MANIFEST):
         lines.append('P8: FAIL no manifest')
@@ -228,42 +373,90 @@ def check_p8():
         return False, lines
     lines.append(f'P8: manifest git_head {head.group(1)}')
     for tag in PROOFS:
-        for kind, path in (('package', PACKAGE[tag]), ('pdf', os.path.join(FOLDER, f'{tag}.pdf')), ('contact', os.path.join(FOLDER, f'{tag}-contact.jpg'))):
+        entries = (
+            ('package', PACKAGE[tag]),
+            ('html', HTML[tag]),
+            ('pdf', os.path.join(FOLDER, f'{tag}.pdf')),
+            ('contact', os.path.join(FOLDER, f'{tag}-contact.jpg')),
+        )
+        for kind, path in entries:
             want = sha256(path)
             found = re.search(rf'^{kind} {tag} (\S+)$', manifest, re.M)
             good = bool(found) and found.group(1) == want
             lines.append(f'P8 {tag}: {kind} sha256 match {good}')
             ok = ok and good
-    diff = subprocess.run(['git', '-C', REPO, 'diff', '--name-only', f'{head.group(1)}..HEAD', '--', 'dashboard', 'content'], capture_output=True, text=True).stdout.split()
-    lines.append(f'P8: product files changed between the manifest head and HEAD {len(diff)}')
-    ok = ok and not diff
+    status = subprocess.run(['git', '-C', REPO, 'status', '--porcelain', '--', 'dashboard', 'content'], capture_output=True, text=True).stdout.splitlines()
+    dirty = [line for line in status if not line.startswith('??')]
+    lines.append(f'P8: tracked files edited in dashboard or content {len(dirty)}')
+    ok = ok and not dirty
     return ok, lines
 
 
 def check_p9():
-    """P9: no printer file exists before the approval line."""
+    """P9: no Quest 5 printer file exists before the approval line."""
     lines, ok = [], True
     found = []
-    for root, _dirs, names in os.walk(os.path.expanduser('~/Desktop/print-ready')):
+    for root, _dirs, names in os.walk(PRINT_READY):
         for name in names:
-            if name == 'Primary-Advantage-Quest-5_PDFX-1a.pdf':
+            if name.startswith('Primary-Advantage-Quest-5'):
                 found.append(os.path.join(root, name))
     lines.append(f'P9: printer files before approval {len(found)}')
     return ok and not found, lines
 
 
+def check_p10():
+    """P10: the page-1 header and the PDF title carry the book name and level."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        with open(HTML[tag], encoding='utf-8') as handle:
+            text = handle.read()
+        match = re.search(r'<div class="workbook-title">([^<]*)</div>', text)
+        want = f'Primary Advantage \u2022 {SERIES[tag]} \u2022 {LEVEL[tag]}'
+        exact = bool(match) and match.group(1).strip() == want
+        doubled = 'Primary Advantage \u2022 Primary Advantage' in text
+        title = re.search(r'^Title:\s+(.+)$', pdfinfo(os.path.join(FOLDER, f'{tag}.pdf')), re.M)
+        want_title = f'Primary Advantage Workbook - {SERIES[tag]}'
+        title_ok = bool(title) and title.group(1).strip() == want_title
+        lines.append(f'P10 {tag}: workbook_title_exact {exact}, product_name_doubled {doubled}, pdf_title_has_book {title_ok}')
+        ok = ok and exact and not doubled and title_ok
+    return ok, lines
+
+
+def check_p11():
+    """P11: every lesson picture is in the proof HTML and in the PDF."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        with open(HTML[tag], encoding='utf-8') as handle:
+            text = handle.read()
+        srcs = re.findall(r'<img[^>]+src="(file://[^"]+)"', text)
+        missing = [src for src in srcs if not os.path.isfile(src[len('file://'):])]
+        with open(PACKAGE[tag], encoding='utf-8') as handle:
+            want = len(json.load(handle).get('images') or [])
+        out = subprocess.run(['pdfimages', '-list', os.path.join(FOLDER, f'{tag}.pdf')], capture_output=True, text=True).stdout
+        images = [line for line in out.splitlines() if re.match(r'^\s*\d+\s+\d+\s+image\b', line)]
+        lines.append(f'P11 {tag}: package_pictures {want}, html_file_pictures {len(srcs)}, pdf_images {len(images)}, missing_srcs {len(missing)}')
+        ok = ok and want > 0 and len(srcs) >= want and len(images) >= want and not missing
+    return ok, lines
+
+
 CHECKS = {
     'P1': check_p1, 'P2': check_p2, 'P3': check_p3, 'P4': check_p4, 'P5': check_p5,
-    'P6': check_p6, 'P7': check_p7, 'P8': check_p8, 'P9': check_p9,
+    'P6': check_p6, 'P7': check_p7, 'P8': check_p8, 'P9': check_p9, 'P10': check_p10,
+    'P11': check_p11,
 }
+
+
+def result_path(name):
+    """The result file of one check of this round."""
+    return os.path.join(RESULTS, f'check-{name}-{ROUND}.txt')
 
 
 def assemble():
     """Writes the check record with the exit code of every check."""
-    lines = ['S5 proof checks, round 1', f'proof folder {FOLDER}', '']
+    lines = [f'S5 proof checks, round 2', f'proof folder {FOLDER}', '']
     failures = 0
-    for name in sorted(CHECKS):
-        path = os.path.join(RUNS, f'check-{name}.txt')
+    for name in sorted(CHECKS, key=lambda item: int(item[1:])):
+        path = result_path(name)
         if not os.path.isfile(path):
             lines.append(f'{name}: exit MISSING (the check did not run)')
             failures += 1
@@ -277,7 +470,7 @@ def assemble():
     lines.append('')
     lines.append(f'checks run {len(CHECKS)}, failures {failures}')
     lines.append('RESULT: PASS' if failures == 0 else 'RESULT: FAIL')
-    with open(os.path.join(RUNS, 'checks-r1.txt'), 'w', encoding='utf-8') as handle:
+    with open(os.path.join(RESULTS, f'checks-{ROUND}.txt'), 'w', encoding='utf-8') as handle:
         handle.write('\n'.join(lines) + '\n')
     print('\n'.join(lines))
     return 1 if failures else 0
@@ -293,7 +486,7 @@ def main(argv):
         return assemble()
     ok, lines = CHECKS[args.check]()
     code = 0 if ok else 1
-    with open(os.path.join(RUNS, f'check-{args.check}.txt'), 'w', encoding='utf-8') as handle:
+    with open(result_path(args.check), 'w', encoding='utf-8') as handle:
         handle.write('\n'.join(lines) + '\n')
         handle.write(f'exit {code}\n')
     print('\n'.join(lines))

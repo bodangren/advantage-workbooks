@@ -1,8 +1,9 @@
-"""The S5 proof manifest (track primary_v2_look_20261020, Phase S5).
+"""The S5 proof manifest (track primary_v2_look_20261020, Phase S5, round 2).
 
-It records the identity of the proof round: the git HEAD, the SHA-256 of every
-package, proof HTML, PDF, and contact sheet, and the page count of every PDF.
-It prints file names, hashes, and counts only.
+It records the identity of the proof round: the git HEAD, the header values, the
+SHA-256 of every package, proof HTML, stripped print copy, PDF, and contact
+sheet, the page-box count, and the page count of every PDF. It prints file
+names, hashes, and counts only.
 
 Usage: python3 -I -B manifest.py [--out <file>]
 """
@@ -16,13 +17,15 @@ import sys
 
 REPO = '/home/daniebo/Desktop/Workbooks'
 RUNS = os.path.join(REPO, 'measure/runs/primary_v2_look_20261020/proof-s5')
-FOLDER = os.path.expanduser('~/Desktop/print-ready/primary-v2-look/proof-s5-r1')
+FOLDER = os.path.expanduser('~/Desktop/print-ready/primary-v2-look/proof-s5-r2')
 PROOFS = ['quest5-l01', 'adventure92-l09']
 HTML = {tag: os.path.join(RUNS, f'{tag}.html') for tag in PROOFS}
 PACKAGE = {
     'quest5-l01': os.path.join(REPO, 'content/primary/quest-5/l01.json'),
     'adventure92-l09': os.path.join(REPO, 'content/primary/adventure-9.2/l09.json'),
 }
+SERIES = {'quest5-l01': 'Quest 5', 'adventure92-l09': 'Adventure 9.2'}
+LEVEL = {'quest5-l01': 'A1', 'adventure92-l09': 'A2+'}
 
 
 def sha256(path):
@@ -41,14 +44,21 @@ def pages(pdf):
     return int(match.group(1)) if match else 0
 
 
+def pagebox(tag):
+    """The page-box count that the driver wrote for check P4."""
+    path = os.path.join(FOLDER, f'{tag}-pagebox.txt')
+    match = re.search(r'^\s*(\d+)\s*$', open(path, encoding='utf-8').read(), re.M) if os.path.isfile(path) else None
+    return int(match.group(1)) if match else 0
+
+
 def main(argv):
     """Writes the manifest of the proof round."""
     parser = argparse.ArgumentParser()
-    parser.add_argument('--out', default=os.path.join(RUNS, 'manifest-r1.txt'))
+    parser.add_argument('--out', default=os.path.join(RUNS, 'manifest-r2.txt'))
     args = parser.parse_args(argv)
     head = subprocess.run(['git', '-C', REPO, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
     lines = [
-        'S5 proof manifest, round 1',
+        'S5 proof manifest, round 2',
         f'proof_folder {FOLDER}',
         f'git_head {head}',
         'look chibi-quest',
@@ -56,9 +66,13 @@ def main(argv):
     for tag in PROOFS:
         pdf = os.path.join(FOLDER, f'{tag}.pdf')
         sheet = os.path.join(FOLDER, f'{tag}-contact.jpg')
+        print_copy = os.path.join(FOLDER, f'{tag}.print.html')
+        lines.append(f'series {tag} {SERIES[tag]} {LEVEL[tag]}')
         lines.append(f'package {tag} {sha256(PACKAGE[tag])}')
         lines.append(f'html {tag} {sha256(HTML[tag])}')
+        lines.append(f'print {tag} {sha256(print_copy)}')
         lines.append(f'pdf {tag} {sha256(pdf)}')
+        lines.append(f'pagebox {tag} {pagebox(tag)}')
         lines.append(f'pages {tag} {pages(pdf)}')
         lines.append(f'contact {tag} {sha256(sheet)}')
     with open(args.out, 'w', encoding='utf-8') as handle:

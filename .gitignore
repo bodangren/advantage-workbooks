@@ -37,3 +37,7 @@ content/storytime/forge-gestures/gestures/
 content/storytime/*/print/pictures/
 # Storytime book audio clip cache (made again from the package by dashboard/scripts/storytime/book-audio.ts)
 content/storytime/*/media/*/.clips/
+# S5 page proofs: the rendered proof HTML holds Thai page text and the driver makes it again
+# (measure/runs/primary_v2_look_20261020/proof-s5/make-proof-pdf.ts). Never commit it.
+measure/runs/primary_v2_look_20261020/proof-s5/quest5-l01.html
+measure/runs/primary_v2_look_20261020/proof-s5/adventure92-l09.html
