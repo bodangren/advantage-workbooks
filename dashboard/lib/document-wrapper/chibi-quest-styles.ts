@@ -101,8 +101,8 @@ body.look-chibi-quest {
   page-break-inside: avoid;
 }
 
-/* The hero picture stays short, so its caption prints on the page of the picture (F5, P12). */
-.look-chibi-quest .hero-img-box img { max-height: 240px; }
+/* The hero picture stays short and keeps its shape (F5, P12, F11). */
+.look-chibi-quest .hero-img-box img { width: auto; max-width: 100%; max-height: 240px; }
 
 /* Panels: a 3 px parchment-edge frame with a 14 px radius; label areas in parchment, write-in areas white. */
 .look-chibi-quest .short-answer-box, .look-chibi-quest .reflection-box, .look-chibi-quest .language-q-box,
