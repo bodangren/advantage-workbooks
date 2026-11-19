@@ -1,0 +1,30 @@
+Red S5.R1 provisional log (review A F5: inline picture caption split).
+
+HEAD at role start (role_base_sha): 45624463e61c04ee77139d6037f0291b94294c97
+Phase base (phase_base_sha): 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+Dirty scope at start: git status --porcelain over the track dir, the new test,
+the template, and chibi-quest-styles.ts was empty. The other 1200 untracked
+paths belong to other tracks and stay untouched.
+
+Gates:
+- RED_TEST_COMMAND exits 1: 4 tests, 1 failed, 3 passed. The failure is only
+  the keep-rule assertion (scopedKeepRule finds no .look-chibi-quest
+  .article-image-box keep block). Reason: getChibiQuestStyles holds no
+  break-inside/page-break-inside rule for the figure wrapper.
+- tsc grep for the new file: 0 lines (red-s5-tsc.txt is empty).
+- eslint on the new file: exit 0.
+- Thai count is 0 on the test, the plan, and both evidence files.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+baseline_sha: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+commits: red-s5-45624463 (this Red commit; SHA in final reply)
+tests_run: RED_TEST_COMMAND exit 1 (4 tests: 1 failed on the keep assertion only, 3 passed); tsc grep 0 lines; eslint exit 0; Thai 0 on all committed files
+files_changed: dashboard/__tests__/chibi-quest-picture-keep.test.ts (new); measure/tracks/primary_v2_look_20261020/plan.md (S5.R1 [ ] to [~], kept [~]); measure/runs/primary_v2_look_20261020/red-s5-45624463.txt; measure/runs/primary_v2_look_20261020/red-s5-tsc.txt; measure/runs/primary_v2_look_20261020/red-s5-45624463.log
+plan_updates: Task S5.R1 set to [~] before work and kept [~] at the end for the Red gate
+known_failures: keeps the inline figure with its caption in the chibi-quest styles only FAILS as designed (no scoped keep rule at HEAD); the DOM-fragment, golden byte-identity, and flat-style guards pass
+handoff: Green owns task S5.G1: add the scoped keep rule in dashboard/lib/document-wrapper/chibi-quest-styles.ts only (keep the classic golden byte-identical), then run the four F5 Green gates. Question: shall Green proceed with the scoped chibi-quest-styles.ts fix next? Default: yes, proceed.
+END_MEASURE_AGENT_RESULT
