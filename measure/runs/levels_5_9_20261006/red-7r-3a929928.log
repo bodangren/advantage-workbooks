@@ -1,0 +1,46 @@
+# Mid-Red log: Task 7.0 rebuild map (provisional, written before commit)
+
+Date: 2026-11-19. Role: measure-mid-red. Track: levels_5_9_20261006.
+Phase: ## Phase 7R: Rebuild map (Daniel 2026-11-19). Task: 7.0 only.
+phase_base_sha: 3a929928f9f45791ca2c6a5945f26707f79a7f7d (HEAD at start).
+role_base_sha: 3a929928f9f45791ca2c6a5945f26707f79a7f7d.
+
+## What changed
+
+- New test file `dashboard/__tests__/rebuild-map.test.ts` (23 tests). It imports the
+  not-yet-written module `dashboard/scripts/rebuild-map.ts`; the header comment states
+  the assumed exports (`KeepGroup`, `PackageRef`, `RebuildMapOptions`,
+  `parseRebuildMapArgs`, `buildRebuildMap`, `main`) with signatures matching
+  test-strategy.md Phase 7R.2. Fixture tests cover each 7R.5 risk; real-input tests use
+  the committed duplicates JSON and the real package folders by ids and counts only.
+- `measure/tracks/levels_5_9_20261006/plan.md`: Task 7.0 `[ ]` to `[~]` plus Red
+  evidence line. Task stays `[~]`; Green sets `[x]` with the SHA.
+- No production file changed. No lesson package JSON opened; only file-name listings
+  and the duplicates JSON keep ids were read (Thai rule).
+
+## Gate evidence
+
+- `RED_TEST_COMMAND` in a heavy-run: exit 1. Suite fails only because the module is
+  missing: beforeAll dynamic import throws `Cannot find module
+  '../scripts/rebuild-map'`; 23 tests skipped, 0 passed. Capture:
+  `measure/runs/levels_5_9_20261006/red-7r-3a929928.txt`.
+- tsc on the test: only the two `Cannot find module` errors; the filtered capture
+  `red-7r-tsc.txt` holds 0 lines.
+- `npx eslint __tests__/rebuild-map.test.ts`: exit 0 (re-verified after restart).
+- Assumed exports: `KeepGroup { level, keep }`, `PackageRef { level, id }`,
+  `RebuildMapOptions { duplicates, contentRoot, outJson }`, `parseRebuildMapArgs`,
+  `buildRebuildMap`, `main`.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: levels_5_9_20261006
+phase: Phase 7R: Rebuild map (Daniel 2026-11-19)
+baseline_sha: 3a929928f9f45791ca2c6a5945f26707f79a7f7d
+commits: test(levels_5_9): Red for Task 7.0 rebuild map
+tests_run: RED_TEST_COMMAND exit 1 (Cannot find module, 23 skipped); tsc filtered 0 lines; eslint exit 0
+files_changed: dashboard/__tests__/rebuild-map.test.ts; measure/tracks/levels_5_9_20261006/plan.md; measure/runs/levels_5_9_20261006/red-7r-3a929928.txt, red-7r-tsc.txt, red-7r-3a929928.log
+plan_updates: Task 7.0 [ ] to [~] with Red evidence line; stays [~] for the Red gate
+known_failures: new test file fails at the beforeAll import with Cannot find module '../scripts/rebuild-map' (the expected Red reason); no other failures
+handoff: Green implements dashboard/scripts/rebuild-map.ts to the assumed contract in the test header, then the same RED_TEST_COMMAND must pass. No question for the orchestrator.
+END_MEASURE_AGENT_RESULT
