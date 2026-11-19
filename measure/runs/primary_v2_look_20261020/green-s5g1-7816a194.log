@@ -1,0 +1,41 @@
+Green role log — track primary_v2_look_20261020, Phase S5, Task S5.G1 (review A F5)
+Session: Green · S5 S5.G1 · primary_v2_look
+Model: opencode-go/deepseek-v4.1-flash
+Date: 2026-11-19
+
+phase_base_sha: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93 (immutable)
+role_base_sha: 7816a1943808f270e51e0a9be31fae201cfe66f2
+Red commit in range: 7816a194 (test(primary_v2_look): Red for S5.R1)
+Red model: Muse (opencode-go/muse-spark-1.3-contributor#high); Green model family differs.
+
+Code change: dashboard/lib/document-wrapper/chibi-quest-styles.ts — one scoped keep rule for
+.look-chibi-quest .article-image-box, .look-chibi-quest .article-image-area, and
+.look-chibi-quest .inline-img-box. It declares break-inside: avoid and page-break-inside: avoid.
+No template, golden, lib/teacher-manual, or test change.
+
+Gate results:
+G1 GREEN_TEST_COMMAND: exit 0, 4 passed. green-s5g1-tests.txt
+G2 Look guards (workbook-look, chibi-quest-kit, chibi-quest-step-names, step-names adversarial):
+   exit 0, 34 passed in 4 files. green-s5g1-look-tests.txt
+G3 PROJECT_TESTS with the three documented excludes: exit 0, 3148 passed in 165 files.
+   Summary lines only. Vitest exit recorded as VITEST_EXIT=0. green-s5g1-project-tests.txt
+G4 PROJECT_LINT (plan list plus the style file and the Red file): exit 0. green-s5g1-lint.txt
+G5 tsc --noEmit: exit 0, no output lines. green-s5g1-tsc.txt
+G6 Mutants: 3 of 3 caught: remove the rule (M1), scope it to .look-classic (M2), caption only (M3).
+   Each gate 1 run exits 1 on the same named test. Restore cmp and sha256 match. green-s5g1-mutants.txt
+G7 Golden and pinned diff: empty. Real golden path content/primary/origins-3.2/print/golden;
+   dashboard/__tests__/golden is absent. green-s5g1-golden-diff.txt
+G8 Thai characters: 0 in every committed file (style file, plan.md, all green-s5g1-* captures).
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: 0b2bd81f (code), evidence commit follows this log; Red 7816a194
+tests_run: G1 targeted exit 0 (4 passed); G2 look guards exit 0 (34 passed); G3 PROJECT_TESTS with the 3 documented excludes exit 0 (3148 passed, 165 files); G4 eslint exit 0; G5 tsc --noEmit exit 0; G6 mutants 3 of 3 caught; G7 golden diff empty; G8 Thai 0
+files_changed: dashboard/lib/document-wrapper/chibi-quest-styles.ts (code); measure/tracks/primary_v2_look_20261020/plan.md (tasks S5.R1 and S5.G1); measure/runs/primary_v2_look_20261020/green-s5g1-* captures and this log
+plan_updates: Task S5.R1 set [x] with commit 7816a194 and one Red evidence sub-line; Task S5.G1 set [x] with commit 0b2bd81f and one Green evidence sub-line
+known_failures: none in this fix; the 3 earlier failures of other tracks stay excluded from G3 as plan.md records
+handoff: S5.G1 is done at code commit 0b2bd81f. Next is Task S5.G2 (proof round 2), then reviews A and B, one adversarial round, the UX/browser review, and phase acceptance. The style commit is an S7 styles.ts trigger: send 0b2bd81f to the PM for the monorepo session. The CSS test is an artifact check; the real page split needs the r2 Adventure 9.2 contact sheet and Daniel's look. Two tracked files of other sessions stay dirty and untouched: measure/runs/primary_v2_look_20261020/strategy-s5-8b27c9ea.log and video/storytime-song/scripts/render.mjs. Never stage those, the review-s5 files, the proof HTML files, or dashboard/raw.json. The heavy-run wrapper dropped ${PIPESTATUS[0]} in G3, so the gate used a redirect and recorded VITEST_EXIT=0.
+END_MEASURE_AGENT_RESULT

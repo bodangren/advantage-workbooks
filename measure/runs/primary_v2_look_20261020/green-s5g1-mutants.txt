@@ -1,0 +1,25 @@
+# S5.G1 mutants (review A F5) — green-s5g1
+# File under test: dashboard/lib/document-wrapper/chibi-quest-styles.ts
+# Target: dashboard/__tests__/chibi-quest-picture-keep.test.ts (gate 1, unchanged Red file)
+# Each mutant: cp the file, break it, run gate 1 in one heavy-run, restore, cmp.
+#
+# | Mutant | Change | Gate 1 exit | Failing test |
+# |---|---|---|---|
+# | M1 | remove the scoped keep rule from the chibi-quest styles | 1 | keeps the inline figure with its caption in the chibi-quest styles only |
+# | M2 | scope the keep rule to .look-classic instead of .look-chibi-quest | 1 | keeps the inline figure with its caption in the chibi-quest styles only |
+# | M3 | apply the keep rule to the caption only (.article-image-caption) | 1 | keeps the inline figure with its caption in the chibi-quest styles only |
+#
+# M1 capture: green-s5g1-mutant-M1.txt
+#   AssertionError: .look-chibi-quest .article-image-box: expected false to be true
+# M2 capture: green-s5g1-mutant-M2.txt
+#   AssertionError: .look-chibi-quest .article-image-box: expected false to be true
+# M3 capture: green-s5g1-mutant-M3.txt
+#   AssertionError: .look-chibi-quest .article-image-box: expected false to be true
+#
+# Restore proof: cmp against the saved original, then sha256sum.
+# RESTORED-CMP-OK
+# 12345a18f92f906e0c21414857c0dc091f49cb722fceddccf948482ad5012982  dashboard/lib/document-wrapper/chibi-quest-styles.ts
+# 12345a18f92f906e0c21414857c0dc091f49cb722fceddccf948482ad5012982  /tmp/opencode/cqs-orig.ts
+#
+# Gate 1 after restore: exit 0, 4 passed (green-s5g1-tests.txt).
+# Caught: 3 of 3 mutants.

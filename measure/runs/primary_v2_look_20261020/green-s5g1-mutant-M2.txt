@@ -1,0 +1,36 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 68[2mms[22m[39m
+[31m     [31m×[31m keeps the inline figure with its caption in the chibi-quest styles only[39m[32m 5[2mms[22m[39m
+     [32m✓[39m holds the image and its caption inside the same figure wrapper[32m 0[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical[32m 62[2mms[22m[39m
+     [32m✓[39m keeps the chibi-quest styles flat with no transparency, shadow, or emoji[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-picture-keep.test.ts[2m > [22mchibi-quest picture keep (review A F5)[2m > [22mkeeps the inline figure with its caption in the chibi-quest styles only
+[31m[1mAssertionError[22m: .look-chibi-quest .article-image-box: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-picture-keep.test.ts:[2m48:55[22m[39m
+    [90m 46| [39m      [32m'.look-chibi-quest .inline-img-box'[39m[33m,[39m
+    [90m 47| [39m    ]) {
+    [90m 48| [39m      [34mexpect[39m([34mscopedKeepRule[39m(css[33m,[39m selector)[33m,[39m selector)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m                                                      [31m^[39m
+    [90m 49| [39m    }
+    [90m 50| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 20:54:08
+[2m   Duration [22m 927ms[2m (transform 82ms, setup 42ms, import 118ms, tests 68ms, environment 501ms)[22m
+
