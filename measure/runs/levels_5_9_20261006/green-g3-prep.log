@@ -1,0 +1,87 @@
+# Green result, Task 1.G3 part 1 (preparation), levels_5_9_20261006
+
+Date: 2026-11-19. Role: measure-jr Green. Model: opencode-go/deepseek-v4.1-flash.
+Red of this phase: Muse. This Green spawns no coder, so no Red-family model touches the code.
+Role base: f0191fb995cb14815ae9894cd6bd9b6fb2313f96. Phase base: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7.
+The committed Red change of the phase sits in `afbfcf0e..f0191fb9` (Red commits 59b5a2f2, 71231ce9, 27bd74c9,
+f383c962, plus the plan edits). This part adds no production code and touches no committed Red test.
+
+## What this part does
+
+Task 1.G3 is a run, not a code change. The run needs data from two databases, and the adapter does not
+read a secret and does not start a proxy. So part 1 prepares the tools that Daniel runs.
+Task 1.G3 stays `[ ]`. No task turns `[x]` or `[b]`.
+
+Three new files, all in the track's runs folder:
+
+1. `measure/runs/levels_5_9_20261006/g3-crosscheck.ts` is the read-only cross-check. It reads the passages
+   inventory and `MONOREPO_DATABASE_URL`. It sets `default_transaction_read_only`, opens `BEGIN READ ONLY`,
+   and rolls back. Every query passes `isReadOnlySql`. Through `primary_legacy_id_map` it finds the monorepo
+   row of each level 5-9 legacy article. It writes the counts on both sides, the ids on one side only, and the
+   differing ids with the monorepo text. A differing id takes the monorepo `title`, `summary`, and `passage`
+   in a merged inventory next to the `--out` file. The report holds counts and ids only.
+
+2. `measure/runs/levels_5_9_20261006/g3-daniel-run.sh` is Daniel's run. It makes the handoff folder outside
+   git, starts the Cloud SQL proxy on 127.0.0.1:5433, waits for the port, and stops the proxy on exit. It runs
+   `inventory-legacy.ts --levels 5,6,7,8,9`, then the cross-check. It prints counts, paths, and exit codes
+   only. It writes nothing inside the Workbooks git tree.
+
+3. `measure/runs/levels_5_9_20261006/g3-prep-tsc.txt` holds the tsc check: exit 0, no output line.
+
+Monorepo table and column names, from the schema files of `../reading-advantage-monorepo` (read only):
+
+- `articles`, `packages/db/src/schema/content.ts` line 8. Columns `title` (10), `summary` (12), `level` (13),
+  `passage` (22). `ra_level` (26) holds the same legacy value: the ETL writes the legacy `ra_level` into both
+  `level` and `ra_level` (`packages/db/src/migrations-data/primary-legacy-import.ts` lines 289, 301).
+- `primary_legacy_id_map`, `packages/db/src/schema/primary.ts` line 249. Columns `table_name` (251),
+  `legacy_id` (252), `new_id` (253). The `article` rows map the legacy cuid to `articles.id`.
+
+Connection names, both confirmed in the monorepo docs:
+
+- legacy: secret `DATABASE_URL`, project `primary-advantage`, database `primary_advantage`
+  (`docs/content-plans/primary-db-field-map.md`).
+- monorepo: secret `PRIMARY_V2_DATABASE_URL`, version 1, project `primary-advantage`, database `primary_v2`
+  (`../reading-advantage-monorepo/docs/deployment/tutor-switch-brief.md` line 55;
+  `primary-cutover-migration-spec.md` line 136 pins version 1).
+- instance `reading-advantage:asia-southeast1:cloud-sql` for both.
+
+A bare `pg` import cannot resolve from `measure/`, because `dashboard/node_modules` is not a parent folder of
+the file. The script loads `pg` through `createRequire` on `dashboard/package.json`, anchored on the script's
+own path. No environment variable is needed for module resolution.
+
+## Checks (no database, no secret)
+
+1. tsc: `cd dashboard && npx tsc --noEmit --skipLibCheck --esModuleInterop --module nodenext
+   --moduleResolution nodenext --target es2022 ../measure/runs/levels_5_9_20261006/g3-crosscheck.ts`
+   exits 0 with no output line. Capture `g3-prep-tsc.txt`.
+2. `bash -n measure/runs/levels_5_9_20261006/g3-daniel-run.sh` exits 0.
+3. Dry call with no `MONOREPO_DATABASE_URL` exits 2, prints `Set MONOREPO_DATABASE_URL to the database URL`,
+   and prints no URL.
+4. `grep` on both files finds no URL and no password. The only `secret` words name the secret, not its value.
+5. Logic probe, outside the repo in `/tmp/opencode`: a trimmed compare matches equal text with padding, and
+   lists a title-only difference. A passage difference replaces the text and recomputes `words` (3 to 4). The
+   crosscheck JSON holds basenames only. The report holds no passage text. The probe caught one defect before
+   the commit: `crossCheck` copied a caller path into `mergedInventory`. It now takes `path.basename` itself.
+
+## What part 2 waits for
+
+Daniel runs `bash measure/runs/levels_5_9_20261006/g3-daniel-run.sh`. Then he copies
+`~/Desktop/handoff/levels-5-9-passages-2026-11-19/g3-crosscheck.txt` to
+`measure/runs/levels_5_9_20261006/g3-crosscheck.txt`. The merged inventory is the `--inventory` input of the
+plan's heavy-run, and its counts and keep counts go to `g3-run.txt`.
+
+MEASURE_AGENT_RESULT
+role: measure-jr Green
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1: Decisions, inventory, tools, calibration
+role_base_sha: f0191fb995cb14815ae9894cd6bd9b6fb2313f96
+phase_base_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+head: b5f0609d3be52d945bd589348cbaa2f8589525a4 at the script commit; the evidence commit follows
+commits: b5f0609d measure(levels_5_9): Task 1.G3 part 1, read-only cross-check script and Daniel's run script; the evidence commit holds measure/tracks/levels_5_9_20261006/plan.md and measure/runs/levels_5_9_20261006/green-g3-prep.log
+tests_run: tsc with nodenext flags on g3-crosscheck.ts exit 0 with 0 output lines, capture g3-prep-tsc.txt; bash -n g3-daniel-run.sh exit 0; dry call with no MONOREPO_DATABASE_URL exit 2 with the exact message and no URL; grep on both files finds no URL and no password; logic probe in /tmp/opencode passes trimmed compare, one-side-only ids, merged text, recomputed words, and basename-only JSON
+files_changed: measure/runs/levels_5_9_20261006/g3-crosscheck.ts and g3-daniel-run.sh and g3-prep-tsc.txt (script commit b5f0609d); measure/tracks/levels_5_9_20261006/plan.md and measure/runs/levels_5_9_20261006/green-g3-prep.log (evidence commit)
+plan_updates: one Part 1 evidence sub-line under Task 1.G3 that records the two scripts, the three checks, and the wait for Daniel's run; Task 1.G3 stays [ ]; no task turns [x]; no task turns [b]; no archive or closeout metadata change
+known_failures: none. This part has no Red test to turn green; Task 1.G3 is a run task, and its pre-condition is that the two output files do not exist yet
+handoff: Part 1 is ready and waits for Daniel's run of `bash measure/runs/levels_5_9_20261006/g3-daniel-run.sh`. That run needs the Cloud SQL proxy binary and gcloud access in his terminal. It writes only to ~/Desktop/handoff/levels-5-9-passages-2026-11-19/. After the run, Daniel copies g3-crosscheck.txt into measure/runs/levels_5_9_20261006/. Part 2 is the plan's heavy-run of `plan-dedup.ts --inventory <the merged inventory> --levels 5,6,7,8,9 --targets 5=50,6=100,7=100,8=150,9=150`, and its counts and keep counts go to g3-run.txt. Monorepo names for the reviewer: table `articles` (content.ts line 8) with `title` (10), `summary` (12), `level` (13), `passage` (22); map `primary_legacy_id_map` (primary.ts line 249) with `table_name` (251), `legacy_id` (252), `new_id` (253); secret `PRIMARY_V2_DATABASE_URL` version 1 in project primary-advantage, database primary_v2. Nothing here opens a review gate yet: the phase gates run after Task 1.G4 on the head after Task 1.G3 part 2. No committed Red test changed, and no product decision blocks this part.
+END_MEASURE_AGENT_RESULT
