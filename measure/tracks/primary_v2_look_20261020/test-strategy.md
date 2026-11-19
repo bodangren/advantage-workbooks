@@ -130,7 +130,7 @@ Capture the immutable `phase_base_sha` at the commit of this file, before Red st
 
 ## Phase S5: Page proofs for Daniel
 
-**Risk classification: medium.** The original proofs changed no product code. A wrong proof sends Daniel to the wrong pages and delays the printer file due 2026-11-06. No production write happens before his approval. The F5 remediation below adds a bounded CSS change; its own risk note governs that change.
+**Risk classification: medium.** The original proofs changed no product code. A wrong proof sends Daniel to the wrong pages and delays the printer file, now on hold with no date (strategy v1.18). No production write happens before his approval. The F5 remediation below adds a bounded CSS change; its own risk note governs that change.
 
 **phase_base_sha capture point (S5).** The strategy commit is the commit with subject `measure(strategy): primary_v2_look Phase S5 test strategy for the page proofs`. Immediately after that commit lands, the orchestrator captures `phase_base_sha = $(git rev-parse HEAD)`. That SHA is immutable for the phase. Do not use `8b27c9ea` from the role brief; it predates the strategy commit. If the strategy is refreshed, capture the base again after the newest strategy commit. No proof file, driver, or gate run may start before the capture. This paragraph supersedes the historical S4 capture paragraph above for Phase S5. It is now superseded for this refresh by the capture point in "S5 remediation (2026-11-19)" below; use the newest strategy commit only.
 
@@ -320,7 +320,7 @@ Fixes to the driver and checks:
 - P9 (Review B F3): match the prefix `Primary-Advantage-Quest-5`. Falsification: a renamed printer file in `~/Desktop/print-ready/` fails P9.
 - `.gitignore` (Review B F4): add the two proof HTML names `measure/runs/primary_v2_look_20261020/proof-s5/quest5-l01.html` and `measure/runs/primary_v2_look_20261020/proof-s5/adventure92-l09.html`. Falsification: `git status --porcelain` lists either file as untracked.
 
-P1, P7, P8, and P9 stay as above. P8 also adds `git status --porcelain` over `dashboard` and `content`. All checks P1 to P10 run through one heavy-run wrapper each; record every exit code. "All checks pass" is written only when all ten exit 0.
+P1, P7, P8, and P9 stay as above. P8 adds `git status --porcelain` over the render pathspecs. Review A r4 F21 showed that the original eight-path scope missed nine render imports and the font folder. "S5 fix round 2 (2026-11-20)" below gives the authoritative scope. All checks P1 to P10 run through one heavy-run wrapper each; record every exit code. "All checks pass" is written only when all ten exit 0.
 
 F6 to F9 stay deferred as tech debt. F10 is for the plan author: fix the stale Quest 5 date in `plan.md` and `spec.md`, name `proof-s5-r2` and `manifest-r2` in the S5 task, and add the `seriesName`, `levelNumber`, and `cefrLevel` assertions to the S6 test list. The strategy role owns none of those files.
 
@@ -365,7 +365,7 @@ A1 and A8 are retired. A2 to A10 are active. A11 is reserved in the catalog and 
 | A6, registry-note overstatement | No approval claim before the dated note. No "resolved" claim while a Review A Blocker is open. | An approval claim without the dated note is false. |
 | A7, over-broad filter swallowing real hits | P3, P6, and P10 use exact strings. P5 uses the exact step-to-capture table. No bare English filter token. | A filter that drops a line holding "never" hides a classic-name leak. P3 fails. |
 | A9, pre-existing test references archived track paths | The Red file and the driver name live paths only. A static check resolves each `measure/tracks/<id>` reference. | A reference to `measure/archive/<id>` fails the resolve check. |
-| A10, generated-facts drift after structural change | P8 records HEAD, package SHA256, and `git status --porcelain`. The S7 handoff sends the F5 commit id. | A stale package or an uncommitted edit makes the manifest differ. The check fails. |
+| A10, generated-facts drift after structural change | P8 records HEAD, package SHA256, and `git status --porcelain` over the four render pathspecs of "S5 fix round 2". The S7 handoff sends the F5 commit id. | A stale package or an uncommitted edit of a render input fails P8. A test-only edit passes. |
 
 ### Handoff to the orchestrator (remediation)
 
@@ -384,7 +384,7 @@ Review A at `338e68eb` returned one Blocker (F11, a squashed hero), one Major (F
 | Rule | Reason |
 |---|---|
 | `.look-chibi-quest .inline-img-box { break-inside: avoid; page-break-inside: avoid; }` (`0b2bd81f`, scoped in `9b95646e`) | It follows the S3 rule "inline pictures do not split" (`spec.md` line 72). It is scoped to the chibi-quest look. Test 2 guards it. |
-| No keep rule on the hero wrappers `.article-image-area` and `.article-image-box` in the chibi-quest styles (`9b95646e`) | An avoid rule on those wrappers made Paged.js drop the hero (round 2 probe, `falsification-r2.txt`). Test 3 guards the absence. The classic template keeps its own avoid rules at `primary_template.html` lines 1320 to 1331. |
+| No keep rule on the hero wrappers `.article-image-area` and `.article-image-box` in the chibi-quest styles (`9b95646e`) | An avoid rule on those wrappers made Paged.js drop the hero (round 2 probe, `proof-s5/g1-hero-drop.txt`). Test 3 guards the absence. The classic template keeps its own avoid rules at `primary_template.html` lines 1320 to 1331. |
 | `.look-chibi-quest .hero-img-box img { width: auto; max-width: 100%; max-height: 240px; }` (`95345e90` added the cap, `178a4e2f` added `width: auto`) | The cap keeps the hero caption on the picture's page (P12). `width: auto` with `max-width: 100%` keeps the square source square (P13). The cap alone gave x-ppi 435 and y-ppi 640 (`check-P13-r4.txt`, exit 1). The shipped rule gives 640 and 640 (`checks-r5.txt` P13). All 154 hero sources are 1600 x 1600. |
 
 **P11 to P13 in the form of the P1 to P10 table.** Each check runs through one heavy-run wrapper. Record each exit code. "All checks pass" is written only when all 13 exit 0.
@@ -419,3 +419,66 @@ Mutants M6a and M6b were caught (`green-s5g1-r4-mutants.txt`). Add the mutant th
 - F10 stays open in part for the plan author: the stale date in `spec.md` and `plan.md`, and the missing `seriesName`, `levelNumber`, and `cefrLevel` assertions in the S6 test list. The strategy role owns none of those files.
 
 **Review applicability.** Review applicability stays as in the S5 remediation section. The three rules change scoped print CSS only. Review A, correctness, leads and checks R1 to R3, the six assertions, and P11 to P13. Review B, security, stays narrow and unchanged. Review C does not apply; no route, flag, or option changed. Adversarial testing applies, one round, and adds the `width: auto` mutant and the P13 squash fixture. UX and API review keeps UX_REQUIRED; the API side stays not applicable. Browser review applies (UX_REQUIRED) for the r5 proof HTML and contact sheets. Each review role uses a model family other than the Red and Green families. It reports and fixes nothing. No open Blocker may remain at closeout.
+
+#### S5 fix round 2 (2026-11-20)
+
+Review A r4 at `d2c2304c` returned F21, a Blocker: the eight-path P8 scope misses nine render imports and `dashboard/assets/print-fonts`. UX browser review at the same head returned UX-1, a Major: step headers touch the panel above on five pages. The PM set three owner defaults on 2026-11-20 for Daniel's one look. This part records the fixes and supersedes the P8 scope statements above.
+
+**PM design defaults (2026-11-20).**
+
+1. The hero prints at full inline width, 84.8 mm, like the other pictures. The strip beside it closes.
+2. For ages 9 to 12: labels at least 8 pt; writing lines at least 8 mm apart; Thai glosses 8 pt upright, not italic.
+3. The book keeps its fixed 13 printed steps with its own numbers and names. The app mapping stays in the teacher notes, not on the page. No step number or name changes.
+
+**phase_base_sha capture point.** The capture commit has subject `measure(strategy): primary_v2_look S5 fix round 2, PM look decisions, UX-1, P8 scope (review A F21)`. Immediately after that commit lands, the orchestrator runs `git rev-parse HEAD` once and sets `phase_base_sha` to that value. Do not use `d2c2304c`, `82c58b7e`, or an earlier SHA.
+
+**Risk classification: medium.** All five product changes are scoped print CSS in `dashboard/lib/document-wrapper/chibi-quest-styles.ts`. The classic wrapper never calls `getChibiQuestStyles()`. Two Red files, a byte-identity assertion on the two golden files, P1 to P16, and Daniel's look bound the risk. No route, flag, or option changes. No template change is planned. If a scoped rule cannot win, the only candidate is the float and image rules in `primary_template.html` (lines 902 and 1320 to 1331). That edit would change the classic golden; refresh this strategy before it starts.
+
+**(a) Product changes, Red assertions, and falsifying mutants.** Each change uses a `.look-chibi-quest` selector in `chibi-quest-styles.ts`.
+
+| Change | Red assertion | Falsifying mutant |
+|---|---|---|
+| Add `margin-top: 4mm` to `.look-chibi-quest div.section-header` (current line 86). This guards UX-1. | The new file `chibi-quest-print-sizes.test.ts` parses the scoped rule and asserts `margin-top` from 3 mm to 5 mm. It asserts no top margin of 0 in that rule. | Remove `margin-top` or set it to 0. The assertion fails and P15 fails at r6. |
+| Replace the 240 px cap with `.look-chibi-quest .hero-img-box img { width: 84.8mm; max-width: 100%; height: auto; }` (current line 105). Delete `max-height: 240px` and `width: auto`. | In `chibi-quest-picture-keep.test.ts`, keep assertions 2 to 6. Change assertion 1 to require exact `width: 84.8mm`, `max-width: 100%`, and `height: auto`, and no `max-height`. Update the adversarial width parser to the new declaration. | Restore `max-height: 240px` or set `width: 63.5mm`. Assertion 1 and P14 fail. The hero at 84.8 mm leaves about 9 mm of the 93.5 mm float box instead of 35 mm, so the strip closes. P12 must still keep the caption on the picture page. If P12 fails at 84.8 mm, do not restore the cap; adjust scoped spacing or report a Blocker. |
+| Set scoped font-size rules for `.q-label`, `.a-label`, `.para-note-label`, `.tip-label`, `.planning-label`, `.qr-label`, and any other label under 8 pt; use 11 px (8.25 pt). | For each named selector, the scoped rule declares `font-size` of at least 10.67 px. The test asserts the exact selector list, not a digit count. | Set 9 px or move the rule to the classic styles. The assertion fails and P16 fails at r6. |
+| Set scoped rules on `.writing-line` and `.writing-line-small` so min-height plus margins give at least 8 mm pitch (about 30 px). | The test parses each scoped rule and asserts pitch of at least 30 px from `min-height` plus margins. | Restore `min-height: 20px` with `margin: 4px 0`. The assertion fails. The UX review and Daniel check the printed pitch at r6; no P-check measures lines. |
+| Set `.look-chibi-quest .thai-translation { font-size: 11px; font-style: normal; }`. | The scoped rule declares `font-size` of at least 10.67 px and `font-style: normal`. No italic declaration sits in that scoped rule. | Set italic or 9 px. The assertion fails and P16 fails at r6. |
+
+The new Red file also asserts that the classic golden files `lesson-05.html` and `lesson-05-no-key.html` stay byte-identical for the default, classic, no-key, and classic no-key variants. A one-byte change fails it. The new file reads no package, no Thai, and no image.
+
+RED_TEST_COMMAND and GREEN_TEST_COMMAND cover both files:
+
+```
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-print-sizes.test.ts __tests__/chibi-quest-picture-keep.test.ts'
+```
+
+The command is RED_TEST_COMMAND before Green and GREEN_TEST_COMMAND after Green. Red condition: the new file exists and compiles; it fails only on the new size assertions; `chibi-quest-picture-keep.test.ts` fails only on assertion 1; the golden byte-identity assertion passes at Red. A syntax error or a missing import is not a valid Red. Exit 75 means the pre-flight hold outlasted its wait; rerun and do not record a pass.
+
+Green gates: GREEN_TEST_COMMAND exits 0. `PROJECT_TESTS` is `set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts` and exits 0 apart from the three recorded earlier failures. `PROJECT_LINT` is `set -o pipefail; cd dashboard && npx eslint lib/document-wrapper/chibi-quest-styles.ts __tests__/chibi-quest-print-sizes.test.ts __tests__/chibi-quest-picture-keep.test.ts --no-error-on-unmatched-pattern` and exits 0. `PROJECT_CHECKS` is `set -o pipefail; cd dashboard && npx tsc --noEmit` and exits 0. Record each mutant, the catching check, and the exit code.
+
+**(b) Driver and checks for proof round 6.**
+
+P8 scope (F21). Use four Git pathspecs: `dashboard`, `:(exclude)dashboard/__tests__`, `content/primary/quest-5`, and `content/primary/adventure-9.2`. Keep the manifest `git_head` compare, the `COMMIT_ID` validation, `--end-of-options`, the artifact hashes, and the head compare. Fixtures: a change to `dashboard/lib/template-renderer.ts` fails P8; a change only under `dashboard/__tests__/` passes P8. Record the scope as these four pathspecs, not as "dashboard and content" (F22). The nine omitted render imports and `dashboard/assets/print-fonts` are now inside the scope.
+
+P14 to P16 use the P1 to P13 table form. Run each through one heavy-run wrapper and record the exit code.
+
+| ID | Check | Falsification condition | Round that proved it falsifiable |
+|---|---|---|---|
+| P14 | Read `pdfimages -list`. Convert the hero `x_ppi` to printed width in mm. Require 84.8 mm within 1 mm in both lessons. | The r5 hero prints 63.5 mm and fails. A restored 240 px cap fails. | The r5 fixture fails first; r6 must pass. |
+| P15 | No step header within 3 mm of the element above. Best automated form: `pdftotext -bbox` word boxes, the topmost word box of each step title, and the bottom of the nearest text or panel border above it on the same page. Fail below 3 mm. If the border is absent from the text layer, use a PIL pixel-column scan at 300 dpi as the UX review did, with the same threshold. Record the method used. | The r5 gaps of 0.0 mm on Quest 5 pages 5 and 6 and Adventure page 8, and 0.25 mm on Quest 5 page 10 and Adventure page 12, fail. | The r5 fixture fails first; r6 must pass. UX review and Daniel stay binding for visual gaps. |
+| P16 | From `pdffonts` and `pdftotext -bbox`: no label text under 8 pt and no italic Thai gloss face. Print counts and English label names only. | The r5 labels at 6.7 pt and 7.3 pt fail. A Sarabun Italic gloss face fails. | The r5 fixture fails first; r6 must pass. |
+
+P16 reads font names and counts. It never prints a Thai string. P1 to P13 stay as recorded. Build proof round 6 in `~/Desktop/print-ready/primary-v2-look/proof-s5-r6/`. Refuse an overwrite of an existing PDF. Keep the two proof HTML names in `.gitignore`. Run P1 to P16; write "all checks pass" only when all exit 0.
+
+**(c) Order of work.** Run these steps in order. Stop on an open Blocker.
+
+1. Capture `phase_base_sha` at this strategy commit.
+2. Red: write `chibi-quest-print-sizes.test.ts` and change `chibi-quest-picture-keep.test.ts` for the hero; run RED_TEST_COMMAND.
+3. Green, product: apply the five scoped CSS changes; run GREEN_TEST_COMMAND and the three other Green gates; send the commit id to the PM for S7.
+4. Green, driver: fix P8 and add P14, P15, and P16; build proof r6; run P1 to P16.
+5. Review A and Review B again on the new head. F21 must close here.
+6. One adversarial round, then the UX browser review. UX-1 must pass P15.
+7. Phase acceptance on the new head.
+8. Daniel's one look. His PM defaults are the answers unless he overrides them. No printer file is made without his dated approval.
+
+**(d) Records.** The S5 risk line now gives the printer file as "on hold, no date (strategy v1.18)". The stale dates in `spec.md` and `plan.md`, the S6 test list, and the naming of the F5 picture stay with the plan author. The hero-drop record is `proof-s5/g1-hero-drop.txt` (F20). Review applicability stays as above; the new rules change scoped print CSS only, and no route, flag, or option changes.
