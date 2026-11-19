@@ -83,7 +83,7 @@ body.look-chibi-quest {
 .look-chibi-quest .badge-cefr { background: var(--cq-gold); color: var(--cq-ink); border-color: var(--cq-gold-dark); }
 
 /* The step header: the gold medal with the number, the wood sign with two rivets, and the time chip. */
-.look-chibi-quest div.section-header { background: #ffffff !important; border: 0 !important; border-radius: 0; padding: 0; margin-bottom: 14px; gap: 10px; font-size: 14px; }
+.look-chibi-quest div.section-header { background: #ffffff !important; border: 0 !important; border-radius: 0; padding: 0; margin-top: 4mm; margin-bottom: 14px; gap: 10px; font-size: 14px; }
 .look-chibi-quest div.section-header .section-icon { width: 38px; height: 38px; background: var(--cq-gold) !important; color: var(--cq-ink) !important; border: 3px solid var(--cq-wood-dark); font-size: 16px; font-weight: 700; }
 .look-chibi-quest div.section-header .section-title { flex: 0 1 auto; position: relative; background: var(--cq-wood); border: 3px solid var(--cq-wood-dark); border-radius: 8px; color: var(--cq-on-wood); padding: 4px 24px; font-size: 18px; font-weight: 700; line-height: 1.35; }
 .look-chibi-quest div.section-header .section-title::before, .look-chibi-quest div.section-header .section-title::after { content: ''; position: absolute; top: 50%; width: 7px; height: 7px; margin-top: -4.5px; border-radius: 50%; background: var(--cq-iron); border: 1px solid var(--cq-iron-light); }
@@ -101,8 +101,8 @@ body.look-chibi-quest {
   page-break-inside: avoid;
 }
 
-/* The hero picture stays short and keeps its shape (F5, P12, F11). */
-.look-chibi-quest .hero-img-box img { width: auto; max-width: 100%; max-height: 240px; }
+/* The hero prints at full inline width like the other pictures (PM decision 1, review A F11). */
+.look-chibi-quest .hero-img-box img { width: 84.8mm; max-width: 100%; height: auto; }
 
 /* Panels: a 3 px parchment-edge frame with a 14 px radius; label areas in parchment, write-in areas white. */
 .look-chibi-quest .short-answer-box, .look-chibi-quest .reflection-box, .look-chibi-quest .language-q-box,
@@ -115,9 +115,13 @@ body.look-chibi-quest {
 .look-chibi-quest .writing-header, .look-chibi-quest .translation-header { background: var(--cq-parchment-2); color: var(--cq-ink); border-bottom: 2px solid var(--cq-parchment-edge); font-weight: 600; }
 .look-chibi-quest .prompt-box { background: var(--cq-parchment-light); border-bottom: 2px solid var(--cq-parchment-2); }
 .look-chibi-quest .translation-para strong { color: var(--cq-gold-text); }
+/* The Thai gloss prints upright at 8 pt or more (PM decision 2). */
+.look-chibi-quest .thai-translation { font-size: 11px !important; font-style: normal !important; }
 .look-chibi-quest .tip-box { background: var(--cq-parchment-light); border: 2px solid var(--cq-parchment-2); border-left: 5px solid var(--cq-wood-light); border-radius: 10px; }
 .look-chibi-quest .tip-label, .look-chibi-quest .q-label, .look-chibi-quest .practice-title, .look-chibi-quest .homework-title, .look-chibi-quest .score-label, .look-chibi-quest .qr-label { color: var(--cq-wood-dark); }
 .look-chibi-quest .a-label, .look-chibi-quest .starter-label, .look-chibi-quest .prompt-label { color: var(--cq-gold-text); }
+/* Child readability: the small caps labels print at 8 pt or more (PM decision 2). */
+.look-chibi-quest .q-label, .look-chibi-quest .a-label, .look-chibi-quest .para-note-label, .look-chibi-quest .tip-label, .look-chibi-quest .planning-label, .look-chibi-quest .qr-label { font-size: 11px !important; }
 .look-chibi-quest .practice-title { border-bottom: 2px solid var(--cq-parchment-edge); }
 
 /* Write-in parts: white wells with a parchment frame. */
@@ -129,6 +133,8 @@ body.look-chibi-quest {
 .look-chibi-quest .collection-box::before { background: #ffffff; }
 .look-chibi-quest .planning-box, .look-chibi-quest .para-note { background: #ffffff; border: 2px solid var(--cq-parchment-2); border-radius: 10px; }
 .look-chibi-quest .writing-line, .look-chibi-quest .writing-line-small { border-bottom: 1px solid var(--cq-parchment-edge); }
+/* Child readability: the writing lines keep an 8 mm pitch (PM decision 2). */
+.look-chibi-quest .writing-line, .look-chibi-quest .writing-line-small { min-height: 8mm !important; margin: 0 !important; }
 .look-chibi-quest .score-circle { width: 32px; height: 32px; border: 3px solid var(--cq-wood-dark); background: #ffffff; }
 .look-chibi-quest .rating-star, .look-chibi-quest .star { color: var(--cq-gold-dark); }
 
