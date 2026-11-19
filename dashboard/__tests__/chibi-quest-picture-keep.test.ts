@@ -4,27 +4,21 @@ import { describe, it, expect } from 'vitest';
 import { getChibiQuestStyles } from '../lib/document-wrapper/chibi-quest-styles';
 import { lessonDocument, type PrintExport } from '../lib/print/print-export';
 
-// Track primary_v2_look_20261020, story S5 remediation (review A F5), Red retry r3:
-// the hero picture gets a max-height of 240px in the chibi-quest look, so the
-// hero caption stays on the hero's page (F5, P12, proof-s5/hero-caption-probes.txt).
-// The inline keep rule and the hero no-avoid guard of r2 stay. The classic
-// golden stays byte-identical. This file reads no package, no Thai, and no image
-// except the golden byte-identity guard, which compares bytes and prints no text
-// on pass.
+// Track primary_v2_look_20261020, story S5 remediation (review A F5), Red retry r4:
+// the hero cap keeps the aspect ratio (review A r2 F11: width auto, max-width
+// 100%, max-height 240px on the hero image, else the picture squashes). Test 4
+// reads the real template (review A r2 F13), not a literal. The inline keep rule
+// and the hero no-avoid guard stay. The classic golden stays byte-identical.
+// This file reads no package, no Thai, and no image except the golden
+// byte-identity guard, which compares bytes and prints no text on pass.
 
-// The inline figure wrapper, from dashboard/templates/primary_template.html
-// lines 1718 to 1720: the caption sits inside the same inline-img-box as the
-// image. The hero wrappers (the article-image-area of line 1674 and the
-// article-image-box of line 1677) carry no keep rule here.
-const INLINE_FRAGMENT = [
-  '<div class="article-image-box inline-img-box w-50">',
-  '<img src="inline.jpg" alt="The guide">',
-  '<span class="article-image-caption text-center">The guide welcomes the Explorers.</span>',
-  '</div>',
-].join('\n');
+// The inline figure wrapper lives in dashboard/templates/primary_template.html:
+// the caption sits inside the same inline-img-box as the image. The hero
+// wrappers (the article-image-area and the article-image-box of the hero block)
+// carry no keep rule here.
 
-/** True when the CSS holds the selector in a rule block that declares the declaration. */
-function scopedDeclaration(css: string, selector: string, declaration: RegExp): boolean {
+/** True when the CSS holds the selector in one rule block that declares every listed property. */
+function scopedRule(css: string, selector: string, declarations: RegExp[]): boolean {
   let from = 0;
   for (;;) {
     const at = css.indexOf(selector, from);
@@ -33,7 +27,8 @@ function scopedDeclaration(css: string, selector: string, declaration: RegExp): 
     if (open < 0) return false;
     const close = css.indexOf('}', open + 1);
     if (close < 0) return false;
-    if (declaration.test(css.slice(open + 1, close))) return true;
+    const body = css.slice(open + 1, close);
+    if (declarations.every((declaration) => declaration.test(body))) return true;
     from = close + 1;
   }
 }
@@ -55,11 +50,15 @@ function scopedKeepRule(css: string, selector: string): boolean {
   }
 }
 
-describe('chibi-quest picture keep (review A F5, r3)', () => {
-  it('keeps the hero picture short enough for its caption in the chibi-quest look only', () => {
+describe('chibi-quest picture keep (review A F5, r4)', () => {
+  it('caps the hero picture with its aspect ratio in the chibi-quest look only', () => {
     const css = getChibiQuestStyles();
     expect(
-      scopedDeclaration(css, '.look-chibi-quest .hero-img-box img', /max-height\s*:\s*240px/),
+      scopedRule(css, '.look-chibi-quest .hero-img-box img', [
+        /max-height\s*:\s*240px/,
+        /width\s*:\s*auto/,
+        /max-width\s*:\s*100%/,
+      ]),
       '.look-chibi-quest .hero-img-box img',
     ).toBe(true);
     const classic = fs.readFileSync(
@@ -83,11 +82,17 @@ describe('chibi-quest picture keep (review A F5, r3)', () => {
     }
   });
 
-  it('holds the image and its caption inside the same inline wrapper', () => {
-    const box = INLINE_FRAGMENT.match(/<div class="article-image-box inline-img-box[^"]*">([\s\S]*?)<\/div>/);
-    expect(box).not.toBeNull();
-    expect(box?.[1] ?? '').toMatch(/<img\b[^>]*>/);
-    expect(box?.[1] ?? '').toContain('article-image-caption');
+  it('holds the image and its caption inside the same inline wrapper in the template', () => {
+    const tpl = fs.readFileSync(
+      path.join(process.cwd(), 'templates', 'primary_template.html'),
+      'utf8',
+    );
+    const boxes = tpl.match(/<div class="article-image-box inline-img-box[^"]*">([\s\S]*?)<\/div>/g) ?? [];
+    expect(boxes.length).toBeGreaterThan(0);
+    for (const box of boxes) {
+      expect(box).toMatch(/<img\b[^>]*>/);
+      expect(box).toContain('article-image-caption');
+    }
   });
 
   it('keeps the classic golden lesson byte-identical', async () => {

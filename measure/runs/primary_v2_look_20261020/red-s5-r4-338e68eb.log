@@ -1,0 +1,43 @@
+Red retry r4 provisional log (review A r2 F11: the hero cap squashes the picture).
+
+HEAD at role start (role_base_sha): 338e68eb2a7993acf8c6e6c5dc85f8a40c3baa99
+Phase base (phase_base_SHA): 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+Dirty scope at start: git status over the test, the template, the track dir, and
+the r4 evidence paths was empty. Other tracks stay untouched.
+
+Review A r2 at 338e68eb FAILS. F11 Blocker: the rule
+.look-chibi-quest .hero-img-box img { max-height: 240px; } squashes every hero
+picture, because the template keeps width 100% on the image (r4 hero at 435 x
+640 ppi from a 1600 x 1600 square). The fix: width auto, max-width 100%,
+max-height 240px (scratch render 640 x 640 ppi, P12 passes). F13 Major: the r3
+hero test passes on the squashing rule, and the wrapper test matches a literal
+defined in the test file.
+
+Test changes in dashboard/__tests__/chibi-quest-picture-keep.test.ts:
+1. The hero rule assertion requires max-height 240px AND width auto AND
+   max-width 100% in one rule block on .look-chibi-quest .hero-img-box img.
+   It fails on the current squashing rule. The classic guard stays.
+2. The wrapper test reads the real template file and asserts each inline-img-box
+   holds its img and caption, so a template change fails it. The literal is gone.
+3. The inline keep, hero no-avoid, and golden guards stay.
+
+Gates:
+- RED_TEST_COMMAND exits 1: 6 tests, 1 failed, 5 passed. The failure is only the
+  hero aspect assertion. The template-reading wrapper test passes.
+- tsc grep for the new file: 0 lines (red-s5-r4-tsc.txt is empty).
+- eslint on the new file: exit 0.
+- Thai count is 0 on the test, the plan, and both evidence files.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+baseline_sha: 82c58b7ecaa64da87eb69a755ce9111fa1ac3c93
+commits: red-s5-r4-338e68eb (this Red retry commit; SHA in final reply)
+tests_run: RED_TEST_COMMAND exit 1 (6 tests: 1 failed on the hero aspect assertion only, 5 passed); tsc grep 0 lines; eslint exit 0; Thai 0 on all committed files
+files_changed: dashboard/__tests__/chibi-quest-picture-keep.test.ts (hero aspect-ratio assertion, template-reading wrapper test); measure/tracks/primary_v2_look_20261020/plan.md (S5.R1, S5.G1, S5.G2 back to [~] with r4 sub-lines); measure/runs/primary_v2_look_20261020/red-s5-r4-338e68eb.txt; measure/runs/primary_v2_look_20261020/red-s5-r4-tsc.txt; measure/runs/primary_v2_look_20261020/red-s5-r4-338e68eb.log
+plan_updates: Task S5.R1 back to [~] with the r4 sub-line; Task S5.G1 back to [~] with the F11 sub-line; Task S5.G2 back to [~] with the round 5 sub-line; all kept [~] for the Red gate
+known_failures: the hero aspect assertion FAILS as designed (squashing max-height-only rule at HEAD); the inline keep, hero no-avoid, template wrapper, golden byte-identity, and flat-style guards pass
+handoff: Green owns the S5.G1 fix: width auto, max-width 100%, max-height 240px on .look-chibi-quest .hero-img-box img in chibi-quest-styles.ts only, then the F5 Green gates plus P11, P12, and the new P13 on proof round 5. Question: shall Green apply the aspect-ratio hero cap next? Default: yes, proceed.
+END_MEASURE_AGENT_RESULT
