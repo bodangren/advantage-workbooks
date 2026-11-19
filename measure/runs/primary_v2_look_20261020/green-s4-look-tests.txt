@@ -1,0 +1,20 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstderr[2m | __tests__/workbook-look.test.ts[2m > [22m[2mcompile route look[2m > [22m[2mobeys the look in project.json, and fails on an unknown look
+[22m[39mFailed to compile project: Error: project.json of quest-5: unknown look "riven-lands" (classic or chibi-quest)
+    at parseLook [90m(/home/daniebo/Desktop/Workbooks/dashboard/[39mlib/look.ts:29:11[90m)[39m
+    at projectLook [90m(/home/daniebo/Desktop/Workbooks/dashboard/[39mlib/look.ts:51:55[90m)[39m
+    at GET [90m(/home/daniebo/Desktop/Workbooks/dashboard/[39mapp/api/projects/[projectId]/compile/route.ts:176:18[90m)[39m
+    at compile [90m(/home/daniebo/Desktop/Workbooks/dashboard/[39m__tests__/workbook-look.test.ts:154:17[90m)[39m
+    at [90m/home/daniebo/Desktop/Workbooks/dashboard/[39m__tests__/workbook-look.test.ts:168:13
+    at [90mfile:///home/daniebo/Desktop/Workbooks/dashboard/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:915:20
+
+ [32m✓[39m __tests__/workbook-look.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 311[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-kit.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 52[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m16 passed[39m[22m[90m (16)[39m
+[2m   Start at [22m 10:55:29
+[2m   Duration [22m 1.81s[2m (transform 293ms, setup 72ms, import 462ms, tests 363ms, environment 641ms)[22m
+

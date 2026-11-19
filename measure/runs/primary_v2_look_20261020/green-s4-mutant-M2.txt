@@ -1,0 +1,94 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-step-names.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 159[2mms[22m[39m
+     [32m✓[39m shows the 13 app names in order[32m 54[2mms[22m[39m
+     [32m✓[39m shows no classic-only name[32m 15[2mms[22m[39m
+     [32m✓[39m keeps steps 9, 10, and 11 in the chibi-quest look[32m 9[2mms[22m[39m
+     [32m✓[39m keeps the step 6 grammar conditional in both looks[32m 10[2mms[22m[39m
+     [32m✓[39m shows Preview Vocabulary in the in-book teacher pages[32m 13[2mms[22m[39m
+     [32m✓[39m keeps the answer key labels Multiple Choice and Short Answer Hint[32m 7[2mms[22m[39m
+     [32m✓[39m shows no step name in the TOC, and the TOC does not change with the look[32m 10[2mms[22m[39m
+[31m     [31m×[31m shows the 13 classic names with classic and with no look[39m[32m 14[2mms[22m[39m
+[31m     [31m×[31m leaks no app-only name into classic[39m[32m 7[2mms[22m[39m
+[31m     [31m×[31m keeps the golden Origins 3.2 lesson byte-identical[39m[32m 18[2mms[22m[39m
+     [32m✓[39m keeps the classic step names and the step map[32m 1[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-step-names.test.ts[2m > [22mclassic step names do not change[2m > [22mshows the 13 classic names with classic and with no look
+[31m[1mAssertionError[22m: expected [ 'Before You Read', …(12) ] to deeply equal [ 'Before You Read', …(12) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -1,9 +1,9 @@[39m
+[2m  [[22m
+[2m    "Before You Read",[22m
+[2m    "Key Vocabulary",[22m
+[32m-   "Read the Article",[39m
+[31m+   "First Reading",[39m
+[2m    "Collect Vocabulary",[22m
+[2m    "Deep Reading Notes",[22m
+[2m    "Collect Sentences",[22m
+[2m    "Comprehension Check",[22m
+[2m    "Guided Response",[22m
+
+[36m [2m❯[22m __tests__/chibi-quest-step-names.test.ts:[2m223:22[22m[39m
+    [90m221| [39m      const titles = sectionTitles(await renderMultipleLessons([lesson…
+    [90m222| [39m      [34mexpect[39m(titles)[33m.[39m[34mtoHaveLength[39m([34m13[39m)[33m;[39m
+    [90m223| [39m      [34mexpect[39m(titles)[33m.[39m[34mtoEqual[39m([33mCLASSIC_NAMES[39m)[33m;[39m
+    [90m   | [39m                     [31m^[39m
+    [90m224| [39m    }
+    [90m225| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-step-names.test.ts[2m > [22mclassic step names do not change[2m > [22mleaks no app-only name into classic
+[31m[1mAssertionError[22m: expected [ 'Before You Read', …(12) ] to not include 'First Reading'[39m
+[36m [2m❯[22m __tests__/chibi-quest-step-names.test.ts:[2m235:55[22m[39m
+    [90m233| [39m      const titles = sectionTitles(await renderMultipleLessons([lesson…
+    [90m234| [39m      [34mexpect[39m(titles)[33m.[39m[34mtoHaveLength[39m([34m13[39m)[33m;[39m
+    [90m235| [39m      [35mfor[39m ([35mconst[39m name [35mof[39m [33mAPP_ONLY[39m) [34mexpect[39m(titles)[33m.[39mnot[33m.[39m[34mtoContain[39m(name)[33m;[39m
+    [90m   | [39m                                                      [31m^[39m
+    [90m236| [39m    }
+    [90m237| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-step-names.test.ts[2m > [22mclassic step names do not change[2m > [22mkeeps the golden Origins 3.2 lesson byte-identical
+[31m[1mAssertionError[22m: expected '<!DOCTYPE html>\n<html lang="en">\n<h…' to be '<!DOCTYPE html>\n<html lang="en">\n<h…' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -2636,11 +2636,11 @@[39m
+
+[2m          <!-- STEP 3: First Reading -->[22m
+[2m          <section class="section phase-1 read-article-step">[22m
+[2m              <div class="section-header">[22m
+[2m                  <div class="section-icon icon-read">3</div>[22m
+[32m-                 <h2 class="section-title">Read the Article</h2>[39m
+[31m+                 <h2 class="section-title">First Reading</h2>[39m
+[2m                  <span class="section-time"><svg class="icon icon-timer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="10" x2="14" y1="2" y2="2"/> <line x1="12" x2="15" y1="14" y2="11"/> <circle cx="12" cy="14" r="8"/></svg> 10 min</span>[22m
+[2m                  <!-- <span class="phase-label phase-1">Phase 1</span> -->[22m
+[2m              </div>[22m
+
+[2m              <div class="qr-box">[22m
+
+[36m [2m❯[22m __tests__/chibi-quest-step-names.test.ts:[2m246:109[22m[39m
+    [90m244| [39m    const withKey = fs.readFileSync(path.join(golden, 'lesson-05.html'…
+    [90m245| [39m    const noKey = fs.readFileSync(path.join(golden, 'lesson-05-no-key.…
+    [90m246| [39m    expect(await lessonDocument(record.lesson, record.lessonNumber, re…
+    [90m   | [39m                                                                                                            [31m^[39m
+    [90m247| [39m      withKey[33m,[39m
+    [90m248| [39m    )[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m8 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 11:12:38
+[2m   Duration [22m 983ms[2m (transform 142ms, setup 39ms, import 220ms, tests 159ms, environment 339ms)[22m
+

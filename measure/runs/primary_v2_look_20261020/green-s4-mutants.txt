@@ -1,0 +1,30 @@
+Track primary_v2_look_20261020, Phase S4, Task S4.3 (Green), mutant gate.
+Role base: 18d02125ac0e7c61c5ad8d42782e918c1bc6eb8d. Phase base: a4f52b9e968f47e062bfdf923b0de507a42644f0.
+Every run: one heavy-run wrapper, gate 1 command only.
+  set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.test.ts
+Every broken file was copied back and compared with cmp before the next mutant.
+
+| Mutant | File | Change | Gate 1 exit | Named failing test(s) |
+|---|---|---|---|---|
+| M1 | dashboard/templates/primary_template.html | step 3 chibi name "First Reading" -> "First Read" | 1 | shows the 13 app names in order |
+| M2 | dashboard/templates/primary_template.html | step 3 classic branch "Read the Article" -> "First Reading" (an app name in classic) | 1 | shows the 13 classic names with classic and with no look; leaks no app-only name into classic; keeps the golden Origins 3.2 lesson byte-identical |
+| M3 | dashboard/templates/primary_template.html | step 6 title grammar suffix conditional removed only (both looks) | 0 | NONE. See the coverage note below. |
+| M3b | dashboard/templates/primary_template.html | step 6 grammar conditional deleted in both places (title suffix and challenge line) | 1 | keeps the step 6 grammar conditional in both looks |
+| M4 | dashboard/templates/primary_template.html | step 9 "Vocabulary Practice" -> "Vocabulary Drill" | 1 | keeps steps 9, 10, and 11 in the chibi-quest look; shows the 13 app names in order; shows the 13 classic names with classic and with no look; keeps the golden Origins 3.2 lesson byte-identical |
+| M5 | dashboard/lib/document-wrapper/sections/teacher-guide.ts | chibi teacher-page title "Preview Vocabulary" -> "Vocabulary List" | 1 | shows Preview Vocabulary in the in-book teacher pages |
+| M6 | dashboard/lib/document-wrapper/sections/answer-key.ts | "Multiple Choice:" -> "Comprehension Check:" | 1 | keeps the answer key labels Multiple Choice and Short Answer Hint; keeps the golden Origins 3.2 lesson byte-identical |
+
+Result: 6 of 6 rules have a mutant that a named test catches (M1, M2, M3b, M4, M5, M6).
+
+Coverage note for M3. The narrow mutant removes only the title suffix of step 6. The test
+"keeps the step 6 grammar conditional in both looks" still passes, for two reasons:
+1. The template holds the same token on line 1812 (the "Challenge:" sentence), so
+   `expect(tpl).toContain('{{#if grammar_search_term}}')` passes.
+2. The lesson renders "Past tense" in that challenge sentence, so `html.toContain('Past tense')`
+   passes.
+The chibi title itself is not checked with a grammar term, because `sectionTitles` strips the
+` – <term>` suffix. So the test does not falsify the narrow form. The caught form M3b deletes the
+whole step 6 conditional, which the same test catches. The narrow gap is recorded for Review A and
+the adversarial round. This role does not edit the committed Red test.
+
+Captures: green-s4-mutant-M1.txt, -M2.txt, -M3.txt, -M3b.txt, -M4.txt, -M5.txt, -M6.txt.

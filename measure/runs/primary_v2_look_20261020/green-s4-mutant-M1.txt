@@ -1,0 +1,52 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-step-names.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 147[2mms[22m[39m
+[31m     [31m×[31m shows the 13 app names in order[39m[32m 59[2mms[22m[39m
+     [32m✓[39m shows no classic-only name[32m 7[2mms[22m[39m
+     [32m✓[39m keeps steps 9, 10, and 11 in the chibi-quest look[32m 6[2mms[22m[39m
+     [32m✓[39m keeps the step 6 grammar conditional in both looks[32m 10[2mms[22m[39m
+     [32m✓[39m shows Preview Vocabulary in the in-book teacher pages[32m 13[2mms[22m[39m
+     [32m✓[39m keeps the answer key labels Multiple Choice and Short Answer Hint[32m 5[2mms[22m[39m
+     [32m✓[39m shows no step name in the TOC, and the TOC does not change with the look[32m 7[2mms[22m[39m
+     [32m✓[39m shows the 13 classic names with classic and with no look[32m 8[2mms[22m[39m
+     [32m✓[39m leaks no app-only name into classic[32m 8[2mms[22m[39m
+     [32m✓[39m keeps the golden Origins 3.2 lesson byte-identical[32m 22[2mms[22m[39m
+     [32m✓[39m keeps the classic step names and the step map[32m 1[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-step-names.test.ts[2m > [22mchibi-quest step names in lesson pages[2m > [22mshows the 13 app names in order
+[31m[1mAssertionError[22m: expected [ 'Introduction', …(12) ] to deeply equal [ 'Introduction', …(12) ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -1,9 +1,9 @@[39m
+[2m  [[22m
+[2m    "Introduction",[22m
+[2m    "Preview Vocabulary",[22m
+[32m-   "First Reading",[39m
+[31m+   "First Read",[39m
+[2m    "Vocabulary Collection",[22m
+[2m    "Deep Reading",[22m
+[2m    "Sentence Collection",[22m
+[2m    "Multiple Choice",[22m
+[2m    "Short Answer",[22m
+
+[36m [2m❯[22m __tests__/chibi-quest-step-names.test.ts:[2m100:20[22m[39m
+    [90m 98| [39m    [35mconst[39m titles [33m=[39m [34msectionTitles[39m(html)[33m;[39m
+    [90m 99| [39m    [34mexpect[39m(titles)[33m.[39m[34mtoHaveLength[39m([34m13[39m)[33m;[39m
+    [90m100| [39m    [34mexpect[39m(titles)[33m.[39m[34mtoEqual[39m([33mCHIBI_NAMES[39m)[33m;[39m
+    [90m   | [39m                   [31m^[39m
+    [90m101| [39m  })[33m;[39m
+    [90m102| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 11:11:40
+[2m   Duration [22m 962ms[2m (transform 149ms, setup 43ms, import 222ms, tests 147ms, environment 343ms)[22m
+

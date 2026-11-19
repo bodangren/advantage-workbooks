@@ -1,0 +1,66 @@
+Green role log, Track primary_v2_look_20261020, Phase "## Phase S4: App step names in the v2 books", Task S4.3.
+Session: Green · S4 S4.3 · primary_v2_look. Model: opencode-go/deepseek-v4.1-flash (DeepSeek V4.1 Flash 1017).
+phase_base_sha: a4f52b9e968f47e062bfdf923b0de507a42644f0
+role_base_sha: 18d02125ac0e7c61c5ad8d42782e918c1bc6eb8d
+Red model for this phase: Muse (opencode-go/muse-spark-1.3-contributor#high). No coder was spawned.
+Red commits inside phase_base..role_base: a41e3a5b (Red tests), 18d02125 (plan form). Confirmed with git log a4f52b9e..HEAD.
+
+## Provisional result (recorded before the mutant round)
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: partial
+track: primary_v2_look_20261020
+phase: ## Phase S4: App step names in the v2 books
+commits: cbb076ef (code, provisional)
+tests_run: gate 1 pass (11/11); gate 2 pass (16/16); PROJECT_TESTS 3 allowed other-track failures only; lint 0; tsc 0; mutant round pending
+files_changed: dashboard/templates/primary_template.html, dashboard/lib/document-wrapper/sections/teacher-guide.ts, dashboard/lib/workbook-document-wrapper.ts
+plan_updates: pending
+known_failures: mutant round not yet run
+handoff: provisional; the final block at the end of this log replaces it
+END_MEASURE_AGENT_RESULT
+
+## Red rerun before the edit (gate 1 precondition)
+
+Command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-step-names.test.ts'
+Result: wrapper exit 1. Tests 3 failed | 8 passed (11). Failing: shows the 13 app names in order; shows no classic-only name; shows Preview Vocabulary in the in-book teacher pages.
+Capture: green-s4-red-rerun.txt
+
+## Implementation
+
+Files changed (code commit cbb076ef):
+- dashboard/templates/primary_template.html: nine h2.section-title texts take the chibi name under `{{#if chibi_quest}}`. Steps 1 to 8 and 13 change. Steps 9 to 12 keep their names. Step 6 keeps its ` – {{grammar_search_term}}` suffix. Step 7 reads `{{#if ../chibi_quest}}`, because it sits inside `{{#each comprehension_questions}}`.
+- dashboard/lib/document-wrapper/sections/teacher-guide.ts: optional `look` parameter; the vocabulary heading reads `Preview Vocabulary` for `chibi-quest`, else `Key Vocabulary`. JSDoc added.
+- dashboard/lib/workbook-document-wrapper.ts line 98: pass `options.look` to `generateTeacherGuideSection`.
+
+No change in dashboard/lib/teacher-manual/. No test file changed. No golden file written.
+
+## Gates
+
+1. GREEN_TEST_COMMAND: exit 0. Tests 11 passed (11). Capture green-s4-tests.txt (final rerun after the mutant round; same result as the first passing run).
+2. Look tests (workbook-look.test.ts, chibi-quest-kit.test.ts): exit 0. Test Files 2 passed; Tests 16 passed (16). Capture green-s4-look-tests.txt.
+3. PROJECT_TESTS (exclude storytime-unit2-sound-stage.test.ts): exit 1. Test Files 2 failed | 161 passed (163); Tests 3 failed | 3107 passed (3110). The 3 failures are the recorded earlier failures of other tracks: constants.test.ts 'includes Adventures 1.0 as a primary workbook option'; origins-thai-support.test.ts origins-2-a0 and origins-3.1-a0. No other failure. Capture green-s4-project-tests.txt.
+4. PROJECT_LINT exactly as plan.md states it: exit 0, no output. Capture green-s4-lint.txt.
+5. PROJECT_CHECKS (npx tsc --noEmit): exit 0, 0 output lines. Capture green-s4-tsc.txt.
+6. Mutant gate: 6 of 6 rules have a mutant that a named test catches (M1, M2, M3b, M4, M5, M6). M3, the narrow step 6 title mutant, survives; the table records it with the reason. Capture green-s4-mutants.txt and green-s4-mutant-M1.txt, -M2.txt, -M3.txt, -M3b.txt, -M4.txt, -M5.txt, -M6.txt. Every broken file was copied back and checked with cmp.
+7. Classic golden: `git diff a4f52b9e -- 'dashboard/**/golden/**'` is empty and `git status --short` shows no golden path. Gate 2 passes. No pnpm command ran; pnpm-lock.yaml does not change.
+8. measure/doctor.sh does not exist in this repository (ls measure/doctor.sh: no file). The strategy's gates 1 to 5 are the documented live gate.
+
+## Plan
+
+Task S4.2: [x], commit a41e3a5b on the task line. Task S4.3: [x], commit cbb076ef on the task line, with the Green evidence sub-line. The Phase S4 User Manual Verification stays [ ]. No archive move and no closeout metadata change.
+
+## MEASURE_AGENT_RESULT
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S4: App step names in the v2 books
+commits: cbb076ef (code); plan evidence commit follows this log
+tests_run: gate 1 green (11 passed, exit 0); look tests green (16 passed, exit 0); PROJECT_TESTS exit 1 with only the 3 recorded earlier failures of other tracks (3107 passed); PROJECT_LINT exit 0; PROJECT_CHECKS exit 0; mutant gate 6 of 6 rules caught; classic golden unchanged
+files_changed: dashboard/templates/primary_template.html, dashboard/lib/document-wrapper/sections/teacher-guide.ts, dashboard/lib/workbook-document-wrapper.ts, measure/tracks/primary_v2_look_20261020/plan.md, measure/runs/primary_v2_look_20261020/green-s4-* (new)
+plan_updates: Task S4.2 [x] with commit a41e3a5b; Task S4.3 [x] with commit cbb076ef and a Green evidence sub-line; Phase S4 User Manual Verification stays [ ]
+known_failures: PROJECT_TESTS has the 3 earlier failures of other tracks (constants.test.ts "includes Adventures 1.0 as a primary workbook option"; origins-thai-support.test.ts origins-2-a0 and origins-3.1-a0); they fail at the phase base too. Mutant M3 (step 6 title suffix only) survives; green-s4-mutants.txt records it for Review A and the adversarial round.
+handoff: S4.3 is implemented in the S4.3 files only. Template commit id for the monorepo session (S7) is cbb076ef. Review A checks the 13 names in order in each look and the byte-identical golden. Review B checks that no look leaks a name. The adversarial round can reuse M1, M2, M3, M3b, M4, M5, M6. The M3 survivor is the narrow risk: the new test does not catch a step 6 title suffix deletion, because the template's "Challenge:" line holds the same token. Phase acceptance runs on cbb076ef or later.
+END_MEASURE_AGENT_RESULT
