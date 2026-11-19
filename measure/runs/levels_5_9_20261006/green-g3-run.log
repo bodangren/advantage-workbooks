@@ -1,0 +1,82 @@
+# Green result, Task 1.G3 part 2 (the run), levels_5_9_20261006
+
+Date: 2026-11-19. Role: measure-jr Green, run r2. Model: opencode-go/deepseek-v4.1-flash.
+Red of this phase: Muse. This Green spawns no coder.
+Role base: 318ba1148dfc621e030d11dcaaf2e9ed9e9bb197. Phase base: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7.
+
+## The database step
+
+The PM ran `g3-daniel-run.sh` at 07:16 on 2026-11-19, as his own step (PM decision). Both parts
+exited 0. The cross-check read the two databases and found no gap:
+
+- inventory 271 articles, monorepo 271 articles, 271 in both;
+- legacy only 0, monorepo only 0, differing text 0;
+- merged inventory 271 articles: level 5 92, level 6 88, level 7 4, level 8 38, level 9 49.
+
+The report is copied to `measure/runs/levels_5_9_20261006/g3-crosscheck.txt`; `cmp` against the
+handoff copy exits 0. The merged inventory stays outside git, in
+`~/Desktop/handoff/levels-5-9-passages-2026-11-19/`.
+
+## The grouping run
+
+The command is the one of plan Task 1.G3, from `dashboard/`, with the merged inventory as
+`--inventory`. Two heavy-runs, each with `set -o pipefail` and `tee`:
+
+1. Run 1 exit 0. Capture `g3-run.txt`.
+2. Run 2 exit 0. Capture `g3-run-2.txt`.
+3. `cmp` on `duplicates-levels-5-9.json` against its copy exits 0.
+4. `cmp` on `duplicates-levels-5-9.md` against its copy exits 0.
+
+The two files:
+
+- `docs/content-plans/data/duplicates-levels-5-9.json`, sha256
+  `1df3f1ec6fdfbe6869f6ed0cce70530e365324c1e5315b42300deb621c949466`
+- `docs/content-plans/level-plans/duplicates-levels-5-9.md`, sha256
+  `15bf6a37503c3141685b6a96a3423f3c03651955631b7cb346d79002aab7a7a3`
+
+Per-level counts and keep counts: level 5 92 online, keep 50, 42 similar in 23 groups, weakest
+merge 0.31. Level 6 88, keep all. Level 7 4, keep all. Level 8 38, keep all. Level 9 49, keep all.
+The counts match the 2026-10-08 inventory (92, 88, 4, 38, 49): no difference.
+
+## The checks
+
+`g3-checks.sh` exits 0 and all its checks pass. Capture `g3-checks.txt`.
+
+- `grep -c '/home/'` is 0 in both files; `grep -c '/tmp'` is 0 in both files.
+- Thai characters (U+0E00 to U+0E7F) are 0 in both files.
+- The heading and the three intro strings of Task 1.G1 are present, word for word.
+- The table header is `| Keep | Similar |`; the file holds one table; `Delete` is absent.
+- Levels 6 to 9 are below target, so each holds the keep-all line and no table.
+- Level 5 keeps 50, which is at most 50.
+
+`git status --porcelain docs/` shows only the two new files. The levels 1-4 outputs are unchanged:
+`duplicates-levels-1-4.json` sha256 `a5ab0dc0c018ccc7899a1af3cba42ea41e6182de8c211da431a83f3c079f0c56`,
+`duplicates.md` sha256 `3e43144ef2229cd6efc72fffe5979e91a24e1c63a4be6103ebb2a0fc7c945a70`. Both values match
+the ones taken before the run.
+
+## Plan
+
+Task 1.G3 turns `[x]` with `commit 9aaa689` on the task line and evidence class automated. One
+evidence sub-line records the PM run, the cross-check counts, the run exits, the `cmp` results, the
+sha256 values, the per-level counts and keep counts, and the "no difference" note. No task turns
+`[b]`. No closeout metadata changes.
+
+The two check-script defects of this run were in my own checker, not in the output: a regex read
+`**keep**` and `|---|` as metacharacters. The checker now uses fixed-string matching, and the
+output files did not change.
+
+MEASURE_AGENT_RESULT
+role: measure-jr Green
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1: Decisions, inventory, tools, calibration
+role_base_sha: 318ba1148dfc621e030d11dcaaf2e9ed9e9bb197
+phase_base_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+head: 9aaa689ab26783e2bb3091d71e543378d8578306 at the output commit; the evidence commit follows
+commits: 9aaa689a content(levels_5_9): provisional grouping of the level 5-9 old articles for Daniel's level review (Task 1.G3); the evidence commit holds measure/tracks/levels_5_9_20261006/plan.md and measure/runs/levels_5_9_20261006/green-g3-run.log
+tests_run: PM run of g3-daniel-run.sh exit 0 at 07:16 with cross-check 271/271/271, 0 legacy only, 0 monorepo only, 0 differing; heavy-run 1 exit 0, capture g3-run.txt; heavy-run 2 exit 0, capture g3-run-2.txt; cmp json exit 0; cmp md exit 0; g3-checks.sh exit 0 with every check pass, capture g3-checks.txt
+files_changed: docs/content-plans/data/duplicates-levels-5-9.json and docs/content-plans/level-plans/duplicates-levels-5-9.md (new outputs), measure/runs/levels_5_9_20261006/g3-crosscheck.txt and g3-run.txt and g3-run-2.txt and g3-checks.txt (commit 9aaa689a); measure/tracks/levels_5_9_20261006/plan.md and measure/runs/levels_5_9_20261006/green-g3-run.log (evidence commit)
+plan_updates: Task 1.G3 flips to [x] with commit 9aaa689 on the task line and evidence class automated; one evidence sub-line holds the PM run, the cross-check counts, both run exits, the cmp results, both sha256 values, the per-level counts and keep counts (92/50, 88/88, 4/4, 38/38, 49/49), and the no-difference note against 2026-10-08; no task turns [b]; no archive or closeout metadata change
+known_failures: none; the merged passages inventory stays outside git in ~/Desktop/handoff/levels-5-9-passages-2026-11-19/
+handoff: The provisional grouping is committed for Daniel's level review. Both outputs are byte-identical across two runs: json sha256 1df3f1ec6fdfbe6869f6ed0cce70530e365324c1e5315b42300deb621c949466, md sha256 15bf6a37503c3141685b6a96a3423f3c03651955631b7cb346d79002aab7a7a3. Level 5 is the only level that merges: 23 groups, weakest merge 0.31, keep 50 of 92. Levels 6 to 9 are below target and keep all. The next step is the phase review gates (Task 1.G4) on the head after this evidence commit, then phase acceptance. The levels 1-4 outputs and the two levels 5-9 output paths are unchanged from their expected hashes, and `git status --porcelain docs/` held only the two new files. No product decision blocks this run.
+END_MEASURE_AGENT_RESULT
