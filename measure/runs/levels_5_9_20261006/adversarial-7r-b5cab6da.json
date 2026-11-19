@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "role": "measure-adversarial-testing",
+  "track": "levels_5_9_20261006",
+  "phase": "## Phase 7R: Rebuild map (Daniel 2026-11-19)",
+  "baseline_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "phase_base_sha": "3a929928f9f45791ca2c6a5945f26707f79a7f7d",
+  "role_base_sha": "b5cab6dadeb08f40a36888a55c32ab84de681fd7",
+  "audited_head_sha": "b5cab6dadeb08f40a36888a55c32ab84de681fd7",
+  "status": "fail",
+  "summary": "One adversarial round on the Phase 7R head b5cab6da (dashboard/scripts/rebuild-map.ts, dashboard/__tests__/rebuild-map.test.ts, docs/content-plans/data/rebuild-map-levels-5-9.json). 10 new tests in dashboard/__tests__/rebuild-map.adversarial.test.ts close review A F1 and F2 and review B F1 and F2 as tests, plus 4 risk edges. A-F1 closes: a default-input run through the script's own folder reader writes the committed map byte for byte, and the mutant proof shows that Green mutant d (a reversed reader order) now fails that named test (before this round the mutant survived gate 1 because the Red file enumerates the folders itself). A-F2 closes: a level with more kept ids than packages throws from buildRebuildMap and main exits 2 with no write. Two defects route to Green. DEFECT-1 (review B F1): a --duplicates file with no groups key, or with an empty groups array, is accepted: main returns 0 and overwrites the existing out file with an empty map; both new tests fail at b5cab6da. DEFECT-2 (review B F2): a --out-json whose parent folder does not exist raises an uncaught ENOENT from the write at rebuild-map.ts:231 instead of the exit 2 path; the new test fails at b5cab6da. The combined run gives 30 passed and 3 failed (exactly the defect tests); the Red file keeps its 23 passes. A missing keep key in a group is pinned as current behavior (the map row holds the string 'undefined'), uncontracted by the plan and the strategy.",
+  "blocking_findings": [
+    "DEFECT-1 [Major] review-b F1 for Green: tests 'rejects a duplicates file with no groups key: exit 2, out file byte-identical' and 'rejects a duplicates file with an empty groups array: exit 2, out file byte-identical' (dashboard/__tests__/rebuild-map.adversarial.test.ts) fail at b5cab6da with 'expected +0 to be 2': readKeepGroups defaults a missing groups key to an empty array (dashboard/scripts/rebuild-map.ts:94), no check rejects zero kept ids, main writes an empty map (0 map rows, 550 newIds rows over the real content root) over the existing --out-json and returns 0. A wrong input file therefore replaces the Phase 7 injector input and reports success. The test-strategy Phase 7R risks cover this: the 7R.5 table row 'A missing kept id' (an empty map drops every kept id of every level) and the row 'Count mismatch' (kept 0 against the keep counts 50, 88, 4, 38, 49 that 7R.3 pins). Fix in dashboard/scripts/rebuild-map.ts: reject a duplicates input with no groups key or an empty groups array before the write: print the message then the usage to stderr, return 2, write nothing, leave the out file untouched.",
+    "DEFECT-2 [Major] review-b F2 for Green: test 'exits 2 when the out folder does not exist, with no stack trace, and writes nothing' (dashboard/__tests__/rebuild-map.adversarial.test.ts) fails at b5cab6da with an uncaught 'ENOENT: no such file or directory' raised from fs.writeFileSync at dashboard/scripts/rebuild-map.ts:231: the write sits outside the try block of main (lines 224 to 230), so a missing parent folder raises with a stack trace instead of the documented exit 2 ('2 when the options or the input fail', rebuild-map.ts:208). Fix in dashboard/scripts/rebuild-map.ts: cover the write in the error path; print the message then the usage to stderr, return 2, write nothing."
+  ],
+  "nonblocking_findings": [
+    "F3 [Nit] adversarial-testing: a duplicates group with no keep key maps to the keep id string 'undefined' (dashboard/scripts/rebuild-map.ts:94, String(group.keep) of an absent key). Pinned as current behavior by test 'maps a group with no keep key to the keep id \"undefined\" (current behavior; uncontracted)' (dashboard/__tests__/rebuild-map.adversarial.test.ts): exit 0, one map row { level: 5, keepId: 'undefined', package: 'quest-5/l01' }, no newIds row. The plan and the strategy state no rule for a missing keep key. A later hardening may reject it; that change must then update this test with a plan line."
+  ],
+  "evidence": [
+    "Provenance: git rev-parse HEAD -> b5cab6dadeb08f40a36888a55c32ab84de681fd7 before the round, equal to the audited head of reviews A and B.",
+    "A-F1 closed: test 'a default-input run writes the committed map byte for byte' passes at b5cab6da. It runs main with only --out-json, so the run reads the default duplicates JSON and enumerates the default content root with the script's own listPackages, then compares the written file with docs/content-plans/data/rebuild-map-levels-5-9.json byte for byte.",
+    "Mutant d proof (capture measure/runs/levels_5_9_20261006/adversarial-7r-mutants.txt): with '.sort().reverse()' in listPackages, the heavy-run of the adversarial file gives exit 1, 'Tests 4 failed | 6 passed (10)', and failure 1 of 4 is the named A-F1 test with a full byte diff of the map (every level pairs its keeps with the reversed package order). Before this round, green-7r-mutants.txt row d shows the mutant passing all 23 gate-1 tests. Restore: cmp equal, sha256 d3f3777b on both files, git status --porcelain dashboard/scripts docs/content-plans empty.",
+    "A-F2 closed: tests 'throws from buildRebuildMap when a level has more kept ids than packages' and 'exits 2 from main and writes no file when a level has more kept ids than packages' pass at b5cab6da (2 keeps over 1 package: the guard at rebuild-map.ts:183 to 185 fires, main exits 2, no write, no stack line).",
+    "DEFECT-1 proven: the two B-F1 tests fail at b5cab6da with 'expected +0 to be 2' (combined capture adversarial-7r-b5cab6da.txt, failures 1 and 2 of 3); the sentinel out file is overwritten by the current main.",
+    "DEFECT-2 proven: the B-F2 test fails at b5cab6da with the uncaught ENOENT from Module.main scripts/rebuild-map.ts:231 (combined capture, failure 3 of 3).",
+    "Risk edges pass at b5cab6da: an unknown level (level 4 in a group) exits 2 and leaves an existing sentinel out file untouched; the same keep id in two groups of different levels is rejected (exit 2, no write) by the repeated-keep guard at rebuild-map.ts:157; a duplicates file that is not valid JSON exits 2 with the message then the usage and no stack line, out file untouched; a group with no keep key maps to keepId 'undefined' (current behavior, uncontracted, pinned).",
+    "Regression: the combined heavy-run holds the Red file's 23 tests as well; the only failures in the whole run are the 3 defect tests, so the Phase 7R contract and the committed map stand at this head (capture adversarial-7r-b5cab6da.txt: 'Tests 3 failed | 30 passed (33)', 'Test Files 1 failed | 1 passed (2)').",
+    "Hygiene: npx eslint __tests__/rebuild-map.adversarial.test.ts exits 0; git status --porcelain dashboard/scripts docs/content-plans is empty at round end; every test writes only under os.tmpdir().",
+    "Thai rule: the round opens no lesson package JSON under content/; the default-input run lists package file names and reads the committed duplicates JSON (ids and counts). grep -cP '[\\x{0E00}-\\x{0E7F}]' gives 0 on every one of the 5 files this round commits."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> b5cab6dadeb08f40a36888a55c32ab84de681fd7 (before the round)",
+    "cd dashboard && npx eslint __tests__/rebuild-map.adversarial.test.ts -> exit 0",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.adversarial.test.ts __tests__/rebuild-map.test.ts 2>&1 | tee ../measure/runs/levels_5_9_20261006/adversarial-7r-b5cab6da.txt' -> exit 1 (pipefail), Tests 3 failed | 30 passed (33): the Red file 23 passed, the adversarial file 7 passed and the 3 B-F1/B-F2 defect tests failed",
+    "cp dashboard/scripts/rebuild-map.ts /tmp/opencode/rebuild-map-7r-pristine.ts; edit line 111 of listPackages to '.sort().reverse();' (mutant d)",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.adversarial.test.ts 2>&1 | tee /tmp/opencode/adversarial-7r-mutant-d.txt' -> exit 1, Tests 4 failed | 6 passed (10), failure 1 of 4 is the named A-F1 test 'a default-input run writes the committed map byte for byte'",
+    "cp /tmp/opencode/rebuild-map-7r-pristine.ts dashboard/scripts/rebuild-map.ts; cmp -> equal; sha256sum -> d3f3777b on both",
+    "grep -cP '[\\x{0E00}-\\x{0E7F}]' on each of the 5 committed files -> 0",
+    "git status --porcelain dashboard/scripts docs/content-plans -> empty"
+  ],
+  "changed_files": [
+    "dashboard/__tests__/rebuild-map.adversarial.test.ts",
+    "measure/runs/levels_5_9_20261006/adversarial-7r-b5cab6da.txt",
+    "measure/runs/levels_5_9_20261006/adversarial-7r-b5cab6da.json",
+    "measure/runs/levels_5_9_20261006/adversarial-7r-b5cab6da.log",
+    "measure/runs/levels_5_9_20261006/adversarial-7r-mutants.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "opencode-go/glm-5.3#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "The committed map is byte-identical to a default-input run (A-F1 test passes) and every guarded edge holds, but the B-F1 and B-F2 paths fail their new tests at b5cab6da (combined capture: 3 failed)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "Each dispositioned finding has a named test that fails first at b5cab6da, and the mutant proof shows mutant d fails the named A-F1 test (adversarial-7r-mutants.txt: Tests 4 failed, failure 1 of 4 is the A-F1 test)."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The round changes only dashboard/__tests__/rebuild-map.adversarial.test.ts plus this track's four measure/runs captures; git status --porcelain dashboard/scripts docs/content-plans is empty and the script sha after the mutant restore is d3f3777b, equal to the pristine copy."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a command result or a file:line: the combined run exit 1 with Tests 3 failed | 30 passed (33), the mutant run with the named failing test, eslint exit 0, and the 0-count Thai grep on all 5 committed files."
+    }
+  ]
+}

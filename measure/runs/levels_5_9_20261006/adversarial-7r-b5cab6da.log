@@ -1,0 +1,29 @@
+Adversarial round for Phase 7R, track levels_5_9_20261006.
+Role: measure-adversarial-testing. Head audited: b5cab6dadeb08f40a36888a55c32ab84de681fd7.
+Phase base: 3a929928f9f45791ca2c6a5945f26707f79a7f7d. Role base: b5cab6dadeb08f40a36888a55c32ab84de681fd7.
+
+New file: dashboard/__tests__/rebuild-map.adversarial.test.ts, 10 tests. The Red file is unchanged. The script and the committed map are unchanged (mutant d was applied for its proof and restored; cmp equal, sha256 d3f3777b).
+
+Dispositions closed as tests:
+- A-F1: 'a default-input run writes the committed map byte for byte'. Only --out-json is given, so the run reads the default duplicates JSON and enumerates the default content root with the script's own reader (listPackages), not a test-side list. The mutant proof (adversarial-7r-mutants.txt) shows Green mutant d (a reversed folder reader order) now fails this named test: under the mutant the file gives 'Tests 4 failed | 6 passed (10)' and failure 1 of 4 is this test with a full byte diff of the map. Before this round the mutant passed all 23 gate-1 tests (green-7r-mutants.txt row d).
+- A-F2: 'throws from buildRebuildMap when a level has more kept ids than packages' and 'exits 2 from main and writes no file when a level has more kept ids than packages'. Both pass at b5cab6da: the guard at rebuild-map.ts:183 fires, main exits 2, no write, no stack line.
+- B-F1 [DEFECT at b5cab6da, routed to Green]: 'rejects a duplicates file with no groups key: exit 2, out file byte-identical' and 'rejects a duplicates file with an empty groups array: exit 2, out file byte-identical'. Both fail at b5cab6da with 'expected +0 to be 2': main accepts the wrong shape, overwrites the existing out file with an empty map, and returns 0. The test-strategy 7R.5 rows 'A missing kept id' and 'Count mismatch' cover this.
+- B-F2 [DEFECT at b5cab6da, routed to Green]: 'exits 2 when the out folder does not exist, with no stack trace, and writes nothing'. Fails at b5cab6da with the uncaught ENOENT from the write at rebuild-map.ts:231, which sits outside the try block.
+
+Risk edges, all passing at b5cab6da: an unknown level (level 4 in a group) exits 2 and leaves an existing sentinel out file untouched; the same keep id in two groups of different levels is rejected; a duplicates file that is not valid JSON exits 2 with the message then the usage, no stack line, out file untouched; a group with no keep key maps to keepId 'undefined' (current behavior, uncontracted, pinned as a Nit for the record).
+
+Combined run (capture adversarial-7r-b5cab6da.txt): exit 1, 'Tests 3 failed | 30 passed (33)', 'Test Files 1 failed | 1 passed (2)'. The Red file keeps its 23 passes; the only failures are the 3 defect tests. eslint on the new file exits 0. grep for U+0E00 to U+0E7F gives 0 on every committed file. git status --porcelain dashboard/scripts docs/content-plans is empty.
+
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: partial
+track: levels_5_9_20261006
+phase: ## Phase 7R: Rebuild map (Daniel 2026-11-19)
+commits: the round commits dashboard/__tests__/rebuild-map.adversarial.test.ts plus the four measure/runs captures of this round (the commit sha is in the orchestrator record; this log is written before the commit)
+tests_run: heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.adversarial.test.ts __tests__/rebuild-map.test.ts 2>&1 | tee ../measure/runs/levels_5_9_20261006/adversarial-7r-b5cab6da.txt' -> exit 1, Tests 3 failed | 30 passed (33), Test Files 1 failed | 1 passed (2) (the Red file 23 passed; the adversarial file 7 passed; the 3 failures are the B-F1 and B-F2 defect tests); heavy-run mutant d (listPackages '.sort().reverse()') -> exit 1, Tests 4 failed | 6 passed (10), failure 1 of 4 is the named test 'a default-input run writes the committed map byte for byte'; cp back and cmp equal (sha256 d3f3777b); cd dashboard && npx eslint __tests__/rebuild-map.adversarial.test.ts -> exit 0; grep -cP '[\x{0E00}-\x{0E7F}]' -> 0 on each of the 5 committed files
+files_changed: dashboard/__tests__/rebuild-map.adversarial.test.ts (new), measure/runs/levels_5_9_20261006/adversarial-7r-b5cab6da.txt, measure/runs/levels_5_9_20261006/adversarial-7r-b5cab6da.json, measure/runs/levels_5_9_20261006/adversarial-7r-b5cab6da.log, measure/runs/levels_5_9_20261006/adversarial-7r-mutants.txt
+plan_updates: none; the result file measure/runs/levels_5_9_20261006/adversarial-7r-b5cab6da.json is the record of this round
+known_failures: the 3 defect tests fail at b5cab6da and route to Green: 'rejects a duplicates file with no groups key: exit 2, out file byte-identical', 'rejects a duplicates file with an empty groups array: exit 2, out file byte-identical' (DEFECT-1, review B F1), and 'exits 2 when the out folder does not exist, with no stack trace, and writes nothing' (DEFECT-2, review B F2). No other test in this round fails; the Red file holds its 23 passes.
+handoff: Route DEFECT-1 and DEFECT-2 to Green in dashboard/scripts/rebuild-map.ts only: reject a duplicates input with no groups key or an empty groups array before the write (exit 2, message then usage on stderr, no write, the out file untouched), and cover the write in the error path (a missing out parent folder exits 2 with no stack trace and no partial file). The 3 defect tests must pass after the Green commit with no other test change. The Nit F3 (a missing keep key maps to 'undefined') is pinned current behavior; a hardening that rejects it must update that test with a plan line. Any later implementation commit to dashboard/scripts/rebuild-map.ts invalidates this result and needs this gate again.
+dispositions: A-F1=FIX; A-F2=FIX; B-F1=FIX; B-F2=FIX
+END_MEASURE_AGENT_RESULT

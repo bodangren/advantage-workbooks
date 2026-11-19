@@ -1,0 +1,47 @@
+# Adversarial round Phase 7R, mutant d proof, 2026-11-19
+
+Source under mutation: `dashboard/scripts/rebuild-map.ts` at head b5cab6da.
+Named test that must catch the mutant: 'a default-input run writes the
+committed map byte for byte' in `dashboard/__tests__/rebuild-map.adversarial.test.ts`.
+
+Why the mutant survived gate 1 before this round: the Red file
+`dashboard/__tests__/rebuild-map.test.ts` enumerates the package folders
+itself (its own `enumeratePackages`), so no gate-1 test ever read the
+script's folder reader `listPackages`. Green mutant d (a reversed reader
+order) passed all 23 gate-1 tests; only the committed-map comparison
+outside the test run caught it (green-7r-mutants.txt, row d).
+
+Procedure (as briefed):
+
+1. `cp dashboard/scripts/rebuild-map.ts /tmp/opencode/rebuild-map-7r-pristine.ts`
+   (sha256 d3f3777b4dcbaf8c496bf211817a319e70afbb84666be37f3bd7f8ee98d0c421).
+2. Apply mutant d in `listPackages`: line 111 `.sort();` becomes
+   `.sort().reverse();` (the same mutation as Green mutant d: reverse the
+   package order of the folder reader). `git diff --stat` shows
+   `dashboard/scripts/rebuild-map.ts | 3 ++-`.
+3. One heavy-run of the adversarial file only:
+   `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/rebuild-map.adversarial.test.ts 2>&1 | tee /tmp/opencode/adversarial-7r-mutant-d.txt'`
+4. `cp /tmp/opencode/rebuild-map-7r-pristine.ts dashboard/scripts/rebuild-map.ts`.
+5. `cmp /tmp/opencode/rebuild-map-7r-pristine.ts dashboard/scripts/rebuild-map.ts`
+   -> equal; sha256 of both d3f3777b...; `git status --porcelain dashboard/scripts
+   docs/content-plans` -> empty.
+
+Result: exit 1. `Tests 4 failed | 6 passed (10)`.
+
+The 4 failures, in vitest order:
+
+| # | Failed test | Failure form |
+|---|---|---|
+| 1 | 'a default-input run writes the committed map byte for byte' (A-F1, the named test) | The written map differs from the committed file: every level pairs its keeps with the reversed package order (for example level 6 'adventure-7.2' rows shift from l01..l14 to l14..l01, bank-6 from b001.. to b108..). CAUGHT: the mutant no longer survives a named gate test. |
+| 2 | 'rejects a duplicates file with no groups key: exit 2, out file byte-identical' (B-F1 defect) | expected +0 to be 2. Fails at the pristine head too; routed to Green. |
+| 3 | 'rejects a duplicates file with an empty groups array: exit 2, out file byte-identical' (B-F1 defect) | expected +0 to be 2. Fails at the pristine head too; routed to Green. |
+| 4 | 'exits 2 when the out folder does not exist, with no stack trace, and writes nothing' (B-F2 defect) | Uncaught ENOENT from scripts/rebuild-map.ts:232 (the write inside the try-less tail). Fails at the pristine head too; routed to Green. |
+
+Readings: the mutant changes only the reader order, so failures 2 to 4 are the
+same defect failures as at the pristine head (combined run: 3 failed, 30
+passed). Failure 1 is new under the mutant and proves that the A-F1 test reads
+the script's own folder reader: a reversed reader order now fails a named test,
+so mutant d is caught by gate 1 form.
+
+Restore proof: cmp equal; sha256 d3f3777b on both files;
+`git status --porcelain dashboard/scripts docs/content-plans` empty.
