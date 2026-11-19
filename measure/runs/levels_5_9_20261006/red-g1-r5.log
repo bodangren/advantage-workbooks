@@ -1,0 +1,36 @@
+# Red retry r5: Task 1.G1, levels_5_9_20261006
+
+Date: 2026-11-19. Role: measure-mid Red.
+
+## What changed
+
+Only `dashboard/__tests__/plan-dedup.test.ts`. Four remediation tests cover the FIX findings
+of reviews A and C: missing `--inventory` (R-A-F1, parse and main), a `--targets` item with
+more than one `=` (R-A-F2), and a missing `--inventory` file (R-C-F2, with no stack trace).
+Each follows the style of the existing bad-option tests and copies spy calls before restore.
+
+## Gate evidence
+
+- `RED_TEST_COMMAND` with pipefail and tee: exit 1. Result: 37 passed, 4 failed.
+- Only the 4 new cases fail, each for the real gap: `parseDedupArgs` crashes with TypeError
+  at `plan-dedup.ts:196` without `--inventory`; `parseTargets` accepts `5=50=x` as 5=50;
+  `main` crashes with ENOENT on a missing inventory file.
+- Capture: `measure/runs/levels_5_9_20261006/red-g1-r5.txt`.
+- tsc grep for the test file: 0 lines. Capture: `red-g1-r5-tsc.txt`.
+- `npx eslint __tests__/plan-dedup.test.ts`: exit 0.
+
+MEASURE_AGENT_RESULT
+role: measure-mid Red
+status: complete
+track: levels_5_9_20261006
+phase: Phase 1G: Grouping of old articles (Tasks 1.G1 to 1.G5)
+role_base_sha: 3c87971ad7a84a1e94ec411e55035a92314a893e
+phase_base_sha: afbfcf0e19924f48b49a4b9e92ec3b6671f623e7
+head: 3c87971ad7a84a1e94ec411e55035a92314a893e at start; new SHA at commit time
+commits: test(levels_5_9): Red r5, missing --inventory, bad targets item, missing inventory file (review A F1/F2, C F1/F2)
+tests_run: RED_TEST_COMMAND with pipefail and tee exit 1, 37 passed, 4 failed, capture red-g1-r5.txt; tsc grep for plan-dedup.test 0 lines, capture red-g1-r5-tsc.txt; eslint __tests__/plan-dedup.test.ts exit 0
+files_changed: dashboard/__tests__/plan-dedup.test.ts (4 remediation tests); plan.md (r5 evidence line, task stays [x]); red-g1-r5.txt, red-g1-r5-tsc.txt, red-g1-r5.log (new)
+plan_updates: r5 evidence line added under Task 1.G1 (role_base_sha 3c87971a, exit 1, 37 passed, 4 failed, tsc 0 lines, eslint 0); Task 1.G1 stays [x]
+known_failures: returns ok false for a missing --inventory (TypeError at plan-dedup.ts:196); prints missing --inventory, then the usage, to stderr and exits 2 with empty stdout (same TypeError via main); rejects a targets item with more than one equals sign (parse returns ok true); names a missing inventory file and exits 2 without a stack trace (ENOENT crash). R-A-F3 and R-B-F1 are DECLINE with no test.
+handoff: The 4 new tests fail only on the FIX findings and turn green when Green implements the three messages and exit codes. The 37 old tests all pass. No production file changed.
+END_MEASURE_AGENT_RESULT

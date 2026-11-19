@@ -829,6 +829,94 @@ describe('bad option values', () => {
     expect(stderr).toContain(`printed file not found: ${missing}`);
     expect(stderr.indexOf(`printed file not found: ${missing}`)).toBeLessThan(stderr.indexOf('Usage'));
   });
+
+  it('returns ok false for a missing --inventory', () => {
+    for (const argv of [[], ['--levels', '5', '--targets', '5=50']]) {
+      const parsed = mod.parseDedupArgs(argv);
+      expect((parsed as ParseFail).ok).toBe(false);
+      expect((parsed as ParseFail).message).toBe('missing option: --inventory');
+      expect((parsed as ParseFail).usage).toContain('Usage');
+    }
+  });
+
+  it('prints missing --inventory, then the usage, to stderr and exits 2 with empty stdout', () => {
+    for (const argv of [[], ['--levels', '5', '--targets', '5=50']]) {
+      const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      let code = 0;
+      let stderr = '';
+      let stdout = '';
+      try {
+        code = mod.main(argv);
+      } finally {
+        stderr = errSpy.mock.calls.map((c) => c.map(String).join(' ')).join('\n');
+        stdout = logSpy.mock.calls.map((c) => c.map(String).join(' ')).join('\n');
+        errSpy.mockRestore();
+        logSpy.mockRestore();
+      }
+      expect(code).toBe(2);
+      expect(stderr).toContain('missing option: --inventory');
+      expect(stderr.indexOf('missing option: --inventory')).toBeLessThan(stderr.indexOf('Usage'));
+      expect(stdout).toBe('');
+    }
+  });
+
+  it('rejects a targets item with more than one equals sign', () => {
+    const dir = makeTmp();
+    const inventoryPath = path.join(dir, 'inv.json');
+    fs.writeFileSync(inventoryPath, JSON.stringify({ articles: [inventArticle('q1', 5)] }));
+    const argv = ['--inventory', inventoryPath, '--levels', '5', '--targets', '5=50=x'];
+    const parsed = mod.parseDedupArgs(argv);
+    expect((parsed as ParseFail).ok).toBe(false);
+    expect((parsed as ParseFail).message).toContain('5=50=x');
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    let code = 0;
+    let stderr = '';
+    try {
+      code = mod.main(argv);
+    } finally {
+      stderr = errSpy.mock.calls.map((c) => c.map(String).join(' ')).join('\n');
+      errSpy.mockRestore();
+      logSpy.mockRestore();
+    }
+    expect(code).toBe(2);
+    expect(stderr).toContain('5=50=x');
+    expect(stderr.indexOf('5=50=x')).toBeLessThan(stderr.indexOf('Usage'));
+  });
+
+  it('names a missing inventory file and exits 2 without a stack trace', () => {
+    const dir = makeTmp();
+    const missing = path.join(dir, 'no-such-inventory.json');
+    const outJson = path.join(dir, 'out.json');
+    const outMd = path.join(dir, 'out.md');
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    let code = 0;
+    let stderr = '';
+    try {
+      code = mod.main([
+        '--inventory',
+        missing,
+        '--levels',
+        '5',
+        '--targets',
+        '5=50',
+        '--out-json',
+        outJson,
+        '--out-md',
+        outMd,
+      ]);
+    } finally {
+      stderr = errSpy.mock.calls.map((c) => c.map(String).join(' ')).join('\n');
+      errSpy.mockRestore();
+      logSpy.mockRestore();
+    }
+    expect(code).toBe(2);
+    expect(stderr).toContain(`inventory file not found: ${missing}`);
+    expect(stderr.indexOf(`inventory file not found: ${missing}`)).toBeLessThan(stderr.indexOf('Usage'));
+    expect(stderr.split('\n').filter((line) => line.startsWith('    at '))).toHaveLength(0);
+  });
 });
 
 describe('clean import', () => {
