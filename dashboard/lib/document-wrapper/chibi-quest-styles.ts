@@ -126,8 +126,11 @@ body.look-chibi-quest {
   margin: 0;
 }
 /* F26 (review A r7): paragraph 1 shares the hero row and sits outside the article-text
-   element in the template. Give it the same print type as paragraphs 2+ (template :1387-1390). */
-.look-chibi-quest .chibi-hero-row .paragraph { font-size: 12pt; line-height: 2; }
+   element in the template. Give it the same print type as paragraphs 2+ (template :1387-1390).
+   Drop its bottom margin so the taller 24 pt paragraph keeps the row on page 3 (P17). */
+.look-chibi-quest .chibi-hero-row .paragraph { font-size: 12pt; line-height: 2; margin-bottom: 0; }
+/* F27: the key sits before the row. A chibi-only compact box keeps the row on page 3 (P17). */
+.look-chibi-quest .read-article-step .marking-legend { margin-bottom: 4px; padding: 2px 10px; }
 
 /* Step 3 keeps its title and QR box with the article (P17, spec.md line 72). The top margin of
    the step header stays the UX-1 4 mm rule. */
