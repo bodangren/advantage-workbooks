@@ -25,10 +25,7 @@ export const A4_PAGE = '210mm 297mm';
 /** The style block of a look (its fonts and CSS): empty for `classic`, so the classic head does not change. */
 function lookStyle(options: WorkbookDocumentOptions): string {
   if (options.look !== 'chibi-quest') return '';
-  // The page-flow guard finds the row by the first class-name occurrence in the document.
-  // Escape the identifier in the embedded stylesheet so that occurrence is the lesson markup,
-  // not the CSS selector. CSSOM resolves the escape to the same selector and the same layout.
-  const css = getChibiQuestStyles().replaceAll('chibi-hero-row', '\\63 hibi-hero-row');
+  const css = getChibiQuestStyles();
   return `
   <style data-look="chibi-quest">
 ${chibiQuestFontFaceCss()}
