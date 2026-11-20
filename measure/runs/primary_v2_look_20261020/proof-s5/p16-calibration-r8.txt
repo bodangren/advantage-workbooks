@@ -1,0 +1,13 @@
+P16 calibration (review A F23) — exact point sizes from Ghostscript txtwrite XML
+threshold 8 pt minus tolerance 0.05 pt
+
+| fixture pt | measured pt | P16 result | expected |
+|---|---|---|---|
+| 7 | 7.0000 | fail | ok |
+| 7.5 | 7.5000 | fail | ok |
+| 7.75 | 7.7500 | fail | ok |
+| 7.9 | 7.9000 | fail | ok |
+| 8 | 8.0000 | pass | ok |
+| 8.25 | 8.2500 | pass | ok |
+
+RESULT: PASS

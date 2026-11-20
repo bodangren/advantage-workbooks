@@ -1,0 +1,42 @@
+Green S5.G4 r4 log — track primary_v2_look_20261020, Phase S5 (driver only, F23)
+Session: Green · S5 S5.G4 · primary_v2_look · r4
+Model: opencode-go/deepseek-v4.1-flash
+Date: 2026-11-20
+
+phase_base_sha: 04275398 (fix round 2 strategy commit)
+role_base_sha: 54cf54d86f2b349d10bbf9aa3c1a2d6f2bab3264
+Red model of this phase: Muse (opencode-go/muse-spark-1.3-contributor#high). Green family differs.
+No product CSS change. The r7 proof was not rebuilt.
+
+F23 fix in measure/runs/primary_v2_look_20261020/proof-s5/checks.py:
+- P16 now reads the size of every text span in points from Ghostscript txtwrite XML
+  (gs -sDEVICE=txtwrite -dTextFormat=0 writes size="7.5000"). No rounding is lost.
+- The threshold is 8.0 pt minus P16_TOL_PT = 0.05 pt. 7.9 pt fails; 8.0 pt passes.
+- New mode: python3 -I -B checks.py --p16-calibration. It builds one-page PDFs at known sizes in
+  a temp folder under proof-s5/, measures them, writes p16-calibration-r8.txt, and removes them.
+
+Calibration (p16-calibration-r8.txt): 7.0, 7.5, 7.75, and 7.9 pt fail; 8.0 and 8.25 pt pass.
+All measured values equal the fixture size to 4 decimals.
+
+P1 to P17 on proof-s5-r7 (read only, checks-r7b.txt): 17 checks, 1 failure, RESULT: FAIL.
+P1 to P15 and P17 exit 0. P16 exits 1:
+- quest5-l01: text spans 7732, spans_under_8pt 517, smallest_size_pt 7.50, italic_fonts 0
+- adventure92-l09: text spans 10653, spans_under_8pt 517, smallest_size_pt 7.50, italic_fonts 0
+The 7.50 pt text is the QR description ("Access the interactive article with audio, vocabulary
+pop-ups, and more."), the "WORD n: PARAGRAPH #:" labels, and a writing prompt
+("Use the planner and sentence frames first, then write a short paragraph.").
+So the r7 proof still prints text under 8 pt, and the earlier P16 pass was a false pass (F23).
+Proof round 7 is otherwise unchanged.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: blocked
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: driver fix and records in this commit at HEAD 54cf54d8; Red 98c6856b, code 967cef13
+tests_run: P16 calibration exit 0 (7.0/7.5/7.75/7.9 fail, 8.0/8.25 pass); P1 to P17 on r7: 16 checks exit 0, P16 exits 1 (min 7.50 pt)
+files_changed: proof-s5/checks.py (P16 exact point sizes and --p16-calibration); proof-s5/p16-calibration-r8.txt; checks-r7b.txt; check-P1..P17-r7b.txt; measure/tracks/primary_v2_look_20261020/plan.md; this log
+plan_updates: one truthful S5.G4 sub-line for F23 fix r4
+known_failures: P16 exits 1 on r7. The proof prints 517 text spans at 7.50 pt in each lesson. This is a real product gap, not a driver error.
+handoff: The F23 driver fix works and now measures points exactly. The task said to stop if P16 fails and not change CSS, so no product change was made. A Green r5 needs a new Red assertion for the three under-8 pt groups: the step 3 QR description, the WORD n and PARAGRAPH # labels, and the writing prompt line. The PM decision 2 asks for labels at 8 pt or more. Proof r7 and the r7 folder stay as they are. Never stage strategy-s5-8b27c9ea.log, review-*-s5-*, pa-s4-*, *.html, video/**, or dashboard/raw.json.
+END_MEASURE_AGENT_RESULT

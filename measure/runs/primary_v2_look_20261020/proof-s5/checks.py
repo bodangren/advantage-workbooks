@@ -11,7 +11,8 @@ ratio) and makes P8 compare the manifest git_head with the product at HEAD.
 Round 6 adds the P8 commit-id validation and narrows the P8 render scope.
 Round 7 (S5 fix round 2) sets the P8 scope to four Git pathspecs (review A r4
 F21) and adds P14 (hero width 84.8 mm), P15 (step-header gap), and P16 (label
-size and italic face).
+size and italic face). Round 8 (F23) makes P16 read exact point sizes from the
+Ghostscript txtwrite XML and adds --p16-calibration (fixtures 7.0 to 8.25 pt).
 P7 also asserts that the stripped print copy
 holds no unpkg script tag, and P8 compares the proof HTML hash and the tracked
 state of `dashboard` and `content`.
@@ -28,8 +29,10 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 
 from PIL import Image, ImageFont
 
@@ -546,7 +549,12 @@ def check_p13():
 
 P15_DPI = 300
 P15_MIN_MM = 3.0
-P16_MIN_PX = 10.66
+# P16 measures font sizes in points (review A F23). Ghostscript txtwrite XML writes the size of
+# every text span as a point value with 4 decimals, so no rounding is lost. A span passes when its
+# size is at least 8.0 pt minus this tolerance; 7.9 pt must fail.
+P16_MIN_PT = 8.0
+P16_TOL_PT = 0.05
+P16_CALIBRATION_PT = [7.0, 7.5, 7.75, 7.9, 8.0, 8.25]
 WORD_BOX = re.compile(r'<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">([^<]*)</word>')
 
 
@@ -633,25 +641,101 @@ def check_p15():
     return ok, lines
 
 
+def write_sized_pdf(path, size_pt):
+    """Write a one-page PDF with one Helvetica line at an exact point size (an English fixture)."""
+    stream = f'BT /F1 {size_pt:.2f} Tf 20 40 Td (P16 fixture {size_pt:.2f} pt) Tj ET'
+    objects = [
+        '<< /Type /Catalog /Pages 2 0 R >>',
+        '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+        '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 300 100] '
+        '/Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>',
+        f'<< /Length {len(stream)} >>\nstream\n{stream}\nendstream',
+        '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',
+    ]
+    data = bytearray(b'%PDF-1.4\n')
+    offsets = []
+    for index, body in enumerate(objects, 1):
+        offsets.append(len(data))
+        data += f'{index} 0 obj\n{body}\nendobj\n'.encode()
+    xref = len(data)
+    data += f'xref\n0 {len(objects) + 1}\n'.encode()
+    data += b'0000000000 65535 f \n'
+    for offset in offsets:
+        data += f'{offset:010d} 00000 n \n'.encode()
+    data += f'trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\nstartxref\n{xref}\n%%EOF\n'.encode()
+    with open(path, 'wb') as handle:
+        handle.write(data)
+
+
+def calibrate_p16():
+    """Build known-size PDFs, measure them with P16, and write the calibration table."""
+    folder = os.path.join(RUNS, 'p16-fixtures')
+    shutil.rmtree(folder, ignore_errors=True)
+    os.makedirs(folder)
+    rows, ok = [], True
+    try:
+        for size in P16_CALIBRATION_PT:
+            path = os.path.join(folder, f'p16-{size:g}.pdf')
+            write_sized_pdf(path, size)
+            sizes = p16_span_sizes(path)
+            measured = min(sizes) if sizes else 0.0
+            passes = len(sizes) > 0 and measured >= P16_MIN_PT - P16_TOL_PT
+            expected = size >= P16_MIN_PT - P16_TOL_PT
+            ok = ok and passes == expected
+            rows.append((size, measured, 'pass' if passes else 'fail', 'ok' if passes == expected else 'WRONG'))
+    finally:
+        shutil.rmtree(folder, ignore_errors=True)
+    lines = [
+        'P16 calibration (review A F23) — exact point sizes from Ghostscript txtwrite XML',
+        f'threshold {P16_MIN_PT:g} pt minus tolerance {P16_TOL_PT:g} pt',
+        '',
+        '| fixture pt | measured pt | P16 result | expected |',
+        '|---|---|---|---|',
+    ]
+    for size, measured, result, expected in rows:
+        lines.append(f'| {size:g} | {measured:.4f} | {result} | {expected} |')
+    lines.append('')
+    lines.append('RESULT: PASS' if ok else 'RESULT: FAIL')
+    path = os.path.join(RUNS, 'p16-calibration-r8.txt')
+    with open(path, 'w', encoding='utf-8') as handle:
+        handle.write('\n'.join(lines) + '\n')
+    print('\n'.join(lines))
+    return 0 if ok else 1
+
+
+def p16_span_sizes(pdf):
+    """The size in points of every text span, from Ghostscript txtwrite XML (exact to 0.0001 pt)."""
+    handle = tempfile.NamedTemporaryFile(suffix='.xml', delete=False)
+    target = handle.name
+    handle.close()
+    try:
+        subprocess.run(
+            ['gs', '-q', '-dNOPAUSE', '-dBATCH', '-sDEVICE=txtwrite', '-dTextFormat=0',
+             f'-sOutputFile={target}', pdf],
+            capture_output=True,
+        )
+        with open(target, encoding='utf-8', errors='replace') as stream:
+            data = stream.read()
+    finally:
+        if os.path.isfile(target):
+            os.remove(target)
+    return [float(match.group(1)) for match in re.finditer(r'<span[^>]*size="([\d.]+)"', data)]
+
+
 def check_p16():
-    """P16: no text run prints under 8 pt, and no italic face prints (counts only)."""
+    """P16: no text prints under 8 pt minus 0.05, and no italic face prints (counts only)."""
     lines, ok = [], True
     for tag in PROOFS:
         pdf = os.path.join(FOLDER, f'{tag}.pdf')
-        xml = subprocess.run(['pdftohtml', '-xml', '-i', '-stdout', pdf], capture_output=True, text=True).stdout
-        sizes = {int(m.group(1)): float(m.group(2)) for m in re.finditer(r'<fontspec id="(\d+)" size="([\d.]+)"', xml)}
-        runs = {}
-        for match in re.finditer(r'<text[^>]*font="(\d+)"', xml):
-            font = int(match.group(1))
-            runs[font] = runs.get(font, 0) + 1
-        under = sum(count for font, count in runs.items() if sizes.get(font, 0) < P16_MIN_PX)
-        smallest = min((sizes.get(font, 0) for font in runs), default=0)
+        sizes = p16_span_sizes(pdf)
+        under = sum(1 for size in sizes if size < P16_MIN_PT - P16_TOL_PT)
+        smallest = min(sizes) if sizes else 0.0
         fonts = subprocess.run(['pdffonts', pdf], capture_output=True, text=True).stdout.splitlines()[2:]
         italic = [line.split()[0] for line in fonts if line.split() and re.search(r'italic|oblique', line.split()[0], re.I)]
-        lines.append(f'P16 {tag}: text runs {sum(runs.values())}, runs_under_8pt {under}, smallest_size_px {smallest:g}, italic_fonts {len(italic)}')
+        lines.append(f'P16 {tag}: text spans {len(sizes)}, spans_under_8pt {under}, smallest_size_pt {smallest:.2f}, italic_fonts {len(italic)}')
         for name in italic:
             lines.append(f'P16 {tag}: italic face {name}')
-        ok = ok and sum(runs.values()) > 0 and under == 0 and not italic
+        ok = ok and len(sizes) > 0 and under == 0 and not italic
     return ok, lines
 
 
@@ -733,7 +817,10 @@ def main(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument('--check', choices=sorted(CHECKS))
     parser.add_argument('--assemble', action='store_true')
+    parser.add_argument('--p16-calibration', action='store_true')
     args = parser.parse_args(argv)
+    if args.p16_calibration:
+        return calibrate_p16()
     if args.assemble:
         return assemble()
     ok, lines = CHECKS[args.check]()
