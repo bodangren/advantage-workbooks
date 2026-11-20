@@ -26,6 +26,6 @@ before_after_crops: proof-s5-r11/before-after/ (r10 and r11 page 3)
 new_files: green-s5g8-*.txt captures; proof-s5/checks-r11.txt; proof-s5/manifest-r11.txt; proof-s5/line-pitch.py; proof-s5/inspect-txtwrite.py; proof-s5/page3-space.py; proof-s5/run-round11.sh; proof-s5/run-g6-mutant.sh; proof-s5/rerun-gates.sh; proof-s5/run-pitch-and-crops.sh; this log
 tasks_flipped: S5.R6 [x] and S5.G8 [x] with implementation SHA evidence above
 tasks_deferred: none changed; Daniel's look and Phase S5 manual verification stay deferred:daniel
-dispositions: F26=FIX; F27=FIX; F28=FIX; F29=FIX; F30=FIX (G1/G2 rerun after the last product commit)
+dispositions: F26=FIX; F27=FIX; F28=FIX; F29=FIX; F30=FIX
 handoff: Send to review roles. The classic output stays byte-identical. Daniel's look remains deferred; no approval or printer file is claimed. Proof round 11 supersedes the failed first attempt (checks-r11-attempt1.txt).
 END_MEASURE_AGENT_RESULT
