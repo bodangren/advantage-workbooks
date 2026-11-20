@@ -1,0 +1,27 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/chibi-quest-print-floor.adversarial.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 258[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-print-sizes.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 249[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.adversarial.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 220[2mms[22m[39m
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mkeeps the step 11 header with its writing box within the 245 mm page
+[22m[39mpage_content_height_mm 245
+step11_header_mm 17
+step11_box_mm 232
+step11_total_mm 249
+
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mkeeps the self-assessment strip with its score box
+[22m[39mscore_markers 2
+
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mputs the hero and paragraph 1 in one two-column row (option B)
+[22m[39mhero_row_width_mm 84.8
+hero_row_widths_found 2
+
+ [32m✓[39m __tests__/chibi-quest-page-flow.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 160[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 74[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[32m38 passed[39m[22m[90m (38)[39m
+[2m   Start at [22m 22:14:06
+[2m   Duration [22m 3.46s[2m (transform 118ms, setup 160ms, import 312ms, tests 961ms, environment 1.55s)[22m
+

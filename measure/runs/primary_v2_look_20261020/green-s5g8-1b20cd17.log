@@ -1,0 +1,31 @@
+MEASURE_AGENT_RESULT
+status: PASS
+phase_base_sha: 04275398c9411b45685733e20fc003945524ad72
+role_base_sha: 1b20cd1790a047e503447ddd922c7cb6e6f29572
+red_commit: 328ab88a (tests), 1b20cd17 (plan); both verified inside phase_base_sha..HEAD
+implementation_commits: 679bca36 (F26/F29), 3d53b37e (F27), 33b24d0c (F28), 6bee5de2 (P17 spacing)
+final_green_head: 6bee5de2e091e9e0ad8e3af89567b9d619bd8e08
+targeted_red_command: set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-hero-row-type.test.ts
+targeted_red_output: exit 1; 2 failed and 1 passed; F26 paragraph 1 line-height 1.65 vs 2; F27 chibi legend after paragraph 1; F28 helper guard passes; capture green-s5g8-red-rerun.txt (rerun at role base before implementation)
+G1: exit 0; 3 passed; rerun after last product commit; capture green-s5g8-g1.txt
+G2: exit 0; 38 passed in 5 chibi files; rerun after last product commit; capture green-s5g8-g2.txt
+G3: exit 0; 3185 tests passed in 170 files; after last product commit; capture green-s5g8-g3.txt
+G4: exit 0; eslint on changed TS files; capture green-s5g8-g4.txt
+G5: exit 0; npx tsc --noEmit produced no output; capture green-s5g8-g5.txt
+G6: F26 rule removed; targeted test exits 1 on the paragraph 1 line-height assertion; restored sha equals HEAD sha; product file diff empty; capture green-s5g8-g6.txt
+G7: exit 0; classic golden, teacher manual, and styles.ts diff from phase base is empty; golden hashes unchanged; capture green-s5g8-g7.txt
+G8: exit 0; 0 Thai characters in added lines of all four product commits; capture green-s5g8-g8.txt
+proof_round_11: P1-P20 each exit 0; 20 checks; 0 failures; checks-r11.txt; manifest-r11.txt
+proof_pages: Quest 5 14; Adventure 9.2 16
+P14: both heroes 84.67 mm (84.8 mm target within 1 mm)
+P17: step 3 header, hero, and paragraph 1 on page 3 for both proofs
+P20: hero and paragraph 1 on page 3 for both proofs
+paragraph_pitch: Ghostscript txtwrite median 24.0 pt for paragraph 1 on page 3 and paragraph 2 on page 4, in both proofs; capture green-s5g8-pitch-r11.txt
+manifest_git_head: 6bee5de2e091e9e0ad8e3af89567b9d619bd8e08
+before_after_crops: proof-s5-r11/before-after/ (r10 and r11 page 3)
+new_files: green-s5g8-*.txt captures; proof-s5/checks-r11.txt; proof-s5/manifest-r11.txt; proof-s5/line-pitch.py; proof-s5/inspect-txtwrite.py; proof-s5/page3-space.py; proof-s5/run-round11.sh; proof-s5/run-g6-mutant.sh; proof-s5/rerun-gates.sh; proof-s5/run-pitch-and-crops.sh; this log
+tasks_flipped: S5.R6 [x] and S5.G8 [x] with implementation SHA evidence above
+tasks_deferred: none changed; Daniel's look and Phase S5 manual verification stay deferred:daniel
+dispositions: F26=FIX; F27=FIX; F28=FIX; F29=FIX; F30=FIX (G1/G2 rerun after the last product commit)
+handoff: Send to review roles. The classic output stays byte-identical. Daniel's look remains deferred; no approval or printer file is claimed. Proof round 11 supersedes the failed first attempt (checks-r11-attempt1.txt).
+END_MEASURE_AGENT_RESULT

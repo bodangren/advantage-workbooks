@@ -1,0 +1,100 @@
+S5 proof checks, round r11
+proof folder /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r11
+
+P1: exit 0
+  P1 quest5-l01: page_size 594.96 x 808.08 pt (want 595.28 x 807.87, slack 2)
+  P1 adventure92-l09: page_size 594.96 x 808.08 pt (want 595.28 x 807.87, slack 2)
+P2: exit 0
+  P2 quest5-l01: fonts 7, type3 0, not_embedded 0
+  P2 adventure92-l09: fonts 7, type3 0, not_embedded 0
+P3: exit 0
+  P3 quest5-l01: names_present 13 of 13, once_each True, in_order True, classic_only_present 0
+  P3 adventure92-l09: names_present 13 of 13, once_each True, in_order True, classic_only_present 0
+P4: exit 0
+  P4 quest5-l01: pdf_pages 14, page_boxes 14, tiles 14, sheet_rows 14
+  P4 adventure92-l09: pdf_pages 16, page_boxes 16, tiles 16, sheet_rows 16
+P5: exit 0
+  P5 quest5-l01: tiles 14 of 14 pages, capture_pairs 10, sheet 2610x17808 (want 2610x17808)
+  P5 adventure92-l09: tiles 16 of 16 pages, capture_pairs 12, sheet 2610x20338 (want 2610x20338)
+P6: exit 0
+  P6: filtered files 85, thai characters 0
+  P6: proof HTML files tracked by git 0 of 2 (the Thai files stay untracked)
+P7: exit 0
+  P7 quest5-l01: first_body_tag_holds_chibi True, classic_class_count 0, print_copy_unpkg 0
+  P7 adventure92-l09: first_body_tag_holds_chibi True, classic_class_count 0, print_copy_unpkg 0
+P8: exit 0
+  P8: manifest git_head 6bee5de2e091e9e0ad8e3af89567b9d619bd8e08
+  P8: head at check 6bee5de2e091e9e0ad8e3af89567b9d619bd8e08, same_head True, product_changed_since_manifest False
+  P8: render scope 4 pathspecs (dashboard except its tests; the 2 lesson folders)
+  P8 quest5-l01: package sha256 match True
+  P8 quest5-l01: html sha256 match True
+  P8 quest5-l01: pdf sha256 match True
+  P8 quest5-l01: contact sha256 match True
+  P8 adventure92-l09: package sha256 match True
+  P8 adventure92-l09: html sha256 match True
+  P8 adventure92-l09: pdf sha256 match True
+  P8 adventure92-l09: contact sha256 match True
+  P8: tracked files edited in the render scope 0
+P9: exit 0
+  P9: printer files before approval 0
+P10: exit 0
+  P10 quest5-l01: workbook_title_exact True, product_name_doubled False, pdf_title_has_book True
+  P10 adventure92-l09: workbook_title_exact True, product_name_doubled False, pdf_title_has_book True
+P11: exit 0
+  P11 quest5-l01: package_pictures 3, html_file_pictures 3, pdf_images 3, missing_srcs 0
+  P11 adventure92-l09: package_pictures 3, html_file_pictures 3, pdf_images 3, missing_srcs 0
+P12: exit 0
+  P12 quest5-l01: caption 1 pages 3, picture page 3, same_page True
+  P12 quest5-l01: caption 2 pages 4, picture page 4, same_page True
+  P12 quest5-l01: caption 3 pages 3,4, picture page 4, same_page True
+  P12 quest5-l01: captions 3, pictures 3, captions_on_picture_page 3, counts_match True
+  P12 adventure92-l09: caption 1 pages 3, picture page 3, same_page True
+  P12 adventure92-l09: caption 2 pages 4, picture page 4, same_page True
+  P12 adventure92-l09: caption 3 pages 4, picture page 4, same_page True
+  P12 adventure92-l09: captions 3, pictures 3, captions_on_picture_page 3, counts_match True
+P13: exit 0
+  P13 quest5-l01: page 3 x_ppi 480 y_ppi 480 ratio_delta 0.0000 within_2pct True
+  P13 quest5-l01: page 4 x_ppi 479 y_ppi 479 ratio_delta 0.0000 within_2pct True
+  P13 quest5-l01: page 4 x_ppi 479 y_ppi 479 ratio_delta 0.0000 within_2pct True
+  P13 quest5-l01: images 3, ratio_off 0
+  P13 adventure92-l09: page 3 x_ppi 480 y_ppi 479 ratio_delta 0.0021 within_2pct True
+  P13 adventure92-l09: page 4 x_ppi 479 y_ppi 479 ratio_delta 0.0000 within_2pct True
+  P13 adventure92-l09: page 4 x_ppi 479 y_ppi 479 ratio_delta 0.0000 within_2pct True
+  P13 adventure92-l09: images 3, ratio_off 0
+P14: exit 0
+  P14 quest5-l01: hero page 3 width_px 1600 x_ppi 480 width_mm 84.67 within_1mm True
+  P14 adventure92-l09: hero page 3 width_px 1600 x_ppi 480 width_mm 84.67 within_1mm True
+P15: exit 0
+  P15 quest5-l01: page 1 step 1 gap_mm 4.15
+  P15 quest5-l01: page 1 step 2 gap_mm 13.21
+  P15 quest5-l01: page 3 step 3 gap_mm 3.98
+  P15 quest5-l01: page 5 step 5 gap_mm 3.89
+  P15 quest5-l01: page 6 step 7 gap_mm 3.89
+  P15 quest5-l01: page 10 step 10 gap_mm 4.23
+  P15 quest5-l01: page 12 step 12 gap_mm 3.89
+  P15 quest5-l01: headers 7, below_3mm 0, method pixel_300dpi, min_mm 3.89
+  P15 adventure92-l09: page 1 step 1 gap_mm 4.15
+  P15 adventure92-l09: page 1 step 2 gap_mm 13.21
+  P15 adventure92-l09: page 3 step 3 gap_mm 4.23
+  P15 adventure92-l09: page 8 step 7 gap_mm 3.89
+  P15 adventure92-l09: page 12 step 10 gap_mm 4.23
+  P15 adventure92-l09: page 14 step 12 gap_mm 3.89
+  P15 adventure92-l09: headers 6, below_3mm 0, method pixel_300dpi, min_mm 3.89
+P16: exit 0
+  P16 quest5-l01: text spans 7732, spans_under_8pt 0, smallest_size_pt 8.25, italic_fonts 0
+  P16 adventure92-l09: text spans 10648, spans_under_8pt 0, smallest_size_pt 8.25, italic_fonts 0
+P17: exit 0
+  P17 quest5-l01: step3_page 3, hero_page 3, paragraph1_page 3, same_page True
+  P17 adventure92-l09: step3_page 3, hero_page 3, paragraph1_page 3, same_page True
+P18: exit 0
+  P18 quest5-l01: step11_page 11, box_page 11, same_page True, page_chars 565, more_than_header True
+  P18 adventure92-l09: step11_page 13, box_page 13, same_page True, page_chars 544, more_than_header True
+P19: exit 0
+  P19 quest5-l01: score_page 7, strip_page 7, next_step_page 8, same_page True, strip_with_next False
+  P19 adventure92-l09: score_page 9, strip_page 9, next_step_page 10, same_page True, strip_with_next False
+P20: exit 0
+  P20 quest5-l01: hero_page 3, paragraph1_page 3, same_page True
+  P20 adventure92-l09: hero_page 3, paragraph1_page 3, same_page True
+
+checks run 20, failures 0
+RESULT: PASS

@@ -1,0 +1,77 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+[90mstdout[2m | __tests__/chibi-quest-hero-row-type.test.ts[2m > [22m[2mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22m[2mgives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2)
+[22m[39mpara1_font_size 12pt
+para1_line_height 1.65
+para2_font_size 12pt
+para2_line_height 2
+para1_inside_article_text false
+
+[90mstdout[2m | __tests__/chibi-quest-hero-row-type.test.ts[2m > [22m[2mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22m[2mprints the marking key before paragraph 1, as in the classic look
+[22m[39mchibi_legend_index 937173
+chibi_para1_index 936630
+classic_legend_index 737457
+classic_para1_index 738987
+
+ [31m❯[39m __tests__/chibi-quest-hero-row-type.test.ts [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 379[2mms[22m[39m
+[31m     [31m×[31m gives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2)[39m[33m 361[2mms[22m[39m
+[31m     [31m×[31m prints the marking key before paragraph 1, as in the classic look[39m[32m 16[2mms[22m[39m
+     [32m✓[39m finds the row markup without matching the stylesheet text[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row-type.test.ts[2m > [22mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22mgives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2)
+[31m[1mAssertionError[22m: paragraph 1 print line-height: expected '1.65' to be '2' // Object.is equality[39m
+
+Expected: [32m"2"[39m
+Received: [31m"1.65"[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row-type.test.ts:[2m165:60[22m[39m
+    [90m163| [39m    console[33m.[39m[34mlog[39m([32m`para1_inside_article_text [39m[36m${[39mp1[33m.[39minsideArticleText[36m}[39m[32m`[39m)[33m;[39m
+    [90m164| [39m    [34mexpect[39m(p1[33m.[39mfontSize[33m,[39m [32m'paragraph 1 print font-size'[39m)[33m.[39m[34mtoBe[39m([32m'12pt'[39m)[33m;[39m
+    [90m165| [39m    [34mexpect[39m(p1[33m.[39mlineHeight[33m,[39m [32m'paragraph 1 print line-height'[39m)[33m.[39m[34mtoBe[39m([32m'2'[39m)[33m;[39m
+    [90m   | [39m                                                           [31m^[39m
+    [90m166| [39m    expect(p1.fontSize, 'paragraph 1 vs 2 font-size').toBe(p2.fontSize…
+    [90m167| [39m    expect(p1.lineHeight, 'paragraph 1 vs 2 line-height').toBe(p2.line…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row-type.test.ts[2m > [22mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22mprints the marking key before paragraph 1, as in the classic look
+[31m[1mAssertionError[22m: chibi key before paragraph 1: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row-type.test.ts:[2m192:70[22m[39m
+    [90m190| [39m    [34mexpect[39m(chibiLegend[33m,[39m [32m'chibi legend marker'[39m)[33m.[39m[34mtoBeGreaterThan[39m([33m-[39m[34m1[39m)[33m;[39m
+    [90m191| [39m    [34mexpect[39m(chibiPara1[33m,[39m [32m'chibi paragraph 1 marker'[39m)[33m.[39m[34mtoBeGreaterThan[39m([33m-[39m[34m1[39m)[33m;[39m
+    [90m192| [39m    expect(chibiLegend < chibiPara1, 'chibi key before paragraph 1').t…
+    [90m   | [39m                                                                     [31m^[39m
+    [90m193| [39m  })[33m;[39m
+    [90m194| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 21:42:19
+[2m   Duration [22m 1.04s[2m (transform 89ms, setup 38ms, import 121ms, tests 379ms, environment 326ms)[22m
+
+REDRERUN_EXIT=1
