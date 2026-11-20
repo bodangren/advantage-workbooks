@@ -104,6 +104,11 @@ body.look-chibi-quest {
 /* The hero prints at full inline width like the other pictures (PM decision 1, review A F11). */
 .look-chibi-quest .hero-img-box img { width: 84.8mm; max-width: 100%; height: auto; }
 
+/* Step 3 keeps its title and QR box with the article (P17, spec.md line 72). The top margin of
+   the step header stays the UX-1 4 mm rule. */
+.look-chibi-quest .read-article-step .section-header { margin-bottom: 4px; }
+.look-chibi-quest .read-article-step .qr-box { margin: 2px 0 4px; padding: 4px 8px; }
+
 /* Panels: a 3 px parchment-edge frame with a 14 px radius; label areas in parchment, write-in areas white. */
 .look-chibi-quest .short-answer-box, .look-chibi-quest .reflection-box, .look-chibi-quest .language-q-box,
 .look-chibi-quest .writing-section, .look-chibi-quest .translation-section, .look-chibi-quest .collection-box,
