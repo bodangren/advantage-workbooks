@@ -1,0 +1,34 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-print-sizes.test.ts [2m([22m[2m7 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 211[2mms[22m[39m
+     [32m✓[39m lifts the step header off the panel above by 3 to 5 mm[32m 42[2mms[22m[39m
+     [32m✓[39m sets every named label at 8 pt or more[32m 33[2mms[22m[39m
+     [32m✓[39m spaces writing lines at least 8 mm apart[32m 19[2mms[22m[39m
+     [32m✓[39m sets the Thai gloss upright at 8 pt or more[32m 12[2mms[22m[39m
+[31m     [31m×[31m keeps the step 3 title with its article by tightening step 3 spacing[39m[32m 20[2mms[22m[39m
+     [32m✓[39m keeps the new size rules out of the classic styles[32m 0[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical without printing its text[32m 84[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.adversarial.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 226[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 71[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-print-sizes.test.ts[2m > [22mchibi-quest print sizes (S5 fix round 2)[2m > [22mkeeps the step 3 title with its article by tightening step 3 spacing
+[31m[1mAssertionError[22m: .look-chibi-quest .read-article-step .qr-box padding-top: expected 8 to be less than or equal to 4[39m
+[36m [2m❯[22m __tests__/chibi-quest-print-sizes.test.ts:[2m189:74[22m[39m
+    [90m187| [39m    [35mconst[39m qrPadding [33m=[39m [34mwinningProperty[39m(css[33m,[39m [33mSTEP3_QR[39m[33m,[39m [32m'padding'[39m)[33m;[39m
+    [90m188| [39m    [34mexpect[39m(qrPadding[33m,[39m [32m`[39m[36m${[39m[33mSTEP3_QR[39m[36m}[39m[32m padding`[39m)[33m.[39mnot[33m.[39m[34mtoBe[39m([32m''[39m)[33m;[39m
+    [90m189| [39m    expect(paddingSide(css, STEP3_QR, 'top'), `${STEP3_QR} padding-top…
+    [90m   | [39m                                                                         [31m^[39m
+    [90m190| [39m    expect(paddingSide(css, STEP3_QR, 'bottom'), `${STEP3_QR} padding-…
+    [90m191| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m22 passed[39m[22m[90m (23)[39m
+[2m   Start at [22m 06:59:27
+[2m   Duration [22m 2.11s[2m (transform 100ms, setup 102ms, import 221ms, tests 508ms, environment 947ms)[22m
+

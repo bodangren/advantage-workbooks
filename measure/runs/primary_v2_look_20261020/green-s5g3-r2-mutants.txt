@@ -1,0 +1,13 @@
+# S5.G3 r2 mutants (P17, spec.md line 72) — green-s5g3-r2
+# File under test: dashboard/lib/document-wrapper/chibi-quest-styles.ts
+# Gate: the 3 Red files (23 tests), unchanged.
+#
+# | Mutant | Change | Gate exit | Failing test |
+# |---|---|---|---|
+# | M9a | remove the step 3 header margin-bottom rule | 1 | keeps the step 3 title with its article by tightening step 3 spacing |
+# | M9b | restore the QR box padding (8px 12px) | 1 | keeps the step 3 title with its article by tightening step 3 spacing |
+#
+# Captures: green-s5g3-r2-mutant-M9a.txt and green-s5g3-r2-mutant-M9b.txt.
+# Restore: cmp against the saved original after each mutant.
+# Gate 1 after restore: exit 0, 23 passed (green-s5g3-r2-tests.txt).
+# Caught: 2 of 2 mutants.

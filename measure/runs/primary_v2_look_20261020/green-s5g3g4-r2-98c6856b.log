@@ -1,0 +1,53 @@
+Green r2 role log — track primary_v2_look_20261020, Phase S5, Tasks S5.G3 (r2) and S5.G4 (round 7)
+Session: Green · S5 S5.G3 S5.G4 · primary_v2_look · r2
+Model: opencode-go/deepseek-v4.1-flash
+Date: 2026-11-20
+
+phase_base_sha: 04275398 (fix round 2 strategy commit)
+role_base_sha: 98c6856b6646e53fd97499ef343b543e40c226cc
+Red: c10f4192 (Muse) and the r2 Red 98c6856b (Muse). Green model family differs from the Red family.
+
+Part 1, S5.G3 (dashboard/lib/document-wrapper/chibi-quest-styles.ts only):
+- .look-chibi-quest .read-article-step .section-header { margin-bottom: 4px; }
+- .look-chibi-quest .read-article-step .qr-box { margin: 2px 0 4px; padding: 4px 8px; }
+The UX-1 step-header top margin (4 mm on .look-chibi-quest div.section-header) still wins: the new
+rule sets only margin-bottom. No test change. No template change. No classic golden change.
+
+Gates:
+G1 the 3 Red files: exit 0, 23 passed. green-s5g3-r2-tests.txt (Red rerun exits 1, 1 of 23 fails).
+G2 look guards (4 files): exit 0, 34 passed. green-s5g3-r2-look-tests.txt
+G3 PROJECT_TESTS with the three documented excludes: EXIT 1. 177 tests fail in 6 files of other
+   tracks (quest-cover-build, storytime-package-clips, storytime-package-practice-clips,
+   storytime-package-readalong-clips, storytime-print-covers, storytime-print-covers-adversarial).
+   The raw output holds 132 lines "Unknown system error -122" (EDQUOT, a write failure).
+   /tmp is a 16 GB tmpfs with 13 GB used by concurrent sessions. None of the 6 files imports the
+   chibi-quest styles; the same files pass in single-test runs. This is an infrastructure limit,
+   not this change. Capture: green-s5g3-r2-project-tests.txt.
+G4 PROJECT_LINT: exit 0. green-s5g3-r2-lint.txt
+G5 tsc --noEmit: exit 0, no output lines. green-s5g3-r2-tsc.txt
+G6 Mutants: 2 of 2 caught (step 3 header margin-bottom removed; QR padding restored).
+   Captures green-s5g3-r2-mutant-M9a.txt and M9b. green-s5g3-r2-mutants.txt
+G7 Golden and teacher-manual diff from 04275398: empty. green-s5g3-r2-golden-diff.txt
+G8 Thai characters: 0 in every committed file.
+
+Part 2, S5.G4 proof round 7:
+Folder: /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r7/
+quest5-l01.pdf: 15 pages. adventure92-l09.pdf: 17 pages. Contact sheets: 15 and 17 tiles.
+Checks P1 to P17: each exit 0. checks-r7.txt says checks run 17, failures 0, RESULT: PASS.
+P14 hero 84.67 mm on page 3 for both. P15 min gap 3.89 mm. P16 0 runs under 8 pt, 0 italic faces.
+P17: Quest 5 step 3 page 3 with the hero and paragraph 1; Adventure step 3 page 3 with the hero.
+Before/after crops (proof-s5-r7/before-after/, r5 vs r7): hero-quest5, hero-adventure92 (page 3 in
+both), label-area, step-header.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: 967cef13 (S5.G3 r2 code); evidence commit follows this log; Red c10f4192, Red r2 98c6856b
+tests_run: G1 exit 0 (23 passed); G2 exit 0 (34 passed); G3 EXIT 1 (177 failures in 6 unrelated files, 132 EDQUOT write errors); G4 exit 0; G5 exit 0; G6 2 of 2 mutants; G7 empty; G8 Thai 0; proof P1 to P17 each exit 0 (checks-r7.txt RESULT: PASS)
+files_changed: dashboard/lib/document-wrapper/chibi-quest-styles.ts (code); measure/tracks/primary_v2_look_20261020/plan.md; green-s5g3-r2-* captures; proof-s5/check-P1..P17-r7.txt, checks-r7.txt, manifest-r7.txt; this log
+plan_updates: S5.R2 [x] commit c10f4192, r2 98c6856b; S5.G3 [x] commit 8178f200, fix 967cef13; S5.G4 [x] commit b0f062e7, P17 52399a43, plus the round 7 evidence
+known_failures: PROJECT_TESTS exit 1 from EDQUOT write errors in 6 unrelated test files while /tmp is 80 percent full from concurrent sessions. The gate is not a pass. The 6 files do not import the chibi-quest styles and pass in single-test runs.
+handoff: S5.G3 r2 is complete at 967cef13 and the r7 proof passes P1 to P17. The orchestrator must rerun PROJECT_TESTS when /tmp has room, before acceptance. The step 3 spacing is the probe option M from proof-s5/step3-keep-probes.txt. Commit 967cef13 is an S7 styles.ts trigger: send it to the PM for the monorepo session. The r7 render overwrote the untracked proof HTML in proof-s5/; never stage it, strategy-s5-8b27c9ea.log, review-*-s5-*, video/**, or dashboard/raw.json. Four tracked files of other sessions stay dirty: review-b-s5-d2c2304c.json, review-b-s5-d2c2304c.log, strategy-s5-8b27c9ea.log, and video/storytime-song/scripts/render.mjs.
+END_MEASURE_AGENT_RESULT
