@@ -110,9 +110,28 @@ function rowWidthsMm(css: string): number[] {
   }
 }
 
-/** The row element HTML, found by balanced div scan from its class hook. */
+/** The row element HTML, found by balanced div scan from its class hook.
+ *  The hook requires a class attribute, so embedded CSS selectors never match. */
 function extractRow(html: string): string {
-  const hook = html.indexOf('chibi-hero-row');
+  const styleRanges: Array<[number, number]> = [];
+  const styleRe = /<style\b[\s\S]*?<\/style\s*>/gi;
+  let span: RegExpExecArray | null;
+  for (;;) {
+    span = styleRe.exec(html);
+    if (!span) break;
+    styleRanges.push([span.index, span.index + span[0].length]);
+  }
+  const pattern = /class\s*=\s*["'][^"']*\bchibi-hero-row\b[^"']*["']/g;
+  let hook = -1;
+  let found: RegExpExecArray | null;
+  for (;;) {
+    found = pattern.exec(html);
+    if (!found) break;
+    const at = found.index + found[0].indexOf('chibi-hero-row');
+    if (styleRanges.some(([a, b]) => at >= a && at < b)) continue;
+    hook = at;
+    break;
+  }
   if (hook < 0) return '';
   const open = html.lastIndexOf('<div', hook);
   if (open < 0) return '';
