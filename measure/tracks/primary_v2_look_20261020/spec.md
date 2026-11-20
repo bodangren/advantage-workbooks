@@ -8,9 +8,11 @@ Track: `primary_v2_look_20261020`. Type: feature (story-shaped).
 
 Daniel approved the Chibi Quest look of the 14 app lesson steps on 2026-10-20 (advantage-pr `CHANGELOG.md`, `assets/screenshots/CURRENT.md` v1.6). His workbook look decisions of 2026-10-20 are in advantage-pr `02-brand/naming-conventions.md` v1.4 (ad6dca9, 2bbcfd4):
 
-- Only Primary Advantage books get the Chibi Quest look. It starts with Quest 5. Origins 1 to Quest 4 keep their present look.
+- Only Primary Advantage books get the Chibi Quest look. It starts with Quest 5. Origins 1 to Quest 4 keep their present look. (Superseded for new and rewritten editions by the 2026-11-21 update below.)
 - The work starts after the Primary cutover (2026-10-20).
 - Reading Advantage books get the Riven Lands look (planned only). A Tutor Advantage book takes the look of its program.
+
+Update 2026-11-21 (Daniel, via PM): Daniel asked, "This new look should be in all workbooks going forward, right?" The answer is yes. Every new or rewritten Primary Advantage book, at all levels from Origins 1 to Adventure 9.3, builds with look `chibi-quest`. Books printed or on order (Origins 2, Origins 3.1, Origins 3.2, Quest 4) keep `classic` for their current stock and print runs. Their next edition, a graph-first rewrite, switches to `chibi-quest`. The classic golden tests for those files stay unchanged. Reading Advantage books stay on their planned Riven Lands look. No shipped file is rebuilt.
 
 Source of the look (monorepo, branch `primary-parity-integration`, worktree `~/Desktop/rama-worktrees/integration`):
 

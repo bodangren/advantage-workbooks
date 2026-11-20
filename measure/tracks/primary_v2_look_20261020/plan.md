@@ -107,7 +107,7 @@ Phase gates (roles, not tasks; their results live in measure/runs/primary_v2_loo
 - Phase acceptance: the acceptance role runs on the head after Task S4.3. Gates: `RED_TEST_COMMAND` and `GREEN_TEST_COMMAND` exit 0 (the Red file passes after Green), and `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` exit 0 in heavy-runs. The role states the exit code of each gate. `PROJECT_TESTS` has 3 failures in other tracks' files, and they also fail at afbfcf0e and later: `dashboard/__tests__/constants.test.ts` 'includes Adventures 1.0 as a primary workbook option', and `dashboard/__tests__/origins-thai-support.test.ts` origins-2-a0 and origins-3.1-a0; evidence `measure/runs/levels_5_9_20261006/green-g2-baseline-r2.txt`. The acceptance role records them as earlier failures, outside this track, and does not count them against the phase. Any other failure fails the gate. Result file: `measure/runs/primary_v2_look_20261020/phase-acceptance-s4-<sha8>.json`. Done when: the report holds PASS with 0 open blockers for Tasks S4.1 to S4.3, and this line records the result file. Evidence: peer-report.
   - Accepted 2026-11-19: phase-acceptance-s4-d1837d15.json pass at d1837d15; role gate exit 0; RED=GREEN 0, adversarial and look guards 0, PROJECT_TESTS 1 (3 earlier failures of other tracks only), PROJECT_TESTS with the 2 earlier-failure files excluded 0, lint 0, tsc 0. Reviews A and B pass at 43dbf848; A1 and A3 fixed as tests in d1837d15; A2 and B1 declined. The full-suite captures stay uncommitted (Thai test output). Manual verification stays deferred:daniel (S5 proofs).
 
-## Phase S5: Page proofs for Daniel
+## Phase S5: Page proofs for Daniel [checkpoint: d239acca]
 _Story ref: spec.md#story-s5_
 
 - [x] Task: Proofs of Quest 5 lesson 1 and the longest Adventure 9 lesson: every page as a contact sheet, next to the app captures of the same steps (`parity-run2-2026-10-19/student/lesson-step*`) `commit 234d6792`
@@ -157,9 +157,10 @@ _Story ref: spec.md#story-s5_
     - Round 3 evidence (2026-11-21): 13 new tests pass; the targeted command passes 21 tests in three files. Six focused mutants fail and restore correctly. The product diff is empty. Audit: `adversarial-s5-1298fdb2.json`. Commit: `f72b309f`.
     - PA-1 follow-up: the test-only fix gives both DOM comparisons a defined left operand and retains every assertion. Tsc, targeted Vitest (13 passed), and eslint each exit 0 through heavy-run. The P3 record equals HEAD. Fix commit: `test(primary_v2_look): adversarial S5 round 3, tsc fix (PA-1)` (this commit, parent `61241959`).
   - Phase acceptance (automated scope) 2026-11-21: PASS at d239acca (phase-acceptance-s5-d239acca.json); gates Green 0, PROJECT_TESTS 0 (3198 tests), lint 0, tsc 0. PM rule 2026-11-21: test-only or plan-only commits after a review keep the review. Daniel's look open.
-- [b] Task: Daniel's notes fixed; new proofs until he approves (date and notes in this plan) — deferred:daniel
+- [x] Task: Daniel's notes fixed; new proofs until he approves (date and notes in this plan). Evidence: human, Daniel 2026-11-21, "Chibi Quest print proof: accepted." (via PM). `commit d239acca`
   - PM look decisions (2026-11-20, owner defaults so that Daniel looks once at the fixed proof), word for word: (1) Hero picture: full inline width, 84.8 mm, like the other pictures; close the empty strip. (2) Child readability, ages 9-12: labels at least 8 pt; writing lines at least 8 mm apart; Thai glosses 8 pt upright, not italic. (3) Step numbers: the book keeps its fixed 13 printed steps with its own numbers and names (company rule: 13 printed steps, fixed); the app mapping stays in the teacher notes, not on the page.
-- [b] Task: Measure - User Manual Verification 'Phase S5: Page proofs for Daniel' (Protocol in workflow.md) — deferred:daniel
+  - 2026-11-21: the optional look questions UX3-1 and UX2-4 to UX2-9 keep their defaults (no change), PM decision. The approval covers Phase S5 only; S3 and S4 manual checks stay open.
+- [x] Task: Measure - User Manual Verification 'Phase S5: Page proofs for Daniel' (Protocol in workflow.md). Evidence: human, Daniel 2026-11-21, "Chibi Quest print proof: accepted." (via PM). `commit d239acca`
 
 ## Phase S6: Quest 5 printer file
 _Story ref: spec.md#story-s6_
@@ -180,6 +181,14 @@ _Story ref: spec.md#story-s7_
     - 2026-11-21: commit ids sent to the PM for the monorepo session: 0b2bd81f, 9b95646e, 95345e90, 178a4e2f, 8178f200, 967cef13, 78b97a90, dfb0df65, e560ff21, 07541d95, 54526262, 679bca36, 3d53b37e, 33b24d0c, 6bee5de2.
 - [ ] Task: Tell the monorepo session the option name `look`, its values, and the default `classic`
 - [ ] Task: Measure - User Manual Verification 'Phase S7: Monorepo print kit sync' (Protocol in workflow.md)
+
+## Follow-up: Default look for new editions
+
+- [ ] Task: The build of a new or rewritten Primary Advantage book (Origins 1 to Adventure 9.3) defaults to look `chibi-quest`; a book or edition already printed or on order (Origins 2, Origins 3.1, Origins 3.2, Quest 4) keeps `classic` until its next edition.
+    - Source: Daniel 2026-11-21 via PM; Reading Advantage stays on Riven Lands.
+- [ ] Task: Tests (first): the default-look rule per book and edition; the classic golden tests (`content/primary/origins-3.2/print/golden/`, the 70 print files of 08bb160) stay unchanged.
+- [ ] Task: No rebuild of shipped or on-order print files.
+- [ ] Task: Measure - User Manual Verification 'Follow-up: Default look for new editions' (Protocol in workflow.md)
 
 ## Close
 
