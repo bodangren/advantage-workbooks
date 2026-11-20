@@ -1,0 +1,42 @@
+Verdict: FAIL. One Blocker: PROJECT_CHECKS exits 2.
+Audited HEAD: 6124195916964052916a36aea11db7a4d2d127e0 (phase_base_sha 04275398c9411b45685733e20fc003945524ad72).
+HEAD stayed current at role start, at gate end, and at write time.
+
+PA-1 [Blocker] phase-acceptance: PROJECT_CHECKS (npx tsc --noEmit) exits 2.
+tsc reports TS2532 at dashboard/__tests__/chibi-quest-hero-row.adversarial.test.ts (144,20) and (145,20).
+The test-only commit f72b309f added this file. The adversarial round ran eslint and vitest and did not run tsc.
+The Green gate G5 exited 0 with no output at 6bee5de2, so the break is new in f72b309f.
+Route: Green. Give lines 144 and 145 a defined left operand (for example legends![0] after the presence assertion of line 142). Keep every assertion.
+
+Gate results at 61241959 (each gate ran in one heavy-run; the numbers come from the tool results, because the role forbids redirection):
+- GREEN_TEST_COMMAND (chibi-quest-hero-row-type.test.ts): exit 0, 3 passed.
+- PROJECT_TESTS with the three exclusions: exit 0, 171 files and 3198 tests passed.
+- PROJECT_LINT: exit 0, 0 output lines.
+- PROJECT_CHECKS: exit 2, 2 errors (PA-1).
+- Extra: eslint on the 7 new test files: exit 0.
+- Extra: constants.test.ts and origins-thai-support.test.ts alone: exit 1, 3 failed and 3 passed. The 3 failures are the recorded earlier failures of other tracks.
+
+What holds:
+- The five audit files pass audit-result. Review A, Review B, and the adversarial result pass at 1298fdb2. The UX result passes at 61241959.
+- The product diff since 1298fdb2 is 0 lines. The classic golden, pinned, and teacher-manual diff is 0 lines.
+- Proof round 11 matches manifest-r11.txt (sha256 of both PDFs and both contact sheets). My own poppler and Ghostscript checks agree with P1 to P20 on pages, fonts, step titles, hero and paragraph 1 on page 3, step 11 on one page, and 8.25 pt minimum text.
+- No printer file exists (P9).
+- A3, A4, A6, and A7 are not triggered. The plan claims of S5 match their captures (A5).
+
+Findings that do not block (full text in the JSON): PA-2 Major, the S5.A3 task line has no commit SHA; PA-3 Nit, no S5.A2 line for adversarial round 2; PA-4 Nit, the plan-only commit 61241959 sits outside the literal exception; PA-5 Nit, six template-path commits lack a PM handoff line; PA-6 Nit, constants printed as measurements in two test files.
+I reviewed commit f72b309f (one test file; it carries PA-1) and commit 61241959 (plan.md only, 2 added lines) in full.
+Daniel's look and the Phase S5 manual verification stay [b] deferred:daniel. This report grants no print approval.
+
+MEASURE_AGENT_RESULT
+role: measure-phase-acceptance
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: GREEN_TEST_COMMAND exit 0 (3 passed); PROJECT_TESTS with 3 exclusions exit 0 (171 files, 3198 tests); PROJECT_LINT exit 0; PROJECT_CHECKS exit 2 (2 errors TS2532); eslint on 7 new test files exit 0; constants.test.ts and origins-thai-support.test.ts alone exit 1 (3 recorded earlier failures); independent poppler and Ghostscript checks of proof round 11 pass
+files_changed: measure/runs/primary_v2_look_20261020/phase-acceptance-s5-61241959.json; measure/runs/primary_v2_look_20261020/phase-acceptance-s5-61241959.log
+plan_updates: none
+known_failures: PA-1 PROJECT_CHECKS exits 2 (TS2532 at dashboard/__tests__/chibi-quest-hero-row.adversarial.test.ts lines 144 and 145, from test-only commit f72b309f)
+handoff: Route PA-1 to Green: fix lines 144 and 145 of dashboard/__tests__/chibi-quest-hero-row.adversarial.test.ts with a test-only commit, then run npx tsc --noEmit, eslint on the file, and the 21-test targeted command (hero-row.adversarial, hero-row-type, page-flow). A test-only fix keeps Review A, Review B, and the adversarial result valid; rerun phase acceptance on the new head (all four gates). In the same plan edit: add f72b309f to the S5.A3 task line (PA-2), add an S5.A2 line for 8ae1bb25 and adversarial-s5-1d66cd0f.json (PA-3), and record this report. QUESTION for the orchestrator, my default is given: do plan-only evidence commits that the acceptance reads in full void the earlier Review A, Review B, and adversarial results? Default: no; rerun those roles only when a commit changes product bytes, or test bytes beyond a test-only fix. The strict reading (the exception names test files and measure/runs/ only) needs those three reruns on the next head. Before the closeout commit: restore proof-s5/check-P3-r2.txt from HEAD (Review B F33), and keep the four captures that hold Thai text and the ux-r2-scratch folder out of git (Review B F34); the Thai captures are green-s5g7-g3.raw, pa-s4-project-tests.txt, pa-s4-project-tests-clean.txt, adversarial-s5-1d66cd0f-full.txt. Send the 12 template-path commit ids to the PM at S7 (PA-5): 0b2bd81f 9b95646e 95345e90 178a4e2f 8178f200 967cef13 78b97a90 dfb0df65 e560ff21 679bca36 3d53b37e 6bee5de2. Daniel's look and the S5 manual verification stay deferred:daniel; no approval and no printer file exist.
+END_MEASURE_AGENT_RESULT
+RESULT: FAIL

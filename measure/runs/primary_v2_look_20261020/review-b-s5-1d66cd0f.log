@@ -1,0 +1,49 @@
+Review B (security and data handling), full-phase re-review at 1d66cd0f
+Track primary_v2_look_20261020, Phase S5: Page proofs for Daniel
+Provisional result; refined after final checks.
+
+Head check: git rev-parse HEAD = 1d66cd0f0384a81e15b830db1806913ee34ad3a0 equals audited_head_sha.
+Range audited: 04275398c9411b45685733e20fc003945524ad72..1d66cd0f0384a81e15b830db1806913ee34ad3a0.
+Applicability: applicable, narrow (strategy lines 90, 214, 347, 421).
+
+Findings
+- Zero blocking findings. Zero nonblocking findings.
+- No CONTEST item was routed to this role. The earlier result at d2c2304c carried zero findings; there is nothing to withdraw or keep.
+
+Data-flow checks
+- checks.py: all subprocess calls use argv lists; no shell=True, eval, or exec.
+- checks.py:397-403: git_head validated as hex before Git; --end-of-options used; four literal P8 pathspecs.
+- checks.py:341-347 and :430-439: proof HTML stays untracked; fixed-name printer file refused before approval.
+- checks.py:706-722, :670-703, :627-634: temp files removed in finally blocks.
+- chibi-quest-styles.ts: added rules are literal and scoped to .look-chibi-quest; no lesson text enters CSS.
+- primary_template.html: unchanged this phase; escape path unchanged.
+- Tests: one pre-audited execFileSync with literal Git args; fixed in-repo fixtures; no network.
+
+Scans
+- First command: 893 JSON files, 1,098,035 Thai chars before filter, 0 after. Counts only.
+- 109 committed delta files: 0 credentials, 0 Thai chars, no secure test items.
+- 15 distinct absolute paths, all in known roots; one cache path is prose only.
+- Lockfile and package.json diff: empty.
+
+Special checks
+- A2: no draft-to-published flip in the delta; not triggered.
+- A6: tracks.md:17 marks the track [~]; no resolved security claim; adversarial record pass, 0 blockers; guard test green.
+
+Gate exit codes
+- Thai filter: 0
+- Provenance and diff commands: 0
+- Credential/path/Thai scan: 0
+- Heavy-run of three chibi test files: 0 (3 files passed, 25 tests passed)
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: pass
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none; audited 04275398c9411b45685733e20fc003945524ad72..1d66cd0f0384a81e15b830db1806913ee34ad3a0
+tests_run: heavy-run of three chibi test files exit 0 (3 files passed, 25 tests passed); Thai filter, provenance, diff, and scan commands exit 0
+files_changed: measure/runs/primary_v2_look_20261020/review-b-s5-1d66cd0f.json; measure/runs/primary_v2_look_20261020/review-b-s5-1d66cd0f.log
+plan_updates: none; no CONTEST item routed; zero findings carried
+known_failures: none; no blocker and no nit. The broad grep found draft and is_published text only in unaffected test files outside the delta. The resolved cache path is prose in a Green log.
+handoff: No Blocker stays. Security applicability is applicable and narrow. A2 and A6 are not triggered. The adversarial guard is green. retry_recommendation: escalate_human. Facts changed: the automated security review passes at the current head with zero findings.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "d239accaf58335426b5e560b6d26e015941b5355",
+  "phase_base_sha": "04275398c9411b45685733e20fc003945524ad72",
+  "role_base_sha": "d239accaf58335426b5e560b6d26e015941b5355",
+  "audited_head_sha": "d239accaf58335426b5e560b6d26e015941b5355",
+  "status": "pass",
+  "summary": "PASS for the automated scope at d239acca. All four gates exit 0: GREEN_TEST_COMMAND (3 passed), PROJECT_TESTS (171 files, 3198 tests), PROJECT_LINT, and PROJECT_CHECKS (tsc, no output). PA-1 (tsc error) and PA-2 (S5.A3 commit id) of the earlier acceptance are closed. The PM decision of 2026-11-21 keeps the Review A, Review B, and adversarial results valid for this head, and it resolves PA-4. The diff of product, content, and golden files since the review head 1298fdb2 is 0 lines. The round 11 proof files still match the manifest hashes. Five Nits stay open (PA-3, PA-5, PA-6, PA-7, and PA-8). Daniel's look and the Phase S5 manual verification stay [b] deferred:daniel. This report grants no print approval.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "PA-3 [Nit] phase-acceptance: plan.md has no S5.A2 task line, and the task numbers go from S5.A1 to S5.A3. Commit 8ae1bb25 (chibi-quest-print-floor.adversarial.test.ts and proof-s5/test-checks-p16-adversarial.py) and the audit adversarial-s5-1d66cd0f.json have no plan record. The audit file is untracked. The G2 count of 38 tests includes the 8 tests of the print-floor file, so a reader cannot trace that file to a task. The S5.A3 follow-up bullet names its fix commit by subject only, because a commit cannot name its own id. Rationale: a reader must trace each counted test to a task and a commit. Route: plan owner. Add an S5.A2 line with both ids. Add d239acca to the S5.A3 follow-up bullet. The closeout commit adds the untracked audit file.",
+    "PA-5 [Nit] phase-acceptance: Twelve phase commits change primary_template.html or chibi-quest-styles.ts. Plan.md line 5 says: send the id of every commit on a template path to the monorepo session through the PM (S7). The plan names the PM handoff for six: 0b2bd81f, 9b95646e, 95345e90, 178a4e2f, 967cef13, and 78b97a90. Six have no handoff line: 8178f200, dfb0df65, e560ff21, 679bca36, 3d53b37e, and 6bee5de2. Rationale: the PM needs every template-path commit id to plan the monorepo session at S7. Route: orchestrator. Send the twelve ids to the PM.",
+    "PA-6 [Nit] test_meaning: dashboard/__tests__/chibi-quest-page-flow.test.ts prints constants that no code measures. They are step11_header_mm 17, step11_box_mm 232, and step11_total_mm 249 at lines 155 to 157, and score_markers 2 at line 176. A reader can take them as measurements. The assertions check keep declarations and the page budget only, and P18 proves the page fit on the PDFs. Also, dashboard/__tests__/chibi-quest-print-sizes.test.ts compares two constant lists with themselves (lines 165 to 172 and 217 to 226). Rationale: a printed constant looks like a measurement, and a self-comparison cannot fail. Route: Green. At the next edit of the files, label these lines as constants or remove them.",
+    "PA-7 [Nit] evidence_quality: The capture adversarial-s5-1298fdb2.txt interleaves the three background outputs of the PA-1 follow-up (lines 1186 to 1215). The PA-1 VITEST heading (line 1189) holds only a COMMAND line, and its output (lines 1200 to 1207) sits under the eslint heading. The line PA1_TSC_EXIT=0 (line 1198) also sits under the eslint heading. Rationale: a reader cannot match each result to its command. The final block (lines 1212 to 1215) states TSC_EXIT=0, TARGETED_VITEST_EXIT=0, and ESLINT_EXIT=0. My own gates at d239acca give the same exit codes. Route: adversarial role. At the next edit of the file, order the captures by command.",
+    "PA-8 [Nit] phase-acceptance: Dirty state needs an exact-path closeout commit. (a) Four untracked captures hold 35 Thai characters each: green-s5g7-g3.raw, pa-s4-project-tests.txt, pa-s4-project-tests-clean.txt, and adversarial-s5-1d66cd0f-full.txt. No git ignore rule covers them, and a git add of the folder would publish Thai text in a public repository (Review B F34). (b) The exit code of run-g6-mutant.sh is always 0, because the script ends with an echo (Review B F32). (c) Five files hold edits outside the phase work, which the brief lists as known dirty files: review-b-s5-d2c2304c.json, review-b-s5-d2c2304c.log, strategy-s5-8b27c9ea.log, video/storytime-song/scripts/render.mjs, and the untracked dashboard/raw.json. A git commit -a would include the four tracked edits. (d) The untracked folders ux-r2-scratch (37 files: 5 scripts and 32 PNG screenshots) and ux-r3-scripts (10 scripts) hold 0 Thai characters in their text files. Per the PM, ux-r2-scratch is temporary output that stays until Daniel accepts the S5 look, and it is not a human item. Rationale: the closeout commit must hold phase files only and no Thai text. Route: orchestrator. Stage the closeout files by exact path, so that the temporary folders stay untracked."
+  ],
+  "evidence": [
+    "HEAD: git rev-parse HEAD gave d239accaf58335426b5e560b6d26e015941b5355 at role start, at the gate runs, and at write time. No commit landed during the audit.",
+    "Prerequisites: review-a-s5-1298fdb2.json, review-b-s5-1298fdb2.json, and adversarial-s5-1298fdb2.json pass at 1298fdb2. ux-browser-s5-61241959.json passes at 61241959. All four pass audit-result with the roles review-a, review-b, adversarial-testing, and ux-browser-review.",
+    "PM decision (2026-11-21), word for word: 'Reviews A, B and adversarial on 1298fdb2 stay valid. Commits f72b309f, 61241959 and d239acca change only the adversarial test file, its run evidence and plan.md; no product file. Rule: test-only or plan-only commits after a review keep the review.' My check confirms the fact. git diff --name-only 1298fdb2..HEAD lists 5 files: chibi-quest-hero-row.adversarial.test.ts, adversarial-s5-1298fdb2.json, adversarial-s5-1298fdb2.log, adversarial-s5-1298fdb2.txt, and plan.md. The product-path diff is 0 lines. The same rule keeps the UX result, which binds to 61241959, because d239acca is the only later commit. Accepted HEAD: d239accaf58335426b5e560b6d26e015941b5355. Allowed commits after the prerequisite heads: f72b309f (test-only), 61241959 (plan-only), and d239acca (test and plan evidence). I read each of the three diffs in full.",
+    "PA-4 of the earlier acceptance is resolved by the PM decision above. PA-1 is closed: PROJECT_CHECKS exits 0 with no output at d239acca. PA-2 is closed: phase_counts gives with_sha 17, because the S5.A3 task line now carries f72b309f.",
+    "Commit d239acca (read in full): the test diff holds 4 added lines and 2 removed lines. The two compareDocumentPosition lines now use a narrowed legend, and one new toBeDefined assertion checks that the marking key exists. Every original assertion stays, so the test is equal to or stricter than before. The commit holds 0 Thai characters. The plan diff adds f72b309f to the S5.A3 task line and adds one PA-1 follow-up bullet.",
+    "Phase scope: the supplied phase_base_sha 04275398 is the capture of S5 fix round 2. The 26 commits of 14ba57a6 through 04275398 lie at or before it, and no earlier acceptance covers them. I audited all 17 [x] tasks of S5, not only the diff since 04275398. The phase diff 14ba57a6~1..HEAD holds 405 files. Of these, 18 lie outside measure/runs: 3 product files, 7 new test files, .gitignore, and 7 record files. The product files are chibi-quest-styles.ts, workbook-document-wrapper.ts, and primary_template.html. The .gitignore change (commit 5cc50300) adds two lines for the rendered proof HTML, and test-strategy.md names it (Review B F4).",
+    "Task records: S5 holds 17 [x] tasks and 2 [b] tasks, both deferred:daniel. phase_counts gives (17, 17, 0, 0, 17). The five numbers are total, complete, in progress, incomplete, and with_sha. The 17 [x] task lines cite 27 distinct commit ids. All 27 resolve to commits in the phase range, and each subject names the same S5 task as its plan line. The S5 section cites 37 distinct ids in total, and all 37 resolve.",
+    "Gate results at d239acca: GREEN_TEST_COMMAND exit 0 (chibi-quest-hero-row-type.test.ts, 3 passed). PROJECT_TESTS with the 3 exclusions exit 0 (171 files, 3198 tests passed, 807.87 s). PROJECT_LINT exit 0 (0 output bytes). PROJECT_CHECKS exit 0 (0 output bytes). Extra: eslint on the 7 new chibi-quest test files exit 0 (0 output bytes).",
+    "Test counts in my suite run: chibi-quest-hero-row.adversarial 13, chibi-quest-hero-row-type 3, chibi-quest-page-flow 5, chibi-quest-print-sizes 9, chibi-quest-print-floor.adversarial 8, chibi-quest-picture-keep 6, and chibi-quest-picture-keep.adversarial 10 tests. All pass.",
+    "A5, plan claims: G1 (3 passed) matches my gate 1. G2 holds 5 files and 38 tests (8+9+10+5+6), and all 5 pass in my suite run. G3 (3185 tests in 170 files) equals my 3198 tests in 171 files minus the 13 tests and 1 file of f72b309f. The S5.A3 claims match: 13 new tests, 21 tests in 3 files (13+3+5), and six focused mutants. The PA-1 follow-up bullet claims exit 0 for tsc, the 13-test Vitest run, and eslint, and my runs confirm all three. The file checks-r11.txt records 20 checks and 0 failures. No S5 plan line claims a result that my runs contradict.",
+    "Mutation proof (adversarial-s5-1298fdb2.txt): the first mutation pass ran against a baseline that exited 1 (line 160). The CSSOM writes 0px for 0, so I did not count that pass. The corrected pass (lines 706 to 1183) has a baseline with exit 0 and 21 tests passed. Each of M1 to M6 exits 1 at its intended assertion and restores the product bytes (RESTORED_SHA256 b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b). M1 fails on line-height, M2 on font-size, M3 on margin-bottom, M4 on the key bottom margin, M5 on the key padding, and M6 on font-size.",
+    "Independent proof check of round 11 (poppler and Ghostscript, no repo script; measured at 61241959). The sha256 values of quest5-l01.pdf (42a59663...), adventure92-l09.pdf (725d3d83...), and both contact sheets (bf6871d4... and c7380501...) match manifest-r11.txt. They match again at d239acca, so the files are the same bytes. The PDFs hold 14 and 16 pages and 7 embedded CID TrueType fonts each, with 0 Type 3. Each PDF holds 3 images at 480 ppi (hero 84.67 mm). The 13 step titles run 1 to 13 in order with the app names, and 0 classic-only names occur. The hero and all of paragraph 1 sit on page 3, and paragraph 2 sits on page 4. The step 11 header and box start share page 11 (Quest 5) and page 13 (Adventure 9.2). The smallest text is 8.25 pt, with 0 spans under 7.95 pt in 7732 and 10648 spans.",
+    "Identity: the PDFs were built at 22:13:34, after commit 6bee5de2 (22:13:01). git diff 6bee5de2..HEAD in the four P8 pathspecs (dashboard without its tests, content/primary/quest-5, and content/primary/adventure-9.2) gives 0 lines. chibi-quest-styles.ts has sha256 b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b, equal to its HEAD blob and to the restore records.",
+    "Classic output: git diff 14ba57a6~1..HEAD on the golden folder, dashboard/lib/teacher-manual, primary, Teacher guide, and content gives 0 lines. The classic template branch keeps the old markup inside the else branch. P9: no Primary-Advantage-Quest-5* file exists in print-ready.",
+    "Anti-patterns: A3 not triggered (checks.py uses labeled parses of Pages: and Page size:; the three digit patterns in chibi-quest-print-floor.adversarial.test.ts are unit-format checks). A4 not triggered. P2, P4, P6, P12, and P16 fail on zero. The hero-row tests assert row and paragraph presence first, and d239acca adds a legend presence assertion. A6 not triggered (the phase changes one line of measure/tracks.md, which holds no resolved claim). A7 not triggered (the Thai filters drop by design; P3, P6, and P10 use exact strings).",
+    "Thai: the phase diff (405 files) holds 15428 added lines, and 0 contain Thai characters. The d239acca diff holds 66 added lines, and 0 contain Thai. Two files hold older Thai that the phase did not add: dashboard/templates/primary_template.html (7 characters) and measure/lessons-learned.md (39 characters).",
+    "Dirty state: no gate reads the four modified tracked files or the untracked files. No dashboard test names video/storytime-song/scripts/render.mjs or dashboard/raw.json. git status shows no modified file under dashboard, content, primary, or scripts. The only dashboard entry is the untracked dashboard/raw.json. Per the PM (2026-11-21), ux-r2-scratch/ is temporary output that stays until Daniel accepts the S5 look, and it is not a human item. It holds 37 untracked files (5 scripts and 32 PNG screenshots), and its text files hold 0 Thai characters. I did not scan the PNG content.",
+    "Review B Nits re-checked: F33 is fixed (proof-s5/check-P3-r2.txt equals HEAD). F32 (run-g6-mutant.sh ends with an echo) and F34 (four untracked captures hold 35 Thai characters each) still apply; see PA-8.",
+    "Earlier failures of other tracks: at 61241959, constants.test.ts and origins-thai-support.test.ts alone exited 1 with 3 failed and 3 passed. The 3 failures were the recorded ones (includes Adventures 1.0 as a primary workbook option; validates bilingual vocabulary fields for primary/origins-2-a0 and for primary/origins-3.1-a0). I did not rerun them at d239acca. Commit d239acca changes no product, content, or primary file and neither test file.",
+    "Machine state: each gate ran once through heavy-run. I wrote no raw capture, because the role forbids redirection. The numbers above come from the tool results.",
+    "Open for Daniel (not decided here): UX3-1 and UX2-4 to UX2-9 (ux-browser-s5-61241959.json), and the Review A Nits F20, F24, and F25 (carried). Daniel's look and the Phase S5 manual verification stay [b] deferred:daniel. ux-r2-scratch/ is not one of these items. No approval and no printer file exist."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> d239accaf58335426b5e560b6d26e015941b5355 (start, gate runs, write time)",
+    "git diff --name-only 1298fdb2..HEAD -> 5 files; 0 outside dashboard/__tests__, measure/runs, and plan.md",
+    "git diff 1298fdb2..HEAD -- dashboard/lib dashboard/templates content primary scripts -> 0 lines",
+    "git diff 6bee5de2..HEAD -- dashboard ':(exclude)dashboard/__tests__' content/primary/quest-5 content/primary/adventure-9.2 -> 0 lines",
+    "git diff 14ba57a6~1..HEAD -- content/primary/origins-3.2/print/golden dashboard/lib/teacher-manual primary 'Teacher guide' content -> 0 lines",
+    "git log --format=%h 14ba57a6~1..HEAD -- dashboard/templates/primary_template.html dashboard/lib/document-wrapper/chibi-quest-styles.ts -> 12 ids (the list in PA-5)",
+    "heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-hero-row-type.test.ts' -> exit 0; 3 passed (3)",
+    "heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts --exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts' -> exit 0; Test Files 171 passed (171); Tests 3198 passed (3198)",
+    "heavy-run 'set -o pipefail; cd dashboard && npx eslint lib/workbook-document-wrapper.ts lib/document-wrapper/chibi-quest-styles.ts' -> exit 0; 0 output bytes",
+    "heavy-run 'set -o pipefail; cd dashboard && npx tsc --noEmit' -> exit 0; 0 output bytes",
+    "heavy-run 'set -o pipefail; cd dashboard && npx eslint <the 7 new chibi-quest test files>' -> exit 0; 0 output bytes",
+    "sha256sum on quest5-l01.pdf, adventure92-l09.pdf, and both contact sheets in proof-s5-r11 -> the four values of manifest-r11.txt",
+    "python3 -I measure_interphase_checks.py audit-result on the 4 prerequisite files -> PASS for each",
+    "phase_counts for Phase S5 -> (17, 17, 0, 0, 17)",
+    "git rev-list --count 14ba57a6~1..04275398 -> 26",
+    "python3 -I script over the S5 section of plan.md -> 27 ids on the 17 [x] task lines and 37 ids in the section; all resolve to commits in 14ba57a6~1..HEAD",
+    "python3 -I script over git diff -U0 14ba57a6~1..HEAD -> 15428 added lines, 0 with Thai",
+    "python3 -I scan of ux-r2-scratch and ux-r3-scripts text files -> 0 Thai characters; 0 tracked files"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/phase-acceptance-s5-d239acca.json",
+    "measure/runs/primary_v2_look_20261020/phase-acceptance-s5-d239acca.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "claude-code/claude-sonnet-5-5#max",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "PROJECT_TESTS exits 0 (3198 tests), and my poppler check of quest5-l01.pdf shows 13 ordered step titles and the hero on page 3."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "chibi-quest-hero-row.adversarial.test.ts fails on six mutants at the intended assertions (adversarial-s5-1298fdb2.txt lines 706 to 1183), but chibi-quest-page-flow.test.ts:155-157 prints constants that no code measures."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 4,
+      "evidence": "The classic golden diff is 0 lines, but the no-op const css refactor at dashboard/lib/workbook-document-wrapper.ts:28 is a small extra."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Every S5 plan claim I checked has a capture (green-s5g8-g1.txt, checks-r11.txt, adversarial-s5-1298fdb2.txt), but plan.md has no S5.A2 line and capture lines 1186 to 1215 interleave."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "openai/gpt-6.1-sol#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "Its PASS at 1298fdb2 holds at d239acca: chibi-quest-hero-row-type.test.ts passes 3 tests in my gate 1, and the product diff since 1298fdb2 is 0 lines."
+    },
+    {
+      "reviewer_role": "review-b",
+      "reviewer_route": "claude-code/claude-sonnet-5-5#max",
+      "agreed": true,
+      "score": 5,
+      "evidence": "I confirmed that F33 is fixed (check-P3-r2.txt equals HEAD), and I reproduced F32 and F34 at d239acca (four captures hold 35 Thai characters each)."
+    },
+    {
+      "reviewer_role": "adversarial",
+      "reviewer_route": "openai/gpt-6.1-sol#high",
+      "agreed": true,
+      "score": 4,
+      "evidence": "Its final PASS holds (tsc exits 0 and 13 hero-row tests pass at d239acca), but its first round missed TS2532 in its own commit f72b309f."
+    }
+  ]
+}

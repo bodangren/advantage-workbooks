@@ -1,0 +1,13 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: 8ae1bb25
+tests_run: targeted heavy-run exits 0 (33 passed in 4 files); Python P16 probe exits 0 (9 probes pass); eslint and tsc exit 0; full suite exceeded 600000 ms timeout
+files_changed: chibi-quest-print-floor.adversarial.test.ts (committed), test-checks-p16-adversarial.py (committed), adversarial-s5-1d66cd0f.json/.log/.txt/-full.txt (uncommitted per instruction)
+plan_updates: none
+known_failures: the full suite did not finish within 10 minutes; storytime-print-card-kit-match.test.ts G-P8-R4 fails independently at HEAD (exit 1, symbolic-link HOME masking, storytime track, unrelated to these additive tests)
+handoff: Round 2 adds 8 adversarial Vitest tests and 9 Python P16 probes; all pass. No implementation defect surfaced, so nothing routes to Green. Thai filter was the first command and reported 0 Thai characters in output. Review A F24 is closed by a body-marker test that ignores stylesheet text. retry_recommendation none. Any later implementation commit invalidates this result and requires the adversarial gate to rerun. Facts changed: tested head is 8ae1bb25; production is unchanged from role base 1d66cd0f.
+dispositions: none (no CONTEST items this round)
+END_MEASURE_AGENT_RESULT

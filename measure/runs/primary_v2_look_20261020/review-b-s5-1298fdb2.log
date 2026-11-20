@@ -1,0 +1,51 @@
+Review B (security and data handling), delta re-review at 1298fdb2
+Track primary_v2_look_20261020, Phase S5: Page proofs for Daniel
+Final result. The provisional artifact is replaced.
+
+Head check: git rev-parse HEAD = 1298fdb28bb4148d49ceb8e46f62502d18b5a175 at the start and after the last check. It equals audited_head_sha.
+Range audited: 1d66cd0f..1298fdb2 (19 commits, 114 files), with the phase range 04275398..1298fdb2 for history and Thai scans.
+Applicability: applicable, narrow (test-strategy.md lines 90, 214, 347, 421). The diff holds one Handlebars template and proof helpers that run subprocesses.
+
+Findings
+- Zero blocking findings. Zero Major findings. Three nonblocking Nits.
+- F32 [Nit]: run-g6-mutant.sh edits a tracked product file in place and restores it from an unchecked backup. It has no trap, and its exit code is always 0.
+- F33 [Nit]: checks.py defaults the round to r2 and writes with mode w. A run without S5_ROUND changed the committed proof-s5/check-P3-r2.txt in the working tree.
+- F34 [Nit]: four untracked text files (35 Thai characters each) and 32 untracked PNG files sit in the track folder. No .gitignore rule covers them.
+- No CONTEST item was routed to this run. Earlier findings F1 to F5 closed in later passes.
+
+Data-flow checks
+- Template: the new chibi branch (primary_template.html:1673-1819) uses only double-stash tokens. chibi_quest is a server-side flag (template-renderer.ts:148).
+- Embedded CSS: constants only. The class-name rewrite of 54526262 was static, and 33b24d0c removed it. No leftover exists at HEAD.
+- Helpers: argv lists, constant paths, no shell=True, no git write command. Deletes act on mkstemp files and mkdtemp folders in finally blocks.
+- Temp path: /tmp/opencode points into a mode 700 parent, so a shared temp directory risk does not apply.
+- Tests: no network call and no shell call. One execFileSync runs git show with a constant commit and a literal file list.
+- Dependency, route, auth, tenant, database, migration, and content paths: no change in the phase range.
+
+Scans
+- 114 delta files: 0 credential hits, 0 emails, 0 binaries, 0 Thai added (7 Thai characters on one pre-existing template label).
+- 34 phase commits, added lines: 0 Thai characters, 0 credential hits.
+- Private data: 0 IPv4, 0 MAC, 0 phone, 0 level-tests references. Absolute paths sit in known roots.
+
+Special checks
+- A2: not triggered. No draft-to-published flip and no consent text in the delta.
+- A6: not triggered. tracks.md:17 marks the track [~]. No security state is claimed resolved.
+
+Gate results
+- Heavy-run vitest on six chibi test files at 1298fdb2: 6 files passed, 41 tests passed.
+- One shell call was refused by the role shell rules. The grep tool ran the same search.
+- Product files and checks.py match HEAD. HEAD still equals 1298fdb2 after the last check.
+
+Route: the brief records a substitution. ra-quota returned opencode-go/hy4-flash-free (the Green family). This run used claude-code/claude-sonnet-5-5#max.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none; audited 04275398c9411b45685733e20fc003945524ad72..1298fdb28bb4148d49ceb8e46f62502d18b5a175 (delta since the last pass: 1d66cd0f..1298fdb2)
+tests_run: heavy-run vitest on six chibi test files at 1298fdb2 passed (6 files, 41 tests). Read-only Python scans of 114 delta files and 34 commits found 0 credential hits and 0 Thai added. The role rules refused one shell call, and the grep tool redid it.
+files_changed: measure/runs/primary_v2_look_20261020/review-b-s5-1298fdb2.json; measure/runs/primary_v2_look_20261020/review-b-s5-1298fdb2.log
+plan_updates: none
+known_failures: none blocking; 3 nonblocking Nits: F32 (run-g6-mutant.sh), F33 (checks.py overwrite default), F34 (untracked Thai captures)
+handoff: PASS with no Blocker and no Major. Security applicability is applicable and narrow. A2 and A6 are not triggered. Send the three Nits to Green; Green may fold F32 and F33 into the next round without a separate commit round. Before the next commit, restore proof-s5/check-P3-r2.txt from HEAD, and stage each file by its path, not the whole folder. Do not stage the four untracked Thai text captures or ux-r2-scratch. No CONTEST item was routed. retry_recommendation: none. Route substitution: the brief records ra-quota returned opencode-go/hy4-flash-free, the Green family; this run used claude-code/claude-sonnet-5-5#max. Facts changed: the security review passes at 1298fdb2 with zero blocking findings and three Nits.
+END_MEASURE_AGENT_RESULT

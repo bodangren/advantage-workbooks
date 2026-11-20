@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "role": "measure-ux-browser-review",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "04275398c9411b45685733e20fc003945524ad72",
+  "phase_base_sha": "04275398c9411b45685733e20fc003945524ad72",
+  "role_base_sha": "6124195916964052916a36aea11db7a4d2d127e0",
+  "audited_head_sha": "6124195916964052916a36aea11db7a4d2d127e0",
+  "route": "claude-code/claude-sonnet-5-5#max",
+  "model": "claude-sonnet-5-5",
+  "status": "pass",
+  "summary": "PASS: no Blocker and no Major finding remains at head 61241959. UX2-1, UX2-2, and UX2-3 are closed on both lessons. I viewed all 30 page tiles of proof round 11 (Quest 5: 14 pages; Adventure 9.2: 16 pages). The three PM look decisions hold. I found one new Nit (UX3-1: the step 11 QR panel prints on the next page), and six earlier Nits stay open. I ran no browser session, because the artifact is a print PDF.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "UX3-1 [Nit] ux-browser-review: The QR panel of step 11 prints in a split frame on the next page. It sits at the top of Quest 5 page 12 and Adventure 9.2 page 14, above the sign of step 12. The writing box ends with 42.3 mm free below it, and the panel fragment is 39.2 mm tall. Its label reads 'STEP 2: TYPE AND GET AI FEEDBACK', and a child can read that label as a lesson step. P18 and the tech-debt row of 2026-04-26 allow a separate digital follow-up, so I rate this a Nit. Daniel decides, or Green saves about 5 mm in step 11 (my estimate) so that the panel stays on page 11.",
+    "UX2-4 [Nit] ux-browser-review: State at 61241959: open, unchanged. The page number of page 1 prints 5.3 mm lower than on later pages, in both lessons. It starts at 272.7 mm on page 1 and at 267.4 mm on later pages. The content of page 1 starts at 25.4 mm, and on the other pages it starts between 20.1 mm and 24.0 mm. The number stays inside the page, so nothing is clipped.",
+    "UX2-5 [Nit] ux-browser-review: State at 61241959: open, and more visible. The Sentence Starters box touches the sides of the Guided Writing frame on Quest 5 page 11 and Adventure 9.2 page 13. The QR panel sits inside a frame fragment with a 3.5 mm gap, so the border reads as double (see UX3-1). The markup comes from the shared template.",
+    "UX2-6 [Nit] ux-browser-review: State at 61241959: open, and one page is emptier. Quest 5 page 3 starts with one lone vocabulary card, and Adventure 9.2 page 3 starts with two. The lowest fill is 66% on Quest 5 (page 8) and 46% on Adventure 9.2 (page 6, step 4 alone, 133 mm blank). Page 5 of Adventure 9.2 is at 54%; at round 8 the lowest Adventure fill was 54%, apart from the step 11 page. The hero row moved paragraph 1 to page 3, so step 4 no longer fits after paragraph 6 (my estimate: about 4 mm short). Daniel decides if he wants fuller pages (question 4).",
+    "UX2-7 [Nit] ux-browser-review: State at 61241959: open, unchanged. The vocabulary cards, the write-in wells, and the planner boxes print a 2 px edge in parchment-2 (#e9d4a8) with a 10 px radius. The code is in chibi-quest-styles.ts, lines 189 to 195. Spec line 68 lists the vocabulary card as a panel with a 3 px parchment-edge border and a 14 px radius. The PM decides which text is the record. Daniel decides if he wants a darker edge (question 2).",
+    "UX2-8 [Nit] ux-browser-review: State at 61241959: open, unchanged. In the Adventure 9.2 translation (page 16), the polite closing word of paragraph 2 prints alone on its own line. The Latin words STAFF ONLY in paragraph 3 print lighter than the Thai text, and a line break splits them. I saw no clipped mark at 300 dpi. This stays for Daniel's Thai check (question 3).",
+    "UX2-9 [Nit] ux-browser-review: State at 61241959: open, in part. The contact sheets pair no app capture with printed steps 9, 10, and 11. Each of the three tiles now states that no single app step exists (spec S4). A page that starts two steps pairs the first step only: Quest 5 pages 1, 5, and 6, and Adventure 9.2 pages 1 and 8. Route: the proof driver author. This is optional."
+  ],
+  "evidence": [
+    "Head check: git rev-parse HEAD gave 6124195916964052916a36aea11db7a4d2d127e0 at the start and again before the final write. The phase base is 04275398c9411b45685733e20fc003945524ad72. The role base equals the audited head.",
+    "Proof identity: sha256sum of the two r11 PDFs, the two contact sheets, and the two print HTML files equals the lines of proof-s5/manifest-r11.txt. The manifest names git head 6bee5de2. git diff 6bee5de2..HEAD changes one file outside measure/: dashboard/__tests__/chibi-quest-hero-row.adversarial.test.ts. The product code of the proof equals the product code at HEAD.",
+    "Pages viewed: all 14 tiles of quest5-l01 and all 16 tiles of adventure92-l09 in proof-s5-r11 (827 x 1123 px each). I also viewed 300 dpi crops of the Thai glosses (Quest 5 pages 1 and 9, Adventure page 16). I viewed a crop of paragraph 1 against paragraph 2. I viewed a crop of the step 11 page foot with the QR fragment. I viewed the before-after crops of page 3 (r10 and r11) for both lessons. I viewed the top rows of both contact sheets and the step 9 to 11 rows of the Quest 5 sheet.",
+    "UX2-1 closed: the step 11 header and its writing box share Quest 5 page 11 and Adventure 9.2 page 13. The header starts at 24.0 mm, and the box ends at 222.7 mm. P18 records 565 and 544 characters on the two pages, where round 8 held 7 words. The QR panel is the one part that moves to the next page (UX3-1). P18 passes.",
+    "UX2-2 closed: the self-assessment strip prints directly under the MY SCORE box on Quest 5 page 7 and Adventure 9.2 page 9. Step 8 starts the next page. P19 passes.",
+    "UX2-3 closed, and the hero holds the PM size. The hero image is 1600 px at 480 ppi, which is 84.67 mm, in both PDFs (pdfimages). The 300 dpi render gives 84.75 mm, at x 20.12 to 104.78 mm. The inline pictures print at 479 ppi, so they have the same width. The gutter to paragraph 1 is 6.13 mm, and the top of the text equals the top of the hero. No empty strip remains: the only white area in the row is 10.1 mm under the Quest 5 caption (Adventure 9.2: 1.4 mm).",
+    "Paragraph 1 and paragraph 2 both print in Quicksand Regular at 12.00 pt. Paragraph 1 has 12 lines (Quest 5) and 11 lines (Adventure 9.2). Each line pitch of paragraph 1 is 24.0 pt (minimum 24, maximum 24). Paragraphs 2 and 3 use a 24.0 pt median pitch. The badge digits use 8.25 pt for paragraph 1 and for paragraph 2. The crop shows the same size and spacing.",
+    "Marking key: the key strip (8.25 pt Quicksand) comes before the hero row. Its baseline is at 118.9 mm (Quest 5) and 159.1 mm (Adventure 9.2). The first baseline of paragraph 1 is at 127.7 mm and 167.6 mm. The strip is readable on the crop, with its underscores, question mark, exclamation mark, and star.",
+    "Step 3: the step 3 sign, the QR box, the key, the hero, and paragraph 1 share page 3 in both lessons. P17 and P20 pass. The row ends at 221.7 mm (Quest 5) and 253.2 mm (Adventure 9.2), against a content limit of 265 mm. The Adventure row has only 11.8 mm of spare space.",
+    "Labels: the smallest text is 8.25 pt in both PDFs (Ghostscript txtwrite). 0 of 15502 characters (Quest 5) and 0 of 21331 characters (Adventure 9.2) print under 7.95 pt. The font list holds Quicksand (Regular, Bold), Fredoka (Medium, SemiBold, Bold), Sarabun Regular, and Mitr Bold. It holds no italic face.",
+    "Writing lines (300 dpi, tan rules of 3 to 4 px): step 11 has 6 draft lines in r5 (pitch 6.35 mm), r8, and r11. The line count equals round 8 on every page, outside the picture pages. The 24 neighbour pitches of each lesson have a mean of 8.03 mm, a minimum of 7.87 mm, and a maximum of 8.21 mm. The pitches match whole pixels of the 96 dpi grid (30 px is 7.94 mm, and 31 px is 8.20 mm). In each lesson, 15 to 16 of the 24 pitches are 0.04 to 0.13 mm under 8.00 mm. I treat decision 2 as holding within that tolerance.",
+    "Thai glosses: Sarabun Regular prints them at 8.25 pt (Quest 5 pages 1 to 3 and 9; Adventure pages 1 to 3 and 11). It prints the translation at 9.00 pt. The 300 dpi crops show upright letters and whole tone marks. I saw no clipped mark. The font list holds no italic face.",
+    "Clipping and overlap: pdftotext -bbox read 1394 words (Quest 5) and 1823 words (Adventure 9.2). It found 0 overlapping word pairs and 0 words outside the side margins (20.0 to 190.0 mm, tolerance 0.6 mm). I saw no clipped text and no squashed picture. Each picture prints with its caption on the same page (P12 and P13 pass).",
+    "Orphan headers and fill (content area used, by page). Quest 5: 90, 91, 82, 81, 83, 73, 94, 66, 68, 85, 83, 70, 84, and 35 percent (Thai page last). Adventure 9.2: 95, 83, 95, 78, 54, 46, 66, 73, 94, 66, 68, 85, 83, 70, 84, and 61 percent (Thai page last). Every step sign has content below it on the same page. No page is near-empty like the round 8 step 11 page (6% used). Adventure page 6 is the emptiest page (UX2-6).",
+    "PM decision 3: the 13 signs read 1 to 13 in order, with the app names, on both lessons. A grep of the PDF text finds no app step number and no mapping text. The Thai translation page belongs to no step.",
+    "Carried look Nits (not raised as new). F15 (hero size and the empty column) is closed by the r11 geometry. The 84.75 mm hero sits in a two-column row with a 6.13 mm gutter. F17 (step headers touch the panel above) is closed: my gaps measure 3.89 mm to 4.23 mm, and P15 gives a minimum of 3.89 mm. Daniel confirms both at his look.",
+    "Consistency with the gate record: proof-s5/checks-r11.txt lists 20 checks and 0 failures. My measures agree with P14 (84.67 mm), P15 (minimum gap 3.89 mm), and P16 (smallest 8.25 pt, 0 spans under 8 pt).",
+    "Markup check of the two print HTML files: lang is en, a title exists, and all 5 images in each file have a non-empty alt. The heading levels run 1, 2, 3, 2. The files carry no lang attribute for the Thai blocks, and the PDF has no tags. This does not affect a printed workbook, so I raise no finding.",
+    "Not applicable to a print PDF: responsive behavior, keyboard use, loading states, empty states, and error states. I used no browser session (webbridge_status not_run), as test-strategy.md lines 217 and 218 allow. I did not decode the QR codes. Both QR blocks print complete with their quiet zone on Quest 5 pages 3 and 12 and on Adventure 9.2 pages 3 and 14.",
+    "Tool refusals: the shell refused three commands (a heredoc file write, an output redirect, and an rm -rf). The write tool refused one path under /tmp/opencode. I did not retry them. I wrote the scripts under measure/runs/primary_v2_look_20261020/ux-r3-scripts/ (10 files, 0 Thai characters). Script output went to the terminal. All renders sit in /tmp/opencode/ux3/ and hold Thai pages.",
+    "Leftover scratch: the folder measure/runs/primary_v2_look_20261020/ux-r2-scratch/ (17 MB, untracked, not ignored) comes from the earlier run of this role. It holds 32 page renders, and 10 of them show Thai text. I did not delete it. The orchestrator must delete it before any commit (same class as review B finding F34)."
+  ],
+  "commands": [
+    "git rev-parse HEAD (three times); git diff --stat and --name-only against the phase base and against 6bee5de2; git status --porcelain",
+    "sha256sum on the r11 PDFs, contact sheets, and print HTML files; read of proof-s5/manifest-r11.txt, round-identity.txt, and checks-r11.txt",
+    "pdfinfo, pdffonts, and pdfimages -list on both r11 PDFs; pdftotext -layout and -bbox on both r11 PDFs",
+    "pdftoppm -r 300 -gray into /tmp/opencode/ux3/img for r5, r8, and r11 of both lessons; pdftoppm -r 200 colour renders of Quest 5 pages 3, 4, 11, and 12",
+    "python3 -I -B ux-r3-scripts/spans.py, sizes.py, pitch.py, band.py, rules.py, lines_count.py, hero.py, gaps.py, words.py, and html_semantics.py",
+    "read of spec.md, plan.md (Phase S5), test-strategy.md (grep), tech-debt.md (grep), primary_template.html (lines 2125 to 2275, and the diff), chibi-quest-styles.ts (lines 138 to 200), and the package JSON of Quest 5 and Adventure 9.2 (key names and word counts only)",
+    "python3 -I -B measure_interphase_checks.py role-gate --repo . --role ux-browser-review --track primary_v2_look_20261020 --phase 'Phase S5: Page proofs for Daniel' --baseline 04275398c9411b45685733e20fc003945524ad72 --result-file ux-browser-s5-61241959.json --log-file ux-browser-s5-61241959.log (exit 0: PASS)"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/ux-browser-s5-61241959.json",
+    "measure/runs/primary_v2_look_20261020/ux-browser-s5-61241959.log",
+    "measure/runs/primary_v2_look_20261020/ux-r3-scripts/ (10 measurement scripts: spans.py, sizes.py, pitch.py, band.py, rules.py, lines_count.py, hero.py, gaps.py, words.py, html_semantics.py; no Thai)"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "ux_applicability": "applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {
+    "screenshots": [
+      "/home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r11/quest5-l01-pages/page-01.png to page-14.png (14 tiles viewed)",
+      "/home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r11/adventure92-l09-pages/page-01.png to page-16.png (16 tiles viewed)",
+      "/home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r11/before-after/quest5-l01-page3-r10.png, quest5-l01-page3-r11.png, adventure92-l09-page3-r10.png, and adventure92-l09-page3-r11.png (4 crops viewed)",
+      "/home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r11/quest5-l01-contact.jpg and adventure92-l09-contact.jpg (top rows of both and the step 9 to 11 rows of Quest 5 viewed)",
+      "/tmp/opencode/ux3/img/crop-q5-p1-cards.png, crop-q5-p9-match.png, crop-a92-p16-mid.png, cmp-p1-p2.png, and step11-split.png (300 dpi and 200 dpi crops; scratch outside the repository; Thai pages)"
+    ],
+    "accessibility_snapshots": [
+      "A print PDF has no accessibility tree. The nearest evidence is the PDF text layer: pdftotext -bbox word boxes, Ghostscript txtwrite sizes and fonts, and pdffonts for both r11 PDFs. The markup check of both print HTML files gave lang=en, 5 images with alt, and heading levels 1, 2, 3, 2."
+    ],
+    "interactions": [
+      "None. The proof is a static print PDF, so no keyboard, viewport, or state interaction exists."
+    ]
+  },
+  "pm_decisions": {
+    "decision_1_hero": {
+      "result": "holds",
+      "detail": "The hero prints at 84.67 mm (image) and 84.75 mm (render), inside 84.8 mm plus or minus 1 mm. A 6.13 mm gutter separates it from paragraph 1, and no empty strip remains."
+    },
+    "decision_2_readability": {
+      "result": "holds",
+      "detail": "The smallest text is 8.25 pt. The Thai glosses print upright at 8.25 pt. The writing lines have a mean pitch of 8.03 mm, with a spread of 7.87 to 8.21 mm, and the line count equals round 8."
+    },
+    "decision_3_fixed_13_steps": {
+      "result": "holds",
+      "detail": "13 printed steps with their own numbers and names, in order, on both lessons. No app number or mapping text prints on a lesson page."
+    }
+  },
+  "questions_for_daniel": [
+    "Question 1 (step 11 QR panel): The QR code box of the writing step prints at the top of the next page, above step 12. Do you accept this page turn?",
+    "Question 2 (card edges): The vocabulary cards and the write-in boxes have a pale tan edge. Do you want a darker edge, as in the app?",
+    "Question 3 (Thai check): On the Adventure translation page, the polite closing word of paragraph 2 sits alone on a line. The English words STAFF ONLY print lighter than the Thai text. Are both correct for your Thai check?",
+    "Question 4 (page fill): Several pages have 65 to 133 mm of blank space at the foot. Adventure 9.2 page 6 is the emptiest page. Do you want fuller pages?"
+  ]
+}

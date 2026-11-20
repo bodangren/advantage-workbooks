@@ -1,0 +1,100 @@
+UX browser review, Phase S5: Page proofs for Daniel (round 2, FINAL)
+Track: primary_v2_look_20261020
+Phase base: 04275398c9411b45685733e20fc003945524ad72
+Role base: 8ae1bb259d8d59e64b246233274b5739164685f1 (the brief gave it; it equals the audited head)
+Audited head: 8ae1bb259d8d59e64b246233274b5739164685f1 (equals HEAD at the start; the end check read .git/refs/heads/master)
+Result file: measure/runs/primary_v2_look_20261020/ux-browser-s5-8ae1bb25.json
+Proof reviewed: ~/Desktop/print-ready/primary-v2-look/proof-s5-r8/ (quest5-l01.pdf, 15 pages; adventure92-l09.pdf, 17 pages)
+
+ENVIRONMENT BLOCK (read this first).
+- The shell tool refused one command with "Permission denied: shell".
+- The command would have measured the writing-line pitch and the step header gaps on all page renders. It did not run.
+- I followed the PM rule. I ran no further shell command, and I used only the read, grep, glob, and write tools.
+- The scratch folder measure/runs/primary_v2_look_20261020/ux-r2-scratch/ stays in the work tree. It holds 32 page renders (10 show Thai text) and 5 scripts. Delete it before any commit.
+- The orchestrator must run the role-gate check on the result file.
+
+Verdict: FAIL with 1 Blocker and 8 nonblocking findings (Blocker: UX2-1; Major: UX2-2 and UX2-3; Nit: UX2-4 to UX2-9).
+The product is a print proof, not a web route. I judged the r8 page tiles. I used no browser, so webbridge_status is not_run.
+The verdict does not depend on the measures that the refused command would give.
+
+Item 1: the three PM look decisions (2026-11-20).
+- Decision 1, hero at full inline width with no empty strip: holds in part. The hero measures 84.7 mm on both lessons. The strip is closed in Quest 5 (14.1 mm gutter, was 35.3 mm). Adventure 9.2 page 3 keeps an empty block of 84.2 x 72.2 mm beside the hero (UX2-3).
+- Decision 2, readability for ages 9 to 12: holds. pdftohtml reads 0 text spans under 8 pt (P16: smallest 8.25 pt). The Thai glosses print upright in Sarabun regular, and no italic face exists. The writing lines measure 8 mm within the measure error.
+- Decision 3, fixed 13 printed steps: holds. The 13 signs read 1 to 13 in order on both lessons. No app number or app mapping text prints on a lesson page.
+
+Item 2: findings by page.
+Quest 5 lesson 1 (15 pages):
+- Page 1: no defect. The page number prints 5.3 mm lower than on the other pages (UX2-4, Nit).
+- Page 2: no defect.
+- Page 3: step 3 header, QR box, reading key, hero, and paragraph 1 sit on this page. One vocabulary card stands alone at the top (UX2-6, Nit).
+- Page 4: no defect. Two pictures print with their captions.
+- Page 5: no defect. The step 5 header keeps a gap of about 4 mm under the frame (P15: 3.89 mm).
+- Page 6: no defect. About 65 mm stays blank at the foot (UX2-6, Nit).
+- Page 7: no defect. The MY SCORE box ends the page.
+- Page 8: the self-assessment strip sits at the top, away from the score box (UX2-2, Major).
+- Page 9: no defect. About 78 mm stays blank (UX2-6, Nit).
+- Page 10: no defect.
+- Page 11: the step 11 header prints alone on a near-empty page (UX2-1, Blocker).
+- Page 12: the Guided Writing box prints complete. The QR panel and the Sentence Starters box touch the frame sides (UX2-5, Nit).
+- Page 13: no defect. About 113 mm stays blank (UX2-6, Nit).
+- Page 14: no defect.
+- Page 15: the Thai translation prints complete, and I saw no clipped mark.
+Adventure 9.2 lesson 9 (17 pages):
+- Page 1: no defect. The page number prints low (UX2-4, Nit).
+- Page 2: no defect.
+- Page 3: the hero leaves an empty block of 84.2 x 72.2 mm on its right (UX2-3, Major). Two vocabulary cards stand alone at the top (UX2-6, Nit).
+- Page 4: about 103 mm stays blank (UX2-6, Nit). Paragraph 2 and the map print with the caption.
+- Page 5: no defect. Paragraphs 3, 4, and 5 print with the picture and its caption.
+- Pages 6, 7, and 8: no defect. About 88, 85, and 64 mm stay blank (UX2-6, Nit).
+- Page 9: no defect. The MY SCORE box ends the page.
+- Page 10: the self-assessment strip sits at the top, away from the score box (UX2-2, Major).
+- Pages 11 and 12: no defect.
+- Page 13: the step 11 header prints alone on a near-empty page (UX2-1, Blocker).
+- Page 14: the Guided Writing box prints complete (UX2-5, Nit).
+- Pages 15 and 16: no defect. About 113 mm stays blank on page 15 (UX2-6, Nit).
+- Page 17: the Thai translation prints complete. The polite closing word of paragraph 2 sits alone on a line, and the words 'STAFF ONLY' print light (UX2-8, Nit).
+
+Item 3: the Blocker UX2-1 in detail.
+- The step 11 page holds 7 words in r6, r7, and r8 on both lessons. It held 147 words (Quest 5) and 140 words (Adventure) in r5, with the header and the box on one page.
+- The page content area is 245 mm. The box is about 232 mm tall, and the header block is about 17 mm. The pair needs about 249 mm.
+- The rule .guided-writing-step forces a page break before the step (primary_template.html line 580). The 8 mm writing lines of PM decision 2 made the box taller.
+- Spec S3 (spec.md line 72) says the title and the box stay on one page. No check covers step 11, and checks-r8.txt passes 17 of 17.
+- Fix guidance: shrink the pair by at least 5 mm, and keep the 8 mm pitch. Remove the 4 mm top margin on that header, trim the planner spacing, or let the box split after its header. Add check P18.
+- Cutting the draft lines from 6 to 5 saves 8 mm. This changes decision 2, so the PM must choose.
+
+Item 4: status of the earlier findings (head d2c2304c).
+- UX-1 header gaps: closed (P15 minimum 3.89 mm).
+- UX-2 hero: closed for Quest 5, open for Adventure 9.2 (UX2-3).
+- UX-3 small print and writing lines: closed (decision 2).
+- UX-4 step numbers: closed by decision 3.
+- UX-5 blank areas and widow cards: open (UX2-6).
+- UX-6 pale card edges: open (UX2-7).
+- UX-7 Thai: the italic gloss is closed, and two details are open (UX2-8).
+- UX-8 contact-sheet pairs: open (UX2-9).
+- The brief held no CONTEST item. This role withdraws and keeps no finding.
+
+Questions for Daniel, in plain words (send after the fix):
+1. On the long lesson the first paragraph starts on the next page, so about 84 x 72 mm stays blank beside the first picture. Do you accept the white space, or do you want the paragraph to start beside the picture?
+2. The vocabulary cards and the write-in boxes have a pale tan edge. Do you want a darker edge, as in the app?
+3. The English words 'STAFF ONLY' print lighter than the Thai text, and the polite closing word of paragraph 2 sits alone on a line (Adventure translation page). Are both correct for your Thai check?
+4. Several pages have 65 to 115 mm of blank space at the foot. Do you want fuller pages?
+
+Limits of this review:
+- A print PDF has no responsive layout, no keyboard use, no accessibility tree, and no loading, empty, or error state. These checks do not apply.
+- I viewed all 32 tiles at 100 dpi. I viewed three pages at about 178 dpi (Quest 5 pages 1 and 12, Adventure page 17). I did not open the contact sheets or the app captures.
+- The refusal stopped these measures: the line-pitch table for most pages, my own table of header gaps, the QR decode, and the role-gate check. P15 and P16 cover the gaps and the sizes.
+- The findings cover Quest 5 lesson 1 and Adventure 9.2 lesson 9 only.
+- Estimates of blank areas come from the 100 dpi tiles (error about 2 mm). The measures of the hero, the strip, the fonts, and the word boxes come from the PDFs and the 300 dpi renders.
+
+MEASURE_AGENT_RESULT
+role: measure-ux-browser-review
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: no test suite (print-proof audit); 32 page tiles viewed; pdftotext, pdftohtml, and pdftoppm checks on both r8 PDFs: 0 overlapping word pairs, 0 text spans under 8 pt, hero 84.7 mm; step 11 header alone on Quest 5 page 11 and Adventure page 13: FAIL; one shell command refused, so the line-pitch table, the header-gap table, the QR decode, and the role-gate check did not run
+files_changed: measure/runs/primary_v2_look_20261020/ux-browser-s5-8ae1bb25.json; measure/runs/primary_v2_look_20261020/ux-browser-s5-8ae1bb25.log; untracked scratch folder measure/runs/primary_v2_look_20261020/ux-r2-scratch/ (delete before any commit)
+plan_updates: none; audit-only role
+known_failures: Blocker UX2-1 (step 11 header alone on a near-empty page in both lessons; spec S3 breach since round 6); Major UX2-2 (self-assessment strip split from the score box since round 6); Major UX2-3 (empty block beside the Adventure 9.2 hero); the shell refused one command and the scratch folder stays in the work tree
+handoff: The shell refused one command, so I stopped shell work (PM rule). Delete ux-r2-scratch/ before any commit. Run the role-gate check on the JSON. Do not show proof r8 to Daniel. Route UX2-1 to Red, then Green: shrink the step 11 header-plus-box pair by at least 5 mm, keep the 8 mm line pitch, and add check P18 (step 11 header and box start on one page). Route UX2-2 to Green in the same round. Decide UX2-3: a Green fix or Daniel question 1. Build proof round 9, then review again. Send questions 1 to 4 of the result file to Daniel after the fix.
+END_MEASURE_AGENT_RESULT

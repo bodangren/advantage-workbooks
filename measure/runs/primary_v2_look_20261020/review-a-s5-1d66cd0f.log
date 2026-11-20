@@ -1,0 +1,64 @@
+Review A (correctness), S5 re-review at 1d66cd0f
+Track primary_v2_look_20261020, Phase S5: Page proofs for Daniel
+
+Head check: git rev-parse HEAD = 1d66cd0f0384a81e15b830db1806913ee34ad3a0 (equals audited_head_sha).
+Range audited: 04275398..1d66cd0f, focus 54cf54d8..1d66cd0f (4 commits).
+
+Findings
+- F23 [Blocker, earlier run] WITHDRAWN. Rerun of python3 -I -B checks.py --p16-calibration
+  into the scratch run folder: 7.0, 7.5, 7.75, 7.9 pt measured exactly and reported fail;
+  8.0 and 8.25 pt reported pass; RESULT: PASS; exit 0. A missing proof folder makes P16
+  exit 1, so the check is not vacuous.
+- F20 [Nit] KEPT (CONTEST kept). All six record items are unchanged at the audited head:
+  plan.md:5 past build window; test-strategy.md:417 hero 63.5 mm vs P14 84.67 mm;
+  test-strategy.md:418 spacing unchanged vs P15 3.89 mm; test-strategy.md:419 F10 items;
+  plan.md has no seriesName, levelNumber, or cefrLevel name; plan.md:117 inline picture;
+  chibi-quest-styles.ts:97 F5 attribution.
+- F24 [Nit, new]. The rendered-HTML marker loop passes from stylesheet text alone.
+- F25 [Nit, new]. test-strategy.md:469 still names pdftotext -bbox; line 463 and line 471
+  still say P1 to P16; no strategy line describes P17.
+
+Selector check
+All eight Red selectors map to template rules that held 10 px text (lines 927, 681, 207,
+605, 722, 645, 691, 696). Every other template rule under 8 pt is covered by the scoped
+11 px rules or by the print media rule at template line 1258. The one exception is
+.qr-code at template line 1163, a 9 px no-image fallback; all 14 print records carry
+article_url, so the fallback does not print, and P16 reports smallest 8.25 pt.
+
+Scope check
+All eight selectors carry the .look-chibi-quest prefix. git diff 04275398..1d66cd0f over
+classic styles.ts, the golden folder, and dashboard/lib/teacher-manual is empty.
+git status on dashboard and pnpm-lock.yaml shows only the pre-existing untracked raw.json.
+
+Gate exit codes
+- P16 calibration: 0 (fail rows 7.0/7.5/7.75/7.9, pass rows 8.0/8.25)
+- P1 to P17 on proof-s5-r8: each 0; runner exit 0 (CHECKS_RUN 17 FAILURES 0)
+- ESLint on the two changed dashboard files: 0
+- Scratch control before mutation: 0 (25 passed)
+- Scratch control after last restore: 0 (25 passed)
+- Missing-proof-folder fixture: P16 exit 1; P8 raises (non-zero at the CLI)
+
+Mutant table
+| ID | Mutation | Catching test | Exit | Failed tests |
+| M-A | prompt-label split to its own rule at 10 px | sets every P16 small-text group at 8 pt or more | 1 | 2 |
+| M-B | collection-item label removed from the eight-selector rule | sets every P16 small-text group at 8 pt or more | 1 | 2 |
+| M-C | classic page margin 20 mm to 21 mm | keeps the classic golden lesson byte-identical without printing its text | 1 | 5 |
+| M-D | shared rule 11 px to 10.6 px | sets every P16 small-text group at 8 pt or more | 1 | 2 |
+| C0 | control before mutation | all three chibi files | 0 | 0; 25 passed |
+| C2 | control after restore | all three chibi files | 0 | 0; 25 passed |
+
+Cleanup: python3 removed the node_modules symlink and the scratch folder; the path no longer exists.
+git status --porcelain on that path prints nothing. HEAD still equals 1d66cd0f0384a81e15b830db1806913ee34ad3a0.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: pass
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none; audited 04275398c9411b45685733e20fc003945524ad72..1d66cd0f0384a81e15b830db1806913ee34ad3a0
+tests_run: P16 calibration exit 0 with 7.0/7.5/7.75/7.9 pt fail and 8.0/8.25 pt pass; P1-P17 on proof-s5-r8 each exit 0; ESLint exit 0; controls exit 0 with 25 passed; M-A to M-D each exit 1; missing-proof-folder P16 exit 1
+files_changed: measure/runs/primary_v2_look_20261020/review-a-s5-1d66cd0f.json; measure/runs/primary_v2_look_20261020/review-a-s5-1d66cd0f.log
+plan_updates: none; F23 withdrawn as closed; F20 kept as a Nit; F24 and F25 added as Nits
+known_failures: F20 record lag; F24 marker loop passes from stylesheet text; F25 stale strategy lines. The shell sandbox refused a heredoc write and every cp command, so the audit used the write tool and python3 shutil. Cleanup passes; HEAD and the lockfile remain unchanged.
+handoff: No Blocker stays. The orchestrator sends the kept F20 item to the user. The plan author updates the records of F20, F24, and F25; no product change is required. retry_recommendation: escalate_human. Facts changed: the automated S5 gate passes and P16 enforces the 8 pt floor.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,118 @@
+UX browser review, Phase S5: Page proofs for Daniel (round 3)
+Track: primary_v2_look_20261020
+Phase base: 04275398c9411b45685733e20fc003945524ad72
+Role base: 6124195916964052916a36aea11db7a4d2d127e0
+Audited head: 6124195916964052916a36aea11db7a4d2d127e0 (equals HEAD at the start and before the final write)
+Result file: measure/runs/primary_v2_look_20261020/ux-browser-s5-61241959.json
+Proof reviewed: ~/Desktop/print-ready/primary-v2-look/proof-s5-r11/ (quest5-l01.pdf, 14 pages; adventure92-l09.pdf, 16 pages)
+Route: claude-code/claude-sonnet-5-5#max (a Claude model, because the page images hold Thai)
+
+Verdict: PASS with 0 blocking findings and 7 nonblocking findings (1 new Nit: UX3-1; 6 earlier Nits: UX2-4 to UX2-9).
+The product is a print proof, not a web route. I judged the page tiles and measured the PDFs. I ran no browser session, so webbridge_status is not_run.
+The checksums of the six proof files equal the lines of proof-s5/manifest-r11.txt. The product code of the proof equals the product code at HEAD.
+
+Item 1: the three findings of round 2 that blocked or weighed most.
+- UX2-1 (Blocker, step 11 header alone): closed. The header and the writing box share Quest 5 page 11 and Adventure 9.2 page 13.
+- UX2-2 (Major, strip away from the score box): closed. The strip prints under the MY SCORE box on Quest 5 page 7 and Adventure 9.2 page 9.
+- UX2-3 (Major, empty block beside the hero): closed. Paragraph 1 starts beside the hero on page 3 of both lessons.
+
+Item 2: the PM look decisions (2026-11-20).
+- Decision 1 (hero at 84.8 mm plus or minus 1 mm, no empty strip): holds. The hero is 84.67 mm (image) and 84.75 mm (render). The gutter to the text is 6.13 mm.
+- Decision 2 (readability): holds. The smallest text is 8.25 pt. The Thai glosses print upright at 8.25 pt. The writing lines have a mean pitch of 8.03 mm (spread 7.87 to 8.21 mm). The line count equals round 8.
+- Decision 3 (13 printed steps, app mapping in the teacher notes only): holds. The 13 signs read 1 to 13 in order. No app mapping text prints on a lesson page.
+
+Item 3: the checks of the brief, in order.
+- Hero at full inline width: 84.75 mm, equal to the inline pictures (479 ppi). No empty strip. A 10.1 mm white area sits under the Quest 5 caption only.
+- Paragraph 1 and paragraph 2: both Quicksand Regular 12.00 pt. The pitch of paragraph 1 is 24.0 pt on every line. Paragraphs 2 and 3 use 24.0 pt.
+- Marking key: it comes before the hero row, at 8.25 pt, and it is readable.
+- Step 3: the sign, the QR box, the key, the hero, and paragraph 1 share page 3 in both lessons. The Adventure row has 11.8 mm of spare space.
+- Step 11: the header and the writing box share one page. The QR panel moves to the next page (UX3-1).
+- Labels: 0 characters under 7.95 pt in both PDFs.
+- Writing lines: 6 draft lines at step 11 (r5: 6 lines at 6.35 mm). The count equals round 8. The pitch is 7.87 to 8.21 mm.
+- Thai glosses: upright, 8.25 pt, no clipped mark at 300 dpi. The translation prints at 9.00 pt.
+- Clipping: 0 overlapping word pairs and 0 words outside the side margins (1394 and 1823 words).
+- Orphan headers: none. Every step sign has content below it on its page.
+- Blank pages: none near-empty. Adventure 9.2 page 6 holds 46% (UX2-6).
+
+Item 4: page by page.
+Quest 5 lesson 1 (14 pages; content area used):
+- Page 1 (90%): no defect. The page number prints 5.3 mm low (UX2-4).
+- Page 2 (91%): no defect.
+- Page 3 (82%): step 3 sign, QR box, key, hero row. One lone card at the top (UX2-6).
+- Page 4 (81%): paragraphs 2 and 3 with their pictures and captions. No defect.
+- Page 5 (83%): steps 4 and 5. The gap above step 5 is 4.23 mm.
+- Page 6 (73%): step 6, and the start of step 7. The gap above step 7 is 3.98 mm.
+- Page 7 (94%): questions 2 to 4, the MY SCORE box, and the strip. No defect.
+- Page 8 (66%): step 8 with its box. No defect.
+- Page 9 (68%): step 9, part A. No defect.
+- Page 10 (85%): step 9 parts B, and step 10. The gap above step 10 is 4.23 mm.
+- Page 11 (83%): step 11 header and writing box. The Sentence Starters box touches the frame (UX2-5).
+- Page 12 (70%): the QR fragment (UX3-1, UX2-5) and step 12. The gap above step 12 is 3.89 mm.
+- Page 13 (84%): step 13 and the homework box. No defect.
+- Page 14 (35%, last page): the Thai translation prints complete.
+Adventure 9.2 lesson 9 (16 pages):
+- Page 1 (95%): no defect. The page number prints low (UX2-4).
+- Page 2 (83%): no defect.
+- Page 3 (95%): step 3 sign, QR box, key, hero row. Paragraph 1 ends at 253.2 mm. Two lone cards at the top (UX2-6).
+- Page 4 (78%): paragraphs 2 and 3 with the map and the gate picture. No defect.
+- Page 5 (54%): paragraphs 4 to 6. About 112 mm stay blank (UX2-6).
+- Page 6 (46%): step 4 alone. About 133 mm stay blank (UX2-6).
+- Page 7 (66%): step 5. No defect.
+- Page 8 (73%): step 6, and the start of step 7. The gap above step 7 is 3.98 mm.
+- Page 9 (94%): questions 2 to 4, the MY SCORE box, and the strip. No defect.
+- Page 10 (66%): step 8 with its box. No defect.
+- Page 11 (68%): step 9, part A. No defect.
+- Page 12 (85%): step 9 part B, and step 10. No defect.
+- Page 13 (83%): step 11 header and writing box. The Sentence Starters box touches the frame (UX2-5).
+- Page 14 (70%): the QR fragment (UX3-1, UX2-5) and step 12. The gap above step 12 is 3.89 mm.
+- Page 15 (84%): step 13 and the homework box. No defect.
+- Page 16 (61%, last page): the Thai translation prints complete. The closing word of paragraph 2 sits alone (UX2-8).
+
+Item 5: the new finding.
+- UX3-1 (Nit): the QR panel of step 11 prints in a split frame at the top of Quest 5 page 12 and Adventure 9.2 page 14.
+- The writing box ends with 42.3 mm free below it. The panel fragment is 39.2 mm tall. The panel moves to the next page, above the sign of step 12.
+- Its label reads 'STEP 2: TYPE AND GET AI FEEDBACK'. A child can read that label as a lesson step.
+- The tech-debt row of 2026-04-26 allows a separate digital follow-up, and P18 checks only that the header and the box start share a page. I rate this a Nit.
+- Fix for Green, if Daniel wants it: save about 5 mm in step 11 (my estimate, no render) so that the panel stays on page 11.
+
+Item 6: status of the earlier Nits and the carried look Nits.
+- UX2-4 (page 1 number 5.3 mm low): open, unchanged.
+- UX2-5 (double border in the Guided Writing frame): open, and more visible on the QR fragment.
+- UX2-6 (blank areas, lone cards): open. Adventure 9.2 page 6 is now the emptiest page (46%).
+- UX2-7 (pale card edges): open, unchanged. Spec line 68 names a 3 px parchment-edge border and a 14 px radius for the vocabulary card. The code draws 2 px parchment-2 and 10 px.
+- UX2-8 (Thai details): open, unchanged.
+- UX2-9 (contact sheet pairs): open, in part. Each of steps 9 to 11 now states that no single app step exists.
+- F15 (hero size and empty column): closed by the r11 geometry.
+- F17 (step headers touch the panel above): closed. The gaps measure 3.89 mm to 4.23 mm.
+- The brief held no CONTEST item. This role withdraws and keeps no routed finding.
+
+Item 7: questions for Daniel, in plain words (send with proof r11).
+1. The QR code box of the writing step prints at the top of the next page, above step 12. Do you accept this page turn?
+2. The vocabulary cards and the write-in boxes have a pale tan edge. Do you want a darker edge, as in the app?
+3. On the Adventure translation page, the polite closing word of paragraph 2 sits alone on a line. The English words STAFF ONLY print lighter than the Thai text. Are both correct?
+4. Several pages have 65 to 133 mm of blank space at the foot. Adventure 9.2 page 6 is the emptiest. Do you want fuller pages?
+
+Forward note (not a finding, no render).
+- The page 3 row depends on the length of paragraph 1. The proof lessons have 93 words (Quest 5 lesson 1) and 71 words (Adventure 9.2 lesson 9).
+- Paragraph 1 has 57 to 100 words in Quest 5 and 66 to 142 words in Adventure 9.2. Quest 5 lesson 1 has 43 mm of spare space on page 3, so Quest 5 looks safe.
+- Adventure 9.2 lesson 9 has 11.8 mm of spare space. A long paragraph 1 (lesson 7: 142 words) will move the step 3 block to page 4. Proof that lesson before any Adventure printer file.
+
+Limits of this review:
+- A print PDF has no responsive layout, no keyboard use, and no loading, empty, or error state. These checks do not apply.
+- I did not decode the QR codes. The app captures on the contact sheets come from a different lesson (Your Pet Dog), as in earlier rounds.
+- Line pitches come from 300 dpi renders (1 px is 0.085 mm). Fill values come from the same renders.
+- The findings cover Quest 5 lesson 1 and Adventure 9.2 lesson 9 only.
+- The shell refused three commands and the write tool refused one path. I did not retry them. The scripts sit in ux-r3-scripts/ and the renders sit in /tmp/opencode/ux3/.
+
+MEASURE_AGENT_RESULT
+role: measure-ux-browser-review
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none
+tests_run: no test suite (print-proof audit); sha256 of 6 proof files equals manifest-r11; 30 page tiles viewed; 10 measurement scripts on both r11 PDFs: smallest text 8.25 pt (0 characters under 7.95 pt), hero 84.67 mm, paragraph 1 and 2 at 12 pt with a 24 pt pitch, 0 overlapping word pairs, 0 words outside the side margins; checks-r11.txt read: 20 checks, 0 failures; validate_audit_payload on the result JSON returned no feedback; role-gate ux-browser-review exited 0; the shell refused 3 commands and the write tool refused 1 path (not retried)
+files_changed: measure/runs/primary_v2_look_20261020/ux-browser-s5-61241959.json; measure/runs/primary_v2_look_20261020/ux-browser-s5-61241959.log; measure/runs/primary_v2_look_20261020/ux-r3-scripts/ (10 scripts, no Thai)
+plan_updates: none; audit-only role
+known_failures: none blocking; open Nits UX3-1 (new), UX2-4, UX2-5, UX2-6, UX2-7, UX2-8, UX2-9; the untracked folder ux-r2-scratch/ (17 MB, 10 renders show Thai) from the earlier run of this role stays in the work tree
+handoff: PASS at 61241959 with no finding for Green. Daniel decides UX3-1 and UX2-4 to UX2-9 at his look (questions 1 to 4 in the result file). Delete measure/runs/primary_v2_look_20261020/ux-r2-scratch/ before any commit. Commit or delete ux-r3-scripts/ (10 scripts, no Thai). Before any Adventure printer file, proof Adventure 9.2 lesson 7 (142-word paragraph 1; estimate only). The role-gate check exited 0 at my end, and the orchestrator runs it again.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "04275398c9411b45685733e20fc003945524ad72",
+  "phase_base_sha": "04275398c9411b45685733e20fc003945524ad72",
+  "role_base_sha": "674d271c53356bc279cdd5cd47af83b0c033fe66",
+  "audited_head_sha": "674d271c53356bc279cdd5cd47af83b0c033fe66",
+  "status": "fail",
+  "summary": "FAIL: option B puts the 84.8 mm hero and paragraph 1 in one grid row, and proof round 10 passes P1 to P20. The change moves paragraph 1 out of .article-text, so paragraph 1 prints at a 19.8 pt line pitch and paragraphs 2+ at 24 pt (F26, Blocker). The marking key now prints after paragraph 1 (F27). The wrapper rewrites the production CSS to satisfy a test helper (F28). The classic output stays byte-identical, and the S5.G6 page-flow rules hold (P18 and P19 exit 0).",
+  "blocking_findings": [
+    "F26 [Blocker] review-a: The chibi row moves paragraph 1 out of the .article-text element (primary_template.html:1694-1712; paragraphs 2+ stay in .article-text at :1734). Paragraph 1 therefore loses the print rule .article-text { font-size: 12pt; line-height: 2 } (template :1387-1390) and takes the body line height 1.65 (template :1381-1384). Ghostscript txtwrite on the r10 PDFs measures a 19-21 pt line pitch for paragraph 1 on page 3 and a 24 pt pitch for paragraph 2 on page 4, in both proofs (Adventure 9.2 and Quest 5). So the first paragraph prints visibly tighter than the rest of the article. At S5.G6 and in the classic look, every paragraph prints at line height 2. The Red test checks only the markup order and the grid display, so no test catches this. Fix: give paragraph 1 the .article-text print size and line height inside the row (for example an article-text wrapper in the right column, or one chibi rule), add a test that compares the winning line-height of paragraph 1 and paragraph 2 in the chibi render, and rerun the proof (P14, P17, P20). Rationale: a defect in the remediation lines that changes the printed article for the child reader."
+  ],
+  "nonblocking_findings": [
+    "F20 [Nit] review-a r5: Records still lag the design (plan.md:117 inline picture wording, plan.md:144 area, test-strategy.md:417-419, the F5 attribution in the comment at chibi-quest-styles.ts:97). Carried open as instructed. Route: the plan author updates these records. No product change is required.",
+    "F24 [Nit] review-a r5: The P16 render test marker loop passes from stylesheet text alone. Carried open as instructed.",
+    "F25 [Nit] review-a r5: test-strategy.md lags the current checks (P16 source, P1 to P16 range). Carried open as instructed. The strategy also has no line for P18 to P20 or the option B row.",
+    "F27 [Major] review-a: The marking key moved. The chibi branch prints the .marking-legend after the row, so the key now sits between paragraph 1 and paragraph 2 (primary_template.html:1715; r10 print HTML offsets: row 935729, legend 936901, article-text 938328). The classic branch and S5.G6 print the key before paragraph 1 (template :1778; the template CSS comment at :1504 says 'Marking key under the QR box'). On the r10 Adventure 9.2 page 3 the key prints under the hero caption, after the student reads paragraph 1. The PM option B decision covers the hero and paragraph 1 only, not the key. Fix: render the legend before the row, as in the classic order, or record a PM decision for the new place. Route: Green.",
+    "F28 [Major] review-a: Production CSS is changed to satisfy a test helper. workbook-document-wrapper.ts:28-31 rewrites every 'chibi-hero-row' in the chibi stylesheet to the escape '\\63 hibi-hero-row', with the comment that the page-flow guard finds the row by the first occurrence of the class name. The cause is extractRow at chibi-quest-page-flow.test.ts:115, which uses html.indexOf('chibi-hero-row') and so finds the CSS selector in the head first. The escape is valid CSS, and P14 and P20 prove the layout on r10. But the wrapper now carries a string rewrite that exists only for one test, and any future chibi rule that names the class gets the same rewrite. Fix: the test author changes extractRow to find class=\"chibi-hero-row\" in the markup; then Green removes the replaceAll call. Route: Red, then Green.",
+    "F29 [Nit] review-a: The row carries break-inside: avoid and wraps the hero area (chibi-quest-styles.ts:117-118). The comment at chibi-quest-styles.ts:97-98 says the hero wrappers must not carry this rule because Paged.js dropped a tall hero area (P11, round 2). P11 passes on the two r10 proofs (3 of 3 pictures each), so the current proofs are safe. A lesson with a taller row moves the whole row to the next page and can leave the step 3 header and QR box alone; only two lessons prove the rule. Fix: update the comment so it states why the row may carry the keep rule, and name the residual risk in test-strategy.md. Route: Green for the comment, the plan author for the strategy.",
+    "F30 [Nit] review-a: Two Green captures predate the final implementation. green-s5g7-g1.txt and green-s5g7-g2.txt start at 17:22:04 and 17:22:23; the commits e560ff21, 07541d95, and 54526262 land at 17:23, 17:26, and 17:54. The plan line 'G1-G5, G7, and G8 pass' therefore rests on G3 (19:04:45, 3182 tests) for the final code. This audit reran the page-flow file at HEAD (see evidence). Route: Green records the capture time or reruns G1 and G2 after the last implementation commit."
+  ],
+  "evidence": [
+    "HEAD equals 674d271c53356bc279cdd5cd47af83b0c033fe66 at the start of the audit. git log 04275398..674d271c lists 25 commits; this round audits 2a3a4145, f5c55419, e560ff21, 07541d95, 54526262, and 674d271c.",
+    "The net wrapper change since the phase base is the escape in lookStyle only: e560ff21 moved the look style to the end of the body, 07541d95 did the same for the lessons-only render, and 54526262 moved it back to the head and added the escape. The classic path returns '' and is unchanged.",
+    "git diff --stat 04275398..674d271c over dashboard/lib/document-wrapper/styles.ts, dashboard/lib/teacher-manual, content/primary/origins-3.2/print/golden, and pnpm-lock.yaml is empty. git status --porcelain on dashboard and pnpm-lock.yaml shows only the pre-existing untracked dashboard/raw.json.",
+    "The template adds a {{#if chibi_quest}} branch at primary_template.html:1673-1758; the {{else}} branch at :1759-1818 keeps the classic markup. chibi_quest comes from template-renderer.ts:148 (options.look === 'chibi-quest').",
+    "Line pitch measured with gs txtwrite on pages 3 and 4 of the r10 PDFs, 12.0 pt spans only, positions and sizes only: Adventure 9.2 page 3 right column 11 lines, pitches 19 to 21 pt; page 4 22 lines, pitch 24 pt. Quest 5 page 3 right column 12 lines, pitches 19 to 20 pt; page 4 20 lines, pitch 24 pt. 12 pt x 1.65 = 19.8 pt; 12 pt x 2 = 24 pt.",
+    "The r10 page 3 image of Adventure 9.2 shows the hero in the left column, paragraph 1 in the right column, and the marking key under the hero caption at the page foot.",
+    "S5.G6 holds: chibi-quest-styles.ts:135-148 keeps the step 11 and strip rules. checks-r10.txt: P18 step11_page 11 and 13 with box on the same page; P19 strip_page 7 and 9 with the score box and apart from step 8.",
+    "checks-r10.txt reports 20 checks, failures 0, RESULT: PASS. P14 reports 84.67 mm for both heroes, P17 and P20 report the step 3 header, hero, and paragraph 1 on page 3, P11 reports 3 of 3 pictures per proof, and P16 reports smallest 8.25 pt.",
+    "The plan claims at plan.md:147-148 match checks-r10.txt, manifest-r10.txt (git_head 54526262), and the Green log, except the G1 and G2 capture times (F30). A5: the PASS claim matches the record.",
+    "The Red rerun capture green-s5g7-red-rerun.txt shows 1 failed and 4 passed, with the failure on '.look-chibi-quest .chibi-hero-row display' empty. This matches the Red evidence at plan.md:146.",
+    "The G6 mutant capture records display:block caught by the display assertion, exit 1, restored to the HEAD bytes.",
+    "Test meaning of S5.R5: the row test checks display grid or flex, no float, the keep rule, an 84.8 mm width in a row rule, and that the rendered row holds the hero and paragraph 1 and not paragraph 2. It does not check paragraph typography or the key position (F26, F27). The classic test checks the classic render and styles.ts for the absence of the row.",
+    "The extractRow helper needs the first 'chibi-hero-row' occurrence in the markup. In the r10 print HTML the escaped selector sits at offsets 824764 and 824944 inside the head (head ends at 832820), and the markup class sits at 935729.",
+    "The 18 changed files from e4bb5be7 to 674d271c hold 0 Thai characters. This audit displayed no Thai text and wrote none.",
+    "A3, A4: this round changed no orchestration script, contract test, or registry, so the framework-wide checks do not apply. checks.py did not change in this round.",
+    "Known open Nits F20, F24, and F25 are carried as instructed and are not raised again as new.",
+    "The audit reran the page-flow file at HEAD in one heavy-run (start 21:28:36): 1 file, 5 tests passed, exit 0; hero_row_widths_found 2. The test passes at HEAD with the F26 line-height defect present, which confirms the coverage gap."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline 04275398..674d271c; git show e560ff21 07541d95 54526262 -- dashboard/; git show 2a3a4145; git show f5c55419 674d271c -- plan.md",
+    "git diff --stat 04275398..674d271c -- dashboard/lib/document-wrapper/styles.ts dashboard/lib/teacher-manual content/primary/origins-3.2/print/golden pnpm-lock.yaml (empty)",
+    "grep of primary_template.html for article-text, marking-legend, paragraph, and para-number rules; sed of the template CSS at :125-165, :888-970, :1230-1395, :1485-1530",
+    "python3 -I gs txtwrite parse of pages 3 and 4 of both r10 PDFs: line pitch, size, font prefix, x position (no text printed)",
+    "python3 -I offsets of chibi-hero-row, the escaped selector, article-text, and marking-legend in adventure92-l09.print.html (no text printed)",
+    "Read of the r10 before-after page 3 image and page 4 image of Adventure 9.2",
+    "git diff e4bb5be7..674d271c | python3 -I Thai count (0)",
+    "heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-page-flow.test.ts'"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/review-a-s5-674d271c.json",
+    "measure/runs/primary_v2_look_20261020/review-a-s5-674d271c.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "claude-code/claude-opus-5-5[1m]#high (substitution: Kimi hit its weekly limit before it wrote anything; Claude is over pace but below 80%)",
+  "ratings": [
+    {"axis": "correctness", "score": 2, "evidence": "gs txtwrite on the r10 PDFs measures a 19.8 pt line pitch for paragraph 1 and 24 pt for paragraph 2, because primary_template.html:1694-1712 puts paragraph 1 outside .article-text."},
+    {"axis": "test_meaning", "score": 3, "evidence": "The display:block mutant fails the row test, but no test checks paragraph typography or the key position, and extractRow forced a production CSS rewrite (workbook-document-wrapper.ts:31)."},
+    {"axis": "scope_discipline", "score": 4, "evidence": "git diff --stat e4bb5be7..674d271c touches the template, the chibi styles, the wrapper, and the planned test only; classic styles, golden, and teacher-manual stay unchanged, but the wrapper escape is an extra for a test."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "checks-r10.txt, manifest-r10.txt, and G3 carry command results, but green-s5g7-g1.txt and g2.txt start at 17:22, before the three implementation commits."}
+  ]
+}

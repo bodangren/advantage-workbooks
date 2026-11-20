@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: fail
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: none; audited 04275398c9411b45685733e20fc003945524ad72..54cf54d86f2b349d10bbf9aa3c1a2d6f2bab3264
+tests_run: targeted Vitest exit 0, 23 passed; P1-P17 r7 each exit 0; missing-deliverable P8 and P14-P17 each exit 1; M1-M8 each exit 1; scratch controls each exit 0, 23 passed; P16 known 7pt fixture falsely exits 0; ESLint exit 0
+files_changed: measure/runs/primary_v2_look_20261020/review-a-s5-54cf54d8.json; measure/runs/primary_v2_look_20261020/review-a-s5-54cf54d8.log
+plan_updates: none; F15, F17, F21, and F22 withdrawn within the stated scope; F20 remains a Nit; F23 is a Blocker
+known_failures: F23: P16 accepts 7, 7.25, 7.5, and 7.75pt text as meeting the 8pt minimum. The authorized scratch path resolved the permission block. Cleanup passes. HEAD and the lockfile remain unchanged.
+handoff: Route F23 to Green. Normalize the P16 conversion and handle rounding. Add known-size fixtures below and at 8pt. Rerun P16 and update its evidence. retry_recommendation: retry_implementation. The JSON evidence contains the mutant table. Facts changed: the automated S5 gate fails because P16 accepts undersized text.
+END_MEASURE_AGENT_RESULT

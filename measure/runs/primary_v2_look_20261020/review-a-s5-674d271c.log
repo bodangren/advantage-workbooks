@@ -1,0 +1,30 @@
+Review A (correctness and architecture), Phase S5, round S5.R5 and S5.G7.
+audited_head_sha: 674d271c53356bc279cdd5cd47af83b0c033fe66
+phase_base_sha: 04275398c9411b45685733e20fc003945524ad72
+role_base_sha: 674d271c53356bc279cdd5cd47af83b0c033fe66
+Result JSON: measure/runs/primary_v2_look_20261020/review-a-s5-674d271c.json (status fail, 1 blocking, 7 nonblocking)
+
+Blocking:
+- F26: paragraph 1 is outside .article-text in the chibi row. It prints at a 19.8 pt line pitch; paragraphs 2+ print at 24 pt (gs txtwrite, both r10 proofs).
+
+Nonblocking:
+- F27 [Major]: the marking key prints after paragraph 1, not before it.
+- F28 [Major]: the wrapper escapes the row class in production CSS only to satisfy the test helper extractRow.
+- F29 [Nit]: the row keep rule conflicts with the comment at chibi-quest-styles.ts:97-98; only two lessons prove it.
+- F30 [Nit]: the G1 and G2 captures predate the three implementation commits.
+- F20, F24, F25: carried open.
+
+Holds: the classic output (styles.ts, golden, teacher-manual: empty diff), S5.G6 (P18, P19 exit 0), P1 to P20 exit 0 on r10, page-flow file 5 passed at HEAD.
+
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S5: Page proofs for Daniel
+commits: none
+tests_run: heavy-run.sh vitest run __tests__/chibi-quest-page-flow.test.ts at 674d271c: exit 0, 5 passed; gs txtwrite line-pitch measurement of r10 pages 3 and 4: paragraph 1 19.8 pt, paragraphs 2+ 24 pt
+files_changed: measure/runs/primary_v2_look_20261020/review-a-s5-674d271c.json, measure/runs/primary_v2_look_20261020/review-a-s5-674d271c.log
+plan_updates: none
+known_failures: F26 Blocker: chibi paragraph 1 loses the .article-text print line height (primary_template.html:1694-1712)
+handoff: Route F26 and F27 to Green (retry_implementation): give paragraph 1 the .article-text size and line height in the row, put the key before the row or record a PM decision, add a line-height test, rerun the proof. Route F28 to Red (extractRow finds class="chibi-hero-row"), then Green removes the escape. F29 and F30 are Nits. F20, F24, F25 stay open.
+END_MEASURE_AGENT_RESULT

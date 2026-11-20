@@ -414,9 +414,9 @@ Mutants M6a and M6b were caught (`green-s5g1-r4-mutants.txt`). Add the mutant th
 
 **Open Nits for Daniel's look.** No Blocker stays after r5. The phase acceptance and Daniel's gate still run.
 
-- F15: Adventure 9.2 page 3 keeps an empty right column of about 70 x 55 mm under the reading key, because paragraph 1 starts on page 4. The column is white space and not a print defect. The hero now prints 63.5 mm square, while the inline pictures print 84.8 mm square. A strip of about 30 mm stays beside the hero. A larger uniform cap, for example 300 px, is possible and was not rendered. Daniel decides the hero size and the empty column.
-- F17: step headers touch the panel above on Quest 5 pages 5, 6, and 10 and on Adventure 9.2 pages 8 and 12. The audited delta does not change that spacing. Daniel decides at his look.
-- F10 stays open in part for the plan author: the stale date in `spec.md` and `plan.md`, and the missing `seriesName`, `levelNumber`, and `cefrLevel` assertions in the S6 test list. The strategy role owns none of those files.
+- F15: PM decision 1 (2026-11-20) closed the choice. The hero prints at full inline width; P14 measures 84.67 mm at r7 and r8. The strip beside the hero closed. Daniel confirms at his look.
+- F17: the scoped `margin-top: 4mm` rule (S5.G3) closed the touching headers. P15 measures a 3.89 mm minimum at r7 and r8. Daniel confirms at his look.
+- F10: closed for the plan author (2026-11-21). The plan dates read on hold everywhere, and the S6 test list now asserts `seriesName`, `levelNumber`, and `cefrLevel`. The strategy role owns none of those files.
 
 **Review applicability.** Review applicability stays as in the S5 remediation section. The three rules change scoped print CSS only. Review A, correctness, leads and checks R1 to R3, the six assertions, and P11 to P13. Review B, security, stays narrow and unchanged. Review C does not apply; no route, flag, or option changed. Adversarial testing applies, one round, and adds the `width: auto` mutant and the P13 squash fixture. UX and API review keeps UX_REQUIRED; the API side stays not applicable. Browser review applies (UX_REQUIRED) for the r5 proof HTML and contact sheets. Each review role uses a model family other than the Red and Green families. It reports and fixes nothing. No open Blocker may remain at closeout.
 
@@ -460,15 +460,16 @@ Green gates: GREEN_TEST_COMMAND exits 0. `PROJECT_TESTS` is `set -o pipefail; cd
 
 P8 scope (F21). Use four Git pathspecs: `dashboard`, `:(exclude)dashboard/__tests__`, `content/primary/quest-5`, and `content/primary/adventure-9.2`. Keep the manifest `git_head` compare, the `COMMIT_ID` validation, `--end-of-options`, the artifact hashes, and the head compare. Fixtures: a change to `dashboard/lib/template-renderer.ts` fails P8; a change only under `dashboard/__tests__/` passes P8. Record the scope as these four pathspecs, not as "dashboard and content" (F22). The nine omitted render imports and `dashboard/assets/print-fonts` are now inside the scope.
 
-P14 to P16 use the P1 to P13 table form. Run each through one heavy-run wrapper and record the exit code.
+P14 to P17 use the P1 to P13 table form. Run each through one heavy-run wrapper and record the exit code.
 
 | ID | Check | Falsification condition | Round that proved it falsifiable |
 |---|---|---|---|
 | P14 | Read `pdfimages -list`. Convert the hero `x_ppi` to printed width in mm. Require 84.8 mm within 1 mm in both lessons. | The r5 hero prints 63.5 mm and fails. A restored 240 px cap fails. | The r5 fixture fails first; r6 must pass. |
 | P15 | No step header within 3 mm of the element above. Best automated form: `pdftotext -bbox` word boxes, the topmost word box of each step title, and the bottom of the nearest text or panel border above it on the same page. Fail below 3 mm. If the border is absent from the text layer, use a PIL pixel-column scan at 300 dpi as the UX review did, with the same threshold. Record the method used. | The r5 gaps of 0.0 mm on Quest 5 pages 5 and 6 and Adventure page 8, and 0.25 mm on Quest 5 page 10 and Adventure page 12, fail. | The r5 fixture fails first; r6 must pass. UX review and Daniel stay binding for visual gaps. |
-| P16 | From `pdffonts` and `pdftotext -bbox`: no label text under 8 pt and no italic Thai gloss face. Print counts and English label names only. | The r5 labels at 6.7 pt and 7.3 pt fail. A Sarabun Italic gloss face fails. | The r5 fixture fails first; r6 must pass. |
+| P16 | From `pdffonts` and the Ghostscript `txtwrite` XML: no text under 8 pt (0.05 pt tolerance) and no italic Thai gloss face. Print counts and English label names only. | The r5 labels at 6.7 pt and 7.3 pt fail. A Sarabun Italic gloss face fails. | The r5 fixture fails first. P16 also failed at r7 on real under-8 pt text and passed at r8 after the F23 fix. |
+| P17 | The step 3 header shares its page with the hero picture or paragraph 1 in both proofs. Read the step 3 page, the hero page, and the paragraph 1 start page from the PDF text. | A proof with the step 3 header alone on its page fails. | The first r11 attempt failed P17 on Adventure 9.2 (`proof-s5/checks-r11-attempt1.txt`); r7 to r11 pass. |
 
-P16 reads font names and counts. It never prints a Thai string. P1 to P13 stay as recorded. Build proof round 6 in `~/Desktop/print-ready/primary-v2-look/proof-s5-r6/`. Refuse an overwrite of an existing PDF. Keep the two proof HTML names in `.gitignore`. Run P1 to P16; write "all checks pass" only when all exit 0.
+P16 reads font names and counts; it reads the span sizes from the Ghostscript `txtwrite` XML. It never prints a Thai string. P1 to P13 stay as recorded. Build proof round 6 in `~/Desktop/print-ready/primary-v2-look/proof-s5-r6/`. Refuse an overwrite of an existing PDF. Keep the two proof HTML names in `.gitignore`. Run P1 to P17; write "all checks pass" only when all exit 0.
 
 **(c) Order of work.** Run these steps in order. Stop on an open Blocker.
 

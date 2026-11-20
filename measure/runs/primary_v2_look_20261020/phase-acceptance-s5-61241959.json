@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "primary_v2_look_20261020",
+  "phase": "## Phase S5: Page proofs for Daniel",
+  "baseline_sha": "6124195916964052916a36aea11db7a4d2d127e0",
+  "phase_base_sha": "04275398c9411b45685733e20fc003945524ad72",
+  "role_base_sha": "6124195916964052916a36aea11db7a4d2d127e0",
+  "audited_head_sha": "6124195916964052916a36aea11db7a4d2d127e0",
+  "status": "fail",
+  "summary": "FAIL: PROJECT_CHECKS exits 2 at the audited head 61241959. tsc reports two TS2532 errors in the adversarial test file of the test-only commit f72b309f, and the adversarial round did not run tsc. All other gates pass: the Green gate (3 passed), PROJECT_TESTS (171 files, 3198 tests), PROJECT_LINT, and eslint on the seven new test files exit 0. The product behavior is correct. The round 11 proof PDFs match the manifest hashes and my own poppler checks. The classic golden diff is 0 lines. The product diff since the review head 1298fdb2 is 0 lines. The 3 earlier failures of other tracks are the only failures in the two excluded files. Open: the S5.A3 plan line has no commit SHA (PA-2). Daniel's look and the Phase S5 manual verification stay [b] deferred:daniel. This report grants no print approval.",
+  "blocking_findings": [
+    "PA-1 [Blocker] phase-acceptance: PROJECT_CHECKS (npx tsc --noEmit) exits 2 at the audited head. tsc reports TS2532 \"Object is possibly 'undefined'\" at dashboard/__tests__/chibi-quest-hero-row.adversarial.test.ts (144,20) and (145,20). Rationale: PROJECT_CHECKS must exit 0. It exited 0 with no output at the Green head 6bee5de2 (green-s5g8-g5.txt). The test-only commit f72b309f added the file. The adversarial round ran eslint and vitest and no tsc (adversarial-s5-1298fdb2.json: \"This round runs no full suite, tsc, PDF rebuild, or browser automation\"). The expression legends?.[0].compareDocumentPosition(row!) & Node.DOCUMENT_POSITION_FOLLOWING has a left operand of type number | undefined, because legends is NodeListOf<Element> | undefined. Route: Green. Give lines 144 and 145 a defined left operand, for example legends![0] after the presence assertion of line 142, and keep every assertion. A test-only fix keeps the Review A, Review B, and adversarial results valid. Rerun acceptance on the new head."
+  ],
+  "nonblocking_findings": [
+    "PA-2 [Major] phase-acceptance: The S5.A3 task line in plan.md has no commit SHA. The SHA f72b309f sits only in the sub-bullet. Rationale: the checker reads the task line only. phase_counts gives complete 17 and with_sha 16, and plan_closeout_feedback reports \"completed plan task lacks commit SHA\" for this line. The jr-green gate of the next S5 Green round fails the same way. Route: plan owner; put f72b309f on the S5.A3 task line, in the same plan edit that records this acceptance.",
+    "PA-3 [Nit] phase-acceptance: plan.md has no task line for adversarial round 2, and the task numbers jump from S5.A1 to S5.A3. Commit 8ae1bb25 (chibi-quest-print-floor.adversarial.test.ts and test-checks-p16-adversarial.py) and the audit adversarial-s5-1d66cd0f.json have no plan record. The audit file is untracked. Route: plan owner; add an S5.A2 line with both ids. The closeout commit adds the untracked audit file.",
+    "PA-4 [Nit] phase-acceptance: Prerequisite continuity record. Review A, Review B, and the adversarial result bind to 1298fdb2. Commit f72b309f (one test file and three files in measure/runs) meets the test-only exception. Commit 61241959 changes plan.md only (2 added lines), and the exception text does not name plan.md. I read both diffs in full. No product byte changed, and the only test change is the new file of f72b309f, which carries PA-1. Route: orchestrator; confirm this reading, or rerun Review A, Review B, and the adversarial round on the next head. The earlier acceptance at d2c2304c failed on the strict reading (phase-acceptance-s5-d2c2304c.json F1).",
+    "PA-5 [Nit] phase-acceptance: Twelve phase commits change primary_template.html or chibi-quest-styles.ts, the S7 trigger paths. The plan names the PM handoff for six: 0b2bd81f, 9b95646e, 95345e90, 178a4e2f, 967cef13, and 78b97a90. Six have no handoff line: 8178f200, dfb0df65, e560ff21, 679bca36, 3d53b37e, and 6bee5de2. Route: orchestrator; send the twelve ids to the PM for the monorepo session at S7.",
+    "PA-6 [Nit] test_meaning: dashboard/__tests__/chibi-quest-page-flow.test.ts prints constants that no code measures. They are step11_header_mm 17, step11_box_mm 232, and step11_total_mm 249 at lines 155 to 157, and score_markers 2 at line 176. A reader can take them as measurements. The assertions check keep declarations and the page budget only. The page fit is proven by P18 on the PDFs. Also, dashboard/__tests__/chibi-quest-print-sizes.test.ts compares two constant lists with themselves (lines 165 to 172 and 217 to 226). Route: Green; label or remove these lines at the next edit of the files."
+  ],
+  "evidence": [
+    "HEAD: git rev-parse HEAD gave 6124195916964052916a36aea11db7a4d2d127e0 at role start, at gate end, and at write time. No commit landed during the audit.",
+    "Prerequisites: review-a-s5-1298fdb2.json, review-b-s5-1298fdb2.json, and adversarial-s5-1298fdb2.json pass at 1298fdb2. ux-browser-s5-61241959.json passes at 61241959. All five audit files pass audit-result.",
+    "Continuity: 1298fdb2..61241959 holds two commits. f72b309f adds one test file and three files in measure/runs (test-only exception; accepted test-only commit: f72b309f). 61241959 changes plan.md only (see PA-4). git diff 1298fdb2..HEAD outside dashboard/__tests__, measure/runs, and plan.md gives 0 lines.",
+    "Phase scope: the supplied phase_base_sha 04275398 is the capture of S5 fix round 2. The 25 commits of 14ba57a6..04275398 predate it, and no earlier acceptance covers them (phase-acceptance-s5-d2c2304c.json failed on prerequisites). I audited all 17 [x] tasks of S5, not only the diff since 04275398.",
+    "Task records: S5 holds 17 [x] tasks and 2 [b] tasks with deferred:daniel. phase_counts gives (17, 17, 0, 0, 16) for (total, complete, in progress, incomplete, with_sha). All 28 commit ids that the S5 tasks cite exist and match their subjects. The phase diff (14ba57a6~1..HEAD, without measure/runs) holds 18 files: 3 product files (chibi-quest-styles.ts, workbook-document-wrapper.ts, primary_template.html), 7 new test files, and record files.",
+    "Gate results at 61241959: GREEN_TEST_COMMAND exit 0 (3 passed). PROJECT_TESTS with the 3 exclusions exit 0 (171 files, 3198 tests passed). PROJECT_LINT exit 0 (0 output lines). PROJECT_CHECKS exit 2 (2 errors, PA-1). Extra: eslint on the 7 new test files exit 0.",
+    "A5, plan claims: G1 (3 passed) matches my gate 1. G2 holds 5 files and 38 tests (8+9+10+5+6) and all 5 pass in my suite run. G3 (3185 tests, 170 files) equals my 3198 tests and 171 files minus the 13 tests and 1 file of f72b309f. The S5.A3 claims match: 13 new tests, 21 tests in 3 files (13+3+5), and six mutants M1 to M6 with MUTANT_TEST_EXIT=1 and RESTORED=True in adversarial-s5-1298fdb2.txt. checks-r11.txt records 20 checks and 0 failures. No S5 line claims that tsc exits 0 at this head.",
+    "Independent proof check of round 11 (poppler and Ghostscript, no repo script): the PDF and contact-sheet sha256 values match manifest-r11.txt. The PDFs hold 14 and 16 pages and 7 embedded CID TrueType fonts each, with 0 Type 3. Each PDF holds 3 images at 480 ppi (hero 84.67 mm). The 13 step titles run 1 to 13 in order with the app names, and 0 classic-only names occur. The hero and all of paragraph 1 sit on page 3, and paragraph 2 sits on page 4. The step 11 header and box start share page 11 (Quest 5) and page 13 (Adventure 9.2). The smallest text is 8.25 pt, with 0 spans under 7.95 pt in 7732 and 10648 spans.",
+    "Identity: the PDFs were built at 22:13:34, after commit 6bee5de2 (22:13:01). git diff 6bee5de2..HEAD in the four P8 pathspecs gives 0 lines. chibi-quest-styles.ts has sha256 b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b, equal to the HEAD blob and to both mutation-restore records.",
+    "Classic output: git diff 14ba57a6~1..HEAD on the golden folder, dashboard/lib/teacher-manual, primary, Teacher guide, and content gives 0 lines. The classic template branch keeps the old markup inside {{else}}. P9: no Primary-Advantage-Quest-5* file exists in print-ready.",
+    "Anti-patterns: A3 not triggered (checks.py uses labeled parses of Pages: and Page size:; the three digit patterns in chibi-quest-print-floor.adversarial.test.ts are unit-format checks). A4 not triggered (P2, P4, P6, P12, and P16 fail on zero; the hero-row tests assert row and paragraph presence first). A6 not triggered (the one-line measure/tracks.md change holds no resolved claim). A7 not triggered (the Thai filters drop by design; P3, P6, and P10 use exact strings).",
+    "Thai: 405 files changed in the phase, all read at HEAD. Added lines with Thai: 0 of 15376. Two files hold older Thai: dashboard/templates/primary_template.html (7 characters) and measure/lessons-learned.md (39 characters).",
+    "Dirty state: no gate reads the five modified tracked files or the untracked files. No dashboard test references video/storytime-song/scripts/render.mjs or dashboard/raw.json, and git status shows no modified file under dashboard, content, primary, or scripts.",
+    "Review B Nits re-checked: F32 (run-g6-mutant.sh ends with an echo, so its exit code is always 0), F33 (the working copy of proof-s5/check-P3-r2.txt reads names_present 0 of 13 and exit 1, the HEAD copy reads 13 of 13 and exit 0), and F34 (four untracked captures hold 35 Thai characters each). A git add -u or git commit -a would commit the corrupt record. A git add of the folder would commit Thai text to a public repository. Route: orchestrator, before the closeout commit.",
+    "Earlier failures of other tracks: constants.test.ts and origins-thai-support.test.ts alone exit 1 with 3 failed and 3 passed. The 3 failures are the recorded ones (includes Adventures 1.0 as a primary workbook option; validates bilingual vocabulary fields for primary/origins-2-a0 and for primary/origins-3.1-a0). The 3 passing tests show that the exclusion hides no other failure.",
+    "Machine state: the heavy-lock queue delayed the gates by about 15 minutes. Each gate ran in one heavy-run. I wrote no raw capture, because the role forbids redirection. The numbers above come from the tool results.",
+    "Open for Daniel (not decided here): UX3-1 and UX2-4 to UX2-9 (ux-browser-s5-61241959.json), and the Review A Nits F20, F24, and F25 (carried). Daniel's look and the Phase S5 manual verification stay [b] deferred:daniel. No approval and no printer file exist."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 6124195916964052916a36aea11db7a4d2d127e0 (start, gate end, write time)",
+    "git diff --stat 1298fdb2..HEAD -- dashboard (not tests) content scripts primary -> 0 lines",
+    "git diff --stat 14ba57a6~1..HEAD -- golden folder, dashboard/lib/teacher-manual, primary, Teacher guide, content -> 0 lines",
+    "heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-hero-row-type.test.ts' -> exit 0; 3 passed (3)",
+    "heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts --exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts' -> exit 0; Test Files 171 passed (171); Tests 3198 passed (3198)",
+    "heavy-run 'set -o pipefail; cd dashboard && npx eslint lib/workbook-document-wrapper.ts lib/document-wrapper/chibi-quest-styles.ts' -> exit 0; 0 output lines",
+    "heavy-run 'set -o pipefail; cd dashboard && npx tsc --noEmit' -> exit 2; 2 errors, both TS2532 in chibi-quest-hero-row.adversarial.test.ts at (144,20) and (145,20)",
+    "heavy-run 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/constants.test.ts __tests__/origins-thai-support.test.ts' -> exit 1; 3 failed | 3 passed; the 3 recorded earlier failures",
+    "heavy-run 'set -o pipefail; cd dashboard && npx eslint <the 7 new chibi-quest test files>' -> exit 0; 0 output lines",
+    "pdfinfo, pdffonts, pdfimages -list, pdftotext, sha256sum, and gs txtwrite on proof-s5-r11/*.pdf -> the values in the evidence list",
+    "python3 -I measure_interphase_checks.py audit-result on the 4 prerequisite files -> PASS for each",
+    "python3 -I measure_interphase_checks.py status --repo . --track primary_v2_look and phase_counts for S5 -> (17, 17, 0, 0, 16)"
+  ],
+  "changed_files": [
+    "measure/runs/primary_v2_look_20261020/phase-acceptance-s5-61241959.json",
+    "measure/runs/primary_v2_look_20261020/phase-acceptance-s5-61241959.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_tests",
+  "confidence": "high",
+  "route": "claude-code/claude-sonnet-5-5#max",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "The round 11 PDFs show 13 ordered step titles and keep the hero and paragraph 1 on page 3 in my own poppler checks, but PROJECT_CHECKS fails with TS2532 at chibi-quest-hero-row.adversarial.test.ts:144."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "chibi-quest-hero-row.adversarial.test.ts fails on six partial-declaration mutants (MUTANT_TEST_EXIT=1 six times in adversarial-s5-1298fdb2.txt), but chibi-quest-page-flow.test.ts:155-157 logs constants that no code measures."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 4,
+      "evidence": "The product diff holds three planned files and the classic golden diff is 0 lines, and the no-op const css refactor at workbook-document-wrapper.ts:28 is a small extra."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Every S5 plan claim I checked has a capture (green-s5g8-g1.txt, checks-r11.txt, adversarial-s5-1298fdb2.txt), but the adversarial round skipped tsc and plan.md lacks an S5.A2 line."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "openai/gpt-6.1-sol#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "Its F26 to F30 closure holds: chibi-quest-hero-row-type.test.ts passes 3 tests at HEAD in my gate 1, and the round 11 sha256 values match my own sha256sum runs."
+    },
+    {
+      "reviewer_role": "review-b",
+      "reviewer_route": "claude-code/claude-sonnet-5-5#max",
+      "agreed": true,
+      "score": 5,
+      "evidence": "I reproduced F32 (run-g6-mutant.sh ends with an echo), F33 (check-P3-r2.txt working copy reads names_present 0 of 13), and F34 (35 Thai characters in each of four untracked captures)."
+    },
+    {
+      "reviewer_role": "adversarial",
+      "reviewer_route": "openai/gpt-6.1-sol#high",
+      "agreed": true,
+      "score": 3,
+      "evidence": "Its verdict on the product is right (21 tests pass and M1 to M6 are captured), but its own commit f72b309f fails tsc at lines 144 and 145 and the round skipped tsc."
+    }
+  ]
+}
