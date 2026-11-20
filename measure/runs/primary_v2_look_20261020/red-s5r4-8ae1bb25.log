@@ -1,0 +1,112 @@
+Red S5.R4 log — track primary_v2_look_20261020, Phase S5 (Red only, no product change)
+Session: Red · S5 S5.R4 · primary_v2_look
+Model: muse-spark-1.3-contributor (non-Claude; Thai filter first, counts only)
+Date: 2026-11-20
+
+Thai filter (first command, before any read): scanned content/primary JSON
+sample, 5 files, 0 Thai characters in output. Filter proves 0 Thai. No page
+image, proof HTML, or ux-r2-scratch file was read. No lesson text prints here.
+Counts, page numbers, and mm values only.
+
+phase_base_sha: 04275398c9411b45685733e20fc003945524ad72 (orchestrator-supplied)
+role_base_sha: 8ae1bb259d8d59e64b246233274b5739164685f1 (HEAD at start, confirmed)
+HEAD at start: 8ae1bb259d8d59e64b246233274b5739164685f1, branch master
+
+Scope: UX browser review r2 at 8ae1bb25 (FAIL). Three findings stay open.
+UX2-1 Blocker: the step 11 header prints alone on an empty page (Quest 5
+page 11, Adventure 9.2 page 13). The box starts on the next page. Cause:
+header (~17 mm) plus box (~232 mm) needs ~249 mm; the page gives ~245 mm;
+.guided-writing-step forces a break before (template line 580). UX2-2 Major:
+the self-assessment strip prints at the top of the step 8 page, split from
+its MY SCORE box. UX2-3 Major: Adventure 9.2 page 3 keeps an empty block
+(~84 x 72 mm) right of the hero; paragraph 1 starts on page 4. Quest 5
+keeps paragraph 1 beside the hero on page 3. No product change in S5.R4.
+
+Page budget (mm): the book page is 210 mm x 285 mm with a 20 mm margin
+(getPrintStyles @page size 210mm 285mm, margin 20mm). Content height is
+285 - 20 - 20 = 245 mm. The test parses this budget and asserts 245 mm.
+
+Test change (dashboard/__tests__/chibi-quest-page-flow.test.ts, new file):
+- Test 1 keeps the step 11 header with its writing box within 245 mm. It
+  asserts the 210/285/20 budget and 245 mm content height. It then asserts
+  three missing chibi-quest keep rules: break-before avoid on
+  .guided-writing-step, break-after avoid on its section header, and
+  break-before avoid on .guided-writing-section. Each fails at HEAD.
+- Test 2 keeps the self-assessment strip with its score box. It checks the
+  MY SCORE and Excellent (5/5) markers in the template. It then asserts two
+  missing rules: break-before avoid on .performance-check and break-after
+  avoid on .score-box. Each fails at HEAD.
+- Test 3 lets article paragraph 1 sit beside the hero. It checks the hero
+  area and article text markers. It asserts float left on the chibi-quest
+  hero area and no clear both or break-before page on the first paragraph.
+  The float fails at HEAD. Hero width 84.8 mm stays in the log only.
+- Guard test keeps the classic golden lesson byte-identical. It passes.
+All console lines print mm values and counts only. No Thai prints.
+
+Proof checks (measure/runs/primary_v2_look_20261020/proof-s5/checks.py):
+- P18: the step 11 header shares its page with the first box lines, and the
+  page holds more than the header. Falsifiable: a proof with header and box
+  on one page passes. Round 8 fails on both lessons.
+- P19: the strip shares its page with its score box and never with the next
+  step header. Falsifiable: a proof with strip and score together passes.
+  Round 8 fails on both lessons.
+- P20: paragraph 1 starts on the hero page. Falsifiable: a proof with both
+  on page 3 passes. Round 8 passes Quest 5 and fails Adventure 9.2.
+All three print ids and page numbers only. No Thai prints.
+
+RED_TEST_COMMAND (one heavy-run, no nesting):
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 TMPDIR=/tmp/opencode bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-page-flow.test.ts'
+Result: exit 1 (vitest failure, expected for Red). 4 tests: 3 fail, 1 passes.
+- FAIL: keeps the step 11 header with its writing box within the 245 mm page
+  (.look-chibi-quest .guided-writing-step break-before: expected '' to be
+  'avoid').
+- FAIL: keeps the self-assessment strip with its score box
+  (.look-chibi-quest .performance-check break-before: expected '' to be
+  'avoid').
+- FAIL: lets article paragraph 1 sit beside the hero
+  (.look-chibi-quest .read-article-step .article-image-area float: expected
+  '' to be 'left').
+- PASS: keeps the classic golden lesson byte-identical without printing text.
+No syntax error. No import error.
+
+Proof runs on round 8 (python3 -I -B, ids and pages only):
+- P18 exit 1: Quest 5 step11 page 11, box page 12; Adventure 9.2 step11 page
+  13, box page 14; page chars 33; more_than_header False.
+- P19 exit 1: Quest 5 score page 7, strip page 8, next step page 8; Adventure
+  9.2 score page 9, strip page 10, next step page 10.
+- P20 exit 1: Quest 5 hero page 3, paragraph1 page 3, same True; Adventure
+  9.2 hero page 3, paragraph1 page 4, same False.
+P18 to P20 each write check-P18-r8.txt to check-P20-r8.txt with exit 1.
+
+PROJECT_LINT (new test file): eslint exits 0, no warnings.
+pnpm-lock.yaml: unchanged. No install ran. No push, amend, or reset.
+
+Plan updates (measure/tracks/primary_v2_look_20261020/plan.md):
+- Marked S5.R4 as [~] before work, then [x] with Red evidence and commit id.
+- Added S5.G6 as [~]: chibi-quest flow fixes for UX2-1 to UX2-3, proof round
+  9, P1 to P20 exit 0. The phase keeps exactly one [~] for the Red gate.
+
+Files in this Red round:
+- Test commit ca7fc916: dashboard/__tests__/chibi-quest-page-flow.test.ts,
+  measure/runs/primary_v2_look_20261020/proof-s5/checks.py.
+- Plan commit (this log): measure/tracks/primary_v2_look_20261020/plan.md,
+  measure/runs/primary_v2_look_20261020/red-s5r4-8ae1bb25.log.
+Preserved and never staged: video/storytime-song/scripts/render.mjs,
+dashboard/raw.json, strategy-s5-8b27c9ea.log, review-b-s5-d2c2304c.*,
+pa-s4-project-tests*.txt, proof HTML files, ux-r2-scratch, review and
+adversarial and UX result files. Thai grep in committed files: 0.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: pass
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+baseline_sha: 04275398c9411b45685733e20fc003945524ad72
+role_base_sha: 8ae1bb259d8d59e64b246233274b5739164685f1
+head: ca7fc9163e5fedb85faac47fab1ea5270712f026 (test commit; plan commit follows)
+commits: test(primary_v2_look): Red for S5.R4, page flow UX2-1 to UX2-3 (P18-P20); measure(plan): primary_v2_look S5.R4 commit id, S5.G6 in progress
+tests: RED_TEST_COMMAND exits 1; 4 tests (3 fail on new page flow assertions, 1 passes on classic golden); eslint on new test file exits 0; P18 exits 1; P19 exits 1; P20 exits 1 (Quest 5 passes, Adventure 9.2 fails)
+files: dashboard/__tests__/chibi-quest-page-flow.test.ts, measure/runs/primary_v2_look_20261020/proof-s5/checks.py, measure/tracks/primary_v2_look_20261020/plan.md, measure/runs/primary_v2_look_20261020/red-s5r4-8ae1bb25.log
+known_failures: step 11 keep (break-before '' vs avoid); strip keep (break-before '' vs avoid); hero float ('' vs left); P18 step11/box split (11/12 and 13/14); P19 strip/score split (7/8 and 9/10); P20 Adventure paragraph1 on page 4 vs hero page 3. All other guards pass.
+handoff: S5.R4 Red is valid and failing-first. Green S5.G6 owns the chibi-quest flow fixes for UX2-1 to UX2-3, proof round 9, and P1 to P20 exit 0. No product code changed in this Red.
+END_MEASURE_AGENT_RESULT
