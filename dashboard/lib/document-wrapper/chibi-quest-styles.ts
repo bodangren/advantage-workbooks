@@ -94,8 +94,11 @@ body.look-chibi-quest {
 /* Medals: the paragraph numbers and the deep-reading note numbers. */
 .look-chibi-quest .para-number, .look-chibi-quest .para-note-number { background: var(--cq-gold) !important; color: var(--cq-ink) !important; border: 2px solid var(--cq-wood-dark); font-weight: 700; }
 
-/* The inline picture keeps its caption on one page (review A F5). The hero wrappers must not
-   carry this rule: Paged.js drops a tall hero area under break-inside: avoid (P11, round 2). */
+/* The inline picture keeps its caption on one page (review A F5). The keep rule sits on
+   the chibi-hero-row wrapper, not on the hero wrappers: Paged.js dropped a tall hero area
+   under break-inside: avoid on those wrappers (P11, round 2). The row keeps picture,
+   caption, and paragraph 1 together. Residual risk (F29): a taller row moves whole to the
+   next page. It can leave the step 3 header and QR box alone. Two lessons prove the row. */
 .look-chibi-quest .inline-img-box {
   break-inside: avoid;
   page-break-inside: avoid;
@@ -122,6 +125,9 @@ body.look-chibi-quest {
   width: 100%;
   margin: 0;
 }
+/* F26 (review A r7): paragraph 1 shares the hero row and sits outside the article-text
+   element in the template. Give it the same print type as paragraphs 2+ (template :1387-1390). */
+.look-chibi-quest .chibi-hero-row .paragraph { font-size: 12pt; line-height: 2; }
 
 /* Step 3 keeps its title and QR box with the article (P17, spec.md line 72). The top margin of
    the step header stays the UX-1 4 mm rule. */
