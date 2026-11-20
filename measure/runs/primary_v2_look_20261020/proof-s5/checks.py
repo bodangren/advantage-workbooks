@@ -774,11 +774,93 @@ def check_p17():
     return ok, lines
 
 
+def step11_pages(pdf):
+    """The pages that print the step 11 header."""
+    return [page for page in range(1, page_count(pdf) + 1) if 'Guided Writing' in pdf_page_text(pdf, page)]
+
+
+def box11_pages(pdf):
+    """The pages that print the first lines of the step 11 writing box."""
+    return [page for page in range(1, page_count(pdf) + 1) if 'Step-by-step Paragraph' in pdf_page_text(pdf, page)]
+
+
+def check_p18():
+    """P18: the step 11 header shares its page with the first lines of its writing box."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        pdf = os.path.join(FOLDER, f'{tag}.pdf')
+        headers = step11_pages(pdf)
+        boxes = box11_pages(pdf)
+        same = len(headers) == 1 and len(boxes) >= 1 and headers[0] == boxes[0]
+        chars = len(pdf_page_text(pdf, headers[0])) if len(headers) == 1 else 0
+        more = chars > 100
+        where_h = str(headers[0]) if len(headers) == 1 else (','.join(str(p) for p in headers) or 'absent')
+        where_b = str(boxes[0]) if boxes else 'absent'
+        lines.append(f'P18 {tag}: step11_page {where_h}, box_page {where_b}, same_page {same}, page_chars {chars}, more_than_header {more}')
+        ok = ok and same and more
+    return ok, lines
+
+
+def score_pages(pdf):
+    """The pages that print the step 7 score box."""
+    return [page for page in range(1, page_count(pdf) + 1) if 'MY SCORE' in pdf_page_text(pdf, page)]
+
+
+def strip_pages(pdf):
+    """The pages that print the self-assessment strip."""
+    found = []
+    for page in range(1, page_count(pdf) + 1):
+        text = pdf_page_text(pdf, page)
+        if 'Excellent' in text and 'Review needed' in text:
+            found.append(page)
+    return found
+
+
+def step8_pages(pdf):
+    """The pages that print the step 8 header."""
+    return [page for page in range(1, page_count(pdf) + 1) if 'Short Answer' in pdf_page_text(pdf, page)]
+
+
+def check_p19():
+    """P19: the self-assessment strip stays with its score box, never with the next step."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        pdf = os.path.join(FOLDER, f'{tag}.pdf')
+        scores = score_pages(pdf)
+        strips = strip_pages(pdf)
+        nexts = step8_pages(pdf)
+        same = len(scores) >= 1 and len(strips) == 1 and strips[0] in scores
+        apart = len(strips) == 1 and strips[0] not in nexts
+        where_s = ','.join(str(p) for p in scores) or 'absent'
+        where_t = str(strips[0]) if len(strips) == 1 else (','.join(str(p) for p in strips) or 'absent')
+        where_n = ','.join(str(p) for p in nexts) or 'absent'
+        lines.append(f'P19 {tag}: score_page {where_s}, strip_page {where_t}, next_step_page {where_n}, same_page {same}, strip_with_next {not apart}')
+        ok = ok and same and apart
+    return ok, lines
+
+
+def check_p20():
+    """P20: article paragraph 1 starts on the hero page, beside the hero."""
+    lines, ok = [], True
+    for tag in PROOFS:
+        pdf = os.path.join(FOLDER, f'{tag}.pdf')
+        rows = pdf_image_ppi(pdf)
+        hero_page = rows[0][0] if rows else 0
+        start = paragraph_start(tag)
+        with_start = [page for page in range(1, page_count(pdf) + 1) if start and start in pdf_page_text(pdf, page)]
+        same = hero_page > 0 and hero_page in with_start
+        where = ','.join(str(p) for p in with_start) or 'absent'
+        lines.append(f'P20 {tag}: hero_page {hero_page}, paragraph1_page {where}, same_page {same}')
+        ok = ok and same
+    return ok, lines
+
+
 CHECKS = {
     'P1': check_p1, 'P2': check_p2, 'P3': check_p3, 'P4': check_p4, 'P5': check_p5,
     'P6': check_p6, 'P7': check_p7, 'P8': check_p8, 'P9': check_p9, 'P10': check_p10,
     'P11': check_p11, 'P12': check_p12, 'P13': check_p13, 'P14': check_p14,
     'P15': check_p15, 'P16': check_p16, 'P17': check_p17,
+    'P18': check_p18, 'P19': check_p19, 'P20': check_p20,
 }
 
 
