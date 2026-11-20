@@ -1,0 +1,11 @@
+G6 mutant: remove the writing-section overflow change (S5.G6, UX2-1)
+mutant: .look-chibi-quest .guided-writing-section lost 'overflow: visible'
+catcher: proof check P18 on a fresh Quest 5 proof of the mutant source
+proof folder /tmp/opencode/proof-mut (not a round; scratch only)
+page count 15 (round 9 has 14)
+
+P18 quest5-l01: step11_page 11, box_page 12, same_page False, page_chars 33, more_than_header False
+P18 adventure92-l09: step11_page absent, box_page absent, same_page False, page_chars 0, more_than_header False
+exit 1
+
+restored file blob bfdf9be39659d166cdb5195aa0fd90720921905c = HEAD blob (git hash-object)
