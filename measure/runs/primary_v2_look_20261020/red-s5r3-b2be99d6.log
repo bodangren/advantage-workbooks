@@ -1,0 +1,93 @@
+Red S5.R3 log — track primary_v2_look_20261020, Phase S5 (Red only, no product change)
+Session: Red · S5 S5.R3 · primary_v2_look
+Model: muse-spark-1.3-contributor (non-Claude; Thai filter first, counts only)
+Date: 2026-11-20
+
+Thai filter (first command, before any read): scanned content/primary/**/*.json,
+874 files, 28337 th keys, 1098035 Thai characters found and dropped. Filtered
+output holds 0 Thai characters. No page image, proof HTML, or proof text was
+viewed. Counts only.
+
+phase_base_sha: 04275398 (S5 fix round 2 strategy commit, orchestrator-supplied)
+role_base_sha: b2be99d6 (HEAD at start, confirmed by rev-parse)
+HEAD at start: b2be99d6, branch master
+
+Scope: PM look decision 2 (readability ages 9-12, no text under 8 pt in the
+chibi-quest look). Corrected P16 (b2be99d6, Ghostscript point sizes) finds
+7.50 pt text in both proof lessons, 517 spans each. No product change in S5.R3.
+
+Selectors found (classic template sources, all 10 px = 7.50 pt):
+- Group (a) step 3 QR description: `.read-article-step .qr-desc`
+  (dashboard/templates/primary_template.html line 927, div.qr-desc with the
+  interactive-article text; template line 1669).
+- Group (b) WORD n and PARAGRAPH # labels: `.collection-item label`
+  (template line 207; template lines 1750 to 1770, Word 1 to Word 4 and
+  Paragraph # labels).
+- Group (c) writing prompt: `.guided-writing-section .writing-header p`
+  (template line 605; template line 2058, planner and sentence-frames text).
+- Other lesson text under 10.67 px that renders in a lesson:
+  `.guided-writing-section .qr-desc` (line 681, step 11 QR description),
+  `.prompt-label` (line 722, Writing Prompt and Plan labels),
+  `.guided-writing-section .word-count-box` (line 645),
+  `.guided-writing-section .ai-score-box` (line 691),
+  `.guided-writing-section .check-item` (line 696, guided checklist).
+Already covered by scoped 11 px rules and not in the new list:
+`.q-label`, `.a-label`, `.para-note-label`, `.tip-label`, `.planning-label`,
+`.qr-label`, `.thai-translation`. Generic `.qr-desc` is 11 px and passes.
+`.qr-code` 9 px is a no-image fallback and does not render when the QR image
+exists. `.page-continue` prints at 9 pt (12 px) and passes. `.text-sm` is
+12 px and `.text-xs` is 11 px.
+
+Test change (dashboard/__tests__/chibi-quest-print-sizes.test.ts):
+- New constant SMALL_TEXT_8PT with the exact 8-selector list above, each with
+  the `.look-chibi-quest` scope.
+- New test `sets every P16 small-text group at 8 pt or more`: asserts the exact
+  list, then asserts each scoped rule declares font-size of at least 10.67 px.
+- New test `renders the P16 groups in a chibi-quest lesson with the 8 pt
+  floor`: renders the origins-3.2 p05 print export with look chibi-quest
+  through lessonDocument, asserts the body holds look-chibi-quest, asserts each
+  marker (qr-desc, collection-item, writing-header, prompt-label,
+  word-count-box, ai-score-box, check-item) renders, then asserts each scoped
+  selector is at least 10.67 px. Marker checks use includes only; no text
+  prints on pass. The classic golden byte-identity test is unchanged and
+  passes.
+
+RED_TEST_COMMAND (one heavy-run, no nesting):
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-print-sizes.test.ts __tests__/chibi-quest-picture-keep.test.ts __tests__/chibi-quest-picture-keep.adversarial.test.ts'
+Result: exit 1 (vitest failure, expected for Red). 25 tests: 2 fail, 23 pass.
+- FAIL: sets every P16 small-text group at 8 pt or more — `.look-chibi-quest .read-article-step .qr-desc font-size: expected NaN to be >= 10.67`.
+- FAIL: renders the P16 groups in a chibi-quest lesson with the 8 pt floor — same first selector, NaN >= 10.67.
+- PASS: all 7 prior print-sizes tests, all 6 picture-keep tests, all 10 adversarial tests, and the classic golden byte-identity test.
+No syntax error. No import error.
+
+PROJECT_LINT (test file): `cd dashboard && npx eslint __tests__/chibi-quest-print-sizes.test.ts --no-error-on-unmatched-pattern` exits 0.
+pnpm-lock.yaml: no such file in repo; no checkout needed. No install ran.
+
+Plan updates (measure/tracks/primary_v2_look_20261020/plan.md):
+- Added S5.R3 as [~] before work, then [x] with Red evidence above.
+- Added S5.G5 as [ ] Green: scoped font sizes, proof round 8, P1 to P17. P16
+  must exit 0. P17 must still exit 0 because larger step 3 text can push the
+  article to page 4.
+
+Files in this Red commit:
+- dashboard/__tests__/chibi-quest-print-sizes.test.ts
+- measure/tracks/primary_v2_look_20261020/plan.md
+- measure/runs/primary_v2_look_20261020/red-s5r3-b2be99d6.log
+Thai grep in committed files: 0. Never staged: strategy-s5-8b27c9ea.log,
+review-*-s5-*, pa-s4-*, *.html, video/**, dashboard/raw.json. No push, amend,
+reset, or pnpm install.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: pass
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+baseline_sha: 04275398
+role_base_sha: b2be99d6
+head: b2be99d6 (pre-commit; this Red commit follows)
+commits: 1 Red commit (this log): test(primary_v2_look): Red for S5.R3, chibi-quest text under 8 pt (P16, PM decision 2)
+tests: RED_TEST_COMMAND exits 1; 25 tests (2 fail on new P16 size assertions, 23 pass); eslint on test file exits 0
+files: dashboard/__tests__/chibi-quest-print-sizes.test.ts, measure/tracks/primary_v2_look_20261020/plan.md, measure/runs/primary_v2_look_20261020/red-s5r3-b2be99d6.log
+known_failures: sets every P16 small-text group at 8 pt or more (NaN >= 10.67 on .read-article-step .qr-desc); renders the P16 groups in a chibi-quest lesson with the 8 pt floor (same). All other tests pass, including the classic golden byte-identity test.
+handoff: S5.R3 Red is valid and failing-first. Green S5.G5 owns the scoped font-size rules for the 8 SMALL_TEXT_8PT selectors, proof round 8, and P1 to P17. P16 must exit 0. P17 must still exit 0 because larger step 3 text can push the article to page 4. No product code was changed in this Red.
+END_MEASURE_AGENT_RESULT
