@@ -104,10 +104,35 @@ body.look-chibi-quest {
 /* The hero prints at full inline width like the other pictures (PM decision 1, review A F11). */
 .look-chibi-quest .hero-img-box img { width: 84.8mm; max-width: 100%; height: auto; }
 
+/* The hero stays a left float, so paragraph 1 prints beside it on the picture page (UX2-3).
+   Paragraph 1 may split across the float: its lines fill the room beside the hero and the rest
+   follows below. A keep rule on the float wrapper drops the hero (P11), so none is added here. */
+.look-chibi-quest .read-article-step .article-image-area { float: left; }
+.look-chibi-quest .read-article-step .paragraph:first-of-type { break-inside: auto; page-break-inside: auto; }
+
 /* Step 3 keeps its title and QR box with the article (P17, spec.md line 72). The top margin of
    the step header stays the UX-1 4 mm rule. */
 .look-chibi-quest .read-article-step .section-header { margin-bottom: 4px; }
 .look-chibi-quest .read-article-step .qr-box { margin: 2px 0 4px; padding: 4px 8px; }
+
+/* Page flow (UX2-1, UX2-2). The step 11 header stays with the start of its writing box, and the
+   self-assessment strip stays with its MY SCORE box. No keep rule goes on the hero wrappers.
+   The writing box may split, as the classic print rule allows: a box that cannot split moves
+   whole to the next page and leaves its header alone (proof round 8, UX2-1). */
+.look-chibi-quest .guided-writing-step { break-before: avoid; page-break-before: avoid; }
+.look-chibi-quest .guided-writing-step .section-header { margin-bottom: 8px; break-after: avoid; page-break-after: avoid; }
+.look-chibi-quest .guided-writing-section { overflow: visible; break-before: avoid; page-break-before: avoid; }
+.look-chibi-quest .performance-check { margin-top: 4px; break-before: avoid; page-break-before: avoid; }
+.look-chibi-quest .score-box { padding: 8px 16px; break-after: avoid; page-break-after: avoid; }
+.look-chibi-quest .question-box { padding: 8px 0; }
+
+/* Step 11 loses 10 mm of padding and section spacing, so the header and its writing box fit the
+   245 mm page (UX2-1): 232.5 mm becomes 224.1 mm. The 8 mm writing-line pitch, the number of
+   draft lines, and every font size stay as they are (PM decision 2). */
+.look-chibi-quest .guided-writing-section .writing-header { padding: 4px 12px; }
+.look-chibi-quest .guided-writing-section .prompt-box { padding: 6px 12px; }
+.look-chibi-quest .guided-writing-section .planning-area { padding: 6px 12px; }
+.look-chibi-quest .guided-writing-section .writing-lines { padding: 8px 12px; }
 
 /* Panels: a 3 px parchment-edge frame with a 14 px radius; label areas in parchment, write-in areas white. */
 .look-chibi-quest .short-answer-box, .look-chibi-quest .reflection-box, .look-chibi-quest .language-q-box,
