@@ -83,7 +83,7 @@ export function wrapWorkbookDocument(
 <html lang="en">
 ${documentHead(options, theme)}
 ${bodyTag(options)}
-  ${lessonsHtml}
+  ${lessonsHtml}${lookStyle(options)}
 </body>
 </html>`;
   }
