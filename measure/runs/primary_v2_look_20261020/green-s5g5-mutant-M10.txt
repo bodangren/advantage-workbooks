@@ -1,0 +1,48 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-print-sizes.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 235[2mms[22m[39m
+     [32m✓[39m lifts the step header off the panel above by 3 to 5 mm[32m 48[2mms[22m[39m
+     [32m✓[39m sets every named label at 8 pt or more[32m 40[2mms[22m[39m
+     [32m✓[39m spaces writing lines at least 8 mm apart[32m 25[2mms[22m[39m
+     [32m✓[39m sets the Thai gloss upright at 8 pt or more[32m 8[2mms[22m[39m
+     [32m✓[39m keeps the step 3 title with its article by tightening step 3 spacing[32m 20[2mms[22m[39m
+[31m     [31m×[31m sets every P16 small-text group at 8 pt or more[39m[32m 14[2mms[22m[39m
+[31m     [31m×[31m renders the P16 groups in a chibi-quest lesson with the 8 pt floor[39m[32m 49[2mms[22m[39m
+     [32m✓[39m keeps the new size rules out of the classic styles[32m 0[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical without printing its text[32m 30[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.adversarial.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 255[2mms[22m[39m
+ [32m✓[39m __tests__/chibi-quest-picture-keep.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-print-sizes.test.ts[2m > [22mchibi-quest print sizes (S5 fix round 2)[2m > [22msets every P16 small-text group at 8 pt or more
+[31m[1mAssertionError[22m: .look-chibi-quest .prompt-label font-size: expected 10 to be greater than or equal to 10.67[39m
+[36m [2m❯[22m __tests__/chibi-quest-print-sizes.test.ts:[2m230:43[22m[39m
+    [90m228| [39m    [35mfor[39m ([35mconst[39m selector [35mof[39m [33mSMALL_TEXT_8PT[39m) {
+    [90m229| [39m      [35mconst[39m px [33m=[39m [34mtoPx[39m([34mwinningProperty[39m(css[33m,[39m selector[33m,[39m [32m'font-size'[39m))[33m;[39m
+    [90m230| [39m      expect(px, `${selector} font-size`).toBeGreaterThanOrEqual(10.67…
+    [90m   | [39m                                          [31m^[39m
+    [90m231| [39m    }
+    [90m232| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-print-sizes.test.ts[2m > [22mchibi-quest print sizes (S5 fix round 2)[2m > [22mrenders the P16 groups in a chibi-quest lesson with the 8 pt floor
+[31m[1mAssertionError[22m: .look-chibi-quest .prompt-label font-size: expected 10 to be greater than or equal to 10.67[39m
+[36m [2m❯[22m __tests__/chibi-quest-print-sizes.test.ts:[2m247:43[22m[39m
+    [90m245| [39m    [35mfor[39m ([35mconst[39m selector [35mof[39m [33mSMALL_TEXT_8PT[39m) {
+    [90m246| [39m      [35mconst[39m px [33m=[39m [34mtoPx[39m([34mwinningProperty[39m(css[33m,[39m selector[33m,[39m [32m'font-size'[39m))[33m;[39m
+    [90m247| [39m      expect(px, `${selector} font-size`).toBeGreaterThanOrEqual(10.67…
+    [90m   | [39m                                          [31m^[39m
+    [90m248| [39m    }
+    [90m249| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m23 passed[39m[22m[90m (25)[39m
+[2m   Start at [22m 11:55:41
+[2m   Duration [22m 2.16s[2m (transform 109ms, setup 105ms, import 233ms, tests 551ms, environment 931ms)[22m
+

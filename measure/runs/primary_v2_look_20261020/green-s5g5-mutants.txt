@@ -1,0 +1,12 @@
+# S5.G5 mutants (P16 small text, PM decision 2) — green-s5g5
+# File under test: dashboard/lib/document-wrapper/chibi-quest-styles.ts
+# Gate: the 3 chibi files (25 tests), unchanged.
+#
+# | Mutant | Change | Gate exit | Failing test |
+# |---|---|---|---|
+# | M10 | .look-chibi-quest .prompt-label back to 10px | 1 | sets every P16 small-text group at 8 pt or more; renders the P16 groups in a chibi-quest lesson with the 8 pt floor |
+#
+# Capture: green-s5g5-mutant-M10.txt.
+# Restore: cmp against the saved original after the mutant.
+# Gate 1 after restore: exit 0, 25 passed (green-s5g5-tests.txt).
+# Caught: 1 of 1 mutant.

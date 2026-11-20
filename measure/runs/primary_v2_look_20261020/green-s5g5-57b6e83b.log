@@ -1,0 +1,48 @@
+Green S5.G5 role log — track primary_v2_look_20261020, Phase S5
+Session: Green · S5 S5.G5 · primary_v2_look
+Model: opencode-go/deepseek-v4.1-flash
+Date: 2026-11-20
+
+phase_base_sha: 04275398 (fix round 2 strategy commit)
+role_base_sha: 57b6e83b764e7a26277345a1ae23505455a9dd54
+Red: 2ef4dc86 (Muse) and plan 57b6e83b. Green model family differs from the Red family.
+
+Part 1, product (dashboard/lib/document-wrapper/chibi-quest-styles.ts only): one scoped rule sets
+11 px (8.25 pt) on the 8 selectors that the Red file names:
+.read-article-step .qr-desc, .guided-writing-section .qr-desc, .collection-item label,
+.guided-writing-section .writing-header p, .prompt-label,
+.guided-writing-section .word-count-box, .guided-writing-section .ai-score-box, and
+.guided-writing-section .check-item. The classic styles and primary_template.html do not change.
+
+Gates:
+G1 the 3 chibi files: exit 0, 25 passed. green-s5g5-tests.txt (Red rerun exits 1, 2 of 25 fail).
+G2 look guards (4 files): exit 0, 34 passed. green-s5g5-look-tests.txt
+G3 PROJECT_TESTS with the three excludes: exit 0, 3169 passed in 167 files, 0 EDQUOT.
+   green-s5g5-project-tests.txt
+G4 eslint on the changed files: exit 0. green-s5g5-lint.txt
+G5 tsc --noEmit: exit 0, no output. green-s5g5-tsc.txt
+G6 Mutant M10 (prompt-label back to 10 px): gate exit 1; 2 named tests fail. green-s5g5-mutants.txt
+G7 Golden and teacher-manual diff from 04275398: empty. green-s5g5-golden-diff.txt
+G8 Thai characters: 0 in every committed file.
+
+Part 2, proof round 8:
+Folder: /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r8/
+quest5-l01.pdf: 15 pages. adventure92-l09.pdf: 17 pages. Contact sheets: 15 and 17 tiles.
+Checks P1 to P17: each exit 0. checks-r8.txt says checks run 17, failures 0, RESULT: PASS.
+P16: exit 0, smallest_size_pt 8.25, 0 spans under 8 pt, 0 italic faces, both lessons.
+P17: exit 0; step 3 and the hero on page 3 for both. No step 3 spacing change was needed.
+P14 hero 84.67 mm; P15 min gap 3.89 mm.
+Before/after crops (proof-s5-r8/before-after/, r7 vs r8): qr-desc, word-label, writing-prompt.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: 78b97a90 (S5.G5 code); b2be99d6 (P16 exact point sizes, F23); evidence commit follows this log; Red 2ef4dc86
+tests_run: G1 exit 0 (25 passed); G2 exit 0 (34 passed); G3 exit 0 (3169 passed, 167 files, 0 EDQUOT); G4 exit 0; G5 exit 0; G6 mutant caught; G7 empty; G8 Thai 0; proof P1 to P17 each exit 0 (checks-r8.txt RESULT: PASS); P16 smallest 8.25 pt; P17 page 3 both
+files_changed: dashboard/lib/document-wrapper/chibi-quest-styles.ts (code); measure/tracks/primary_v2_look_20261020/plan.md; green-s5g5-* captures; proof-s5/checks-r8.txt; proof-s5/manifest-r8.txt; this log
+plan_updates: S5.G5 set [x] with commit 78b97a90 and one evidence sub-line
+known_failures: none
+handoff: P16 now passes on the r8 proof with smallest 8.25 pt, and P17 still passes. The 8 pt floor covers the QR descriptions, the WORD/PARAGRAPH labels, the planner prompt, the prompt labels, and the guided-writing counters. Commit 78b97a90 is an S7 styles.ts trigger: send it to the PM for the monorepo session. Next: reviews A and B on the new head, the adversarial round, the UX browser review, phase acceptance, and Daniel's look at proof-s5-r8. The r8 render overwrote the untracked proof HTML in proof-s5/; never stage it, strategy-s5-8b27c9ea.log, review-*-s5-*, pa-s4-*, *.html, video/**, or dashboard/raw.json. Four tracked files of other sessions stay dirty: review-b-s5-d2c2304c.json, review-b-s5-d2c2304c.log, strategy-s5-8b27c9ea.log, and video/storytime-song/scripts/render.mjs.
+END_MEASURE_AGENT_RESULT
