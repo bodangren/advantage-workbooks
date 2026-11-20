@@ -137,12 +137,14 @@ describe('S5 adversarial hero row (round 3, F31)', () => {
     const host = body(await render(record, 'chibi-quest', answerKey));
     const section = host.querySelector('.read-article-step');
     const legends = section?.querySelectorAll('.marking-legend');
+    const legend = legends?.[0];
     const row = section?.querySelector('.chibi-hero-row');
     const paragraph = row?.querySelector('.paragraph');
     expect(legends?.length, 'one marking key').toBe(1);
+    expect(legend, 'marking key present').toBeDefined();
     expect(Boolean(row && paragraph), 'row and first paragraph present').toBe(true);
-    expect(Boolean(legends?.[0].compareDocumentPosition(row!) & Node.DOCUMENT_POSITION_FOLLOWING), 'key before row').toBe(true);
-    expect(Boolean(legends?.[0].compareDocumentPosition(paragraph!) & Node.DOCUMENT_POSITION_FOLLOWING), 'key before paragraph 1').toBe(true);
+    expect(Boolean(legend!.compareDocumentPosition(row!) & Node.DOCUMENT_POSITION_FOLLOWING), 'key before row').toBe(true);
+    expect(Boolean(legend!.compareDocumentPosition(paragraph!) & Node.DOCUMENT_POSITION_FOLLOWING), 'key before paragraph 1').toBe(true);
     expect(row?.querySelectorAll('.paragraph').length, 'one paragraph in row').toBe(1);
     assertParagraphs(host, record);
   });
