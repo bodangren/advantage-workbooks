@@ -1,0 +1,13 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: pass
+track: primary_v2_look_20261020
+phase: ## Phase S5: Page proofs for Daniel
+commits: this capture commit; parent 1298fdb28bb4148d49ceb8e46f62502d18b5a175
+tests_run: corrected heavy-run exits 0 with 21 passed in three files, including 13 new tests; six focused mutants exit 1 and restore correctly; eslint exits 0; A7 probe passes
+files_changed: dashboard/__tests__/chibi-quest-hero-row.adversarial.test.ts and adversarial-s5-1298fdb2.json/.log/.txt
+plan_updates: added S5.A3 before test work; the plan remains unstaged for the orchestrator
+known_failures: no implementation defect; initial captures contain a corrected CSSOM expectation error; existing tests emit nonfatal CSS parser warnings
+handoff: F31 now has independent coverage. Classic bytes, key order, scoped spacing, and six renderer boundaries pass. The product diff is empty. ADV-S5-R3-N1 records an early unfiltered project-memory read. No new file contains Thai. No PDF pagination or visual approval is claimed. Daniel's gate remains deferred. Any later implementation commit requires the relevant adversarial gate to rerun. Facts changed: 13 new tests, 21 targeted passes, and six caught mutants; no company-facing product fact changed.
+dispositions: none; no CONTEST item was routed
+END_MEASURE_AGENT_RESULT

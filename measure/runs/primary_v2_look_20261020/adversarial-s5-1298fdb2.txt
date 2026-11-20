@@ -1,0 +1,1184 @@
+Provisional capture. No test result is available.
+pre_adversarial_head_sha: 1298fdb28bb4148d49ceb8e46f62502d18b5a175
+phase_base_sha: 04275398c9411b45685733e20fc003945524ad72
+role_base_sha: 1298fdb28bb4148d49ceb8e46f62502d18b5a175
+
+A7: synthetic valid-name control passes=True; banned classic term beside never fails=True
+P3 synthetic: names_present 13 of 13, once_each True, in_order True, classic_only_present 1
+P3 synthetic: classic names present Before You Read
+ESLINT_EXIT=0
+
+MUTATION HARNESS (applies and restores each mutant inside the heavy-run lock):
+import hashlib
+import os
+from pathlib import Path
+import re
+import signal
+import subprocess
+import sys
+
+ROOT = Path('/home/daniebo/Desktop/Workbooks')
+STYLES = ROOT / 'dashboard/lib/document-wrapper/chibi-quest-styles.ts'
+CAPTURE = ROOT / 'measure/runs/primary_v2_look_20261020/adversarial-s5-1298fdb2.txt'
+SHA = '1298fdb28bb4148d49ceb8e46f62502d18b5a175'
+mode = sys.argv[1]
+target = STYLES
+original = target.read_bytes()
+expected = subprocess.check_output(['git', 'show', f'{SHA}:{target.relative_to(ROOT)}'], cwd=ROOT)
+assert original == expected, 'The product file differs from the audited head.'
+text = original.decode()
+assert not re.search('[\u0e00-\u0e7f]', text), 'The mutation target contains Thai.'
+row = '.look-chibi-quest .chibi-hero-row .paragraph { font-size: 12pt; line-height: 2; margin-bottom: 0; }'
+descriptions = {
+    'M1': 'Delete only line-height: 2 from the row paragraph rule.',
+    'M2': 'Delete only font-size: 12pt from the row paragraph rule.',
+    'M3': 'Delete only margin-bottom: 0 from the row paragraph rule.',
+    'M4': 'Remove the chibi scope from the compact key rule.',
+    'M5': 'Restore the larger padding on the chibi marking key.',
+    'M6': 'Remove the chibi scope from the row paragraph rule.',
+}
+if mode in ['M1', 'M2', 'M3']:
+    token = {'M1': 'line-height: 2; ', 'M2': 'font-size: 12pt; ', 'M3': 'margin-bottom: 0;'}[mode]
+    assert text.count(row) == 1
+    changed = text.replace(row, row.replace(token, ''))
+elif mode == 'M4':
+    token = '.look-chibi-quest .read-article-step .marking-legend { margin-bottom: 4px; padding: 2px 10px; }'
+    assert text.count(token) == 1
+    changed = text.replace(token, token.replace('.look-chibi-quest ', ''))
+elif mode == 'M5':
+    token = '.look-chibi-quest .read-article-step .marking-legend { margin-bottom: 4px; padding: 2px 10px; }'
+    assert text.count(token) == 1
+    changed = text.replace(token, token.replace('padding: 2px 10px', 'padding: 10px 16px'))
+elif mode == 'M6':
+    assert text.count(row) == 1
+    changed = text.replace(row, row.replace('.look-chibi-quest ', ''))
+else:
+    raise ValueError(mode)
+assert changed != text
+mutant = changed.encode()
+
+def interrupted(signum, frame):
+    raise KeyboardInterrupt(f'Signal {signum}')
+
+signal.signal(signal.SIGTERM, interrupted)
+signal.signal(signal.SIGINT, interrupted)
+command = ['npx', 'vitest', 'run', '__tests__/chibi-quest-hero-row.adversarial.test.ts']
+if mode == 'M1':
+    command.append('__tests__/chibi-quest-hero-row-type.test.ts')
+result = None
+restored = False
+try:
+    target.write_bytes(mutant)
+    result = subprocess.run(command, cwd=ROOT / 'dashboard', env={**os.environ, 'CI': 'true'},
+                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+finally:
+    current = target.read_bytes()
+    if current != mutant:
+        raise RuntimeError('A concurrent product edit prevents safe restoration.')
+    target.write_bytes(original)
+    restored = target.read_bytes() == original
+    assert restored
+
+clean = '\n'.join(line for line in result.stdout.splitlines() if not re.search('[\u0e00-\u0e7f]', line))
+assert not re.search('[\u0e00-\u0e7f]', clean)
+record = (f'\n{mode}: {descriptions[mode]}\n'
+          f'COMMAND: CI=true {" ".join(command)}\n'
+          f'{clean}\nMUTANT_TEST_EXIT={result.returncode}\nRESTORED={restored}\n'
+          f'BEFORE_SHA256={hashlib.sha256(original).hexdigest()}\n'
+          f'RESTORED_SHA256={hashlib.sha256(target.read_bytes()).hexdigest()}\n')
+with CAPTURE.open('a') as output:
+    output.write(record)
+print(record)
+if result.returncode == 143 or result.returncode < 0:
+    sys.exit(143)
+sys.exit(0 if result.returncode == 1 and restored else 1)
+
+
+MUTATION COMMANDS:
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd /home/daniebo/Desktop/Workbooks/dashboard && python3 /home/daniebo/.cache/opencode/hero-row-r3-mutant.py M1'
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd /home/daniebo/Desktop/Workbooks/dashboard && python3 /home/daniebo/.cache/opencode/hero-row-r3-mutant.py M2'
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd /home/daniebo/Desktop/Workbooks/dashboard && python3 /home/daniebo/.cache/opencode/hero-row-r3-mutant.py M3'
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd /home/daniebo/Desktop/Workbooks/dashboard && python3 /home/daniebo/.cache/opencode/hero-row-r3-mutant.py M4'
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd /home/daniebo/Desktop/Workbooks/dashboard && python3 /home/daniebo/.cache/opencode/hero-row-r3-mutant.py M5'
+/home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd /home/daniebo/Desktop/Workbooks/dashboard && python3 /home/daniebo/.cache/opencode/hero-row-r3-mutant.py M6'
+
+AUDITED PRODUCT SNAPSHOT:
+b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b  dashboard/lib/document-wrapper/chibi-quest-styles.ts
+53960e43f966370e2bb1963bf82576db9879c3a49948c653a16f4998e822a5a1  dashboard/lib/workbook-document-wrapper.ts
+14b77d9ead37995ddb810c6688793713436b44c952408975433707b08908f873  dashboard/templates/primary_template.html
+
+GRAPH: repo-graph callers returned no match for lessonDocument and getChibiQuestStyles. Git grep found one production stylesheet caller at workbook-document-wrapper.ts:28.
+
+A4: No markers-consistent implementation or tests/ harness exists in this track. An all-tilde fixture has no implementation to execute.
+
+A5: The S5 section has no exact all-checks-pass or PASS=N, FAIL=0 claim. The one matching line is the earlier S3 PDF claim at plan.md:59. This round does not recheck that older PDF.
+
+BASELINE
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 900[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 178[2mms[22m[39m
+     [32m✓[39m rejects a partial font-size deletion without an ancestor fallback[32m 10[2mms[22m[39m
+     [32m✓[39m rejects a partial line-height deletion without an ancestor fallback[32m 9[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: true)[32m 57[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: false)[32m 41[2mms[22m[39m
+     [32m✓[39m keeps the compact key and zero paragraph margin scoped to the chibi look[32m 57[2mms[22m[39m
+     [32m✓[39m keeps all four classic variants byte-identical to the pinned phase-base goldens[32m 166[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with no hero[32m 65[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with short first paragraph[32m 54[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with long first paragraph[32m 63[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with legacy hero[32m 65[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with one paragraph[32m 76[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with nonsequential numbers[32m 57[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph bottom margin: expected '0px' to be '0' // Object.is equality[39m
+
+Expected: [32m"0"[39m
+Received: [31m"0[7mpx[27m"[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m121:101[22m[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+    [90m   | [39m                                                                                                    [31m^[39m
+    [90m122| [39m  })[33m;[39m
+    [90m123| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 00:10:27
+[2m   Duration [22m 1.57s[2m (transform 101ms, setup 37ms, import 132ms, tests 900ms, environment 314ms)[22m
+
+
+BASELINE_EXIT=1
+
+M1: Delete only line-height: 2 from the row paragraph rule.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts __tests__/chibi-quest-hero-row-type.test.ts
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 934[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 174[2mms[22m[39m
+[31m     [31m×[31m rejects a partial font-size deletion without an ancestor fallback[39m[32m 12[2mms[22m[39m
+[31m     [31m×[31m rejects a partial line-height deletion without an ancestor fallback[39m[32m 1[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: true)[32m 59[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: false)[32m 45[2mms[22m[39m
+     [32m✓[39m keeps the compact key and zero paragraph margin scoped to the chibi look[32m 69[2mms[22m[39m
+     [32m✓[39m keeps all four classic variants byte-identical to the pinned phase-base goldens[32m 189[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with no hero[32m 76[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with short first paragraph[32m 64[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with long first paragraph[32m 66[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with legacy hero[32m 62[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with one paragraph[32m 56[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with nonsequential numbers[32m 59[2mms[22m[39m
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+[90mstdout[2m | __tests__/chibi-quest-hero-row-type.test.ts[2m > [22m[2mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22m[2mgives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2)
+[22m[39mpara1_font_size 12pt
+para1_line_height 2
+para2_font_size 12pt
+para2_line_height 2
+para1_inside_article_text false
+
+[90mstdout[2m | __tests__/chibi-quest-hero-row-type.test.ts[2m > [22m[2mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22m[2mprints the marking key before paragraph 1, as in the classic look
+[22m[39mchibi_legend_index 936844
+chibi_para1_index 938860
+classic_legend_index 737457
+classic_para1_index 738987
+
+ [32m✓[39m __tests__/chibi-quest-hero-row-type.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 356[2mms[22m[39m
+     [33m[2m✓[22m[39m gives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2) [33m 339[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph line-height: expected '' to be '2' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 2[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m120:97[22m[39m
+    [90m118| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m   | [39m                                                                                                [31m^[39m
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+    [90m122| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrejects a partial font-size deletion without an ancestor fallback
+[31m[1mAssertionError[22m: other declaration survives: expected '' to be '2' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 2[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m132:84[22m[39m
+    [90m130| [39m    expect(declaration(mutant, ROW_PARAGRAPH, property), 'deleted prop…
+    [90m131| [39m    const kept = property === 'font-size' ? 'line-height' : 'font-size…
+    [90m132| [39m    expect(declaration(mutant, ROW_PARAGRAPH, kept), 'other declaratio…
+    [90m   | [39m                                                                                   [31m^[39m
+    [90m133| [39m  })[33m;[39m
+    [90m134| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrejects a partial line-height deletion without an ancestor fallback
+[31m[1mAssertionError[22m: partial mutant applied: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m129:54[22m[39m
+    [90m127| [39m      (_[33m,[39m open[33m:[39m string[33m,[39m declarations[33m:[39m string[33m,[39m close[33m:[39m string) [33m=>[39m
+    [90m128| [39m        open + declarations.replace(new RegExp(`\\b${property}\\s*:[^;…
+    [90m129| [39m    [34mexpect[39m(mutant [33m!==[39m css[33m,[39m [32m'partial mutant applied'[39m)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m                                                     [31m^[39m
+    [90m130| [39m    expect(declaration(mutant, ROW_PARAGRAPH, property), 'deleted prop…
+    [90m131| [39m    const kept = property === 'font-size' ? 'line-height' : 'font-size…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m13 passed[39m[22m[90m (16)[39m
+[2m   Start at [22m 00:10:30
+[2m   Duration [22m 2.36s[2m (transform 90ms, setup 68ms, import 147ms, tests 1.29s, environment 609ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+M2: Delete only font-size: 12pt from the row paragraph rule.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 820[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 147[2mms[22m[39m
+[31m     [31m×[31m rejects a partial font-size deletion without an ancestor fallback[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m rejects a partial line-height deletion without an ancestor fallback[39m[32m 10[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: true)[32m 49[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: false)[32m 35[2mms[22m[39m
+     [32m✓[39m keeps the compact key and zero paragraph margin scoped to the chibi look[32m 60[2mms[22m[39m
+     [32m✓[39m keeps all four classic variants byte-identical to the pinned phase-base goldens[32m 167[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with no hero[32m 63[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with short first paragraph[32m 55[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with long first paragraph[32m 63[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with legacy hero[32m 57[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with one paragraph[32m 56[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with nonsequential numbers[32m 56[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph font-size: expected '' to be '12pt' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 12pt[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m119:93[22m[39m
+    [90m117| [39m    expect(paragraph?.closest('.article-text') === null, 'article-text…
+    [90m118| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m   | [39m                                                                                            [31m^[39m
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrejects a partial font-size deletion without an ancestor fallback
+[31m[1mAssertionError[22m: partial mutant applied: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m129:54[22m[39m
+    [90m127| [39m      (_[33m,[39m open[33m:[39m string[33m,[39m declarations[33m:[39m string[33m,[39m close[33m:[39m string) [33m=>[39m
+    [90m128| [39m        open + declarations.replace(new RegExp(`\\b${property}\\s*:[^;…
+    [90m129| [39m    [34mexpect[39m(mutant [33m!==[39m css[33m,[39m [32m'partial mutant applied'[39m)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m                                                     [31m^[39m
+    [90m130| [39m    expect(declaration(mutant, ROW_PARAGRAPH, property), 'deleted prop…
+    [90m131| [39m    const kept = property === 'font-size' ? 'line-height' : 'font-size…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrejects a partial line-height deletion without an ancestor fallback
+[31m[1mAssertionError[22m: other declaration survives: expected '' to be '12pt' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 12pt[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m132:84[22m[39m
+    [90m130| [39m    expect(declaration(mutant, ROW_PARAGRAPH, property), 'deleted prop…
+    [90m131| [39m    const kept = property === 'font-size' ? 'line-height' : 'font-size…
+    [90m132| [39m    expect(declaration(mutant, ROW_PARAGRAPH, kept), 'other declaratio…
+    [90m   | [39m                                                                                   [31m^[39m
+    [90m133| [39m  })[33m;[39m
+    [90m134| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 00:10:33
+[2m   Duration [22m 1.46s[2m (transform 94ms, setup 38ms, import 130ms, tests 820ms, environment 304ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+M3: Delete only margin-bottom: 0 from the row paragraph rule.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 887[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 157[2mms[22m[39m
+     [32m✓[39m rejects a partial font-size deletion without an ancestor fallback[32m 8[2mms[22m[39m
+     [32m✓[39m rejects a partial line-height deletion without an ancestor fallback[32m 7[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: true)[32m 51[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: false)[32m 39[2mms[22m[39m
+     [32m✓[39m keeps the compact key and zero paragraph margin scoped to the chibi look[32m 59[2mms[22m[39m
+     [32m✓[39m keeps all four classic variants byte-identical to the pinned phase-base goldens[32m 196[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with no hero[32m 65[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with short first paragraph[32m 58[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with long first paragraph[32m 65[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with legacy hero[32m 62[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with one paragraph[32m 60[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with nonsequential numbers[32m 58[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph bottom margin: expected '' to be '0' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m121:101[22m[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+    [90m   | [39m                                                                                                    [31m^[39m
+    [90m122| [39m  })[33m;[39m
+    [90m123| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 00:10:36
+[2m   Duration [22m 1.52s[2m (transform 95ms, setup 36ms, import 125ms, tests 887ms, environment 306ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+M4: Remove the chibi scope from the compact key rule.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 774[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 156[2mms[22m[39m
+     [32m✓[39m rejects a partial font-size deletion without an ancestor fallback[32m 8[2mms[22m[39m
+     [32m✓[39m rejects a partial line-height deletion without an ancestor fallback[32m 7[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: true)[32m 46[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: false)[32m 38[2mms[22m[39m
+[31m     [31m×[31m keeps the compact key and zero paragraph margin scoped to the chibi look[39m[32m 6[2mms[22m[39m
+     [32m✓[39m keeps all four classic variants byte-identical to the pinned phase-base goldens[32m 167[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with no hero[32m 73[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with short first paragraph[32m 50[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with long first paragraph[32m 65[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with legacy hero[32m 49[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with one paragraph[32m 53[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with nonsequential numbers[32m 55[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph bottom margin: expected '0px' to be '0' // Object.is equality[39m
+
+Expected: [32m"0"[39m
+Received: [31m"0[7mpx[27m"[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m121:101[22m[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+    [90m   | [39m                                                                                                    [31m^[39m
+    [90m122| [39m  })[33m;[39m
+    [90m123| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mkeeps the compact key and zero paragraph margin scoped to the chibi look
+[31m[1mAssertionError[22m: compact key bottom margin: expected '' to be '4px' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 4px[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m152:81[22m[39m
+    [90m150| [39m  it('keeps the compact key and zero paragraph margin scoped to the ch…
+    [90m151| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m152| [39m    expect(declaration(css, KEY, 'margin-bottom'), 'compact key bottom…
+    [90m   | [39m                                                                                [31m^[39m
+    [90m153| [39m    expect(declaration(css, KEY, 'padding'), 'compact key padding').to…
+    [90m154| [39m    [35mconst[39m classic [33m=[39m [34mbody[39m([35mawait[39m [34mrender[39m([34mfixture[39m()[33m,[39m [32m'classic'[39m))[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m11 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 00:10:38
+[2m   Duration [22m 1.42s[2m (transform 90ms, setup 36ms, import 119ms, tests 774ms, environment 316ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+M5: Restore the larger padding on the chibi marking key.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 800[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 155[2mms[22m[39m
+     [32m✓[39m rejects a partial font-size deletion without an ancestor fallback[32m 8[2mms[22m[39m
+     [32m✓[39m rejects a partial line-height deletion without an ancestor fallback[32m 7[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: true)[32m 50[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: false)[32m 38[2mms[22m[39m
+[31m     [31m×[31m keeps the compact key and zero paragraph margin scoped to the chibi look[39m[32m 11[2mms[22m[39m
+     [32m✓[39m keeps all four classic variants byte-identical to the pinned phase-base goldens[32m 182[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with no hero[32m 73[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with short first paragraph[32m 55[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with long first paragraph[32m 62[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with legacy hero[32m 56[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with one paragraph[32m 46[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with nonsequential numbers[32m 55[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph bottom margin: expected '0px' to be '0' // Object.is equality[39m
+
+Expected: [32m"0"[39m
+Received: [31m"0[7mpx[27m"[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m121:101[22m[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+    [90m   | [39m                                                                                                    [31m^[39m
+    [90m122| [39m  })[33m;[39m
+    [90m123| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mkeeps the compact key and zero paragraph margin scoped to the chibi look
+[31m[1mAssertionError[22m: compact key padding: expected '10px 16px' to be '2px 10px' // Object.is equality[39m
+
+Expected: [32m"[7m2[27mpx 1[7m0[27mpx"[39m
+Received: [31m"[7m10[27mpx 1[7m6[27mpx"[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m153:69[22m[39m
+    [90m151| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m152| [39m    expect(declaration(css, KEY, 'margin-bottom'), 'compact key bottom…
+    [90m153| [39m    expect(declaration(css, KEY, 'padding'), 'compact key padding').to…
+    [90m   | [39m                                                                    [31m^[39m
+    [90m154| [39m    [35mconst[39m classic [33m=[39m [34mbody[39m([35mawait[39m [34mrender[39m([34mfixture[39m()[33m,[39m [32m'classic'[39m))[33m;[39m
+    [90m155| [39m    const paragraph = classic.querySelector('.read-article-step .parag…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m11 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 00:10:40
+[2m   Duration [22m 1.42s[2m (transform 88ms, setup 37ms, import 117ms, tests 800ms, environment 301ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+M6: Remove the chibi scope from the row paragraph rule.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 836[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 145[2mms[22m[39m
+[31m     [31m×[31m rejects a partial font-size deletion without an ancestor fallback[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m rejects a partial line-height deletion without an ancestor fallback[39m[32m 0[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: true)[32m 49[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: false)[32m 35[2mms[22m[39m
+     [32m✓[39m keeps the compact key and zero paragraph margin scoped to the chibi look[32m 66[2mms[22m[39m
+     [32m✓[39m keeps all four classic variants byte-identical to the pinned phase-base goldens[32m 174[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with no hero[32m 66[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with short first paragraph[32m 58[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with long first paragraph[32m 65[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with legacy hero[32m 60[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with one paragraph[32m 59[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with nonsequential numbers[32m 58[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph font-size: expected '' to be '12pt' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 12pt[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m119:93[22m[39m
+    [90m117| [39m    expect(paragraph?.closest('.article-text') === null, 'article-text…
+    [90m118| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m   | [39m                                                                                            [31m^[39m
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrejects a partial font-size deletion without an ancestor fallback
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrejects a partial line-height deletion without an ancestor fallback
+[31m[1mAssertionError[22m: partial mutant applied: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m129:54[22m[39m
+    [90m127| [39m      (_[33m,[39m open[33m:[39m string[33m,[39m declarations[33m:[39m string[33m,[39m close[33m:[39m string) [33m=>[39m
+    [90m128| [39m        open + declarations.replace(new RegExp(`\\b${property}\\s*:[^;…
+    [90m129| [39m    [34mexpect[39m(mutant [33m!==[39m css[33m,[39m [32m'partial mutant applied'[39m)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m                                                     [31m^[39m
+    [90m130| [39m    expect(declaration(mutant, ROW_PARAGRAPH, property), 'deleted prop…
+    [90m131| [39m    const kept = property === 'font-size' ? 'line-height' : 'font-size…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 00:10:42
+[2m   Duration [22m 1.45s[2m (transform 87ms, setup 36ms, import 115ms, tests 836ms, environment 297ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+FINAL TARGETED REGRESSION
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 887[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 154[2mms[22m[39m
+     [32m✓[39m rejects a partial font-size deletion without an ancestor fallback[32m 10[2mms[22m[39m
+     [32m✓[39m rejects a partial line-height deletion without an ancestor fallback[32m 8[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: true)[32m 57[2mms[22m[39m
+     [32m✓[39m keeps the marking key before the row and paragraph 1 (answer key: false)[32m 42[2mms[22m[39m
+     [32m✓[39m keeps the compact key and zero paragraph margin scoped to the chibi look[32m 59[2mms[22m[39m
+     [32m✓[39m keeps all four classic variants byte-identical to the pinned phase-base goldens[32m 192[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with no hero[32m 59[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with short first paragraph[32m 56[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with long first paragraph[32m 65[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with legacy hero[32m 60[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with one paragraph[32m 64[2mms[22m[39m
+     [32m✓[39m preserves every paragraph and inline image with nonsequential numbers[32m 59[2mms[22m[39m
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+[90mstdout[2m | __tests__/chibi-quest-hero-row-type.test.ts[2m > [22m[2mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22m[2mgives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2)
+[22m[39mpara1_font_size 12pt
+para1_line_height 2
+para2_font_size 12pt
+para2_line_height 2
+para1_inside_article_text false
+
+[90mstdout[2m | __tests__/chibi-quest-hero-row-type.test.ts[2m > [22m[2mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22m[2mprints the marking key before paragraph 1, as in the classic look
+[22m[39mchibi_legend_index 936860
+chibi_para1_index 938876
+classic_legend_index 737457
+classic_para1_index 738987
+
+ [32m✓[39m __tests__/chibi-quest-hero-row-type.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 326[2mms[22m[39m
+     [33m[2m✓[22m[39m gives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2) [33m 305[2mms[22m[39m
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mkeeps the step 11 header with its writing box within the 245 mm page
+[22m[39mpage_content_height_mm 245
+step11_header_mm 17
+step11_box_mm 232
+step11_total_mm 249
+
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mkeeps the self-assessment strip with its score box
+[22m[39mscore_markers 2
+
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mputs the hero and paragraph 1 in one two-column row (option B)
+[22m[39mhero_row_width_mm 84.8
+hero_row_widths_found 2
+
+ [32m✓[39m __tests__/chibi-quest-page-flow.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 141[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph bottom margin: expected '0px' to be '0' // Object.is equality[39m
+
+Expected: [32m"0"[39m
+Received: [31m"0[7mpx[27m"[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m121:101[22m[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+    [90m   | [39m                                                                                                    [31m^[39m
+    [90m122| [39m  })[33m;[39m
+    [90m123| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m20 passed[39m[22m[90m (21)[39m
+[2m   Start at [22m 00:10:44
+[2m   Duration [22m 2.93s[2m (transform 99ms, setup 101ms, import 184ms, tests 1.35s, environment 946ms)[22m
+
+
+FINAL_EXIT=1
+
+CORRECTION RECORD
+The initial baseline and first regression run failed on a test expectation, not a product defect.
+CSSOM normalizes margin-bottom: 0 to 0px. The test now expects 0px.
+The first six mutation runs are retained as initial evidence. Corrected focused runs are authoritative.
+No product file changed for this correction.
+
+CORRECTED MUTATION HARNESS
+import hashlib
+import os
+from pathlib import Path
+import re
+import signal
+import shlex
+import subprocess
+import sys
+
+ROOT = Path('/home/daniebo/Desktop/Workbooks')
+STYLES = ROOT / 'dashboard/lib/document-wrapper/chibi-quest-styles.ts'
+CAPTURE = ROOT / 'measure/runs/primary_v2_look_20261020/adversarial-s5-1298fdb2.txt'
+SHA = '1298fdb28bb4148d49ceb8e46f62502d18b5a175'
+mode = sys.argv[1]
+target = STYLES
+original = target.read_bytes()
+expected = subprocess.check_output(['git', 'show', f'{SHA}:{target.relative_to(ROOT)}'], cwd=ROOT)
+assert original == expected, 'The product file differs from the audited head.'
+text = original.decode()
+assert not re.search('[\u0e00-\u0e7f]', text), 'The mutation target contains Thai.'
+row = '.look-chibi-quest .chibi-hero-row .paragraph { font-size: 12pt; line-height: 2; margin-bottom: 0; }'
+descriptions = {
+    'M1': 'Delete only line-height: 2 from the row paragraph rule.',
+    'M2': 'Delete only font-size: 12pt from the row paragraph rule.',
+    'M3': 'Delete only margin-bottom: 0 from the row paragraph rule.',
+    'M4': 'Remove the chibi scope from the compact key rule.',
+    'M5': 'Restore the larger padding on the chibi marking key.',
+    'M6': 'Remove the chibi scope from the row paragraph rule.',
+}
+if mode in ['M1', 'M2', 'M3']:
+    token = {'M1': 'line-height: 2; ', 'M2': 'font-size: 12pt; ', 'M3': 'margin-bottom: 0;'}[mode]
+    assert text.count(row) == 1
+    changed = text.replace(row, row.replace(token, ''))
+elif mode == 'M4':
+    token = '.look-chibi-quest .read-article-step .marking-legend { margin-bottom: 4px; padding: 2px 10px; }'
+    assert text.count(token) == 1
+    changed = text.replace(token, token.replace('.look-chibi-quest ', ''))
+elif mode == 'M5':
+    token = '.look-chibi-quest .read-article-step .marking-legend { margin-bottom: 4px; padding: 2px 10px; }'
+    assert text.count(token) == 1
+    changed = text.replace(token, token.replace('padding: 2px 10px', 'padding: 10px 16px'))
+elif mode == 'M6':
+    assert text.count(row) == 1
+    changed = text.replace(row, row.replace('.look-chibi-quest ', ''))
+else:
+    raise ValueError(mode)
+assert changed != text
+mutant = changed.encode()
+
+def interrupted(signum, frame):
+    raise KeyboardInterrupt(f'Signal {signum}')
+
+signal.signal(signal.SIGTERM, interrupted)
+signal.signal(signal.SIGINT, interrupted)
+command = ['npx', 'vitest', 'run', '__tests__/chibi-quest-hero-row.adversarial.test.ts']
+if mode == 'M1':
+    command.append('__tests__/chibi-quest-hero-row-type.test.ts')
+command.extend(['-t', 'requires font-size and line-height independently|gives paragraph 1 the same print type' if mode in ['M1', 'M2', 'M3', 'M6'] else 'keeps the compact key and zero paragraph margin'])
+test_file = ROOT / 'dashboard/__tests__/chibi-quest-hero-row.adversarial.test.ts'
+test_sha = hashlib.sha256(test_file.read_bytes()).hexdigest()
+result = None
+restored = False
+try:
+    target.write_bytes(mutant)
+    result = subprocess.run(command, cwd=ROOT / 'dashboard', env={**os.environ, 'CI': 'true'},
+                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+finally:
+    current = target.read_bytes()
+    if current != mutant:
+        raise RuntimeError('A concurrent product edit prevents safe restoration.')
+    target.write_bytes(original)
+    restored = target.read_bytes() == original
+    assert restored
+
+clean = '\n'.join(line for line in result.stdout.splitlines() if not re.search('[\u0e00-\u0e7f]', line))
+assert not re.search('[\u0e00-\u0e7f]', clean)
+assert hashlib.sha256(test_file.read_bytes()).hexdigest() == test_sha
+record = (f'\nCORRECTED MUTATION {mode}: {descriptions[mode]}\n'
+          f'COMMAND: CI=true {shlex.join(command)}\n'
+          f'{clean}\nMUTANT_TEST_EXIT={result.returncode}\nRESTORED={restored}\n'
+          f'TEST_SHA256={test_sha}\n'
+          f'BEFORE_SHA256={hashlib.sha256(original).hexdigest()}\n'
+          f'RESTORED_SHA256={hashlib.sha256(target.read_bytes()).hexdigest()}\n')
+with CAPTURE.open('a') as output:
+    output.write(record)
+print(record)
+if result.returncode == 143 or result.returncode < 0:
+    sys.exit(143)
+sys.exit(0 if result.returncode == 1 and restored else 1)
+
+CURRENT_TEST_SHA256=0662e0874c3d043c69d4ab1ff37875ccea34afb96147b7bd22f5641de652823a
+
+CORRECTED BASELINE (CSSOM zero normalization)
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [32m✓[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 852[2mms[22m[39m
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+[90mstdout[2m | __tests__/chibi-quest-hero-row-type.test.ts[2m > [22m[2mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22m[2mgives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2)
+[22m[39mpara1_font_size 12pt
+para1_line_height 2
+para2_font_size 12pt
+para2_line_height 2
+para1_inside_article_text false
+
+[90mstdout[2m | __tests__/chibi-quest-hero-row-type.test.ts[2m > [22m[2mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22m[2mprints the marking key before paragraph 1, as in the classic look
+[22m[39mchibi_legend_index 936860
+chibi_para1_index 938876
+classic_legend_index 737457
+classic_para1_index 738987
+
+ [32m✓[39m __tests__/chibi-quest-hero-row-type.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 325[2mms[22m[39m
+     [33m[2m✓[22m[39m gives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2) [33m 306[2mms[22m[39m
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mkeeps the step 11 header with its writing box within the 245 mm page
+[22m[39mpage_content_height_mm 245
+step11_header_mm 17
+step11_box_mm 232
+step11_total_mm 249
+
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mkeeps the self-assessment strip with its score box
+[22m[39mscore_markers 2
+
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mputs the hero and paragraph 1 in one two-column row (option B)
+[22m[39mhero_row_width_mm 84.8
+hero_row_widths_found 2
+
+ [32m✓[39m __tests__/chibi-quest-page-flow.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 135[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m21 passed[39m[22m[90m (21)[39m
+[2m   Start at [22m 00:22:58
+[2m   Duration [22m 2.93s[2m (transform 103ms, setup 98ms, import 188ms, tests 1.31s, environment 995ms)[22m
+
+
+CORRECTED_BASELINE_EXIT=0
+
+CORRECTED MUTATION M1: Delete only line-height: 2 from the row paragraph rule.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts __tests__/chibi-quest-hero-row-type.test.ts -t 'requires font-size and line-height independently|gives paragraph 1 the same print type'
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m12 skipped[39m[2m)[22m[32m 153[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 152[2mms[22m[39m
+     [2m[90m↓[39m[22m rejects a partial font-size deletion without an ancestor fallback
+     [2m[90m↓[39m[22m rejects a partial line-height deletion without an ancestor fallback
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: true)
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: false)
+     [2m[90m↓[39m[22m keeps the compact key and zero paragraph margin scoped to the chibi look
+     [2m[90m↓[39m[22m keeps all four classic variants byte-identical to the pinned phase-base goldens
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with no hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with short first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with long first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with legacy hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with one paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with nonsequential numbers
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+Could not parse CSS stylesheet
+[90mstdout[2m | __tests__/chibi-quest-hero-row-type.test.ts[2m > [22m[2mchibi-quest hero row type and key order (S5.R6, F26-F28)[2m > [22m[2mgives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2)
+[22m[39mpara1_font_size 12pt
+para1_line_height 2
+para2_font_size 12pt
+para2_line_height 2
+para1_inside_article_text false
+
+ [32m✓[39m __tests__/chibi-quest-hero-row-type.test.ts [2m([22m[2m3 tests[22m[2m | [22m[33m2 skipped[39m[2m)[22m[33m 321[2mms[22m[39m
+     [33m[2m✓[22m[39m gives paragraph 1 the same print type as paragraph 2 (12 pt, line-height 2) [33m 320[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph line-height: expected '' to be '2' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 2[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m120:97[22m[39m
+    [90m118| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m   | [39m                                                                                                [31m^[39m
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+    [90m122| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[2m | [22m[33m14 skipped[39m[90m (16)[39m
+[2m   Start at [22m 00:23:02
+[2m   Duration [22m 1.59s[2m (transform 96ms, setup 67ms, import 154ms, tests 474ms, environment 649ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+TEST_SHA256=0662e0874c3d043c69d4ab1ff37875ccea34afb96147b7bd22f5641de652823a
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+CORRECTED MUTATION M2: Delete only font-size: 12pt from the row paragraph rule.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts -t 'requires font-size and line-height independently|gives paragraph 1 the same print type'
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m12 skipped[39m[2m)[22m[32m 161[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 160[2mms[22m[39m
+     [2m[90m↓[39m[22m rejects a partial font-size deletion without an ancestor fallback
+     [2m[90m↓[39m[22m rejects a partial line-height deletion without an ancestor fallback
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: true)
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: false)
+     [2m[90m↓[39m[22m keeps the compact key and zero paragraph margin scoped to the chibi look
+     [2m[90m↓[39m[22m keeps all four classic variants byte-identical to the pinned phase-base goldens
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with no hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with short first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with long first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with legacy hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with one paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with nonsequential numbers
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph font-size: expected '' to be '12pt' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 12pt[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m119:93[22m[39m
+    [90m117| [39m    expect(paragraph?.closest('.article-text') === null, 'article-text…
+    [90m118| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m   | [39m                                                                                            [31m^[39m
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m12 skipped[39m[90m (13)[39m
+[2m   Start at [22m 00:23:04
+[2m   Duration [22m 791ms[2m (transform 88ms, setup 35ms, import 119ms, tests 161ms, environment 308ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+TEST_SHA256=0662e0874c3d043c69d4ab1ff37875ccea34afb96147b7bd22f5641de652823a
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+CORRECTED MUTATION M3: Delete only margin-bottom: 0 from the row paragraph rule.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts -t 'requires font-size and line-height independently|gives paragraph 1 the same print type'
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m12 skipped[39m[2m)[22m[32m 172[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 171[2mms[22m[39m
+     [2m[90m↓[39m[22m rejects a partial font-size deletion without an ancestor fallback
+     [2m[90m↓[39m[22m rejects a partial line-height deletion without an ancestor fallback
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: true)
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: false)
+     [2m[90m↓[39m[22m keeps the compact key and zero paragraph margin scoped to the chibi look
+     [2m[90m↓[39m[22m keeps all four classic variants byte-identical to the pinned phase-base goldens
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with no hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with short first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with long first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with legacy hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with one paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with nonsequential numbers
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph bottom margin: expected '' to be '0px' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0px[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m121:101[22m[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+    [90m   | [39m                                                                                                    [31m^[39m
+    [90m122| [39m  })[33m;[39m
+    [90m123| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m12 skipped[39m[90m (13)[39m
+[2m   Start at [22m 00:23:06
+[2m   Duration [22m 849ms[2m (transform 101ms, setup 43ms, import 133ms, tests 172ms, environment 334ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+TEST_SHA256=0662e0874c3d043c69d4ab1ff37875ccea34afb96147b7bd22f5641de652823a
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+CORRECTED MUTATION M4: Remove the chibi scope from the compact key rule.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts -t 'keeps the compact key and zero paragraph margin'
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m12 skipped[39m[2m)[22m[32m 43[2mms[22m[39m
+     [2m[90m↓[39m[22m requires font-size and line-height independently on the real row paragraph
+     [2m[90m↓[39m[22m rejects a partial font-size deletion without an ancestor fallback
+     [2m[90m↓[39m[22m rejects a partial line-height deletion without an ancestor fallback
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: true)
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: false)
+[31m     [31m×[31m keeps the compact key and zero paragraph margin scoped to the chibi look[39m[32m 42[2mms[22m[39m
+     [2m[90m↓[39m[22m keeps all four classic variants byte-identical to the pinned phase-base goldens
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with no hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with short first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with long first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with legacy hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with one paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with nonsequential numbers
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mkeeps the compact key and zero paragraph margin scoped to the chibi look
+[31m[1mAssertionError[22m: compact key bottom margin: expected '' to be '4px' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 4px[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m152:81[22m[39m
+    [90m150| [39m  it('keeps the compact key and zero paragraph margin scoped to the ch…
+    [90m151| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m152| [39m    expect(declaration(css, KEY, 'margin-bottom'), 'compact key bottom…
+    [90m   | [39m                                                                                [31m^[39m
+    [90m153| [39m    expect(declaration(css, KEY, 'padding'), 'compact key padding').to…
+    [90m154| [39m    [35mconst[39m classic [33m=[39m [34mbody[39m([35mawait[39m [34mrender[39m([34mfixture[39m()[33m,[39m [32m'classic'[39m))[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m12 skipped[39m[90m (13)[39m
+[2m   Start at [22m 00:23:07
+[2m   Duration [22m 676ms[2m (transform 92ms, setup 39ms, import 122ms, tests 43ms, environment 303ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+TEST_SHA256=0662e0874c3d043c69d4ab1ff37875ccea34afb96147b7bd22f5641de652823a
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+CORRECTED MUTATION M5: Restore the larger padding on the chibi marking key.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts -t 'keeps the compact key and zero paragraph margin'
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m12 skipped[39m[2m)[22m[32m 50[2mms[22m[39m
+     [2m[90m↓[39m[22m requires font-size and line-height independently on the real row paragraph
+     [2m[90m↓[39m[22m rejects a partial font-size deletion without an ancestor fallback
+     [2m[90m↓[39m[22m rejects a partial line-height deletion without an ancestor fallback
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: true)
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: false)
+[31m     [31m×[31m keeps the compact key and zero paragraph margin scoped to the chibi look[39m[32m 49[2mms[22m[39m
+     [2m[90m↓[39m[22m keeps all four classic variants byte-identical to the pinned phase-base goldens
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with no hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with short first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with long first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with legacy hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with one paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with nonsequential numbers
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mkeeps the compact key and zero paragraph margin scoped to the chibi look
+[31m[1mAssertionError[22m: compact key padding: expected '10px 16px' to be '2px 10px' // Object.is equality[39m
+
+Expected: [32m"[7m2[27mpx 1[7m0[27mpx"[39m
+Received: [31m"[7m10[27mpx 1[7m6[27mpx"[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m153:69[22m[39m
+    [90m151| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m152| [39m    expect(declaration(css, KEY, 'margin-bottom'), 'compact key bottom…
+    [90m153| [39m    expect(declaration(css, KEY, 'padding'), 'compact key padding').to…
+    [90m   | [39m                                                                    [31m^[39m
+    [90m154| [39m    [35mconst[39m classic [33m=[39m [34mbody[39m([35mawait[39m [34mrender[39m([34mfixture[39m()[33m,[39m [32m'classic'[39m))[33m;[39m
+    [90m155| [39m    const paragraph = classic.querySelector('.read-article-step .parag…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m12 skipped[39m[90m (13)[39m
+[2m   Start at [22m 00:23:09
+[2m   Duration [22m 694ms[2m (transform 95ms, setup 36ms, import 125ms, tests 50ms, environment 307ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+TEST_SHA256=0662e0874c3d043c69d4ab1ff37875ccea34afb96147b7bd22f5641de652823a
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+CORRECTED MUTATION M6: Remove the chibi scope from the row paragraph rule.
+COMMAND: CI=true npx vitest run __tests__/chibi-quest-hero-row.adversarial.test.ts -t 'requires font-size and line-height independently|gives paragraph 1 the same print type'
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+ [31m❯[39m __tests__/chibi-quest-hero-row.adversarial.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m12 skipped[39m[2m)[22m[32m 142[2mms[22m[39m
+[31m     [31m×[31m requires font-size and line-height independently on the real row paragraph[39m[32m 140[2mms[22m[39m
+     [2m[90m↓[39m[22m rejects a partial font-size deletion without an ancestor fallback
+     [2m[90m↓[39m[22m rejects a partial line-height deletion without an ancestor fallback
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: true)
+     [2m[90m↓[39m[22m keeps the marking key before the row and paragraph 1 (answer key: false)
+     [2m[90m↓[39m[22m keeps the compact key and zero paragraph margin scoped to the chibi look
+     [2m[90m↓[39m[22m keeps all four classic variants byte-identical to the pinned phase-base goldens
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with no hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with short first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with long first paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with legacy hero
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with one paragraph
+     [2m[90m↓[39m[22m preserves every paragraph and inline image with nonsequential numbers
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-hero-row.adversarial.test.ts[2m > [22mS5 adversarial hero row (round 3, F31)[2m > [22mrequires font-size and line-height independently on the real row paragraph
+[31m[1mAssertionError[22m: independent paragraph font-size: expected '' to be '12pt' // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 12pt[39m
+
+[36m [2m❯[22m __tests__/chibi-quest-hero-row.adversarial.test.ts:[2m119:93[22m[39m
+    [90m117| [39m    expect(paragraph?.closest('.article-text') === null, 'article-text…
+    [90m118| [39m    [35mconst[39m css [33m=[39m [34mgetChibiQuestStyles[39m()[33m;[39m
+    [90m119| [39m    expect(declaration(css, ROW_PARAGRAPH, 'font-size'), 'independent …
+    [90m   | [39m                                                                                            [31m^[39m
+    [90m120| [39m    expect(declaration(css, ROW_PARAGRAPH, 'line-height'), 'independen…
+    [90m121| [39m    expect(declaration(css, ROW_PARAGRAPH, 'margin-bottom'), 'independ…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m12 skipped[39m[90m (13)[39m
+[2m   Start at [22m 00:23:11
+[2m   Duration [22m 773ms[2m (transform 87ms, setup 39ms, import 118ms, tests 142ms, environment 301ms)[22m
+
+MUTANT_TEST_EXIT=1
+RESTORED=True
+TEST_SHA256=0662e0874c3d043c69d4ab1ff37875ccea34afb96147b7bd22f5641de652823a
+BEFORE_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+RESTORED_SHA256=b4a854340324172a0c699ec5aa18d6e98ce6e07a00e381b36c3592573239b14b
+
+RESTORE AND CAPTURE CHECK
+git diff --stat dashboard/lib dashboard/templates: empty
+PRODUCT_DIFF_EXIT=0
+All six corrected mutants exit 1 and restore the audited product bytes.
+The corrected baseline exits 0 with 21 passed in three files.
+All four intended commit files contain zero Thai characters.
