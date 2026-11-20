@@ -1,0 +1,4 @@
+Mutant: `.look-chibi-quest .chibi-hero-row { display: block; }`.
+Test: `__tests__/chibi-quest-page-flow.test.ts` fails the two-column display assertion.
+Mutant test exit: 1. Four tests passed; one test failed as expected.
+Restoration: `chibi-quest-styles.ts` matches HEAD `545262623f89434322328b46571bf9f7ab593c7d`.

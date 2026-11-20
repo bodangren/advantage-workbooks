@@ -1,0 +1,29 @@
+MEASURE_AGENT_RESULT
+status: PASS
+phase_base_sha: 04275398c9411b45685733e20fc003945524ad72
+role_base_sha: 545262623f89434322328b46571bf9f7ab593c7d
+implementation_head: 545262623f89434322328b46571bf9f7ab593c7d
+red_commit: 2a3a4145; verified inside phase_base_sha..HEAD
+implementation_commits: e560ff21, 07541d95, 54526262
+targeted_red_command: set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/chibi-quest-page-flow.test.ts
+targeted_red_output: exit 0; 5 tests passed; hero row width 84.8 mm; two widths found
+G1: exit 0; 5 tests passed
+G2: exit 0; 33 tests passed across four files
+G3: exit 0; 3182 tests passed in 169 files; EDQUOT 0
+G4: exit 0; eslint checked dashboard/lib/workbook-document-wrapper.ts
+G5: exit 0; npx tsc --noEmit produced no output
+G6: display:block mutant caught by the two-column display assertion; mutant test exit 1; restored to HEAD
+G7: exit 0; classic golden and teacher-manual diff is empty
+G8: 0 Thai characters in added lines of all three implementation commits
+proof_round_10: P1-P20 each exit 0; 20 checks; 0 failures
+proof_pages: Quest 5 14; Adventure 9.2 16
+P14: both hero widths 84.67 mm
+P20: both heroes and paragraph 1 share page 3
+hero_gutter: 6 mm; no unused hero column remains
+manifest_git_head: 545262623f89434322328b46571bf9f7ab593c7d
+before_after_crops: present under ~/Desktop/print-ready/primary-v2-look/proof-s5-r10/before-after/
+new_files: green-s5g7-g3.txt; green-s5g7-g6-mutant.txt; this log; proof-s5/checks-r10.txt; proof-s5/manifest-r10.txt; Thai-free green-s5g7 text captures
+tasks_flipped: S5.G7 [x] with implementation SHA evidence above
+tasks_deferred: none changed
+handoff: Send to review roles. Daniel's look remains deferred; no approval or printer file is claimed.
+END_MEASURE_AGENT_RESULT

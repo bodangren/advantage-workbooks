@@ -1,0 +1,41 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/daniebo/Desktop/Workbooks/dashboard[39m
+
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mkeeps the step 11 header with its writing box within the 245 mm page
+[22m[39mpage_content_height_mm 245
+step11_header_mm 17
+step11_box_mm 232
+step11_total_mm 249
+
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mkeeps the self-assessment strip with its score box
+[22m[39mscore_markers 2
+
+[90mstdout[2m | __tests__/chibi-quest-page-flow.test.ts[2m > [22m[2mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22m[2mputs the hero and paragraph 1 in one two-column row (option B)
+[22m[39mhero_row_width_mm 84.8
+
+ [31m❯[39m __tests__/chibi-quest-page-flow.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 145[2mms[22m[39m
+     [32m✓[39m keeps the step 11 header with its writing box within the 245 mm page[32m 56[2mms[22m[39m
+     [32m✓[39m keeps the self-assessment strip with its score box[32m 16[2mms[22m[39m
+[31m     [31m×[31m puts the hero and paragraph 1 in one two-column row (option B)[39m[32m 11[2mms[22m[39m
+     [32m✓[39m keeps the classic golden lesson byte-identical without printing its text[32m 48[2mms[22m[39m
+     [32m✓[39m keeps the hero row out of the classic render[32m 12[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m __tests__/chibi-quest-page-flow.test.ts[2m > [22mchibi-quest page flow (S5.R5, UX2-3 option B)[2m > [22mputs the hero and paragraph 1 in one two-column row (option B)
+[31m[1mAssertionError[22m: .look-chibi-quest .chibi-hero-row display: expected [ 'grid', 'flex', 'inline-grid', …(1) ] to include ''[39m
+[36m [2m❯[22m __tests__/chibi-quest-page-flow.test.ts:[2m170:83[22m[39m
+    [90m168| [39m    // paragraph 1 beside a float, so the float contract cannot fix UX…
+    [90m169| [39m    [35mconst[39m display [33m=[39m [34mwinningProperty[39m(css[33m,[39m [33mHERO_ROW[39m[33m,[39m [32m'display'[39m)[33m;[39m
+    [90m170| [39m    expect(['grid', 'flex', 'inline-grid', 'inline-flex'], `${HERO_ROW…
+    [90m   | [39m                                                                                  [31m^[39m
+    [90m171| [39m    expect(winningProperty(css, HERO_ROW, 'float'), `${HERO_ROW} float…
+    [90m172| [39m    expect(winningProperty(css, HERO_ROW, 'break-inside'), `${HERO_ROW…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m 17:13:27
+[2m   Duration [22m 764ms[2m (transform 95ms, setup 39ms, import 126ms, tests 145ms, environment 332ms)[22m
