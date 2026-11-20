@@ -127,6 +127,15 @@ body.look-chibi-quest {
 .look-chibi-quest .a-label, .look-chibi-quest .starter-label, .look-chibi-quest .prompt-label { color: var(--cq-gold-text); }
 /* Child readability: the small caps labels print at 8 pt or more (PM decision 2). */
 .look-chibi-quest .q-label, .look-chibi-quest .a-label, .look-chibi-quest .para-note-label, .look-chibi-quest .tip-label, .look-chibi-quest .planning-label, .look-chibi-quest .qr-label { font-size: 11px !important; }
+/* The remaining small text keeps the same 8 pt floor (S5.G5, P16, PM decision 2). */
+.look-chibi-quest .read-article-step .qr-desc,
+.look-chibi-quest .guided-writing-section .qr-desc,
+.look-chibi-quest .collection-item label,
+.look-chibi-quest .guided-writing-section .writing-header p,
+.look-chibi-quest .prompt-label,
+.look-chibi-quest .guided-writing-section .word-count-box,
+.look-chibi-quest .guided-writing-section .ai-score-box,
+.look-chibi-quest .guided-writing-section .check-item { font-size: 11px; }
 .look-chibi-quest .practice-title { border-bottom: 2px solid var(--cq-parchment-edge); }
 
 /* Write-in parts: white wells with a parchment frame. */
