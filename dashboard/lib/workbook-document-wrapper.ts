@@ -47,7 +47,7 @@ ${printFontFaceCss()}
   </style>
   <style>
     ${getPrintStyles(theme, { pageSize: options.pageSize, cover: !options.lessonsOnly })}
-  </style>${lookStyle(options)}
+  </style>
 </head>`;
 }
 
@@ -67,7 +67,7 @@ export function wrapSingleLessonDocument(lessonHtml: string, answerKey: AnswerKe
 ${documentHead({ ...options, pageSize: options.pageSize ?? A4_PAGE, lessonsOnly: true }, theme)}
 ${bodyTag(options)}
   ${lessonHtml}
-  ${key}
+  ${key}${lookStyle(options)}
 </body>
 </html>`;
 }
@@ -128,7 +128,7 @@ ${bodyTag(options)}
 
   ${selfAssessmentSection}
 
-  ${certificateSection}
+  ${certificateSection}${lookStyle(options)}
 </body>
 </html>`;
 }

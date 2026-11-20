@@ -1670,6 +1670,92 @@
                 </div>
             </div>
 
+{{#if chibi_quest}}
+            <div class="article-container">
+                <div class="chibi-hero-row">
+                    <div class="article-image-area">
+                        {{#if images_hero.length}}
+                            {{#each images_hero}}
+                            <div class="article-image-box hero-img-box">
+                                <img src="{{url}}" alt="{{caption}}">
+                                <span class="article-image-caption">{{caption}}</span>
+                            </div>
+                            {{/each}}
+                        {{else}}
+                            {{#if article_image_url}}
+                            <div class="article-image-box">
+                                <img src="{{article_image_url}}" alt="{{article_caption}}">
+                            </div>
+                            <span class="article-image-caption">{{article_caption}}</span>
+                            {{/if}}
+                        {{/if}}
+                    </div>
+
+                    {{#each article_paragraphs}}
+                        {{#if @first}}
+                    <div class="paragraph">
+                        <span class="para-number">{{number}}</span>
+                        
+                        {{#with (lookup ../images_inline (concat "inline-para-" number))}}
+                            {{#each this}}
+                            <div class="article-image-box inline-img-box w-50">
+                                <img src="{{url}}" alt="{{caption}}">
+                                <span class="article-image-caption text-center">{{caption}}</span>
+                            </div>
+                            {{/each}}
+                        {{/with}}
+
+                        {{text}}
+                        <div class="clear-right"></div>
+                    </div>
+                        {{/if}}
+                    {{/each}}
+                </div>
+
+                <div class="marking-legend">
+                    <div class="legend-item">
+                        <span class="legend-symbol">___</span>
+                        <span>= new word</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-symbol">?</span>
+                        <span>= confusing</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-symbol">!</span>
+                        <span>= interesting</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-symbol">{{icon "star" filled=true}}</span>
+                        <span>= save this sentence</span>
+                    </div>
+                </div>
+
+                <div class="article-text">
+                    {{#each article_paragraphs}}
+                        {{#unless @first}}
+                    <div class="paragraph">
+                        <span class="para-number">{{number}}</span>
+                        
+                        {{#with (lookup ../images_inline (concat "inline-para-" number))}}
+                            {{#each this}}
+                            <div class="article-image-box inline-img-box w-50">
+                                <img src="{{url}}" alt="{{caption}}">
+                                <span class="article-image-caption text-center">{{caption}}</span>
+                            </div>
+                            {{/each}}
+                        {{/with}}
+
+                        {{text}}
+                        <div class="clear-right"></div>
+                    </div>
+                        {{/unless}}
+                    {{/each}}
+
+                    <div class="article-spacer"></div>
+                </div>
+            </div>
+{{else}}
             <div class="article-container">
                 <div class="article-image-area">
                     {{#if images_hero.length}}
@@ -1730,6 +1816,7 @@
                     <div class="article-spacer"></div>
                 </div>
             </div>
+{{/if}}
         </section>
 
         <!-- STEP 4: Collect Vocabulary -->

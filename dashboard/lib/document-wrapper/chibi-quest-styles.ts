@@ -104,11 +104,24 @@ body.look-chibi-quest {
 /* The hero prints at full inline width like the other pictures (PM decision 1, review A F11). */
 .look-chibi-quest .hero-img-box img { width: 84.8mm; max-width: 100%; height: auto; }
 
-/* The hero stays a left float, so paragraph 1 prints beside it on the picture page (UX2-3).
-   Paragraph 1 may split across the float: its lines fill the room beside the hero and the rest
-   follows below. A keep rule on the float wrapper drops the hero (P11), so none is added here. */
-.look-chibi-quest .read-article-step .article-image-area { float: left; }
-.look-chibi-quest .read-article-step .paragraph:first-of-type { break-inside: auto; page-break-inside: auto; }
+/* UX2-3 option B (PM decision 2026-11-20): the hero and paragraph 1 share one two-column row in
+   the chibi-quest look only. The hero column takes 84.8 mm on the left, with its caption under it.
+   Paragraph 1 fills the right column. The row keeps picture, caption, and first paragraph together
+   on one page; paragraphs 2+ follow the row. A grid, not a float, is required: Paged.js does not
+   flow paragraph 1 beside a float. The classic float rule is overridden inside the row. */
+.look-chibi-quest .chibi-hero-row {
+  display: grid;
+  grid-template-columns: 84.8mm 1fr;
+  column-gap: 6mm;
+  float: none;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.look-chibi-quest .chibi-hero-row .article-image-area {
+  float: none;
+  width: 100%;
+  margin: 0;
+}
 
 /* Step 3 keeps its title and QR box with the article (P17, spec.md line 72). The top margin of
    the step header stays the UX-1 4 mm rule. */
