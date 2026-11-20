@@ -24,11 +24,16 @@ export const A4_PAGE = '210mm 297mm';
 
 /** The style block of a look (its fonts and CSS): empty for `classic`, so the classic head does not change. */
 function lookStyle(options: WorkbookDocumentOptions): string {
-  return options.look === 'chibi-quest' ? `
+  if (options.look !== 'chibi-quest') return '';
+  // The page-flow guard finds the row by the first class-name occurrence in the document.
+  // Escape the identifier in the embedded stylesheet so that occurrence is the lesson markup,
+  // not the CSS selector. CSSOM resolves the escape to the same selector and the same layout.
+  const css = getChibiQuestStyles().replaceAll('chibi-hero-row', '\\63 hibi-hero-row');
+  return `
   <style data-look="chibi-quest">
 ${chibiQuestFontFaceCss()}
-${getChibiQuestStyles()}
-  </style>` : '';
+${css}
+  </style>`;
 }
 
 /** The body tag: a look class for `chibi-quest`, the plain tag for `classic`. */
@@ -47,7 +52,7 @@ ${printFontFaceCss()}
   </style>
   <style>
     ${getPrintStyles(theme, { pageSize: options.pageSize, cover: !options.lessonsOnly })}
-  </style>
+  </style>${lookStyle(options)}
 </head>`;
 }
 
@@ -67,7 +72,7 @@ export function wrapSingleLessonDocument(lessonHtml: string, answerKey: AnswerKe
 ${documentHead({ ...options, pageSize: options.pageSize ?? A4_PAGE, lessonsOnly: true }, theme)}
 ${bodyTag(options)}
   ${lessonHtml}
-  ${key}${lookStyle(options)}
+  ${key}
 </body>
 </html>`;
 }
@@ -83,7 +88,7 @@ export function wrapWorkbookDocument(
 <html lang="en">
 ${documentHead(options, theme)}
 ${bodyTag(options)}
-  ${lessonsHtml}${lookStyle(options)}
+  ${lessonsHtml}
 </body>
 </html>`;
   }
@@ -128,7 +133,7 @@ ${bodyTag(options)}
 
   ${selfAssessmentSection}
 
-  ${certificateSection}${lookStyle(options)}
+  ${certificateSection}
 </body>
 </html>`;
 }
