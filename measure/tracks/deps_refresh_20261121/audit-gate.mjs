@@ -177,10 +177,10 @@ function checkAllowlist(allowlist, today) {
 
 /**
  * Find the complete entry that covers one advisory. An entry covers an
- * advisory only when it names the same package and advisory: the key holds
- * the advisory id and the entry id matches it, or the key holds
- * `pkg:<name>` for the advisory package. In both cases the entry package
- * must equal the advisory package name.
+ * advisory only when it names both the same advisory id and the same
+ * package: entry.id equals the advisory id and entry.package equals the
+ * advisory package name. The key type does not relax this rule: the key
+ * holds either the advisory id or `pkg:<name>` for the advisory package.
  *
  * @param {{name: string, severity: string, id: string}} advisory - One advisory.
  * @param {Record<string, unknown>} allowlist - The allowlist to read.
@@ -193,7 +193,7 @@ function coveringEntry(advisory, allowlist) {
   }
   const pkgKey = `pkg:${advisory.name}`;
   const byPkg = allowlist[pkgKey];
-  if (isRecord(byPkg) && byPkg.package === advisory.name) {
+  if (isRecord(byPkg) && byPkg.id === advisory.id && byPkg.package === advisory.name) {
     return { key: pkgKey, entry: /** @type {Record<string, string>} */ (byPkg) };
   }
   return null;
@@ -316,16 +316,26 @@ function selfTest() {
   r = decide([high], 'high', { 'pkg:tar-fs': otherPkgEntry }, today);
   check('high with a pkg-keyed entry for another package fails', r.failures.length >= 1 && r.allowed.length === 0);
 
-  // An impossible calendar date fails even with the YYYY-MM-DD shape.
-  const impossibleDate = { id: 'GHSA-high-1', package: 'ws', severity: 'high', reason: 'no upstream fix', recheck: '2026-02-31' };
+  // A pkg-keyed entry that names another advisory id of the same package
+  // does not cover the advisory.
+  const sharpY = { name: 'sharp', severity: 'high', id: 'GHSA-yyyy-yyyy-yyyy', title: 'other sharp hole' };
+  const pkgWrongId = { id: 'GHSA-high-1', package: 'sharp', severity: 'high', reason: 'no upstream fix', recheck: future };
+  r = decide([sharpY], 'high', { 'pkg:sharp': pkgWrongId }, today);
+  check('high with a pkg-keyed entry for another advisory id fails', r.failures.length >= 1 && r.allowed.length === 0);
+
+  // A future impossible date fails the calendar check, not the past-date rule.
+  const impossibleDate = { id: 'GHSA-high-1', package: 'ws', severity: 'high', reason: 'no upstream fix', recheck: '2027-02-30' };
+  const dateErrors = checkEntry('GHSA-high-1', impossibleDate, today);
   r = decide([high], 'high', { 'GHSA-high-1': impossibleDate }, today);
-  check('high with an impossible calendar re-check date fails', r.failures.length >= 1 && r.allowed.length === 0);
+  check('high with a future impossible re-check date fails the calendar check',
+    r.failures.length >= 1 && r.allowed.length === 0 &&
+    dateErrors.some((e) => e.includes('not a real calendar date')));
 
   if (failed > 0) {
     console.log(`self-test: FAIL, ${failed} rule checks failed`);
     return 1;
   }
-  console.log('self-test: pass (13 rule checks)');
+  console.log('self-test: pass (14 rule checks)');
   return 0;
 }
 

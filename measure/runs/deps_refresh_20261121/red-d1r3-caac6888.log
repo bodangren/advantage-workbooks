@@ -1,0 +1,23 @@
+# Review A remediation 2: deps_refresh_20261121 Phase D1 (provisional, pre-commit)
+
+role_base_sha: caac6888. phase_base_sha: 5e104447 (both resolve).
+Findings fixed: A-D1-1 [Blocker] (pkg-keyed entries now require entry.id match too), A-D1-3 [Nit] (future impossible date plus calendar-error assertion).
+Self-test: exit 0 (14 rule checks). Output: measure/runs/deps_refresh_20261121/red-d1r3-caac6888-selftest.txt.
+Dashboard gate: exit 0 with the 3 sharp entries allowed (no allowlist data change). Output: measure/runs/deps_refresh_20261121/red-d1r3-caac6888-gate.txt.
+Unrelated dirty work preserved and unstaged: video/storytime-song/scripts/render.mjs, dashboard/raw.json.
+Refining after commit with the remediation commit SHA.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: partial
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: TBD (refine after commit)
+tests_run: node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test -> exit 0 pass (14 rule checks); node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard -> exit 0 pass (3 sharp advisories allowed with complete entries)
+files_changed: measure/tracks/deps_refresh_20261121/audit-gate.mjs (A-D1-1 pkg-keyed id match, A-D1-3 future impossible date plus error-text assertion, pkg-sharp wrong-id negative test); measure/tracks/deps_refresh_20261121/plan.md (remediation 2 sub-bullet under the D1 Red task); measure/runs/deps_refresh_20261121/red-d1r3-caac6888-selftest.txt, red-d1r3-caac6888-gate.txt, red-d1r3-caac6888.log, new audit snapshots; review-a/b/c-d1-caac6888.json and .log (reviewer artifacts)
+plan_updates: remediation 2 sub-bullet added under the D1 Red task with evidence paths and commit id
+known_failures: none for this remediation; the gate passes on the current HEAD state and the self-test proves the stricter rules
+handoff: A-D1-1 is now closed for every key type and A-D1-3 proves the calendar check with a future impossible date; the three sharp allowlist entries needed no data change; re-review can run on the remediation commit
+dispositions: A-D1-1=FIX; A-D1-3=FIX
+baseline_sha: 5e104447
+END_MEASURE_AGENT_RESULT

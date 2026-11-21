@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "role": "review-b",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D1: dashboard critical and high (by 2026-11-23)",
+  "baseline_sha": "873d6a9380586c78553e5fbd46d0cd357731f699",
+  "phase_base_sha": "5e1044479ec3d91d6b5c9512ddae408c9f5cdd25",
+  "role_base_sha": "873d6a9380586c78553e5fbd46d0cd357731f699",
+  "audited_head_sha": "caac6888fe0fe9e35c1c64fbd8274e9b49d0958e",
+  "status": "pass",
+  "summary": "Re-review of the D1 remediation. The code change is test code only and stays fail-closed: an allowlist entry now binds both identity fields, impossible calendar dates fail, and input handling and the snapshot path are unchanged. My earlier nit B-D1-1 stays open for a later Green round.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "B-D1-1 [Nit] review-b: measure/tracks/deps_refresh_20261121/audit-gate.mjs:67,74,81 allowlists three high sharp advisories with the reason 'sharp 0.35.5 breaks three pinned print tests', but no run under measure/runs/deps_refresh_20261121/ shows that failure and no test file is named. Rationale: the entry-point half of the reason is true (npm view shows sharp 0.35.5 moved main to ./dist/index.cjs), yet the re-check on 2026-12-15 cannot verify an uncaptured test claim that defers three memory-safety advisories (CWE-122, CWE-416). Route: Green."
+  ],
+  "evidence": [
+    "git rev-parse HEAD returned caac6888fe0fe9e35c1c64fbd8274e9b49d0958e before this audit, so the audited head is current.",
+    "git diff --name-only 873d6a93 caac6888 lists 22 paths and all of them are under measure/: the gate script, plan.md, Red and review evidence, and audit snapshots. No product, test, package or lock file changed.",
+    "audit-gate.mjs:189-199 coveringEntry now requires a record whose id and package both match the advisory for an id-keyed entry, and requires package match for a pkg-keyed entry; it returns null otherwise, so decide at :211-238 pushes a FAIL. The path stays fail-closed.",
+    "audit-gate.mjs:96-101 isRecord rejects null, functions and arrays, so a prototype key such as __proto__ or constructor cannot pass the identity checks.",
+    "audit-gate.mjs:108-118 isCalendarDate checks the YYYY-MM-DD shape, the month and day range, and a UTC round-trip, so 2026-02-31 fails at :151-153.",
+    "audit-gate.mjs:36,367-368 still spawns npm with an array argument list and no shell, and :416 still builds the snapshot path from the fixed RUNS_DIR, the validated project key and an ISO stamp. The diff has no hunk in that region.",
+    "My rerun at HEAD: audit-gate.mjs --self-test exits 0 with 13 rule checks, including the 3 new negatives. My rerun of audit-gate.mjs dashboard exits 0 with the same 3 allowed sharp advisories.",
+    "The 3 new negative self-tests fail under the old code by static trace: an id-keyed entry naming another package, a pkg-keyed entry naming another package, and recheck 2026-02-31 all passed coveringEntry or checkEntry before this change and now return failures with allowed length 0.",
+    "The unchanged sharp data passes the stricter rule: each entry id equals the advisory id and each entry package is sharp, and 2026-12-15 is a real calendar date.",
+    "Residual with no current exposure: a pkg:<name> entry still covers every advisory of that package at the entry severity, which audit-gate.mjs:296-298 treats as intended. The current ALLOWLIST holds no pkg-keyed entry.",
+    "measure/tracks/deps_refresh_20261121/plan.md:67 adds one remediation sub-bullet with the commit id and evidence paths; it changes no security claim, and the sharp reason text is unchanged, so B-D1-1 still stands.",
+    "measure/runs/deps_refresh_20261121/red-d1r2-873d6a93-selftest.txt and red-d1r2-873d6a93-gate.txt record the same 13 checks and the same 3 allowed advisories as my rerun.",
+    "My gate rerun wrote audit-snapshot-dashboard-20261121T032403Z.json, which the gate writes by design; it stays untracked.",
+    "A2 consent gate: the remediation flips no draft to published status; no product file changed. Not applicable.",
+    "A6 registry claim: measure/tracks.md:5 still holds the unchecked goal box; plan.md records the remediation without a new resolved-state claim. Not applicable.",
+    "Thai rule: every printed command output passed a Python U+0E00 to U+0E7F line filter, no content/ file and no test fixture was read, and these two artifacts hold zero Thai characters."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline 873d6a93..caac6888; git diff --stat 873d6a93 caac6888",
+    "git diff 873d6a93 caac6888 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs measure/tracks/deps_refresh_20261121/plan.md (Python Thai line filter)",
+    "git diff --name-only 873d6a93 caac6888 (Python filter and path check: no file outside measure/)",
+    "git status --porcelain -- measure/tracks/deps_refresh_20261121/ (clean for the gate script)",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test (exit 0, 13 rule checks)",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard (exit 0, 3 allowed sharp advisories)",
+    "Python filtered reads of red-d1r2-873d6a93-gate.txt, red-d1r2-873d6a93-selftest.txt and red-d1r2-873d6a93.log",
+    "grep -n of the current audit-gate.mjs for isRecord, isCalendarDate, coveringEntry, checkEntry, decide, collectAdvisories, spawnSync and the snapshot path"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-b-d1-caac6888.json",
+    "measure/runs/deps_refresh_20261121/review-b-d1-caac6888.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/mimo-v2.6-flash",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "audit-gate.mjs:189-199 binds id and package before an entry covers an advisory, and :108-118 rejects impossible calendar dates; both rules hold in my HEAD rerun."},
+    {"axis": "test_meaning", "score": 4, "evidence": "The self-test at audit-gate.mjs:309-322 adds three negatives that fail under the old code by static trace, while the sharp 0.35.5 claim behind B-D1-1 still has no test."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --name-only 873d6a93 caac6888 shows 22 paths, all under measure/, and no product, test or package file."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "My own reruns reproduce red-d1r2-873d6a93-selftest.txt and red-d1r2-873d6a93-gate.txt, and every claim here cites a command result or a file:line."}
+  ]
+}

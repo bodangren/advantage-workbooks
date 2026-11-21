@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D1: dashboard critical and high (by 2026-11-23)",
+  "baseline_sha": "5e104447",
+  "phase_base_sha": "5e104447",
+  "role_base_sha": "caac6888fe0fe9e35c1c64fbd8274e9b49d0958e",
+  "audited_head_sha": "caac6888fe0fe9e35c1c64fbd8274e9b49d0958e",
+  "status": "fail",
+  "summary": "A-D1-2 is fixed. A-D1-1 remains open because package-keyed entries still cover advisory ids that the entry does not name.",
+  "blocking_findings": [
+    "A-D1-1 [Blocker] review-a: measure/tracks/deps_refresh_20261121/audit-gate.mjs:194-197 still accepts a pkg:ws entry whose id differs from the high ws advisory. Rationale: spec.md:30 requires a full entry for each remaining high advisory. The id-keyed branch now checks both fields, but the package-keyed branch checks only the package. Require byPkg.id === advisory.id and add a same-package, different-id negative test. Route: Green."
+  ],
+  "nonblocking_findings": [
+    "A-D1-3 [Nit] review-a: measure/tracks/deps_refresh_20261121/audit-gate.mjs:319-322 uses the past invalid date 2026-02-31. Rationale: the old past-date check already rejects this value on 2026-11-21, so this negative test does not prove calendar validation. Use a future invalid date, such as 2099-02-31, and assert the calendar error."
+  ],
+  "evidence": [
+    "The first command confirmed HEAD=caac6888fe0fe9e35c1c64fbd8274e9b49d0958e. role_base_sha records that audit-start HEAD.",
+    "Reviewed git diff 873d6a93 caac6888 for both supplied FIX dispositions and the full phase range 5e104447..caac6888.",
+    "A-D1-1 remains open. The id-keyed package mismatch is fixed at audit-gate.mjs:190-192. The package-keyed advisory-id mismatch remains at lines 194-197.",
+    "Static counterexample: decide([{name:'ws',id:'GHSA-high-2',severity:'high',title:'new advisory'}], 'high', {'pkg:ws':{id:'GHSA-high-1',package:'ws',severity:'high',reason:'no upstream fix',recheck:'2099-12-31'}}, '2026-11-21') returns no failures and one allowed advisory. This counterexample is a source trace, not an executed custom fixture.",
+    "The new negative case at audit-gate.mjs:315-317 uses pkg:tar-fs against ws. The old implementation already ignored that unrelated key, so this case cannot detect the remaining mismatch.",
+    "A-D1-2 withdrawn: isCalendarDate at audit-gate.mjs:108-113 checks the month and day and compares the UTC calendar fields after conversion. checkEntry calls it at lines 151-152 before expiry comparison.",
+    "A-D1-3 concerns the new test only. The calendar implementation correctly rejects future impossible dates, but the new test also fails through the older expiry branch.",
+    "The first wrapped self-test and dashboard-gate attempt exceeded the shell tool's 120-second timeout with no captured output. A second wrapped attempt runs in the background; its result is pending.",
+    "The saved remediation self-test log contains 13 named passes. The saved remediation dashboard log reports three allowed sharp advisories and a gate pass. These logs are prior evidence, not this role's fresh command results.",
+    "A fresh npm audit --json returned exit 1, critical=0, high=1, moderate=1, low=2, and no audit error. Its three high advisory ids match the unchanged sharp allowlist entries.",
+    "npm ls returned exit 0. pagedjs-cli remains 0.4.3, puppeteer resolves to 25.18.1, browsers resolves to 3.2.7, and eslint-plugin-react-hooks resolves to 7.0.1.",
+    "The lockfile root dependency maps match package.json. Next, Vitest, coverage-v8, Handlebars, protobufjs, and proxy-addr retain the reviewed patched versions.",
+    "git diff 873d6a93 caac6888 -- dashboard is empty. The remediation changes no product code, dependency, lockfile, or dashboard test.",
+    "The full phase product changes remain behavior-neutral: bank-plan.ts renames one local helper and both calls; cover-picture.ts changes a type reference only.",
+    "repo-graph callers again returned no matches for assignWords and composeStorytimeCoverPicture. The full phase diff changes neither exported signature.",
+    "Read measure/index.md, the current spec and plan, and the remediation result and evidence logs. The track has no test-strategy.md. The supplied Route line and role logs provide routing evidence.",
+    "plan.md:67 accurately cites the saved 13-check pass and dashboard-gate pass. It does not prove closure of the package-keyed identity defect.",
+    "plan.md:69 accurately reports the original PROJECT_TESTS exit 1. green-d1-tests.txt:398-399 records three foreign Red failures and 3203 passes. No dashboard test changes in the full phase diff.",
+    "A3: the gate counts array entries, not digit matches. A5: recorded command exits match the saved logs. No changed marker-consistency or deliverable-presence check requires an A4 missing-deliverable fixture.",
+    "Python filtered command output before display. No content file or Thai fixture was shown. No install, update, heavy suite, build, or commit ran."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git diff --stat 5e104447 caac6888",
+    "git diff 873d6a93 caac6888 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs measure/tracks/deps_refresh_20261121/plan.md",
+    "git diff 873d6a93 caac6888 -- dashboard",
+    "git diff 5e104447 caac6888 -- dashboard/package.json dashboard/lib/lesson-package/bank-plan.ts dashboard/lib/storytime/print/cover-picture.ts",
+    "git log --oneline 873d6a93..caac6888",
+    "repo-graph callers graph.db assignWords",
+    "repo-graph callers graph.db composeStorytimeCoverPicture",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test && node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard'",
+    "cd dashboard && npm ls puppeteer @puppeteer/browsers ws tar-fs pac-proxy-agent proxy-agent basic-ftp get-uri protobufjs proxy-addr eslint-plugin-react-hooks --all",
+    "cd dashboard && npm audit --json",
+    "Python filtered file reads and lockfile comparisons"
+  ],
+  "changed_files": ["measure/runs/deps_refresh_20261121/review-a-d1-caac6888.json", "measure/runs/deps_refresh_20261121/review-a-d1-caac6888.log"],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "medium",
+  "route": "openai/gpt-6.1-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "audit-gate.mjs:196 still omits the advisory-id comparison for package-keyed entries."},
+    {"axis": "test_meaning", "score": 3, "evidence": "The new self-test at audit-gate.mjs:320 uses an invalid date that already fails the expiry check."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff 873d6a93 caac6888 -- dashboard is empty."},
+    {"axis": "evidence_quality", "score": 3, "evidence": "Fresh npm audit metadata matches the saved after audit, but the wrapped gate rerun remains pending."}
+  ]
+}
