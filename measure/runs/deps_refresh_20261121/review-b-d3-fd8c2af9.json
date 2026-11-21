@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-b-security",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "581ab15b",
+  "baseline_sha": "7515ae3b",
+  "audited_head_sha": "fd8c2af9",
+  "status": "pass",
+  "summary": "HEAD fd8c2af9 equals the audited head. security_applicability is applicable: the r4 delta changes video/storytime-song/package.json and video/storytime-song/package-lock.json. The delta pins the optional dependency @rspack/binding-linux-x64-gnu to exact 2.3.0 and deduplicates the lockfile: the top-level binding entry moves 1.7.12 -> 2.3.0 with a registry.npmjs.org URL and integrity sha512-XxyrjQXvIjxWIct9ceKUBZdeBbNfZ6OkyAKU62xKuyLCyKiwg7M9LhXvKKfvVyFkK7n10a6t/KeIV8+k+kREoQ==, and the nested duplicate node_modules/@rspack/binding/node_modules/@rspack/binding-linux-x64-gnu 2.3.0 block is removed. The full video lock at fd8c2af9 holds 388 entries with 0 non-registry resolved URLs, 0 missing integrity values, and a hasInstallScript set of exactly {node_modules/esbuild}; no rspack key carries hasInstallScript. Fresh npm audit reports video 0 at every severity and dashboard unchanged at 0 critical, 1 high (sharp with the 3 allowlisted advisories GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c, GHSA-wq5f-xc86-pv6w), 0 moderate, 0 low. video/storytime-song/package.json:34-36 still denies esbuild in allowScripts. audit-gate.mjs has an empty diff since 7515ae3b, and no commit in 581ab15b..fd8c2af9 touches it; the gate passes in both --min moderate mode and its self-test passes 19 rule checks. A2 is not applicable and A6 finds no new resolved claim.",
+  "security_applicability": "applicable",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Nit] review-b: measure/tracks.md:5 promises all critical and high audit advisories fixed by 2026-11-23, while plan.md and audit-gate.mjs hold the three sharp high advisories on an allowlist with re-check 2026-12-15. Rationale: A6 requires registry copy to match the implementation, so the line needs reconciliation before the track closes. Carried from rounds 1 and 3; tracks.md:5 is outside this delta."
+  ],
+  "evidence": [
+    "git rev-parse HEAD -> fd8c2af9823419a2fe95c31b91ef88a4e5f66739, equal to audited_head_sha, so the audited head is current.",
+    "git diff --stat 581ab15b fd8c2af9 -> 38 paths: video/storytime-song/package.json (1 line), video/storytime-song/package-lock.json (25 lines), measure/tracks/deps_refresh_20261121/plan.md (1 line), versions-d3.txt, audit-after-counts.txt, committed run evidence including the round-3 review artifacts, and no other product file. No test file, no content/ path and no audit-gate.mjs path appears, so A2 is not applicable and the delta is dependency-only.",
+    "git diff 581ab15b fd8c2af9 -- video/storytime-song/package.json shows a single change: optionalDependencies @rspack/binding-linux-x64-gnu ^1.7.11 -> 2.3.0 at package.json:37-39. allowScripts at package.json:34-36 and overrides at package.json:40-42 are untouched.",
+    "Lockfile scan of video/storytime-song/package-lock.json at fd8c2af9: 388 entries; 0 non-registry resolved URLs; 0 resolved entries missing integrity; hasInstallScript set is exactly {node_modules/esbuild}. The 2.3.0 binding entry resolves to https://registry.npmjs.org/@rspack/binding-linux-x64-gnu/-/binding-linux-x64-gnu-2.3.0.tgz with integrity sha512-XxyrjQXvIjxWIct9ceKUBZdeBbNfZ6OkyAKU62xKuyLCyKiwg7M9LhXvKKfvVyFkK7n10a6t/KeIV8+k+kREoQ== and no hasInstallScript flag.",
+    "The lock delta deduplicates: the nested block node_modules/@rspack/binding/node_modules/@rspack/binding-linux-x64-gnu at 2.3.0 is removed, and the top-level optional entry moves 1.7.12 -> 2.3.0, so one 2.3.0 copy serves both the optionalDependency and @rspack/binding 2.3.0. No package key is added and none is introduced with an install script.",
+    "Fresh npm audit --json in video/storytime-song -> metadata {critical 0, high 0, moderate 0, low 0, total 0}, exit 0; the npm warn line confirms the package.json allowScripts field is active. Fresh npm audit --json in dashboard -> metadata {critical 0, high 1, moderate 0, low 0, total 1}; the single package entry is sharp with via hits GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c and GHSA-wq5f-xc86-pv6w, unchanged from round 3.",
+    "video/storytime-song/package.json:34-36 still holds allowScripts {\"esbuild\": false}; the full-lock scan confirms the video hasInstallScript set is still exactly {node_modules/esbuild}.",
+    "git diff 7515ae3b fd8c2af9 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs is empty, and git log --oneline 581ab15b..fd8c2af9 -- that path returns nothing, so the gate and its ALLOWLIST did not change.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate exits 0 with 3 allowed sharp hits in dashboard and 0 video advisories; --self-test exits 0 with 19 rule checks.",
+    "A6: measure/tracks.md:5 keeps the track checkbox unchecked and states future dates, so no security state is claimed resolved; the gate commands above stay green at HEAD.",
+    "A2 not applicable: the delta contains no test file, no status field and no consent or anonymization code.",
+    "Working tree check after all commands: git status --porcelain on both video package files, both dashboard package files and audit-gate.mjs prints nothing, so no command of this audit rewrote a lockfile. The gate runs wrote their own untracked audit-snapshot files under measure/runs/deps_refresh_20261121/, the gate's documented behaviour."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git diff 581ab15b fd8c2af9 -- video/storytime-song/package.json",
+    "git diff 581ab15b fd8c2af9 -- video/storytime-song/package-lock.json",
+    "git diff --stat 581ab15b fd8c2af9",
+    "git show fd8c2af9:video/storytime-song/package-lock.json | python3 (host, integrity, hasInstallScript and rspack-key scans)",
+    "grep -n -B1 -A3 allowScripts video/storytime-song/package.json",
+    "npm audit --json (workdir video/storytime-song)",
+    "npm audit --json (workdir dashboard)",
+    "git diff 7515ae3b fd8c2af9 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "git log --oneline 581ab15b..fd8c2af9 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test",
+    "git status --porcelain -- video/storytime-song/package.json video/storytime-song/package-lock.json dashboard/package.json dashboard/package-lock.json measure/tracks/deps_refresh_20261121/audit-gate.mjs"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-b-d3-fd8c2af9.json",
+    "measure/runs/deps_refresh_20261121/review-b-d3-fd8c2af9.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "kimi-code-plan-cn/kimi-for-coding",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "Fresh npm audits and the gate in both modes reproduce every plan.md r4 claim: the exact pin 2.3.0 lands in the lock with integrity, the duplicate nested binding is gone, and counts stay 0/1/0/0 with video all 0."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The gate exits 0 in both mode and 19 self-test checks pass, and red-d3-7515ae3b.txt shows the failing-first record, but registry host, install-script set and typosquat checks stay manual."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --stat 581ab15b fd8c2af9 shows one product package.json line, a 25-line lockfile delta, one plan.md line and run evidence only."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a command result I ran myself or a file:line; heavy build gates are cited only as Green's saved green-d3-r4 logs."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+Review B (security and data handling) — deps_refresh_20261121, Phase D3, round 4 (delta).
+Audited head: fd8c2af9 (confirmed by git rev-parse HEAD). Role base: 581ab15b (round 3 PASS). Phase base: 7515ae3b.
+Scope of the audited delta: Green r4 pins the video optional dependency @rspack/binding-linux-x64-gnu to exact 2.3.0 (video/storytime-song/package.json:37-39) and deduplicates its lockfile entry.
+
+Checks performed (all output passed through a Thai-line filter; 0 Thai characters written; no file under content/ read; no PDF image viewed; no redirection used; no lockfile rewritten, confirmed by a final git status on the package files and the gate):
+
+1. Lockfile delta: the top-level node_modules/@rspack/binding-linux-x64-gnu entry moves 1.7.12 -> 2.3.0 with resolved https://registry.npmjs.org/@rspack/binding-linux-x64-gnu/-/binding-linux-x64-gnu-2.3.0.tgz and integrity sha512-XxyrjQXvIjxWIct9ceKUBZdeBbNfZ6OkyAKU62xKuyLCyKiwg7M9LhXvKKfvVyFkK7n10a6t/KeIV8+k+kREoQ==. The nested duplicate node_modules/@rspack/binding/node_modules/@rspack/binding-linux-x64-gnu 2.3.0 block is removed, so one 2.3.0 copy serves both consumers.
+2. Full video lock at fd8c2af9: 388 entries, 0 non-registry resolved URLs, 0 missing integrity, hasInstallScript set exactly {node_modules/esbuild}; no rspack key carries an install script.
+3. Fresh npm audit: video 0 at every severity (exit 0, allowScripts warn line confirms the field is active); dashboard unchanged at 0 critical / 1 high (sharp, the 3 allowlisted advisories) / 0 moderate / 0 low.
+4. video/storytime-song/package.json:34-36 still denies esbuild in allowScripts; the overrides block at :40-42 is untouched.
+5. audit-gate.mjs: empty diff since 7515ae3b, no commit in 581ab15b..fd8c2af9 touches it; gate passes in both --min moderate mode, self-test passes 19 rule checks.
+6. A2 not applicable (no tests in delta); A6 finds tracks.md:5 still unchecked with future dates.
+
+Verdict: PASS. One carry-over Nit (F1, tracks.md:5 goal date 2026-11-23 vs sharp deferral 2026-12-15), unchanged and outside this delta.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: npm audit --json in video/storytime-song (all 0) and dashboard (0 critical, 1 high allowlisted sharp, 0 moderate, 0 low); node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate (pass, 3 allowed sharp hits, 0 video); --self-test (pass, 19 rule checks)
+files_changed: measure/runs/deps_refresh_20261121/review-b-d3-fd8c2af9.json; measure/runs/deps_refresh_20261121/review-b-d3-fd8c2af9.log
+plan_updates: none
+known_failures: F1 Nit carried from rounds 1 and 3: measure/tracks.md:5 goal date 2026-11-23 conflicts with the sharp allowlist re-check 2026-12-15; needs reconciliation before track close
+handoff: Delta audit PASS at fd8c2af9. The rspack binding pin 2.3.0 is registry-hosted with integrity, no install script, and the lockfile deduplicates cleanly. Fresh audits and the gate match the allowlist state; allowScripts still denies esbuild; audit-gate.mjs unchanged. No routed CONTEST items. Orchestrator can proceed to the next D3 step or phase acceptance.
+END_MEASURE_AGENT_RESULT

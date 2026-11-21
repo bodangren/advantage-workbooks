@@ -1,21 +1,21 @@
-After-audit counts and remaining moderate/low reasons (D3r4, 2026-11-21).
+After-audit counts and remaining moderate/low reasons (D3r5, 2026-11-21).
 
-dashboard/ (audit-after-d3-dashboard.json, unchanged in D3r4):
+dashboard/ (audit-after-d3-dashboard.json):
   critical 0, high 1 (package entry, 3 allowlisted sharp advisories), moderate 0, low 0, info 0; total 1.
   Advisories GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c, GHSA-wq5f-xc86-pv6w, package sharp 0.34.5.
   Reason: sharp 0.35.5 fails three pinned print tests; deferred to 2026-12-15.
   Full reason and re-check date in the three ALLOWLIST entries of audit-gate.mjs.
   No moderate or low advisory remains in dashboard.
 
-video/storytime-song/ (audit-after-d3-video.json, unchanged in D3r4):
+video/storytime-song/ (audit-after-d3-video.json, unchanged in D3r5):
   critical 0, high 0, moderate 0, low 0, info 0; total 0.
   minimatch GHSA-g3hv-75wg-m249 is cleared by the retained ^11.0.9 override.
-  The direct rspack binding moved from 1.7.12 to 2.3.0 and npm audit stays at 0.
   No remaining moderate or low advisory, so no video allowlist entry was added.
 
 No allowlist entry was added in D3. The three sharp high entries are the D1 entries,
 unchanged in this phase. Gate logic and self-test were not edited.
 
-Package freshness: no exact-pin non-major deferral remains. The remaining deferrals are
-real majors or the 0.x sharp release, each with a reason verified by npm view in
-green-d3-r4-npmview.txt and tree facts in green-d3-r4-npmls.txt.
+Package freshness: @vitejs/plugin-react 6.3.0 and @google/genai 3.6.1 were taken in D3r5.
+jsdom 31.0.1 was tried and reverted after a failing PROJECT_TESTS gate. No remaining
+deferral rests on an optional peer; each has a required peer conflict, a failing gate
+capture, or a named change. Details and evidence paths are in versions-d3.txt.

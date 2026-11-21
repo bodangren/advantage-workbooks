@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "fd8c2af9823419a2fe95c31b91ef88a4e5f66739",
+  "baseline_sha": "fd8c2af9823419a2fe95c31b91ef88a4e5f66739",
+  "audited_head_sha": "fd8c2af9823419a2fe95c31b91ef88a4e5f66739",
+  "status": "fail",
+  "summary": "F2 is closed. Three deferrals rely on absent optional peers, not demonstrated incompatibility; plugin-react 6 should be taken.",
+  "blocking_findings": [
+    "F3 [Blocker] review-a: Replace the deferral rationales in versions-d3.txt:51,54,58 or take the updates. npm view marks @google/genai's MCP peer, jsdom's canvas peer, and all three @vitejs/plugin-react peers as optional. The dashboard does not use those optional features. Its vite ^8 peer is met by Vite 8.3.8, and dashboard/vitest.config.ts:2 uses only react(). Default: take @vitejs/plugin-react 6.3.0 and run the applicable gates; the listed absent peers do not justify deferral."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is fd8c2af9823419a2fe95c31b91ef88a4e5f66739, matching audited_head_sha.",
+    "F2 withdrawn: versions-d3.txt:52 replaces the false matcher-rename claim with the verified Vitest >=5 <6 peer; lines 11-13 record the exact 2.3.0 binding update and its deduped tree evidence.",
+    "npm view @vitejs/plugin-react@6.3.0 peerDependenciesMeta marks oxc-transform-react, @rolldown/plugin-babel, and babel-plugin-react-compiler optional. Its required Vite peer is ^8.0.0.",
+    "dashboard npm ls @vitejs/plugin-react vite shows @vitejs/plugin-react 5.2.0 and Vite 8.3.8; dashboard/vitest.config.ts:2 calls react() without compiler or Babel options.",
+    "npm view @google/genai@3.6.1 peerDependenciesMeta marks @modelcontextprotocol/sdk optional; its README describes MCP support as optional.",
+    "npm view jsdom@31.0.1 peerDependenciesMeta marks @napi-rs/canvas optional; the dashboard uses JSDOM for SVG parsing at dashboard/lib/covers/kit.ts:66.",
+    "npm outdated --json shows current equals wanted for every row in both projects; latest-only rows are majors or sharp 0.x. The direct Rspack binding is 2.3.0 and latest is 2.3.3, same major.",
+    "green-d3-r4-npmls.txt and green-d3-r4-rspack-npmls.txt show the direct binding deduped to @rspack/core's 2.3.0 binding with no 1.x entry.",
+    "green-d3-r4-npmview.txt provides the listed upstream peer and engine metadata. Its Vitest 5 provider/runner peer relationship supports the Vitest and coverage-v8 deferrals; the sharp row cites the observed three print-test failures.",
+    "green-d3-r4-gate-both.txt, green-d3-r4-gate-dashboard.txt, green-d3-r4-gate-video.txt, and green-d3-r4-selftest.txt record exit 0.",
+    "green-d3-r4-video-lint.txt, green-d3-r4-video-checks.txt, green-d3-r4-video-tests.txt, and green-d3-r4-video-build.txt record exit 0; green-d3-r4-video-compositions.txt lists both compositions.",
+    "plan.md:100 records [x] with commit 03850463 and cites the r4 evidence.",
+    "The phase diff changes dependency manifests and lockfiles, versions-d3.txt, plan evidence, and run artifacts. It changes no source exports or callers, so build-graph blast-radius analysis does not apply."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> fd8c2af9823419a2fe95c31b91ef88a4e5f66739.",
+    "git diff --name-only 581ab15b fd8c2af9; git diff --stat 581ab15b fd8c2af9 -> reviewed the exact r4 diff.",
+    "npm view @vitejs/plugin-react@6.3.0 peerDependenciesMeta/dependencies/readme -> all extra peers are optional; Vite ^8 is required; README uses the standard React plugin as default.",
+    "npm view @google/genai@3.6.1 peerDependenciesMeta/readme; npm view jsdom@31.0.1 peerDependenciesMeta -> the cited MCP and canvas peers are optional.",
+    "npm outdated --json in dashboard and video/storytime-song -> no wanted version is newer than current; remaining latest-only rows are majors or sharp 0.x.",
+    "npm ls @vitejs/plugin-react vite react --all in dashboard -> plugin-react 5.2.0 runs with Vite 8.3.8 and React 19.3.1.",
+    "npm ls @rspack/core @rspack/binding-linux-x64-gnu --all in video/storytime-song -> the 2.3.0 binding is deduped with Remotion's core."
+  ],
+  "changed_files": [
+    "dashboard/package.json",
+    "dashboard/package-lock.json",
+    "video/storytime-song/package.json",
+    "video/storytime-song/package-lock.json",
+    "measure/tracks/deps_refresh_20261121/plan.md",
+    "measure/runs/deps_refresh_20261121/versions-d3.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 3,
+      "evidence": "versions-d3.txt:51,54,58 treats optional peers as deferral blockers, and plugin-react 6 has its required Vite peer."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "green-d3-r4-video-tests.txt records 21 passes, and green-d3-r4-video-compositions.txt lists both compositions."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --name-only 581ab15b fd8c2af9 shows package files, plan evidence, and run artifacts without source-code changes."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "npm view peerDependenciesMeta verifies the optional peers, and green-d3-r4 logs record gate exits."
+    }
+  ]
+}

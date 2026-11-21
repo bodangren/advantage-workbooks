@@ -1,0 +1,15 @@
+# D3r5 final dashboard tree: plugin-react 6.3.0, vite 8.3.8, jsdom 27.4.0, genai 3.6.1.
+=== dashboard final npm ls ===
+dashboard@0.1.0 /home/daniebo/Desktop/Workbooks/dashboard
+├── @google/genai@3.6.1
+├─┬ @vitejs/plugin-react@6.3.0
+│ └── vite@8.3.8
+├── jsdom@27.4.0
+└─┬ vitest@4.1.12
+  ├─┬ @vitest/mocker@4.1.12
+  │ └── vite@8.3.8 deduped
+  ├── jsdom@27.4.0 deduped
+  └── vite@8.3.8 deduped
+
+=== vitest config plugin call ===
+6:  plugins: [react()],

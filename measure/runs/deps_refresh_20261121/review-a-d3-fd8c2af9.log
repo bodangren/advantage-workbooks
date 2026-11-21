@@ -1,0 +1,15 @@
+MEASURE_AGENT_RESULT
+role: review-a
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+phase_base_sha: 7515ae3b
+role_base_sha: fd8c2af9823419a2fe95c31b91ef88a4e5f66739
+audited_head_sha: fd8c2af9823419a2fe95c31b91ef88a4e5f66739
+status: fail
+summary: F2 is closed. Optional peers do not justify three remaining deferrals; plugin-react 6 should be taken.
+blocking_findings: F3 [Blocker] review-a: Correct versions-d3.txt:51,54,58 or take the updates. npm view marks the cited @google/genai MCP, jsdom canvas, and plugin-react 6 peers optional. Vite 8.3.8 meets plugin-react 6's required Vite peer, and dashboard/vitest.config.ts:2 uses only react(). Default: take @vitejs/plugin-react 6.3.0 and run the applicable gates.
+nonblocking_findings: none
+evidence: F2 withdrawn: versions-d3.txt:52 replaces the false matcher-rename claim with the verified Vitest peer; lines 11-13 and green-d3-r4-rspack-npmls.txt prove the binding update. npm view peerDependenciesMeta confirms the new optional-peer deferrals. R4 video gates and composition listing exit 0.
+dispositions: none
+retry_recommendation: retry_implementation
+END_MEASURE_AGENT_RESULT

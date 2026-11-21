@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-c-ux-api
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: Read-only checks: npm ls shows @rspack/core and one native binding at 2.3.0; recorded video bundle and composition checks exit 0. No render or Studio launch was run.
+files_changed: measure/runs/deps_refresh_20261121/review-c-d3-fd8c2af9.json; measure/runs/deps_refresh_20261121/review-c-d3-fd8c2af9.log
+plan_updates: none
+known_failures: No new binding-related failure. Actual Studio startup and frame rendering remain unverified from the earlier D2 Rspack update.
+handoff: PASS. The optional native binding is aligned with @rspack/core 2.3.0. Build and compositions pass. The earlier frame-render uncertainty remains separate from this delta.
+END_MEASURE_AGENT_RESULT

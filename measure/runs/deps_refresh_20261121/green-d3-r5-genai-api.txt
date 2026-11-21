@@ -1,0 +1,39 @@
+D3r5 @google/genai 3.6.1 API compatibility comparison (static type check only; no paid API call).
+Repo call sites:
+/home/daniebo/Desktop/Workbooks/dashboard/lib/ai-augmentor.ts:27:    const ai = new GoogleGenAI({});
+/home/daniebo/Desktop/Workbooks/dashboard/lib/ai-augmentor.ts:72:    const response = await ai.models.generateContent({
+/home/daniebo/Desktop/Workbooks/dashboard/lib/ai-augmentor.ts:83:    const responseText = response.text;
+/home/daniebo/Desktop/Workbooks/dashboard/lib/image-generator.ts:29:  const ai = new GoogleGenAI({ apiKey });
+/home/daniebo/Desktop/Workbooks/dashboard/lib/image-generator.ts:36:  const response = await ai.models.generateContent({
+/home/daniebo/Desktop/Workbooks/dashboard/lib/image-generator.ts:44:  console.log('[generateImage] Response has', response.candidates?.length, 'candidates');
+/home/daniebo/Desktop/Workbooks/dashboard/lib/image-generator.ts:45:  if (!response.candidates || response.candidates.length === 0) {
+/home/daniebo/Desktop/Workbooks/dashboard/lib/image-generator.ts:48:  const firstCandidate = response.candidates[0];
+/home/daniebo/Desktop/Workbooks/dashboard/lib/image-generator.ts:53:    console.log('[generateImage] Checking part:', part.inlineData ? 'has inlineData' : 'no inlineData');
+/home/daniebo/Desktop/Workbooks/dashboard/lib/image-generator.ts:54:    if (part.inlineData) {
+/home/daniebo/Desktop/Workbooks/dashboard/lib/image-generator.ts:55:      imageData = part.inlineData.data;
+/home/daniebo/Desktop/Workbooks/dashboard/lib/lesson-generator.ts:24:    const ai = new GoogleGenAI({});
+/home/daniebo/Desktop/Workbooks/dashboard/lib/lesson-generator.ts:58:    const response = await ai.models.generateContent({
+/home/daniebo/Desktop/Workbooks/dashboard/lib/lesson-generator.ts:68:    const responseText = response.text;
+3.6.1 type definitions (node_modules/@google/genai/dist/genai.d.ts):
+6728:    responseJsonSchema?: unknown;
+7282:    responseMimeType?: string;
+7309:    responseJsonSchema?: unknown;
+7409:    candidates?: Candidate[];
+7448:    get text(): string | undefined;
+7842:    responseJsonSchema?: unknown;
+7867:    responseMimeType?: string;
+8505:    constructor(options?: GoogleGenAIOptions);
+13114:    get text(): string | undefined;
+13727:    generateContent: (params: types.GenerateContentParameters) => Promise<types.GenerateContentResponse>;
+14771:    inlineData?: Blob_2;
+Blob_2 shape:
+declare interface Blob_2 {
+    /** Required. The raw bytes of the data.
+     * @remarks Encoded as base64 string. */
+    data?: string;
+    /** Optional. The display name of the blob. Used to provide a label or filename to distinguish blobs. This field is only returned in `PromptMessage` for prompt management. It is used in the Gemini calls only when server-side tools (`code_execution`, `google_search`, and `url_context`) are enabled. */
+    displayName?: string;
+    /** Required. The IANA standard MIME type of the source data. */
+    mimeType?: string;
+}
+export { Blob_2 as Blob }

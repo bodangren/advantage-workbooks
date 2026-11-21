@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "role_base_sha": "581ab15bcfbad2b874f68e871e4e79c9b60f1a8d",
+  "baseline_sha": "581ab15bcfbad2b874f68e871e4e79c9b60f1a8d",
+  "audited_head_sha": "fd8c2af9823419a2fe95c31b91ef88a4e5f66739",
+  "status": "pass",
+  "summary": "The optional Linux Rspack binding now matches @rspack/core 2.3.0. The dependency tree has one binding, and the video bundle and composition listing pass. This delta adds no new user-visible risk.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is fd8c2af9823419a2fe95c31b91ef88a4e5f66739, matching the requested audited head.",
+    "The delta is contract-applicable: it changes the video optional native binding manifest pin and lockfile resolution.",
+    "git diff 581ab15b..fd8c2af9 shows the implementation delta is limited to video/storytime-song/package.json and package-lock.json; other changed paths are plan and audit evidence.",
+    "video/storytime-song/package.json:38 pins optional @rspack/binding-linux-x64-gnu to exact version 2.3.0; lines 28-29 retain the Remotion Studio and bundle scripts.",
+    "green-d3-r4-rspack-npmls.txt records the prior tree with @rspack/core 2.3.0 and a top-level binding 1.7.12, then the updated tree with one @rspack/binding-linux-x64-gnu 2.3.0 deduped under @rspack/binding 2.3.0.",
+    "npm ls @rspack/core @rspack/binding-linux-x64-gnu shows @rspack/core 2.3.0 and one deduped native binding 2.3.0, with no invalid dependency warning.",
+    "green-d3-r4-video-build.txt records `npm run build` / `remotion bundle` EXIT_CODE 0.",
+    "green-d3-r4-video-compositions.txt records `npx remotion compositions` EXIT_CODE 0 and both Storytime compositions.",
+    "No actual Studio startup or frame render ran. The existing frame-render uncertainty from the D2 Rspack move remains, as recorded by the previous audit; it is separate from this optional-binding change, which now matches @rspack/core."
+  ],
+  "commands": [
+    "git rev-parse HEAD — fd8c2af9823419a2fe95c31b91ef88a4e5f66739, matching the requested audited head",
+    "git diff --name-status 581ab15b fd8c2af9 — package.json and package-lock.json are the implementation changes, plus measure evidence and plan",
+    "npm --prefix video/storytime-song ls @rspack/core @rspack/binding-linux-x64-gnu — @rspack/core 2.3.0 and one native binding 2.3.0, deduped; no invalid warning",
+    "green-d3-r4-video-build.txt — EXIT_CODE 0",
+    "green-d3-r4-video-compositions.txt — EXIT_CODE 0; both compositions listed; no frame render",
+    "green-d3-r4-rspack-npmls.txt — before binding 1.7.12; after binding 2.3.0, aligned to @rspack/core"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-c-d3-fd8c2af9.json",
+    "measure/runs/deps_refresh_20261121/review-c-d3-fd8c2af9.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "contract_path_evidence": [
+    "measure/tracks/deps_refresh_20261121/spec.md:59-63",
+    "measure/tracks/deps_refresh_20261121/plan.md:87",
+    "video/storytime-song/package.json",
+    "video/storytime-song/package-lock.json"
+  ],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "green-d3-r4-rspack-npmls.txt shows one optional native binding at 2.3.0, matching @rspack/core 2.3.0, while Studio and frames were not run."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "green-d3-r4-video-build.txt and green-d3-r4-video-compositions.txt pass, but neither exercises frame rendering."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff 581ab15b..fd8c2af9 limits implementation changes to the video package manifest and lockfile."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The r4 npm tree, build record, composition record, and exact delta support the binding contract conclusion."
+    }
+  ]
+}
