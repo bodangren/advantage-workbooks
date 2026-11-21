@@ -107,6 +107,6 @@ D2 accepted 2026-11-21 at `d7d6984d`. Video before (package entries) 0 critical,
 
 ## Close
 
-- [ ] Update `measure/tech-debt.md` and `measure/lessons-learned.md`.
+- [ ] Update `measure/tech-debt.md` and `measure/lessons-learned.md`. This task is deferred to track close: it runs after final acceptance.
     - Add to `measure/lessons-learned.md`: "npx remotion upgrade fails with EALLOWSCRIPTS while ~/.npmrc holds an allow-scripts line; use npm install --save-exact with the versions it prints."
-- [ ] Push: the orchestrator runs safe-push (fast-forward only, no deploy) and records the pushed SHA here. No human gate applies.
+- [ ] Push: the orchestrator runs safe-push (fast-forward only, no deploy) and records the pushed SHA here. No human gate applies. This task is deferred to track close: it runs after final acceptance.
