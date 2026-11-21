@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: review-a
+status: complete
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: none
+tests_run: audit-gate.mjs --self-test through heavy-run.sh: exit 0, ten checks; npm ls: exit 0; npm audit --json: exit 1, critical=0, high=1, moderate=1, low=2; no heavy suite or build ran
+files_changed: measure/runs/deps_refresh_20261121/review-a-d1-873d6a93.json; measure/runs/deps_refresh_20261121/review-a-d1-873d6a93.log
+plan_updates: none
+known_failures: A-D1-1 blocks acceptance: the gate can accept an allowlist entry for another package or advisory. A-D1-2 is nonblocking: invalid calendar dates pass validation.
+handoff: Verdict FAIL. Route A-D1-1 to Green; retry_recommendation=retry_implementation. Match both advisory identity fields and add negative tests. phase_base_sha=5e104447; role_base_sha=873d6a9380586c78553e5fbd46d0cd357731f699, captured at audit start; audited_head_sha=873d6a9380586c78553e5fbd46d0cd357731f699. The counterexamples are static traces. No product file or test changed. Facts changed: none.
+END_MEASURE_AGENT_RESULT

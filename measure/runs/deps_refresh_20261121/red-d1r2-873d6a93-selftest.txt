@@ -1,0 +1,14 @@
+self-test PASS: critical without an entry fails
+self-test PASS: critical with a complete entry still fails
+self-test PASS: high with a complete entry passes
+self-test PASS: high with an entry without a reason fails
+self-test PASS: high with a past re-check date fails
+self-test PASS: high with a bad re-check date form fails
+self-test PASS: high with a severity-mismatched entry fails
+self-test PASS: high with a complete pkg: entry passes
+self-test PASS: moderate below the high minimum passes
+self-test PASS: moderate at the moderate minimum fails without an entry
+self-test PASS: high with an id-keyed entry for another package fails
+self-test PASS: high with a pkg-keyed entry for another package fails
+self-test PASS: high with an impossible calendar re-check date fails
+self-test: pass (13 rule checks)

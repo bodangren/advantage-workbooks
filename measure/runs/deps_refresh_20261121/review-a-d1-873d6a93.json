@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D1: dashboard critical and high (by 2026-11-23)",
+  "baseline_sha": "5e104447",
+  "phase_base_sha": "5e104447",
+  "role_base_sha": "873d6a9380586c78553e5fbd46d0cd357731f699",
+  "audited_head_sha": "873d6a9380586c78553e5fbd46d0cd357731f699",
+  "status": "fail",
+  "summary": "The dependency changes clear every critical advisory. The F3 gate does not bind an allowlist entry to both advisory identity fields.",
+  "blocking_findings": [
+    "A-D1-1 [Blocker] review-a: measure/tracks/deps_refresh_20261121/audit-gate.mjs:155-158,185-190 accepts an entry without matching its package and advisory id. An id-keyed entry can name another package. A pkg:ws entry naming one advisory also covers every other high ws advisory. Rationale: spec.md:30 requires a full entry for each remaining high advisory. Match entry.id with a.id and entry.package with a.name. Add negative tests for both mismatches. Route: Green."
+  ],
+  "nonblocking_findings": [
+    "A-D1-2 [Nit] review-a: measure/tracks/deps_refresh_20261121/audit-gate.mjs:120-125 accepts impossible dates such as 2099-99-99. Rationale: the regex checks the date shape only, so an invalid date can prevent expiry. Validate the calendar date and add a negative test."
+  ],
+  "evidence": [
+    "The first command confirmed HEAD as 873d6a9380586c78553e5fbd46d0cd357731f699. role_base_sha records that audit-start HEAD; it is not Green's 0542348e baseline.",
+    "Reviewed the exact 5e104447..873d6a93 diff. Its product changes are the package files and two behavior-neutral TypeScript edits.",
+    "Read measure/index.md, the track spec, plan, metadata, spec-review records, project memory, and workflow. This light-lane track has no test-strategy.md or separate routing artifact.",
+    "The supplied Route line identifies openai/gpt-6.1-sol#high. Red and Green logs identify their roles and phase baselines.",
+    "A fresh npm audit --json returned exit 1 because advisories remain. Its metadata matches the saved after audit: critical=0, high=1, moderate=1, low=2.",
+    "The one high package is sharp. Its three high advisory ids match the three complete entries at audit-gate.mjs:63-82, with recheck=2026-12-15.",
+    "npm ls returned exit 0. pagedjs-cli remains 0.4.3; puppeteer resolves to 25.18.1; @puppeteer/browsers resolves to 3.2.7; hooks resolves to 7.0.1.",
+    "The lockfile root dependency maps match package.json. The lockfile resolves next=16.4.6, vitest=4.1.12, coverage-v8=4.1.12, handlebars=4.7.10, protobufjs=7.6.6, and proxy-addr=2.0.8.",
+    "The old proxy and extraction chains are absent from npm ls. Their unused override entries have no current consumer. The Puppeteer major change is intentional; this audit did not run a browser compatibility test.",
+    "bank-plan.ts:392,396,487 renames one local helper and both calls without changing its operation. cover-picture.ts:3,427 changes a type reference only.",
+    "repo-graph callers returned no matches for assignWords and composeStorytimeCoverPicture. Source inspection confirms assignWords has its internal caller at bank-plan.ts:506. Neither export changes its signature.",
+    "The audit self-test ran through heavy-run.sh and returned exit 0 with ten named rule checks. It proves critical rejection, incomplete-entry rejection, past-date rejection, and severity matching.",
+    "A-D1-1 follows directly from the decision branches: checkEntry validates an id-key against entry.id, but decide checks only entry.severity against the advisory. No existing self-test checks an identity mismatch.",
+    "The A-D1-1 and A-D1-2 counterexamples are static traces, not executed custom fixtures. This role kept the permitted light-command scope.",
+    "Snapshot writing occurs after JSON parsing at audit-gate.mjs:359-362. The saved Red snapshot and the Green gate log show dated snapshot paths.",
+    "No dashboard test file changes in the phase diff. Green changes only ALLOWLIST data in the gate implementation after Red.",
+    "green-d1-tests.txt:398-399 reports one failed file, 171 passed files, three failed tests, and 3203 passed tests. The failed file is default-look-new-editions.test.ts.",
+    "plan.md:68 reports the PROJECT_TESTS exit as 1 and names the three foreign Red failures. It does not claim a full-suite pass. plan.md:44 records the temporary exclusion.",
+    "green-d1-lint.txt:15 reports zero errors and three warnings. green-d1-build.txt:16 records successful compilation, and its final route summary completes normally. The type-check log is empty; its exit code comes from the Green result log.",
+    "A3: the gate uses array lengths, not bare-digit matching. A5: the current-phase plan reports the failing test exit accurately. No changed check claims marker consistency or deliverable presence, so the A4 missing-deliverable fixture does not apply.",
+    "No content file or Thai fixture was shown to this model. Python filtered command output before display. The two review artifacts contain zero Thai characters. No heavy test suite, build, install, update, or commit ran."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git diff --stat 5e104447 873d6a93",
+    "git diff 5e104447 873d6a93 -- dashboard/package.json dashboard/package-lock.json dashboard/lib/lesson-package/bank-plan.ts dashboard/lib/storytime/print/cover-picture.ts measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "git log --format='%h %s' 5e104447..873d6a93",
+    "git status --short",
+    "repo-graph callers graph.db assignWords",
+    "repo-graph callers graph.db composeStorytimeCoverPicture",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test'",
+    "cd dashboard && npm ls puppeteer @puppeteer/browsers ws tar-fs pac-proxy-agent proxy-agent basic-ftp get-uri protobufjs proxy-addr eslint-plugin-react-hooks --all",
+    "cd dashboard && npm audit --json",
+    "Python filtered file reads, source-reference searches, and lockfile comparisons"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-a-d1-873d6a93.json",
+    "measure/runs/deps_refresh_20261121/review-a-d1-873d6a93.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "medium",
+  "route": "openai/gpt-6.1-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "audit-gate.mjs:185-190 checks severity but does not match the entry package and advisory id."},
+    {"axis": "test_meaning", "score": 3, "evidence": "The self-test passes ten rule checks but has no identity-mismatch case."},
+    {"axis": "scope_discipline", "score": 4, "evidence": "git diff 5e104447 873d6a93 shows package changes and two behavior-neutral product edits."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "Fresh npm audit metadata matches audit-after-d1-dashboard.json, while Green logs identify the three foreign Red failures."}
+  ]
+}

@@ -22,8 +22,10 @@
  * - The gate fails on any critical advisory, allowlisted or not. A critical
  *   advisory may not stay.
  * - A high advisory (or any gated advisory below critical) passes only with
- *   a complete entry whose severity matches and whose re-check date is today
- *   or later.
+ *   a complete entry that names the same package and advisory, whose
+ *   severity matches, and whose re-check date is today or later.
+ * - A re-check date must be a real calendar date in YYYY-MM-DD form. An
+ *   impossible date (for example 2026-02-31) fails validation.
  *
  * The gate writes the audit JSON it read to a dated snapshot file in
  * `measure/runs/deps_refresh_20261121/`, so a result is reproducible.
@@ -86,6 +88,32 @@ const ALLOWLIST = {
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 /**
+ * Check that a value is a plain record (not null, not an array).
+ *
+ * @param {unknown} value - The value to check.
+ * @returns {boolean} True for a plain record.
+ */
+function isRecord(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+/**
+ * Check that a string is a real calendar date in YYYY-MM-DD form. The
+ * shape check alone accepts impossible dates such as 2026-02-31, so the
+ * date must round-trip through the UTC calendar.
+ *
+ * @param {string} s - The candidate date string.
+ * @returns {boolean} True for a real calendar date.
+ */
+function isCalendarDate(s) {
+  if (!DATE_RE.test(s)) return false;
+  const [y, m, d] = s.split('-').map(Number);
+  if (m < 1 || m > 12 || d < 1 || d > 31) return false;
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+}
+
+/**
  * Read the UTC date of today as `YYYY-MM-DD`.
  *
  * @returns {string} Today in UTC.
@@ -120,6 +148,8 @@ function checkEntry(key, entry, today) {
   const recheck = /** @type {string} */ (e.recheck);
   if (!DATE_RE.test(recheck)) {
     errors.push(`ALLOWLIST entry '${key}' holds a re-check date without YYYY-MM-DD form`);
+  } else if (!isCalendarDate(recheck)) {
+    errors.push(`ALLOWLIST entry '${key}' holds a re-check date that is not a real calendar date ('${recheck}')`);
   } else if (recheck < today) {
     errors.push(`ALLOWLIST entry '${key}' holds a past re-check date '${recheck}'`);
   }
@@ -146,16 +176,27 @@ function checkAllowlist(allowlist, today) {
 }
 
 /**
- * Find the complete entry that covers one advisory.
+ * Find the complete entry that covers one advisory. An entry covers an
+ * advisory only when it names the same package and advisory: the key holds
+ * the advisory id and the entry id matches it, or the key holds
+ * `pkg:<name>` for the advisory package. In both cases the entry package
+ * must equal the advisory package name.
  *
  * @param {{name: string, severity: string, id: string}} advisory - One advisory.
  * @param {Record<string, unknown>} allowlist - The allowlist to read.
- * @returns {Record<string, string> | null} The covering entry or null.
+ * @returns {{key: string, entry: Record<string, string>} | null} The covering key and entry, or null.
  */
 function coveringEntry(advisory, allowlist) {
-  const raw = allowlist[advisory.id] || allowlist[`pkg:${advisory.name}`];
-  if (raw === null || typeof raw !== 'object' || Array.isArray(raw)) return null;
-  return /** @type {Record<string, string>} */ (raw);
+  const byId = allowlist[advisory.id];
+  if (isRecord(byId) && byId.id === advisory.id && byId.package === advisory.name) {
+    return { key: advisory.id, entry: /** @type {Record<string, string>} */ (byId) };
+  }
+  const pkgKey = `pkg:${advisory.name}`;
+  const byPkg = allowlist[pkgKey];
+  if (isRecord(byPkg) && byPkg.package === advisory.name) {
+    return { key: pkgKey, entry: /** @type {Record<string, string>} */ (byPkg) };
+  }
+  return null;
 }
 
 /**
@@ -174,21 +215,21 @@ function decide(advisories, min, allowlist, today) {
   const gated = advisories.filter((a) => (RANK[a.severity] || 0) >= RANK[min]);
   for (const a of gated) {
     if (a.severity === 'critical') {
-      const entry = coveringEntry(a, allowlist);
+      const hit = coveringEntry(a, allowlist);
       failures.push(
-        entry
+        hit
           ? `FAIL ${a.name} ${a.id} (${a.severity}) - a critical advisory may not stay, allowlisted or not`
           : `FAIL ${a.name} ${a.id} (${a.severity}) - ${a.title}`,
       );
       continue;
     }
-    const entry = coveringEntry(a, allowlist);
+    const hit = coveringEntry(a, allowlist);
     if (
-      entry &&
-      checkEntry(allowlist[a.id] ? a.id : `pkg:${a.name}`, entry, today).length === 0 &&
-      entry.severity === a.severity
+      hit &&
+      checkEntry(hit.key, hit.entry, today).length === 0 &&
+      hit.entry.severity === a.severity
     ) {
-      allowed.push(`ALLOWED ${a.name} ${a.id} (${a.severity}) - ${entry.reason}`);
+      allowed.push(`ALLOWED ${a.name} ${a.id} (${a.severity}) - ${hit.entry.reason}`);
     } else {
       failures.push(`FAIL ${a.name} ${a.id} (${a.severity}) - ${a.title}`);
     }
@@ -265,11 +306,26 @@ function selfTest() {
   r = decide([mod], 'moderate', {}, today);
   check('moderate at the moderate minimum fails without an entry', r.failures.length === 1);
 
+  // An id-keyed entry that names another package does not cover the advisory.
+  const wrongPkg = { id: 'GHSA-high-1', package: 'other-pkg', severity: 'high', reason: 'no upstream fix', recheck: future };
+  r = decide([high], 'high', { 'GHSA-high-1': wrongPkg }, today);
+  check('high with an id-keyed entry for another package fails', r.failures.length >= 1 && r.allowed.length === 0);
+
+  // A pkg-keyed entry for another package does not cover the advisory.
+  const otherPkgEntry = { id: 'GHSA-high-1', package: 'tar-fs', severity: 'high', reason: 'no upstream fix', recheck: future };
+  r = decide([high], 'high', { 'pkg:tar-fs': otherPkgEntry }, today);
+  check('high with a pkg-keyed entry for another package fails', r.failures.length >= 1 && r.allowed.length === 0);
+
+  // An impossible calendar date fails even with the YYYY-MM-DD shape.
+  const impossibleDate = { id: 'GHSA-high-1', package: 'ws', severity: 'high', reason: 'no upstream fix', recheck: '2026-02-31' };
+  r = decide([high], 'high', { 'GHSA-high-1': impossibleDate }, today);
+  check('high with an impossible calendar re-check date fails', r.failures.length >= 1 && r.allowed.length === 0);
+
   if (failed > 0) {
     console.log(`self-test: FAIL, ${failed} rule checks failed`);
     return 1;
   }
-  console.log('self-test: pass (10 rule checks)');
+  console.log('self-test: pass (13 rule checks)');
   return 0;
 }
 

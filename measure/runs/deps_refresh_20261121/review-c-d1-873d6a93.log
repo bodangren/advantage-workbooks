@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-c-ux-api
+status: complete
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: none
+tests_run: No new tests ran. Read-only npm view and npm ls commands exited 0. Green evidence records passing lint, type checks, and build. PROJECT_TESTS has three foreign S8 Red failures.
+files_changed: review-c-d1-873d6a93.json; review-c-d1-873d6a93.log
+plan_updates: none
+known_failures: No blocking contract finding. C-D1-1 [Nit] review-c: dashboard/package.json:62 forces Puppeteer 25 outside the CLI's declared ^20.9.0 range without direct CLI evidence.
+handoff: PASS; retry_recommendation none. Green owns C-D1-1: record a bounded CLI smoke test before claiming CLI compatibility. Active print scripts use Playwright, not pagedjs-cli. Puppeteer requires Node >=22.12.0. phase_base_sha 5e1044479ec3d91d6b5c9512ddae408c9f5cdd25; role_base_sha and audited_head_sha 873d6a9380586c78553e5fbd46d0cd357731f699. HEAD remains current. Both artifacts stay uncommitted. Facts changed: none.
+END_MEASURE_AGENT_RESULT

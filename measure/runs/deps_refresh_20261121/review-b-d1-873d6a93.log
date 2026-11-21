@@ -1,0 +1,77 @@
+# Review B (security and data handling): deps_refresh_20261121, Phase D1
+
+Role base and audited head: 873d6a9380586c78553e5fbd46d0cd357731f699.
+Phase base: 5e1044479ec3d91d6b5c9512ddae408c9f5cdd25.
+`git rev-parse HEAD` matched the audited head before the audit started.
+Diff under audit: `git diff 5e104447 873d6a93`.
+
+## Verdict
+
+Pass. No blocking security finding.
+One nonblocking finding, B-D1-1, goes to Green.
+
+## Checks and results
+
+Overrides resolve as the record states.
+`npm ls` shows puppeteer 25.18.1, @puppeteer/browsers 3.2.7, ws 8.23.0 at three parents, and eslint-plugin-react-hooks 7.0.1 overridden.
+`npm ls` shows tar-fs, basic-ftp, proxy-agent, pac-proxy-agent, get-uri and extract-zip absent from the tree.
+Those five overrides have no consumer today. The puppeteer 25 bump removed the chain.
+versions-d1-dashboard.txt:24-30 states this correctly.
+
+Supply-chain scan of the lock diff is clean.
+39 added entries all resolve on registry.npmjs.org with integrity hashes.
+No new install-script package appears. No typosquat-style name appears.
+Every added package has an expected parent: puppeteer 25, @typescript-eslint, cliui/yargs, eslint.
+No credential, private key or non-registry host appears in the diff.
+
+`audit-gate.mjs` treats its input safely.
+Line 312-316 spawns npm with an array argument list and no shell.
+Lines 298-303 validate project names against a fixed map.
+Lines 292-295 validate `--min` against RANK.
+Lines 353 and 360-361 build the snapshot path from a fixed folder, a validated key and an ISO stamp.
+Lines 323-329 fail closed on a network or JSON error.
+Line 156 with lines 111-115 reject a prototype key. The path fails closed.
+
+Sharp allowlist reasons are honest in form and in mechanism.
+All three entries hold id, package, severity, reason and re-check date 2026-12-15.
+All three severities are high, which matches npm audit.
+`npm view` shows sharp 0.35.5 moved `main` from lib/index.js to ./dist/index.cjs with a dual exports map.
+That confirms the entry-point claim of audit-gate.mjs:60.
+No saved run proves the "three pinned print tests" half of the reason. This is B-D1-1.
+
+Sharp reachability is low in this app.
+No route under dashboard/app imports sharp.
+The upload route stores bytes through lib/image-handler without sharp.
+The only network image pattern is the fixed bucket pattern at lib/print/lesson-pdf.ts:32.
+All other sharp calls read repo files.
+The dashboard has no middleware and no auth module, so it is a local single-operator tool.
+The three high advisories need a bad image in the repo or in the company bucket.
+
+A2 is not applicable. The diff flips no draft to published status.
+A6 is not applicable. measure/tracks.md:5 keeps the track box unchecked.
+
+My rerun at HEAD: the self-test exits 0 with 10 rule checks.
+My rerun at HEAD: the gate exits 0 with 3 allowed sharp advisories.
+green-d1-tests.txt:398-399 records 3 failed foreign tests and 3203 passed tests.
+
+My gate rerun wrote one snapshot file, audit-snapshot-dashboard-20261121T030233Z.json.
+The gate writes such a snapshot by design. The file stays untracked with the earlier ones.
+
+## Thai rule
+
+Every printed command output passed a Python U+0E00 to U+0E7F line filter.
+I read no file under content/ and no test fixture with Thai.
+These two artifacts hold zero Thai characters.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: audited head 873d6a93; phase base 5e104447; Red 5a86f10a and 0542348e; Green e2898c4c and cc1f578f
+tests_run: `node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test` exited 0 with 10 rule checks. `node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard` exited 0 with 3 allowed sharp advisories. `npm ls` confirmed puppeteer 25.18.1, ws 8.23.0, sharp 0.34.5, and empty trees for tar-fs, basic-ftp, proxy-agent, pac-proxy-agent and get-uri. Python lock and audit parsers ran clean. No heavy test, build, install or audit fix ran.
+files_changed: measure/runs/deps_refresh_20261121/review-b-d1-873d6a93.json; measure/runs/deps_refresh_20261121/review-b-d1-873d6a93.log
+plan_updates: none. This role is report-only and edits no product, test, plan or package file.
+known_failures: B-D1-1 [Nit] review-b: the sharp allowlist reason at audit-gate.mjs:67,74,81 has no saved failing run and names no test file. The known 3 failures of dashboard/__tests__/default-look-new-editions.test.ts belong to track primary_v2_look and stay unchanged.
+handoff: Verdict is pass with 1 nonblocking finding. Overrides resolve as claimed, the gate input path is safe and fails closed, the lock diff holds no supply-chain anomaly, and the three sharp highs are low exposure in this local print tool. Route B-D1-1 to Green: name the three print tests in the reason or save one failing run under sharp 0.35.5 before the 2026-12-15 re-check. No product decision is needed from the user.
+END_MEASURE_AGENT_RESULT

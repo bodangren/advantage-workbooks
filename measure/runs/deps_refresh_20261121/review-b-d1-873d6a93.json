@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "role": "review-b",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D1: dashboard critical and high (by 2026-11-23)",
+  "baseline_sha": "5e1044479ec3d91d6b5c9512ddae408c9f5cdd25",
+  "phase_base_sha": "5e1044479ec3d91d6b5c9512ddae408c9f5cdd25",
+  "role_base_sha": "873d6a9380586c78553e5fbd46d0cd357731f699",
+  "audited_head_sha": "873d6a9380586c78553e5fbd46d0cd357731f699",
+  "status": "pass",
+  "summary": "Security and data-handling audit of the D1 dashboard dependency diff. Overrides resolve as the record states, no supply-chain anomaly appears, and the gate handles its input safely. The three allowlisted sharp highs are low exposure in this local print tool. One nonblocking gap: the sharp allowlist reason has no saved failing run.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "B-D1-1 [Nit] review-b: measure/tracks/deps_refresh_20261121/audit-gate.mjs:67,74,81 allowlists three high sharp advisories with the reason 'sharp 0.35.5 breaks three pinned print tests', but no run under measure/runs/deps_refresh_20261121/ shows that failure and no test file is named. Rationale: the entry-point half of the reason is true (npm view shows sharp 0.35.5 moved main to ./dist/index.cjs), yet the re-check on 2026-12-15 cannot verify an uncaptured test claim that defers three memory-safety advisories (CWE-122, CWE-416). Route: Green."
+  ],
+  "evidence": [
+    "git rev-parse HEAD returned 873d6a9380586c78553e5fbd46d0cd357731f699, so the audited head is current before this audit.",
+    "git diff 5e104447 873d6a93 --stat lists 22 paths: two package files, two product TypeScript edits, the gate script, plan and spec-review records, and run evidence only.",
+    "npm ls puppeteer ws @puppeteer/browsers sharp eslint-plugin-react-hooks: puppeteer 25.18.1, @puppeteer/browsers 3.2.7, ws 8.23.0 at three parents, eslint-plugin-react-hooks 7.0.1 overridden, sharp 0.34.5 at top level and 0.35.5 under next 16.4.6.",
+    "npm ls tar-fs, basic-ftp, proxy-agent, pac-proxy-agent, get-uri and extract-zip each exit 1 with '(empty)': those chains are absent, so their five overrides have no consumer today; the puppeteer 25 bump removed the chain, as versions-d1-dashboard.txt:24-30 states.",
+    "A Python diff of both lockfiles found 39 added entries, all resolved on registry.npmjs.org with integrity hashes, no new hasInstallScript package, and an expected parent for every added package (puppeteer 25, @typescript-eslint, cliui/yargs, eslint).",
+    "The set of install-script packages is identical before and after; only protobufjs 7.5.4 to 7.6.6 and puppeteer 20.9.0 to 25.18.1 changed inside that set, and both were present at the phase base.",
+    "No typosquat-looking name, no non-npmjs registry host, no git or ssh dependency, and no token, key or password string appears in the package or product diff (Python scan of the diff).",
+    "audit-gate.mjs:312-316 spawns npm with an array argument list and no shell; :298-303 validates project names against a fixed map; :292-295 validates --min against RANK; :353 and :360-361 build the snapshot path from a fixed RUNS_DIR, a validated key and an ISO stamp.",
+    "audit-gate.mjs:323-326 parses npm JSON in try/catch and :327-329 fails on audit.error, so a network failure exits non-zero and the gate fails closed.",
+    "audit-gate.mjs:156 reads the allowlist as a plain object; a prototype key such as __proto__ resolves to Object.prototype, which checkEntry at :111-115 rejects, so that path also fails closed.",
+    "The current allowlist identity data is correct: all three entries hold a sharp id and package sharp, matching the npm audit rows in audit-after-d1-dashboard.json.",
+    "npm view sharp@0.34.5 and sharp@0.35.5: main moves from lib/index.js to ./dist/index.cjs with a dual ESM and CJS exports map, which corroborates the entry-point claim in the allowlist comment at audit-gate.mjs:60.",
+    "grep of measure/ for '0.35.5' matches only audit snapshots, audit-gate.mjs, plan.md:67 and versions-d1-dashboard.txt:11; no run log shows sharp 0.35.5 failing a test and no test file is named. This is finding B-D1-1.",
+    "audit-after-d1-dashboard.json metadata reads 0 critical, 1 high, 1 moderate, 2 low; the single high package is sharp, its three ids are the allowlisted ones, and fixAvailable names sharp 0.35.5 with isSemVerMajor true.",
+    "My rerun at HEAD: audit-gate.mjs --self-test exits 0 with 10 rule checks, and audit-gate.mjs dashboard exits 0 with 3 allowed sharp advisories.",
+    "That gate rerun wrote audit-snapshot-dashboard-20261121T030233Z.json, which the gate writes by design; it stays untracked beside the nine earlier snapshots.",
+    "Sharp reachability: no route under dashboard/app imports sharp; app/api/projects/[projectId]/images/route.ts stores upload bytes through lib/image-handler without sharp; the only network image pattern sharp reads is https://storage.googleapis.com/primary-app-storage/images/<[A-Za-z0-9_.-]+> at lib/print/lesson-pdf.ts:32; every other sharp call reads repo files (lib/covers/compose.ts, lib/storytime/print/*, lib/print/render.ts:33).",
+    "The dashboard has no middleware.ts and no auth module, so it is a local single-operator tool; sharp input is repo and bucket data, not anonymous remote input, so the three high advisories are low exposure here.",
+    "A2 consent gate: the phase diff flips no draft to published status; the two product edits are a local helper rename at bank-plan.ts:392 and a type import at cover-picture.ts:3. Not applicable.",
+    "A6 registry claim: measure/tracks.md:5 keeps the deps track box unchecked and states a goal, not a resolved state; the plan.md:67 criticals-cleared claim matches audit-after-d1-dashboard.json. Not applicable.",
+    "Re-check dates and severities: all three entries hold severity high, matching npm audit; recheck 2026-12-15 is in the future and matches plan.md:67; audit-gate.mjs:121-125 enforces date form and expiry.",
+    "Secret handling: the lock and product diff add no credential, no private key and no non-registry host, and the snapshot files hold npm audit JSON only.",
+    "green-d1-tests.txt:398-399 records 3 failed tests in default-look-new-editions.test.ts and 3203 passed tests, which matches the known foreign Red of track primary_v2_look.",
+    "Thai rule: every printed command output passed a Python U+0E00 to U+0E7F line filter, no content/ file and no test fixture was read, and these two artifacts hold zero Thai characters."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline 5e104447..873d6a93; git status --porcelain",
+    "git diff 5e104447 873d6a93 --stat; git diff 5e104447 873d6a93 -- dashboard/package.json dashboard/lib/lesson-package/bank-plan.ts dashboard/lib/storytime/print/cover-picture.ts (Python Thai line filter)",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test (exit 0, 10 rule checks)",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard (exit 0, 3 allowed sharp advisories)",
+    "cd dashboard && npm ls puppeteer ws tar-fs basic-ftp proxy-agent pac-proxy-agent get-uri @puppeteer/browsers sharp eslint-plugin-react-hooks handlebars protobufjs proxy-addr vitest @vitest/coverage-v8 zod next eslint-config-next",
+    "cd dashboard && npm view sharp@0.34.5 version main exports types --json; npm view sharp@0.35.5 version main exports types --json",
+    "Python parse of git show 5e104447:dashboard/package-lock.json and 873d6a93:dashboard/package-lock.json (added and removed packages, registry hosts, integrity, install scripts, dependency parents)",
+    "Python parse of measure/runs/deps_refresh_20261121/audit-after-d1-dashboard.json (advisory ids, severities, ranges, fixAvailable, metadata counts)",
+    "Python and grep file reads of the spec, plan, audit-gate.mjs, versions and green and red evidence, all through a Thai line filter"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-b-d1-873d6a93.json",
+    "measure/runs/deps_refresh_20261121/review-b-d1-873d6a93.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/mimo-v2.6-flash",
+  "ratings": [
+    {"axis": "correctness", "score": 4, "evidence": "audit-gate.mjs:59-84 entries carry all five fields with ids and package values that match audit-after-d1-dashboard.json, and the gate passes at HEAD."},
+    {"axis": "test_meaning", "score": 3, "evidence": "The self-test proves ten gate rules (green-d1-selftest.txt), but no test or run proves the sharp 0.35.5 print-test claim behind the three allowlist entries."},
+    {"axis": "scope_discipline", "score": 4, "evidence": "git diff 5e104447 873d6a93 --stat shows package files, the gate allowlist and two behavior-neutral TypeScript edits beyond the package-only scope of spec.md:42."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "Every claim here carries a command result or a file:line, and my own gate rerun and npm ls reproduce the Green evidence."}
+  ]
+}
