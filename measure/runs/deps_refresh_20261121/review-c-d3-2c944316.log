@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-c-ux-api
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: Read-only Lucide export scan found 0 missing icons. Recorded dashboard build and Vitest exit 0. Both sharp-isolating print proofs match. No browser or live GenAI call was run.
+files_changed: measure/runs/deps_refresh_20261121/review-c-d3-2c944316.json; measure/runs/deps_refresh_20261121/review-c-d3-2c944316.log
+plan_updates: none
+known_failures: F1 Major: GenAI 3 defaults to API v1 while the default model is a preview model with unverified v1 support.
+handoff: Route F1 to Green: pin v1beta or verify gemini-3-flash-preview on v1. Request the dedicated UX browser review for F2. Retry recommendation: retry_implementation.
+END_MEASURE_AGENT_RESULT

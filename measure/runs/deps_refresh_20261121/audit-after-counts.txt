@@ -1,17 +1,20 @@
-After-audit counts and reasons (D3r6, 2026-11-21).
+After-audit counts and reasons (D3r7, 2026-11-21).
 
-dashboard/ (audit-after-d3-dashboard.json):
+dashboard/ (audit-after-d3-dashboard.json, unchanged by D3r7):
   critical 0, high 0, moderate 0, low 0, info 0; total 0.
   sharp 0.35.5 cleared the three high advisories; the three ALLOWLIST entries were removed.
   No moderate or low advisory remains.
+  @google/genai went back to 1.52.0 in D3r7. A live npm audit of the tree with 1.52.0
+  shows 0 advisories, so the after-audit JSON keeps the same counts.
 
 video/storytime-song/ (audit-after-d3-video.json, unchanged):
   critical 0, high 0, moderate 0, low 0, info 0; total 0.
   minimatch GHSA-g3hv-75wg-m249 stays cleared by the ^11.0.9 override.
 
-No advisory is allowlisted. No allowlist entry was added in D3r6; the three sharp entries
-were removed. Gate logic and self-test are unchanged.
+No advisory is allowlisted. No allowlist entry was added in D3r6 or D3r7; the three sharp
+entries were removed in D3r6. Gate logic and self-test are unchanged.
 
 Remaining package deferrals are real majors, each with a required peer conflict, a failing
 gate capture, or a named breaking change with the repo file:line. See versions-d3.txt,
-green-d3-r6-majors.txt, green-d3-r6-ts7-dashboard.txt and green-d3-r6-ts7-video.txt.
+green-d3-r6-majors.txt, green-d3-r6-ts7-dashboard.txt, green-d3-r6-ts7-video.txt,
+green-d3-r7-vitest5.txt and green-d3-r7-genai-apiversion.txt.

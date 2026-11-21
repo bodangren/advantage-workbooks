@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-b-security",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "fd8c2af9",
+  "baseline_sha": "7515ae3b",
+  "audited_head_sha": "2c944316",
+  "status": "pass",
+  "summary": "HEAD 2c944316 equals the audited head. security_applicability is applicable: the delta changes dashboard/package.json, dashboard/package-lock.json and measure/tracks/deps_refresh_20261121/audit-gate.mjs. The dashboard lock adds 34 keys and removes 73; every entry resolves to registry.npmjs.org with integrity, and no added key carries hasInstallScript. Two install-script entries leave the set: sharp 0.34.5 -> 0.35.5 and @google/genai 1.52.0 -> 3.6.1. npm view confirms sharp 0.35.5 publishes no install, postinstall or preinstall script and ships binaries through 28 @img/sharp-* optionalDependencies, and genai 3.6.1 also has no install-time script, so both removals are expected and shrink the install-script surface. The dashboard install-script set is now {core-js, es5-ext, esbuild, fsevents, protobufjs}. No added name imitates another package; the six unusual names (cacheable, hookified, qified, hashery, @keyv/bigmap, @cacheable/memory) are all maintainer jaredwray packages from the eslint-config-next eslint 10 chain. Fresh npm audit reports 0 at every severity in both projects: the sharp 0.35.5 upgrade cleared the three allowlisted high advisories. The audit-gate.mjs change is one hunk that empties the ALLOWLIST object, keeps the commented template, and touches no logic or self-test; --self-test passes 19 rule checks and the gate passes both --min moderate with 0 advisories. Kept overrides still resolve to ws 8.23.0, protobufjs 7.6.6 and eslint-plugin-react-hooks 7.0.1, and the 8 removed override packages stay absent. Carry-over Nit F1 is withdrawn: the allowlist is empty and both audits are clean two days before the 2026-11-23 goal date, so no conflict remains. A2 is not applicable and A6 finds no resolved claim outrunning the implementation.",
+  "security_applicability": "applicable",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "git rev-parse HEAD -> 2c944316884f3c68c31ea458083a14bbfa1fc6db, equal to audited_head_sha, so the audited head is current.",
+    "git log --oneline fd8c2af9..2c944316 -> 8 commits: ca7bf8b6 (Green r5 plugin-react 6 and genai), d13d76a2 (r5 evidence), 10e870b4 (PM decisions), 3692bd49 (sharp 0.35.5 contract Red), f89d69bd (sharp Red evidence), b1cc252e and 010decca (Green r6 sharp 0.35.5 and majors), 1aee23b2 (r6 evidence), 2c944316 (manual verification SHA).",
+    "git diff fd8c2af9 2c944316 -- dashboard/package.json shows only version changes: @google/genai ^1.39.0 -> 3.6.1 exact, dotenv ^18.0.10, lucide-react ^1.77.0, sharp ^0.35.5, @types/node ^24.19.2, @vitejs/plugin-react 6.3.0 exact, eslint ^10.15.0, jsdom 27.4.0 exact, typescript ^5.9.3. No new dependency name, no script change, and the overrides block is untouched.",
+    "Lockfile scan of dashboard/package-lock.json at 2c944316: 720 entries; 0 non-registry resolved URLs; 0 resolved entries missing integrity. Key difference fd8c2af9 -> 2c944316: 34 added, 73 removed; no added key carries hasInstallScript.",
+    "hasInstallScript set difference: removed {node_modules/@google/genai, node_modules/sharp}, added none. Dashboard set at 2c944316 is {core-js, es5-ext, esbuild, fsevents, protobufjs}. npm view sharp@0.35.5 scripts shows no install, postinstall or preinstall; the lock holds 28 node_modules/@img/sharp-* optional platform packages, so sharp 0.35.5 needs no install script. npm view @google/genai@3.6.1 scripts likewise shows no install-time script.",
+    "Typosquat check: every added name is a legitimate package; npm view maintainers confirms cacheable, hookified, qified, hashery, @keyv/bigmap and @cacheable/memory are all maintainer jaredwray packages pulled by the eslint-config-next eslint 10 chain. No added name imitates another package.",
+    "Fresh npm audit --json in dashboard -> metadata {critical 0, high 0, moderate 0, low 0, total 0}, exit 0: sharp 0.35.5 cleared GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c and GHSA-wq5f-xc86-pv6w. Fresh npm audit --json in video/storytime-song -> all zeros, exit 0.",
+    "git diff fd8c2af9 2c944316 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs is exactly one hunk (@@ -59,30 +59,7 @@) that removes the three sharp ALLOWLIST entries and leaves an empty ALLOWLIST with the comment 'No advisory needs an allowlist. sharp 0.35.5 cleared its three high advisories.' No gate logic, rule or self-test line changes.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate exits 0 with 0 advisories in both projects; --self-test exits 0 with 19 rule checks.",
+    "Kept overrides: dashboard/package.json:61-63 unchanged; npm ls shows ws 8.23.0 (parents @google/genai and jsdom), protobufjs 7.6.6 (parent @google/genai) and eslint-plugin-react-hooks 7.0.1 overridden (parent eslint-config-next). npm ls --all of the 8 removed override names prints (empty).",
+    "F1 withdrawn: the round 1-4 Nit cited the conflict between the measure/tracks.md:5 goal date 2026-11-23 and the sharp allowlist re-check 2026-12-15; I checked that the ALLOWLIST is now empty, the gate passes with 0 allowed, and fresh audits show 0 at every severity in both projects two days before 2026-11-23, so the conflict no longer exists and no copy change is needed.",
+    "A6: measure/tracks.md:5 keeps the track checkbox unchecked; the implementation (0 advisories in both projects) now sits ahead of the claim's 2026-11-23 date, so the registry copy does not outrun the implementation.",
+    "A2 not applicable: the delta contains no test file, no status field and no consent or anonymization code.",
+    "Working tree check after all commands: git status --porcelain on both package.json files, both package-lock.json files and audit-gate.mjs prints nothing, so no command of this audit rewrote a lockfile. The gate runs wrote their own untracked audit-snapshot files under measure/runs/deps_refresh_20261121/, the gate's documented behaviour."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git log --oneline fd8c2af9..2c944316",
+    "git diff fd8c2af9 2c944316 -- dashboard/package.json",
+    "git diff fd8c2af9 2c944316 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "git show <ref>:dashboard/package-lock.json | python3 (host, integrity, hasInstallScript and package-key scans, both ends)",
+    "npm view sharp@0.35.5 scripts --json",
+    "npm view @google/genai@3.6.1 scripts --json",
+    "npm view cacheable hookified qified hashery @keyv/bigmap @cacheable/memory maintainers.name --json",
+    "npm audit --json (workdir dashboard)",
+    "npm audit --json (workdir video/storytime-song)",
+    "npm ls ws protobufjs eslint-plugin-react-hooks (dashboard)",
+    "npm ls --all puppeteer @puppeteer/browsers tar-fs pac-proxy-agent proxy-agent basic-ftp get-uri proxy-addr (dashboard)",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test",
+    "git status --porcelain -- dashboard/package.json dashboard/package-lock.json video/storytime-song/package.json video/storytime-song/package-lock.json measure/tracks/deps_refresh_20261121/audit-gate.mjs"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-b-d3-2c944316.json",
+    "measure/runs/deps_refresh_20261121/review-b-d3-2c944316.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "kimi-code-plan-cn/kimi-for-coding",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "Fresh npm audits in both projects report 0 at every severity, and the gate passes with 0 allowed, matching the plan record that sharp 0.35.5 cleared its three advisories."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "3692bd49 is the sharp 0.35.5 contract Red and my gate re-run exits 0 with 19 self-test checks, but registry host, install-script set and typosquat checks stay manual."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --stat fd8c2af9 2c944316 touches dashboard package files, audit-gate.mjs (one allowlist hunk), plan.md and run evidence only."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a command result I ran myself or a file:line; heavy build gates are cited only as Green's saved green-d3-r6 logs."
+    }
+  ]
+}

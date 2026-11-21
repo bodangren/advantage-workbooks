@@ -1,0 +1,64 @@
+D3r7 fact check: the default Gemini API version in @google/genai 3.6.1 and 1.52.0.
+Date: 2026-11-21. Question: does 3.6.1 change the default API version that the
+dashboard uses? Answer: yes. The default moved from v1beta to v1.
+
+Both packages were read as published tarballs. Neither was installed to read it.
+  3.6.1 tarball: npm pack @google/genai@3.6.1 (google-genai-3.6.1.tgz)
+  1.52.0 tarball: npm pack @google/genai@1.52.0 (google-genai-1.52.0.tgz)
+Each tarball was extracted in a cache folder outside the repository.
+
+FACTS FOR 3.6.1 (package/dist/node/index.mjs):
+  line 23500: const GOOGLE_AI_API_DEFAULT_VERSION = 'v1';
+  line 23753: const VERTEX_AI_API_DEFAULT_VERSION = 'v1beta1';
+  line 23754: let defaultGoogleAiApiVersionOverride;
+  line 23898: initHttpOptions.apiVersion = this.clientOptions.apiVersion
+              ?? defaultGoogleAiApiVersionOverride ?? GOOGLE_AI_API_DEFAULT_VERSION;
+  This line runs in the Gemini Developer API branch. The default is v1.
+  package/README.md line 195: "the stable `v1` API endpoints for the Gemini Developer API."
+  package/README.md lines 198-204: apiVersion, httpOptions.apiVersion and the
+  GOOGLE_GENAI_API_VERSION environment variable select another version.
+
+FACTS FOR 1.52.0 (package/dist/node/index.mjs):
+  line 12903: const GOOGLE_AI_API_DEFAULT_VERSION = 'v1beta';
+  line 12977-12978: initHttpOptions.apiVersion =
+              this.clientOptions.apiVersion ?? GOOGLE_AI_API_DEFAULT_VERSION;
+  This line runs in the Gemini Developer API branch. The default is v1beta.
+  package/README.md line 150: "By default, the SDK uses the beta API endpoints
+  provided by Google to support preview features in the APIs."
+
+DIFFERENCE: 1.52.0 defaults to v1beta. 3.6.1 defaults to v1. The default changed.
+
+REPO CALL SITES THAT USE NO apiVersion:
+  dashboard/lib/lesson-generator.ts:24  const ai = new GoogleGenAI({});
+  dashboard/lib/lesson-generator.ts:59  model: process.env.GEMINI_TEXT_MODEL || "gemini-3-flash-preview",
+  dashboard/lib/ai-augmentor.ts:27      const ai = new GoogleGenAI({});
+  dashboard/lib/ai-augmentor.ts:73      model: process.env.GEMINI_TEXT_MODEL || "gemini-3-flash-preview",
+  A repo scan for apiVersion, api_version and GOOGLE_GENAI_API_VERSION in
+  dashboard/ found no match outside node_modules.
+
+NAMED BREAKING CHANGE: @google/genai 3.6.1 changes the default Gemini Developer
+API version from v1beta to v1. The dashboard calls the preview model
+gemini-3-flash-preview with no apiVersion at dashboard/lib/lesson-generator.ts:59
+and dashboard/lib/ai-augmentor.ts:73. Under 3.6.1 these calls use the v1 endpoint.
+The preview model may exist only on v1beta.
+
+DECISION: @google/genai goes back to 1.52.0 in dashboard/package.json.
+  Reasons:
+  1. A live check of the model on v1 needs a paid call. This task allows no paid call.
+  2. A pin of apiVersion on the two clients is a product code change.
+     dashboard/lib/lesson-generator.ts and dashboard/lib/ai-augmentor.ts are out of scope.
+  3. npm audit shows 0 advisories for the dashboard tree with 1.52.0 installed.
+     Capture: measure/runs/deps_refresh_20261121/green-d3-r7-gate-both.txt.
+
+FILES:
+  dashboard/package.json          "@google/genai": "3.6.1" -> "1.52.0"
+  dashboard/package-lock.json     node_modules/@google/genai 3.6.1 -> 1.52.0
+
+COMMANDS AND RESULTS:
+  npm pack @google/genai@3.6.1 and npm pack @google/genai@1.52.0 -> 0
+  npm view @google/genai versions -> 1.52.0, 3.6.0, 3.6.1 exist
+  node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate -> exit 0, 0 advisories
+  cd dashboard && npx tsc --noEmit -> exit 0
+  cd dashboard && npm run lint -> exit 0
+  cd dashboard && npm run build -> exit 0
+  cd dashboard && CI=true npx vitest run (4 excludes) -> exit 0

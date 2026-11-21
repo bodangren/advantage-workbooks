@@ -1,0 +1,20 @@
+# PROJECT_LINT dashboard, vitest 5 group trial (D3r7)
+
+> dashboard@0.1.0 lint
+> eslint
+
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/plan-level-bank-5-9.test.ts
+  7:58  warning  'LEVEL_BOOKS' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1709:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/home/daniebo/Desktop/Workbooks/dashboard/app/review/sheet/[book]/page.tsx
+  55:19  warning  Unused eslint-disable directive (no problems were reported from '@next/next/no-img-element')
+
+✖ 3 problems (0 errors, 3 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
+
+EXIT_CODE: 0

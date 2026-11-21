@@ -3,8 +3,51 @@ D3r1: advisory fixes and the pagedjs-cli removal. D3r2: in-range npm update.
 D3r3: exact-pin non-major updates. D3r4: rspack binding matched @rspack/core.
 D3r5: optional-peer deferrals resolved. D3r6: sharp 0.35.5, four majors taken,
 two TypeScript 7 trials reverted with captures, all allowlist entries removed.
+D3r7: the vitest 5 group was tried and reverted with a failing gate, and
+@google/genai went back to 1.52.0 for a named breaking change.
 Every remaining deferral cites a required peer conflict, a failing gate with a
 capture, or a named breaking change with the repo file:line. Each row names a concrete cause.
+
+D3r7 REVERTED TRIALS (package | project | tried | concrete failure):
+  vitest | dashboard | 5.1.1 | PROJECT_CHECKS exit 2: 88 TS2339 errors, first at
+  __tests__/image-upload-component.test.tsx:20; capture green-d3-r7-vitest5-tsc.txt
+  @vitest/coverage-v8 | dashboard | 5.1.1 | same coordinated trial as vitest 5.1.1;
+  capture green-d3-r7-vitest5-tsc.txt
+  @testing-library/jest-dom | dashboard | 8.0.0 | same coordinated trial; the package
+  needs vitest 5 or later; capture green-d3-r7-vitest5-tsc.txt
+  @google/genai | dashboard | 3.6.1 | named breaking change: 3.6.1 changes the default
+  Gemini Developer API version from v1beta to v1; the dashboard calls the preview model
+  gemini-3-flash-preview with no apiVersion at dashboard/lib/lesson-generator.ts:59 and
+  dashboard/lib/ai-augmentor.ts:73; a live check needs a paid call and an apiVersion pin
+  is a product code change; the facts are in green-d3-r7-genai-apiversion.txt
+
+D3r7 vitest 5 group detail:
+  The group was vitest 5.1.1, @vitest/coverage-v8 5.1.1 and @testing-library/jest-dom 8.0.0.
+  npm install exited 0 and the tree held vite 8.3.8, which satisfies the required peer.
+  lint exited 0. npx tsc --noEmit exited 2 with 88 TS2339 errors. The first error line is
+  __tests__/image-upload-component.test.tsx(20,44): error TS2339: Property 'toBeInTheDocument'
+  does not exist on type 'Assertion<void, HTMLElement>'.
+  The same 88 errors appear with @testing-library/jest-dom back at 6.9.1, so the vitest 5
+  upgrade is the cause; capture green-d3-r7-vitest5-jestdom6-tsc.txt.
+  Cause: @vitest/expect 5.1.1 dist/index.d.ts:270-273 declares
+  interface JestAssertion<R, T> extends CustomMatcher<R> with no jest.Matchers, while
+  @vitest/expect 4.1.12 dist/index.d.ts:266 declares
+  interface JestAssertion<T> extends jest.Matchers<void, T>. The jest-dom matchers reach
+  the vitest types through the global jest.Matchers namespace, which vitest 5 drops.
+  Upstream names the fix: @testing-library/jest-dom 8.0.0 README.md line 160 asks for
+  vitest 5 or later, and README.md lines 162-168 ask for the import
+  '@testing-library/jest-dom/vitest' in the setup file. dashboard/vitest.setup.ts:1 imports
+  the root entry, so types/vitest.d.ts stays out of the program
+  (capture green-d3-r7-vitest5-listfiles.txt). A setup file change is test code, which
+  this track does not allow. All three packages went back to their 2c944316 versions.
+
+D3r7 @google/genai detail:
+  1.52.0 defaults to v1beta: dist/node/index.mjs:12903 sets
+  GOOGLE_AI_API_DEFAULT_VERSION = 'v1beta' and README.md line 150 says so.
+  3.6.1 defaults to v1: dist/node/index.mjs:23500 sets
+  GOOGLE_AI_API_DEFAULT_VERSION = 'v1' and README.md line 195 says so.
+  Both packages were read as published tarballs in a cache folder, not installed.
+  npm audit shows 0 advisories with 1.52.0 in the tree.
 
 D3r6 TAKEN (package | project | old -> new | kind):
   sharp | dashboard | 0.34.5 -> 0.35.5 | 0.x release, PM decision 2026-11-21
@@ -25,7 +68,7 @@ D3r6 REVERTED TRIALS (package | project | tried | concrete failure):
 
 D3r5 TAKEN (package | project | old -> new):
   @vitejs/plugin-react | dashboard | 5.2.0 -> 6.3.0 | major
-  @google/genai | dashboard | 1.52.0 -> 3.6.1 | major
+  @google/genai | dashboard | 1.52.0 -> 3.6.1 | major | taken in D3r5 and reverted in D3r7
   jsdom 31.0.1 was tried and reverted: PROJECT_TESTS exit 1 on
   __tests__/image-upload-component.test.tsx (capture green-d3-r5-jsdom-trial.txt).
 
@@ -55,12 +98,12 @@ D3r2 in-range updates TAKEN by npm update (package | project | old -> new):
   @rspack/binding-linux-x64-gnu | video | 1.7.11 -> 1.7.12
 
 Remaining deferrals (package | project | current -> latest | kind | decision | concrete reason).
-  @testing-library/jest-dom | dashboard | 6.9.1 -> 8.0.0 | major | deferred | required peer vitest >=5 <6; the runner stays at 4.1.12
+  @testing-library/jest-dom | dashboard | 6.9.1 -> 8.0.0 | major | deferred | required peer vitest >=5 <6 (npm view; optional peer) and upstream README.md:160 says v8 supports vitest 5 or later; the coordinated trial fails PROJECT_CHECKS with 88 TS2339 at __tests__/image-upload-component.test.tsx:20; capture green-d3-r7-vitest5-tsc.txt
   @types/node | dashboard | 24.19.2 -> 26.6.6 | major | deferred | type declarations for Node 26 describe a newer runtime than Node 24.19.0; 24.19.2 was taken to match the runtime
-  @vitest/coverage-v8 | dashboard | 4.1.12 -> 5.1.1 | major | deferred | required peer pins exact vitest 5.1.1 and @vitest/browser 5.1.1; runner stays at 4.1.12
+  @vitest/coverage-v8 | dashboard | 4.1.12 -> 5.1.1 | major | deferred | required peer pins exact vitest 5.1.1; the coordinated trial fails PROJECT_CHECKS with 88 TS2339 at __tests__/image-upload-component.test.tsx:20; capture green-d3-r7-vitest5-tsc.txt
   jsdom | dashboard | 27.4.0 -> 31.0.1 | major | deferred | PROJECT_TESTS exit 1 on __tests__/image-upload-component.test.tsx > uploads file successfully and calls onUploadSuccess; capture green-d3-r5-jsdom-trial.txt
   typescript | dashboard | 5.9.3 -> 7.0.2 | major | deferred | TS2694/TS2339 at __tests__/storytime-loops-book-pages.test.ts:63,66; capture green-d3-r6-ts7-dashboard.txt
-  vitest | dashboard | 4.1.12 -> 5.1.1 | major | deferred | required peers pin @vitest/coverage-v8 5.1.1, @vitest/ui 5.1.1 and @vitest/browser-preview 5.1.1; @vitest/ui absent
+  vitest | dashboard | 4.1.12 -> 5.1.1 | major | deferred | the coordinated trial fails PROJECT_CHECKS with 88 TS2339 at __tests__/image-upload-component.test.tsx:20; the vitest 5 Assertion type drops the global jest.Matchers inheritance that the jest-dom matchers use; capture green-d3-r7-vitest5-tsc.txt and green-d3-r7-vitest5-jestdom6-tsc.txt
   typescript | video | 5.9.3 -> 7.0.2 | major | deferred | TS2304 at src/Root.tsx:16; capture green-d3-r6-ts7-video.txt
 
 Changes from D3r1 that still hold:
@@ -70,5 +113,6 @@ Changes from D3r1 that still hold:
     proxy-agent, basic-ftp, get-uri, proxy-addr.
   Kept overrides (3): ws, protobufjs, eslint-plugin-react-hooks; video keeps minimatch ^11.0.9.
 
-Audit state after D3r6: dashboard 0 at every severity with no allowlist entry;
+Audit state after D3r7: dashboard 0 at every severity with no allowlist entry;
 video 0 at every severity. ALLOWLIST in audit-gate.mjs is empty. Gate logic unchanged.
+The audit gate ran again after the r7 revert; the counts are unchanged from D3r6.

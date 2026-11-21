@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "role_base_sha": "fd8c2af9823419a2fe95c31b91ef88a4e5f66739",
+  "baseline_sha": "fd8c2af9823419a2fe95c31b91ef88a4e5f66739",
+  "audited_head_sha": "2c944316884f3c68c31ea458083a14bbfa1fc6db",
+  "status": "pass",
+  "summary": "All static Lucide imports resolve, dotenv callers avoid changed loading behavior, and both sharp-isolating print proofs match. GenAI 3 changes the default API version; preview-model compatibility remains unverified.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Major] dashboard: GenAI 3 changes the Developer API default from v1beta to v1. The lesson-generation and augmentation defaults use gemini-3-flash-preview without an apiVersion. The SDK changelog warns that some preview models only exist on v1beta. These calls may fail and return HTTP 500 responses. Rationale: the r5 evidence checks types, not the API endpoint used at runtime. Pin v1beta or verify that this model works on v1 before accepting the AI flow.",
+    "F2 [Nit] dashboard: All 30 imported Lucide icon exports exist in 1.77.0, but no visual browser review checked their rendered shapes. Rationale: a package major can change SVG appearance without renaming icons. Request the dedicated UX browser review."
+  ],
+  "evidence": [
+    "HEAD is 2c944316884f3c68c31ea458083a14bbfa1fc6db, matching the requested audited head.",
+    "The delta changes the dashboard dependency manifest and lockfile, UI tests, and proof inputs. Contract review applies to icon exports, environment loading, GenAI requests, and sharp output.",
+    "A read-only export check found 30 distinct statically imported Lucide icons; all 30 exist in the installed lucide-react 1.77.0 exports.",
+    "green-d3-r5-build.txt records dashboard build EXIT_CODE 0. green-d3-r5-tests.txt records EXIT_CODE 0, 171 test files, and 3,198 passing tests.",
+    "The dotenv v18.0.0 changelog reports a stdout-to-stderr message change and removes CLI tips, .env.vault support, and the CLI preload command. It does not report changed config path or override behavior.",
+    "The repository uses dotenv/config in dashboard/scripts/augment_lesson.ts:3 and explicit path plus quiet:true in two media scripts. It has no dotenv vault or dotenv CLI preload use. Existing process.env values remain protected by the default override:false behavior.",
+    "The upstream @google/genai 3.0.0 changelog changes the Gemini Developer API default from v1beta to v1. It warns that some preview models are available only on v1beta.",
+    "dashboard/lib/lesson-generator.ts:59 and dashboard/lib/ai-augmentor.ts:73 default to gemini-3-flash-preview. Both construct GoogleGenAI without apiVersion. A source scan found no apiVersion or GOOGLE_GENAI_API_VERSION override.",
+    "green-d3-r5-genai-api.txt checks call shapes and types only; it does not make a live request or verify the model endpoint version.",
+    "The lesson generation and augmentation routes return HTTP 500 when these API calls throw; dashboard/app/api/projects/[projectId]/lessons/[lessonId]/augment/route.ts:38-43 shows the error contract.",
+    "green-d3-r6-proof.txt reports the Origins 3.2 proof at 233 pages with zero changed pixels. The Storytime Level 2 week 1 proof is 20 pages with zero changed pixels. Both comparisons isolate sharp and match.",
+    "A visual browser review is needed for the dashboard icons because export checks and production builds do not compare their rendered shapes. This audit did not use a browser or view page images."
+  ],
+  "commands": [
+    "git rev-parse HEAD — 2c944316884f3c68c31ea458083a14bbfa1fc6db, matching the requested audited head",
+    "git diff --name-only fd8c2af9 2c944316 — dashboard package and test changes, print proof input, and Measure evidence/plan",
+    "Node read-only Lucide export scan — 30 distinct imported icon exports checked; 0 missing",
+    "rg -n 'GOOGLE_GENAI_API_VERSION|apiVersion|api_version' dashboard excluding node_modules and content — no matches",
+    "rg -n 'dotenv/config|dotenv.config' dashboard excluding node_modules and content — one default import and two explicit quiet/path calls",
+    "green-d3-r5-build.txt — EXIT_CODE 0",
+    "green-d3-r5-tests.txt — EXIT_CODE 0; 171 test files and 3,198 tests passed",
+    "green-d3-r6-proof.txt — Origins 3.2: 233 pages, 0 changed pixels; Storytime L2 week 1: 20 pages, 0 changed pixels"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-c-d3-2c944316.json",
+    "measure/runs/deps_refresh_20261121/review-c-d3-2c944316.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "contract_path_evidence": [
+    "dashboard/package.json",
+    "dashboard/package-lock.json",
+    "dashboard/lib/lesson-generator.ts:58-59",
+    "dashboard/lib/ai-augmentor.ts:72-73",
+    "dashboard/scripts/augment_lesson.ts:3",
+    "dashboard/scripts/media/lesson-images.ts:141",
+    "dashboard/scripts/media/cast-sheets.ts:83",
+    "measure/runs/deps_refresh_20261121/green-d3-r5-genai-api.txt",
+    "measure/runs/deps_refresh_20261121/green-d3-r6-proof.txt"
+  ],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "medium",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 3,
+      "evidence": "The default model and client are in dashboard/lib/lesson-generator.ts:58-59, while the SDK changelog records a v1 API default change."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 3,
+      "evidence": "green-d3-r5-tests.txt passes 3,198 tests, but green-d3-r5-genai-api.txt checks types without a live request."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 4,
+      "evidence": "git diff fd8c2af9..2c944316 shows the dependency updates, dashboard tests, proof input, plan, and evidence."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The installed Lucide export scan, upstream dotenv and GenAI changelogs, project test records, and sharp proof support the findings."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+D3r7 trial: the coordinated vitest 5 group in dashboard/.
+Date: 2026-11-21. The group was tried and reverted. The failing gate is PROJECT_CHECKS.
+
+GROUP TRIED (one coordinated update in dashboard/package.json):
+  vitest                     ^4.1.12 -> ^5.1.1   (devDependencies)
+  @vitest/coverage-v8         ^4.1.12 -> ^5.1.1   (dependencies)
+  @testing-library/jest-dom   ^6.9.1  -> ^8.0.0   (devDependencies)
+  npm install -> exit 0. The tree held vitest 5.1.1, @vitest/coverage-v8 5.1.1,
+  @testing-library/jest-dom 8.0.0 and vite 8.3.8 deduped.
+  git status --porcelain content -> empty before and after every run.
+
+GATES RUN IN THE TRIAL STATE:
+  npm run lint      -> exit 0, 3 warnings, 0 errors.
+                        Capture: measure/runs/deps_refresh_20261121/green-d3-r7-vitest5-lint.txt
+  npx tsc --noEmit  -> exit 2, 88 TS2339 errors. THE GROUP FAILS HERE.
+                        Capture: measure/runs/deps_refresh_20261121/green-d3-r7-vitest5-tsc.txt
+
+FIRST ERROR LINES (capture green-d3-r7-vitest5-tsc.txt):
+  __tests__/image-upload-component.test.tsx(20,44): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<void, HTMLElement>'.
+  __tests__/image-upload-component.test.tsx(21,40): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<void, HTMLElement>'.
+  __tests__/image-upload-component.test.tsx(28,56): error TS2339: Property 'toBeInTheDocument' does not exist on type 'Assertion<void, HTMLElement>'.
+  The first failing file is __tests__/image-upload-component.test.tsx at line 20.
+  The other failing files are __tests__/lesson-from-source-modal.test.tsx and
+  components/lesson-editor/__tests__/*.test.tsx.
+
+ISOLATION RUN: the vitest 5 upgrade is the cause, not jest-dom 8.
+  vitest 5.1.1 with @testing-library/jest-dom back at 6.9.1 -> the same 88 TS2339 errors.
+  Capture: measure/runs/deps_refresh_20261121/green-d3-r7-vitest5-jestdom6-tsc.txt
+
+MECHANISM (files read in the cache folder, not in the repository):
+  @vitest/expect@4.1.12 dist/index.d.ts:266
+    interface JestAssertion<T = any> extends jest.Matchers<void, T>, CustomMatcher {
+  @vitest/expect@4.1.12 dist/index.d.ts:635
+    interface Assertion<T = any> extends VitestAssertion<Chai.Assertion, T>, JestAssertion<T>, ...
+  vitest@4.1.12 dist/chunks/global.d.DVsSRdQ5.d.ts:37
+    interface Assertion<T> {
+  @vitest/expect@5.1.1 dist/index.d.ts:270-273
+    interface JestAssertion<R extends void | Promise<void>, T = unknown> extends CustomMatcher<R> {
+  @vitest/expect@5.1.1 dist/index.d.ts:644-647
+    interface Assertion<R extends void | Promise<void> = void, T = unknown> extends
+      VitestAssertion<Chai.Assertion, R, T>, JestAssertion<R, T>, ...
+  vitest@5.1.1 dist/chunks/task-utils.d.DgSjIb7r.d.ts:41
+    interface Assertion<R, T> {
+  vitest 4 inherits the global jest.Matchers namespace. @testing-library/jest-dom
+  augments that namespace through its root type entry (types/index.d.ts references
+  types/jest.d.ts, which declares the global jest.Matchers). vitest 5 drops the
+  jest.Matchers inheritance. The jest-dom matchers then have no type.
+
+WHY THE TYPE PATH CANNOT BE USED HERE:
+  @testing-library/jest-dom@8.0.0 README.md line 160:
+    "As of v8, this library supports vitest 5 or later. If you cannot yet upgrade
+     to vitest 5, stay on @testing-library/jest-dom v7 which supports up to vitest 4.
+     Upgrade both together when you are ready."
+  @testing-library/jest-dom@8.0.0 README.md lines 162-168 name the setup import:
+    import '@testing-library/jest-dom/vitest'
+  dashboard/vitest.setup.ts:1 imports the root entry '@testing-library/jest-dom'.
+  A tsc --listFiles run in the trial state shows that
+  node_modules/@testing-library/jest-dom/types/vitest.d.ts is not in the program.
+  Changing dashboard/vitest.setup.ts is a test code change. This task allows no
+  test code change and no product code change.
+
+PEER FACTS (npm view):
+  @testing-library/jest-dom@8.0.0 peerDependencies: vitest ">=5 <6" (optional),
+    @testing-library/dom ">=10 <11". The installed @testing-library/dom is 10.4.2.
+  vitest@5.1.1 peerDependencies: vite "^6.4.0 || ^7.0.0 || ^8.0.0" (required),
+    all other peers optional. The installed vite 8.3.8 satisfies the range.
+  @vitest/coverage-v8@5.1.1 peerDependencies: vitest 5.1.1, @vitest/browser 5.1.1 (optional).
+
+DECISION: the group is reverted to the 2c944316 versions.
+  vitest ^4.1.12, @vitest/coverage-v8 ^4.1.12, @testing-library/jest-dom ^6.9.1.
+  The reason is the failing gate above. Every deferral row names this capture.
+  No test file and no product file changed in the trial or after the revert.

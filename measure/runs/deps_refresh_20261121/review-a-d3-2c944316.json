@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "2c944316884f3c68c31ea458083a14bbfa1fc6db",
+  "baseline_sha": "2c944316884f3c68c31ea458083a14bbfa1fc6db",
+  "audited_head_sha": "2c944316884f3c68c31ea458083a14bbfa1fc6db",
+  "status": "fail",
+  "summary": "F3 is closed. Three remaining deferrals cite optional peers, not demonstrated incompatibility or a failing gate.",
+  "blocking_findings": [
+    "F4 [Blocker] review-a: Replace the deferral reasons in versions-d3.txt:58,60,63 or take the Vitest 5 chain. npm view marks jest-dom 8's Vitest peer and Vitest 5's non-Vite peers optional. Vitest 5 requires Vite ^6.4, ^7, or ^8, and installed Vite is 8.3.8. Coverage-v8 5.1.1 requires matching Vitest 5.1.1, so these packages can be updated together. The absent UI and browser-preview peers are optional. No failing gate or named source incompatibility supports deferring this chain."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is 2c944316884f3c68c31ea458083a14bbfa1fc6db, matching audited_head_sha.",
+    "F3 withdrawn: versions-d3.txt:27-30 records plugin-react 6.3.0 and GenAI 3.6.1 taken, plus the jsdom 31 trial's PROJECT_TESTS failure and capture.",
+    "npm view @testing-library/jest-dom@8.0.0 peerDependencies peerDependenciesMeta marks its Vitest >=5 <6 peer optional.",
+    "npm view vitest@5.1.1 peerDependencies peerDependenciesMeta requires Vite ^6.4.0, ^7.0.0, or ^8.0.0; all other listed peers are optional. Installed Vite 8.3.8 satisfies the required peer.",
+    "npm view @vitest/coverage-v8@5.1.1 requires Vitest 5.1.1; its @vitest/browser peer is optional. npm view @vitest/ui and @vitest/browser-preview shows their Vitest 5.1.1 peers.",
+    "versions-d3.txt:58-63 does not record a Vitest 5 gate trial or a source incompatibility. Its stated peer conflicts do not justify deferring the coordinated chain.",
+    "green-d3-r5-jsdom-trial.txt records one failed test, 3,197 passed tests, and the jsdom revert. This supports the jsdom deferral.",
+    "green-d3-r6-ts7-dashboard.txt and green-d3-r6-ts7-video.txt record TypeScript 7 failures at named test/source locations. This supports both TypeScript deferrals.",
+    "green-d3-r6-proof.txt records two sharp-isolating render comparisons with matching page counts, fonts, and pixels. The stop rule was not triggered.",
+    "git show comparison of pictures.sha256 across fd8c2af9 and 2c944316 found 18 rows. Only column 6 changed from 0.34.5 to 0.35.5; all other columns match.",
+    "green-d3-r6-selftest.txt records 19 passing rule checks. audit-gate.mjs has no marker-consistency or deliverable-presence check, so A4 has no applicable check.",
+    "audit-gate.mjs parses advisory counts from arrays and does not use bare-digit count matching. No A3 violation was found.",
+    "green-d3-r6-gate-both.txt, green-d3-r6-gate-dashhigh.txt, green-d3-r6-gate-dashboard.txt, and green-d3-r6-gate-video.txt record exit 0 with zero allowed advisories.",
+    "green-d3-r6-tests.txt records 171 files and 3,198 tests passing. green-d3-r6-red.txt records 38 sharp contract tests passing.",
+    "green-d3-r6-proof.txt and plan.md:107-111 support the current sharp and PM-verification claims. plan.md:100 still states that no remaining deferral rests on an optional peer; F4 contradicts that claim.",
+    "The pictures.sha256 check read the permitted content file only through a filtered comparison. It displayed no file content.",
+    "No test-strategy.md exists for this track. The gates and verification criteria are in the track plan and spec.",
+    "The audit-gate.mjs change removes three sharp allowlist data entries and leaves gate logic unchanged. No changed exported source symbols or callers require build-graph analysis."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 2c944316884f3c68c31ea458083a14bbfa1fc6db.",
+    "git diff --name-only 7515ae3b 2c944316; git diff --stat 7515ae3b 2c944316 -> reviewed the exact phase diff.",
+    "npm view @testing-library/jest-dom@8.0.0 peerDependencies peerDependenciesMeta -> Vitest peer is optional.",
+    "npm view vitest@5.1.1 peerDependencies peerDependenciesMeta -> Vite is the only required peer; Vite 8.3.8 satisfies its range.",
+    "npm view @vitest/coverage-v8@5.1.1, @vitest/ui@5.1.1, and @vitest/browser-preview@5.1.1 peerDependencies -> coordinated Vitest 5 versions are available.",
+    "npm outdated --json in dashboard and video/storytime-song -> 0 in-range updates; 6 and 2 latest-only rows remain.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test -> exit 0; 19 rule checks pass.",
+    "Filtered git show comparison of pictures.sha256 between fd8c2af9 and 2c944316 -> 18 rows; only the version column changed."
+  ],
+  "changed_files": [
+    "dashboard/package.json",
+    "dashboard/package-lock.json",
+    "dashboard/__tests__/storytime-book-pictures.test.ts",
+    "dashboard/__tests__/storytime-print-c2-start-table.test.ts",
+    "video/storytime-song/package.json",
+    "video/storytime-song/package-lock.json",
+    "content/storytime/l2/media/w01/books/pictures.sha256",
+    "measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "measure/tracks/deps_refresh_20261121/plan.md",
+    "measure/runs/deps_refresh_20261121/versions-d3.txt",
+    "measure/runs/deps_refresh_20261121/green-d3-r6-proof.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 3,
+      "evidence": "versions-d3.txt:58-63 misstates optional peers as blocking Vitest 5 conflicts."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "green-d3-r6-tests.txt records 3,198 passing tests, but no Vitest 5 trial tests the remaining chain."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 4,
+      "evidence": "git diff --name-only 7515ae3b 2c944316 shows dependency updates, sharp tests, and evidence required by the plan."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "green-d3-r6 logs and npm view metadata support the audit; the Vitest peer metadata contradicts its deferrals."
+    }
+  ]
+}

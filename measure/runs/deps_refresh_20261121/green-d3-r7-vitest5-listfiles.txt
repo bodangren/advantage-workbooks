@@ -1,0 +1,12 @@
+D3r7 type program evidence (tsc --noEmit --listFiles, jest-dom lines only).
+Trial state: vitest 5.1.1 + @vitest/coverage-v8 5.1.1 + @testing-library/jest-dom 8.0.0. tsc error count: 88.
+/home/daniebo/Desktop/Workbooks/dashboard/node_modules/@testing-library/jest-dom/types/matchers.d.ts
+/home/daniebo/Desktop/Workbooks/dashboard/node_modules/@testing-library/jest-dom/types/jest.d.ts
+/home/daniebo/Desktop/Workbooks/dashboard/node_modules/@testing-library/jest-dom/types/index.d.ts
+
+Final state: vitest 4.1.12 + @vitest/coverage-v8 4.1.12 + @testing-library/jest-dom 6.9.1. tsc error count: 0.
+/home/daniebo/Desktop/Workbooks/dashboard/node_modules/@testing-library/jest-dom/types/matchers.d.ts
+/home/daniebo/Desktop/Workbooks/dashboard/node_modules/@testing-library/jest-dom/types/jest.d.ts
+/home/daniebo/Desktop/Workbooks/dashboard/node_modules/@testing-library/jest-dom/types/index.d.ts
+
+Both runs show that @testing-library/jest-dom/types/vitest.d.ts is not in the program.

@@ -1,0 +1,15 @@
+MEASURE_AGENT_RESULT
+role: review-a
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+phase_base_sha: 7515ae3b
+role_base_sha: 2c944316884f3c68c31ea458083a14bbfa1fc6db
+audited_head_sha: 2c944316884f3c68c31ea458083a14bbfa1fc6db
+status: fail
+summary: F3 is closed. The Vitest 5 chain remains deferred on optional peers, not a proved incompatibility.
+blocking_findings: F4 [Blocker] review-a: Correct versions-d3.txt:58,60,63 or take the Vitest 5 chain. npm view marks jest-dom 8's Vitest peer and Vitest 5's non-Vite peers optional. Vite 8.3.8 meets Vitest 5's required peer. Coverage-v8 5.1.1 requires matching Vitest 5.1.1, so the packages can move together. No failing gate or named source incompatibility supports deferral.
+nonblocking_findings: none
+evidence: F3 withdrawn: versions-d3.txt:27-30 records plugin-react 6.3.0 and GenAI 3.6.1 taken, plus jsdom 31 reverted after its captured PROJECT_TESTS failure. npm view confirms optional peers for the Vitest 5 chain. The sharp proof and PM verification claims have supporting evidence.
+dispositions: none
+retry_recommendation: retry_implementation
+END_MEASURE_AGENT_RESULT

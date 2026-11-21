@@ -1,0 +1,29 @@
+Review B (security and data handling) — deps_refresh_20261121, Phase D3, round 5.
+Audited head: 2c944316 (confirmed by git rev-parse HEAD). Role base: fd8c2af9 (round 4 PASS). Phase base: 7515ae3b.
+Scope of the audited delta: dashboard/package.json, dashboard/package-lock.json and measure/tracks/deps_refresh_20261121/audit-gate.mjs (Green r5 ca7bf8b6, Green r6 010decca, sharp contract Red 3692bd49, PM decision 10e870b4).
+
+Checks performed (all output passed through a Thai-line filter; 0 Thai characters written; no file under content/ read; no PDF image viewed; no redirection used; no lockfile rewritten, confirmed by a final git status on the package files and the gate):
+
+1. Registry provenance: dashboard lock at 2c944316 holds 720 entries; 0 non-registry resolved URLs; 0 missing integrity. Key delta: 34 added, 73 removed; no added key carries hasInstallScript.
+2. Install scripts: the set loses @google/genai and sharp. npm view confirms sharp 0.35.5 publishes no install/postinstall/preinstall and ships binaries through 28 @img/sharp-* optionalDependencies; genai 3.6.1 also has no install-time script. Both removals are expected and shrink the install surface. New dashboard set: {core-js, es5-ext, esbuild, fsevents, protobufjs}.
+3. Typosquats: none. The six unusual added names (cacheable, hookified, qified, hashery, @keyv/bigmap, @cacheable/memory) are all maintainer jaredwray packages from the eslint-config-next eslint 10 chain.
+4. Fresh npm audit: dashboard 0 at every severity (sharp 0.35.5 cleared the three allowlisted highs); video still 0 at every severity.
+5. audit-gate.mjs: the change is exactly one hunk that empties the ALLOWLIST object; no logic or self-test line changes. Gate passes both --min moderate with 0 advisories; self-test passes 19 rule checks.
+6. Kept overrides: ws 8.23.0, protobufjs 7.6.6, eslint-plugin-react-hooks 7.0.1; the 8 removed override packages stay absent.
+7. F1 judgment: withdrawn. The allowlist is empty and both audits are clean two days before the 2026-11-23 goal date, so the round 1-4 conflict no longer exists.
+8. A2 not applicable; A6 clean (tracks.md:5 stays unchecked and implementation is ahead of the claim).
+
+Verdict: PASS. No open findings.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: npm audit --json in dashboard (all 0) and video/storytime-song (all 0); node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate (pass, 0 advisories in both projects); --self-test (pass, 19 rule checks)
+files_changed: measure/runs/deps_refresh_20261121/review-b-d3-2c944316.json; measure/runs/deps_refresh_20261121/review-b-d3-2c944316.log
+plan_updates: none
+known_failures: none
+handoff: Round 5 PASS at 2c944316. Both projects audit clean at every severity for the first time; the allowlist is empty and the gate passes with 0 allowed. sharp 0.35.5 and genai 3.6.1 carry no install scripts (binaries move to @img optionalDependencies), which shrinks the install surface. Carry-over Nit F1 is withdrawn: the tracks.md:5 goal date 2026-11-23 no longer conflicts with anything. No routed CONTEST items. Orchestrator can proceed to phase acceptance; reconcile tracks.md:5 at track close.
+END_MEASURE_AGENT_RESULT
