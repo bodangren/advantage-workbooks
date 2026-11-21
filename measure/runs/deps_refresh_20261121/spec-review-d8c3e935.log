@@ -1,0 +1,44 @@
+Spec review: deps_refresh_20261121
+Baseline and audited HEAD: d8c3e935 (confirmed equal before review)
+Reviewer: measure-spec-review / opencode-go/hy4-flash-free#high
+Round: 1
+
+### What this track proposes
+This track refreshes npm packages in dashboard/ and video/storytime-song/ to the latest versions that work. It fixes all critical and high advisories by 2026-11-23 and lists each remaining moderate or low advisory with its reason by 2026-11-25. Lint, the type check, the tests, and the build must pass through heavy-run.sh, and the work must be pushed. Three phases use a committed audit gate as the Red test and the Green test.
+
+### How the current system works, per this spec
+The spec records 46 advisories in dashboard/ and 20 in video/storytime-song/; all 10 high entries of the video project trace to zod GHSA-mrhx-c7xc-m3w5. Both projects use npm with separate package files and no root package.json. The committed audit-gate.mjs runs npm audit --json and fails while any advisory at or above the phase minimum has no ALLOWLIST reason, and its Red evidence is committed at the track commit. The video project belongs to the active track storytime_song_video_20261022, whose scripts/render.mjs has uncommitted changes.
+
+### Findings
+- F1 [Blocker] plan.md Gate commands (orchestrator environment): the plan defines RED_TEST_COMMAND_D1, RED_TEST_COMMAND_D2, RED_TEST_COMMAND_D3, GREEN_TEST_COMMAND_D1, GREEN_TEST_COMMAND_D2, and GREEN_TEST_COMMAND_D3, but the mid-red and green gates read RED_TEST_COMMAND and GREEN_TEST_COMMAND; the plan gives no mapping from the numbered names to the gate names. Rationale: the zero-decision check forbids a wiring choice left to the implementer, and with no mapping a gate can run with an unset variable.
+- F2 [Blocker] plan.md Red tasks (Phases D1, D2, D3): the track commit d8c3e935 already holds audit-gate.mjs and all three red-gate-*.txt evidence files, and each Red task only repeats 'run the gate and save the output'; no task names a new artifact or a commit step. Rationale: the mid-red gate fails when HEAD equals the baseline, so Red must advance HEAD with one new commit per phase, which the plan does not enable.
+- F3 [Major] audit-gate.mjs ALLOWLIST: the gate passes an advisory at high or above when ALLOWLIST holds its id and any reason string, and the gate enforces neither a reason format nor a re-check date. Rationale: the done-when asks for 0 critical and 0 high advisories, so a high advisory can stay and still pass the green gate, and a reason with no re-check date never expires.
+- F4 [Major] plan.md scope and video/storytime-song: the plan limits file changes to package.json and package-lock.json, which protects scripts/render.mjs, but it does not state that other files stay unstaged, does not coordinate the @remotion 4.0.537 to 4.0.545 upgrade with the active track storytime_song_video_20261022, and does not note that the video gates read that track's uncommitted scripts/render.mjs. Rationale: the upgrade can break the other track mid-composition, and the other track's dirty work can break these gates.
+- F5 [Major] plan.md Close: the plan calls the push a human gate. Rationale: safe-push is fast-forward only and deploys nothing, the PM done-when requires the push, and human gates cover paid generation, deploys, deletions, and public dates; the plan should name safe-push and record the pushed SHA.
+- F6 [Major] plan.md dependency decisions: the @remotion default in the D2 Red evidence offers two methods (upgrade script or direct npm install) and sets no exact-pin rule, and neither spec.md nor plan.md records a pagedjs-cli 0.0.7 downgrade decision or default. Rationale: the zero-decision check requires one dependency choice per phase, and an implicit default leaves Red and Green to choose and gives no record to contest.
+- F7 [Nit] plan.md gate commands, PROJECT_TESTS: the dashboard test command excludes three named test files as known failures of other tracks while the done-when says that tests pass. Rationale: the plan should cite the record for each exclusion so that the partial run stays auditable.
+
+### Judgments on the six check points
+1. Red: the committed gate is a valid Red test artifact, but a Red role must still act per phase. Red must run the gate at the baseline, save fresh output to a new evidence file, and commit that file so HEAD advances past the baseline. The plan gives Red no new artifact and no commit step (F2).
+2. Gate: npm audit is live network data, so the counts in the Red evidence are volatile. ALLOWLIST needs an advisory id, a reason, and a re-check date; the current gate enforces none of these and can pass a high advisory (F3).
+3. Active track: the scope limits protect render.mjs from staging, but the plan has no coordination with storytime_song_video_20261022 and no guard for its uncommitted work (F4).
+4. Push: the plan text is wrong. Use safe-push, which is fast-forward only and deploys nothing, and record the pushed SHA (F5).
+5. Author questions: CHANGE both. Record the pagedjs-cli 0.0.7 downgrade in the plan with build-gate proof and a re-check date, or drop the downgrade and allowlist with a date. Record one @remotion command and pin every @remotion/* package to the same exact version, coordinated with the active track (F6).
+6. Variable names: the mapping is unclear (F1). State one export per phase, for example RED_TEST_COMMAND=$RED_TEST_COMMAND_D1 for D1 and the matching GREEN export.
+
+### Questions for the orchestrator, with my defaults
+Q1: Accept or change the pagedjs-cli 0.0.7 downgrade? Default: change. Do not downgrade a print build tool to a 0.0.x line unless the dashboard build gate passes with it; record the reason and a re-check date in ALLOWLIST, or allowlist the puppeteer-chain advisories until after the 2026-11-25 print order. Options: accept with build-gate proof / change to allowlist with a date / defer.
+Q2: Accept or change the @remotion exact pins? Default: change. Use one upgrade command and pin every @remotion/* package to the same exact version (4.0.545 target), after coordination with the active song-video track. Options: accept one-command exact pins / keep caret ranges.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+status: complete
+track: deps_refresh_20261121
+phase: track setup
+commits: none (the environment refused git add and git commit for this role; the three files are written and untracked or modified)
+tests_run: none (report-only; git and file reads only)
+files_changed: measure/runs/deps_refresh_20261121/spec-review-d8c3e935.json, measure/runs/deps_refresh_20261121/spec-review-d8c3e935.log, measure/tracks/deps_refresh_20261121/spec-review.md
+plan_updates: none (review only; findings routed to the author)
+known_failures: none
+handoff: ARTIFACT GAP: git add and git commit were refused by the environment for this report-only role. The 3 files are written: the JSON and log are untracked, and measure/tracks/deps_refresh_20261121/spec-review.md is modified. Commit exactly those 3 paths with the message 'measure(spec-review): deps_refresh_20261121'; do not push. Verdict fail with 2 blockers and 5 nonblocking findings. F1: add one export per phase that maps the numbered gate variables to RED_TEST_COMMAND and GREEN_TEST_COMMAND. F2: give Red a new artifact and commit step per phase; the gate and evidence are already at the track commit. F3: pin or date-stamp the audit snapshot and require an advisory id, a reason, and a re-check date in ALLOWLIST; do not pass a high advisory under the done-when. F4: state that render.mjs and other files stay unstaged and coordinate the @remotion upgrade with storytime_song_video_20261022. F5: replace the human-gate text with safe-push and record the pushed SHA. F6: record one dependency decision each for pagedjs-cli and @remotion with exact pins. F7 may take FIX or DECLINE. Two questions need a product answer; my defaults are in the log above. Route all findings to the track author.
+END_MEASURE_AGENT_RESULT
