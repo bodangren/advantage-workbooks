@@ -1,0 +1,34 @@
+# PROJECT_TESTS_VIDEO
+
+> storytime-song@1.0.0 test
+> node --test tests/*.test.mjs
+
+✔ the cast, the gesture frames, and the scene of the week map to files under public/ (1.37333ms)
+✔ the gesture box holds every frame of the inset (0.191959ms)
+✔ a cast member or a gesture with no cut-out is refused; a scene with no render keeps the placeholder (0.492537ms)
+✔ the phone cut shows the whole classroom scene at full width, at 16:9 (0.609255ms)
+✔ the parts of the portrait frame are in the frame, from the top, and do not overlap (0.169749ms)
+✔ the line text is larger in the phone cut than in the classroom cut, for the same frame width (0.139799ms)
+✔ the phone cut centres the actor row in the scene; the classroom cut keeps the inset side free (0.113749ms)
+✔ the frame is the picture pose of the gesture, else the last frame (the beat frame) (1.013472ms)
+✔ the crop is one square from above the head to below the belt, with every hand, in the frame (0.277358ms)
+✔ a crop outside the frame is an error (0.174188ms)
+✔ a week with its own Forge set uses it; another week uses the gesture library (1.526319ms)
+✔ a picture pose has its own crop: the whole figure with the raised foot, in the frame (0.229169ms)
+✔ a sung repeat in parentheses is its own segment, with no parentheses (1.426539ms)
+✔ a line whose word count differs from its tokens is refused (0.286158ms)
+✔ the scene is the named place, else the setting of the week (0.575956ms)
+✔ week 1: every line has its picture, actors, and the times of the package (3.167807ms)
+✔ a Forge scene video must be 1920x1080, silent, and as long as the song (0.306297ms)
+✔ lines with the same picture make one shot; the first shot starts at 0 and the last ends at the end (1.24332ms)
+✔ actors slide only inside one scene and only when the cast changes (0.301758ms)
+✔ in a gap the next line shows at most 1.2 s early, never before the last line ends (0.213628ms)
+✔ the gesture holds for the line and 0.5 s after it, else idle (0.150479ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 93.648537

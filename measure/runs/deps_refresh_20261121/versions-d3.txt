@@ -1,0 +1,37 @@
+D3 version and removal table (dashboard and video/storytime-song).
+
+Direct dependency changes (old -> new):
+  dashboard eslint-config-next: 16.1.6 -> 16.4.6 (matches next 16.4.6; lint exits 0 with no product change)
+  dashboard pagedjs-cli: ^0.4.3 -> REMOVED (PM decision 2026-11-21; no live code imports it)
+
+Removed transitively with pagedjs-cli (no direct entry):
+  qs: 6.16.2 -> absent (the four moderate qs advisories are gone)
+  katex: 0.16.47 -> absent (the low katex advisory is gone)
+  express and its chain, body-parser, proxy-addr -> absent
+
+Removed npm overrides in dashboard/package.json (8, package gone from the tree after the removal):
+  puppeteer ^25.18.1 -> removed (only parent was pagedjs-cli)
+  @puppeteer/browsers ^3.2.7 -> removed (only parent was puppeteer under pagedjs-cli)
+  tar-fs ^3.1.3 -> removed (package absent from the tree)
+  pac-proxy-agent ^9.1.1 -> removed (package absent from the tree)
+  proxy-agent ^8.0.3 -> removed (package absent from the tree)
+  basic-ftp ^6.2.6 -> removed (package absent from the tree)
+  get-uri ^8.0.2 -> removed (package absent from the tree)
+  proxy-addr ^2.0.8 -> removed (only parent was express under pagedjs-cli)
+
+Kept npm overrides in dashboard/package.json (3, package still has a parent):
+  ws ^8.23.0 -> kept (parents @google/genai 1.39.0 and jsdom 27.4.0)
+  protobufjs ^7.6.6 -> kept (parent @google/genai 1.39.0)
+  eslint-plugin-react-hooks 7.0.1 -> kept (parent eslint-config-next; keeps the D1 lint baseline)
+
+Added npm override in video/storytime-song/package.json (1):
+  minimatch: 10.2.6 -> ^11.0.9 (resolved 11.0.9). Parents eslint 10.12.0,
+  @eslint/config-array 0.23.5 and @typescript-eslint/typescript-estree 8.71.2
+  requested ^10.2.x; the advisory covers >=7.0.0 <11.0.1, so the fixed major is required.
+  All four video gates pass with the override.
+
+Deferred breaking majors (not taken):
+  typescript 5.9.3 -> 7.0.2 and vitest 4.1.12 -> 5.1.1: major updates outside this phase's
+  advisory set; deferred to keep the golden print tests and the build stable.
+  sharp 0.34.5 -> 0.35.5: still deferred under the D1 allowlist to 2026-12-15.
+  @google/genai 1.39.0 -> 3.6.1: breaking major, deferred; no advisory at the current version.
