@@ -1,12 +1,12 @@
 MEASURE_AGENT_RESULT
 role: jr-green
-status: partial
+status: complete
 track: deps_refresh_20261121
 phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
-commits: pending
-tests_run: pending final capture
-files_changed: pending
-plan_updates: pending
-known_failures: pending
-handoff: provisional record; refined after the implementation and plan-evidence commits
+commits: ca7bf8b6 (implementation and evidence); the plan-evidence commit follows
+tests_run: Review A r5 F3 closed. Optional-peer deferral reasons were replaced. @vitejs/plugin-react 5.2.0 to 6.3.0 and @google/genai 1.52.0 to 3.6.1 were taken; jsdom 31.0.1 was tried and reverted after PROJECT_TESTS exit 1 on image-upload-component.test.tsx > ImageUpload Component > uploads file successfully and calls onUploadSuccess (TestingLibraryElementError: Unable to find the text Uploading...). Audit gates: both --min moderate 0, dashboard 0, video 0, --self-test 0. Final dashboard heavy gates with plugin-react 6.3.0 and genai 3.6.1: lint 0, tsc 0, vitest 0 with the 4 excludes, build 0. No print-path package changed, so no book proof was required. Evidence: measure/runs/deps_refresh_20261121/green-d3-r5-*.txt.
+files_changed: dashboard/package.json; dashboard/package-lock.json; measure/tracks/deps_refresh_20261121/plan.md; measure/runs/deps_refresh_20261121/versions-d3.txt; audit-after-counts.txt; audit-after-d3-dashboard.json; green-d3-r5-*.txt evidence; review-a, review-b and review-c files for fd8c2af9; ten audit snapshot JSON files; green-d3-r5-fd8c2af9.log.
+plan_updates: plan.md:100 stayed [x] and gained commit ca7bf8b6. It cites the r5 logs and holds no test count. The manual verification line and the Close lines were unchanged.
+known_failures: jsdom 31.0.1 failed the PROJECT_TESTS gate and was reverted; no update that broke a gate was kept. No task was flipped to [b]. The three D1 sharp high advisories remain under their allowlist to 2026-12-15.
+handoff: phase_base_sha is 7515ae3b and role_base_sha is fd8c2af9. Final Green implementation HEAD is ca7bf8b6; the plan-evidence commit is the last commit and its id is in git log. After counts stay 0 critical, 1 allowlisted high package entry (3 sharp advisories), 0 moderate and 0 low in dashboard, and 0 at every severity in video. The GenAI 3.6.1 type comparison is in green-d3-r5-genai-api.txt; no paid API call ran. Remaining deferrals cite required peer conflicts, a failing gate with a capture, or a named change; none rests on an optional peer. video/storytime-song/scripts/render.mjs stayed modified by another track and was not touched; no PDF, image, dashboard/raw.json or primary_v2_look file was staged. Every committed file holds 0 Thai characters.
 END_MEASURE_AGENT_RESULT
