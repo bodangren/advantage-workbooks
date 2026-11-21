@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "role_base_sha": "9fc91eb33f02f284d818062426e57b3e6ebee99d",
+  "baseline_sha": "9fc91eb33f02f284d818062426e57b3e6ebee99d",
+  "audited_head_sha": "0a3ca739a2e91c2ce54baf95ad14bb62802bf15d",
+  "status": "pass",
+  "summary": "The ESLint 9 rollback fixes required plugin peer compatibility. ESLint remains a development tool, lint coverage passes, and the delta changes no runtime routes or contracts. Keep the routed Lucide visual-review Nit.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F2 [Nit] dashboard/package.json:27: The Lucide 1.77.0 upgrade still lacks a visual check of icon shapes. Disposition: UX browser review after the adversarial rerun. | CONTEST kept: the prior routed visual-review Nit remains open until that review reports its result."
+  ],
+  "evidence": [
+    "HEAD is 0a3ca739a2e91c2ce54baf95ad14bb62802bf15d, matching the requested audited head.",
+    "The exact delta from 9fc91eb3 changes dashboard/package.json and dashboard/package-lock.json for ESLint, adds adversarial evidence and two tests under measure/tracks/deps_refresh_20261121/, and updates the phase plan. It changes no dashboard application, library, or component source.",
+    "dashboard/package.json:49 declares ESLint as a development dependency. It is a lint-time tool and is not shipped as an application route or runtime dependency.",
+    "green-d3-r8-eslint-peer.txt identifies four required eslint-config-next plugin peer ranges that exclude ESLint 10 and accept ESLint 9.39.5. It records npm ls --all exit 0 after the rollback.",
+    "adversarial-d3-r2-lint-final.txt proves lint reaches 34 app files, 138 lib files, 37 component files, and 170 test files; known-bad temporary files in each area were rejected. The final lint exits 0 with 3 warnings and 0 errors.",
+    "green-d3-r8-lint.txt records the same final lint result: exit 0, 0 errors, and 3 warnings.",
+    "green-d3-r8-tests.txt records 171 test files and 3,198 tests passed, exit 0. green-d3-r8-adversarial.txt records the durable peer-compatibility test exit 0.",
+    "No user-visible or endpoint-contract risk was found from the ESLint version rollback: the tool is development-only, lint covers app and route source, and no runtime source or route files changed.",
+    "F2 remains routed. Its disposition is UX browser review after the adversarial rerun. This audit did not use a browser."
+  ],
+  "commands": [
+    "git rev-parse HEAD — 0a3ca739a2e91c2ce54baf95ad14bb62802bf15d, matching the requested audited head",
+    "git diff --name-status 9fc91eb3 0a3ca739 — dashboard package files, Measure adversarial evidence/tests, snapshots, and plan",
+    "git diff 9fc91eb3 0a3ca739 -- dashboard/package.json — eslint changed from ^10.15.0 to ^9.39.5",
+    "git diff --name-only 9fc91eb3 0a3ca739 -- dashboard/app dashboard/lib dashboard/components dashboard/src — no application or route source changes",
+    "git diff --check 9fc91eb3 0a3ca739 — reports trailing whitespace in added build-evidence log lines only; no application source changes",
+    "adversarial-d3-r2-lint-final.txt — 34 app, 138 lib, 37 component, and 170 test files linted; all four known-bad probes rejected; final lint exit 0",
+    "green-d3-r8-lint.txt — exit 0, 0 errors, 3 warnings",
+    "green-d3-r8-tests.txt — 171 test files and 3,198 tests passed, exit 0; green-d3-r8-adversarial.txt — exit 0"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-c-d3-0a3ca739.json",
+    "measure/runs/deps_refresh_20261121/review-c-d3-0a3ca739.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "contract_path_evidence": [
+    "dashboard/package.json:49",
+    "dashboard/package-lock.json",
+    "dashboard/app",
+    "dashboard/lib",
+    "dashboard/components",
+    "measure/tracks/deps_refresh_20261121/adversarial-d3-r2.test.mjs",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-r2-lint-final.txt",
+    "measure/runs/deps_refresh_20261121/green-d3-r8-lint.txt"
+  ],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "green-d3-r8-eslint-peer.txt confirms ESLint 9.39.5 satisfies the required peers, and the delta changes no runtime source."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "adversarial-d3-r2-lint-final.txt shows coverage and four rejected bad-file probes, while green-d3-r8-tests.txt records 3,198 passing tests."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff 9fc91eb3..0a3ca739 shows the ESLint dependency rollback, audit artifacts, adversarial tests, and plan update without app source changes."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The HEAD check, package diff, peer evidence, lint coverage capture, and test outputs support the audit result."
+    }
+  ]
+}

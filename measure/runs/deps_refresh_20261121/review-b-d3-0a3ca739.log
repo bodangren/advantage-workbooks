@@ -1,0 +1,30 @@
+Measure Review B security audit, Phase D3 delta review, round 7.
+Role: measure-review-b-security. Audited head: 0a3ca739. Role base: 9fc91eb3. Phase base: 7515ae3b.
+Result artifact: measure/runs/deps_refresh_20261121/review-b-d3-0a3ca739.json
+
+Verdict: PASS. security_applicability: applicable. No blocking findings. One nonblocking Nit.
+
+Checks and results:
+- git rev-parse HEAD = 0a3ca739a2e91c2ce54baf95ad14bb62802bf15d, equal to audited_head_sha. Head is current.
+- Delta 9fc91eb3..0a3ca739 = one package.json line (eslint ^10.15.0 -> ^9.39.5), its lockfile subtree (18 added, 13 removed, 15 changed), two new adversarial test files, and one plan.md record.
+- 0 non-registry resolved URLs and 0 missing integrity fields in both lockfile versions. No new hasInstallScript. No typosquat among added names.
+- Overrides ws ^8.23.0, protobufjs ^7.6.6, eslint-plugin-react-hooks 7.0.1 identical to 9fc91eb3 and resolving in npm ls.
+- Live npm audit --json: 0 at every severity in dashboard and video/storytime-song.
+- audit-gate.mjs unchanged since 9fc91eb3. both --min moderate exits 0 with 0 advisories; --self-test exits 0 with 19 checks.
+- Two new adversarial test files: no network call, no real secret read; gate test writes only to mkdtemp folders. Lint test writes transient probe files into four dashboard source directories, always removed in a finally block (RB7-1, Nit).
+- A2 not applicable. A6: tracks.md:5 checkbox unchecked, so no resolved security claim.
+
+No tracked dependency file was rewritten. No edit, install, commit or heavy run was made.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: git rev-parse HEAD (0a3ca739, matches audited head, pass); git diff 9fc91eb3 0a3ca739 (one package.json line, lockfile subtree, two tests, plan.md, pass); lockfile host/integrity/hasInstallScript scan (0 non-registry, 0 missing integrity, 0 new install scripts, pass); overrides comparison and npm ls --all (identical and resolving, pass); npm audit --json in dashboard (0 at every severity, pass); npm audit --json in video/storytime-song (0 at every severity, pass); node audit-gate.mjs both --min moderate (exit 0, 0 advisories, pass); node audit-gate.mjs --self-test (exit 0, 19 checks, pass)
+files_changed: measure/runs/deps_refresh_20261121/review-b-d3-0a3ca739.json; measure/runs/deps_refresh_20261121/review-b-d3-0a3ca739.log
+plan_updates: none
+known_failures: none
+handoff: PASS. No blockers. RB7-1 is a nonblocking Nit: adversarial-d3-r2-lint.mjs:24-26 writes a uniquely named probe file into four dashboard source directories, outside a temp folder, but uses flag wx and removes it in a finally block at line 47. No network call and no secret read in either new test. F1 stays withdrawn from round 5. retry_recommendation: none.
+END_MEASURE_AGENT_RESULT

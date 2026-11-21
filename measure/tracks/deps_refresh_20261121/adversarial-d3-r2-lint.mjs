@@ -19,9 +19,12 @@ for (const directory of directories) {
 assert.equal(results.reduce((sum, result) => sum + result.errorCount, 0), 0);
 console.log(`existing errors=0 warnings=${results.reduce((sum, result) => sum + result.warningCount, 0)}`);
 const temporaryFiles = [];
+const temporaryFolder = fs.mkdtempSync(path.join(dashboard, 'measure-adversarial-'));
 try {
   for (const directory of directories) {
-    const file = path.join(dashboard, directory, `measure-adversarial-${process.pid}.ts`);
+    const folder = path.join(temporaryFolder, directory);
+    fs.mkdirSync(folder);
+    const file = path.join(folder, 'probe.ts');
     temporaryFiles.push(file);
     fs.writeFileSync(file, 'export type MeasureAdversarialProbe = {};\n', { flag: 'wx' });
     assert.equal(await eslint.isPathIgnored(file), false);
@@ -44,6 +47,6 @@ try {
   }
   console.log('npm run lint: exit 1; the real command rejected all four temporary files');
 } finally {
-  for (const file of temporaryFiles) fs.rmSync(file, { force: true });
+  fs.rmSync(temporaryFolder, { recursive: true, force: true });
 }
-console.log('temporary files removed');
+console.log('temporary folder removed; the four source folders were not changed');

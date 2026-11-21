@@ -1,0 +1,15 @@
+MEASURE_AGENT_RESULT
+role: review-a
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+phase_base_sha: 7515ae3b
+role_base_sha: 0a3ca739a2e91c2ce54baf95ad14bb62802bf15d
+audited_head_sha: 0a3ca739a2e91c2ce54baf95ad14bb62802bf15d
+status: pass
+summary: The ESLint 10 deferral is supported by four required peer ranges. ESLint 9.39.5 is the latest 9.x release, and the r8 gates pass.
+blocking_findings: none
+nonblocking_findings: none
+evidence: npm view confirms four required peers exclude ESLint 10 and that 9.39.5 is the latest 9.x. The manifest changes only eslint; the lockfile changes the ESLint subtree. The durable adversarial test and r8 gates report exit 0.
+dispositions: none
+retry_recommendation: none
+END_MEASURE_AGENT_RESULT

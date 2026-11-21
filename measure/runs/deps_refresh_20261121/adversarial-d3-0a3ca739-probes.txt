@@ -1,0 +1,49 @@
+✔ the real CLI rejects a new high advisory with an empty allowlist (79.47639ms)
+✔ filter words in the advisory title preserve a real hit (84.367572ms)
+✔ the moderate threshold rejects a moderate advisory (71.914187ms)
+✔ a complete high entry passes but cannot cover another advisory (158.419183ms)
+✔ a stale entry fails even when the audit has no advisories (69.135639ms)
+✔ each missing field fails even when the audit has no advisories (339.78539ms)
+✔ a future impossible calendar date fails without a live advisory (69.213518ms)
+✔ a critical advisory fails despite a complete entry (74.697796ms)
+✔ an empty audit passes with the empty allowlist (70.744257ms)
+✔ dotenv 18 preserves the caller options without loading real credentials (70.557808ms)
+✔ the dashboard ESLint version satisfies every installed required plugin peer (11.66684ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1156.2262
+app: 34 existing files linted
+lib: 138 existing files linted
+components: 37 existing files linted
+__tests__: 170 existing files linted
+existing errors=0 warnings=3
+app: known-bad temporary file rejected by @typescript-eslint/no-empty-object-type
+lib: known-bad temporary file rejected by @typescript-eslint/no-empty-object-type
+components: known-bad temporary file rejected by @typescript-eslint/no-empty-object-type
+__tests__: known-bad temporary file rejected by @typescript-eslint/no-empty-object-type
+npm run lint: exit 1; the real command rejected all four temporary files
+temporary folder removed; the four source folders were not changed
+
+> dashboard@0.1.0 lint
+> eslint
+
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/plan-level-bank-5-9.test.ts
+  7:58  warning  'LEVEL_BOOKS' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/daniebo/Desktop/Workbooks/dashboard/__tests__/quest-cover-template.test.ts
+  1709:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/home/daniebo/Desktop/Workbooks/dashboard/app/review/sheet/[book]/page.tsx
+  55:19  warning  Unused eslint-disable directive (no problems were reported from '@next/next/no-img-element')
+
+✖ 3 problems (0 errors, 3 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
+
+EXIT=0

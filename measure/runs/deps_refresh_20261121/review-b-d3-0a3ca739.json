@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-b-security",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "9fc91eb3",
+  "baseline_sha": "7515ae3b",
+  "audited_head_sha": "0a3ca739",
+  "security_applicability": "applicable",
+  "status": "pass",
+  "summary": "HEAD 0a3ca739 equals the audited head. security_applicability is applicable: the 9fc91eb3..0a3ca739 delta changes dashboard/package.json, dashboard/package-lock.json and adds two security-relevant adversarial test files. The package.json edit is the single line eslint ^10.15.0 -> ^9.39.5 at dashboard/package.json:49, which reverts eslint 10 to the latest 9.x so four required plugin peers under eslint-config-next 16.4.6 resolve. The lockfile applies the eslint 9 subtree in place: 18 entries added, 13 removed, 15 changed (14 packages plus the root entry). Every added and changed entry resolves to registry.npmjs.org and carries integrity. No added or changed entry gained hasInstallScript, and the whole-file installScript set is unchanged. All added names are standard ESLint dependency-tree packages, so no typosquat appears. Fresh npm audit reports 0 at every severity in dashboard and video/storytime-song. The overrides ws ^8.23.0, protobufjs ^7.6.6 and eslint-plugin-react-hooks 7.0.1 are byte-identical to 9fc91eb3 and resolve in npm ls. audit-gate.mjs is unchanged since 9fc91eb3, exits 0 on both projects with 0 advisories, and passes 19 self-test checks. The gate test confines all writes to mkdtemp folders and uses synthetic credentials; the lint test makes no network call and reads no secret but writes a uniquely named probe file into four dashboard source directories, removed in a finally block (one Nit). A2 is not applicable and A6 finds no resolved security claim in tracks.md.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "RB7-1 [Nit] review-b: measure/tracks/deps_refresh_20261121/adversarial-d3-r2-lint.mjs:24-26 writes a probe file named measure-adversarial-<pid>.ts into dashboard/app, dashboard/lib, dashboard/components and dashboard/__tests__, which is outside a temp folder. Rationale: the write uses flag wx so it cannot overwrite an existing file, and line 47 removes every probe in a finally block; the test makes no network call and reads no secret, so the deviation is low risk and nonblocking."
+  ],
+  "evidence": [
+    "git rev-parse HEAD -> 0a3ca739a2e91c2ce54baf95ad14bb62802bf15d, equal to audited_head_sha 0a3ca739, so the audited head is current.",
+    "git log --oneline 7515ae3b..0a3ca739 shows the delta commits 112cbec2 (adversarial round 2 tests), 2a636c5e (adversarial round 2 results), 632a9790 (Green r8 eslint 9) and 0a3ca739 (Green r8 evidence), after the prior PASS at 9fc91eb3.",
+    "git diff 9fc91eb3 0a3ca739 --stat touches exactly five files: dashboard/package-lock.json (560 lines), dashboard/package.json (2 lines), the two new adversarial test files (49 and 204 lines) and plan.md (3 lines).",
+    "git diff 9fc91eb3 0a3ca739 -- dashboard/package.json shows one change: dependencies eslint ^10.15.0 -> ^9.39.5 at line 49. The overrides block is untouched.",
+    "In-memory lockfile diff 9fc91eb3 -> 0a3ca739: 18 added, 13 removed, 15 changed. Every added or changed entry has resolved https://registry.npmjs.org/... and an integrity field. Added names are @eslint/eslintrc, @eslint/js, ansi-styles, argparse, callsites, chalk, color-convert, color-name, two eslint-visitor-keys, globals, import-fresh, js-yaml, json-buffer, lodash.merge, parent-module, resolve-from and strip-json-comments; all are established ESLint-tree packages, so no typosquat is present.",
+    "Whole-file lockfile scan: OLD 720 entries with 0 non-registry resolved URLs and 0 entries missing integrity; NEW 725 entries with 0 non-registry resolved URLs and 0 entries missing integrity. hasInstallScript added [] and removed []; the NEW set is {@google/genai, core-js, es5-ext, esbuild, fsevents, protobufjs}, identical to 9fc91eb3.",
+    "Overrides at both 9fc91eb3 and 0a3ca739 parse identically: {\"eslint-plugin-react-hooks\":\"7.0.1\",\"protobufjs\":\"^7.6.6\",\"ws\":\"^8.23.0\"}. npm ls --all in dashboard shows @google/genai@1.52.0 with protobufjs@7.6.6 and ws@8.23.0, eslint-plugin-react-hooks@7.0.1 overridden, eslint@9.39.5 deduped across all required plugin peers and jsdom@27.4.0 with ws@8.23.0 deduped.",
+    "Fresh npm audit --json in dashboard -> metadata {critical 0, high 0, moderate 0, low 0, info 0, total 0}, exit 0. Fresh npm audit --json in video/storytime-song -> identical zeros, exit 0. Video emits an existing allow-scripts .npmrc warning unrelated to this delta; video files did not change.",
+    "git diff 9fc91eb3 0a3ca739 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs is empty, so the gate and its empty ALLOWLIST did not change. node audit-gate.mjs both --min moderate exits 0 with 0 advisories in both projects; node audit-gate.mjs --self-test exits 0 with 19 rule checks.",
+    "Static read of the two new adversarial files: adversarial-d3-r2.test.mjs confines all writes to fs.mkdtempSync folders under XDG_CACHE_HOME or ~/.cache/opencode (lines 37, 132), mocks npm with a temp bin script (line 48), uses only the synthetic values synthetic-file-value, synthetic-fallback, synthetic-google, synthetic-gemini and synthetic-shell-value (lines 135-165) and strips real API keys from the child env (cleanEnv); its only URL is the non-fetched fixture host example.invalid (line 29). No fetch, https request or secret read appears in either file.",
+    "RB7-1 detail: adversarial-d3-r2-lint.mjs uses process.chdir(dashboard) and ESLint's local API plus a local npm run lint spawn (lines 5, 10, 33); no network. It writes measure-adversarial-<pid>.ts with flag wx at lines 24-26 into four source directories and removes every file in a finally block at line 47. Nonblocking because the probe cannot overwrite and is always cleaned up.",
+    "A2 not applicable: the delta contains no status flip, publish gate, consent artifact or anonymization code. A6: measure/tracks.md:5 keeps the deps_refresh checkbox unchecked '- [ ]', so no security state is claimed resolved; plan.md records adversarial round 2 as FAIL routed to Green before the r8 fix, which is honest.",
+    "F1 stays withdrawn from round 5: the gate ALLOWLIST is empty, both fresh audits show 0 at every severity, and no tracks.md goal date conflicts with the record.",
+    "git status --porcelain on both package.json files, both package-lock.json files, audit-gate.mjs and both new test files prints nothing after all commands, so no command of this audit rewrote a tracked dependency file; HEAD is still 0a3ca739."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git log --oneline 7515ae3b..0a3ca739",
+    "git diff 9fc91eb3 0a3ca739 --stat -- dashboard/package.json dashboard/package-lock.json measure/tracks/deps_refresh_20261121/",
+    "git diff 9fc91eb3 0a3ca739 -- dashboard/package.json",
+    "git diff 9fc91eb3 0a3ca739 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "git show 9fc91eb3:dashboard/package-lock.json and git show 0a3ca739:dashboard/package-lock.json piped through python3 (added/removed/changed, registry host, integrity and hasInstallScript scans)",
+    "git show 9fc91eb3:dashboard/package.json and git show 0a3ca739:dashboard/package.json piped through python3 (overrides comparison)",
+    "npm audit --json (workdir dashboard)",
+    "npm audit --json (workdir video/storytime-song)",
+    "npm ls ws protobufjs @google/genai eslint-plugin-react-hooks eslint --all (workdir dashboard)",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test",
+    "grep -n on both new adversarial test files for write, network, spawn and env symbols",
+    "git diff 9fc91eb3 0a3ca739 -- measure/tracks/deps_refresh_20261121/plan.md",
+    "grep -n on measure/tracks.md for deps_refresh and resolved",
+    "git status --porcelain on the tracked dependency files; git rev-parse --short HEAD"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-b-d3-0a3ca739.json",
+    "measure/runs/deps_refresh_20261121/review-b-d3-0a3ca739.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/hy4-flash-free#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "npm audit --json reports 0 at every severity in both projects, and npm ls --all shows genai 1.52.0 with protobufjs 7.6.6 and ws 8.23.0 plus eslint 9.39.5 deduped across all required plugin peers."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The two new adversarial files carry real assertions for gate behaviour, dotenv callers, lint coverage and plugin peers, while registry host, install-script and typosquat checks remain manual and this read-only audit did not execute the two new test files."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff 9fc91eb3 0a3ca739 --stat touches only the two new test files, one package.json line, the matching lockfile subtree and one plan.md record."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim in this result rests on a command result or a file:line produced in this run, including the empty git diffs and the 19 gate self-test checks."
+    }
+  ]
+}

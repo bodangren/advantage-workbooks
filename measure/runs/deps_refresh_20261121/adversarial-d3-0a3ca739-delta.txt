@@ -1,0 +1,62 @@
+phase_base_sha=7515ae3bb523f25f67f85f1bc274a1a238035987
+role_base_sha=0a3ca739a2e91c2ce54baf95ad14bb62802bf15d
+phase permitted diff bytes=550328 sha256=02e0e2931b88349bb8084d0c464700c101f2e0153d93c4aeed063948ea0dda24
+remediation permitted diff bytes=48009 sha256=9628178b0a89e44bce75600dc06c0efe698ee55f9b1709764d3d52153055af21
+Content paths remain unread and excluded from the diff.
+Product-source remediation delta:
+Dashboard lock entries: added=18 removed=13 changed=15
+: 0.1.0 -> 0.1.0
+node_modules/@cacheable/memory: 2.2.0 -> None
+node_modules/@cacheable/utils: 2.5.0 -> None
+node_modules/@eslint/config-array: 0.23.6 -> 0.21.2
+node_modules/@eslint/config-helpers: 0.7.0 -> 0.4.2
+node_modules/@eslint/core: 1.2.1 -> 0.17.0
+node_modules/@eslint/eslintrc: None -> 3.3.7
+node_modules/@eslint/js: None -> 9.39.5
+node_modules/@eslint/object-schema: 3.0.5 -> 2.1.7
+node_modules/@eslint/plugin-kit: 0.7.3 -> 0.4.1
+node_modules/@keyv/bigmap: 1.3.1 -> None
+node_modules/@keyv/serialize: 1.1.1 -> None
+node_modules/@types/esrecurse: 4.3.1 -> None
+node_modules/ansi-styles: None -> 4.3.0
+node_modules/argparse: None -> 2.0.1
+node_modules/balanced-match: 4.0.4 -> 1.0.2
+node_modules/brace-expansion: 5.0.13 -> 1.1.22
+node_modules/cacheable: 2.5.0 -> None
+node_modules/callsites: None -> 3.1.0
+node_modules/chalk: None -> 4.1.2
+node_modules/color-convert: None -> 2.0.1
+node_modules/color-name: None -> 1.1.4
+node_modules/eslint: 10.15.0 -> 9.39.5
+node_modules/eslint-config-next/node_modules/balanced-match: 1.0.2 -> None
+node_modules/eslint-config-next/node_modules/brace-expansion: 1.1.22 -> None
+node_modules/eslint-config-next/node_modules/minimatch: 3.1.5 -> None
+node_modules/eslint-scope: 9.1.2 -> 8.4.0
+node_modules/eslint/node_modules/eslint-visitor-keys: None -> 4.2.1
+node_modules/espree: 11.2.0 -> 10.4.0
+node_modules/espree/node_modules/eslint-visitor-keys: None -> 4.2.1
+node_modules/file-entry-cache: 11.1.5 -> 8.0.0
+node_modules/flat-cache: 6.1.23 -> 4.0.1
+node_modules/globals: None -> 14.0.0
+node_modules/hashery: 1.5.1 -> None
+node_modules/hookified: 1.15.1 -> None
+node_modules/import-fresh: None -> 3.3.1
+node_modules/js-yaml: None -> 4.3.2
+node_modules/json-buffer: None -> 3.0.1
+node_modules/keyv: 5.6.0 -> 4.5.4
+node_modules/lodash.merge: None -> 4.6.2
+node_modules/minimatch: 11.0.9 -> 3.1.5
+node_modules/parent-module: None -> 1.0.1
+node_modules/qified: 0.10.1 -> None
+node_modules/qified/node_modules/hookified: 2.2.0 -> None
+node_modules/resolve-from: None -> 4.0.0
+node_modules/strip-json-comments: None -> 3.1.1
+dashboard ESLint records: [["node_modules/eslint", "9.39.5"]]
+video/storytime-song ESLint records: [["node_modules/eslint", "10.15.0"]]
+No project lockfile contains a duplicate ESLint major.
+RB7-1 FIX: the lint probe uses one mkdtemp folder under dashboard, outside app, lib, components, and __tests__.
+The real npm run lint command discovers and rejects all four nested temporary fixtures.
+The finally block removes the complete temporary folder.
+A4: not applicable; this gate has no plan-marker consistency check.
+A5: fresh command exits support the current pass claims; the historical round 2 failure stays recorded.
+A7: the durable fixture retains a real advisory with never and do not in its title.

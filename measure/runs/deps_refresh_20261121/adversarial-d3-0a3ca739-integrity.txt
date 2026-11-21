@@ -1,0 +1,15 @@
+audited_head_sha=0a3ca739a2e91c2ce54baf95ad14bb62802bf15d
+current_head_sha=0a3ca739a2e91c2ce54baf95ad14bb62802bf15d
+dashboard/package.json: unchanged; sha256=d632d169e18f77a0b56539878d7788a3ad622943f8d9de5453871eb1a5654cc6
+dashboard/package-lock.json: unchanged; sha256=2ada61014382da45d2d469233159b2876b3b15060eb12936416aea3ff2e0a81e
+dashboard/eslint.config.mjs: unchanged; sha256=b1fb6a7bdfff125055f23523aa8d7213087978f9a017529c94352790e2f0ca7b
+video/storytime-song/package.json: unchanged; sha256=54d918bb9cfd607d614af3e1b7a92bcbd5dfb4d8b54da900908300f76ae32236
+video/storytime-song/package-lock.json: unchanged; sha256=7757583903b3da6081702e38bdc56f253b12d4ab6a8d72830127448be96e27cc
+Source folders: clean. Temporary fixture folders left: 0
+Lint probe source:
+22: const temporaryFolder = fs.mkdtempSync(path.join(dashboard, 'measure-adversarial-'));
+25:     const folder = path.join(temporaryFolder, directory);
+26:     fs.mkdirSync(folder);
+50:   fs.rmSync(temporaryFolder, { recursive: true, force: true });
+No content file was read. No package or product file changed.
+Verified dashboard/measure-adversarial-*: 0 remaining paths.
