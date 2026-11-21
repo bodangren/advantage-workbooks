@@ -1,12 +1,12 @@
 MEASURE_AGENT_RESULT
 role: jr-green
-status: partial
+status: complete
 track: deps_refresh_20261121
 phase: Phase D1: dashboard critical and high (by 2026-11-23)
-commits: pending
-tests_run: pending final capture
-files_changed: pending
-plan_updates: pending
-known_failures: pending
-handoff: provisional record; refined after the print-path and gate commits
+commits: 33c94f59 (print-path evidence and sharp reasons); the plan-evidence commit follows
+tests_run: Live path: the round 11 driver renders both lesson PDFs with puppeteer 25; render, PDF, contact-sheet, manifest and check steps each use one heavy-run wrapper and each exits 0; pdfinfo gives 14 and 16 pages, equal to round 11; the two pdffonts lists of name, type and embedded are identical to round 11; S5 checks P1 to P20 each exit 0 with RESULT: PASS. pagedjs-cli: npx puppeteer browsers install chrome exits 0 and installs Chrome 157.0.8103.78 under ~/.cache/puppeteer; the plain CLI render exits 1 on "No usable sandbox!", and the same render with --browserArgs="--no-sandbox" exits 0; pdfinfo gives 17 pages versus 14 at round 11 and the pdffonts list matches. Gate: --self-test exits 0 with 19 rule checks and the dashboard gate exits 0 with 3 complete sharp allowlist entries.
+files_changed: measure/tracks/deps_refresh_20261121/audit-gate.mjs (reason text only); measure/tracks/deps_refresh_20261121/plan.md; measure/runs/deps_refresh_20261121/green-d1r2-print-live.txt; measure/runs/deps_refresh_20261121/green-d1r2-print-pagedjs-cli.txt; measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T044828Z.json; measure/runs/deps_refresh_20261121/green-d1r2-057627d4.log.
+plan_updates: Two sub-bullets added under D1 Verify: the print-path check with both verdicts and evidence paths, and B-D1-1 with the gate evidence. Both cite commit 33c94f59. The manual verification task stays [ ].
+known_failures: The first pagedjs-cli render failed to launch Chrome because the sandbox is unavailable; the render with --browserArgs="--no-sandbox" succeeded. The pagedjs-cli PDF holds 17 pages where round 11 holds 14; this difference is recorded and not fixed because no live code calls pagedjs-cli. No product test failed in this round.
+handoff: role_base_sha is 057627d4 and phase_base_sha is 5e104447. The newest proof folder with PDFs is proof-s5-r11; proof-s5-r11-print-only holds only contact JPGs. Live print path is a full MATCH, so no product code changed and no package was stepped back. The browser install changed no repository file. The sharp allowlist reasons name __tests__/storytime-book-pictures.test.ts (sets the 18 app pictures with valid JPEGs and complete provenance), __tests__/storytime-loops-share.test.ts (J18: the week files keep their hash, and the test writes nothing into the content folder), and __tests__/storytime-print-c2-start-table.test.ts (C2-ink and C2-mutants); the first-run capture exists at /tmp/d1-heavy-tests.txt only outside the repository. No file under content/ was read directly, no file under measure/runs/primary_v2_look_20261020/ was staged or changed, no PDF was staged, and every committed file holds 0 Thai characters.
 END_MEASURE_AGENT_RESULT
