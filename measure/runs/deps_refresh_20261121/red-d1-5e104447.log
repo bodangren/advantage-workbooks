@@ -1,0 +1,21 @@
+# Mid-Red result: deps_refresh_20261121 Phase D1 (provisional, pre-commit)
+
+Phase base: 5e104447. Role base: 5e104447 (both resolve).
+RED_TEST_COMMAND: node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard
+RED exit code: 1 (expected Red fail; 67 advisories at high or above, 0 allowlisted).
+Self-test: node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test exits 0 (10 rule checks pass).
+Unrelated dirty work preserved and unstaged: video/storytime-song/scripts/render.mjs (M), dashboard/raw.json (??).
+Refining after commit with the Red commit SHA.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: partial
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: TBD (refine after commit)
+tests_run: node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard -> exit 1 FAIL as required (67 advisories at high or above, 0 allowlisted); node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test -> exit 0 pass (10 rule checks)
+files_changed: measure/tracks/deps_refresh_20261121/audit-gate.mjs (F3 allowlist rules, snapshot write, --self-test); measure/tracks/deps_refresh_20261121/plan.md (D1 Tests task [~] plus Red evidence); measure/runs/deps_refresh_20261121/red-d1-5e104447.txt, red-d1-5e104447-selftest.txt, audit-snapshot-dashboard-20261121T012823Z.json, spec-review-5e104447.json, spec-review-5e104447.log; measure/tracks/deps_refresh_20261121/spec-review.md (reviewer Round 2)
+plan_updates: D1 Tests task marked [~]; Red evidence recorded under the task with output paths, snapshot path, and self-test result
+known_failures: gate exits 1 with 67 dashboard advisories at high or above (critical: next, handlebars, protobufjs, proxy-addr, vitest, @vitest/coverage-v8) and no allowlist entries yet; this is the required Red state for Green to fix
+handoff: Green owns the D1 Implement task next: fix every dashboard critical advisory (no allowlist for critical), fix or fully allowlist every high advisory with re-check date 2026-12-15 where a chain cannot clear; default question: keep latest pagedjs-cli 0.4.x with npm overrides (no 0.0.7 downgrade) unless Green proves a chain cannot clear
+END_MEASURE_AGENT_RESULT

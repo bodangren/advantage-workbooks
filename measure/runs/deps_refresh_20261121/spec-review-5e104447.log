@@ -1,0 +1,43 @@
+Spec review: deps_refresh_20261121
+Baseline and audited HEAD: 5e104447 (confirmed equal before review)
+Reviewer: measure-spec-review / opencode-go/hy4-flash-free#high
+Round: 2
+
+### What this track proposes
+This track refreshes npm packages in dashboard/ and video/storytime-song/ to the latest versions that work. It fixes all critical advisories and all high advisories by 2026-11-23, or gives each remaining high advisory a full allowlist entry. It lists each remaining moderate or low advisory with its reason by 2026-11-25. Lint, the type check, the tests, and the build pass for both projects through heavy-run.sh. The orchestrator pushes the work with safe-push and records the SHA.
+
+### How the current system works, per this spec
+The spec records 46 advisories in dashboard/ and 20 in video/storytime-song/; all 10 high entries of the video project trace to zod GHSA-mrhx-c7xc-m3w5. Both projects use npm with separate package files and no root package.json. The audit gate in audit-gate.mjs runs npm audit --json and fails while any advisory at or above the phase minimum has no ALLOWLIST reason. Its Red evidence is committed at track commit d8c3e935 as the before record. The video project belongs to the active track storytime_song_video_20261022, whose scripts/render.mjs has uncommitted changes.
+
+### Findings
+- None
+
+### Closure of round-1 findings
+- F1 closed. The Gate commands section maps the numbered variables to RED_TEST_COMMAND and GREEN_TEST_COMMAND for D1, D2, and D3.
+- F2 closed. Each Red task names a new artifact, red-d1/d2/d3-<short sha>.txt, and a commit step that advances HEAD past the phase base.
+- F3 closed. The D1 Red task requires all five ALLOWLIST fields, rejects a missing field and a past re-check date, writes a dated JSON snapshot, rejects every critical advisory, and keeps a high advisory only with all fields.
+- F4 closed. The scope text states that D2 changes only the two video package files. It states that render.mjs and other files stay unstaged, that the orchestrator tells the PM before D2 Green, and that the video gates read the uncommitted render.mjs work.
+- F5 closed. The done-when and the Close task name safe-push, fast-forward only and no deploy, and require the recorded pushed SHA. No human gate applies.
+- F6 closed. Both files record the orchestrator decision of 2026-11-21. pagedjs-cli stays on the latest 0.4.x with npm overrides, no 0.0.7 downgrade, and a 2026-12-15 re-check date. The @remotion step uses one npx remotion upgrade command and exact pins of remotion and @remotion/* to the newest 4.0.x that clears zod GHSA-mrhx-c7xc-m3w5.
+- F7 closed. The PROJECT_TESTS line cites a record for each of the three excluded test files.
+
+### Checks repeated on the revised files
+- Paraphrase: both sections read in two to five sentences. No finding.
+- Zoom-out: the plan solves the root problem, adds no speculative feature and no premature optimization, reuses the audit gate and the heavy-run wrapper, places new logic in the track folder, and stays at the requirement level. No finding.
+- Zero-decision: the gate variable mapping, the dependency decisions, the ALLOWLIST fields, the file locations, and the normal and edge test cases are named per phase. No finding.
+
+### Product questions
+No open question. The orchestrator decided F6 on 2026-11-21 and the revision records that decision.
+
+MEASURE_AGENT_RESULT
+role: spec-review
+status: complete
+track: deps_refresh_20261121
+phase: track setup
+commits: the r2 spec-review commit, staged by exact path
+tests_run: none (report-only; git and file reads only)
+files_changed: measure/runs/deps_refresh_20261121/spec-review-5e104447.json, measure/runs/deps_refresh_20261121/spec-review-5e104447.log, measure/tracks/deps_refresh_20261121/spec-review.md
+plan_updates: none (review only; findings routed to the author in round 1)
+known_failures: none
+handoff: Round 2 verdict pass. The revision at 5e104447 closes F1 to F7. No new finding and no CONTEST item. Audited head before commit was 5e104447. Three files are staged by exact path for the r2 commit; do not push. Route no finding to the author.
+END_MEASURE_AGENT_RESULT

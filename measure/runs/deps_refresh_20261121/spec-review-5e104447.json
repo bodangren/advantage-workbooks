@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "role": "spec-review",
+  "track": "deps_refresh_20261121",
+  "phase": "track setup",
+  "baseline_sha": "5e104447",
+  "audited_head_sha": "5e104447",
+  "status": "pass",
+  "summary": "Round 2: the revision at 5e104447 closes F1 to F7. The paraphrase, zoom-out, and zero-decision checks pass on the revised spec.md and plan.md. No new finding. Verdict: pass.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is 5e104447 and equals audited_head_sha, confirmed with git rev-parse HEAD before review.",
+    "Reviewed git diff d8c3e935 5e104447 for spec.md and plan.md. audit-gate.mjs was not changed by the revision; plan.md assigns its change to the Red role in Phase D1.",
+    "F1 closed: plan.md Gate commands now state that the mid-red and green gates read unsuffixed RED_TEST_COMMAND and GREEN_TEST_COMMAND, and list the per-phase export mapping for D1, D2, and D3.",
+    "F2 closed: each Red task names a new artifact, red-d1/d2/d3-<short sha>.txt, and a commit step that advances HEAD past the phase base.",
+    "F3 closed: the D1 Red task requires advisory id, package, severity, reason, and re-check date in every ALLOWLIST entry; rejection of missing fields and past dates; a dated JSON snapshot; rejection of any critical advisory; and high advisories only with all fields.",
+    "F4 closed: spec.md and plan.md state that D2 changes only the two video package files, that render.mjs and other files of the song-video track stay unstaged, that the orchestrator tells the PM before D2 Green, and that the video gates read the uncommitted render.mjs work.",
+    "F5 closed: spec.md done-when and plan.md Close name safe-push, fast-forward only and no deploy, and require the recorded pushed SHA. The plan states that no human gate applies.",
+    "F6 closed: both files add a Dependency decisions section that records the orchestrator decision of 2026-11-21. pagedjs-cli stays on the latest 0.4.x, uses npm overrides, has no 0.0.7 downgrade, and has a 2026-12-15 re-check date. The @remotion step uses one npx remotion upgrade command and exact pins of remotion and @remotion/* to the newest 4.0.x that clears zod GHSA-mrhx-c7xc-m3w5.",
+    "F7 closed: plan.md PROJECT_TESTS now cites a record for each of the three excluded test files.",
+    "The round-2 brief held no CONTEST item; all seven round-1 findings carried FIX dispositions."
+  ],
+  "commands": [
+    "git rev-parse HEAD && git rev-parse --short HEAD",
+    "git log --oneline -5",
+    "git diff --stat d8c3e935 5e104447 -- measure/tracks/deps_refresh_20261121/",
+    "git diff d8c3e935 5e104447 -- measure/tracks/deps_refresh_20261121/spec.md measure/tracks/deps_refresh_20261121/plan.md",
+    "git show --stat --oneline 9f7248be && git show --stat --oneline 5e104447",
+    "read measure/workflow.md, spec.md, plan.md, metadata.json, audit-gate.mjs, audit-before-counts.txt, spec-review-d8c3e935.json, spec-review-d8c3e935.log; no file under content/ was read"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/spec-review-5e104447.json",
+    "measure/runs/deps_refresh_20261121/spec-review-5e104447.log",
+    "measure/tracks/deps_refresh_20261121/spec-review.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "paraphrase": {
+    "proposes": "This track refreshes npm packages in dashboard/ and video/storytime-song/ to the latest versions that work. It fixes all critical advisories and all high advisories by 2026-11-23, or gives each remaining high advisory a full allowlist entry. It lists each remaining moderate or low advisory with its reason by 2026-11-25. Lint, the type check, the tests, and the build pass for both projects through heavy-run.sh. The orchestrator pushes the work with safe-push and records the SHA.",
+    "current_system": "The spec records 46 advisories in dashboard/ and 20 in video/storytime-song/; all 10 high entries of the video project trace to zod GHSA-mrhx-c7xc-m3w5. Both projects use npm with separate package files and no root package.json. The audit gate in audit-gate.mjs runs npm audit --json and fails while any advisory at or above the phase minimum has no ALLOWLIST reason. Its Red evidence is committed at track commit d8c3e935 as the before record. The video project belongs to the active track storytime_song_video_20261022, whose scripts/render.mjs has uncommitted changes."
+  },
+  "retry_recommendation": "none",
+  "confidence": "high"
+}

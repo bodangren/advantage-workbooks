@@ -21,3 +21,17 @@ The spec records 46 advisories in dashboard/ and 20 in video/storytime-song/; al
 - F5 [Major] plan.md Close: the plan calls the push a human gate. Rationale: safe-push is fast-forward only and deploys nothing, the PM done-when requires the push, and human gates cover paid generation, deploys, deletions, and public dates; the plan should name safe-push and record the pushed SHA.
 - F6 [Major] plan.md dependency decisions: the @remotion default in the D2 Red evidence offers two methods (upgrade script or direct npm install) and sets no exact-pin rule, and neither spec.md nor plan.md records a pagedjs-cli 0.0.7 downgrade decision or default. Rationale: the zero-decision check requires one dependency choice per phase, and an implicit default leaves Red and Green to choose and gives no record to contest.
 - F7 [Nit] plan.md gate commands, PROJECT_TESTS: the dashboard test command excludes three named test files as known failures of other tracks while the done-when says that tests pass. Rationale: the plan should cite the record for each exclusion so that the partial run stays auditable.
+
+## Round 2
+
+Date: 2026-11-21
+Reviewer: measure-spec-review / opencode-go/hy4-flash-free#high
+
+### What this track proposes
+This track refreshes npm packages in dashboard/ and video/storytime-song/ to the latest versions that work. It fixes all critical advisories and all high advisories by 2026-11-23, or gives each remaining high advisory a full allowlist entry. It lists each remaining moderate or low advisory with its reason by 2026-11-25. Lint, the type check, the tests, and the build pass for both projects through heavy-run.sh. The orchestrator pushes the work with safe-push and records the SHA.
+
+### How the current system works, per this spec
+The spec records 46 advisories in dashboard/ and 20 in video/storytime-song/; all 10 high entries of the video project trace to zod GHSA-mrhx-c7xc-m3w5. Both projects use npm with separate package files and no root package.json. The audit gate in audit-gate.mjs runs npm audit --json and fails while any advisory at or above the phase minimum has no ALLOWLIST reason. Its Red evidence is committed at track commit d8c3e935 as the before record. The video project belongs to the active track storytime_song_video_20261022, whose scripts/render.mjs has uncommitted changes.
+
+### Findings
+- None
