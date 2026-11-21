@@ -1,0 +1,36 @@
+# D3 sharp 0.35.5 Red: contract tests fail on 0.34.5
+
+Track: `deps_refresh_20261121`. Phase: "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)".
+Phase heading matches `plan.md` exactly.
+Phase base (`baseline_sha`): `7515ae3b`. Role base: `10e870b4` (both resolve; HEAD equaled the role base before this role committed).
+Evidence commit: `3692bd49`. Plan commit: this commit.
+
+Thai filter: every test file and capture read only through filtered copies under `/tmp/opencode/red-d3s/`. The filter drops every `th` key and every line with a U+0E00-U+0E7F character; 0 Thai characters remain in every copy and in the saved Red output. 0 Thai characters committed. No `content/` file read or edited.
+
+Edits (sharp 0.35.5 contract; no pinned print value changed):
+- `dashboard/__tests__/storytime-book-pictures.test.ts:100`: added `expect(sharp.versions.sharp).toBe('0.35.5');` above the kept provenance check `expect(sharpVersion).toBe(sharp.versions.sharp);`.
+- `dashboard/__tests__/storytime-print-c2-start-table.test.ts:161`: `sharpEntry` now points at `node_modules/sharp/dist/index.mjs` (0.35.5 `main`/`exports.import` per `npm view`; 0.34.5 uses `lib/index.js`).
+Loop-share J18 left alone (its capture failure is a dirty content folder, not sharp-related).
+
+Red command (one heavy run): `cd dashboard && CI=true npx vitest run __tests__/storytime-book-pictures.test.ts __tests__/storytime-loops-share.test.ts __tests__/storytime-print-c2-start-table.test.ts`.
+Result: exit 1. 3 failed, 35 passed. Failures, all on the edited assertions:
+- `sets the 18 app pictures with valid JPEGs and complete provenance` (expected '0.34.5' to be '0.35.5').
+- `C2-ink` and `C2-mutants` (missing sharp module `.../sharp/dist/index.mjs`).
+Output: `measure/runs/deps_refresh_20261121/red-d3s-10e870b4.txt` (Thai-filtered, 0 dropped, 0 left).
+
+No print-value assertion broke: the C2 probe throws on the entry check before it measures any ink value. Signal from the 0.35.5 capture: picture hashes pass under 0.35.5 (only the version field failed there), so 0.35.5 renders byte-identical w01 JPEGs; C2 ink values under 0.35.5 stay unverified until Green installs it (stop rule applies if they move).
+
+Nothing under `video/` touched. No npm install/update. No audit-gate change. The D3 sharp Red task stays at [~]; Green marks plan.md:107 [x]. No push.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: 3692bd49
+tests_run: cd dashboard && CI=true npx vitest run __tests__/storytime-book-pictures.test.ts __tests__/storytime-loops-share.test.ts __tests__/storytime-print-c2-start-table.test.ts -> exit 1 (3 failed on edited sharp-contract assertions only, 35 passed)
+files_changed: dashboard/__tests__/storytime-book-pictures.test.ts, dashboard/__tests__/storytime-print-c2-start-table.test.ts, measure/runs/deps_refresh_20261121/red-d3s-10e870b4.txt, measure/tracks/deps_refresh_20261121/plan.md, measure/runs/deps_refresh_20261121/red-d3s-10e870b4.log
+plan_updates: plan.md:107 kept at [~] with Red commit 3692bd49 on the task line and a sub-bullet with the exit code, the failing test names, and the evidence path
+known_failures: the 3 edited sharp-contract assertions fail on installed sharp 0.34.5 (expected); C2 ink values under sharp 0.35.5 are unverified (stop rule in plan.md:109 applies if Green finds they move)
+handoff: Green marks plan.md:107 [x]. Green installs sharp 0.35.5 in dashboard/ and runs the three files: all pass only if provenance regenerates with 0.35.5 and ink values hold. If any pinned print value moves (C2 ink, picture provenance, hashes, page pixels), Green reverts sharp to 0.34.5, keeps the allowlist, records the numbers, and the orchestrator takes the case to the PM. Default question answer: keep both assertion lines (installed==0.35.5 plus provenance==installed). No questions; no user input needed.
+END_MEASURE_AGENT_RESULT
