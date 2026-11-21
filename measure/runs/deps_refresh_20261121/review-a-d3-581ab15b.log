@@ -1,0 +1,15 @@
+MEASURE_AGENT_RESULT
+role: review-a
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+phase_base_sha: 7515ae3b
+role_base_sha: 581ab15bcfbad2b874f68e871e4e79c9b60f1a8d
+audited_head_sha: 581ab15bcfbad2b874f68e871e4e79c9b60f1a8d
+status: fail
+summary: F1 is closed. False remaining deferral reasons block the phase review.
+blocking_findings: F2 [Blocker] review-a: Correct the compatibility reasons in versions-d3.txt:43,54. npm view @testing-library/jest-dom@8.0.0 shows existing matcher names and requires Vitest >=5 <6; the dashboard keeps Vitest 4.1.12. npm ls shows Remotion 4.0.545 brings @rspack/core and its binding at 2.3.0, so 2.x is not outside the Remotion pin set. Explain the direct binding 1.7.12 against the installed 2.3.0 binding.
+nonblocking_findings: none
+evidence: HEAD equals audited_head_sha; F1 withdrawn because versions-d3.txt:6-16 records all eight updates. npm outdated shows no in-range updates. npm view and npm ls verify the false claims at versions-d3.txt:43,54. Green D3r3 gate, project, composition, and book-proof logs support the plan claims.
+dispositions: none
+retry_recommendation: retry_implementation
+END_MEASURE_AGENT_RESULT

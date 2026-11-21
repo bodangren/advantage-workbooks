@@ -1,0 +1,31 @@
+Review B (security and data handling) — deps_refresh_20261121, Phase D3, round 3.
+Audited head: 581ab15b (confirmed by git rev-parse HEAD). Role base: ed6a3c28 (round 1 PASS). Phase base: 7515ae3b.
+Scope of the audited diff: dashboard/package.json, dashboard/package-lock.json, video/storytime-song/package.json, video/storytime-song/package-lock.json (Green r2 7272ee41 in-range updates, Green r3 3ce3dd1e exact pins, plus evidence commits).
+
+Checks performed (all output passed through a Thai-line filter; 0 Thai characters written; no file under content/ read; no PDF image viewed; no redirection used; no lockfile rewritten, confirmed by a final git status on the four package files and the gate):
+
+1. Registry provenance: both locks at 581ab15b resolve every entry to registry.npmjs.org; 0 entries miss integrity. Dashboard lock adds 43 keys, removes 67; video lock adds and removes 0 keys (in-place version updates only).
+2. Install scripts: the only new hasInstallScript entry is @google/genai 1.52.0 (in-range move from 1.39.0); npm view shows its install-time trigger is preinstall = echo 'preinstall: no-op'. Video set unchanged: {esbuild}. Dashboard set shrinks by 3 (playwright nested fsevents, tsx nested esbuild, unrs-resolver renamed to @unrs/resolver).
+3. Typosquats: none. All added names are legitimate toolchain packages; es-abstract-get, is-document.all and node-exports-info are ljharb packages with publish-time scripts only.
+4. Fresh npm audit: dashboard 0 critical / 1 high (sharp 0.34.5, exactly the 3 allowlisted advisories) / 0 moderate / 0 low; video all 0.
+5. Removed override packages (puppeteer, @puppeteer/browsers, tar-fs, pac-proxy-agent, proxy-agent, basic-ftp, get-uri, proxy-addr): absent from both trees by lockfile key scan, exact-name reference scan and npm ls. The only substring hits, http-proxy-agent and https-proxy-agent, predate the diff.
+6. Kept overrides: ws 8.23.0, protobufjs 7.6.6, eslint-plugin-react-hooks 7.0.1 (dashboard/package.json:61-63); minimatch 11.0.9 (video/storytime-song/package.json:40-42). No open advisory on any.
+7. video allowScripts still denies esbuild (package.json:34-35); the npm warn line confirms the field is active.
+8. audit-gate.mjs: empty diff since 7515ae3b; gate passes in both/dashboard/video modes; 19 self-test checks pass.
+9. A6: measure/tracks.md:5 stays unchecked with future dates; no resolved claim outruns the gate.
+10. A2: not applicable; no test files or status flips in the diff.
+
+Verdict: PASS. One carry-over Nit (F1, tracks.md:5 goal date 2026-11-23 vs sharp deferral 2026-12-15), unchanged and outside this diff.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate (pass, 3 allowed sharp hits, 0 video); dashboard --min moderate (pass); video --min moderate (pass); --self-test (pass, 19 rule checks); npm audit --json in dashboard (0 critical, 1 high sharp allowlisted, 0 moderate, 0 low) and video/storytime-song (all 0)
+files_changed: measure/runs/deps_refresh_20261121/review-b-d3-581ab15b.json; measure/runs/deps_refresh_20261121/review-b-d3-581ab15b.log
+plan_updates: none
+known_failures: F1 Nit carried from round 1: measure/tracks.md:5 goal date 2026-11-23 conflicts with the sharp allowlist re-check 2026-12-15; needs reconciliation before track close
+handoff: Audit PASS at 581ab15b. Lockfile state is clean: registry-only resolved URLs, full integrity, one benign no-op preinstall script from @google/genai, no typosquats, fresh audits match the allowlist, removed overrides stay absent, kept overrides resolve to fixed versions, allowScripts still denies esbuild, audit-gate.mjs unchanged since 7515ae3b and green in all modes. No routed CONTEST items to re-review. Orchestrator can proceed to the next D3 step or phase acceptance.
+END_MEASURE_AGENT_RESULT

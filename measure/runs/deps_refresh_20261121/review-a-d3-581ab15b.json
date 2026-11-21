@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "581ab15bcfbad2b874f68e871e4e79c9b60f1a8d",
+  "baseline_sha": "581ab15bcfbad2b874f68e871e4e79c9b60f1a8d",
+  "audited_head_sha": "581ab15bcfbad2b874f68e871e4e79c9b60f1a8d",
+  "status": "fail",
+  "summary": "Review A r2 finding F1 is closed. Two current deferral explanations are materially false and need correction.",
+  "blocking_findings": [
+    "F2 [Blocker] review-a: Correct the compatibility reasons in versions-d3.txt:43,54. npm view @testing-library/jest-dom@8.0.0 readme lists the existing matcher names, not the claimed matcher rename; its actual peerDependencies require Vitest >=5, while the dashboard keeps Vitest 4.1.12. npm ls shows Remotion 4.0.545 brings @rspack/core 2.3.0 and its binding 2.3.0, so the claim that the 2.x binding is outside the Remotion pin set is false. Record the real peer constraint for jest-dom and explain the direct 1.7.12 binding pin against the installed 2.3.0 Remotion binding."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is 581ab15bcfbad2b874f68e871e4e79c9b60f1a8d, matching audited_head_sha.",
+    "F1 withdrawn: versions-d3.txt:6-16 records all eight prior exact-pin non-major updates, and npm outdated --json shows current equal to wanted in dashboard; video has only @rspack binding and TypeScript major updates behind.",
+    "versions-d3.txt:40-55 lists 14 remaining rows: 12 real majors, one real major binding update, one sharp 0.x breaking release; no exact-pin non-major deferral remains.",
+    "npm view @vitejs/plugin-react@6 peerDependencies reports vite ^8.0.0; dashboard npm ls lists @vitejs/plugin-react 5.2.0 and Vite 7.3.8 in the lock tree.",
+    "npm view @testing-library/jest-dom@8.0.0 peerDependencies requires vitest >=5 <6; its npm view README retains the existing matcher names. The claimed matcher rename is false, but the peer constraint is a concrete reason to defer it while Vitest 4 remains.",
+    "npm ls @rspack/core @rspack/binding-linux-x64-gnu --all shows @remotion/cli@4.0.545 -> @remotion/bundler@4.0.545 -> @rspack/core@2.3.0 -> @rspack/binding-linux-x64-gnu@2.3.0, alongside the direct 1.7.12 package. The stated reason that 2.x is outside the Remotion pin set is false.",
+    "npm view jsdom@31.0.1 engines requires Node ^22.22.2 || ^24.15.0 || >=26.0.0; the phase evidence records runtime Node 24.19.0. Dashboard uses jsdom in Vitest and in dashboard/lib/covers/kit.ts:66, so the major pin is real, although no observed incompatibility proves it cannot be upgraded.",
+    "green-d3-r3-gate-both.txt, green-d3-r3-gate-dashboard.txt, green-d3-r3-gate-video.txt, and green-d3-r3-selftest.txt record exit 0.",
+    "green-d3-r3-lint.txt, green-d3-r3-checks.txt, green-d3-r3-tests.txt, green-d3-r3-build.txt and the four video gate logs record exit 0; green-d3-r3-video-compositions.txt lists both compositions.",
+    "green-d3-r3-book-proof.txt records the named Origins 3.2 proof at 233 pages with matching page dimensions, 13 fonts, contact-sheet dimensions, and zero changed page pixels.",
+    "The phase diff changes package manifests and lockfiles, run evidence, versions-d3.txt, and plan.md; it changes no source exports or callers, so build-graph blast-radius analysis does not apply.",
+    "The supplied current-phase test strategy is in plan.md gate definitions; no standalone test-strategy.md exists for this track."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 581ab15bcfbad2b874f68e871e4e79c9b60f1a8d.",
+    "git diff --name-only 7515ae3b 581ab15b; git diff --stat 7515ae3b 581ab15b -> reviewed the exact phase diff.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate -> audit gate reports pass; committed r3 gate logs separately record exit 0.",
+    "npm outdated --json in dashboard and video/storytime-song -> all current versions equal wanted versions; latest-only rows are major or sharp 0.x.",
+    "npm view @vitejs/plugin-react@6 peerDependencies; npm view @testing-library/jest-dom@8.0.0 peerDependencies/readme; npm view jsdom@31.0.1 engines/readme; npm view @remotion/bundler@4.0.545 dependencies; npm view @rspack/core@2.3.0 optionalDependencies.",
+    "npm ls @rspack/core @rspack/binding-linux-x64-gnu --all in video/storytime-song -> confirms Remotion's installed 2.3.0 binding and the extra direct 1.7.12 package."
+  ],
+  "changed_files": [
+    "dashboard/package.json",
+    "dashboard/package-lock.json",
+    "video/storytime-song/package.json",
+    "video/storytime-song/package-lock.json",
+    "measure/tracks/deps_refresh_20261121/plan.md",
+    "measure/runs/deps_refresh_20261121/versions-d3.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 3,
+      "evidence": "versions-d3.txt:6-16 resolves F1, but lines 43 and 54 give false compatibility claims."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "green-d3-r3-tests.txt records 171 test files and 3198 passing tests, and green-d3-r3-book-proof.txt records zero changed page pixels."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --name-only 7515ae3b 581ab15b shows dependency files, the plan, and phase run artifacts without product source changes."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "npm view and npm ls verify the inaccurate rationale claims; green-d3-r3 gate and project logs provide exit evidence."
+    }
+  ]
+}

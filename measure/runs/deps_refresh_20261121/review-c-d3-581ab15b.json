@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "role_base_sha": "4601afd3b97653c1a1a96b8eca095e24f9d29cdb",
+  "baseline_sha": "4601afd3b97653c1a1a96b8eca095e24f9d29cdb",
+  "audited_head_sha": "581ab15bcfbad2b874f68e871e4e79c9b60f1a8d",
+  "status": "pass",
+  "summary": "The React 19.3.1 update preserves dashboard build, tests, and printed pages. Remotion accepts this React version and lists both compositions. One placeholder frame render remains unverified.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Nit] video: The composition command bundles and lists compositions but does not render frames. Actual frame rendering and timing remain unverified after the React 19.3.1 and D2 Rspack updates. Complete the existing placeholder render before the Forge-art work. Rationale: composition discovery does not exercise the frame renderer."
+  ],
+  "evidence": [
+    "HEAD is 581ab15bcfbad2b874f68e871e4e79c9b60f1a8d, matching the requested audited head.",
+    "The phase diff is contract-applicable because it changes dashboard and video package manifests and lockfiles; it changes no dashboard app, component, or library source.",
+    "The dashboard source scan found no findDOMNode, legacy ReactDOM.render or hydrate, createFactory, unstable_renderSubtreeIntoContainer, unstable_batchedUpdates, or forwardRef usages. The observed app hooks include useState, useEffect, useCallback, useRef, useMemo, and use, with no detected deprecated API pattern tied to this update.",
+    "green-d3-r3-build.txt records dashboard build EXIT_CODE 0. green-d3-r3-tests.txt records EXIT_CODE 0, 171 passing test files, and 3,198 passing tests.",
+    "npm view remotion@4.0.545 peerDependencies reports react and react-dom >=16.8.0, which includes 19.3.1.",
+    "npm ls React trees show React and React DOM at 19.3.1 with dependencies deduped to one React copy and no invalid dependency warning.",
+    "green-d3-r3-video-compositions.txt records npx remotion compositions EXIT_CODE 0 and both StorytimeSong and StorytimeSongPortrait. It explicitly records that no frame render ran.",
+    "The outstanding video risk is actual frame output and timing after React 19.3.1 and the D2 Rspack 2.3.0 move. The track plan already owes one placeholder render before Forge-art work.",
+    "green-d3-r3-book-proof.txt reports 233 pages, matching page size and embedded fonts, and zero pixel differences across 233 pages. It names no user-visible print risk from these dependency updates.",
+    "No visual browser review is needed for this contract audit: dashboard app source and routes did not change, the build and tests pass, and the book proof matches. The video placeholder render remains a renderer check, not a browser review."
+  ],
+  "commands": [
+    "git rev-parse HEAD — 581ab15bcfbad2b874f68e871e4e79c9b60f1a8d, matching the requested audited head",
+    "git diff --name-only 7515ae3b..581ab15b -- dashboard/app dashboard/components dashboard/lib dashboard/pages video/storytime-song/src — no source paths returned",
+    "rg deprecated React APIs over dashboard excluding node_modules, package-lock.json, and content — no matches",
+    "npm view react@19.3.1 version — 19.3.1",
+    "npm view remotion@4.0.545 peerDependencies --json — react and react-dom >=16.8.0",
+    "npm --prefix video/storytime-song ls react --all — one React 19.3.1 installation, deduped throughout the Remotion tree",
+    "npm --prefix dashboard ls react react-dom --all — React and React DOM 19.3.1, dependencies deduped; no invalid warning",
+    "green-d3-r3-build.txt — EXIT_CODE 0",
+    "green-d3-r3-tests.txt — EXIT_CODE 0; 171 files and 3,198 tests passed",
+    "green-d3-r3-video-compositions.txt — EXIT_CODE 0; both compositions listed; no frame render",
+    "green-d3-r3-book-proof.txt — 233 pages, zero differing pixels"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-c-d3-581ab15b.json",
+    "measure/runs/deps_refresh_20261121/review-c-d3-581ab15b.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "contract_path_evidence": [
+    "measure/tracks/deps_refresh_20261121/spec.md:60-63",
+    "measure/tracks/deps_refresh_20261121/plan.md:95-105",
+    "dashboard/package.json",
+    "dashboard/package-lock.json",
+    "video/storytime-song/package.json",
+    "video/storytime-song/package-lock.json"
+  ],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "green-d3-r3-book-proof.txt reports 233 matching pages and zero pixel differences, while video frame rendering remains unverified."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "green-d3-r3-tests.txt reports 171 passing files and 3,198 passing tests, and green-d3-r3-video-compositions.txt lists compositions without rendering frames."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --name-only 7515ae3b..581ab15b over dashboard app and video source paths returns no source changes."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "green-d3-r3-build.txt, green-d3-r3-tests.txt, green-d3-r3-video-compositions.txt, green-d3-r3-book-proof.txt, and npm metadata provide direct evidence."
+    }
+  ]
+}

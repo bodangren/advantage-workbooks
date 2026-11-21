@@ -1,0 +1,28 @@
+D3r4 rspack binding, npm ls BEFORE (video/storytime-song):
+storytime-song@1.0.0 /home/daniebo/Desktop/Workbooks/video/storytime-song
++-- @remotion/cli@4.0.545
+|   `-- @remotion/bundler@4.0.545
+|       +-- @rspack/core@2.3.0
+|       |   `-- @rspack/binding@2.3.0
+|       |       `-- @rspack/binding-linux-x64-gnu@2.3.0
+|       +-- @rspack/plugin-react-refresh@2.0.2
+|       |   `-- @rspack/core@2.3.0 deduped
+|       `-- css-loader@7.1.4
+|           `-- @rspack/core@2.3.0 deduped
+`-- @rspack/binding-linux-x64-gnu@1.7.12
+
+D3r4 rspack binding, npm ls AFTER (video/storytime-song):
+storytime-song@1.0.0 /home/daniebo/Desktop/Workbooks/video/storytime-song
++-- @remotion/cli@4.0.545
+|   `-- @remotion/bundler@4.0.545
+|       +-- @rspack/core@2.3.0
+|       |   `-- @rspack/binding@2.3.0
+|       |       `-- @rspack/binding-linux-x64-gnu@2.3.0 deduped
+|       +-- @rspack/plugin-react-refresh@2.0.2
+|       |   `-- @rspack/core@2.3.0 deduped
+|       `-- css-loader@7.1.4
+|           `-- @rspack/core@2.3.0 deduped
+`-- @rspack/binding-linux-x64-gnu@2.3.0
+Lockfile entries after: one node_modules/@rspack/binding-linux-x64-gnu at 2.3.0.
+No 1.x binding folder remains. npm install --save-optional --save-exact exit 0.
+The @remotion and remotion pins stay at 4.0.545.

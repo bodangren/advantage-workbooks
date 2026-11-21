@@ -1,7 +1,16 @@
 D3 version and removal table (dashboard and video/storytime-song).
 D3r1: advisory fixes and the pagedjs-cli removal. D3r2: `npm update` applied every in-range
-update. D3r3 (Review A r2 F1): the exact-pinned non-major updates listed below were taken.
-All gates and the book proof pass after each round.
+update. D3r3: the exact-pinned non-major updates listed below were taken. D3r4 (Review A F2):
+the direct rspack binding now matches @rspack/core, and every deferral reason was re-checked.
+All gates pass after each round. Lookup evidence: green-d3-r4-npmview.txt and
+green-d3-r4-npmls.txt in measure/runs/deps_refresh_20261121/.
+
+D3r4 change TAKEN (package | project | old -> new | kind):
+  @rspack/binding-linux-x64-gnu | video | 1.7.12 -> 2.3.0 | optional exact pin
+  npm install --save-optional --save-exact set the declaration to 2.3.0. Remotion 4.0.545
+  resolves @rspack/core 2.3.0 with its own binding 2.3.0. After the change one binding version
+  is in the tree; it is deduped, matches @rspack/core, and no 1.x binding stays.
+  Evidence: green-d3-r4-rspack-npmls.txt. Remotion pins were not changed.
 
 D3r3 exact-pin updates TAKEN (package | project | old -> new | kind):
   react | dashboard | 19.2.3 -> 19.3.1 | exact-pin non-major (19.x minor)
@@ -13,8 +22,7 @@ D3r3 exact-pin updates TAKEN (package | project | old -> new | kind):
   react | video | 19.2.3 -> 19.3.1 | exact-pin non-major (19.x minor)
   react-dom | video | 19.2.3 -> 19.3.1 | exact-pin non-major (19.x minor)
   react and react-dom share 19.3.1 in both projects. Dashboard @types/react and
-  @types/react-dom stay on ^19 and both resolve to 19.3.0. No Remotion or @remotion pin moved.
-  EALLOWSCRIPTS did not occur; no .npmrc was edited.
+  @types/react-dom stay on ^19 and both resolve to 19.3.0.
 
 D3r2 in-range updates TAKEN by npm update (package | project | old -> new):
   @electric-sql/pglite | dashboard | 0.5.8 -> 0.5.17
@@ -30,29 +38,29 @@ D3r2 in-range updates TAKEN by npm update (package | project | old -> new):
   @types/react | dashboard | 19.2.10 -> 19.3.0
   @types/react-dom | dashboard | 19.2.3 -> 19.3.0
   @vitejs/plugin-react | dashboard | 5.1.2 -> 5.2.0
-  dotenv | dashboard | 17.2.3 -> 17.4.2
+  dotenv | dashboard | 17.4.2 -> 18.0.10
   eslint | dashboard | 9.39.2 -> 9.39.5
   tailwind-merge | dashboard | 3.4.0 -> 3.7.1
   tailwindcss | dashboard | 4.1.18 -> 4.3.5
   zod-to-json-schema | dashboard | 3.25.1 -> 3.25.2
   @rspack/binding-linux-x64-gnu | video | 1.7.11 -> 1.7.12
 
-Remaining deferrals (package | project | current -> latest | kind | decision | concrete reason):
-  Every remaining row is a real major or a 0.x breaking release. No exact-pin non-major remains deferred.
-  @google/genai | dashboard | 1.52.0 -> 3.6.1 | major | deferred | breaking client API change; 1.52.0 has no advisory and all gates pass
-  @testing-library/jest-dom | dashboard | 6.9.1 -> 8.0.0 | major | deferred | breaking matcher rename; the 171-file suite pins v6 matchers
-  @types/node | dashboard | 20.19.43 -> 26.6.6 | major | deferred | type major tracks Node 26; the runtime is Node 24.19.0, so the types would misstate it
-  @vitejs/plugin-react | dashboard | 5.2.0 -> 6.3.0 | major | deferred | peer vite ^8.0.0; the installed vite is 7.3.8, so the major needs a coordinated vite upgrade
-  @vitest/coverage-v8 | dashboard | 4.1.12 -> 5.1.1 | major | deferred | coverage provider must match the vitest runner major, which is deferred with it
-  dotenv | dashboard | 17.4.2 -> 18.0.10 | major | deferred | breaking parse and export change in a load path used across the dashboard; no advisory
-  eslint | dashboard | 9.39.5 -> 10.15.0 | major | deferred | ESLint 10 needs an eslint.config.mjs migration; the video v10 pin was tested, this config was not
-  jsdom | dashboard | 27.4.0 -> 31.0.1 | major | deferred | breaking major; the jsqr-based DOM tests pin jsdom 27
-  lucide-react | dashboard | 0.563.0 -> 1.77.0 | major | deferred | icon export renames would require component import changes
+Remaining deferrals (package | project | current -> latest | kind | decision | verified reason).
+  Every reason cites npm view output in green-d3-r4-npmview.txt; tree facts cite
+  green-d3-r4-npmls.txt. No exact-pin non-major remains deferred.
+  @google/genai | dashboard | 1.52.0 -> 3.6.1 | major | deferred | peer @modelcontextprotocol/sdk ^1.25.2 is absent from the tree; engines node>=22 is met
+  @testing-library/jest-dom | dashboard | 6.9.1 -> 8.0.0 | major | deferred | peer vitest >=5 <6, but the dashboard keeps vitest 4.1.12, whose major is deferred
+  @types/node | dashboard | 20.19.43 -> 26.6.6 | major | deferred | npm view lists no peer or engine constraint; a type major for Node 26 would misstate the Node 24.19.0 runtime
+  @vitejs/plugin-react | dashboard | 5.2.0 -> 6.3.0 | major | deferred | peers oxc-transform-react, @rolldown/plugin-babel and babel-plugin-react-compiler are absent; the vite ^8.0.0 peer is met by installed vite 8.3.8
+  @vitest/coverage-v8 | dashboard | 4.1.12 -> 5.1.1 | major | deferred | peer pins exact vitest 5.1.1 and @vitest/browser 5.1.1; the runner major stays at 4.1.12
+  dotenv | dashboard | 17.4.2 -> 18.0.10 | major | deferred | npm view lists only engines node>=12 with no peer constraint; no incompatibility was proved, so the major was not attempted in this dependency remediation
+  eslint | dashboard | 9.39.5 -> 10.15.0 | major | deferred | npm view lists peer jiti * (jiti 2.7.0 is present) and met engines; no blocker was proved, so the major was not attempted in this dependency remediation
+  jsdom | dashboard | 27.4.0 -> 31.0.1 | major | deferred | peer @napi-rs/canvas ^1.0.13 is absent; engines ^22.22.2 || ^24.15.0 || >=26.0.0 accepts the Node 24.19.0 runtime, so the peer is the concrete blocker
+  lucide-react | dashboard | 0.563.0 -> 1.77.0 | major | deferred | npm view shows peer react ^19.0.0 is satisfied by 19.3.1; no blocker was proved, so the major was not attempted in this dependency remediation
   sharp | dashboard | 0.34.5 -> 0.35.5 | 0.x breaking release | deferred | fails three pinned print tests; capture green-d1-sharp-0355-capture.txt; allowlisted to 2026-12-15
-  typescript | dashboard | 5.9.3 -> 7.0.2 | major | deferred | breaking AST and type-check change; no advisory at 5.9.3
-  vitest | dashboard | 4.1.12 -> 5.1.1 | major | deferred | breaking runner change; the 171-file suite and 4 documented excludes pin the Vitest 4 runner
-  @rspack/binding-linux-x64-gnu | video | 1.7.12 -> 2.3.3 | major | deferred | Remotion 4.0.545 pins the rspack bundler line; the 2.x binding is outside that pin set
-  typescript | video | 5.9.3 -> 7.0.2 | major | deferred | breaking AST and type-check change; the Remotion 4.0.545 pin targets TS 5
+  typescript | dashboard | 5.9.3 -> 7.0.2 | major | deferred | npm view lists only engines node>=16.20.0 with no peer constraint; no blocker was proved, so the major was not attempted in this dependency remediation
+  vitest | dashboard | 4.1.12 -> 5.1.1 | major | deferred | peer pins @vitest/coverage-v8 5.1.1, @vitest/ui 5.1.1 and @vitest/browser-preview 5.1.1; @vitest/ui is absent and the coverage provider is deferred with the runner
+  typescript | video | 5.9.3 -> 7.0.2 | major | deferred | npm view lists only engines node>=16.20.0 with no peer constraint; the Remotion 4.0.545 pin targets TS 5, so the major was not attempted
 
 Changes from D3r1 that still hold:
   dashboard eslint-config-next: 16.1.6 -> 16.4.6 (matches next 16.4.6; lint stays 0).
@@ -66,4 +74,4 @@ Changes from D3r1 that still hold:
 minimatch override decision:
   The video override ^11.0.9 was tested without itself in D3r2: npm audit returned 9 moderate
   package entries, while the retained override resolves 11.0.9 and holds npm audit at 0.
-  The override stays in D3r3 and npm audit is still 0 in video.
+  The override stays and npm audit is still 0 in video after the D3r4 binding change.
