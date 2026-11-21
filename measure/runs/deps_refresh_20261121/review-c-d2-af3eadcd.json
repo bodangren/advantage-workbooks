@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D2: video/storytime-song critical and high (by 2026-11-23; runs after D1)",
+  "phase_base_sha": "c40b6b6f",
+  "role_base_sha": "c40b6b6f",
+  "baseline_sha": "c40b6b6f",
+  "audited_head_sha": "af3eadcd2392ce8865805e79c708504d8c0d2344",
+  "status": "pass",
+  "summary": "The phase changes dependency versions only. Project imports, render API calls, and package scripts remain compatible; Green recorded passing lint, tests, and bundle gates. The strategy marks this contract applicable because Remotion dependencies change.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is af3eadcd2392ce8865805e79c708504d8c0d2344, which matches the requested audited head.",
+    "git diff c40b6b6f af3eadcd --name-status lists only Measure evidence, plan.md, video/storytime-song/package.json, and video/storytime-song/package-lock.json; no application or render source changed.",
+    "video/storytime-song/package.json keeps build=remotion bundle, upgrade=remotion upgrade, lint=eslint src && tsc, and test=node --test tests/*.test.mjs.",
+    "Project API imports use remotion primitives, @remotion/media Audio/Video, and @remotion/google-fonts/Andika; Green's build and lint gates pass with Remotion 4.0.545.",
+    "scripts/render.mjs invokes the Remotion CLI render command with existing composition names and flags; the phase does not change this script or its API call.",
+    "Green evidence reports 21 tests passed, 0 failed, and a successful remotion bundle. npm ls --depth=0 resolves Remotion packages at 4.0.545.",
+    "measure/tracks/deps_refresh_20261121/plan.md:80-88 limits D2 changes to package metadata, records the npm upgrade policy failure, and confirms all video gates pass.",
+    "No CHANGELOG file exists in the installed Remotion packages; the phase build and type check provide direct integration evidence for the used APIs."
+  ],
+  "commands": [
+    "git rev-parse HEAD — af3eadcd2392ce8865805e79c708504d8c0d2344",
+    "git diff --name-status c40b6b6f af3eadcd — dependency metadata and Measure evidence paths only",
+    "rg -n 'Audio|Video|Sequence|interpolate|spring|staticFile|useCurrentFrame|useVideoConfig|loadFont' src scripts/render.mjs — reviewed project API usage",
+    "npm ls --depth=0 — installed direct dependencies resolve; Remotion packages are 4.0.545",
+    "Green logs: green-d2-lint.txt, green-d2-tests.txt, green-d2-build.txt — lint/tsc, 21 tests, and bundle pass",
+    "Plan: measure/tracks/deps_refresh_20261121/plan.md:80-88 — exact package-only scope, npm policy explanation, and gate outcomes"
+  ],
+  "changed_files": [
+    "video/storytime-song/package.json",
+    "video/storytime-song/package-lock.json"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "contract_path_evidence": [
+    "measure/tracks/deps_refresh_20261121/spec.md:44,59",
+    "measure/tracks/deps_refresh_20261121/plan.md:80-88",
+    "video/storytime-song/package.json",
+    "video/storytime-song/package-lock.json",
+    "video/storytime-song/src/*.tsx",
+    "video/storytime-song/scripts/render.mjs"
+  ],
+  "retry_recommendation": "none",
+  "confidence": "medium",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "Green bundle gate passes and project imports in video/storytime-song/src use the upgraded Remotion APIs."},
+    {"axis": "test_meaning", "score": 3, "evidence": "green-d2-tests.txt reports 21 passing project tests, but these tests do not assert Remotion API compatibility directly."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff c40b6b6f af3eadcd changes only dependency metadata, plan, and Measure evidence paths."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "git diff, package.json, npm ls, and Green lint/test/build logs support the contract review."}
+  ]
+}

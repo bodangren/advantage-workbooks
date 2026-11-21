@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-b-security",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D2: video/storytime-song critical and high (by 2026-11-23; runs after D1)",
+  "baseline_sha": "c40b6b6f",
+  "audited_head_sha": "af3eadcd",
+  "status": "pass",
+  "summary": "HEAD af3eadcd equals the audited head. security_applicability is applicable: the phase diff changes video/storytime-song/package-lock.json and package.json. The lockfile diff adds 9 packages. All 387 entries resolve to registry.npmjs.org and all carry integrity. No added name is a typosquat: each added name has a declared parent inside the lockfile. The install-script set is identical before and after: only node_modules/esbuild, and package.json keeps allowScripts.esbuild=false. No allowlist entry was added in D2. zod moved 4.5.4 to 4.6.7 and GHSA-mrhx-c7xc-m3w5 clears. A fresh npm audit reports 10 moderate, 0 high, 0 critical, the same set as the committed after-audit and a subset of the before-audit of 20. audit-gate.mjs is byte-unchanged across the phase and passes with 19 self-test checks.",
+  "security_applicability": "applicable",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Nit] review-b: the Remotion 4.0.545 pin downgraded transitive webpack from 5.112.0 to 5.105.0, and plan.md does not name it. Rationale: npm audit reports no webpack advisory at either version, so no advisory regressed; the fact sits only inside green-d2-npm-dryrun.txt and D3 should record it."
+  ],
+  "evidence": [
+    "git rev-parse HEAD -> af3eadcd2392ce8865805e79c708504d8c0d2344, equal to audited_head_sha.",
+    "git diff --name-only c40b6b6f af3eadcd -> 28 paths: plan.md, video/storytime-song/package.json, video/storytime-song/package-lock.json, and 25 files under measure/runs/deps_refresh_20261121/. grep -c '^content/' returns 0. measure/tracks/deps_refresh_20261121/audit-gate.mjs has an empty diff and no commit in c40b6b6f..af3eadcd touches it.",
+    "Lockfile scan of c40b6b6f: 394 entries, hosts {'registry.npmjs.org': 394}, hasInstallScript set = {node_modules/esbuild}. Lockfile scan of af3eadcd: 387 entries, hosts {'registry.npmjs.org': 387}, hasInstallScript set = {node_modules/esbuild}. MISSING_INTEGRITY_COUNT 0 at af3eadcd.",
+    "Set difference of lockfile package keys: 9 added, 16 removed. Every added entry has hasInstallScript false and a declared parent: @remotion/effects and client-zip from node_modules/@remotion/studio, 5 @rspack/binding-linux-* from node_modules/@rspack/binding, eslint-scope and estraverse from node_modules/webpack.",
+    "git show c40b6b6f:video/storytime-song/package.json -> allowScripts {'esbuild': False}; the phase diff of package.json contains 0 lines matching allowScripts, so no allowlist entry changed in D2.",
+    "Fresh npm audit --json in video/storytime-song -> metadata.vulnerabilities {info 0, low 0, moderate 10, high 0, critical 0, total 10}; the 10 names are @eslint/config-array, @remotion/eslint-config-flat, @typescript-eslint/eslint-plugin, @typescript-eslint/parser, @typescript-eslint/type-utils, @typescript-eslint/typescript-estree, @typescript-eslint/utils, eslint, minimatch, typescript-eslint. zod is absent from the list.",
+    "npm ls zod -> one zod@4.6.7 deduped under @remotion/cli, @remotion/eslint-config-flat, @remotion/media, @remotion/studio, @remotion/studio-protocol, @remotion/studio-server, @remotion/elevenlabs, @remotion/openai-whisper. No second zod copy.",
+    "Committed audit-after-d2-video.json metadata -> total 10, moderate 10, high 0, critical 0, identical name set to the fresh audit, so the after-audit hides nothing.",
+    "Committed audit-before-video.json and audit-snapshot-video-20261121T054448Z.json metadata -> total 20, moderate 10, high 10, where the high set is zod plus 9 @remotion/* packages whose via chain ends at zod. The after set is a strict subset of the before set, so D2 introduced no advisory at any severity.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs video -> 'video: 0 advisories at high or above (1 advisory hits total)' and 'audit gate: pass (0 allowed with complete entries)'.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test -> 19 rule checks pass, including 'malformed npm audit JSON fails closed'.",
+    "measure/runs/deps_refresh_20261121/red-d2-c40b6b6f.txt -> the gate exits 1 on the phase base with 'FAIL zod GHSA-mrhx-c7xc-m3w5 (high)'. The red run at 1c65421e repeats the same failure, so the failing-first test exists and the fix made it pass.",
+    "video/storytime-song/package.json:34 holds allowScripts {\"esbuild\": false}. node_modules/esbuild/package.json declares scripts.postinstall 'node install.js', and the lockfile flags it hasInstallScript. npm itself reports 'allow-scripts .npmrc allow-scripts setting is being ignored because package.json declares its own allowScripts field' in audit-after-d2-video.err, which proves npm reads and applies that field.",
+    "measure/runs/deps_refresh_20261121/green-d2-remotion-upgrade.txt -> npx remotion upgrade failed with EALLOWSCRIPTS and changed no file; green-d2-npm-install.txt then records 'added 5 packages, removed 16 packages, and changed 49 packages in 10s'.",
+    "measure/tracks.md:5 keeps the track checkbox unchecked and states the goal as a future date, so no security state is claimed resolved.",
+    "measure/tracks/deps_refresh_20261121/plan.md:88 records '0 critical, 0 high, and 10 moderate' for D2, which matches the fresh audit exactly.",
+    "Working tree after this audit: git status --porcelain --untracked-files=no shows only the pre-existing video/storytime-song/scripts/render.mjs and three measure/runs/primary_v2_look_20261020 files; git diff --stat on both package files is empty, so no command of this audit rewrote a lockfile."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git status --porcelain --untracked-files=no",
+    "git log --oneline -8",
+    "git diff --stat c40b6b6f af3eadcd",
+    "git diff --name-only c40b6b6f af3eadcd",
+    "git diff c40b6b6f af3eadcd -- video/storytime-song/package.json",
+    "git diff c40b6b6f af3eadcd -- measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "git log --oneline c40b6b6f..af3eadcd -- measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "git show c40b6b6f:video/storytime-song/package-lock.json | python3 (host, hasInstallScript, integrity scan)",
+    "git show af3eadcd:video/storytime-song/package-lock.json | python3 (host, hasInstallScript, integrity scan)",
+    "python3 package-key set difference c40b6b6f vs af3eadcd",
+    "npm audit --json (workdir video/storytime-song)",
+    "npm ls zod (workdir video/storytime-song)",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs video",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test",
+    "python3 read of node_modules/esbuild/package.json and node_modules/.bin"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-b-d2-af3eadcd.json",
+    "measure/runs/deps_refresh_20261121/review-b-d2-af3eadcd.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/mimo-v2.6-flash",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "package.json pins all five remotion packages to exact 4.0.545 and zod reaches 4.6.7 with the gate passing, but the pin also moved transitive webpack 5.112.0 to 5.105.0 without a plan.md note (green-d2-npm-dryrun.txt)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "red-d2-c40b6b6f.txt shows the gate failing on zod GHSA-mrhx-c7xc-m3w5 at the phase base and green-d2-audit-gate-video.txt shows it passing after, plus 19 self-test checks; no test covers registry host or install-script count, which this audit checked by hand."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --name-only c40b6b6f af3eadcd lists only plan.md, the two storytime-song package files and 25 run-evidence paths, with grep -c '^content/' = 0 and an empty audit-gate.mjs diff."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Every Green claim has a saved log I re-ran (gate, self-test, audit, lockfile scan), but green-d2-checks.txt holds 0 lines and Green's npm debug logs rotated out, so I could not read the install log directly."
+    }
+  ]
+}

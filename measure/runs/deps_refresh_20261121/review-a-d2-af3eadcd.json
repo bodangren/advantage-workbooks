@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D2: video/storytime-song critical and high (by 2026-11-23; runs after D1)",
+  "phase_base_sha": "c40b6b6f",
+  "role_base_sha": "a3d0e909",
+  "baseline_sha": "c40b6b6f",
+  "audited_head_sha": "af3eadcd2392ce8865805e79c708504d8c0d2344",
+  "status": "pass",
+  "summary": "HEAD matches the audited SHA. The D2 diff pins all direct Remotion packages at 4.0.545, resolves Remotion and zod as expected, and clears high advisories.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "git rev-parse HEAD returned af3eadcd2392ce8865805e79c708504d8c0d2344.",
+    "git diff --name-only c40b6b6f af3eadcd lists only package.json and package-lock.json under video/storytime-song; git-status-d2-video-before.txt and git-status-d2-video-after.txt show scripts/render.mjs was already dirty and remained so.",
+    "video/storytime-song/package.json:12-25 pins all direct remotion and @remotion packages to exact 4.0.545.",
+    "npm ls --all remotion @remotion/cli @remotion/google-fonts @remotion/media @remotion/eslint-config-flat zod shows Remotion packages at 4.0.545 and zod at 4.6.7.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs video passed with 0 advisories at high or above; audit-after-d2-video.json:210-225 records 0 high and 10 moderate advisories.",
+    "plan.md:85-88 and green-d2-remotion-upgrade.txt:1-7 record the EALLOWSCRIPTS failure; versions-d2-video.txt:15-20 records the exact-pin fallback.",
+    "plan.md:82-88 matches the red evidence (one high advisory) and the after-audit evidence (zero high, ten moderate); the Red and Green test logs report their documented exits.",
+    "No test-strategy.md exists for deps_refresh_20261121; I used its spec, phase plan, and supplied test logs."
+  ],
+  "commands": [
+    "git rev-parse HEAD: pass; HEAD equals audited_head_sha.",
+    "git diff --name-only c40b6b6f af3eadcd: pass; inspected exact phase diff.",
+    "npm ls --all remotion @remotion/cli @remotion/google-fonts @remotion/media @remotion/eslint-config-flat zod: pass; Remotion 4.0.545 and zod 4.6.7.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs video: pass; 0 high-or-above advisories.",
+    "Green evidence reviewed: green-d2-lint.txt, green-d2-tests.txt, green-d2-build.txt, green-d2-audit-gate-video.txt, green-d2-audit-gate-dashboard.txt."
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/audit-after-d2-video.err",
+    "measure/runs/deps_refresh_20261121/audit-after-d2-video.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T054924Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T054448Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T054726Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T054919Z.json",
+    "measure/runs/deps_refresh_20261121/git-status-d2-video-after.txt",
+    "measure/runs/deps_refresh_20261121/git-status-d2-video-before.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-5ad03e17.log",
+    "measure/runs/deps_refresh_20261121/green-d2-audit-gate-dashboard.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-audit-gate-video.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-audit-selftest.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-build.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-checks.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-lint.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-npm-dryrun.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-npm-install.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-npm-research.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-red-rerun.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-remotion-upgrade.txt",
+    "measure/runs/deps_refresh_20261121/green-d2-tests.txt",
+    "measure/runs/deps_refresh_20261121/red-d2-c40b6b6f-selftest.txt",
+    "measure/runs/deps_refresh_20261121/red-d2-c40b6b6f.log",
+    "measure/runs/deps_refresh_20261121/red-d2-c40b6b6f.txt",
+    "measure/runs/deps_refresh_20261121/versions-d2-video.txt",
+    "measure/tracks/deps_refresh_20261121/plan.md",
+    "video/storytime-song/package-lock.json",
+    "video/storytime-song/package.json"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "package.json:12-25 and npm ls show exact aligned Remotion versions with zod 4.6.7."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "green-d2-tests.txt:26-31 reports 21 tests passed; the live audit gate also passes with zero high advisories."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --name-only c40b6b6f af3eadcd shows only the two planned video package files under video/storytime-song."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "HEAD confirmation, npm ls, the audit gate, and the named Green logs support the plan claims."
+    }
+  ]
+}

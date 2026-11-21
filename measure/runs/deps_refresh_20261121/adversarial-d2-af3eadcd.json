@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D2: video/storytime-song critical and high (by 2026-11-23; runs after D1)",
+  "phase_base_sha": "c40b6b6f",
+  "role_base_sha": "af3eadcd",
+  "baseline_sha": "c40b6b6f",
+  "audited_head_sha": "af3eadcd2392ce8865805e79c708504d8c0d2344",
+  "status": "pass",
+  "summary": "D2 dependency changes survive the requested audit, install-tree, project-test, and Remotion composition probes.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "The exact diff c40b6b6f..af3eadcd contains the two video package files, the phase plan, and Measure evidence; it does not change src or scripts.",
+    "video/storytime-song/package.json pins direct Remotion packages to 4.0.545; npm ls reports 74 installed Remotion package instances, one version, no npm problems, and only uninstalled optional platform packages as '?'.",
+    "The audit gate passes for video and dashboard; dashboard retains three fully allowlisted sharp high advisories. The gate self-test passes all 19 checks.",
+    "The requested heavy npm test run passes 21 tests with zero failures.",
+    "The requested heavy npx remotion compositions run bundles successfully and lists StorytimeSong and StorytimeSongPortrait.",
+    "rg finds no direct zod or webpack references in video/storytime-song/src or scripts.",
+    "build-graph stats graph.db completes; no TypeScript source changed in this phase.",
+    "No matching D2 strategy artifact or track test-strategy.md exists; the supplied phase brief and plan define the attacks and applicability."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> af3eadcd2392ce8865805e79c708504d8c0d2344.",
+    "git diff c40b6b6f af3eadcd -- video/storytime-song/package.json video/storytime-song/package-lock.json measure/tracks/deps_refresh_20261121/plan.md -> exact phase diff inspected.",
+    "npm ls --all --json in video/storytime-song -> exit 0; 74 Remotion package instances, only installed version 4.0.545, no npm problems.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd video/storytime-song && npm test' -> exit 0; 21 passed, 0 failed.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd video/storytime-song && npx remotion compositions' -> exit 0; both expected compositions listed.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs video -> exit 0.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard -> exit 0; three complete sharp allowlist entries accepted.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test -> exit 0; 19 rule checks pass.",
+    "rg -n 'zod|webpack' video/storytime-song/src video/storytime-song/scripts -> exit 1; no direct source matches.",
+    "build-graph stats graph.db -> exit 0."
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/adversarial-d2-af3eadcd.json",
+    "measure/runs/deps_refresh_20261121/adversarial-d2-af3eadcd.log",
+    "measure/runs/deps_refresh_20261121/adversarial-d2-audit-dashboard.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d2-audit-selftest.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d2-audit-video.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d2-build-graph.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d2-compositions-heavy.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d2-npm-ls.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d2-source-uses.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d2-tests-heavy.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "The D2 lockfile resolves every installed Remotion package to 4.0.545, and the composition registry loads both compositions."},
+    {"axis": "test_meaning", "score": 4, "evidence": "adversarial-d2-tests-heavy.txt reports 21 passing tests, and adversarial-d2-compositions-heavy.txt proves live bundle and registry loading."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff c40b6b6f af3eadcd shows package metadata as the only video product changes; no test gap required a new test."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "adversarial-d2-audit-video.txt, adversarial-d2-audit-dashboard.txt, and adversarial-d2-audit-selftest.txt record exit 0."}
+  ]
+}
