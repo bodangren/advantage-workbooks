@@ -27,5 +27,5 @@ tests_run: node measure/tracks/deps_refresh_20261121/audit-gate.mjs video -> exi
 files_changed: measure/runs/deps_refresh_20261121/red-d2-c40b6b6f.txt, measure/runs/deps_refresh_20261121/red-d2-c40b6b6f-selftest.txt, measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T054448Z.json, measure/tracks/deps_refresh_20261121/plan.md, measure/runs/deps_refresh_20261121/red-d2-c40b6b6f.log
 plan_updates: D2 Red task marked [x] with Red commit da364afb on the task line and a sub-bullet with exit codes and evidence paths
 known_failures: video gate exits 1 on zod GHSA-mrhx-c7xc-m3w5 (high); Green must clear it via the pinned @remotion 4.0.x upgrade
-handoff: Green runs next in video/storytime-song/ only (npx remotion upgrade, pin exact 4.0.x, record version in plan). Tell the PM before Green so the storytime_song_video_20261022 owner knows. Leave video/storytime-song/scripts/render.mjs unstaged and unchanged. No questions; no user input needed.
+handoff: Green runs next in video/storytime-song/ only (npx remotion upgrade, pin exact 4.0.x, record version in plan). Tell the PM before Green so the storytime_song_video_20261022 owner knows. Leave video/storytime-song/scripts/render.mjs unstaged and unchanged. No questions; no user input needed. Green marks the D2 Red task [x].
 END_MEASURE_AGENT_RESULT
