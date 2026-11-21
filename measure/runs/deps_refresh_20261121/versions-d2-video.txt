@@ -1,0 +1,20 @@
+D2 direct dependency versions, video/storytime-song (old -> new)
+
+@remotion/cli             4.0.537      -> 4.0.545
+@remotion/google-fonts    ^4.0.537     -> 4.0.545
+@remotion/media           ^4.0.537     -> 4.0.545
+remotion                  4.0.537      -> 4.0.545
+@remotion/eslint-config-flat 4.0.537   -> 4.0.545
+
+Pinned version: 4.0.545 (newest 4.0.x, exact, no caret on any remotion or @remotion/* package).
+
+Transitive change that clears the advisory:
+zod                       4.5.4        -> 4.6.7   (fixes GHSA-mrhx-c7xc-m3w5, range <4.6.6)
+
+Notes:
+- "npx remotion upgrade" selected 4.0.545 (inside 4.0.x) but its npm install failed
+  with EALLOWSCRIPTS: the user .npmrc sets allow-scripts=@opencode/cli, which npm 11.17
+  rejects for project-scoped installs. No files changed from that command.
+- The sanctioned fallback was used: "npm install --save-exact" with explicit 4.0.545
+  versions, run with the inherited npm_config_allow_scripts cleared.
+- "npm audit fix --force" was not run. No overrides entry was needed.

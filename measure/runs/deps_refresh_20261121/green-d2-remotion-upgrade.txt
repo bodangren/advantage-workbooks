@@ -1,0 +1,11 @@
+Newest Remotion version is 4.0.545
+$ npm i --save-exact --no-fund --no-audit --loglevel=error @remotion/cli@4.0.545 remotion@4.0.545 @remotion/eslint-config-flat@4.0.545 @remotion/google-fonts@4.0.545 @remotion/media@4.0.545
+npm error code EALLOWSCRIPTS
+npm error --allow-scripts is not allowed in project-scoped installs. Add the entries to the "allowScripts" field in package.json, or to .npmrc, instead.
+npm error A complete log of this run can be found in: /home/daniebo/.npm/_logs/2026-11-21T05_48_00_733Z-debug-0.log
+
+Error: Failed to upgrade Remotion, see logs above
+    at ChildProcess.<anonymous> (/home/daniebo/Desktop/Workbooks/video/storytime-song/node_modules/@remotion/cli/dist/upgrade.js:190:24)
+    at ChildProcess.emit (node:events:509:28)
+    at maybeClose (node:internal/child_process:1141:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:306:5)
