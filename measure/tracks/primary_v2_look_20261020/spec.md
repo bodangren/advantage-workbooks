@@ -127,6 +127,19 @@ Decisions in this session (Daniel, 2026-10-20):
 **Estimate:** S
 **Priority:** Should
 
+### Story S8: Default look for new editions
+**As** the book maker
+**I want** a new or rewritten Primary Advantage edition to build `chibi-quest` without a look value
+**So that** every new book has the accepted look; the 5 shipped editions keep `classic` and stay byte-identical against the golden files
+
+**Acceptance Criteria:**
+- Given a new or rewritten Primary Advantage edition with no look value, When the build runs, Then the output uses `chibi-quest`.
+- Given the 5 shipped editions (primary/origins-2-a0, primary/adventures-1.0-a1, primary/origins-3.1-a0, primary/origins-3.2-a0, primary/quest-4-a1), Then each keeps `classic`, and its print output stays byte-identical against the golden files.
+- No shipped or on-order print file is rebuilt.
+
+**Estimate:** S
+**Priority:** Must
+
 ## Non-Functional Requirements
 
 - Print: PDF/X-1a, Japan Color 2001 Coated, 210 × 285 mm, no bleed. Flat solid fills of the tokens only. Static fonts only. Check every page of each print PDF.

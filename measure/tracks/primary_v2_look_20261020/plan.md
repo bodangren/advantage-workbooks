@@ -182,13 +182,15 @@ _Story ref: spec.md#story-s7_
 - [ ] Task: Tell the monorepo session the option name `look`, its values, and the default `classic`
 - [ ] Task: Measure - User Manual Verification 'Phase S7: Monorepo print kit sync' (Protocol in workflow.md)
 
-## Follow-up: Default look for new editions
+## Phase S8: Default look for new editions
+_Story ref: spec.md#story-s8_
 
 - [ ] Task: The build of a new or rewritten Primary Advantage book (Origins 1 to Adventure 9.3) defaults to look `chibi-quest`; a book or edition already printed or on order (Origins 2, Origins 3.1, Origins 3.2, Quest 4) keeps `classic` until its next edition.
     - Source: Daniel 2026-11-21 via PM; Reading Advantage stays on Riven Lands.
+    - Shipped or on-order editions (keep classic): the 5 project folders primary/origins-2-a0, primary/adventures-1.0-a1, primary/origins-3.1-a0, primary/origins-3.2-a0, primary/quest-4-a1 (PM 2026-11-21).
 - [ ] Task: Tests (first): the default-look rule per book and edition; the classic golden tests (`content/primary/origins-3.2/print/golden/`, the 70 print files of 08bb160) stay unchanged.
 - [ ] Task: No rebuild of shipped or on-order print files.
-- [ ] Task: Measure - User Manual Verification 'Follow-up: Default look for new editions' (Protocol in workflow.md)
+- [ ] Task: Measure - User Manual Verification 'Phase S8: Default look for new editions' (Protocol in workflow.md)
 
 ## Close
 
