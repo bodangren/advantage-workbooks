@@ -1,0 +1,31 @@
+# D2 Red: video audit gate fails on the phase base
+
+Track: `deps_refresh_20261121`. Phase: "Phase D2: video/storytime-song critical and high (by 2026-11-23; runs after D1)".
+Phase heading matches `plan.md` exactly.
+Phase base (`baseline_sha`): `c40b6b6f`. Role base: `c40b6b6f` (both resolve; HEAD equaled the base before this role committed).
+Evidence commit: `da364afb`. Plan commit: this commit.
+
+RED_TEST_COMMAND: `node measure/tracks/deps_refresh_20261121/audit-gate.mjs video`.
+Result: exit 1. Output: `measure/runs/deps_refresh_20261121/red-d2-c40b6b6f.txt`.
+The gate reports 1 advisory at high or above: zod `GHSA-mrhx-c7xc-m3w5` (high).
+Self-test: `node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test` exits 0, 19 rule checks pass.
+Output: `measure/runs/deps_refresh_20261121/red-d2-c40b6b6f-selftest.txt`.
+Snapshot: `measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T054448Z.json`.
+
+Dirty paths at start: `video/storytime-song/scripts/render.mjs` (modified, uncommitted work of track `storytime_song_video_20261022`; untouched and unstaged).
+`dashboard/raw.json` (untracked, dated 2026-10-28) is unrelated prior work; untouched and unstaged.
+No lockfile changed. No file under `video/storytime-song/` was edited. No npm install, update, or audit fix ran.
+No gate change in this phase. No push.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: deps_refresh_20261121
+phase: Phase D2: video/storytime-song critical and high (by 2026-11-23; runs after D1)
+commits: da364afb
+tests_run: node measure/tracks/deps_refresh_20261121/audit-gate.mjs video -> exit 1 (FAIL as required: zod GHSA-mrhx-c7xc-m3w5 high, 1 advisory without a complete allowlist entry); node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test -> exit 0 (19 rule checks pass)
+files_changed: measure/runs/deps_refresh_20261121/red-d2-c40b6b6f.txt, measure/runs/deps_refresh_20261121/red-d2-c40b6b6f-selftest.txt, measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T054448Z.json, measure/tracks/deps_refresh_20261121/plan.md, measure/runs/deps_refresh_20261121/red-d2-c40b6b6f.log
+plan_updates: D2 Red task marked [x] with Red commit da364afb on the task line and a sub-bullet with exit codes and evidence paths
+known_failures: video gate exits 1 on zod GHSA-mrhx-c7xc-m3w5 (high); Green must clear it via the pinned @remotion 4.0.x upgrade
+handoff: Green runs next in video/storytime-song/ only (npx remotion upgrade, pin exact 4.0.x, record version in plan). Tell the PM before Green so the storytime_song_video_20261022 owner knows. Leave video/storytime-song/scripts/render.mjs unstaged and unchanged. No questions; no user input needed.
+END_MEASURE_AGENT_RESULT
