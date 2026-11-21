@@ -55,7 +55,7 @@ Every lint, type-check, test, and build command above runs inside ONE heavy-run 
 
 ## Phase D1: dashboard critical and high (by 2026-11-23)
 
-- [x] Task: Red role (Tests first): run the gate on the phase base. Save the fresh output to `measure/runs/deps_refresh_20261121/red-d1-<short sha>.txt`. The `<short sha>` is the phase base. Then change `audit-gate.mjs` (F3, D1 only):
+- [x] Task: Red role (Tests first): run the gate on the phase base. Save the fresh output to `measure/runs/deps_refresh_20261121/red-d1-<short sha>.txt`. The `<short sha>` is the phase base. Then change `audit-gate.mjs` (F3, D1 only): Red commit: `5a86f10a`.
     - Every `ALLOWLIST` entry needs advisory id, package, severity, reason, and re-check date (YYYY-MM-DD).
     - The gate fails on an entry that lacks a field or that holds a past re-check date.
     - The gate writes the audit JSON it read to a dated snapshot file in `measure/runs/deps_refresh_20261121/`, so the result is reproducible.
