@@ -1,0 +1,101 @@
+Red S8 log — track primary_v2_look_20261020, Phase S8 (Red only, no product change)
+Session: Red · S8 default look for new editions
+Model: muse-spark-1.3-contributor (non-Claude; Thai filter first, counts only)
+Date: 2026-11-21
+
+Thai filter (first command, before any read): scanned the 5 shipped
+primary/*/project.json files through a python3 filter that drops every `th`
+key and every string with a character from U+0E00 to U+0E7F.
+Result: thai_chars_in_filtered_output=0. No Thai was printed, written, or committed.
+
+phase_base_sha: 7a8e602c (orchestrator-supplied, immutable, verified with git cat-file -t commit)
+role_base_sha: 7a8e602c (HEAD at start, verified with git rev-parse)
+HEAD at start: 7a8e602c, branch master
+
+Scope: Phase S8 Story S8. Green changes the no-look default of projectLook
+from bookLook(book) to chibi-quest and writes look classic into the 5 shipped
+project.json files. This Red writes dashboard/__tests__/default-look-new-editions.test.ts.
+No product source changed in this Red. workbook-look.test.ts is unchanged.
+
+Plan updates (measure/tracks/primary_v2_look_20261020/plan.md, Phase S8 only):
+- Marked S8 Tests (first) as [~] before work.
+- Recorded this Red evidence line with test commit id ad9fd95c, failing
+  test names, and failure reasons.
+
+Test changes:
+- dashboard/__tests__/default-look-new-editions.test.ts (new, 8 tests):
+  1. new edition with no look gets chibi-quest (Origins 1, Origins 2,
+     Origins 3.2, Quest 4, Quest 5, Adventure 9.3); asserts the 6-case list
+     is non-empty and each has no look key before the look assertion (A4 guard).
+  2. rewritten Origins 3.2 edition with no look gets chibi-quest.
+  3. each of the 5 shipped editions stays classic when read from its real
+     project.json; asserts the exact 5-id list.
+  4. each shipped project.json has explicit look classic.
+  5. explicit look still wins (classic and chibi-quest); unknown look still
+     throws in projectLook and parseLook; meta null stays classic.
+  6. book-folder path stays classic for origins-1, origins-2, origins-3.1,
+     origins-3.2, quest-4; CHIBI_QUEST_BOOKS still holds quest-5 and
+     adventure-9.3 and holds neither origins-2 nor quest-4.
+  7. classic golden stays byte-identical (lesson-05 and lesson-05-no-key,
+     with no look and with classic).
+  8. no shipped or on-order print file is rebuilt (git status over
+     content/primary filtered to /print/ is empty).
+  Exact look strings and exact edition ids only; no digit regex (A3), no
+  bare-English filter (A7), no track plan path (A9).
+
+RED_TEST_COMMAND (one heavy-run, no nesting):
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts'
+Result: exit 1 (vitest failure, expected for Red). 18 tests: 3 fail, 15 pass.
+- FAIL: gives chibi-quest to a new edition with no look, at every series
+  (expected classic to be chibi-quest at projectLook of Origins 1).
+- FAIL: gives chibi-quest to a rewritten Origins 3.2 edition with no look
+  (expected classic to be chibi-quest).
+- FAIL: marks each shipped project.json with an explicit classic look
+  (expected undefined to be classic; the 5 files hold no look key at HEAD).
+- PASS: keeps each of the 5 shipped editions at classic.
+- PASS: keeps an explicit look in project.json, and refuses an unknown look.
+- PASS: keeps the book-folder path at classic for Origins 1 to Quest 4.
+- PASS: keeps the classic golden byte-identical with no look and with classic.
+- PASS: rebuilds no shipped or on-order print file.
+- PASS: workbook-look.test.ts, all 10 tests (existing golden byte-identity unchanged).
+No syntax error. No import error. Exit 143 did not occur; no rerun needed.
+
+PROJECT_LINT (new test file):
+`npx eslint __tests__/default-look-new-editions.test.ts --no-error-on-unmatched-pattern`
+exits 0. No product source changed, so no tsc gate is claimed here; Green
+runs GREEN_TEST_COMMAND, PROJECT_TESTS, PROJECT_LINT, and PROJECT_CHECKS.
+pnpm-lock.yaml: unchanged (git status shows no lock change). No install ran.
+No push, amend, or reset.
+
+Dirty paths at start: only untracked measure/runs files of other tracks
+(storytime adhesive runs) plus the same modified review/proof/video files
+seen in git diff --stat. Relevant: the new Red test file and the plan.
+Generated/ignorable: measure run logs. Unrelated user work: all
+measure/runs files not written here, review-b-s5-d2c2304c files,
+strategy-s5-8b27c9ea.log, and video/storytime-song/scripts/render.mjs
+stayed unstaged and uncommitted. Commits use exact paths only.
+
+Files in this Red round:
+- Test commit ad9fd95c: dashboard/__tests__/default-look-new-editions.test.ts
+  (new), measure/tracks/primary_v2_look_20261020/plan.md (S8 Tests first [~]
+  plus Red evidence).
+- Plan commit (this log): measure/tracks/primary_v2_look_20261020/plan.md
+  (Red evidence line with ad9fd95c),
+  measure/runs/primary_v2_look_20261020/red-s8-7a8e602c.log.
+Preserved and never staged: every measure/runs file not written here and all
+unrelated modified files. Thai count in committed files: 0.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+baseline_sha: 7a8e602c
+role_base_sha: 7a8e602c
+commits: ad9fd95c test(primary_v2_look): S8 default look for new editions (Red); plan+log commit follows
+tests_run: RED_TEST_COMMAND exits 1 with 18 tests (3 fail, 15 pass); new-file failures are new-edition default (classic vs chibi-quest), rewritten Origins 3.2 (classic vs chibi-quest), shipped explicit classic (undefined vs classic); workbook-look.test.ts passes 10 of 10; eslint on the new test file exits 0
+files_changed: dashboard/__tests__/default-look-new-editions.test.ts (new), measure/tracks/primary_v2_look_20261020/plan.md (S8 Tests first [~] plus Red evidence), measure/runs/primary_v2_look_20261020/red-s8-7a8e602c.log
+plan_updates: marked S8 Tests (first) [~] before work and recorded Red evidence with commit id ad9fd95c in Phase S8 only
+known_failures: gives chibi-quest to a new edition with no look at every series; gives chibi-quest to a rewritten Origins 3.2 edition with no look; marks each shipped project.json with an explicit classic look
+handoff: S8 Red is valid and failing-first for the Green default change and the 5 explicit classic markers. Next role is Green: change projectLook no-look default to chibi-quest, write look classic into the 5 shipped project.json files, and update the stale classic assertions in workbook-look.test.ts. Default choice kept: shipped-explicit assertion stays in the Red file and fails at Red by design. No product code changed in this Red. No questions needed.
+END_MEASURE_AGENT_RESULT
