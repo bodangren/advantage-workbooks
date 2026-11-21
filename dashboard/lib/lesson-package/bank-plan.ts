@@ -389,11 +389,11 @@ interface Segment {
 export function assignWords(level: number, topics: [string, string][], pools: WordPools, used: UsedCounts): { words: string[][]; uncovered: string[] } {
     const segments: Segment[] = topics.flatMap((tp, index) => wordSegments(level, index).map(({ list, count }) => ({ index, list, count, topics: tp, words: [] })));
     const levelGroups = new Set(topics.flat().map(topicGroup));
-    const use = (w: string) => used.set(w, (used.get(w) ?? 0) + 1);
+    const recordUse = (w: string) => used.set(w, (used.get(w) ?? 0) + 1);
     const uses = (w: string) => used.get(w) ?? 0;
     const place = (s: Segment, w: string) => {
         s.words.push(w);
-        use(w);
+        recordUse(w);
     };
     const free = (s: Segment) => s.count - s.words.length;
     /** The segment with most free places (then lowest index) among those that pass `ok`. */
@@ -484,7 +484,7 @@ export function assignWords(level: number, topics: [string, string][], pools: Wo
             const old = ws.pop()!;
             used.set(old, uses(old) - 1);
             ws.push(spare);
-            use(spare);
+            recordUse(spare);
             key = [...ws].sort().join(',');
         }
         seen.add(key);

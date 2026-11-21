@@ -1,0 +1,30 @@
+D1 version table: dashboard direct dependencies (old -> new)
+
+@vitest/coverage-v8: ^4.0.18 -> ^4.1.12
+handlebars: ^4.7.8 -> ^4.7.10
+next: ^16.1.7 -> ^16.4.6
+vitest: ^4.0.18 -> ^4.1.12
+zod: ^4.3.6 -> ^4.6.7
+
+Unchanged direct dependencies with a decision:
+
+sharp: ^0.34.5 -> ^0.34.5 (kept; 0.35.5 breaks three pinned print tests, allowlisted)
+eslint-config-next: 16.1.6 -> 16.1.6 (kept; 16.4.6 pulls eslint-plugin-react-hooks 7.1.x, whose new rules flag six pre-existing product patterns)
+
+New npm overrides in dashboard/package.json (transitive chains):
+
+puppeteer: ^25.18.1
+@puppeteer/browsers: ^3.2.7
+ws: ^8.23.0
+tar-fs: ^3.1.3
+pac-proxy-agent: ^9.1.1
+proxy-agent: ^8.0.3
+basic-ftp: ^6.2.6
+get-uri: ^8.0.2
+protobufjs: ^7.6.6
+proxy-addr: ^2.0.8
+eslint-plugin-react-hooks: 7.0.1 (pinned to the base lint behavior)
+
+Effect of the overrides: pagedjs-cli stays at 0.4.3 and pulls puppeteer 25.18.1.
+Puppeteer 25 drops the vulnerable extract-zip, tar-fs, basic-ftp, get-uri,
+pac-proxy-agent and proxy-agent chain. No downgrade to pagedjs-cli 0.0.7.

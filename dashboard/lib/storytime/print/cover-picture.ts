@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import sharp from 'sharp';
+import sharp, { type OverlayOptions } from 'sharp';
 import { inflateSync } from 'zlib';
 import { REPO_ROOT } from '../../lesson-package/files';
 import { STORYTIME_COVER_HEAD_BAND_MM, STORYTIME_COVER_SIDE_BAND_MM, storytimeCoverMmToPx } from './covers';
@@ -424,7 +424,7 @@ export async function composeStorytimeCoverPicture(
     const figures = await planFigureLayout(files, sizePx, bookTitle);
     const radius = Math.min(storytimeCoverMmToPx(PICTURE_RADIUS_MM), Math.floor(Math.min(sizePx.width, sizePx.height) / 2));
     const ground = `<svg xmlns="http://www.w3.org/2000/svg" width="${sizePx.width}" height="${sizePx.height}"><rect x="0" y="0" width="${sizePx.width}" height="${sizePx.height}" rx="${radius}" ry="${radius}" fill="${groundTint}"/></svg>`;
-    const layers: sharp.OverlayOptions[] = [];
+    const layers: OverlayOptions[] = [];
     for (const figure of figures) {
         layers.push({
             input: await resizeSprite(figure.sprite.buffer, figure.sprite, figure.width, figure.height),
