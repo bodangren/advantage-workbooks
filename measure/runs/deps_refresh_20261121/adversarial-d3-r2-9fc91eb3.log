@@ -1,4 +1,4 @@
-The five risk checks are in progress. This provisional result does not permit acceptance.
+The five risk checks are complete. One implementation defect blocks acceptance.
 phase_base_sha: 7515ae3bb523f25f67f85f1bc274a1a238035987
 role_base_sha: 9fc91eb33f02f284d818062426e57b3e6ebee99d
 audited_head_sha: 9fc91eb33f02f284d818062426e57b3e6ebee99d
@@ -19,15 +19,33 @@ Evidence:
 - adversarial-d3-r2-sharp.txt: sharp 0.35.5 loads its native binary and libvips 8.18.7.
 - adversarial-d3-r2-contracts.txt: all three dotenv callers use supported APIs.
 - adversarial-d3-r2-probes.txt: synthetic dotenv fixtures preserve the required loading options.
-- adversarial-d3-r2-lint-r3.txt: all four directories contain linted files and reject an invalid empty-object type.
+- adversarial-d3-r2-lint-final.txt: the real lint command rejects four temporary snippets, then passes after their removal.
 - adversarial-d3-r2-lock-tree.txt: the dashboard tree fails; the video tree passes.
 - adversarial-d3-r2-ci.txt: the dashboard dry run exits 0 but reports the same peer conflicts.
+- adversarial-d3-r2-ci-video.txt: the video dry run exits 0.
+- adversarial-d3-r2-tests.txt: Vitest passes 171 files and 3,198 tests in 801.69 seconds.
+- adversarial-d3-r2-tests.txt: the content folder is clean; no restore was needed.
+- adversarial-d3-r2-peer-baseline.txt: the phase-base ESLint version satisfies the four peer ranges.
 
 The first lint controls used inactive rules.
 The corrected control uses @typescript-eslint/no-empty-object-type.
-The final real-command lint check and the dashboard regression suite remain active.
+The final real-command lint check and the dashboard regression suite exit 0.
 
 No content file was read.
 Every displayed command result passed through the Thai line filter.
 The sharp smoke test used a synthetic image in memory.
 No render, paid API call, package update, or product change ran.
+
+MEASURE_AGENT_RESULT
+role: adversarial-testing
+status: fail
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: 112cbec2
+tests_run: Audit self-test PASS (19); live audit PASS (zero advisories); companion tests FAIL (10 passed, 1 failed); sharp PASS; dotenv PASS; real lint control PASS; clean lint PASS (three warnings); Vitest PASS (171 files, 3,198 tests); dashboard package tree FAIL; video package tree PASS.
+files_changed: Two durable probes, the phase plan, audit artifacts, three review pairs, and six audit snapshots.
+plan_updates: The adversarial task is complete with a FAIL verdict; phase acceptance remains blocked.
+known_failures: ADV-D3-R2-1: four required plugin peers reject dashboard ESLint 10.15.0.
+handoff: Route ADV-D3-R2-1 to Green. Restore compatible dependencies or defer ESLint 10. Rerun the required-peer test, npm ls --all, and this audit after implementation changes. retry_recommendation is retry_implementation. The unrelated audit-after-d3-video.json change remains unstaged.
+END_MEASURE_AGENT_RESULT
+RESULT: FAIL
