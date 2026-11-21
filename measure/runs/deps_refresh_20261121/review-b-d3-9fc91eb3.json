@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-b-security",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "2c944316",
+  "baseline_sha": "7515ae3b",
+  "audited_head_sha": "9fc91eb3",
+  "status": "pass",
+  "summary": "HEAD 9fc91eb3 equals the audited head. security_applicability is applicable: the r7 delta changes dashboard/package.json and dashboard/package-lock.json. The delta is a one-line revert of @google/genai 3.6.1 -> 1.52.0 (exact) after an API-version change, and the lockfile applies it in place: 0 keys added, 0 keys removed, and every entry still resolves to registry.npmjs.org with integrity. The genai 1.52.0 entry restores byte-identical provenance to round 3 (resolved https://registry.npmjs.org/@google/genai/-/genai-1.52.0.tgz, integrity sha512-gwSvbpiN/17O9TbsqSsE/OzZcpv5Fo4RQjdngGgogtuB9RsyJ8ZHhX5KjHj1bp5N9snN2eK8LDGXSaWW2hof8Q==) and its hasInstallScript flag returns, which is expected: npm view (round 3) showed the 1.52.0 install-time trigger is preinstall with the value echo 'preinstall: no-op'. No other install-script entry changes. Fresh npm audit reports 0 at every severity in both projects. The ws and protobufjs overrides still pin genai's transitive ranges to ws 8.23.0 and protobufjs 7.6.6. audit-gate.mjs is unchanged since 2c944316, and the gate passes both --min moderate with 0 advisories; the self-test passes 19 rule checks. F1 stays withdrawn from round 5. A2 is not applicable and A6 finds no resolved claim outrunning the implementation.",
+  "security_applicability": "applicable",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "git rev-parse HEAD -> 9fc91eb33f02f284d818062426e57b3e6ebee99d, equal to audited_head_sha, so the audited head is current.",
+    "git log --oneline 2c944316..9fc91eb3 -> 2 commits: 4fc0a6bc (Green r7 vitest 5 group and genai API version), 9fc91eb3 (Green r7 evidence).",
+    "git diff 2c944316 9fc91eb3 -- dashboard/package.json shows a single change: dependencies @google/genai 3.6.1 -> 1.52.0 (exact). The overrides block at dashboard/package.json:61-63 is untouched.",
+    "Lockfile scan of dashboard/package-lock.json at 9fc91eb3: 720 entries; 0 non-registry resolved URLs; 0 resolved entries missing integrity. Key difference 2c944316 -> 9fc91eb3: 0 added, 0 removed; only the node_modules/@google/genai entry changes in place.",
+    "The genai entry at 9fc91eb3 is version 1.52.0 with resolved https://registry.npmjs.org/@google/genai/-/genai-1.52.0.tgz, integrity sha512-gwSvbpiN/17O9TbsqSsE/OzZcpv5Fo4RQjdngGgogtuB9RsyJ8ZHhX5KjHj1bp5N9snN2eK8LDGXSaWW2hof8Q== and hasInstallScript true; these three values are byte-identical to the round-3 1.52.0 entry recorded in review-b-d3-581ab15b.json evidence, so the revert restores known provenance.",
+    "hasInstallScript set difference 2c944316 -> 9fc91eb3: added {node_modules/@google/genai}, removed none. The re-added flag is expected: npm view @google/genai@1.52.0 scripts (round 3) shows the only install-time trigger is preinstall = echo 'preinstall: no-op', a benign no-op. Dashboard set is now {core-js, es5-ext, esbuild, fsevents, protobufjs, @google/genai}.",
+    "Fresh npm audit --json in dashboard -> metadata {critical 0, high 0, moderate 0, low 0, total 0}, exit 0. Fresh npm audit --json in video/storytime-song -> all zeros, exit 0.",
+    "npm ls in dashboard shows @google/genai@1.52.0 with protobufjs@7.6.6 and ws@8.23.0, and jsdom@27.4.0 with ws@8.23.0 deduped; the overrides at dashboard/package.json:61-63 (^8.23.0 and ^7.6.6) still pin genai's transitive ranges (^8.18.0 and ^7.5.4) to the fixed versions.",
+    "git diff 2c944316 9fc91eb3 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs is empty, so the gate and its empty ALLOWLIST did not change.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate exits 0 with 0 advisories in both projects; --self-test exits 0 with 19 rule checks.",
+    "F1 stays withdrawn from round 5: the allowlist is empty, fresh audits show 0 at every severity in both projects, and the tracks.md:5 goal date 2026-11-23 no longer conflicts with anything.",
+    "A2 not applicable: the delta contains no test file, no status field and no consent or anonymization code. A6: measure/tracks.md:5 keeps the track checkbox unchecked, so no security state is claimed resolved.",
+    "Working tree check after all commands: git status --porcelain on both package.json files, both package-lock.json files and audit-gate.mjs prints nothing, so no command of this audit rewrote a lockfile. The gate runs wrote their own untracked audit-snapshot files under measure/runs/deps_refresh_20261121/, the gate's documented behaviour."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git log --oneline 2c944316..9fc91eb3",
+    "git diff 2c944316 9fc91eb3 -- dashboard/package.json",
+    "git show <ref>:dashboard/package-lock.json | python3 (host, integrity, hasInstallScript and package-key scans, both ends)",
+    "npm audit --json (workdir dashboard)",
+    "npm audit --json (workdir video/storytime-song)",
+    "npm ls ws protobufjs @google/genai (dashboard)",
+    "git diff 2c944316 9fc91eb3 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test",
+    "git status --porcelain -- dashboard/package.json dashboard/package-lock.json video/storytime-song/package.json video/storytime-song/package-lock.json measure/tracks/deps_refresh_20261121/audit-gate.mjs"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-b-d3-9fc91eb3.json",
+    "measure/runs/deps_refresh_20261121/review-b-d3-9fc91eb3.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "kimi-code-plan-cn/kimi-for-coding",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "Fresh npm audits in both projects report 0 at every severity, and npm ls shows genai 1.52.0 resolving protobufjs 7.6.6 and ws 8.23.0 under the kept overrides."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The gate exits 0 in both mode with 0 advisories and 19 self-test checks pass, but registry host, install-script set and typosquat checks stay manual."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff 2c944316 9fc91eb3 touches one package.json line, one in-place lockfile entry, plan/run evidence and nothing else."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a command result I ran myself or a file:line; the genai 1.52.0 script content cites the round-3 npm view result because the tarball is byte-identical."
+    }
+  ]
+}

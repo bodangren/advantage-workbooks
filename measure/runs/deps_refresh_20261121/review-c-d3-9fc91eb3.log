@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-c-ux-api
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: Read-only HEAD, package and lockfile diff checks; installed @google/genai version check; reviewed recorded r7 build, Vitest 4, lint, TypeScript, and API-version evidence. No live API call or browser inspection.
+files_changed: measure/runs/deps_refresh_20261121/review-c-d3-9fc91eb3.json; measure/runs/deps_refresh_20261121/review-c-d3-9fc91eb3.log
+plan_updates: none
+known_failures: F2 Nit remains open: Lucide icon shapes need the dedicated UX browser review scheduled after the adversarial round.
+handoff: F1 withdrawn: @google/genai 1.52.0 restores the pre-track v1beta default at unchanged call sites. F2 kept as a routed Nit pending the scheduled UX review. No other user-visible risk found. Retry recommendation: escalate_human.
+END_MEASURE_AGENT_RESULT

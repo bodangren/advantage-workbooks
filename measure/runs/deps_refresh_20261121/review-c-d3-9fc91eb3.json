@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "role_base_sha": "2c944316884f3c68c31ea458083a14bbfa1fc6db",
+  "baseline_sha": "2c944316884f3c68c31ea458083a14bbfa1fc6db",
+  "audited_head_sha": "9fc91eb33f02f284d818062426e57b3e6ebee99d",
+  "status": "pass",
+  "summary": "The GenAI rollback restores the pre-track 1.x line and v1beta default. The locked SDK version is 1.52.0 rather than the pre-track 1.39.0. Keep the routed Lucide visual-review Nit.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F2 [Nit] dashboard/package.json:27: The Lucide 1.77.0 upgrade still lacks a visual check of icon shapes. The dedicated UX browser review is scheduled after the adversarial round. | CONTEST kept: this routed Nit remains open until that review reports its result."
+  ],
+  "evidence": [
+    "HEAD is 9fc91eb33f02f284d818062426e57b3e6ebee99d, matching the requested audited head.",
+    "The exact delta from 2c944316 changes dashboard/package.json and dashboard/package-lock.json for the dependency under this review, plus Measure evidence and plan records. Dashboard implementation files and routes do not change.",
+    "F1 withdrawn: checked the exact delta, package manifest and lockfile, both GenAI client call sites, and green-d3-r7-genai-apiversion.txt. The package returns from 3.6.1 to 1.52.0, restoring the pre-track 1.x major line and v1beta API default. The exact lockfile version is 1.52.0 instead of the pre-track 1.39.0; the call sites still use the same model and omit apiVersion.",
+    "The lockfile delta changes only the @google/genai package entry and resolution from 3.6.1 to 1.52.0. The Vitest 5 trial is not part of the final dependency delta.",
+    "green-d3-r7-genai-apiversion.txt documents the published SDK defaults: 1.52.0 uses v1beta and 3.6.1 uses v1. It reports no repository apiVersion or GOOGLE_GENAI_API_VERSION override.",
+    "green-d3-r7-build.txt, green-d3-r7-tests.txt, green-d3-r7-lint.txt, and green-d3-r7-tsc.txt record successful dashboard checks for the rollback. The test evidence uses the Vitest 4 setup; the Vitest 5 trial was reverted.",
+    "The remaining version difference is @google/genai 1.52.0 versus the pre-track lockfile's 1.39.0. No call-site or route change appears in this delta; the recorded type checks pass, but they do not test every runtime behavior across those minor versions. The dashboard audit evidence reports zero advisories with 1.52.0.",
+    "The icon-render Nit remains routed to the dedicated UX browser review after the adversarial round. No browser inspection was performed in this audit."
+  ],
+  "commands": [
+    "git rev-parse HEAD — 9fc91eb33f02f284d818062426e57b3e6ebee99d, matching the requested audited head",
+    "git diff --name-status 2c944316 9fc91eb3 — dashboard manifest and lockfile plus Measure evidence, prior review artifacts, and plan records",
+    "git diff 2c944316 9fc91eb3 -- dashboard/package.json — @google/genai 3.6.1 changed to 1.52.0",
+    "git diff 2c944316 9fc91eb3 -- dashboard/package-lock.json — only @google/genai package metadata and resolution changed",
+    "npm --prefix dashboard ls @google/genai — installed @google/genai@1.52.0",
+    "git diff --name-only 2c944316 9fc91eb3 -- dashboard/lib dashboard/app video/storytime-song/src — no runtime or route source changes",
+    "green-d3-r7-genai-apiversion.txt — 1.52.0 default is v1beta; 3.6.1 default is v1",
+    "green-d3-r7-build.txt; green-d3-r7-tests.txt; green-d3-r7-lint.txt; green-d3-r7-tsc.txt — recorded rollback verification exits are successful"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-c-d3-9fc91eb3.json",
+    "measure/runs/deps_refresh_20261121/review-c-d3-9fc91eb3.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "contract_path_evidence": [
+    "dashboard/package.json",
+    "dashboard/package-lock.json"
+  ],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "green-d3-r7-genai-apiversion.txt confirms that 1.52.0 restores the pre-track v1beta default; the lockfile version remains 1.52.0 rather than 1.39.0."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "green-d3-r7-tests.txt records successful Vitest 4 tests, while no runtime API call is made by design."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The final dashboard dependency diff changes only @google/genai from 3.6.1 to 1.52.0."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "HEAD, package and lockfile diffs, installed dependency, API-version evidence, and recorded verification outputs support the verdict."
+    }
+  ]
+}

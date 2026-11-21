@@ -1,0 +1,15 @@
+MEASURE_AGENT_RESULT
+role: review-a
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+phase_base_sha: 7515ae3b
+role_base_sha: 9fc91eb33f02f284d818062426e57b3e6ebee99d
+audited_head_sha: 9fc91eb33f02f284d818062426e57b3e6ebee99d
+status: pass
+summary: F4 is closed. The GenAI rollback cites a verified API-version change. The remaining deferrals have concrete reasons.
+blocking_findings: none
+nonblocking_findings: none
+evidence: F4 withdrawn: the Vitest 5 group fails PROJECT_CHECKS with 88 TS2339 errors; the same errors remain with jest-dom 6.9.1. The named fix changes dashboard/vitest.setup.ts, which is outside package-only scope. The GenAI SDK default changes from v1beta to v1; the cited preview-model call sites omit apiVersion. The gate logs show zero advisories and exit 0.
+dispositions: none
+retry_recommendation: none
+END_MEASURE_AGENT_RESULT

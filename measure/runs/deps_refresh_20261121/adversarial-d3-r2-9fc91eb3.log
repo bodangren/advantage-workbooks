@@ -1,0 +1,33 @@
+The five risk checks are in progress. This provisional result does not permit acceptance.
+phase_base_sha: 7515ae3bb523f25f67f85f1bc274a1a238035987
+role_base_sha: 9fc91eb33f02f284d818062426e57b3e6ebee99d
+audited_head_sha: 9fc91eb33f02f284d818062426e57b3e6ebee99d
+
+Verdict: FAIL. The dashboard dependency tree has four required-peer conflicts.
+
+ADV-D3-R2-1 [Blocker] adversarial-testing:
+dashboard/package.json:49 selects ESLint 10.15.0.
+Four plugins require ESLint 9 or earlier: import, jsx-a11y, react, and react-hooks.
+The dashboard npm ls --all command exits 1 with ELSPROBLEMS.
+The video command exits 0 with no invalid or missing package.
+Green must restore compatible dependencies and rerun this audit.
+This report does not claim that the current lint rules fail to run.
+
+Evidence:
+- adversarial-d3-r2-audit.txt: 19 self-test checks pass; both --min moderate exits 0 with zero advisories.
+- adversarial-d3-r2-probes.txt: 10 tests pass; the required-peer regression test fails.
+- adversarial-d3-r2-sharp.txt: sharp 0.35.5 loads its native binary and libvips 8.18.7.
+- adversarial-d3-r2-contracts.txt: all three dotenv callers use supported APIs.
+- adversarial-d3-r2-probes.txt: synthetic dotenv fixtures preserve the required loading options.
+- adversarial-d3-r2-lint-r3.txt: all four directories contain linted files and reject an invalid empty-object type.
+- adversarial-d3-r2-lock-tree.txt: the dashboard tree fails; the video tree passes.
+- adversarial-d3-r2-ci.txt: the dashboard dry run exits 0 but reports the same peer conflicts.
+
+The first lint controls used inactive rules.
+The corrected control uses @typescript-eslint/no-empty-object-type.
+The final real-command lint check and the dashboard regression suite remain active.
+
+No content file was read.
+Every displayed command result passed through the Thai line filter.
+The sharp smoke test used a synthetic image in memory.
+No render, paid API call, package update, or product change ran.

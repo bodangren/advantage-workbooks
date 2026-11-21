@@ -1,0 +1,27 @@
+self-test PASS: critical without an entry fails
+self-test PASS: critical with a complete entry still fails
+self-test PASS: high with a complete entry passes
+self-test PASS: high with an entry without a reason fails
+self-test PASS: high with a past re-check date fails
+self-test PASS: high with a bad re-check date form fails
+self-test PASS: high with a severity case mismatch fails
+self-test PASS: high with an empty allowlist fails
+self-test PASS: high with a re-check date equal to today passes
+self-test PASS: transitive via string chain keeps the leaf advisory
+self-test PASS: malformed npm audit JSON fails closed
+self-test PASS: high with a severity-mismatched entry fails
+self-test PASS: high with a complete pkg: entry passes
+self-test PASS: moderate below the high minimum passes
+self-test PASS: moderate at the moderate minimum fails without an entry
+self-test PASS: high with an id-keyed entry for another package fails
+self-test PASS: high with a pkg-keyed entry for another package fails
+self-test PASS: high with a pkg-keyed entry for another advisory id fails
+self-test PASS: high with a future impossible re-check date fails the calendar check
+self-test: pass (19 rule checks)
+SELFTEST_EXIT=0
+dashboard: snapshot /home/daniebo/Desktop/Workbooks/measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T174232Z.json
+dashboard: 0 advisories at moderate or above (0 advisory hits total)
+video: snapshot /home/daniebo/Desktop/Workbooks/measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T174232Z.json
+video: 0 advisories at moderate or above (0 advisory hits total)
+audit gate: pass (0 allowed with complete entries)
+BOTH_MODERATE_EXIT=0

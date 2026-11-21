@@ -1,0 +1,127 @@
+DOTENV CALLERS
+dashboard/package.json:25:    "dotenv": "^18.0.10",
+dashboard/scripts/augment_lesson.ts:3:import 'dotenv/config';
+dashboard/scripts/media/cast-sheets.ts:4:import dotenv from 'dotenv';
+dashboard/scripts/media/cast-sheets.ts:83:    dotenv.config({ path: path.join(REPO_ROOT, 'dashboard', '.env.local'), quiet: true });
+dashboard/scripts/media/lesson-images.ts:4:import dotenv from 'dotenv';
+dashboard/scripts/media/lesson-images.ts:141:    dotenv.config({ path: path.join(REPO_ROOT, 'dashboard', '.env.local'), quiet: true });
+
+DOCUMENTED DEFAULTS
+#### Options
+
+##### path
+
+Default: `path.resolve(process.cwd(), '.env')`
+
+Specify a custom path if your file containing environment variables is located elsewhere.
+
+```js
+require('dotenv').config({ path: '/custom/path/to/.env' })
+```
+You can also pass a `URL` object:
+
+```js
+const fileUrl = new URL('file:///custom/path/to/.env')
+
+require('dotenv').config({ path: fileUrl })
+```
+
+By default, `config` will look for a file called .env in the current working directory.
+
+Pass in multiple files as an array, and they will be parsed in order and combined with `process.env` (or `option.processEnv`, if set). The first value set for a variable will win, unless the `options.override` flag is set, in which case the last value set will win.  If a value already exists in `process.env` and the `options.override` flag is NOT set, no changes will be made to that value.
+
+```js
+require('dotenv').config({ path: ['.env.local', '.env'] })
+```
+
+##### quiet
+
+Default: `false`
+
+Suppress runtime logging message. `dotenv/config` imports and preloads default to `true`; set `DOTENV_QUIET=false` (or `DOTENV_CONFIG_QUIET=false`) in the shell to enable their startup message.
+
+```js
+// index.js
+require('dotenv').config({ quiet: false }) // change to true to suppress
+console.log(`Hello ${process.env.HELLO}`)
+```
+```
+
+##### override
+
+Default: `false`
+
+Override any environment variables that have already been set on your machine with values from your .env file(s). If multiple files have been provided in `option.path` the override will also be used as each file is combined with the next. Without `override` being set, the first value wins. With `override` set the last value wins.
+
+```js
+require('dotenv').config({ override: true })
+```
+
+##### fast
+
+Default: `false`
+
+Use the faster character-scanner parser (~2x). Default remains the classic regex parser.
+
+```js
+require('dotenv').config({ fast: true })
+```
+
+[Watch the video](https://github.com/user-attachments/assets/8f69bf7a-e7f1-49b9-8650-c0dcb37809e6)
+
+##### processEnv
+
+Default: `process.env`
+
+Specify an object to write your environment variables to. Defaults to `process.env` environment variables.
+
+ESLINT REQUIRED PEERS
+dashboard/node_modules/eslint-config-next/node_modules/eslint-plugin-import/package.json: eslint-plugin-import@2.32.0 required eslint=^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8 || ^9 optional=false
+dashboard/node_modules/eslint-config-next/node_modules/eslint-plugin-jsx-a11y/package.json: eslint-plugin-jsx-a11y@6.10.2 required eslint=^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9 optional=false
+dashboard/node_modules/eslint-config-next/node_modules/eslint-plugin-react/package.json: eslint-plugin-react@7.37.5 required eslint=^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7 optional=false
+dashboard/node_modules/eslint-config-next/node_modules/eslint-plugin-react-hooks/package.json: eslint-plugin-react-hooks@7.0.1 required eslint=^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0 optional=false
+
+GRAPH
+Graph Statistics
+================
+Total nodes: 2124
+Total edges: 2696
+Total files: 142
+
+Nodes by type:
+  function   1359 ████████████████████████████████████████
+  param       358 ███████████
+  file        142 ████
+  field       123 ████
+  interface    63 ██
+  type_alias   33 █
+  route        24 █
+  schema       19 █
+  class         3
+
+Top 10 most imported:
+  file:types.ts (15 imports)
+  file:utils.ts (13 imports)
+  file:workbook-schema.ts (11 imports)
+  file:index.ts (11 imports)
+  file:types.ts (7 imports)
+  file:types.ts (7 imports)
+  file:spelling-practice.ts (2 imports)
+  file:ai-augmentor.ts (2 imports)
+  file:routes.d.ts (2 imports)
+  file:url-extractor.ts (1 imports)
+
+Top 10 largest files (by entity count):
+   (1174 entities)
+  ./dashboard/lib/workbook-schema.ts (79 entities)
+  ./dashboard/lib/teacher-manual/step-insert.ts (45 entities)
+  ./dashboard/components/ui/select.tsx (33 entities)
+  ./dashboard/lib/filesystem.ts (31 entities)
+  ./dashboard/components/ui/dialog.tsx (30 entities)
+  ./dashboard/lib/teacher-manual/front-matter.ts (30 entities)
+  ./dashboard/lib/teacher-manual/types.ts (28 entities)
+  ./dashboard/lib/teacher-manual/period-plan.ts (23 entities)
+  ./dashboard/lib/template-renderer.ts (23 entities)
+
+Package breakdown:
+  dashboard: 142 files

@@ -1,0 +1,27 @@
+Review B (security and data handling) — deps_refresh_20261121, Phase D3, round 6 (delta).
+Audited head: 9fc91eb3 (confirmed by git rev-parse HEAD). Role base: 2c944316 (round 5 PASS). Phase base: 7515ae3b.
+Scope of the audited delta: Green r7 (4fc0a6bc) changes dashboard/package.json and dashboard/package-lock.json only: @google/genai 3.6.1 -> 1.52.0 (exact) after an API-version change; the vitest 5 trial was reverted.
+
+Checks performed (all output passed through a Thai-line filter; 0 Thai characters written; no file under content/ read; no PDF image viewed; no redirection used; no lockfile rewritten, confirmed by a final git status on the package files and the gate):
+
+1. Lockfile delta: 0 keys added, 0 keys removed; the node_modules/@google/genai entry changes in place to 1.52.0 with resolved https://registry.npmjs.org/@google/genai/-/genai-1.52.0.tgz and integrity sha512-gwSvbpiN/17O9TbsqSsE/OzZcpv5Fo4RQjdngGgogtuB9RsyJ8ZHhX5KjHj1bp5N9snN2eK8LDGXSaWW2hof8Q== — byte-identical to the round-3 1.52.0 entry. Full lock: 720 entries, 0 non-registry URLs, 0 missing integrity.
+2. Install scripts: hasInstallScript returns on @google/genai, which is expected — the 1.52.0 install-time trigger is preinstall = echo 'preinstall: no-op' (npm view, round 3). No other change; dashboard set is {core-js, es5-ext, esbuild, fsevents, protobufjs, @google/genai}.
+3. Fresh npm audit: dashboard 0 at every severity; video 0 at every severity.
+4. Overrides: ws 8.23.0 and protobufjs 7.6.6 still pin genai's transitive ranges (^8.18.0, ^7.5.4); jsdom holds ws 8.23.0 deduped.
+5. audit-gate.mjs: empty diff since 2c944316; gate passes both --min moderate with 0 advisories; self-test passes 19 rule checks.
+6. F1 stays withdrawn from round 5. A2 not applicable; A6 clean.
+
+Verdict: PASS. No open findings.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: npm audit --json in dashboard (all 0) and video/storytime-song (all 0); node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate (pass, 0 advisories in both projects); --self-test (pass, 19 rule checks)
+files_changed: measure/runs/deps_refresh_20261121/review-b-d3-9fc91eb3.json; measure/runs/deps_refresh_20261121/review-b-d3-9fc91eb3.log
+plan_updates: none
+known_failures: none
+handoff: Round 6 PASS at 9fc91eb3. The genai revert restores the byte-identical 1.52.0 lock entry from round 3, including the benign no-op preinstall; provenance, audits (0 at every severity in both projects), overrides and the gate all hold. No routed CONTEST items. Orchestrator can proceed to phase acceptance.
+END_MEASURE_AGENT_RESULT

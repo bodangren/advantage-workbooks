@@ -1,0 +1,25 @@
+app: 34 existing files linted
+lib: 138 existing files linted
+components: 37 existing files linted
+__tests__: 170 existing files linted
+existing errors=0 warnings=3
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(result.messages.some(message => message.ruleId === '@typescript-eslint/no-unused-expressions' && message.severity === 2))
+
+    at file:///home/daniebo/Desktop/Workbooks/measure/tracks/deps_refresh_20261121/adversarial-d3-r2-lint.mjs:28:12 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+
+EXIT=1

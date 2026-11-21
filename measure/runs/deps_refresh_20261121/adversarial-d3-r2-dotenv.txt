@@ -1,0 +1,146 @@
+CALLERS
+dashboard/package.json:25:    "dotenv": "^18.0.10",
+dashboard/scripts/augment_lesson.ts:3:import 'dotenv/config';
+dashboard/scripts/media/cast-sheets.ts:4:import dotenv from 'dotenv';
+dashboard/scripts/media/cast-sheets.ts:83:    dotenv.config({ path: path.join(REPO_ROOT, 'dashboard', '.env.local'), quiet: true });
+dashboard/scripts/media/lesson-images.ts:4:import dotenv from 'dotenv';
+dashboard/scripts/media/lesson-images.ts:141:    dotenv.config({ path: path.join(REPO_ROOT, 'dashboard', '.env.local'), quiet: true });
+
+EXPECTED VARIABLES
+import fs from 'fs/promises';
+import path from 'path';
+import 'dotenv/config';
+import { augmentLesson } from '../lib/ai-augmentor';
+
+async function main() {
+    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        console.error("Error: GOOGLE_GENERATIVE_AI_API_KEY or GEMINI_API_KEY is not set in environment variables.");
+        console.error("Please create a .env file in the dashboard directory with GOOGLE_GENERATIVE_AI_API_KEY=...");
+        process.exit(1);
+    }
+
+    const args = process.argv.slice(2);
+    if (args.length === 0) {
+dashboard/scripts/media/cast-sheets.ts-5-import sharp from 'sharp';
+dashboard/scripts/media/cast-sheets.ts-6-import { CastSchema, castImageArgs, chooseSheet, parseSavedFiles, type Cast } from '../../lib/media/cast';
+dashboard/scripts/media/cast-sheets.ts:7:import { OPENROUTER_IMAGES_URL, castMuseRequest, imagesFromResponse, openRouterKey } from '../../lib/media/openrouter-image';
+dashboard/scripts/media/cast-sheets.ts-8-import { REPO_ROOT } from '../../lib/lesson-package/files';
+dashboard/scripts/media/cast-sheets.ts-9-
+--
+dashboard/scripts/media/cast-sheets.ts-20-reference (off by default: a reference pulls MiniMax toward a 3D look). Jobs run one at a time.
+dashboard/scripts/media/cast-sheets.ts-21-
+dashboard/scripts/media/cast-sheets.ts:22:--model muse: Meta Muse Image through OpenRouter (key OPENROUTER_API_KEY in dashboard/.env.local).
+dashboard/scripts/media/cast-sheets.ts-23-The anchor (cast.anchor) comes from its printed picture; every other character gets the approved
+dashboard/scripts/media/cast-sheets.ts-24-anchor sheet as the style reference and its printed picture for the look, so make and choose the
+--
+dashboard/scripts/media/cast-sheets.ts-81-        return 0;
+dashboard/scripts/media/cast-sheets.ts-82-    }
+dashboard/scripts/media/cast-sheets.ts:83:    dotenv.config({ path: path.join(REPO_ROOT, 'dashboard', '.env.local'), quiet: true });
+dashboard/scripts/media/cast-sheets.ts:84:    const key = openRouterKey(process.env);
+dashboard/scripts/media/cast-sheets.ts-85-    if (model === 'muse' && !key) {
+dashboard/scripts/media/cast-sheets.ts:86:        console.error('Set OPENROUTER_API_KEY in dashboard/.env.local');
+dashboard/scripts/media/cast-sheets.ts-87-        return 2;
+dashboard/scripts/media/cast-sheets.ts-88-    }
+--
+dashboard/scripts/media/lesson-images.ts-10-import { CastSchema, parseSavedFiles } from '../../lib/media/cast';
+dashboard/scripts/media/lesson-images.ts-11-import { imageArgs, promptProblems, sheetFor } from '../../lib/media/images';
+dashboard/scripts/media/lesson-images.ts:12:import { OPENROUTER_IMAGES_URL, imagesFromResponse, museRequest, openRouterKey } from '../../lib/media/openrouter-image';
+dashboard/scripts/media/lesson-images.ts-13-
+dashboard/scripts/media/lesson-images.ts-14-const SHEETS = path.join(REPO_ROOT, 'docs', 'content-plans', 'character-sheets');
+--
+dashboard/scripts/media/lesson-images.ts-23-  --count <n>        Candidates per image (default 2)
+dashboard/scripts/media/lesson-images.ts-24-  --model <m>        mmx (default) or muse: Meta Muse Image through OpenRouter, always with the
+dashboard/scripts/media/lesson-images.ts:25:                     chosen cast sheets as reference pictures; key OPENROUTER_API_KEY in
+dashboard/scripts/media/lesson-images.ts-26-                     dashboard/.env.local; about $0.01 per picture
+dashboard/scripts/media/lesson-images.ts-27-  --render           Draw the overlays again on the chosen pictures; make nothing new
+--
+dashboard/scripts/media/lesson-images.ts-139-        return 0;
+dashboard/scripts/media/lesson-images.ts-140-    }
+dashboard/scripts/media/lesson-images.ts:141:    dotenv.config({ path: path.join(REPO_ROOT, 'dashboard', '.env.local'), quiet: true });
+dashboard/scripts/media/lesson-images.ts:142:    const key = openRouterKey(process.env);
+dashboard/scripts/media/lesson-images.ts-143-    if (opts.model === 'muse' && !key && !opts.dryRun) {
+dashboard/scripts/media/lesson-images.ts:144:        console.error('Set OPENROUTER_API_KEY in dashboard/.env.local');
+dashboard/scripts/media/lesson-images.ts-145-        return 2;
+dashboard/scripts/media/lesson-images.ts-146-    }
+
+API DEFAULTS
+
+You can additionally, pass options to `config`.
+
+#### Options
+
+##### path
+
+Default: `path.resolve(process.cwd(), '.env')`
+
+Specify a custom path if your file containing environment variables is located elsewhere.
+
+```js
+require('dotenv').config({ path: '/custom/path/to/.env' })
+```
+You can also pass a `URL` object:
+
+```js
+const fileUrl = new URL('file:///custom/path/to/.env')
+
+require('dotenv').config({ path: fileUrl })
+```
+
+By default, `config` will look for a file called .env in the current working directory.
+
+Pass in multiple files as an array, and they will be parsed in order and combined with `process.env` (or `option.processEnv`, if set). The first value set for a variable will win, unless the `options.override` flag is set, in which case the last value set will win.  If a value already exists in `process.env` and the `options.override` flag is NOT set, no changes will be made to that value.
+
+```js
+require('dotenv').config({ path: ['.env.local', '.env'] })
+```
+
+##### quiet
+
+Default: `false`
+
+Suppress runtime logging message. `dotenv/config` imports and preloads default to `true`; set `DOTENV_QUIET=false` (or `DOTENV_CONFIG_QUIET=false`) in the shell to enable their startup message.
+
+```js
+// index.js
+require('dotenv').config({ quiet: false }) // change to true to suppress
+console.log(`Hello ${process.env.HELLO}`)
+```
+```
+
+##### override
+
+Default: `false`
+
+Override any environment variables that have already been set on your machine with values from your .env file(s). If multiple files have been provided in `option.path` the override will also be used as each file is combined with the next. Without `override` being set, the first value wins. With `override` set the last value wins.
+
+```js
+require('dotenv').config({ override: true })
+```
+
+##### fast
+
+Default: `false`
+
+Use the faster character-scanner parser (~2x). Default remains the classic regex parser.
+
+```js
+require('dotenv').config({ fast: true })
+```
+
+[Watch the video](https://github.com/user-attachments/assets/8f69bf7a-e7f1-49b9-8650-c0dcb37809e6)
+
+##### processEnv
+
+Default: `process.env`
+
+Specify an object to write your environment variables to. Defaults to `process.env` environment variables.
+
+```js
+const myObject = {}
+require('dotenv').config({ processEnv: myObject })
+
+
+RUNTIME TEST
+adversarial-d3-r2.test.mjs: dotenv 18 preserves the caller options without loading real credentials: PASS
+The test uses synthetic files in the cache. It reads no repository environment file.

@@ -1,0 +1,54 @@
+✔ the real CLI rejects a new high advisory with an empty allowlist (72.75819ms)
+✔ filter words in the advisory title preserve a real hit (66.192999ms)
+✔ the moderate threshold rejects a moderate advisory (65.868801ms)
+✔ a complete high entry passes but cannot cover another advisory (143.665715ms)
+✔ a stale entry fails even when the audit has no advisories (64.404152ms)
+✔ each missing field fails even when the audit has no advisories (345.28374ms)
+✔ a future impossible calendar date fails without a live advisory (74.062241ms)
+✔ a critical advisory fails despite a complete entry (68.417752ms)
+✔ an empty audit passes with the empty allowlist (73.191677ms)
+✔ dotenv 18 preserves the caller options without loading real credentials (75.989126ms)
+✖ the dashboard ESLint version satisfies every installed required plugin peer (12.361959ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1110.131599
+
+✖ failing tests:
+
+test at measure/tracks/deps_refresh_20261121/adversarial-d3-r2.test.mjs:182:1
+✖ the dashboard ESLint version satisfies every installed required plugin peer (12.361959ms)
+  AssertionError [ERR_ASSERTION]: node_modules/eslint-config-next/node_modules/eslint-plugin-import: eslint-plugin-import@2.32.0 requires eslint ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8 || ^9; installed 10.15.0
+  node_modules/eslint-config-next/node_modules/eslint-plugin-jsx-a11y: eslint-plugin-jsx-a11y@6.10.2 requires eslint ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9; installed 10.15.0
+  node_modules/eslint-config-next/node_modules/eslint-plugin-react: eslint-plugin-react@7.37.5 requires eslint ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7; installed 10.15.0
+  node_modules/eslint-config-next/node_modules/eslint-plugin-react-hooks: eslint-plugin-react-hooks@7.0.1 requires eslint ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0; installed 10.15.0
+  + actual - expected
+
+  + [
+  +   'node_modules/eslint-config-next/node_modules/eslint-plugin-import: eslint-plugin-import@2.32.0 requires eslint ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8 || ^9; installed 10.15.0',
+  +   'node_modules/eslint-config-next/node_modules/eslint-plugin-jsx-a11y: eslint-plugin-jsx-a11y@6.10.2 requires eslint ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9; installed 10.15.0',
+  +   'node_modules/eslint-config-next/node_modules/eslint-plugin-react: eslint-plugin-react@7.37.5 requires eslint ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7; installed 10.15.0',
+  +   'node_modules/eslint-config-next/node_modules/eslint-plugin-react-hooks: eslint-plugin-react-hooks@7.0.1 requires eslint ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0; installed 10.15.0'
+  + ]
+  - []
+
+      at TestContext.<anonymous> (file:///home/daniebo/Desktop/Workbooks/measure/tracks/deps_refresh_20261121/adversarial-d3-r2.test.mjs:203:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'node_modules/eslint-config-next/node_modules/eslint-plugin-import: eslint-plugin-import@2.32.0 requires eslint ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8 || ^9; installed 10.15.0', 'node_modules/eslint-config-next/node_modules/eslint-plugin-jsx-a11y: eslint-plugin-jsx-a11y@6.10.2 requires eslint ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9; installed 10.15.0', 'node_modules/eslint-config-next/node_modules/eslint-plugin-react: eslint-plugin-react@7.37.5 requires eslint ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7; installed 10.15.0', 'node_modules/eslint-config-next/node_modules/eslint-plugin-react-hooks: eslint-plugin-react-hooks@7.0.1 requires eslint ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0; installed 10.15.0' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+EXIT=1
