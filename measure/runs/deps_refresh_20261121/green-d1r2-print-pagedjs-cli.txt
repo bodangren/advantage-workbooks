@@ -1,0 +1,42 @@
+D1r2 print-path evidence, part B: pagedjs-cli under puppeteer 25 (PM's check).
+Browser install: npx puppeteer browsers install chrome, run in dashboard/.
+  BROWSER_INSTALL_EXIT=0
+  chrome@157.0.8103.78 /home/daniebo/.cache/puppeteer/chrome/linux-157.0.8103.78/chrome-linux64/chrome
+  The install writes only under ~/.cache/puppeteer. git status of
+  dashboard/package.json and dashboard/package-lock.json is empty after the install.
+  Puppeteer version: 25.18.1.
+
+HTML input: /tmp/opencode/deps-d1-proof-html/quest5-l01.html, rendered by the
+existing render-lesson-html.ts step with the round 11 options (--look chibi-quest,
+--series "Quest 5" --level A1). RENDER_Q5_EXIT=0.
+
+First render (one heavy run):
+  npx pagedjs-cli <html> -o <pdf>; exit 1, no PDF.
+  Exact error: "Failed to launch the browser process:  Code: null", stderr
+  "FATAL:content/browser/zygote_host/zygote_host_impl_linux.cc:144] No usable sandbox!"
+  Chrome received signal 6. No browser was installed a second time.
+
+Second render (one heavy run, same output path, launch flag only):
+  npx pagedjs-cli <html> -o /tmp/opencode/deps-d1-proof/quest5-l01-pagedjs-cli.pdf
+    --browserArgs="--no-sandbox"
+  PAGEDJS_CLI_NOSANDBOX_EXIT=0; the CLI logged 16 rendered pages and saved the PDF.
+
+Comparison with round 11 quest5-l01.pdf:
+  Page count (pdfinfo): r11 14, pagedjs-cli 17. DIFFERENCE: 3 pages more.
+    The CLI log says 16 rendered pages; pdfinfo counts 17 pages in the PDF.
+  pdffonts name, type and embedded: IDENTICAL. Both hold 7 CID TrueType
+    Identity-H faces, all embedded, with the same names. No Type 3 face,
+    no missing face, and no font-name difference.
+
+Live-code caller evidence (git grep over dashboard, excluding the lockfile):
+  dashboard/package.json:30 "pagedjs-cli": "^0.4.3"
+  dashboard/package.json:62 "puppeteer": "^25.18.1"
+  dashboard/package.json:63 "@puppeteer/browsers": "^3.2.7"
+  No call in dashboard/scripts, dashboard/lib or dashboard/app.
+  No live code calls pagedjs-cli or puppeteer. The live path uses Playwright
+  and the Paged.js polyfill through lib/print/render.ts.
+
+VERDICT (pagedjs-cli path): page count DIFFERS (17 versus 14); font list MATCH.
+This is recorded, not fixed. No live code calls pagedjs-cli, and the live path
+matches round 11 in part A. The page-count difference comes from the CLI render
+mode, not from a D1 dependency change to a live print path.

@@ -1,0 +1,35 @@
+D1r2 print-path evidence, part A: live print path (PM 2026-11-21, C-D1-1).
+Proof reference: round 11, /home/daniebo/Desktop/print-ready/primary-v2-look/proof-s5-r11/.
+A later folder proof-s5-r11-print-only exists but holds only contact JPGs, no PDFs.
+Driver: measure/runs/primary_v2_look_20261020/proof-s5/run-round11.sh, S5_ROUND=r11.
+The HTML render uses the round 11 options of that driver: --look chibi-quest,
+--series "Quest 5" --level A1 and --series "Adventure 9.2" --level A2+.
+All render, PDF, contact-sheet, manifest and check steps used one heavy-run wrapper each.
+Outputs: /tmp/opencode/deps-d1-proof/ (PDFs and proof assets).
+HTML and captures: /tmp/opencode/deps-d1-proof-html/ (no file under
+measure/runs/primary_v2_look_20261020/ was staged or changed).
+
+Step exits (Thai filter, render, render, PDF, PDF, sheets, manifest, checks):
+  thai_filter_exit=0, THAI_PROOF 0 Thai characters in 2 filtered output files
+  RENDER_Q5_EXIT=0, RENDER_A92_EXIT=0
+  PDF_Q5_EXIT=0, PDF_A92_EXIT=0
+  SHEET_Q5_EXIT=0, SHEET_A92_EXIT=0
+  MANIFEST_EXIT=0, CHECKS_EXIT=0
+
+Page count (pdfinfo):
+  quest5-l01: r11 14, new 14, MATCH
+  adventure92-l09: r11 16, new 16, MATCH
+
+pdffonts name, type, embedded (the two lists diff with no output):
+  quest5-l01: 7 faces, all CID TrueType Identity-H, emb yes, sub yes, uni yes;
+    QuicksandLight-Regular, FredokaLight-Medium, FredokaLight-Bold,
+    FredokaLight-SemiBold, QuicksandLight-Bold, Sarabun-Regular, Mitr-Bold.
+  adventure92-l09: the same 7 faces and the same type and embedded flags.
+
+S5 checks P1 to P20 on the new folder: P1 through P20 each exit 0, RESULT: PASS.
+The manifest contact-sheet hashes and both HTML hashes equal the round 11 values.
+The PDF byte sizes equal round 11 (2151364 and 2089133 bytes); the SHA-256
+digests differ because the PDF creation metadata differs.
+
+VERDICT (live path): MATCH. Page counts and font lists equal round 11.
+No D1 product regression on the live print path.
