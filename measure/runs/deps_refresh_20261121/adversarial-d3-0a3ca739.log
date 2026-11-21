@@ -1,4 +1,46 @@
-The round 3 checks remain pending. This provisional result does not permit acceptance.
+Verdict: PASS. All requested round 3 checks pass.
 phase_base_sha: 7515ae3bb523f25f67f85f1bc274a1a238035987
 role_base_sha: 0a3ca739a2e91c2ce54baf95ad14bb62802bf15d
 audited_head_sha: 0a3ca739a2e91c2ce54baf95ad14bb62802bf15d
+
+ADV-D3-R2-1 withdrawn:
+The durable required-peer test passes with ESLint 9.39.5.
+Both npm ls --all commands exit 0 without dependency problems.
+Each project lockfile contains one ESLint record, with no duplicate major.
+
+RB7-1 FIX:
+The lint probe uses one mkdtemp folder under dashboard.
+It does not write into app, lib, components, or __tests__.
+The unchanged dashboard configuration discovers the four nested fixtures.
+The real npm run lint command rejects their known errors with exit 1.
+The finally block removes the complete temporary folder.
+Clean lint then exits 0 with three existing warnings.
+
+Evidence:
+- adversarial-d3-0a3ca739-probes.txt: 11 durable tests pass, and the real lint control passes.
+- adversarial-d3-0a3ca739-trees.txt: both npm trees pass.
+- adversarial-d3-0a3ca739-delta.txt: the ESLint rollback has no duplicate major.
+- adversarial-d3-0a3ca739-audit.txt: zero live advisories and 19 passing self-test checks.
+- adversarial-d3-0a3ca739-tests.txt: 171 files and 3,198 tests pass.
+- adversarial-d3-0a3ca739-integrity.txt: package files and product configuration remain unchanged.
+
+The content folder is clean after Vitest; no restore was needed.
+No content file was read by this role.
+Every displayed command result passed through the Thai line filter.
+The separate Lucide visual-review Nit stays with the scheduled UX review.
+The unrelated audit-after-d3-video.json change remains unstaged.
+
+MEASURE_AGENT_RESULT
+role: adversarial-testing
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: 0dfa1960
+tests_run: Durable tests 11/11 PASS; lint control and clean lint PASS; both npm trees PASS; audit PASS; self-test 19/19 PASS; Vitest 171 files and 3,198 tests PASS.
+files_changed: Lint probe, phase plan, audit artifacts, three review pairs, and six audit snapshots.
+plan_updates: The adversarial round 3 task is complete with PASS.
+known_failures: none
+handoff: ADV-D3-R2-1 is withdrawn. RB7-1 is fixed. Proceed to the remaining phase gates. retry_recommendation: none.
+dispositions: RB7-1=FIX
+END_MEASURE_AGENT_RESULT
+RESULT: PASS

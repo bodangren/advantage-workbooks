@@ -7,8 +7,8 @@
   "role_base_sha": "0a3ca739a2e91c2ce54baf95ad14bb62802bf15d",
   "baseline_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
   "audited_head_sha": "0a3ca739a2e91c2ce54baf95ad14bb62802bf15d",
-  "status": "inconclusive",
-  "summary": "The focused checks pass. ESLint 9.39.5 satisfies the required peers. The dashboard Vitest gate remains pending.",
+  "status": "pass",
+  "summary": "The required-peer fix passes all requested checks. ESLint 9.39.5 satisfies the required peers. The lint probe uses a temporary folder. Vitest passes 3,198 tests.",
   "blocking_findings": [],
   "nonblocking_findings": [],
   "evidence": [
@@ -23,7 +23,10 @@
     "adversarial-d3-0a3ca739-integrity.txt confirms unchanged package files and configuration. The temporary folder is absent after cleanup.",
     "No track test-strategy.md or routing file exists. The spec, phase plan, prior audit, and role brief define the applicable requirements.",
     "A4 is not applicable because this gate has no marker-consistency check. The durable A7 fixture preserves the advisory hit despite filter words.",
-    "The separate Lucide visual-review Nit remains with the scheduled UX review. This role performs no browser review."
+    "The separate Lucide visual-review Nit remains with the scheduled UX review. This role performs no browser review.",
+    "adversarial-d3-0a3ca739-tests.txt records Vitest exit 0 with 171 files and 3,198 tests passed.",
+    "The post-Vitest content status is empty. No restore was needed. No product or package file changed during this role.",
+    "Only this role's audit commit advances HEAD after 0a3ca739. No implementation commit invalidates this result."
   ],
   "commands": [
     "git rev-parse HEAD -> 0a3ca739a2e91c2ce54baf95ad14bb62802bf15d.",
@@ -33,14 +36,61 @@
     "npm ls --all --json in dashboard and video/storytime-song -> exit 0 in both; no dependency problems.",
     "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate -> exit 0; zero advisories.",
     "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test -> exit 0; 19 checks.",
-    "Read-only lockfile scan -> one ESLint record per project; dashboard resolves 9.39.5."
+    "Read-only lockfile scan -> one ESLint record per project; dashboard resolves 9.39.5.",
+    "CI=true npx vitest run with the four plan exclusions, through one heavy-run wrapper -> exit 0; 171 files and 3,198 tests passed.",
+    "git status --porcelain content after Vitest -> empty; no restore needed."
   ],
-  "changed_files": [],
+  "changed_files": [
+    "measure/tracks/deps_refresh_20261121/adversarial-d3-r2-lint.mjs",
+    "measure/tracks/deps_refresh_20261121/plan.md",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-0a3ca739.json",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-0a3ca739.log",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-0a3ca739-audit.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-0a3ca739-delta.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-0a3ca739-integrity.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-0a3ca739-probes.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-0a3ca739-trees.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-0a3ca739-tests.txt",
+    "measure/runs/deps_refresh_20261121/review-a-d3-0a3ca739.json",
+    "measure/runs/deps_refresh_20261121/review-a-d3-0a3ca739.log",
+    "measure/runs/deps_refresh_20261121/review-b-d3-0a3ca739.json",
+    "measure/runs/deps_refresh_20261121/review-b-d3-0a3ca739.log",
+    "measure/runs/deps_refresh_20261121/review-c-d3-0a3ca739.json",
+    "measure/runs/deps_refresh_20261121/review-c-d3-0a3ca739.log",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T184244Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T184522Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T185338Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T184244Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T184522Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T185338Z.json"
+  ],
   "test_strategy_violations": [],
   "live_contract_violations": [],
   "prod_wiring_violations": [],
   "route_parity_violations": [],
-  "retry_recommendation": "infrastructure_retry",
-  "confidence": "medium",
-  "route": "openai/gpt-6.1-sol#high"
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6.1-sol#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "adversarial-d3-0a3ca739-trees.txt records valid package trees in both projects; the required-peer test passes."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "adversarial-d3-0a3ca739-probes.txt records four rejected real CLI fixtures and 11 passing durable tests."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "adversarial-d3-0a3ca739-integrity.txt confirms unchanged package files and product configuration during this role."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "adversarial-d3-0a3ca739-tests.txt records 3,198 passes and a clean post-test content status."
+    }
+  ]
 }
