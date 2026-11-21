@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "role_base_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "baseline_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "audited_head_sha": "4601afd3b97653c1a1a96b8eca095e24f9d29cdb",
+  "status": "pass",
+  "summary": "D3 preserves print and component contracts. The documented print command uses system Chrome, the Playwright 1.65.1 Chromium revision is cached, and no changed UI API usage was found.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is 4601afd3b97653c1a1a96b8eca095e24f9d29cdb, matching the requested audited head.",
+    "The exact phase diff changes package manifests, lockfiles, plan.md, and run evidence; it changes no dashboard application source or route files.",
+    "dashboard/scripts/print/make-book-pdf.ts:12-15 documents `npx tsx scripts/print/make-book-pdf.ts <project> ...`; lines 67-68 load the Paged.js polyfill and launch system Chrome with `channel: 'chrome'`.",
+    "dashboard/node_modules/playwright-core/browsers.json identifies Playwright 1.65.1 Chromium revision 1255; ~/.cache/ms-playwright/chromium-1255 exists with the chrome-linux64 payload.",
+    "The print command does not use Playwright's bundled Chromium, so it does not require `npx playwright install`; it requires system Chrome, which the script explicitly selects.",
+    "dashboard/components/ui/button.tsx:45-51 retains the `asChild` Slot composition; dashboard/components/ui/select.tsx:9-72 uses the standard Radix Root, Trigger, Content, and related wrappers.",
+    "Search across dashboard sources found no changed or deprecated Slot/Select API pattern. The Tailwind and Radix changes are lockfile updates, and application classes are unchanged.",
+    "green-d3-r2-book-proof.txt reports matching 233-page output and zero pixel differences across all pages.",
+    "No visual browser review is needed for this contract audit: no application UI or route source changed, and the dedicated dashboard UX review owns visual presentation checks."
+  ],
+  "commands": [
+    "git rev-parse HEAD — 4601afd3b97653c1a1a96b8eca095e24f9d29cdb",
+    "git diff --name-status 7515ae3b..4601afd3 — application changes are the dashboard and video package manifests/lockfiles; plan and run evidence also changed",
+    "rg -n 'asChild|<Select|SelectTrigger|SelectValue|SelectContent|SelectItem' dashboard --glob '!package-lock.json' — expected button/select wrapper usages only",
+    "npm ls @playwright/test playwright playwright-core --depth=0 — @playwright/test@1.65.1",
+    "Python JSON/cache inspection — Playwright Chromium revision 1255; ~/.cache/ms-playwright/chromium-1255/chrome-linux64 exists",
+    "green-d3-r2-book-proof.txt — render exit 0; 233 pages; zero differing pixels"
+  ],
+  "changed_files": ["measure/runs/deps_refresh_20261121/review-c-d3-4601afd3-r2.json", "measure/runs/deps_refresh_20261121/review-c-d3-4601afd3-r2.log"],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "contract_path_evidence": ["measure/tracks/deps_refresh_20261121/spec.md:60-63", "measure/tracks/deps_refresh_20261121/plan.md:95-105", "dashboard/package.json", "video/storytime-song/package.json"],
+  "retry_recommendation": "none",
+  "confidence": "medium",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "dashboard/scripts/print/make-book-pdf.ts:68 selects system Chrome, and the recorded D3 proof matches all 233 page images."},
+    {"axis": "test_meaning", "score": 4, "evidence": "green-d3-r2-book-proof.txt compares all 233 rendered pages and reports zero pixel differences."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --name-status 7515ae3b..4601afd3 shows package manifests, lockfiles, plan, and measure evidence only."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "Playwright 1.65.1 metadata, browser cache, source lines, current HEAD, and the proof record support the conclusions."}
+  ]
+}

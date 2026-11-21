@@ -1,0 +1,19 @@
+Verdict: pass. The phase preserves the print and component contracts. The user-facing print script documents its `npx tsx` command and selects system Chrome. It does not require a Playwright-managed browser download. The Playwright 1.65.1 Chromium revision 1255 is present in the local cache. No changed or deprecated Radix Slot/Select API usage was found. No visual browser review is needed for this contract audit because UI source did not change; the dedicated UX reviewer owns visual presentation checks.
+
+Findings: none.
+Retry recommendation: none.
+
+Evidence: `git rev-parse HEAD` returned the requested audited SHA. `dashboard/scripts/print/make-book-pdf.ts:12-15` documents the command; line 68 launches `channel: 'chrome'`. Playwright metadata reports Chromium revision 1255, and `~/.cache/ms-playwright/chromium-1255/chrome-linux64` exists. The wrapper retains `asChild` and standard Radix Select APIs (`dashboard/components/ui/button.tsx:45-51`; `dashboard/components/ui/select.tsx:9-72`). The book proof reports 233 pages and zero pixel differences. No tests were run by this audit.
+
+MEASURE_AGENT_RESULT
+role: measure-review-c-ux-api
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: No tests run; audit-only review. `npm ls @playwright/test playwright playwright-core --depth=0` exited 0 and reported @playwright/test 1.65.1.
+files_changed: measure/runs/deps_refresh_20261121/review-c-d3-4601afd3-r2.json and .log only.
+plan_updates: none
+known_failures: none
+handoff: D3 UX/API contract review passes. The print script needs system Chrome, not `npx playwright install`; the Playwright 1.65.1 browser revision is cached. No UI API or route parity issue was found. No visual browser review is needed for this contract audit.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,14 @@
+Audit result: FAIL. F1 blocks acceptance pending Green remediation.
+
+MEASURE_AGENT_RESULT
+role: review-a
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: audited 4601afd3; role baseline 66f67278
+tests_run: no heavy tests run by this audit; reviewed captured lint, tsc, Vitest, build, audit-gate, self-test, and book-proof exit records; read-only npm outdated and npm view checks
+files_changed: measure/runs/deps_refresh_20261121/review-a-d3-4601afd3.json; measure/runs/deps_refresh_20261121/review-a-d3-4601afd3.log
+plan_updates: none
+known_failures: F1: eight non-major exact-pin deferrals lack a concrete compatibility reason; see versions-d3.txt:39-40,45-50
+handoff: Green should update the listed React and tooling packages, or supply concrete recorded compatibility evidence. PA-D3-1 is closed in substance: npm outdated reports zero packages with wanted greater than current in both projects. HEAD equals audited_head_sha. Do not touch the unrelated dirty render.mjs work.
+END_MEASURE_AGENT_RESULT

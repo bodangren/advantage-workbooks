@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "66f67278",
+  "baseline_sha": "66f67278",
+  "audited_head_sha": "4601afd3b97653c1a1a96b8eca095e24f9d29cdb",
+  "status": "fail",
+  "summary": "PA-D3-1 is closed in substance. npm outdated shows zero in-range updates in both projects, but eight out-of-range non-major exact pins have no concrete compatibility reason despite the spec requiring the latest version that works.",
+  "blocking_findings": [
+    "F1 [Blocker] review-a: Update dashboard react and react-dom, and video @types/react, @types/web, eslint, prettier, react, and react-dom, or record concrete compatibility evidence for each deferral. versions-d3.txt:39-40,45-50 gives generic exact-pin and caution reasons, but the track spec allows deferral only for breaking majors. Next 16.4.6 accepts React >=19.0.0; Remotion 4.0.545 declares React and react-dom >=16.8.0. Rationale: the evidence does not establish that these non-major updates fail the project gates, so these deferrals violate the latest-working-version requirement."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is 4601afd3b97653c1a1a96b8eca095e24f9d29cdb, matching audited_head_sha.",
+    "npm outdated --json in dashboard lists current equal to wanted for all rows; green-d3-r2-outdated-dashboard-after.txt reports in-range updates behind: 0.",
+    "npm outdated --json in video/storytime-song lists current equal to wanted for all rows; green-d3-r2-outdated-video-after.txt reports in-range updates behind: 0.",
+    "npm view next@16.4.6 peerDependencies.react and peerDependencies.react-dom return ^18.2.0 or ^19.0.0; Remotion 4.0.545 package peerDependencies accept React and React DOM >=16.8.0.",
+    "green-d3-r2-lint.txt and green-d3-r2-video-lint.txt record exit 0; green-d3-r2-checks.txt and green-d3-r2-video-checks.txt record exit 0.",
+    "green-d3-r2-tests.txt records 171 test files and 3198 tests passed, exit 0; green-d3-r2-video-tests.txt records 21 passed, 0 failed, exit 0.",
+    "green-d3-r2-build.txt and green-d3-r2-video-build.txt record exit 0.",
+    "green-d3-r2-book-proof.txt records matching 233-page PDFs and zero page pixel differences across all 233 pages; numeric comparison exit 0.",
+    "green-d3-r2-gate-both.txt records audit-gate exit 0; green-d3-r2-selftest.txt records 19 checks passed, exit 0.",
+    "versions-d3.txt:63-67 records the throwaway minimatch trial: without the override 9 moderate entries, with 11.0.9 zero advisories. Adversarial logs confirm the 11.0.9 export and caller usage.",
+    "Track spec states update every package to the latest version that works and only defer breaking majors. The current track has no test-strategy.md; its gate definitions are in plan.md.",
+    "Working-tree status includes unrelated dirty primary_v2_look review files and video/storytime-song/scripts/render.mjs; this audit did not modify them."
+  ],
+  "commands": [
+    "git rev-parse HEAD -> 4601afd3b97653c1a1a96b8eca095e24f9d29cdb.",
+    "git diff --stat 7515ae3b 4601afd3 and git diff --name-status 66f67278 4601afd3 reviewed.",
+    "npm outdated --json in dashboard -> current equals wanted on each outdated row; no in-range updates behind.",
+    "npm outdated --json in video/storytime-song -> current equals wanted on each outdated row; no in-range updates behind.",
+    "npm view next@16.4.6 peerDependencies and remotion/@remotion peerDependencies -> React 19.3.1 accepted.",
+    "npm ls @rspack/core @rspack/binding-linux-x64-gnu --all --json in video -> Remotion bundler uses Rspack 2.3.0, while direct optional binding stays at 1.7.12."
+  ],
+  "changed_files": [
+    "dashboard/package.json",
+    "dashboard/package-lock.json",
+    "video/storytime-song/package.json",
+    "video/storytime-song/package-lock.json",
+    "measure/tracks/deps_refresh_20261121/plan.md",
+    "measure/runs/deps_refresh_20261121/versions-d3.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 3,
+      "evidence": "versions-d3.txt:39-50 defers eight non-major exact pins without showing that newer versions fail."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "green-d3-r2-tests.txt records 3198 passing tests and the book proof reports zero changed page pixels."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The phase diff changes dependency manifests and lockfiles, the plan, and run evidence; no production source changed."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "npm outdated and npm view results agree with green-d3-r2-outdated-*.txt and the passing gate logs."
+    }
+  ]
+}

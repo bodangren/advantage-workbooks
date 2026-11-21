@@ -1,0 +1,423 @@
+# PROJECT_BUILD dashboard
+EXIT_CODE: 0
+
+> dashboard@0.1.0 build
+> next build
+
+▲ Next.js 16.4.6 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 84ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1274ms
+  Running TypeScript ...
+  Finished TypeScript in 2.3s ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/9) ...
+  Generating static pages using 11 workers (2/9) 
+  Generating static pages using 11 workers (4/9) 
+  Generating static pages using 11 workers (6/9) 
+✓ Generating static pages using 11 workers (9/9) in 180ms
+Turbopack build encountered 12 warnings:
+./lib/document-wrapper/print-fonts.ts:61:22
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m59 |[0m [36mexport[0m [36mfunction[0m fontFaceCss(list: [33mPrintFontFace[0m[], dir: string = [33mPRINT_FONT_DIR[0m): string {
+  [90m60 |[0m     [36mreturn[0m list.map((f) => {
+[33m[1m>[0m [90m61 |[0m         [36mconst[0m data = fs.readFileSync(path.join(dir, f.file)).toString([32m'base64'[0m);
+  [90m   |[0m                      [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m62 |[0m         [36mconst[0m range = f.unicodeRange ? [32m` unicode-range: [0m${f.unicodeRange[32m};`[0m : [32m''[0m;
+  [90m63 |[0m         [36mconst[0m adjust = f.sizeAdjust ? [32m` size-adjust: [0m${f.sizeAdjust[32m};`[0m : [32m''[0m;
+  [90m64 |[0m         [36mreturn[0m [32m`@font-face { font-family: '[0m${f.family[32m}'; font-weight: [0m${f.weight[32m}; font-st...[0m
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.readFileSync(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/document-wrapper/print-fonts.ts
+    ./lib/filesystem.ts
+    ./app/api/projects/[projectId]/teacher-manual/route.ts
+
+  #2 [App Route]:
+    ./lib/document-wrapper/print-fonts.ts
+    ./lib/workbook-document-wrapper.ts
+    ./app/api/projects/[projectId]/compile/route.ts
+
+
+./lib/document-wrapper/print-fonts.ts:61:38
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m59 |[0m ...[36mt[0m [36mfunction[0m fontFaceCss(list: [33mPrintFontFace[0m[], dir: string = [33mPRINT_FONT_DIR[0m): string {
+  [90m60 |[0m ...[36meturn[0m list.map((f) => {
+[33m[1m>[0m [90m61 |[0m ...   [36mconst[0m data = fs.readFileSync(path.join(dir, f.file)).toString([32m'base64'[0m);
+  [90m   |[0m                                    [33m[1m^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m62 |[0m ...   [36mconst[0m range = f.unicodeRange ? [32m` unicode-range: [0m${f.unicodeRange[32m};`[0m : [32m''[0m;
+  [90m63 |[0m ...   [36mconst[0m adjust = f.sizeAdjust ? [32m` size-adjust: [0m${f.sizeAdjust[32m};`[0m : [32m''[0m;
+  [90m64 |[0m ...   [36mreturn[0m [32m`@font-face { font-family: '[0m${f.family[32m}'; font-weight: [0m${f.weight[32m}; font-styl...[0m
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/document-wrapper/print-fonts.ts
+    ./lib/filesystem.ts
+    ./app/api/projects/[projectId]/teacher-manual/route.ts
+
+  #2 [App Route]:
+    ./lib/document-wrapper/print-fonts.ts
+    ./lib/workbook-document-wrapper.ts
+    ./app/api/projects/[projectId]/compile/route.ts
+
+
+./lib/filesystem.ts:143:27
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m141 |[0m ...
+  [90m142 |[0m ... {
+[33m[1m>[0m [90m143 |[0m ...[36monst[0m entries = [36mawait[0m fs.readdir(fullPath, { withFileTypes: [36mtrue[0m });
+  [90m    |[0m                         [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m144 |[0m ...[36monst[0m lessons = entries
+  [90m145 |[0m ... .filter(entry => entry.isFile() && entry.name.endsWith([32m'.json'[0m))
+  [90m146 |[0m ... .filter(entry => entry.name.startsWith([32m'content_'[0m) || entry.name.endsWith([32m'_workbook....[0m
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.readdir(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/filesystem.ts
+    ./app/api/render/route.ts
+
+  #2 [App Route]:
+    ./lib/filesystem.ts
+    ./lib/filesystem.ts
+    ./app/api/projects/[projectId]/teacher-manual/route.ts
+
+
+./lib/filesystem.ts:89:26
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m87 |[0m
+  [90m88 |[0m     [36mtry[0m {
+[33m[1m>[0m [90m89 |[0m       [36mconst[0m stat = [36mawait[0m fs.stat(candidate);
+  [90m   |[0m                          [33m[1m^^^^^^^^^^^^^^^^^^[0m
+  [90m90 |[0m       [36mif[0m (stat.isDirectory()) {
+  [90m91 |[0m         [36mreturn[0m { fullPath: candidate, [36mtype[0m: subdir };
+  [90m92 |[0m       }
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.stat(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/filesystem.ts
+    ./app/api/render/route.ts
+
+  #2 [App Route]:
+    ./lib/filesystem.ts
+    ./lib/filesystem.ts
+    ./app/api/projects/[projectId]/teacher-manual/route.ts
+
+
+./lib/filesystem.ts:79:22
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m77 |[0m [36masync[0m [36mfunction[0m resolveProjectPath(projectId: string): [33mPromise[0m<{ fullPath: string; [36mtype[0m: [33mPr...[0m
+  [90m78 |[0m   [36mfor[0m ([36mconst[0m subdir [36mof[0m [33mSERIES_SUBDIRS[0m) {
+[33m[1m>[0m [90m79 |[0m     [36mconst[0m rootPath = path.join(getWorkbooksRoot(), subdir);
+  [90m   |[0m                      [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m80 |[0m     [36mconst[0m candidate = path.join(rootPath, projectId);
+  [90m81 |[0m     
+  [90m82 |[0m     [36mtry[0m {
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/filesystem.ts
+    ./app/api/render/route.ts
+
+  #2 [App Route]:
+    ./lib/filesystem.ts
+    ./lib/filesystem.ts
+    ./app/api/projects/[projectId]/teacher-manual/route.ts
+
+
+./lib/filesystem.ts:80:23
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m78 |[0m   [36mfor[0m ([36mconst[0m subdir [36mof[0m [33mSERIES_SUBDIRS[0m) {
+  [90m79 |[0m     [36mconst[0m rootPath = path.join(getWorkbooksRoot(), subdir);
+[33m[1m>[0m [90m80 |[0m     [36mconst[0m candidate = path.join(rootPath, projectId);
+  [90m   |[0m                       [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m81 |[0m     
+  [90m82 |[0m     [36mtry[0m {
+  [90m83 |[0m       assertSafePath(rootPath, candidate);
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/filesystem.ts
+    ./app/api/render/route.ts
+
+  #2 [App Route]:
+    ./lib/filesystem.ts
+    ./lib/filesystem.ts
+    ./app/api/projects/[projectId]/teacher-manual/route.ts
+
+
+./lib/filesystem.ts:203:22
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m201 |[0m   [90m// Try to find the project in subdirectories[0m
+  [90m202 |[0m   [36mfor[0m ([36mconst[0m subdir [36mof[0m [33mSERIES_SUBDIRS[0m) {
+[33m[1m>[0m [90m203 |[0m     [36mconst[0m rootPath = path.join(getWorkbooksRoot(), subdir);
+  [90m    |[0m                      [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m204 |[0m     [36mconst[0m metadataPath = path.join(rootPath, projectId, [32m'project.json'[0m);
+  [90m205 |[0m     
+  [90m206 |[0m     [36mtry[0m {
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/filesystem.ts
+    ./app/api/render/route.ts
+
+  #2 [App Route]:
+    ./lib/filesystem.ts
+    ./lib/filesystem.ts
+    ./app/api/projects/[projectId]/teacher-manual/route.ts
+
+
+./lib/image-handler.ts:25:26
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m23 |[0m     [36mconst[0m candidate = path.join(root, subdir, projectId);
+  [90m24 |[0m     [36mtry[0m {
+[33m[1m>[0m [90m25 |[0m       [36mconst[0m stat = [36mawait[0m fs.stat(candidate);
+  [90m   |[0m                          [33m[1m^^^^^^^^^^^^^^^^^^[0m
+  [90m26 |[0m       [36mif[0m (stat.isDirectory()) {
+  [90m27 |[0m         [36mreturn[0m candidate;
+  [90m28 |[0m       }
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.stat(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/image-handler.ts
+    ./app/api/projects/[projectId]/images/[filename]/route.ts
+
+  #2 [App Route]:
+    ./lib/image-handler.ts
+    ./lib/filesystem.ts
+    ./app/api/projects/[projectId]/teacher-manual/route.ts
+
+
+./lib/image-handler.ts:23:23
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m21 |[0m   [36mconst[0m root = getWorkbooksRoot();
+  [90m22 |[0m   [36mfor[0m ([36mconst[0m subdir [36mof[0m [33mSERIES_SUBDIRS[0m) {
+[33m[1m>[0m [90m23 |[0m     [36mconst[0m candidate = path.join(root, subdir, projectId);
+  [90m   |[0m                       [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m24 |[0m     [36mtry[0m {
+  [90m25 |[0m       [36mconst[0m stat = [36mawait[0m fs.stat(candidate);
+  [90m26 |[0m       [36mif[0m (stat.isDirectory()) {
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/image-handler.ts
+    ./app/api/projects/[projectId]/images/[filename]/route.ts
+
+  #2 [App Route]:
+    ./lib/image-handler.ts
+    ./lib/filesystem.ts
+    ./app/api/projects/[projectId]/teacher-manual/route.ts
+
+
+./lib/lesson-package/context.ts:29:48
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m27 |[0m ...[90m the printed Origins 2 and 3.1, so only its own earlier lessons count.[0m
+  [90m28 |[0m ...[90mwn earlier text: the Origins 3.1 project holds E12 as lesson 12.[0m
+[33m[1m>[0m [90m29 |[0m ...[pkg.meta.book] ? path.join([33mREPO_ROOT[0m, [33mPRINTED_BOOKS[0m[pkg.meta.book]) : [36mundefined[0m;
+  [90m   |[0m                      [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m30 |[0m ...book === [32m'origins-1'[0m ? [] : cache.printed.filter((t) => !(path.dirname(t.source) === ow...
+  [90m31 |[0m ...
+  [90m32 |[0m ...
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/lesson-package/context.ts
+    ./app/api/packages/[book]/approve-all/route.ts
+
+  #2 [App Route]:
+    ./lib/lesson-package/context.ts
+    ./lib/filesystem.ts
+    ./app/api/render/route.ts
+
+
+./lib/lesson-package/files.ts:88:10
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m86 |[0m [36mexport[0m [36mfunction[0m loadObjectiveIds(dir: string = [33mOBJECTIVE_KEY_DIR[0m): [33mSet[0m<string> {
+  [90m87 |[0m     [36mconst[0m ids = [36mnew[0m [33mSet[0m<string>();
+[33m[1m>[0m [90m88 |[0m     [36mif[0m (!fs.existsSync(dir)) [36mreturn[0m ids;
+  [90m   |[0m          [33m[1m^^^^^^^^^^^^^^^^^^[0m
+  [90m89 |[0m     [36mfor[0m ([36mconst[0m f [36mof[0m fs.readdirSync(dir).filter((x) => x.endsWith([32m'-objective-key.json'[0m))) {
+  [90m90 |[0m         [36mconst[0m key = [33mJSON[0m.parse(fs.readFileSync(path.join(dir, f), [32m'utf8'[0m)) [36mas[0m { objectives...
+  [90m91 |[0m         [36mfor[0m ([36mconst[0m o [36mof[0m key.objectives) ids.add(o.id);
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.existsSync(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/lesson-package/files.ts
+    ./app/api/packages/[book]/route.ts
+
+  #2 [App Route]:
+    ./lib/lesson-package/files.ts
+    ./lib/filesystem.ts
+    ./app/api/render/route.ts
+
+
+./lib/lesson-package/files.ts:89:21
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m87 |[0m     [36mconst[0m ids = [36mnew[0m [33mSet[0m<string>();
+  [90m88 |[0m     [36mif[0m (!fs.existsSync(dir)) [36mreturn[0m ids;
+[33m[1m>[0m [90m89 |[0m     [36mfor[0m ([36mconst[0m f [36mof[0m fs.readdirSync(dir).filter((x) => x.endsWith([32m'-objective-key.json'[0m))) {
+  [90m   |[0m                     [33m[1m^^^^^^^^^^^^^^^^^^^[0m
+  [90m90 |[0m         [36mconst[0m key = [33mJSON[0m.parse(fs.readFileSync(path.join(dir, f), [32m'utf8'[0m)) [36mas[0m { objectives...
+  [90m91 |[0m         [36mfor[0m ([36mconst[0m o [36mof[0m key.objectives) ids.add(o.id);
+  [90m92 |[0m     }
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.readdir(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/lesson-package/files.ts
+    ./app/api/packages/[book]/route.ts
+
+  #2 [App Route]:
+    ./lib/lesson-package/files.ts
+    ./lib/filesystem.ts
+    ./app/api/render/route.ts
+
+
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/cast
+├ ƒ /api/files
+├ ƒ /api/packages
+├ ƒ /api/packages/[book]
+├ ƒ /api/packages/[book]/[lesson]
+├ ƒ /api/packages/[book]/[lesson]/approve
+├ ƒ /api/packages/[book]/[lesson]/image
+├ ƒ /api/packages/[book]/approve-all
+├ ƒ /api/projects
+├ ƒ /api/projects/[projectId]/compile
+├ ƒ /api/projects/[projectId]/images
+├ ƒ /api/projects/[projectId]/images/[filename]
+├ ƒ /api/projects/[projectId]/lessons
+├ ƒ /api/projects/[projectId]/lessons/[lessonId]
+├ ƒ /api/projects/[projectId]/lessons/[lessonId]/augment
+├ ƒ /api/projects/[projectId]/lessons/[lessonId]/generate-image
+├ ƒ /api/projects/[projectId]/lessons/generate
+├ ƒ /api/projects/[projectId]/metadata
+├ ƒ /api/projects/[projectId]/teacher-manual
+├ ƒ /api/render
+├ ○ /projects
+├ ƒ /projects/[projectId]
+├ ƒ /projects/[projectId]/compile
+├ ƒ /projects/[projectId]/lessons/[lessonId]
+├ ƒ /projects/[projectId]/lessons/[lessonId]/preview
+├ ƒ /projects/[projectId]/teacher-manual/preview
+├ ○ /review
+├ ƒ /review/[book]/[lesson]
+├ ○ /review/cast
+└ ƒ /review/sheet/[book]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
