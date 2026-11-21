@@ -483,3 +483,144 @@ P16 reads font names and counts; it reads the span sizes from the Ghostscript `t
 8. Daniel's one look. His PM defaults are the answers unless he overrides them. No printer file is made without his dated approval.
 
 **(d) Records.** The S5 risk line now gives the printer file as "on hold, no date (strategy v1.18)". The stale dates in `spec.md` and `plan.md`, the S6 test list, and the naming of the F5 picture stay with the plan author. The hero-drop record is `proof-s5/g1-hero-drop.txt` (F20). Review applicability stays as above; the new rules change scoped print CSS only, and no route, flag, or option changes.
+
+---
+
+## Phase S8: Default look for new editions
+
+**Risk classification: medium.** The change alters the default look of every Primary Advantage project that has no `look` value. A wrong default sends a new Origins 1 to Quest 4 edition to the wrong look. A missed shipped edition changes a printed book. The change touches no template, no CSS, no font, and no route contract. Tests assert exact look strings, exact edition identities, and byte identity against golden files. Those bounds keep the risk at medium.
+
+**phase_base_sha capture point (S8).** After the commit with subject `measure(strategy): primary_v2_look S8 default look for new editions` lands, the orchestrator runs `git rev-parse HEAD` once and sets `phase_base_sha` to that value. That SHA is immutable for the phase. Do not use `75766085` from the role brief. That commit predates this strategy. If this strategy is refreshed, capture the base again after the newest strategy commit. No Red file, Green code, project edit, or gate run starts before the capture.
+
+### Design default: shipped edition versus new edition
+
+Recorded decision: write `look: "classic"` into the `project.json` of each of the 5 shipped editions. In `dashboard/lib/look.ts`, change the no-look default of `projectLook` from `bookLook(book)` to `chibi-quest`. Keep `bookLook`, `CHIBI_QUEST_BOOKS`, and `parseLook` unchanged.
+
+Reason for this choice:
+
+1. All 5 shipped `project.json` files hold no `look` key today. Adding one gives those editions an explicit classic marker that a new project does not have.
+2. `projectLook` receives `ProjectMetadata` (series, number, level, look). It cannot see the project folder id. A pinned list of shipped editions inside `look.ts` cannot tell a shipped Origins 2 edition from a new Origins 2 edition. Both map to the same `origins-2` string. Only an explicit `look: "classic"` in the shipped project makes the two cases differ.
+3. `bookLook` stays as it is. The content-folder path of Origins 1 to Quest 4 keeps printing `classic`. Those folders feed the shipped print files. The two golden HTML files and the 70 print files of 08bb160 stay byte-identical.
+4. A rewritten edition is told apart by being a new project with no `look` key. A graph-first rewrite creates that project; it does not reuse the shipped project's explicit classic marker. `projectLook` then returns `chibi-quest` for it.
+
+The 5 shipped editions are `primary/origins-2-a0`, `primary/adventures-1.0-a1`, `primary/origins-3.1-a0`, `primary/origins-3.2-a0`, and `primary/quest-4-a1`. Note that `adventures-1.0-a1` declares `seriesName` "Origins" and `levelNumber` "2". It still gets an explicit `look: "classic"`.
+
+### Owned scope (from plan.md)
+
+- S8 task 1 (Green): the no-look default of `projectLook` is `chibi-quest`; the 5 shipped edition `project.json` files carry `look: "classic"`.
+- S8 task 2 (Red): new file `dashboard/__tests__/default-look-new-editions.test.ts`. The golden byte-identity tests stay unchanged.
+- S8 task 3: no shipped or on-order print file is rebuilt.
+- Phase gates: Reviews A, B, and C, one adversarial round, phase acceptance, and the checkpoint.
+
+### Top risks
+
+1. The classic golden files `content/primary/origins-3.2/print/golden/lesson-05.html` and `lesson-05-no-key.html` must stay byte-identical.
+2. The 70 print files of 08bb160 must stay byte-identical. `export-print-data.ts` must give no git change.
+3. A new Origins 1 to Quest 4 edition with no `look` must get `chibi-quest`. The present code gives it `classic`.
+4. Each of the 5 shipped editions must stay `classic`, even when it has no `look` key before Green.
+5. `parseLook` must still throw on an unknown look. Do not turn an unknown value into a silent default.
+6. The content-folder path through `bookLook` must stay `classic` for Origins 1 to Quest 4.
+7. Existing assertions in `dashboard/__tests__/workbook-look.test.ts` that expect classic for a no-look Quest 4 or Origins 3.2 project become stale. Green updates them.
+
+### Targeted Red command
+
+Every heavy command uses one wrapper. Do not nest wrappers.
+
+```
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts'
+```
+
+Red condition: the new file exists and compiles. It fails only on the new-edition default assertions. The shipped-edition, explicit-look, unknown-look, book-folder, and golden byte-identity assertions pass at Red, because they protect present behavior. `workbook-look.test.ts` still holds its old assertions at Red and passes. A syntax error or a missing import is not a valid Red. Exit 75 means the pre-flight hold outlasted its wait; rerun and do not record a pass.
+
+### Green gate
+
+Run four commands. Each command uses one heavy-run wrapper, never nested.
+
+- `GREEN_TEST_COMMAND`: the targeted vitest command above. It must exit 0. Green also updates the stale assertions in `workbook-look.test.ts` (top risk 7).
+- `PROJECT_TESTS`: `set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts`. It must exit 0 apart from the recorded earlier failures below.
+- `PROJECT_LINT`: `set -o pipefail; cd dashboard && npx eslint lib/look.ts __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts --no-error-on-unmatched-pattern`. It must exit 0. eslint does not lint the `project.json` files; the tests read them.
+- `PROJECT_CHECKS`: `set -o pipefail; cd dashboard && npx tsc --noEmit`. It must exit 0.
+
+Each new rule must have a mutant that a named test catches. Record the mutant, the catching test, and the exit code in the run log.
+
+### Closeout gate
+
+Phase acceptance runs on the head after the S8 implementation. Gates: `RED_TEST_COMMAND` and `GREEN_TEST_COMMAND` exit 0; `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` exit 0 in heavy-runs. The role states the exit code of each gate. It also checks that `git diff --exit-code -- 'content/primary/**/print/'` is empty and that no new printer file exists under `~/Desktop/print-ready/`. It writes `measure/runs/primary_v2_look_20261020/phase-acceptance-s8-<sha8>.json` with PASS and 0 open blockers. It records that file in `plan.md`. The checkpoint commit and its git note then follow the workflow protocol. Any gate failure other than the recorded earlier failures fails the closeout gate.
+
+### Test cases in `dashboard/__tests__/default-look-new-editions.test.ts`
+
+1. New edition with no `look` gets `chibi-quest` at each series: `projectLook` of Origins 1, Origins 2, Origins 3.2, Quest 4, Quest 5, and Adventure 9.3, each without a `look` key, returns `chibi-quest`.
+2. Rewritten edition: a temporary project with `seriesName` "Origins", `levelNumber` "3.2", and no `look` returns `chibi-quest` through `projectLook`. This is a new project, not the shipped one.
+3. Each of the 5 shipped editions stays `classic`: read each `primary/<id>/project.json` and assert `projectLook(meta)` is `classic`. The `adventures-1.0-a1` case covers the Origins 2 declaration in that file.
+4. Explicit `look` in `project.json` still wins: a Quest 5 project with `look: "classic"` returns `classic`; an Origins 1 project with `look: "chibi-quest"` returns `chibi-quest`.
+5. Unknown `look` still throws: `projectLook({ ..., look: 'riven-lands' })` throws, and `parseLook('riven-lands', where)` throws with the source name in the message.
+6. Golden byte identity: `lessonDocument` of the `origins-3.2/print/p05.json` record with no look and with `classic` equals `lesson-05.html`; the no-key variant equals `lesson-05-no-key.html`. One byte of change fails the test.
+7. Book-folder path stays classic: `bookLook('origins-1')`, `bookLook('origins-2')`, `bookLook('origins-3.1')`, `bookLook('origins-3.2')`, and `bookLook('quest-4')` each return `classic`. The content folders that feed shipped print files do not change.
+8. No shipped print file is rebuilt: the test reads git status over `content/primary/**/print/` and fails when any tracked print file differs from HEAD. It also fails when a new file appears under that path.
+
+### Fixtures, mocks, and live-behavior proof
+
+- Fixture A, shipped editions: the 5 `primary/<id>/project.json` files. Read only `seriesName`, `levelNumber`, and `look`. No lesson text and no Thai text is read. If any lesson JSON is ever read, run the Thai filter first as the first command.
+- Fixture B, byte identity: the two golden files under `content/primary/origins-3.2/print/golden/` and the `p05.json` print record.
+- Fixture C, new edition: literal `ProjectMetadata` objects in the test, and a temporary `WORKBOOKS_ROOT` project for the compile route if that path is asserted.
+- Fixture D, book folders: the book names passed to `bookLook`. No package file is read.
+- Mocks: none. `projectLook`, `bookLook`, and `parseLook` are pure functions. No network, database, or timer mock is needed.
+- Live-behavior proof: none in S8. Every assertion reads a returned string, a `project.json` byte, an HTML byte, or a git path. No browser, no PDF render, and no font check is needed.
+
+### Artifact tests and live behavior tests
+
+Every S8 test is an artifact test. Do not record an artifact test as live behavior proof. The byte identity of the two golden files and the git check over the print folder are the strongest output guards. Both are string or byte comparisons. A future rebuild of a shipped book would need a real PDF check; S8 forbids that rebuild.
+
+### Architecture guardrails and changed-contract risks
+
+- `projectLook` has 3 production callers: `bookLessons` at `dashboard/lib/print/book-lessons.ts` line 57, the compile route at `dashboard/app/api/projects/[projectId]/compile/route.ts` line 176, and the render route at `dashboard/app/api/render/route.ts` line 25. The new default changes all three. Green must check each caller.
+- `bookLook` has 2 production callers: `bookLessons` at line 61 and `dashboard/scripts/render-lesson-html.ts` line 58. Keep `bookLook` unchanged. A new edition built from a content folder with no `--look` flag still prints `classic`; that path is a package render, not an edition build. An edition build creates a project and uses `projectLook`.
+- The `look` option, its two values, and the `--look` flag do not change. The change is a default inside `look.ts`. Review C checks that no route or CLI contract changes.
+- `dashboard/__tests__/workbook-look.test.ts` lines 58 and 59 and the compile route case at lines 160 to 163 expect classic for a no-look level 1 to 4 project. Green updates them to `chibi-quest`. This is the changed contract of S8. Record the update in the Green evidence.
+- `dashboard/lib/teacher-manual/` and `primary_template.html` stay unchanged. S7 is not triggered.
+- Every `git commit` on a template path goes to the PM for the monorepo session (S7). S8 has no such commit.
+
+### Intentionally-red aggregate suite
+
+`PROJECT_TESTS` includes other tracks' files. Keep the three recorded files: exclude `dashboard/__tests__/storytime-unit2-sound-stage.test.ts` until that track's Task 3.6 Green closes; record `dashboard/__tests__/constants.test.ts` "includes Adventures 1.0 as a primary workbook option" and `dashboard/__tests__/origins-thai-support.test.ts` cases `origins-2-a0` and `origins-3.1-a0` as earlier failures outside this track. Evidence: `measure/runs/levels_5_9_20261006/green-g2-baseline-r2.txt`. Do not fix these tests in S8. Any other failure fails the gate.
+
+### Review gate applicability
+
+- **Review A, correctness: applies. Lead review.** Check each new-edition default, each of the 5 shipped editions, the explicit-look rule, the book-folder path, and the golden byte identity. Check that the 5 `project.json` files differ only by the added `look: "classic"` key. Result file: `measure/runs/primary_v2_look_20261020/review-a-s8-<sha8>.json`.
+- **Review B, security: applies, narrow.** The change adds no input and no route. Check that an unknown look still throws and that no look string reaches HTML without the existing literal path. Result file: `review-b-s8-<sha8>.json`.
+- **Review C, route or CLI contract: applies, narrow.** The `look` option and the `--look` flag are unchanged, but the compile route and the render route change their no-look output for level 1 to 4 projects. Check that the option shape is unchanged and that the new default is intended. Result file: `review-c-s8-<sha8>.json`.
+- **Adversarial testing: applies. One round.** Attack surfaces: a new edition left at `classic`; a shipped edition switched to `chibi-quest`; the explicit look ignored; an unknown look accepted; a content folder switched to `chibi-quest`; one golden byte changed; a print file rebuilt; a stale assertion left in `workbook-look.test.ts`. Reuse the Green mutants. Result file: `adversarial-s8-<sha8>.json`.
+- **UX and API review: does not apply.** The API side is Review C, which applies above. The UX side changes no visible page, no print CSS, and no print kit. S5 holds the visual review of the printed look.
+- **Browser review: does not apply.** No dev route serves the changed output for visual review. The look decision is a pure function and a `project.json` key. A browser render adds no coverage beyond the artifact tests.
+
+Each review role from a model family other than the Red and Green families audits the head. It reports, and it fixes nothing. No open Blocker may remain at closeout.
+
+### Anti-pattern coverage and falsification
+
+The catalog has A2 to A10 active. A1 and A8 are retired. A11 is reserved and has no definition. A2 has no consent publish gate in S8; record it as not applicable. Every defense below names a test or check and its falsification condition.
+
+| Anti-pattern | Defense in S8 | Falsification condition |
+|---|---|---|
+| A2, consent-blind publish gate | Not applicable. No publish gate runs in S8. The "no rebuild" check of test 8 guards the print folder. | A rebuild or a new print file fails test 8 and the closeout check. |
+| A3, digit-only as a labeled count | Assert exact look strings and the exact list of 5 edition ids. Do not use a digit regex or a bare count. | A test that only counts 5 editions passes with the wrong ids. The exact-list test fails. |
+| A4, vacuous-pass on nothing-done | Assert that the 5 `project.json` files were read and that the new-edition case list is non-empty before the look assertions. | An empty edition list passes "all classic". The length assertion fails. |
+| A5, false-claim text versus test reality | Record the real exit of Red, Green, lint, and tsc. Red must fail before Green. Green must exit 0 after. | Red exits 0 before Green, or a Green gate exits non-zero with a pass claim. The claim is false. |
+| A6, registry-note overstatement | No "byte-identical" or "resolved" claim until the golden diff is empty and the adversarial JSON holds 0 Blockers. | A byte-identity claim with a golden diff is false. |
+| A7, over-broad filter swallowing real hits | Match edition ids and look strings by exact equality. Do not filter on bare English words. | A filter that drops a line hides a shipped edition. The exact-id test fails. |
+| A9, pre-existing test references archived track paths | The new test names live paths only. A static check resolves each `measure/tracks/<id>/plan.md` reference. | A reference to `measure/archive/<id>` fails the resolve check. |
+| A10, generated-facts drift after structural change | Test 8 checks the tracked print folder against HEAD. The closeout check also compares no new printer file. The 5 edition ids are read from the files, not copied into a count. | A changed print byte or a new print file fails test 8. |
+
+Mutant set for Green. Record each mutant, the catching test, and the exit code in the run log.
+
+- Set the no-look default of `projectLook` back to `bookLook(book)`: test 1 fails on Origins 1, Origins 2, Origins 3.2, and Quest 4.
+- Remove `look: "classic"` from one shipped `project.json`: the shipped-edition test fails on that id.
+- Set a shipped `project.json` look to `chibi-quest`: the shipped-edition test fails.
+- Make `projectLook` ignore an explicit `look`: the explicit-look test fails.
+- Make `parseLook` return `classic` for an unknown look: the unknown-look test fails.
+- Switch a content folder such as `bookLook('quest-4')` to `chibi-quest`: the book-folder test fails, and the print-folder guard fails.
+- Change one byte in a golden file: the byte-identity test fails.
+- Leave one stale classic assertion in `workbook-look.test.ts`: `PROJECT_TESTS` fails after Green.
+
+### Handoff to the orchestrator
+
+Capture the immutable `phase_base_sha` at this strategy commit, before Red starts. Assign the Red role on `dashboard/__tests__/default-look-new-editions.test.ts`, then Green for `lib/look.ts` and the 5 `project.json` files plus the stale assertion updates. Assign Reviews A, B, and C, one adversarial round, and phase acceptance. Skip UX and browser reviews for the reasons above. Use the targeted Red and Green commands of this section. The two tasks under `## Close` fall inside the S8 block, because the gate script splits phases at `## Phase `. Record them as track close, not as S8 tasks. Do not mark any box `[x]` in this role. Keep the three recorded `PROJECT_TESTS` files and the storytime exclude as earlier failures. Do not push.

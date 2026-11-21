@@ -16,6 +16,8 @@ PROJECT_CHECKS='set -o pipefail; cd dashboard && npx tsc --noEmit'   # one heavy
 
 Every gate command above runs inside ONE heavy-run wrapper: `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'`. The wrapper drops `${PIPESTATUS[0]}`, so a gate capture that needs the true exit code of a piped run takes the pipefail form outside the wrapper (levels_5_9 lesson, `green-g2-tests-exit.txt`). `PROJECT_TESTS` runs the whole dashboard suite, so it also covers `__tests__/workbook-look.test.ts`, `__tests__/chibi-quest-kit.test.ts`, and the new `__tests__/chibi-quest-step-names.test.ts`.
 
+S8 note (Phase S8: Default look for new editions). RED_TEST_COMMAND and GREEN_TEST_COMMAND: `set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts`. The RED form must fail before Green; the GREEN form must exit 0 after Green. Both use one heavy-run wrapper, never nested. PROJECT_LINT for the S8 files: `set -o pipefail; cd dashboard && npx eslint lib/look.ts __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts --no-error-on-unmatched-pattern`. PROJECT_TESTS stays as above, with its three recorded files: exclude `__tests__/storytime-unit2-sound-stage.test.ts`, and record `__tests__/constants.test.ts` and `__tests__/origins-thai-support.test.ts` as earlier failures outside this track. PROJECT_CHECKS stays as above. See `test-strategy.md`, section "Phase S8: Default look for new editions".
+
 ## Phase S1: Look switch per book [checkpoint: 9829649]
 _Story ref: spec.md#story-s1_
 

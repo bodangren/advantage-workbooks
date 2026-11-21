@@ -1,0 +1,13 @@
+MEASURE_AGENT_RESULT
+role: measure-strategy
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S8: Default look for new editions
+commits: none; this strategy commit is the immutable phase_base_sha capture point
+base_capture: orchestrator runs git rev-parse HEAD once immediately after the commit with subject "measure(strategy): primary_v2_look S8 default look for new editions" lands and sets phase_base_sha to that value; do not use 75766085, which predates the strategy; capture again after any newer strategy commit
+tests_run: none for the strategy role; Thai filter first command printed 0 Thai characters; no test, build, or render was run
+files_changed: measure/tracks/primary_v2_look_20261020/test-strategy.md (new Phase S8 section); measure/tracks/primary_v2_look_20261020/plan.md (S8 RED, GREEN and PROJECT_LINT gate note; PROJECT_TESTS left unchanged); measure/runs/primary_v2_look_20261020/strategy-s8-75766085.log (this block)
+plan_updates: added the S8 note under Gate commands only; no task checkbox changed; no box marked [x]; PROJECT_TESTS keeps its three recorded files and the storytime exclude
+known_failures: none in strategy work; the three recorded other-track PROJECT_TESTS failures are outside this track and unchanged
+handoff: Default design recorded: add look classic to the 5 shipped project.json files and change the no-look default of projectLook to chibi-quest, while bookLook, CHIBI_QUEST_BOOKS and parseLook stay unchanged. A pinned list in look.ts cannot tell a shipped Origins 2 edition from a new Origins 2 edition, because projectLook sees series and number only. A rewritten edition is a new project with no look. New Red file dashboard/__tests__/default-look-new-editions.test.ts. Reviews A, B and C, one adversarial round and phase acceptance apply; UX and browser reviews do not apply because no visible page, CSS or print kit changes. The two tasks under ## Close fall inside the S8 block because the gate splits at "## Phase "; record them as track close, not S8 tasks. No push.
+END_MEASURE_AGENT_RESULT
