@@ -1,0 +1,12 @@
+{
+  "track_id": "deps_refresh_20261121",
+  "type": "chore",
+  "lane": "light",
+  "status": "in progress",
+  "created_at": "2026-11-21T00:00:00Z",
+  "updated_at": "2026-11-21T00:00:00Z",
+  "description": "Update every package of dashboard/ and video/storytime-song/ to the latest version that works, fix all critical and high npm audit advisories by 2026-11-23, and list each remaining moderate or low advisory with its reason by 2026-11-25.",
+  "estimated_tasks": 13,
+  "actual_tasks": null,
+  "deviation_notes": "Source: PM P1 assignment of 2026-11-21; Daniel 11-21 07:52 word for word in spec.md. Before-audit evidence captured read-only on 2026-11-21 in measure/runs/deps_refresh_20261121/. The audit gate (audit-gate.mjs) is the Red test of every phase; it fails on the before state."
+}

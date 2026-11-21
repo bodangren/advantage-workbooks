@@ -1,0 +1,53 @@
+Before audit counts (2026-11-21, npm audit --json, read-only, no install)
+
+dashboard/ (measure/runs/deps_refresh_20261121/audit-before-dashboard.json):
+  critical: 6, high: 23, moderate: 15, low: 2, info: 0, total: 46
+
+video/storytime-song/ (measure/runs/deps_refresh_20261121/audit-before-video.json):
+  critical: 0, high: 10, moderate: 10, low: 0, info: 0, total: 20
+
+Critical and high package names with their advisory ids (chain-resolved):
+
+dashboard/
+  @vitest/coverage-v8 (critical): GHSA-5xrq-8626-4rwp
+  handlebars (critical): GHSA-3mfm-83xf-c92r, GHSA-2w6w-674q-4c4q, GHSA-xhpv-hc6g-r9c6, GHSA-9cx6-37pm-9jff, GHSA-xjpj-3mr7-gcpf, GHSA-8r5x-fm3f-whwj, GHSA-p8wg-vrv2-v86f
+  next (critical): GHSA-q4gf-8mx6-v5v3, GHSA-8h8q-6873-q5fj, GHSA-mg66-mrh9-m8jx, GHSA-c4j6-fc7j-m34r, GHSA-492v-c6pp-mqqv, GHSA-267c-6grr-h53f, GHSA-36qx-fr4f-26g5, GHSA-6gpp-xcg3-4w24, GHSA-m99w-x7hq-7vfj, GHSA-89xv-2m56-2m9x, GHSA-p9j2-gv94-2wf4, GHSA-p293-qw3h-jr36, GHSA-2xp9-vwfh-vxw4, GHSA-cjq9-62q9-8jv4, GHSA-2464-fhr4-w9xw, GHSA-p3m5-59mp-jv5r, GHSA-673q-mjm6-r5xr, GHSA-26hh-7cqf-hhc6, GHSA-6g55-p6wh-862q, GHSA-r28c-9q8g-f849, GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c, GHSA-wq5f-xc86-pv6w
+  protobufjs (critical): GHSA-66ff-xgx4-vchm, GHSA-75px-5xx7-5xc7, GHSA-jvwf-75h9-cwgg, GHSA-685m-2w69-288q, GHSA-wcpc-wj8m-hjx6, GHSA-xq3m-2v4x-88gg
+  proxy-addr (critical): GHSA-jqcg-44mw-7w3h
+  vitest (critical): GHSA-5xrq-8626-4rwp
+  @puppeteer/browsers (high): GHSA-jmr9-qjv8-65gv, GHSA-7pqw-9j4j-h8q3, GHSA-c475-qrg2-pj4r, GHSA-vj76-c3g6-qr5v, GHSA-8cj5-5rvv-wf4v, GHSA-pq67-2wwv-3xjx
+  basic-ftp (high): GHSA-c475-qrg2-pj4r
+  body-parser (high): GHSA-27r3-jxmh-p828
+  brace-expansion (high): GHSA-3jxr-9vmj-r5cp, GHSA-mh99-v99m-4gvg, GHSA-rgw5-rvv9-x895, GHSA-qhr7-859c-m2p7, GHSA-6j4f-fj2g-mc7p
+  browserslist (high): GHSA-c83g-rgw3-j3cx, GHSA-73wf-gq98-2v4g
+  extract-zip (high): GHSA-jmr9-qjv8-65gv, GHSA-7pqw-9j4j-h8q3
+  get-uri (high): GHSA-c475-qrg2-pj4r
+  ip-address (high): GHSA-mwp4-54f8-5fhr
+  js-yaml (high): GHSA-52cp-r559-cp3m, GHSA-5p4m-2wfm-xmqj, GHSA-2883-xcg3-v3hh
+  nanoid (high): GHSA-28wg-ghj8-5hjv, GHSA-2v37-7h3g-55p8, GHSA-xwg4-73v4-xw9w
+  pac-proxy-agent (high): GHSA-c475-qrg2-pj4r
+  pagedjs-cli (high): GHSA-jmr9-qjv8-65gv, GHSA-7pqw-9j4j-h8q3, GHSA-c475-qrg2-pj4r, GHSA-vj76-c3g6-qr5v, GHSA-8cj5-5rvv-wf4v, GHSA-pq67-2wwv-3xjx, GHSA-3h5v-q93c-6h6q, GHSA-96hv-2xvq-fx4p
+  picomatch (high): GHSA-c2c7-rcm5-vvqj
+  postcss (high): GHSA-6g55-p6wh-862q, GHSA-r28c-9q8g-f849
+  proxy-agent (high): GHSA-c475-qrg2-pj4r
+  puppeteer (high): GHSA-jmr9-qjv8-65gv, GHSA-7pqw-9j4j-h8q3, GHSA-c475-qrg2-pj4r, GHSA-vj76-c3g6-qr5v, GHSA-8cj5-5rvv-wf4v, GHSA-pq67-2wwv-3xjx, GHSA-3h5v-q93c-6h6q, GHSA-96hv-2xvq-fx4p
+  puppeteer-core (high): GHSA-jmr9-qjv8-65gv, GHSA-7pqw-9j4j-h8q3, GHSA-c475-qrg2-pj4r, GHSA-vj76-c3g6-qr5v, GHSA-8cj5-5rvv-wf4v, GHSA-pq67-2wwv-3xjx, GHSA-3h5v-q93c-6h6q, GHSA-96hv-2xvq-fx4p
+  sharp (high): GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c, GHSA-wq5f-xc86-pv6w
+  source-map-js (high): GHSA-68fv-2mgg-jv7q
+  tar-fs (high): GHSA-vj76-c3g6-qr5v, GHSA-8cj5-5rvv-wf4v, GHSA-pq67-2wwv-3xjx
+  vite (high): GHSA-v2wj-q39q-566r, GHSA-p9ff-h696-f583, GHSA-587h-7wmj-h5pm
+  ws (high): GHSA-3h5v-q93c-6h6q, GHSA-96hv-2xvq-fx4p
+  zod (high): GHSA-mrhx-c7xc-m3w5
+
+video/storytime-song/
+  @remotion/bundler (high): GHSA-mrhx-c7xc-m3w5
+  @remotion/cli (high): GHSA-mrhx-c7xc-m3w5
+  @remotion/codemods (high): GHSA-mrhx-c7xc-m3w5
+  @remotion/elevenlabs (high): GHSA-mrhx-c7xc-m3w5
+  @remotion/media (high): GHSA-mrhx-c7xc-m3w5
+  @remotion/openai-whisper (high): GHSA-mrhx-c7xc-m3w5
+  @remotion/studio (high): GHSA-mrhx-c7xc-m3w5
+  @remotion/studio-protocol (high): GHSA-mrhx-c7xc-m3w5
+  @remotion/studio-server (high): GHSA-mrhx-c7xc-m3w5
+  zod (high): GHSA-mrhx-c7xc-m3w5
+

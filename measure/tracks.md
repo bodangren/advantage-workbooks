@@ -2,6 +2,9 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+- [ ] **Track: Dependency refresh of dashboard and storytime-song: every package to the latest version that works, all critical and high audit advisories fixed by 2026-11-23, and each remaining moderate or low advisory listed with its reason by 2026-11-25.** *(Created: 2026-11-21)*
+  *Link: [./tracks/deps_refresh_20261121/](./tracks/deps_refresh_20261121/)*
+
 - [ ] **Track: Storytime Advantage Level 2 Unit 2 (weeks 9 to 16): the week texts, the picture list for Forge, the Thai parts for Daniel's check, the unit scope change of the makers, the print build with the unit 1 makers, and the hand-offs; unit 1 first; print-ready 2026-12-08 (internal). Series plan: `measure/storytime-series-plan.md`.** *(Created: 2026-11-06)*
   *Link: [./tracks/storytime_l2_unit2_20261106/](./tracks/storytime_l2_unit2_20261106/)*
 

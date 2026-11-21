@@ -1,0 +1,70 @@
+dashboard: 67 advisories at high or above (133 advisory hits total)
+  FAIL basic-ftp GHSA-c475-qrg2-pj4r (high) - basic-ftp: Quadratic-time CPU denial of service in Client.list() Unix directory-listing parser (RE_LINE backtracking)
+  FAIL body-parser GHSA-27r3-jxmh-p828 (high) - body-parser vulnerable to Denial of Service via trailing bytes after a compressed request body
+  FAIL brace-expansion GHSA-3jxr-9vmj-r5cp (high) - brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups
+  FAIL brace-expansion GHSA-mh99-v99m-4gvg (high) - brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash
+  FAIL brace-expansion GHSA-rgw5-rvv9-x895 (high) - brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation
+  FAIL brace-expansion GHSA-qhr7-859c-m2p7 (high) - brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion
+  FAIL brace-expansion GHSA-6j4f-fj2g-mc7p (high) - brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion
+  FAIL browserslist GHSA-c83g-rgw3-j3cx (high) - Browserslist: Unbounded memory growth (no cache eviction) via distinct query results, leading to eventual OOM
+  FAIL browserslist GHSA-73wf-gq98-2v4g (high) - Browserslist: Uncaught crash / prototype write via untrusted browserslist-stats.json custom stats (normalizeStats)
+  FAIL extract-zip GHSA-jmr9-qjv8-65gv (high) - extract-zip unvalidated symlink path traversal
+  FAIL extract-zip GHSA-7pqw-9j4j-h8q3 (high) - extract-zip allows arbitrary file writes through symlink archive entries
+  FAIL handlebars GHSA-3mfm-83xf-c92r (high) - Handlebars.js has JavaScript Injection via AST Type Confusion by tampering @partial-block
+  FAIL handlebars GHSA-2w6w-674q-4c4q (critical) - Handlebars.js has JavaScript Injection via AST Type Confusion
+  FAIL handlebars GHSA-xhpv-hc6g-r9c6 (high) - Handlebars.js has JavaScript Injection via AST Type Confusion when passing an object as dynamic partial
+  FAIL handlebars GHSA-9cx6-37pm-9jff (high) - Handlebars.js has Denial of Service via Malformed Decorator Syntax in Template Compilation
+  FAIL handlebars GHSA-xjpj-3mr7-gcpf (high) - Handlebars.js has JavaScript Injection in CLI Precompiler via Unescaped Names and Options
+  FAIL handlebars GHSA-8r5x-fm3f-whwj (critical) - Handlebars: JavaScript Injection via AST Type Confusion in compile (bypass of CVE-2026-33937)
+  FAIL handlebars GHSA-p8wg-vrv2-v86f (critical) - Handlebars: JavaScript Injection via Own Property Check Bypass
+  FAIL ip-address GHSA-mwp4-54f8-5fhr (high) - ip-address: Address4 decodes leading-zero octets as decimal while resolvers decode them as octal, allowing SSRF and trust-boundary bypass
+  FAIL js-yaml GHSA-52cp-r559-cp3m (high) - js-yaml: YAML merge-key chains can force quadratic CPU consumption
+  FAIL js-yaml GHSA-5p4m-2wfm-xmqj (high) - JS-YAML: Quadratic CPU consumption in !!omap resolution (3.x and 4.x) — CVE-2026-59870 fix not backported
+  FAIL js-yaml GHSA-2883-xcg3-v3hh (high) - js-yaml: maxTotalMergeKeys does not limit CPU use for empty merge sources
+  FAIL nanoid GHSA-28wg-ghj8-5hjv (high) - nanoid: non-secure generators can loop indefinitely with negative size
+  FAIL nanoid GHSA-2v37-7h3g-55p8 (high) - nanoid: custom generators can loop indefinitely when size is zero
+  FAIL nanoid GHSA-xwg4-73v4-xw9w (high) - nanoid: Integer Overflow or Wraparound
+  FAIL next GHSA-q4gf-8mx6-v5v3 (high) - Next.js has a Denial of Service with Server Components
+  FAIL next GHSA-8h8q-6873-q5fj (high) - Next.js Vulnerable to Denial of Service with Server Components
+  FAIL next GHSA-mg66-mrh9-m8jx (high) - Next.js vulnerable to Denial of Service via connection exhaustion in applications using Cache Components
+  FAIL next GHSA-c4j6-fc7j-m34r (high) - Next.js vulnerable to server-side request forgery in applications using WebSocket upgrades
+  FAIL next GHSA-492v-c6pp-mqqv (high) - Next.js has a Middleware / Proxy bypass through dynamic route parameter injection
+  FAIL next GHSA-267c-6grr-h53f (high) - Next.js has a Middleware / Proxy bypass in App Router applications via segment-prefetch routes
+  FAIL next GHSA-36qx-fr4f-26g5 (high) - Next.js has a Middleware / Proxy bypass in Pages Router applications using i18n
+  FAIL next GHSA-6gpp-xcg3-4w24 (high) - Next.js: Middleware / Proxy bypass in App Router applications using Turbopack and single locale
+  FAIL next GHSA-m99w-x7hq-7vfj (high) - Next.js: Denial of Service in App Router using Server Actions
+  FAIL next GHSA-89xv-2m56-2m9x (high) - Next.js: Server-Side Request Forgery in Server Actions on custom servers
+  FAIL next GHSA-p9j2-gv94-2wf4 (high) - Next.js: Server-Side Request Forgery in rewrites via attacker-controlled destination hostname
+  FAIL next GHSA-p293-qw3h-jr36 (critical) - Next.js: Unauthenticated Remote Code Execution on windows-hosted servers
+  FAIL next GHSA-2xp9-vwfh-vxw4 (critical) - Next.js: Unauthenticated Remote Code Execution in Image Optimization API when AVIF files are used
+  FAIL next GHSA-cjq9-62q9-8jv4 (high) - Next.js has Server-Side Request Forgery in Image Optimization
+  FAIL next GHSA-2464-fhr4-w9xw (critical) - Next.js: Unauthenticated Remote Code Execution in Image Optimization API when SVG files are used
+  FAIL next GHSA-p3m5-59mp-jv5r (high) - Next.js: Denial of Service in App Router using Server Actions
+  FAIL next GHSA-673q-mjm6-r5xr (critical) - Next.js: Unauthenticated Remote Code Execution in `use cache` functions returning typed arrays
+  FAIL next GHSA-26hh-7cqf-hhc6 (high) - Next.js has a Middleware / Proxy bypass in App Router applications via segment-prefetch routes - Incomplete Fix Follow-Up
+  FAIL picomatch GHSA-c2c7-rcm5-vvqj (high) - Picomatch has a ReDoS vulnerability via extglob quantifiers
+  FAIL postcss GHSA-6g55-p6wh-862q (high) - PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments
+  FAIL postcss GHSA-r28c-9q8g-f849 (high) - PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure
+  FAIL protobufjs GHSA-66ff-xgx4-vchm (high) - protobuf.js: Code injection through bytes field defaults in generated toObject code
+  FAIL protobufjs GHSA-75px-5xx7-5xc7 (high) - protobuf.js: Code generation gadget after prototype pollution
+  FAIL protobufjs GHSA-jvwf-75h9-cwgg (high) - protobuf.js: Process-wide denial of service through unsafe option paths
+  FAIL protobufjs GHSA-685m-2w69-288q (high) - protobuf.js: Denial of service through unbounded protobuf recursion
+  FAIL protobufjs GHSA-wcpc-wj8m-hjx6 (high) - protobufjs: Denial of service through unbounded Any expansion during JSON conversion
+  FAIL protobufjs GHSA-xq3m-2v4x-88gg (critical) - protobufjs has an arbitrary code execution issue
+  FAIL proxy-addr GHSA-jqcg-44mw-7w3h (critical) - proxy-addr vulnerable to IP spoofing via IPv4-mapped IPv6 trust subnet
+  FAIL sharp GHSA-f88m-g3jw-g9cj (high) - sharp inherited vulnerabilities in libvips: CVE-2026-33327, CVE-2026-33328, CVE-2026-35590, CVE-2026-35591
+  FAIL sharp GHSA-rgj7-g3m4-5g8c (high) - sharp: Vulnerabilities in libheif: GHSA-g89c-p67h-r497 and GHSA-2jg2-4ch7-h545
+  FAIL sharp GHSA-wq5f-xc86-pv6w (high) - sharp : Vulnerability in librsvg dependency CVE-2026-96889
+  FAIL source-map-js GHSA-68fv-2mgg-jv7q (high) - source-map-js allows event-loop denial of service through indexed source-map section offsets
+  FAIL tar-fs GHSA-vj76-c3g6-qr5v (high) - tar-fs has a symlink validation bypass if destination directory is predictable with a specific tarball
+  FAIL tar-fs GHSA-8cj5-5rvv-wf4v (high) - tar-fs can extract outside the specified dir with a specific tarball
+  FAIL tar-fs GHSA-pq67-2wwv-3xjx (high) - tar-fs Vulnerable to Link Following and Path Traversal via Extracting a Crafted tar File
+  FAIL vite GHSA-v2wj-q39q-566r (high) - Vite: `server.fs.deny` bypassed with queries
+  FAIL vite GHSA-p9ff-h696-f583 (high) - Vite Vulnerable to Arbitrary File Read via Vite Dev Server WebSocket
+  FAIL vite GHSA-587h-7wmj-h5pm (high) - launch-editor: `fs.existsSync()` existence check can be bypassed on Windows
+  FAIL vitest GHSA-5xrq-8626-4rwp (critical) - When Vitest UI server is listening, arbitrary file can be read and executed
+  FAIL ws GHSA-3h5v-q93c-6h6q (high) - ws affected by a DoS when handling a request with many HTTP headers
+  FAIL ws GHSA-96hv-2xvq-fx4p (high) - ws: Memory exhaustion DoS from tiny fragments and data chunks
+  FAIL zod GHSA-mrhx-c7xc-m3w5 (high) - Zod can exhaust memory while validating oversized constrained collections
+audit gate: FAIL, 67 advisories without an allowlist reason
+exit=1
