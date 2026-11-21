@@ -1,0 +1,39 @@
+Green phase result for deps_refresh_20261121, Phase D2.
+
+Track: `deps_refresh_20261121`. Phase: "Phase D2: video/storytime-song critical and high (by 2026-11-23; runs after D1)".
+Immutable `phase_base_sha`: `c40b6b6f`. Separate `role_base_sha`: `5ad03e17`.
+The committed Red change is inside `phase_base_sha..HEAD`: `da364afb`, `1c65421e`, `5ad03e17`.
+Evidence commit: `a3d0e909`. Plan commit: this commit.
+
+Before I changed code, I reran the targeted Red command. It exited 1.
+Command: `node measure/tracks/deps_refresh_20261121/audit-gate.mjs video`.
+Output: `measure/runs/deps_refresh_20261121/green-d2-red-rerun.txt`.
+The gate reported 1 advisory at high or above: zod `GHSA-mrhx-c7xc-m3w5` (high).
+
+Pinned version: 4.0.545. Every direct `remotion` and `@remotion/*` package holds that exact version with no caret. The transitive zod moved from 4.5.4 to 4.6.7, which clears the advisory.
+
+Before audit of video: 0 critical, 10 high, 10 moderate. Total 20.
+After audit of video: 0 critical, 0 high, 10 moderate. Total 10. The 10 moderate entries belong to D3.
+
+Gate exits after implementation:
+`node measure/tracks/deps_refresh_20261121/audit-gate.mjs video` -> 0
+`node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test` -> 0
+`node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard` -> 0
+`PROJECT_LINT_VIDEO` heavy-run -> 0
+`PROJECT_CHECKS_VIDEO` heavy-run -> 0
+`PROJECT_TESTS_VIDEO` heavy-run -> 0
+`PROJECT_BUILD_VIDEO` heavy-run -> 0
+No heavy exit was 143 or 75. No gate failed, so no base-state comparison was needed.
+
+MEASURE_AGENT_RESULT
+role: jr-green
+status: complete
+track: deps_refresh_20261121
+phase: Phase D2: video/storytime-song critical and high (by 2026-11-23; runs after D1)
+commits: a3d0e909 (implementation and evidence); the plan-evidence commit follows
+tests_run: targeted Red rerun of `node measure/tracks/deps_refresh_20261121/audit-gate.mjs video` exits 1 with zod GHSA-mrhx-c7xc-m3w5 (high) in `measure/runs/deps_refresh_20261121/green-d2-red-rerun.txt`; after implementation the video audit gate exits 0 in `green-d2-audit-gate-video.txt`, `--self-test` exits 0 in `green-d2-audit-selftest.txt`, the dashboard audit gate exits 0 in `green-d2-audit-gate-dashboard.txt`, and the four video heavy gates each exit 0 in `green-d2-lint.txt`, `green-d2-checks.txt`, `green-d2-tests.txt`, and `green-d2-build.txt`
+files_changed: video/storytime-song/package.json, video/storytime-song/package-lock.json, measure/runs/deps_refresh_20261121/audit-after-d2-video.json, measure/runs/deps_refresh_20261121/versions-d2-video.txt, measure/runs/deps_refresh_20261121/git-status-d2-video-before.txt, measure/runs/deps_refresh_20261121/git-status-d2-video-after.txt, measure/runs/deps_refresh_20261121/green-d2-*.txt, plus this log and measure/tracks/deps_refresh_20261121/plan.md
+plan_updates: D2 Red task flipped to [x] and keeps da364afb on the task line; D2 Implement flipped to [x] with a3d0e909 in backticks on the task line and records pinned version 4.0.545; D2 Verify flipped to [x] with a3d0e909 in backticks on the task line; the D2 manual verification line stays unchanged
+known_failures: `npx remotion upgrade` ran once and selected 4.0.545 inside 4.0.x, but its npm install exited 1 with EALLOWSCRIPTS because the user .npmrc sets allow-scripts=@opencode/cli, which npm 11.17 rejects for a project-scoped install; no file changed from that command, and the sanctioned `npm install --save-exact` fallback with explicit 4.0.545 versions succeeded; 10 moderate advisories remain for D3; no product gate fails
+handoff: Immutable phase_base_sha is c40b6b6f and the separate role_base_sha is 5ad03e17. The final Green HEAD is the plan-evidence commit that holds this log, so this log cannot name its own SHA. Tasks flipped to [x]: D2 Red (evidence da364afb), D2 Implement (evidence a3d0e909), D2 Verify (evidence a3d0e909). No task flipped to [b] and no owner was deferred. Targeted Red command output: `node measure/tracks/deps_refresh_20261121/audit-gate.mjs video` exits 1 with one high advisory, zod GHSA-mrhx-c7xc-m3w5. New files added: the green-d2-*.txt gate logs, the npm research and install logs, versions-d2-video.txt, audit-after-d2-video.json and its stderr file, three audit snapshots, and the two git-status files. Before git status of video/storytime-song: only ` M scripts/render.mjs`, the uncommitted work of track storytime_song_video_20261022. After status: ` M package-lock.json`, ` M package.json`, and the same ` M scripts/render.mjs`. That render.mjs file was never edited, staged, restored, or stashed. The build artifact directory was removed after the build gate. No test file changed. No file under content/ was read. Every committed file holds 0 Thai characters. No push ran. No Remotion render or studio started. No npm audit fix --force ran. No overrides entry was needed.
+END_MEASURE_AGENT_RESULT
