@@ -1,41 +1,37 @@
 D3 version and removal table (dashboard and video/storytime-song).
 D3r1: advisory fixes and the pagedjs-cli removal. D3r2: in-range npm update.
 D3r3: exact-pin non-major updates. D3r4: rspack binding matched @rspack/core.
-D3r5 (Review A F3): optional-peer deferral reasons were replaced by real updates or a
-failing gate. Evidence: green-d3-r5-npmview.txt, green-d3-r5-npmls.txt,
-green-d3-r5-genai-api.txt and green-d3-r5-jsdom-trial.txt.
+D3r5: optional-peer deferrals resolved. D3r6: sharp 0.35.5, four majors taken,
+two TypeScript 7 trials reverted with captures, all allowlist entries removed.
+Every remaining deferral cites a required peer conflict, a failing gate with a
+capture, or a named breaking change with the repo file:line. Each row names a concrete cause.
 
-D3r5 updates TAKEN (package | project | old -> new | kind):
+D3r6 TAKEN (package | project | old -> new | kind):
+  sharp | dashboard | 0.34.5 -> 0.35.5 | 0.x release, PM decision 2026-11-21
+  dotenv | dashboard | 17.4.2 -> 18.0.10 | major
+  @types/node | dashboard | 20.19.43 -> 24.19.2 | major, matches Node 24.19.0
+  eslint | dashboard | 9.39.5 -> 10.15.0 | major
+  lucide-react | dashboard | 0.563.0 -> 1.77.0 | major
+  sharp cleared GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c and GHSA-wq5f-xc86-pv6w;
+  the three ALLOWLIST entries and their comments were removed from audit-gate.mjs.
+  The shipped picture provenance version field moved to 0.35.5 as the Red test contract
+  requires; all picture hashes and C2 ink values stay unchanged (commit b1cc252e).
+
+D3r6 REVERTED TRIALS (package | project | tried | concrete failure):
+  typescript | dashboard | 7.0.2 | PROJECT_CHECKS exit 1: TS2694/TS2339 at
+  __tests__/storytime-loops-book-pages.test.ts:63,66; capture green-d3-r6-ts7-dashboard.txt
+  typescript | video | 7.0.2 | tsc exit 1: TS2304 at src/Root.tsx:16;
+  capture green-d3-r6-ts7-video.txt
+
+D3r5 TAKEN (package | project | old -> new):
   @vitejs/plugin-react | dashboard | 5.2.0 -> 6.3.0 | major
   @google/genai | dashboard | 1.52.0 -> 3.6.1 | major
-  @vitejs/plugin-react: all three extra peers are optional per peerDependenciesMeta; the
-  required vite ^8.0.0 peer is met by installed vite 8.3.8. vitest.config.ts:6 calls react()
-  with no compiler or Babel options. All four dashboard gates exit 0.
-  @google/genai: the MCP peer is optional. The repo calls new GoogleGenAI({...}),
-  ai.models.generateContent({ model, contents, config: { responseMimeType, responseJsonSchema } }),
-  response.text, response.candidates and part.inlineData.data. Every name and shape is present
-  in 3.6.1 type definitions at node_modules/@google/genai/dist/genai.d.ts. No paid API call ran.
-  All four dashboard gates exit 0. Comparison: green-d3-r5-genai-api.txt.
+  jsdom 31.0.1 was tried and reverted: PROJECT_TESTS exit 1 on
+  __tests__/image-upload-component.test.tsx (capture green-d3-r5-jsdom-trial.txt).
 
-D3r5 TRIAL REVERTED (package | project | tried | reason):
-  jsdom | dashboard | 27.4.0 -> 31.0.1 | reverted after PROJECT_TESTS exit 1:
-  __tests__/image-upload-component.test.tsx > ImageUpload Component > uploads file successfully
-  and calls onUploadSuccess fails with TestingLibraryElementError: Unable to find an element
-  with the text: Uploading.... Lint, tsc and build exited 0. Capture: green-d3-r5-jsdom-trial.txt.
-
-D3r4 change TAKEN (package | project | old -> new | kind):
-  @rspack/binding-linux-x64-gnu | video | 1.7.12 -> 2.3.0 | optional exact pin
-  It matches @rspack/core 2.3.0 and is deduped with no 1.x binding in the tree.
-
-D3r3 exact-pin updates TAKEN (package | project | old -> new | kind):
-  react | dashboard | 19.2.3 -> 19.3.1 | exact-pin non-major (19.x minor)
-  react-dom | dashboard | 19.2.3 -> 19.3.1 | exact-pin non-major (19.x minor)
-  @types/react | video | 19.2.7 -> 19.3.0 | exact-pin non-major (19.x minor)
-  @types/web | video | 0.0.166 -> 0.0.367 | exact-pin non-major (0.0.x patch)
-  eslint | video | 10.12.0 -> 10.15.0 | exact-pin non-major (10.x minor)
-  prettier | video | 3.8.1 -> 3.10.1 | exact-pin non-major (3.x minor)
-  react | video | 19.2.3 -> 19.3.1 | exact-pin non-major (19.x minor)
-  react-dom | video | 19.2.3 -> 19.3.1 | exact-pin non-major (19.x minor)
+D3r4 TAKEN: @rspack/binding-linux-x64-gnu | video | 1.7.12 -> 2.3.0 | optional exact pin.
+D3r3 TAKEN: react and react-dom 19.3.1 in both projects; @types/react 19.3.0,
+@types/web 0.0.367, eslint 10.15.0 and prettier 3.10.1 in video.
 
 D3r2 in-range updates TAKEN by npm update (package | project | old -> new):
   @electric-sql/pglite | dashboard | 0.5.8 -> 0.5.17
@@ -51,38 +47,28 @@ D3r2 in-range updates TAKEN by npm update (package | project | old -> new):
   @types/react | dashboard | 19.2.10 -> 19.3.0
   @types/react-dom | dashboard | 19.2.3 -> 19.3.0
   @vitejs/plugin-react | dashboard | 5.1.2 -> 5.2.0
-  dotenv | dashboard | 17.4.2 -> 18.0.10
+  dotenv | dashboard | 17.2.3 -> 17.4.2
   eslint | dashboard | 9.39.2 -> 9.39.5
   tailwind-merge | dashboard | 3.4.0 -> 3.7.1
   tailwindcss | dashboard | 4.1.18 -> 4.3.5
   zod-to-json-schema | dashboard | 3.25.1 -> 3.25.2
   @rspack/binding-linux-x64-gnu | video | 1.7.11 -> 1.7.12
 
-Remaining deferrals (package | project | current -> latest | kind | decision | reason).
-  No remaining reason rests on an optional peer. Reasons cite a required peer conflict, a
-  failing gate with a capture, or a named change with the repo file it hits.
-  @testing-library/jest-dom | dashboard | 6.9.1 -> 8.0.0 | major | deferred | required peer vitest >=5 <6; the dashboard keeps vitest 4.1.12, whose major is deferred
-  @types/node | dashboard | 20.19.43 -> 26.6.6 | major | deferred | type major for Node 26 against the Node 24.19.0 runtime; no gate evidence, not attempted in this chore
-  @vitest/coverage-v8 | dashboard | 4.1.12 -> 5.1.1 | major | deferred | required peer pins exact vitest 5.1.1 and @vitest/browser 5.1.1; the runner stays at 4.1.12
-  dotenv | dashboard | 17.4.2 -> 18.0.10 | major | deferred | major with no peer or engine blocker proved by npm view; not attempted in this dependency chore
-  eslint | dashboard | 9.39.5 -> 10.15.0 | major | deferred | major with peer jiti * (jiti 2.7.0 present) and met engines; no blocker proved, not attempted here
-  jsdom | dashboard | 27.4.0 -> 31.0.1 | major | deferred | PROJECT_TESTS exit 1 on __tests__/image-upload-component.test.tsx > ImageUpload Component > uploads file successfully and calls onUploadSuccess; capture green-d3-r5-jsdom-trial.txt
-  lucide-react | dashboard | 0.563.0 -> 1.77.0 | major | deferred | major with satisfied react ^19.0.0 peer; no blocker proved, not attempted in this chore
-  sharp | dashboard | 0.34.5 -> 0.35.5 | 0.x breaking release | deferred | fails three pinned print tests; capture green-d1-sharp-0355-capture.txt; allowlisted to 2026-12-15
-  typescript | dashboard | 5.9.3 -> 7.0.2 | major | deferred | major with no peer or engine blocker proved by npm view; not attempted in this dependency chore
-  vitest | dashboard | 4.1.12 -> 5.1.1 | major | deferred | required peers pin @vitest/coverage-v8 5.1.1, @vitest/ui 5.1.1 and @vitest/browser-preview 5.1.1; @vitest/ui absent and coverage provider deferred with the runner
-  typescript | video | 5.9.3 -> 7.0.2 | major | deferred | major with no peer or engine blocker proved by npm view; the Remotion 4.0.545 pin targets TS 5
+Remaining deferrals (package | project | current -> latest | kind | decision | concrete reason).
+  @testing-library/jest-dom | dashboard | 6.9.1 -> 8.0.0 | major | deferred | required peer vitest >=5 <6; the runner stays at 4.1.12
+  @types/node | dashboard | 24.19.2 -> 26.6.6 | major | deferred | type declarations for Node 26 describe a newer runtime than Node 24.19.0; 24.19.2 was taken to match the runtime
+  @vitest/coverage-v8 | dashboard | 4.1.12 -> 5.1.1 | major | deferred | required peer pins exact vitest 5.1.1 and @vitest/browser 5.1.1; runner stays at 4.1.12
+  jsdom | dashboard | 27.4.0 -> 31.0.1 | major | deferred | PROJECT_TESTS exit 1 on __tests__/image-upload-component.test.tsx > uploads file successfully and calls onUploadSuccess; capture green-d3-r5-jsdom-trial.txt
+  typescript | dashboard | 5.9.3 -> 7.0.2 | major | deferred | TS2694/TS2339 at __tests__/storytime-loops-book-pages.test.ts:63,66; capture green-d3-r6-ts7-dashboard.txt
+  vitest | dashboard | 4.1.12 -> 5.1.1 | major | deferred | required peers pin @vitest/coverage-v8 5.1.1, @vitest/ui 5.1.1 and @vitest/browser-preview 5.1.1; @vitest/ui absent
+  typescript | video | 5.9.3 -> 7.0.2 | major | deferred | TS2304 at src/Root.tsx:16; capture green-d3-r6-ts7-video.txt
 
 Changes from D3r1 that still hold:
   dashboard eslint-config-next: 16.1.6 -> 16.4.6 (matches next 16.4.6; lint stays 0).
   dashboard pagedjs-cli: ^0.4.3 -> removed (PM decision 2026-11-21).
-  dashboard transitive removals with pagedjs-cli: qs, katex, express and its chain, body-parser, proxy-addr.
   Removed overrides (8): puppeteer, @puppeteer/browsers, tar-fs, pac-proxy-agent,
     proxy-agent, basic-ftp, get-uri, proxy-addr.
-  Kept overrides (3): ws (parents @google/genai, jsdom), protobufjs (parent @google/genai),
-    eslint-plugin-react-hooks 7.0.1 (parent eslint-config-next).
+  Kept overrides (3): ws, protobufjs, eslint-plugin-react-hooks; video keeps minimatch ^11.0.9.
 
-minimatch override decision:
-  The video override ^11.0.9 was tested without itself in D3r2: npm audit returned 9 moderate
-  package entries, while the retained override resolves 11.0.9 and holds npm audit at 0.
-  The override stays and npm audit is still 0 in video.
+Audit state after D3r6: dashboard 0 at every severity with no allowlist entry;
+video 0 at every severity. ALLOWLIST in audit-gate.mjs is empty. Gate logic unchanged.

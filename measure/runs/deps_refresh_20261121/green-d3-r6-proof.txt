@@ -1,0 +1,28 @@
+D3r6 print proofs (PM decision 2026-11-21). Sharp 0.35.5, no allowlist.
+All output under /tmp/opencode/deps-d3-sharp/. No page image or PDF text was viewed.
+ImageMagick compare is absent; pdftoppm -r 30 -png and PIL ImageChops give the AE and RMSE numbers.
+EXIT_CODE (both renders and the numeric comparison): 0.
+
+(a) Book: origins-3.2-a0 (14 lessons).
+    Baseline: ~/Desktop/print-ready/chrome/origins-3.2-a0.pdf, 2026-10-20 04:50 +0700.
+    New: /tmp/opencode/deps-d3-sharp/origins-3.2-a0.pdf.
+    Pages 233 vs 233; page size 594.96 x 808.08 pts both; fonts 13 vs 13 identical.
+    233 raster pages compared; differing pages 0; total changed pixels 0; max RMSE 0.000000.
+    VERDICT: MATCH.
+
+(b) Storytime student book: L2 week 1, script scripts/storytime/make-student-book-pdf.ts
+    (--level 2 --weeks 1 --proof), run with HOME set inside the scratch folder because the
+    script enforces output containment under <home>/Desktop/print-ready/storytime/.
+    Sharp-isolating baseline: the same script under sharp 0.34.5, rendered before the upgrade,
+    /tmp/opencode/deps-d3-sharp/hbaseline/Desktop/print-ready/storytime/Storytime-Advantage-L2-U1-Student-Book-v1_PDFX-1a.pdf.
+    New: /tmp/opencode/deps-d3-sharp/hafter/.../Storytime-Advantage-L2-U1-Student-Book-v1_PDFX-1a.pdf.
+    Pages 20 vs 20; page size 594.96 x 841.92 pts (A4) both; fonts 4 vs 4 identical.
+    20 raster pages compared; differing pages 0; total changed pixels 0; max RMSE 0.000000.
+    VERDICT: MATCH. This is the comparison that isolates the sharp change.
+    Last proof of the same week set: ~/Desktop/print-ready/storytime/proof-w01-v4/
+    Storytime-Advantage-L2-U1-Student-Book-v12_PDFX-1a.pdf, 2026-11-04 07:37 +0700.
+    It has 20 pages but fonts 3 vs 4, and 19 of 20 pages differ (541534 changed pixels,
+    max RMSE 61.102544). The difference predates this change: the sharp 0.34.5 baseline
+    of the same current input also differs from that 2026-11-04 proof, so the stale proof
+    reflects later content and print changes, not sharp 0.35.5.
+    STOP RULE: not triggered. Both sharp-isolating proofs match with 0 changed page pixels.

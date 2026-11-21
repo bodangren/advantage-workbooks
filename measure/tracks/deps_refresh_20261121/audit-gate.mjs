@@ -59,30 +59,7 @@ const PROJECTS = {
 //     recheck: '2026-12-15',
 //   },
 const ALLOWLIST = {
-  // sharp 0.35.5 moves the module entry point and the shipped JPEG provenance.
-  // Three print tests pin sharp 0.34.5. They are test code and stay unchanged.
-  // Re-check on 2026-12-15 after those tests move to the new sharp contract.
-  'GHSA-f88m-g3jw-g9cj': {
-    id: 'GHSA-f88m-g3jw-g9cj',
-    package: 'sharp',
-    severity: 'high',
-    reason: 'sharp 0.35.5 fails __tests__/storytime-book-pictures.test.ts (sets the 18 app pictures with valid JPEGs and complete provenance), __tests__/storytime-loops-share.test.ts (J18: the week files keep their hash, and the test writes nothing into the content folder), and __tests__/storytime-print-c2-start-table.test.ts (C2-ink: each of the 32 values equals the pinned value of P9-B3 and sits 0.02 em or more inside the Andika glyph; C2-mutants: the old c, the old S, a left-middle value, a missing u, and a dot 0.5 mm left each fail)',
-    recheck: '2026-12-15',
-  },
-  'GHSA-rgj7-g3m4-5g8c': {
-    id: 'GHSA-rgj7-g3m4-5g8c',
-    package: 'sharp',
-    severity: 'high',
-    reason: 'sharp 0.35.5 fails __tests__/storytime-book-pictures.test.ts (sets the 18 app pictures with valid JPEGs and complete provenance), __tests__/storytime-loops-share.test.ts (J18: the week files keep their hash, and the test writes nothing into the content folder), and __tests__/storytime-print-c2-start-table.test.ts (C2-ink: each of the 32 values equals the pinned value of P9-B3 and sits 0.02 em or more inside the Andika glyph; C2-mutants: the old c, the old S, a left-middle value, a missing u, and a dot 0.5 mm left each fail)',
-    recheck: '2026-12-15',
-  },
-  'GHSA-wq5f-xc86-pv6w': {
-    id: 'GHSA-wq5f-xc86-pv6w',
-    package: 'sharp',
-    severity: 'high',
-    reason: 'sharp 0.35.5 fails __tests__/storytime-book-pictures.test.ts (sets the 18 app pictures with valid JPEGs and complete provenance), __tests__/storytime-loops-share.test.ts (J18: the week files keep their hash, and the test writes nothing into the content folder), and __tests__/storytime-print-c2-start-table.test.ts (C2-ink: each of the 32 values equals the pinned value of P9-B3 and sits 0.02 em or more inside the Andika glyph; C2-mutants: the old c, the old S, a left-middle value, a missing u, and a dot 0.5 mm left each fail)',
-    recheck: '2026-12-15',
-  },
+  // No advisory needs an allowlist. sharp 0.35.5 cleared its three high advisories.
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;

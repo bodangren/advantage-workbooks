@@ -1,0 +1,14 @@
+D3r6 major trials, each tried on its own. No product code was changed.
+TAKEN (all four dashboard gates exit 0 in the final combined run):
+  dotenv | dashboard | 17.4.2 -> 18.0.10 | taken | tsc 0, lint 0, build 0, final vitest 0
+  @types/node | dashboard | 20.19.43 -> 24.19.2 | taken | matches Node 24.19.0; tsc 0, lint 0, build 0, final vitest 0
+  eslint | dashboard | 9.39.5 -> 10.15.0 | taken | lint 0, tsc 0, build 0, final vitest 0
+  lucide-react | dashboard | 0.563.0 -> 1.77.0 | taken | tsc 0, lint 0, build 0, final vitest 0
+REVERTED (concrete failure captured):
+  typescript | dashboard | 5.9.3 -> 7.0.2 | reverted | PROJECT_CHECKS exit 1: TS2694 and TS2339 at
+    __tests__/storytime-loops-book-pages.test.ts:63 and :66 (TypeScript 7 no longer exports
+    SourceFile, createSourceFile, ScriptTarget, CallExpression and Node from 'typescript').
+    Capture green-d3-r6-ts7-dashboard.txt.
+  typescript | video | 5.9.3 -> 7.0.2 | reverted | tsc exit 1: TS2304 Cannot find name 'fetch'
+    at src/Root.tsx:16. Capture green-d3-r6-ts7-video.txt.
+The video lockfile was restored to the role-base state after the reverted trial.

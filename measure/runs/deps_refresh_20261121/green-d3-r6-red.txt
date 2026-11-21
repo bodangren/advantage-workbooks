@@ -1,0 +1,14 @@
+# Red command after sharp 0.35.5 and the provenance version update: three Storytime test files
+EXIT_CODE: 0
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+
+ Test Files  3 passed (3)
+      Tests  38 passed (38)
+   Start at  22:06:24
+   Duration  9.90s (transform 336ms, setup 102ms, import 617ms, tests 8.60s, environment 301ms)
+
