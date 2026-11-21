@@ -53,10 +53,14 @@ The 10 high entries of `video/storytime-song/` all trace to one advisory: zod `G
 - No Thai text in any file of this track.
 - Run every heavy command (lint, type check, tests, build) inside ONE wrapper, never nested: `HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c '<command>'`. Exit 75 means: the pre-flight hold outlasted its wait.
 
-## Dependency decisions (orchestrator, 2026-11-21, spec-review F6)
+## Dependency decisions (orchestrator, 2026-11-21, spec-review F6; D3 additions, PM 2026-11-21)
 
-- `pagedjs-cli`: no downgrade to 0.0.7. Keep the latest 0.4.x. Clear the `puppeteer`, `tar-fs`, `ws`, and `pac-proxy-agent` chains with npm `overrides` in `dashboard/package.json`. The classic golden print tests and the dashboard build must pass. If a chain cannot be cleared, allowlist it with all allowlist fields and re-check date 2026-12-15.
+- `pagedjs-cli`: no downgrade to 0.0.7. Keep the latest 0.4.x. Clear the `puppeteer`, `tar-fs`, `ws`, and `pac-proxy-agent` chains with npm `overrides` in `dashboard/package.json`. The classic golden print tests and the dashboard build must pass. If a chain cannot be cleared, allowlist it with all allowlist fields and re-check date 2026-12-15. The D3 removal decision below supersedes the keep of this package.
 - `@remotion`: one command, `npx remotion upgrade` in `video/storytime-song/`. Then pin every `remotion` and `@remotion/*` package to the same exact version (no caret): the newest 4.0.x that clears zod `GHSA-mrhx-c7xc-m3w5`. The @remotion step is a patch upgrade inside 4.0.x. Record the version in the plan after Green.
+- `pagedjs-cli` removal (D3, PM decision of 2026-11-21, word for word): "your default is accepted. Remove pagedjs-cli and the overrides that only it needs (the puppeteer chain). PM checked: the print scripts use @playwright/test chromium + node_modules/pagedjs/dist/paged.polyfill.js; no code imports pagedjs-cli or puppeteer. Keep the pagedjs package (the polyfill). D3 proof stays: render one real book with scripts/print/make-book-pdf.ts after the change and compare the page count and a contact sheet with the last proof."
+- D3 removes `pagedjs-cli` from `dashboard/package.json` and each npm override that only the pagedjs-cli chain needs. Decide each override by `npm ls` after the removal: an override whose package is gone from the tree goes; an override with another parent, for example `ws`, stays if a parent still needs it. Keep the `pagedjs` package (the polyfill).
+- D3 proof: render one real book with `dashboard/scripts/print/make-book-pdf.ts` after the change, into `/tmp/opencode/` (never `~/Desktop/print-ready`). Compare its page count and a contact sheet with the last proof of the same book. Name the proof file in the plan. Never use port 3005 (live cutover freeze).
+- D3 also handles: `qs` (moderate), `katex` and `pagedjs-cli` (low; `pagedjs-cli` goes with the removal), the 5 inert overrides, `eslint-config-next` 16.1.6 (match `next` 16.4.6 if the gates pass, else defer with its reason), and `minimatch` in video (1 advisory). A breaking major that does not fit by 2026-11-25 is deferred with its reason.
 
 ## Out of scope
 
