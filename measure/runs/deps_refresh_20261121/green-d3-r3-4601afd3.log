@@ -1,12 +1,12 @@
 MEASURE_AGENT_RESULT
 role: jr-green
-status: partial
+status: complete
 track: deps_refresh_20261121
 phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
-commits: pending
-tests_run: pending final capture
-files_changed: pending
-plan_updates: pending
-known_failures: pending
-handoff: provisional record; refined after the implementation and plan-evidence commits
+commits: 3ce3dd1e (implementation and evidence); the plan-evidence commit follows
+tests_run: Review A r2 F1 closed. Eight exact-pinned non-major updates were taken with `npm install --save-exact` in the two project folders: dashboard react and react-dom to 19.3.1, and video @types/react 19.3.0, @types/web 0.0.367, eslint 10.15.0, prettier 3.10.1, react and react-dom 19.3.1. No EALLOWSCRIPTS occurred. Audit gates: both --min moderate 0, dashboard 0, video 0, --self-test 0. Dashboard heavy gates: lint 0, tsc 0, vitest 0 with the 4 excludes, build 0. Video heavy gates: lint 0, tsc 0, npm test 0, build 0, npx remotion compositions 0 with no frame render; the build output was removed. PM book proof: make-book-pdf.ts origins-3.2-a0 render 0 with 14 lessons and 233 pages; page count, font list, contact-sheet size and all 233 page pixel comparisons match the 2026-10-20 baseline with 0 changed pixels. Evidence: measure/runs/deps_refresh_20261121/green-d3-r3-*.txt.
+files_changed: dashboard/package.json; dashboard/package-lock.json; video/storytime-song/package.json; video/storytime-song/package-lock.json; measure/tracks/deps_refresh_20261121/plan.md; measure/runs/deps_refresh_20261121/versions-d3.txt; audit-after-counts.txt; green-d3-r3-*.txt evidence; review-a-d3-4601afd3.json; review-a-d3-4601afd3.log; review-c-d3-4601afd3-r2.json; review-c-d3-4601afd3-r2.log; ten audit snapshot JSON files; green-d3-r3-4601afd3.log.
+plan_updates: plan.md:100 set back to [~] during the work and then marked [x] with commit 3ce3dd1e. It cites the r3 logs and holds no test count. The D3 manual verification line and the Close lines were left unchanged.
+known_failures: none in this phase. Only the three D1 sharp high advisories remain, under their allowlist to 2026-12-15. No task was flipped to [b].
+handoff: phase_base_sha is 7515ae3b and role_base_sha is 4601afd3. Final Green implementation HEAD is 3ce3dd1e; the plan-evidence commit is the last commit and its id is in git log. After counts stay 0 critical, 1 allowlisted high package entry (3 sharp advisories), 0 moderate and 0 low in dashboard, and 0 at every severity in video. No gate broke, so no update was reverted. Remotion pins stayed at 4.0.545 and no real major was taken. versions-d3.txt now lists the eight taken exact-pin non-major rows separately and gives each of the 14 remaining deferrals a concrete reason. The scratch folder /tmp/opencode/deps-d3-proof-r3 was removed and its absence confirmed with ls. video/storytime-song/scripts/render.mjs stayed modified by another track and was not touched; no PDF, image, dashboard/raw.json or primary_v2_look file was staged. Every committed file holds 0 Thai characters.
 END_MEASURE_AGENT_RESULT
