@@ -4,9 +4,9 @@ status: blocked
 track: deps_refresh_20261121
 phase: Phase D1: dashboard critical and high (by 2026-11-23)
 commits: none
-tests_run: npm ls exited 0; npm audit exited 1 with critical=0, high=1, moderate=1, low=2; the first wrapped gate attempt timed out after 120 seconds; the second attempt remains pending
+tests_run: npm ls exited 0; npm audit exited 1 with critical=0, high=1, moderate=1, low=2; the delayed wrapper exited 0 with 14 self-test passes and a dashboard-gate pass after HEAD advanced; that result does not verify caac6888
 files_changed: review-a-d1-caac6888.json; review-a-d1-caac6888.log
 plan_updates: none
 known_failures: A-D1-1 remains blocking at audit-gate.mjs:196 because package-keyed entries ignore the advisory id; A-D1-2 is withdrawn; A-D1-3 identifies a shallow calendar test
-handoff: Verdict FAIL; retry_recommendation=retry_implementation. Route A-D1-1 to Green. The wrapped checks remain pending in shell sh_1fc2397ee0017Me8JAZTddz9SG. Keep HEAD unchanged until that run finishes. phase_base_sha=5e104447; role_base_sha=caac6888fe0fe9e35c1c64fbd8274e9b49d0958e; audited_head_sha=caac6888fe0fe9e35c1c64fbd8274e9b49d0958e. Facts changed: none.
+handoff: The caac6888 verdict remains FAIL; retry_recommendation=retry_implementation applies to that audited revision. HEAD advanced to c5148d9d after remediation 56e84d8a before the delayed checks ran. The checks passed on newer code. Request a separate audit for that HEAD; do not treat the delayed result as acceptance of caac6888. phase_base_sha=5e104447; role_base_sha=caac6888fe0fe9e35c1c64fbd8274e9b49d0958e; audited_head_sha=caac6888fe0fe9e35c1c64fbd8274e9b49d0958e. Facts changed: none.
 END_MEASURE_AGENT_RESULT

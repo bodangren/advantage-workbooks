@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: review-a
+status: complete
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: none
+tests_run: audit-gate.mjs --self-test and dashboard through one heavy-run.sh wrapper exited 0; 14 self-tests passed; three sharp advisories were allowed; no heavy suite or build ran
+files_changed: review-a-d1-7030ba6a.json; review-a-d1-7030ba6a.log
+plan_updates: none
+known_failures: none within D1; the plan separately records the historical foreign Red failures
+handoff: Verdict PASS; findings none; retry_recommendation=none. A-D1-1 and A-D1-3 are withdrawn. A-D1-2 remains withdrawn. phase_base_sha=5e104447; role_base_sha=7030ba6afecb45e89844f774b382c6baabd06f51; audited_head_sha=7030ba6afecb45e89844f774b382c6baabd06f51. Facts changed: none.
+END_MEASURE_AGENT_RESULT

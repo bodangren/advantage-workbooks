@@ -1,0 +1,17 @@
+- Loading: /tmp/deps-refresh-d1-smoke.html
+(node:1250639) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error: Could not find Chrome (ver. 157.0.8103.78). This can occur if either
+ 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or
+ 2. your cache path is incorrectly configured (which is: /home/daniebo/.cache/puppeteer).
+For (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.
+    at ChromeLauncher.resolveExecutablePath (file:///home/daniebo/Desktop/Workbooks/dashboard/node_modules/puppeteer-core/lib/puppeteer/node/BrowserLauncher.js:395:19)
+    at async ChromeLauncher.computeLaunchArguments (file:///home/daniebo/Desktop/Workbooks/dashboard/node_modules/puppeteer-core/lib/puppeteer/node/ChromeLauncher.js:93:19)
+    at async ChromeLauncher.launch (file:///home/daniebo/Desktop/Workbooks/dashboard/node_modules/puppeteer-core/lib/puppeteer/node/BrowserLauncher.js:94:28)
+    at async ChromeLauncher.launch (file:///home/daniebo/Desktop/Workbooks/dashboard/node_modules/puppeteer-core/lib/puppeteer/node/ChromeLauncher.js:39:16)
+    at async PuppeteerNode.launch (file:///home/daniebo/Desktop/Workbooks/dashboard/node_modules/puppeteer-core/lib/puppeteer/node/PuppeteerNode.js:123:16)
+    at async Printer.setup (file:///home/daniebo/Desktop/Workbooks/dashboard/node_modules/pagedjs-cli/src/printer.js:66:19)
+    at async Printer.render (file:///home/daniebo/Desktop/Workbooks/dashboard/node_modules/pagedjs-cli/src/printer.js:79:4)
+    at async Printer.pdf (file:///home/daniebo/Desktop/Workbooks/dashboard/node_modules/pagedjs-cli/src/printer.js:270:14)
+    at async file:///home/daniebo/Desktop/Workbooks/dashboard/node_modules/pagedjs-cli/src/cli.js:172:10
+EXIT_CODE=1

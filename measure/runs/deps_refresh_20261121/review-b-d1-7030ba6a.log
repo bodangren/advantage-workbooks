@@ -1,0 +1,79 @@
+# Review B re-review 2 (security and data handling): deps_refresh_20261121, Phase D1
+
+Audited head: 7030ba6afecb45e89844f774b382c6baabd06f51.
+`git rev-parse HEAD` matched that value before this audit started.
+Earlier review head: caac6888fe0fe9e35c1c64fbd8274e9b49d0958e.
+Diff under audit: `git diff caac6888 7030ba6a`.
+
+## Verdict
+
+Pass. No blocking security finding.
+My earlier nit B-D1-1 stays open and goes to a later Green round.
+
+## What changed
+
+The code change is test code only.
+`git diff --name-only caac6888 7030ba6a` lists 15 paths, all under measure/.
+No product, test, package or lock file changed.
+
+Commit 56e84d8a changes audit-gate.mjs in two places.
+`coveringEntry` at line 196 now requires the pkg-keyed entry to hold the advisory id as well as the package.
+Line 191 already required both fields for the id-keyed entry.
+Both key types now bind the same two fields.
+Any other case returns null, so `decide` at lines 211-238 pushes a FAIL.
+
+The self-test grows from 13 to 14 checks.
+Line 324 proves that a pkg-keyed entry with another advisory id does not cover the advisory.
+Lines 328-332 use future date 2027-02-30 and assert the calendar error text.
+That test now proves the calendar rule fires instead of the past-date rule.
+
+## Security effect of the change
+
+Input handling is unchanged.
+Line 36 and lines 377-378 still spawn npm with an array argument list and no shell.
+Line 426 still builds the snapshot path from the fixed folder, a validated key and an ISO stamp.
+Those line numbers moved only because the self-test grew.
+
+Fail-closed behavior is stronger, not weaker.
+`isRecord` at lines 96-101 rejects null, functions and arrays.
+The pkg lookup key always starts with "pkg:", so it can never be a prototype key.
+A network or JSON failure still exits non-zero.
+
+The pkg-key residual from my last review is closed.
+A pkg-keyed entry now covers one advisory only, when id and package both match.
+The three sharp entries pass the stricter rule with unchanged data.
+The date 2026-12-15 is a real calendar date.
+
+## My reruns at HEAD
+
+`node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test` exits 0 with 14 rule checks.
+`node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard` exits 0 with 3 allowed sharp advisories.
+My rerun matches red-d1r3-caac6888-selftest.txt and red-d1r3-caac6888-gate.txt line for line.
+My gate rerun wrote one snapshot file, audit-snapshot-dashboard-20261121T033356Z.json.
+The gate writes such a snapshot by design. The file stays untracked.
+
+## Carried finding and one note
+
+B-D1-1 stays open. The sharp allowlist reason still has no saved failing run and names no test file.
+plan.md:68 records remediation 2 and does not change that reason text.
+red-d1r3-caac6888.log declares status partial while reporting both gates green.
+That is Red's own result block. The orchestrator should check it.
+
+## Thai rule
+
+Every printed command output passed a Python U+0E00 to U+0E7F line filter.
+I read no file under content/ and no test fixture with Thai.
+These two artifacts hold zero Thai characters.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: audited head 7030ba6a; remediation 56e84d8a; plan evidence c5148d9d and 7030ba6a; earlier review head caac6888; phase base 5e104447
+tests_run: `node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test` exited 0 with 14 rule checks, including both new negatives. `node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard` exited 0 with 3 allowed sharp advisories. `git diff --name-only caac6888 7030ba6a` showed no file outside measure/. No heavy test, build, install or audit fix ran.
+files_changed: measure/runs/deps_refresh_20261121/review-b-d1-7030ba6a.json; measure/runs/deps_refresh_20261121/review-b-d1-7030ba6a.log
+plan_updates: none. This role is report-only and edits no product, test, plan or package file.
+known_failures: B-D1-1 [Nit] review-b stays open: the sharp allowlist reason at audit-gate.mjs:67,74,81 has no saved failing run and names no test file. It goes to a later Green round. The 3 failures of dashboard/__tests__/default-look-new-editions.test.ts belong to track primary_v2_look and stay unchanged.
+handoff: Verdict is pass with 1 carried nonblocking finding. The remediation only tightens the gate and keeps every path fail-closed; input handling and the snapshot path are unchanged, and my HEAD reruns reproduce the Red evidence. The pkg-key residual is closed. B-D1-1 stays open for a later Green round: name the three print tests in the reason or save one failing run under sharp 0.35.5 before the 2026-12-15 re-check. Note for the orchestrator: red-d1r3-caac6888.log declares status partial while reporting both gates green. No product decision is needed from the user.
+END_MEASURE_AGENT_RESULT

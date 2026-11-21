@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D1: dashboard critical and high (by 2026-11-23)",
+  "baseline_sha": "caac6888fe0fe9e35c1c64fbd8274e9b49d0958e",
+  "phase_base_sha": "5e1044479ec3d91d6b5c9512ddae408c9f5cdd25",
+  "role_base_sha": "7030ba6afecb45e89844f774b382c6baabd06f51",
+  "audited_head_sha": "7030ba6afecb45e89844f774b382c6baabd06f51",
+  "status": "pass",
+  "summary": "The remediation changes no product, API, route, schema, package, dashboard script, or print-path contract. C-D1-1 remains open and nonblocking. No new finding applies.",
+  "contract_applicability": "not_applicable",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "C-D1-1 [Nit] review-c: dashboard/package.json:62 forces Puppeteer 25 outside pagedjs-cli 0.4.3's declared ^20.9.0 range. No supplied evidence exercises that CLI. Rationale: Manual CLI printing remains unverified; active scripts use Playwright. Green: record a bounded CLI smoke test before claiming CLI compatibility."
+  ],
+  "evidence": [
+    "HEAD equals 7030ba6afecb45e89844f774b382c6baabd06f51. role_base_sha records the entry HEAD; baseline_sha records the prior reviewed HEAD.",
+    "git diff --stat caac6888 7030ba6a lists 15 Measure paths: audit-gate.mjs, plan.md, and 13 evidence or review records.",
+    "git diff --name-only caac6888 7030ba6a -- dashboard returns no paths. Product code, packages, lockfiles, routes, server actions, schemas, scripts, and print paths remain unchanged.",
+    "Contract applicability is not_applicable for this remediation. The full Phase D1 dependency change retains the earlier applicable contract review.",
+    "The strategy remains the light-lane plan. The plan diff adds only a remediation evidence line and changes no product requirement.",
+    "audit-gate.mjs now matches both identity fields for pkg-keyed entries. Its self-tests add a wrong-id case and assert a calendar error for 2027-02-30.",
+    "red-d1r3-caac6888-selftest.txt:13-15 records the two specific negative checks and 14 passing rule checks.",
+    "red-d1r3-caac6888-gate.txt:2-6 records a passing gate with three allowed sharp advisories. red-d1r3-caac6888.log:5-6 records both exit codes as zero.",
+    "git status --short --untracked-files=no -- dashboard measure/tracks/deps_refresh_20261121 returns no paths. No tracked worktree change affects the inspected scope.",
+    "C-D1-1 remains open by the supplied handoff. It is not a CONTEST item. This remediation adds no CLI compatibility evidence.",
+    "No tests, heavy commands, browser inspection, installation, or commit ran. Every command result passed through the Python Thai-line filter.",
+    "The new artifacts contain zero Thai characters. No content file or test fixture was opened. Facts changed: none."
+  ],
+  "commands": [
+    "git rev-parse HEAD: 7030ba6afecb45e89844f774b382c6baabd06f51",
+    "git diff --stat caac6888 7030ba6a: 15 Measure paths",
+    "git diff caac6888 7030ba6a -- measure/tracks/deps_refresh_20261121/audit-gate.mjs measure/tracks/deps_refresh_20261121/plan.md: inspected test-code and record changes",
+    "git diff --name-only caac6888 7030ba6a: only Measure paths",
+    "git diff --name-only caac6888 7030ba6a -- dashboard: empty",
+    "git status --short --untracked-files=no -- dashboard measure/tracks/deps_refresh_20261121: empty",
+    "Python filtered reads: remediation self-test output, dashboard gate output, and remediation log",
+    "Python artifact validation: valid JSON, current HEAD, zero Thai characters, and two uncommitted artifacts"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T032151Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T032403Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T032951Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T033005Z.json",
+    "measure/runs/deps_refresh_20261121/red-d1r3-caac6888-gate.txt",
+    "measure/runs/deps_refresh_20261121/red-d1r3-caac6888-selftest.txt",
+    "measure/runs/deps_refresh_20261121/red-d1r3-caac6888.log",
+    "measure/runs/deps_refresh_20261121/review-a-d1-caac6888.json",
+    "measure/runs/deps_refresh_20261121/review-a-d1-caac6888.log",
+    "measure/runs/deps_refresh_20261121/review-b-d1-caac6888.json",
+    "measure/runs/deps_refresh_20261121/review-b-d1-caac6888.log",
+    "measure/runs/deps_refresh_20261121/review-c-d1-caac6888.json",
+    "measure/runs/deps_refresh_20261121/review-c-d1-caac6888.log",
+    "measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "measure/tracks/deps_refresh_20261121/plan.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6.1-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "git diff --name-only caac6888 7030ba6a -- dashboard is empty, so this remediation preserves application contracts."},
+    {"axis": "test_meaning", "score": 3, "evidence": "red-d1r3-caac6888-selftest.txt:15 records 14 passing checks, but this audit does not independently test their fault detection."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --stat caac6888 7030ba6a lists only Measure test code, plan text, and records."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The exact remediation diff and the empty dashboard diff bind the contract conclusion to 7030ba6a."}
+  ]
+}

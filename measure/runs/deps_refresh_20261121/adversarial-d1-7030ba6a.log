@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: none
+tests_run: audit-gate --self-test passed 19 checks; dashboard audit gate passed; heavy dashboard tests passed 171 files and 3,198 tests; pagedjs-cli heavy smoke exited 1 because Chrome was absent; node --check passed
+files_changed: audit-gate.mjs self-test coverage; adversarial JSON and logs; filtered evidence; requested review artifacts and dashboard audit snapshots
+plan_updates: none
+known_failures: The pagedjs-cli smoke could not render because Chrome 157.0.8103.78 was not installed; grep found no live pagedjs-cli or puppeteer caller in dashboard scripts or libraries.
+handoff: D1 adversarial checks passed. The real CLI render remains unavailable in this environment, but no live CLI caller exists. Review evidence and all untracked dashboard snapshots are included for the requested checkpoint.
+END_MEASURE_AGENT_RESULT

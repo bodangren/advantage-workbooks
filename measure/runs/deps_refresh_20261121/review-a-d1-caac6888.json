@@ -23,7 +23,8 @@
     "The new negative case at audit-gate.mjs:315-317 uses pkg:tar-fs against ws. The old implementation already ignored that unrelated key, so this case cannot detect the remaining mismatch.",
     "A-D1-2 withdrawn: isCalendarDate at audit-gate.mjs:108-113 checks the month and day and compares the UTC calendar fields after conversion. checkEntry calls it at lines 151-152 before expiry comparison.",
     "A-D1-3 concerns the new test only. The calendar implementation correctly rejects future impossible dates, but the new test also fails through the older expiry branch.",
-    "The first wrapped self-test and dashboard-gate attempt exceeded the shell tool's 120-second timeout with no captured output. A second wrapped attempt runs in the background; its result is pending.",
+    "The first wrapped attempt exceeded the shell tool's 120-second timeout. The second attempt finished with exit 0, 14 self-test passes, and three allowed sharp advisories.",
+    "The delayed command ran after the audited code changed. HEAD now equals c5148d9d1b33e6fa9a6da85b38886b7946967721, after remediation commit 56e84d8a. Its 14-check result does not prove the 13-check gate at caac6888. The original caac6888 verdict remains FAIL; the new HEAD needs a separate provenance-bound audit.",
     "The saved remediation self-test log contains 13 named passes. The saved remediation dashboard log reports three allowed sharp advisories and a gate pass. These logs are prior evidence, not this role's fresh command results.",
     "A fresh npm audit --json returned exit 1, critical=0, high=1, moderate=1, low=2, and no audit error. Its three high advisory ids match the unchanged sharp allowlist entries.",
     "npm ls returned exit 0. pagedjs-cli remains 0.4.3, puppeteer resolves to 25.18.1, browsers resolves to 3.2.7, and eslint-plugin-react-hooks resolves to 7.0.1.",
@@ -63,6 +64,6 @@
     {"axis": "correctness", "score": 3, "evidence": "audit-gate.mjs:196 still omits the advisory-id comparison for package-keyed entries."},
     {"axis": "test_meaning", "score": 3, "evidence": "The new self-test at audit-gate.mjs:320 uses an invalid date that already fails the expiry check."},
     {"axis": "scope_discipline", "score": 5, "evidence": "git diff 873d6a93 caac6888 -- dashboard is empty."},
-    {"axis": "evidence_quality", "score": 3, "evidence": "Fresh npm audit metadata matches the saved after audit, but the wrapped gate rerun remains pending."}
+    {"axis": "evidence_quality", "score": 3, "evidence": "The delayed wrapped checks passed after HEAD advanced, so their result cannot verify caac6888."}
   ]
 }

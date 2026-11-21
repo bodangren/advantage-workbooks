@@ -238,6 +238,57 @@ function decide(advisories, min, allowlist, today) {
 }
 
 /**
+ * Convert one parsed npm audit document into unique advisory records.
+ *
+ * @param {unknown} audit - The parsed npm audit document.
+ * @returns {Array<{name: string, severity: string, id: string, title: string}>} Unique advisory records.
+ */
+function advisoriesFromAudit(audit) {
+  if (!isRecord(audit)) throw new Error('npm audit JSON is not an object');
+  if (audit.error) throw new Error(`npm audit failed: ${audit.error.code || audit.error}`);
+  const found = [];
+  for (const [entryName, entry] of Object.entries(audit.vulnerabilities || {})) {
+    for (const via of entry.via || []) {
+      if (typeof via === 'string') continue; // The named package carries the advisory itself.
+      found.push({
+        name: via.name || entryName,
+        severity: via.severity,
+        id: ((via.url || '').split('/').pop()) || `source:${via.source}`,
+        title: via.title || '',
+      });
+    }
+  }
+  const seen = new Set();
+  return found.filter((a) => {
+    const key = `${a.name}@${a.id}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+/**
+ * Parse npm audit output and extract its advisory records.
+ *
+ * @param {string} raw - The raw npm audit output.
+ * @param {string} cwd - The project folder that npm audited.
+ * @returns {Array<{name: string, severity: string, id: string, title: string}>} Unique advisory records.
+ */
+function parseAuditOutput(raw, cwd) {
+  let audit;
+  try {
+    audit = JSON.parse(raw);
+  } catch {
+    throw new Error(`npm audit printed no JSON in ${cwd}`);
+  }
+  try {
+    return advisoriesFromAudit(audit);
+  } catch (error) {
+    throw new Error(`${error.message} in ${cwd}`);
+  }
+}
+
+/**
  * Run the self-test: fixed fake audit data, no network.
  *
  * @returns {number} 0 when every rule check holds, else 1.
@@ -287,6 +338,40 @@ function selfTest() {
   r = decide([high], 'high', { 'GHSA-high-1': badDate }, today);
   check('high with a bad re-check date form fails', r.failures.length >= 1);
 
+  // Severity values are exact npm enum strings.
+  const upperSev = { id: 'GHSA-high-1', package: 'ws', severity: 'High', reason: 'no upstream fix', recheck: future };
+  r = decide([high], 'high', { 'GHSA-high-1': upperSev }, today);
+  check('high with a severity case mismatch fails', r.failures.length >= 1 && r.allowed.length === 0);
+
+  // An empty allowlist never covers a gated advisory.
+  r = decide([high], 'high', {}, today);
+  check('high with an empty allowlist fails', r.failures.length === 1 && r.allowed.length === 0);
+
+  // The re-check date remains valid on the exact current UTC date.
+  const todayEntry = { id: 'GHSA-high-1', package: 'ws', severity: 'high', reason: 'no upstream fix', recheck: today };
+  r = decide([high], 'high', { 'GHSA-high-1': todayEntry }, today);
+  check('high with a re-check date equal to today passes', r.failures.length === 0 && r.allowed.length === 1);
+
+  // npm audit lists dependency-name strings along a transitive chain and the
+  // final package entry carries the advisory object.
+  const transitive = advisoriesFromAudit({
+    vulnerabilities: {
+      app: { via: ['middle'] },
+      middle: { via: ['leaf'] },
+      leaf: { via: [{ name: 'leaf', severity: 'high', url: 'https://example.invalid/GHSA-leaf-1', title: 'transitive hole' }] },
+    },
+  });
+  check('transitive via string chain keeps the leaf advisory', transitive.length === 1 && transitive[0].id === 'GHSA-leaf-1');
+
+  // Invalid npm output must fail instead of becoming an empty audit.
+  let malformedFailed = false;
+  try {
+    parseAuditOutput('{', '/tmp/npm-audit-fixture');
+  } catch (error) {
+    malformedFailed = error.message.includes('npm audit printed no JSON');
+  }
+  check('malformed npm audit JSON fails closed', malformedFailed);
+
   // A high advisory fails when the entry severity does not match.
   const wrongSev = { id: 'GHSA-high-1', package: 'ws', severity: 'moderate', reason: 'no upstream fix', recheck: future };
   r = decide([high], 'high', { 'GHSA-high-1': wrongSev }, today);
@@ -335,7 +420,7 @@ function selfTest() {
     console.log(`self-test: FAIL, ${failed} rule checks failed`);
     return 1;
   }
-  console.log('self-test: pass (14 rule checks)');
+    console.log('self-test: pass (19 rule checks)');
   return 0;
 }
 
@@ -384,34 +469,7 @@ function collectAdvisories(cwd) {
     throw new Error(`npm audit did not start in ${cwd}: ${run.error.message}`);
   }
   const raw = run.stdout || '';
-  let audit;
-  try {
-    audit = JSON.parse(raw);
-  } catch {
-    throw new Error(`npm audit printed no JSON in ${cwd}`);
-  }
-  if (audit.error) {
-    throw new Error(`npm audit failed in ${cwd}: ${audit.error.code || audit.error}`);
-  }
-  const found = [];
-  for (const [entryName, entry] of Object.entries(audit.vulnerabilities || {})) {
-    for (const via of entry.via || []) {
-      if (typeof via === 'string') continue; // The named package carries the advisory itself.
-      found.push({
-        name: via.name || entryName,
-        severity: via.severity,
-        id: ((via.url || '').split('/').pop()) || `source:${via.source}`,
-        title: via.title || '',
-      });
-    }
-  }
-  const seen = new Set();
-  const advisories = found.filter((a) => {
-    const key = `${a.name}@${a.id}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  const advisories = parseAuditOutput(raw, cwd);
   return { raw, advisories };
 }
 
