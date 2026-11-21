@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "role_base_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "baseline_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "audited_head_sha": "ed6a3c289c34c194b44a62eeec63009588dfb228",
+  "status": "pass",
+  "summary": "D3 changes preserve the print command and output contract. The minimatch override resolves under lint dependencies, and no user-visible API or flow risk was found.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is ed6a3c289c34c194b44a62eeec63009588dfb228, matching the requested audited head.",
+    "git diff 7515ae3b ed6a3c28 --name-status shows package manifests, the D3 plan, and audit evidence; the only application dependency edits are dashboard/package.json and video/storytime-song/package.json.",
+    "dashboard/scripts/print/make-book-pdf.ts:12-25 documents the user command as `npx tsx scripts/print/make-book-pdf.ts <project> ...`; line 67 loads `node_modules/pagedjs/dist/paged.polyfill.js`.",
+    "dashboard/lib/print/render.ts:54-65 injects the supplied Paged.js source into Playwright Chromium and prints the PDF with background graphics enabled.",
+    "dashboard/package.json:29 retains pagedjs ^0.4.3; dashboard/package.json:50 aligns eslint-config-next 16.4.6 with Next 16.4.6.",
+    "dashboard/lib/workbook-document-wrapper.ts:46 and dashboard/lib/teacher-manual/document-wrapper.ts:1155 retain the Paged.js polyfill script; grep found no pagedjs-cli, Puppeteer, or `npx pagedjs` reference in the searched dashboard scripts, library, app, and package manifest.",
+    "dashboard/docs does not exist; the searched dashboard source contains no removed-CLI user instructions.",
+    "measure/runs/deps_refresh_20261121/green-d3-book-proof.txt reports 233 pages for both PDFs, the same 13 embedded font faces, and 0 pixel-different pages.",
+    "pdfinfo -box on the baseline reports 233 pages, 594.96 x 808.08 pt, and 26,558,784 bytes; these values match the D3 proof record.",
+    "dashboard/package.json:5-12 keeps the existing lint and test scripts; green-d3-lint.txt reports exit 0 with warnings only.",
+    "npm ls minimatch --all in video/storytime-song shows minimatch 11.0.9 only under eslint and @remotion/eslint-config-flat parser/config dependencies.",
+    "video/storytime-song/package.json:11-32 keeps runtime dependencies and render/build scripts unchanged; the minimatch override is at lines 40-42."
+  ],
+  "commands": [
+    "git rev-parse HEAD — ed6a3c289c34c194b44a62eeec63009588dfb228",
+    "git diff --name-only 7515ae3b ed6a3c28 — manifests, D3 plan, and Measure evidence paths",
+    "grep -RInE 'pagedjs-cli|puppeteer|npx pagedjs|pagedjs/dist/paged\\.polyfill\\.js|make-book-pdf\\.ts' dashboard/scripts dashboard/lib dashboard/app dashboard/docs dashboard/README.md dashboard/package.json — no removed CLI usage; docs directory absent; user print command and polyfill wrappers found",
+    "pdfinfo -box /home/daniebo/Desktop/print-ready/chrome/origins-3.2-a0.pdf — 233 pages; 594.96 x 808.08 pt; 26,558,784 bytes",
+    "npm ls minimatch --all (video/storytime-song) — 11.0.9 resolves under lint/config dependency parents",
+    "green-d3-book-proof.txt — 233-page baseline and output; 13 fonts; zero differing pixels",
+    "green-d3-lint.txt — lint command exits 0 with warnings"
+  ],
+  "changed_files": [
+    "dashboard/package.json",
+    "dashboard/package-lock.json",
+    "video/storytime-song/package.json",
+    "video/storytime-song/package-lock.json",
+    "measure/tracks/deps_refresh_20261121/plan.md",
+    "measure/runs/deps_refresh_20261121/green-d3-book-proof.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "contract_path_evidence": [
+    "measure/tracks/deps_refresh_20261121/spec.md:60-63",
+    "measure/tracks/deps_refresh_20261121/plan.md:95-105",
+    "dashboard/package.json",
+    "video/storytime-song/package.json"
+  ],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "dashboard/scripts/print/make-book-pdf.ts:67 loads the retained Paged.js polyfill, and the D3 book proof reports zero differing page pixels."},
+    {"axis": "test_meaning", "score": 4, "evidence": "green-d3-book-proof.txt compares all 233 pages against the baseline, while green-d3-lint.txt confirms lint exits 0."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff 7515ae3b ed6a3c28 limits application changes to dependency manifests and D3 evidence."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The audit includes current HEAD, source lines, npm ls output, pdfinfo output, and the recorded page-by-page comparison."}
+  ]
+}

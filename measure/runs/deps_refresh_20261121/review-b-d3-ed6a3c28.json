@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-b-security",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "ed6a3c28",
+  "baseline_sha": "7515ae3b",
+  "audited_head_sha": "ed6a3c28",
+  "status": "pass",
+  "summary": "HEAD ed6a3c28 equals the audited head. security_applicability is applicable: the phase diff changes both package.json files and both package-lock.json files. Both locks at HEAD resolve only to registry.npmjs.org, and every package entry carries integrity. The dashboard diff adds no package key. The video diff adds only @isaacs/nonrecursive-glob-match, a real isaacs package with no install script. No new install-script package and no typosquat enters. A fresh npm audit reports dashboard 0 critical, 1 high package entry and 0 moderate, 0 low. The high entry holds the 3 allowlisted sharp advisories. The same audit reports video 0 at every severity. The 8 removed override packages are absent from both trees by lockfile scan, npm ls and filesystem walk. Kept overrides resolve to ws 8.23.0, protobufjs 7.6.6 and eslint-plugin-react-hooks 7.0.1, with no open advisory on any of them. video/storytime-song/package.json:34-35 still denies esbuild in allowScripts. audit-gate.mjs has an empty phase diff, and no commit in the range touches it. Its ALLOWLIST still holds only the 3 sharp entries, and the gate and its self-test pass. A6 finds no resolved claim at measure/tracks.md:5. One Nit: that goal's fix-by date of 2026-11-23 conflicts with the accepted sharp deferral to 2026-12-15.",
+  "security_applicability": "applicable",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Nit] review-b: measure/tracks.md:5 promises all critical and high audit advisories fixed by 2026-11-23, while plan.md:100 and audit-gate.mjs:70,77,84 hold the three sharp high advisories on an allowlist with re-check 2026-12-15. Rationale: A6 requires registry copy to match the implementation, so the line needs reconciliation before the track closes."
+  ],
+  "evidence": [
+    "git rev-parse HEAD -> ed6a3c289c34c194b44a62eeec63009588dfb228, equal to audited_head_sha, so the audited head is current.",
+    "git diff --name-only 7515ae3b ed6a3c28 -> 34 paths: dashboard/package.json, dashboard/package-lock.json, video/storytime-song/package.json, video/storytime-song/package-lock.json, measure/tracks/deps_refresh_20261121/plan.md and 29 files under measure/runs/deps_refresh_20261121/. grep for '^content/' returns 0. No test file and no audit-gate.mjs path appears.",
+    "git diff 7515ae3b ed6a3c28 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs is empty, and git log 7515ae3b..ed6a3c28 -- that path returns nothing, so the gate and its ALLOWLIST did not change in D3. ALLOWLIST at HEAD holds exactly GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c and GHSA-wq5f-xc86-pv6w at audit-gate.mjs:61-86, each with re-check 2026-12-15.",
+    "Lockfile scan of both locks at ed6a3c28: every package entry resolves to https://registry.npmjs.org, 0 entries miss integrity, and the D3 added lines hold only registry.npmjs.org resolved URLs (0 non-registry).",
+    "Package-key set difference 7515ae3b vs ed6a3c28: dashboard adds 0 keys and removes 113; video adds only node_modules/@isaacs/nonrecursive-glob-match (no hasInstallScript) and removes 0. hasInstallScript sets: dashboard base 10 entries -> HEAD 9, puppeteer removed and none added; video {node_modules/esbuild} unchanged. The +fsevents lines in the dashboard diff are a moved byte-identical block, equal at both ends.",
+    "npm view @isaacs/nonrecursive-glob-match -> maintainer isaacs, tarball https://registry.npmjs.org/@isaacs/nonrecursive-glob-match/-/nonrecursive-glob-match-1.1.0.tgz; the lockfile entry declares parent minimatch 11.0.9. No added name imitates another package.",
+    "Fresh npm audit --json in dashboard -> metadata {critical 0, high 1, moderate 0, low 0, total 1}; the single package entry is sharp with via hits GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c and GHSA-wq5f-xc86-pv6w, the 3 allowlisted highs, and no other package. Fresh npm audit in video/storytime-song -> all zeros, exit 0.",
+    "Removed overrides absent three ways: lockfile scan shows 0 entry keys and 0 dependency references for puppeteer, @puppeteer/browsers, tar-fs, pac-proxy-agent, proxy-agent, basic-ftp, get-uri and proxy-addr in both locks; npm ls --all of the 8 names prints (empty) in both projects; a filesystem walk of both node_modules trees finds 0 matching directories at any depth. audit-before-dashboard.json shows they carried critical or high advisories (proxy-addr GHSA-jqcg-44mw-7w3h critical; tar-fs, basic-ftp, puppeteer, pac-proxy-agent, proxy-agent, get-uri high), so no vulnerable version of them is present.",
+    "Kept overrides: dashboard/package.json:61 ws ^8.23.0 resolves to ws 8.23.0 (before-audit range 8.0.0-8.20.1, so fixed); :62 protobufjs ^7.6.6 resolves to 7.6.6 (before-audit range <=7.6.4, so fixed); :63 eslint-plugin-react-hooks is pinned exact 7.0.1 and carries no advisory in any audit of this track. The fresh dashboard audit lists only sharp, so no kept override holds an open advisory.",
+    "video/storytime-song/package.json:40-42 adds overrides minimatch ^11.0.9, resolved 11.0.9 in the lockfile with integrity. The advisory GHSA-g3hv-75wg-m249 covers 7.0.0-11.0.0, so every version ^11.0.9 can resolve to lies outside the vulnerable range, and the lockfile pins 11.0.9 for npm ci. A caret admits a future 11.x on a fresh resolve, which the audit gate re-checks at the next run.",
+    "video/storytime-song/package.json:34-35 still holds allowScripts {\"esbuild\": false}; the phase diff of that file adds only the overrides block, and the video hasInstallScript set is still exactly {node_modules/esbuild}.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate exits 0 with 3 allowed sharp hits and 0 video advisories; dashboard-only and video-only each exit 0; --self-test exits 0 with 19 rule checks. red-d3-7515ae3b.txt records the gate exiting 1 at the phase base with 4 qs FAILs and 1 minimatch FAIL, so the test fails first.",
+    "Fresh audit counts match plan.md:100 and audit-after-counts.txt: dashboard 0 critical, 1 high (sharp), 0 moderate, 0 low; video 0 at every severity. plan.md:100 records 'No allowlist entry was added in D3', which the unchanged audit-gate.mjs confirms.",
+    "A6: measure/tracks.md:5 keeps the track checkbox unchecked and states future dates, so no security state is claimed resolved; the Red and Green gate pair for the states it names is green at HEAD (see the gate commands).",
+    "A2 not applicable: the phase diff contains no test file, no status field and no consent or anonymization code; grep for 'published' and 'consent' over added lines returns 0, and the 'draft' hits are print-proof log lines inside measure/runs evidence files.",
+    "Secret scan of the diff: 1 added line matches a token pattern and it is the test-output sentence 'a line whose word count differs from its tokens is refused'; no credential appears.",
+    "Working tree: git status --porcelain --untracked-files=no shows only the pre-existing video/storytime-song/scripts/render.mjs and three measure/runs/primary_v2_look_20261020 files, which review-b D2 also recorded; no package file is modified, so no command of this audit rewrote a lockfile. My gate runs wrote 4 audit-snapshot files under measure/runs/deps_refresh_20261121/, the gate's own behaviour.",
+    "The brief's Route line is opencode-go/mimo-v2.6-flash and records the substitution (ra-quota printed opencode-go/hy4-flash-free). This audit reports the brief's route and raises no route_parity violation, because the brief declares the substitution."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git status --porcelain --untracked-files=no",
+    "git diff --stat 7515ae3b ed6a3c28",
+    "git diff --name-only 7515ae3b ed6a3c28",
+    "git diff 7515ae3b ed6a3c28 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "git log --oneline 7515ae3b..ed6a3c28 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs",
+    "git diff 7515ae3b ed6a3c28 -- dashboard/package.json video/storytime-song/package.json measure/tracks/deps_refresh_20261121/plan.md",
+    "git show <sha>:<lockfile> | python3 (host, integrity, hasInstallScript and package-key scans, both locks, both ends)",
+    "python3 package-key set difference 7515ae3b vs ed6a3c28 (both locks)",
+    "npm audit --json (workdir dashboard)",
+    "npm audit --json (workdir video/storytime-song)",
+    "npm ls --all puppeteer @puppeteer/browsers tar-fs pac-proxy-agent proxy-agent basic-ftp get-uri proxy-addr (both projects)",
+    "npm ls --all ws protobufjs eslint-plugin-react-hooks (dashboard) and npm ls --all minimatch (video)",
+    "npm view @isaacs/nonrecursive-glob-match maintainers repository.url dist.tarball",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard --min moderate",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs video --min moderate",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test",
+    "python3 filesystem walk of both node_modules trees for the 8 removed package names"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-b-d3-ed6a3c28.json",
+    "measure/runs/deps_refresh_20261121/review-b-d3-ed6a3c28.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/mimo-v2.6-flash",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "Fresh npm audit, the gate in four modes and three-way tree scans reproduce every plan.md:100 D3 claim: removals gone, kept overrides at fixed versions, counts 0/1/0/0 and video all 0."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "red-d3-7515ae3b.txt shows the gate failing with 5 named FAILs at the base and my re-run exits 0 with 19 self-test checks, but no test covers registry host, install-script set or typosquat, which I checked by hand."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --name-only 7515ae3b ed6a3c28 lists 4 package files, plan.md and 29 run-evidence paths, with 0 content/ paths, no test file and an empty audit-gate.mjs diff."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Every claim carries a command result I ran myself or a file:line, except the 8 heavy gates, which I cite only as Green's saved green-d3 logs because this role may not run heavy work."
+    }
+  ]
+}

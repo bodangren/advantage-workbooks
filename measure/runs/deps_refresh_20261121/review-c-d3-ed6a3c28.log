@@ -1,0 +1,19 @@
+Verdict: pass. The requested HEAD is current. The print command, polyfill, and book output remain consistent. The minimatch override resolves under lint/config tooling. No user-visible risk was found.
+
+Findings: none.
+Retry recommendation: none.
+
+Evidence: `make-book-pdf.ts` usage declares `npx tsx scripts/print/make-book-pdf.ts <project> ...`. The script reads `node_modules/pagedjs/dist/paged.polyfill.js`. `pagedjs` remains in `dashboard/package.json`. The proof compares 233 pages with zero pixel differences. Baseline `pdfinfo` confirms 233 pages and 594.96 x 808.08 pt. `npm ls minimatch --all` shows minimatch 11.0.9 under ESLint and lint parser/config dependencies. No test was run by this audit.
+
+MEASURE_AGENT_RESULT
+role: measure-review-c-ux-api
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: No tests run; audit-only review. `npm ls minimatch --all` completed successfully.
+files_changed: measure/runs/deps_refresh_20261121/review-c-d3-ed6a3c28.json and .log only.
+plan_updates: none
+known_failures: none
+handoff: D3 UX/API contract review passes. No endpoint or route parity change applies to this dependency-only phase. No user-visible risk was found.
+END_MEASURE_AGENT_RESULT

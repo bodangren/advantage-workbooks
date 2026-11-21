@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: pending
+tests_run: audit gate both/dashboard/video and self-test passed; video lint and tsc passed; dashboard lint passed with three warnings; dashboard Vitest passed 171 files and 3198 tests
+files_changed: adversarial D3 JSON, log, and Thai-filtered evidence files
+plan_updates: none
+known_failures: none
+handoff: F1 withdrawn per the orchestrator's interpretation: D3 changed no ESLint rules; the two existing exceptions predate this track. Lint warnings are listed in the evidence. The audit JSON recommends no retry.
+END_MEASURE_AGENT_RESULT

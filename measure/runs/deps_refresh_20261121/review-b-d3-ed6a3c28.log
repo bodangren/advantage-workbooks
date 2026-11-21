@@ -1,0 +1,223 @@
+review-b security audit, track deps_refresh_20261121, phase D3
+role: measure-review-b-security
+route: opencode-go/mimo-v2.6-flash (substitution: ra-quota printed opencode-go/hy4-flash-free, the Green route of this phase; MiMo differs from Green and from Review A on OpenAI)
+phase_base_sha: 7515ae3b
+audited_head_sha: ed6a3c28
+date: 2026-11-21
+
+Scope and method
+----------------
+Audit-only run. I wrote no product, test, plan or package file. I ran no
+install, no update, no audit fix, no heavy test, no build and no render.
+I never ran opencode or openchamber in a shell. I never touched
+video/storytime-song/scripts/render.mjs. I read no file under content/ and
+no PDF page image. Every command output passed through a python3 filter
+that drops any line holding a character from U+0E00 to U+0E7F. I wrote 0
+Thai characters.
+
+Provenance
+----------
+git rev-parse HEAD -> ed6a3c289c34c194b44a62eeec63009588dfb228.
+This equals audited_head_sha, so the audited head is current.
+git log --oneline 7515ae3b..ed6a3c28 shows five commits: e4013bfa Red,
+403a0552 Red evidence, 9e1f56a1 Green, bf38a519 Green evidence, ed6a3c28
+plan close-defer. Green is 9e1f56a1 and bf38a519 as the brief states.
+git status --porcelain --untracked-files=no shows four modified tracked
+files. Three belong to track primary_v2_look_20261020. The fourth is
+video/storytime-song/scripts/render.mjs, the other track's uncommitted
+work, which review-b D2 already recorded as pre-existing. No package file
+is modified, so no command of this audit rewrote a lockfile.
+
+security_applicability
+----------------------
+Applicable. The test strategy of D3 runs the audit gate on both
+projects. The phase diff changes dashboard/package-lock.json by 1371
+lines, video/storytime-song/package-lock.json by 18 lines, and both
+package.json files. A dependency refresh moves the install and the
+runtime surface, so I inspected the data flows of both lockfiles.
+
+Diff surface
+------------
+git diff --name-only 7515ae3b ed6a3c28 returns 34 paths:
+  dashboard/package.json
+  dashboard/package-lock.json
+  video/storytime-song/package.json
+  video/storytime-song/package-lock.json
+  measure/tracks/deps_refresh_20261121/plan.md
+  29 files under measure/runs/deps_refresh_20261121/
+grep -c '^content/' on that list returns 0. No test file appears.
+git diff 7515ae3b ed6a3c28 -- measure/tracks/deps_refresh_20261121/audit-gate.mjs
+is empty, and git log over the range for that path returns nothing. No
+allowlist entry was added in D3.
+
+Check 1: non-registry host
+--------------------------
+I parsed both lockfile versions from git.
+dashboard at HEAD: every entry resolves to registry.npmjs.org, and 0
+entries miss integrity.
+video at HEAD: same result, 0 entries miss integrity.
+The added lines of both diffs hold only registry.npmjs.org resolved URLs.
+No tarball comes from a git URL, a tarball URL or any other host.
+
+Check 2: new install-script package
+-----------------------------------
+Package-key set difference 7515ae3b vs ed6a3c28:
+  dashboard: 0 added, 113 removed.
+  video: 1 added (node_modules/@isaacs/nonrecursive-glob-match), 0 removed.
+hasInstallScript sets:
+  dashboard base: core-js, es5-ext, esbuild, fsevents,
+    playwright/node_modules/fsevents, protobufjs, puppeteer, sharp,
+    tsx/node_modules/esbuild, unrs-resolver. Count 10.
+  dashboard HEAD: the same set without puppeteer. Count 9.
+  video base and HEAD: node_modules/esbuild only. Count 1.
+No package with an install script entered either tree. puppeteer, which
+had one, left the tree. The +fsevents lines in the dashboard diff are a
+moved block: the raw block text is byte-identical at both ends.
+
+Check 3: allow-scripts policy
+-----------------------------
+video/storytime-song/package.json line 34 holds allowScripts
+{"esbuild": false}. The phase diff of that file adds only the overrides
+block at lines 40-42, so the deny is unchanged. The video hasInstallScript
+set is still exactly {node_modules/esbuild}, so the only install script
+the policy must block is still the one that is blocked. The user ~/.npmrc
+holds an allow-scripts key. npm reported in the D2 evidence that it
+ignores that key, because package.json declares its own allowScripts
+field. dashboard/package.json has no allowScripts field at either end of
+the diff, so this phase changed nothing there.
+
+Check 4: typosquat
+------------------
+The dashboard lockfile adds no package key. The video lockfile adds one
+package. Its entry is:
+  @isaacs/nonrecursive-glob-match 1.1.0
+  resolved https://registry.npmjs.org/@isaacs/nonrecursive-glob-match/-/nonrecursive-glob-match-1.1.0.tgz
+  integrity sha512-GPm/Dbvk5RLmhRnxXIa7nTpK0xtl4E0wj0MslsuNiJ1FIROU+2+9lgUC/dgF7Ey4QCWhfEsgxilMRMCdHPfDfw==
+  hasInstallScript: absent
+  declared parent: node_modules/minimatch (minimatch 11.0.9)
+npm view reports maintainer isaacs for that package and for minimatch
+11.0.9. The name is the real companion package of minimatch 11. It is
+not a small edit of a well-known name. eslint-config-next and
+@next/eslint-plugin-next moved 16.1.6 to 16.4.6 in place, both under the
+official @next scope.
+
+Check 5: live audit counts
+--------------------------
+Fresh npm audit --json in dashboard:
+  metadata {info 0, low 0, moderate 0, high 1, critical 0, total 1}.
+  The single package entry is sharp, with three via advisories:
+  GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c, GHSA-wq5f-xc86-pv6w.
+  All three are on the ALLOWLIST with re-check 2026-12-15.
+Fresh npm audit --json in video/storytime-song:
+  metadata {info 0, low 0, moderate 0, high 0, critical 0, total 0}.
+So the live result is 0 critical, the 3 allowlisted sharp highs in
+dashboard only, 0 moderate and 0 low, as the brief asks. The committed
+audit-after-d3-dashboard.json and audit-after-d3-video.json hold the same
+counts, so the saved after-audit hides nothing.
+
+Check 6: removed overrides absent
+---------------------------------
+The 8 removed overrides are puppeteer, @puppeteer/browsers, tar-fs,
+pac-proxy-agent, proxy-agent, basic-ftp, get-uri and proxy-addr.
+Three independent checks agree that each is absent from both trees:
+  lockfile scan: 0 entry keys and 0 dependency references for all 8 names
+    in both locks at HEAD.
+  npm ls --all of the 8 names: prints (empty) in both projects.
+  filesystem walk of both node_modules trees, top level and nested:
+    0 matching directories.
+audit-before-dashboard.json shows what they carried: proxy-addr critical
+GHSA-jqcg-44mw-7w3h, tar-fs high GHSA-vj76-c3g6-qr5v and 2 more,
+basic-ftp high GHSA-c475-qrg2-pj4r and 2 more. It holds high entries
+for puppeteer, @puppeteer/browsers, pac-proxy-agent, proxy-agent and
+get-uri. No vulnerable version of any of them is present, so none can
+run from the current tree. If a future install reintroduces one of
+them, the audit gate reports its advisory at the next run. The pins
+that used to force the fixed versions are gone by design.
+
+Check 7: kept overrides pinned to fixed versions
+------------------------------------------------
+dashboard/package.json line 61: ws ^8.23.0. npm ls resolves ws 8.23.0
+under @google/genai and jsdom. The before-audit range for the ws
+advisories was 8.0.0 - 8.20.1, so 8.23.0 sits above every fixed version.
+dashboard/package.json line 62: protobufjs ^7.6.6. npm ls resolves
+protobufjs 7.6.6 under @google/genai. The before-audit critical range was
+<=7.6.4, so 7.6.6 sits above it.
+dashboard/package.json line 63: eslint-plugin-react-hooks 7.0.1, an exact
+pin with no caret. npm ls resolves 7.0.1 under eslint-config-next. No
+audit of this track, before or after, reports an advisory for that
+package, so the pin holds no vulnerable version. It is a lint-baseline
+pin, recorded in plan.md:69.
+The fresh dashboard audit lists only sharp, so no kept override holds an
+open advisory.
+
+Check 8: minimatch caret in video
+---------------------------------
+video/storytime-song/package.json line 41 holds minimatch ^11.0.9, and
+the lockfile resolves 11.0.9 with integrity. The advisory
+GHSA-g3hv-75wg-m249 covers 7.0.0 - 11.0.0. Every version the caret can
+resolve to is 11.0.9 or higher, so the caret cannot pull a version inside
+the vulnerable range. The lockfile pins 11.0.9, so npm ci installs that
+exact version. A future fresh resolve could pull a later 11.x without a
+review. The audit gate would report any advisory on it at the next
+run. The caret matches the style of the kept dashboard overrides, so I
+raise no finding on it.
+
+Check 9: gate integrity and A6
+------------------------------
+git diff 7515ae3b ed6a3c28 -- audit-gate.mjs is empty, and no commit in
+the range touches the file. The ALLOWLIST at HEAD holds exactly the three
+sharp entries with all five fields and re-check 2026-12-15. No logic, no
+allowlist and no self-test changed in D3.
+node audit-gate.mjs --self-test passes 19 rule checks.
+node audit-gate.mjs both --min moderate exits 0 with 3 allowed sharp hits
+and 0 video advisories. dashboard-only and video-only each exit 0.
+red-d3-7515ae3b.txt records the gate exiting 1 at the phase base.
+It shows FAIL qs GHSA-q8mj-m7cp-5q26, GHSA-x5fp-wj9c-mxmx,
+GHSA-4mjr-xmp4-gh2g, GHSA-6pq8-jhm2-2vcw and FAIL minimatch
+GHSA-g3hv-75wg-m249. The test fails first and turns green after the fix.
+measure/tracks.md line 5 keeps the track checkbox unchecked and states
+the goal as future dates, so no security state is claimed resolved. The
+counts in plan.md:100 match my fresh measurement exactly. A6 finds no
+overstatement inside the audited range. One record tension stays for the
+closeout. The tracks.md goal says all high advisories fixed by
+2026-11-23, while plan.md:100 and the three allowlist entries hold sharp
+to 2026-12-15. That is Nit F1.
+
+Check 10: A2 consent gate
+-------------------------
+Not applicable. The phase diff contains no test file, no status field, no
+draft to published transition and no consent or anonymization code. grep
+for "published" and "consent" over the added lines returns 0. The "draft"
+hits sit inside measure/runs evidence files and describe print drafts of
+teacher books, not a publish state.
+
+Side effects of this run
+------------------------
+My gate runs wrote four new snapshot files under
+measure/runs/deps_refresh_20261121/: audit-snapshot-dashboard-20261121T075948Z.json,
+audit-snapshot-video-20261121T075948Z.json,
+audit-snapshot-dashboard-20261121T083535Z.json and
+audit-snapshot-video-20261121T083537Z.json. That is the gate's own
+behaviour. No other file changed. A final git status shows no modified
+package file, so no command of this audit rewrote a lockfile.
+
+Verdict
+-------
+pass. No blocking finding. One Nit remains. measure/tracks.md:5
+promises all critical and high advisories fixed by 2026-11-23, while the
+accepted plan holds the three sharp highs on an allowlist with re-check
+2026-12-15. The line needs reconciliation before the track closes. No
+product decision is needed from the user.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: ed6a3c28 (audited HEAD, confirmed current); Green 9e1f56a1, bf38a519
+tests_run: node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate -> pass (3 allowed sharp hits, 0 video); dashboard --min moderate -> pass; video --min moderate -> pass; --self-test -> pass (19 rule checks); npm audit --json in dashboard -> 0 critical, 1 high (sharp, 3 allowlisted advisories), 0 moderate, 0 low; npm audit --json in video/storytime-song -> 0 at every severity; npm ls --all of the 8 removed override names -> empty in both projects; git diff 7515ae3b ed6a3c28 -> lockfiles all registry.npmjs.org, dashboard adds 0 package keys, video adds 1 key with no install script, audit-gate.mjs diff empty
+files_changed: measure/runs/deps_refresh_20261121/review-b-d3-ed6a3c28.json, measure/runs/deps_refresh_20261121/review-b-d3-ed6a3c28.log (the gate also wrote 4 audit-snapshot files under measure/runs/deps_refresh_20261121/)
+plan_updates: none. This is an audit-only role and I edited no plan, test, product or package file.
+known_failures: none blocking. One Nit F1: measure/tracks.md:5 states highs fixed by 2026-11-23 while plan.md:100 and audit-gate.mjs:70,77,84 hold sharp to 2026-12-15; reconcile before track close.
+handoff: D3 passes the security audit at ed6a3c28. No non-registry host, no new install-script package, no typosquat, all 8 removed override packages absent from both trees, kept overrides at fixed versions with no open advisory, allowScripts still denies esbuild, audit-gate.mjs unchanged with only the 3 sharp allowlist entries, and a fresh audit shows 0 critical, the 3 allowlisted sharp highs only in dashboard, 0 moderate, 0 low, video all 0. Route F1 Nit to the plan or registry owner for the closeout: reconcile the tracks.md goal date with the sharp allowlist re-check. No product decision is needed from the user.
+END_MEASURE_AGENT_RESULT

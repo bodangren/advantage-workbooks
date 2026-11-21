@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "ed6a3c28",
+  "baseline_sha": "7515ae3b",
+  "audited_head_sha": "ed6a3c28",
+  "status": "pass",
+  "summary": "HEAD matches the audited SHA. The D3 dependency changes, remaining-advisory record, and real-book print proof match the spec and plan evidence.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "git rev-parse HEAD returned ed6a3c289c34c194b44a62eeec63009588dfb228. The reviewed range is exactly 7515ae3b..ed6a3c28.",
+    "dashboard/package.json:29-30 retains pagedjs and removes pagedjs-cli. The overrides list has only ws, protobufjs, and eslint-plugin-react-hooks; npm ls --all confirms their live parents and shows no removed chain package.",
+    "video/storytime-song/package.json:40-42 sets minimatch ^11.0.9. npm ls resolves 11.0.9 for eslint, @eslint/config-array, and @typescript-eslint/typescript-estree. Those parents declare ^10.2.x ranges; none has a minimatch peer range. minimatch 11 supports Node 20 or >=22, which overlaps the project engine range. All four video project gates pass in green-d3 logs.",
+    "measure/runs/deps_refresh_20261121/audit-after-counts.txt:3-18 lists 0 dashboard moderate/low and 0 video advisories, with reasons for the removed or fixed packages and the three allowed sharp high advisories.",
+    "measure/runs/deps_refresh_20261121/green-d3-book-proof.txt:1-26 records the real make-book-pdf.ts render. The script imports and calls the compile route directly at dashboard/scripts/print/make-book-pdf.ts:6,53. pdfinfo confirms both baseline and new PDFs have 233 pages and matching page dimensions; the recorded pixel comparison reports 0 changed pages.",
+    "measure/runs/deps_refresh_20261121/green-d3-tests.txt reports 171 dashboard test files and 3198 tests passed. The dashboard lint, type check, and build logs report successful completion. Video logs report 21 tests passed, lint/type check, and bundle success.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate exited 0 with 3 allowed sharp advisory hits and 0 video advisories. The saved after-counts use labeled severity counts, not bare-digit matching.",
+    "No measure/tracks/deps_refresh_20261121/test-strategy.md or measure/test-strategy.md exists. The spec and Phase D3 plan define the gates and test exclusions used for this review. No exported code symbols changed, so build-graph blast-radius inspection was not applicable."
+  ],
+  "commands": [
+    "git rev-parse HEAD: pass; matches audited_head_sha ed6a3c28.",
+    "git diff --stat 7515ae3b ed6a3c28: pass; reviewed the exact phase range.",
+    "npm ls --all ws protobufjs eslint-plugin-react-hooks pagedjs-cli pagedjs puppeteer tar-fs pac-proxy-agent proxy-agent basic-ftp get-uri proxy-addr qs katex (dashboard): pass; only pagedjs and the three retained overrides resolve.",
+    "npm ls --all minimatch (video): pass; all three parents resolve minimatch 11.0.9.",
+    "npm view eslint@10.12.0, @eslint/config-array@0.23.5, @typescript-eslint/typescript-estree@8.71.2 dependencies/peerDependencies/engines: pass; parents request minimatch ^10.2.x and declare no minimatch peer range.",
+    "npm view minimatch@11.0.9 engines/peerDependencies: pass; engine is Node 20 or >=22, with no peer dependency.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate: pass; 3 sharp hits allowed, 0 video advisories.",
+    "pdfinfo baseline and new D3 PDFs: pass; 233 pages, 594.96 x 808.08 pts, and equal file sizes. No page image was viewed."
+  ],
+  "changed_files": [
+    "dashboard/package.json",
+    "dashboard/package-lock.json",
+    "video/storytime-song/package.json",
+    "video/storytime-song/package-lock.json",
+    "measure/tracks/deps_refresh_20261121/plan.md",
+    "measure/runs/deps_refresh_20261121/audit-after-counts.txt",
+    "measure/runs/deps_refresh_20261121/audit-after-d3-dashboard.json",
+    "measure/runs/deps_refresh_20261121/audit-after-d3-video.json",
+    "measure/runs/deps_refresh_20261121/versions-d3.txt",
+    "measure/runs/deps_refresh_20261121/green-d3-book-proof.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "dashboard/package.json:29-63 and dashboard npm ls output show the package removal and override parents; the video minimatch 11 override passes the four project gates."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "green-d3-tests.txt reports 171 files and 3198 passing tests; the book proof compares all 233 page rasters."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --name-status 7515ae3b ed6a3c28 shows package files, the planned Phase D3 plan update, and run evidence only."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "HEAD, npm ls, the live audit gate, pdfinfo, and the saved Green logs support the reviewed claims."
+    }
+  ]
+}

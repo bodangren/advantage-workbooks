@@ -1,0 +1,45 @@
+Graph Statistics
+================
+Total nodes: 2124
+Total edges: 2696
+Total files: 142
+
+Nodes by type:
+  function   1359 ████████████████████████████████████████
+  param       358 ███████████
+  file        142 ████
+  field       123 ████
+  interface    63 ██
+  type_alias   33 █
+  route        24 █
+  schema       19 █
+  class         3 
+
+Top 10 most imported:
+  file:types.ts (15 imports)
+  file:utils.ts (13 imports)
+  file:workbook-schema.ts (11 imports)
+  file:index.ts (11 imports)
+  file:types.ts (7 imports)
+  file:types.ts (7 imports)
+  file:spelling-practice.ts (2 imports)
+  file:ai-augmentor.ts (2 imports)
+  file:routes.d.ts (2 imports)
+  file:url-extractor.ts (1 imports)
+
+Top 10 largest files (by entity count):
+   (1174 entities)
+  ./dashboard/lib/workbook-schema.ts (79 entities)
+  ./dashboard/lib/teacher-manual/step-insert.ts (45 entities)
+  ./dashboard/components/ui/select.tsx (33 entities)
+  ./dashboard/lib/filesystem.ts (31 entities)
+  ./dashboard/components/ui/dialog.tsx (30 entities)
+  ./dashboard/lib/teacher-manual/front-matter.ts (30 entities)
+  ./dashboard/lib/teacher-manual/types.ts (28 entities)
+  ./dashboard/lib/teacher-manual/period-plan.ts (23 entities)
+  ./dashboard/lib/template-renderer.ts (23 entities)
+
+Package breakdown:
+  dashboard: 142 files
+
+EXIT=0

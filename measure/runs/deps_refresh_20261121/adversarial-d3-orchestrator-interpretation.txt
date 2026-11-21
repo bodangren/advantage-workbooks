@@ -1,0 +1,15 @@
+HEAD=ed6a3c289c34c194b44a62eeec63009588dfb228
+dashboard eslint config phase diff: empty
+dashboard test result
+ Test Files  171 passed (171)
+      Tests  3198 passed (3198)
+   Duration  805.57s (transform 3.06s, setup 5.41s, import 15.18s, tests 737.56s, environment 32.39s)
+EXIT=0
+EXIT=0
+dashboard lint warnings
+  7:58  warning  'LEVEL_BOOKS' is defined but never used  @typescript-eslint/no-unused-vars
+  1709:15  warning  'quest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  55:19  warning  Unused eslint-disable directive (no problems were reported from '@next/next/no-img-element')
+✖ 3 problems (0 errors, 3 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+EXIT=0

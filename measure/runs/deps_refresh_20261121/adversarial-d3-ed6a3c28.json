@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "phase_base_sha": "7515ae3b",
+  "role_base_sha": "ed6a3c28",
+  "baseline_sha": "7515ae3b",
+  "audited_head_sha": "ed6a3c28",
+  "status": "pass",
+  "summary": "D3 audit gates, dashboard tests and lint, and video lint and type checks pass. The ESLint configuration is unchanged by D3; its existing rule exceptions are outside this track.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "git rev-parse HEAD returned ed6a3c289c34c194b44a62eeec63009588dfb228, matching the pre-adversarial HEAD and role_base_sha.",
+    "The exact 7515ae3b..ed6a3c28 diff changes dashboard and video manifests and locks, the D3 plan, and run evidence; no product-source change is in this phase diff.",
+    "dashboard/eslint.config.mjs:11-14 explicitly sets two rules to off for selected files.",
+    "F1 withdrawn: git diff 7515ae3b ed6a3c28 -- dashboard/eslint.config.mjs is empty; the orchestrator confirmed the existing exceptions predate D3 and risk 3 means D3 adds no disabled rule.",
+    "No D3 test-strategy file exists; the phase brief, plan, and spec review supply the applicable test requirements.",
+    "The dashboard heavy lint command exits 0 with 3 warnings and 0 errors: LEVEL_BOOKS unused; quest unused; one unused eslint-disable directive.",
+    "The dashboard Vitest retry exits 0 with 171 files and 3198 tests passed. The earlier attempt timed out at the shell's 600-second limit.",
+    "The build-graph stats command exits 0. The changed paths are package manifests, locks, plan, and run evidence, so no source symbol blast radius applies."
+  ],
+  "commands": [
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate: exit 0; 3 sharp advisories are allowed.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard: exit 0; 3 sharp advisories are allowed.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs video: exit 0; 0 advisories.",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test: exit 0; 19 rule checks pass.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm run lint': exit 0.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npx tsc --noEmit': exit 0.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && npm run lint': exit 0; 0 errors, 3 warnings.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts --exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts --exclude __tests__/default-look-new-editions.test.ts': exit 0; 171 files and 3198 tests passed.",
+    "git diff --quiet 7515ae3b ed6a3c28 -- dashboard/eslint.config.mjs: exit 0; no D3 rule changes.",
+    "node minimatch API probes: version 11.0.9 exports named minimatch and Minimatch functions; default export is undefined; both match probes return true.",
+    "build-graph stats ./graph.db: exit 0."
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/adversarial-d3-static-ed6a3c28.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-audit-__self_test.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-audit-both___min_moderate.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-audit-dashboard.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-audit-video.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-video-lint.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-video-tsc.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-minimatch-api.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-minimatch-callers.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-minimatch-class.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-dashboard-lint.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-dashboard-tests.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-build-graph.txt",
+    "measure/runs/deps_refresh_20261121/adversarial-d3-orchestrator-interpretation.txt",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T092146Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T092149Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T092146Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T092156Z.json"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "dashboard/package.json:29-63 and live pagedjs polyfill checks support the dependency changes; minimatch 11.0.9 passes lint and tsc."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The dashboard heavy run reports 171 test files and 3198 tests passed; dashboard lint and video lint/type checks exit 0."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The 7515ae3b..ed6a3c28 diff contains package files, the phase plan, and Measure run evidence only."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Saved audit logs, heavy-run logs, API probes, source lines, and build-graph stats support the tested claims."
+    }
+  ]
+}

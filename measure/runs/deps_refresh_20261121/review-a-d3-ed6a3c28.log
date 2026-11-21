@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-a-correctness
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: none
+tests_run: npm ls --all dashboard override packages (pass); npm ls --all minimatch (pass); npm view parent and minimatch metadata (pass); node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate (pass); pdfinfo baseline and new proof (pass); reviewed the supplied D3 test and build logs
+files_changed: measure/runs/deps_refresh_20261121/review-a-d3-ed6a3c28.json and .log
+plan_updates: none
+known_failures: none
+handoff: PASS. HEAD is ed6a3c28. Removed pagedjs-cli and exclusive override packages are absent; pagedjs and all three retained override parents remain. The minimatch override resolves 11.0.9, passes the video gates, and meets Node engines, although its parents declare ^10.2.x dependency ranges. The real 233-page book proof matches the baseline page pixels. No test-strategy.md exists for this track.
+END_MEASURE_AGENT_RESULT
