@@ -1,0 +1,31 @@
+# D3 Red: moderate gate fails on the phase base
+
+Track: `deps_refresh_20261121`. Phase: "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)".
+Phase heading matches `plan.md` exactly.
+Phase base (`baseline_sha`): `7515ae3b`. Role base: `7515ae3b` (both resolve; HEAD equaled the base before this role committed).
+Evidence commit: `e4013bfa`. Plan commit: this commit.
+
+RED_TEST_COMMAND_D3: `node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate`.
+Result: exit 1. Output: `measure/runs/deps_refresh_20261121/red-d3-7515ae3b.txt`.
+Dashboard: 7 advisories at moderate or above (3 ALLOWED sharp high entries; 4 FAIL qs moderate: `GHSA-q8mj-m7cp-5q26`, `GHSA-x5fp-wj9c-mxmx`, `GHSA-4mjr-xmp4-gh2g`, `GHSA-6pq8-jhm2-2vcw`). Video: 1 advisory (FAIL minimatch moderate `GHSA-g3hv-75wg-m249`). Gate total: 5 advisories without a complete allowlist entry.
+Self-test: `node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test` exits 0, 19 rule checks pass.
+Output: `measure/runs/deps_refresh_20261121/red-d3-7515ae3b-selftest.txt`.
+Snapshots: `measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T070039Z.json`, `measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T070039Z.json`.
+
+Dirty paths at start: `video/storytime-song/scripts/render.mjs` (modified, uncommitted work of track `storytime_song_video_20261022`; untouched and unstaged).
+`dashboard/raw.json` (untracked) is unrelated prior work; untouched and unstaged.
+No lockfile changed. Nothing under `dashboard/` or `video/` was edited. No npm install, update, or audit fix ran. No gate logic change.
+The D3 Red task stays at [~]; Green marks it [x]. No push.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+status: complete
+track: deps_refresh_20261121
+phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
+commits: e4013bfa
+tests_run: node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate -> exit 1 (FAIL as required: 5 advisories without a complete allowlist entry: 4 qs moderate dashboard + 1 minimatch moderate video; 3 sharp high dashboard entries pass by allowlist); node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test -> exit 0 (19 rule checks pass)
+files_changed: measure/runs/deps_refresh_20261121/red-d3-7515ae3b.txt, measure/runs/deps_refresh_20261121/red-d3-7515ae3b-selftest.txt, measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T070039Z.json, measure/runs/deps_refresh_20261121/audit-snapshot-video-20261121T070039Z.json, measure/tracks/deps_refresh_20261121/plan.md, measure/runs/deps_refresh_20261121/red-d3-7515ae3b.log
+plan_updates: D3 Red task kept at [~] with Red commit e4013bfa on the task line and a sub-bullet with exit codes and evidence paths
+known_failures: both-projects moderate gate exits 1 on 4 qs moderate (dashboard) + 1 minimatch moderate (video); Green must fix or allowlist each per the D3 Implement task and the pagedjs-cli removal PM decision
+handoff: Green marks the D3 Red task [x]. Green implements in dashboard/ and video/storytime-song/ only per the D3 Implement task (pagedjs-cli removal, overrides cleanup, qs/katex/minimatch/eslint-config-next handling, real-book D3 proof). Leave video/storytime-song/scripts/render.mjs unstaged and unchanged. No questions; no user input needed.
+END_MEASURE_AGENT_RESULT
