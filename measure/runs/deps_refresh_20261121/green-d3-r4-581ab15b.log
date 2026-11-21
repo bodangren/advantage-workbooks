@@ -1,12 +1,12 @@
 MEASURE_AGENT_RESULT
 role: jr-green
-status: partial
+status: complete
 track: deps_refresh_20261121
 phase: Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
-commits: pending
-tests_run: pending final capture
-files_changed: pending
-plan_updates: pending
-known_failures: pending
-handoff: provisional record; refined after the implementation and plan-evidence commits
+commits: 03850463 (implementation and evidence); the plan-evidence commit follows
+tests_run: Review A r4 F2 closed. In video/storytime-song, `npm install --save-optional --save-exact @rspack/binding-linux-x64-gnu@2.3.0` exited 0. npm ls before showed @rspack/core 2.3.0 with a nested binding 2.3.0 and a stale direct binding 1.7.12; after the run npm ls shows one deduped binding 2.3.0 matching core, with no 1.x binding in the tree or lockfile. Audit gates: both --min moderate 0, dashboard 0, video 0, --self-test 0. Video heavy gates: lint 0, tsc 0, npm test 0, build 0, npx remotion compositions 0 with no frame render; the build output was removed. The dashboard did not change, so no dashboard heavy gate or book proof was rerun. Evidence: measure/runs/deps_refresh_20261121/green-d3-r4-*.txt.
+files_changed: video/storytime-song/package.json; video/storytime-song/package-lock.json; measure/tracks/deps_refresh_20261121/plan.md; measure/runs/deps_refresh_20261121/versions-d3.txt; audit-after-counts.txt; green-d3-r4-*.txt evidence; review-a, review-b and review-c files for 581ab15b; fourteen audit snapshot JSON files; green-d3-r4-581ab15b.log.
+plan_updates: plan.md:100 stayed [x] and gained commit 03850463 beside 3ce3dd1e. It cites the r4 logs and the npm view and npm ls evidence and holds no test count. The manual verification line and the Close lines were unchanged.
+known_failures: none in this phase. Only the three D1 sharp high advisories remain, under their allowlist to 2026-12-15. No task was flipped to [b].
+handoff: phase_base_sha is 7515ae3b and role_base_sha is 581ab15b. Final Green implementation HEAD is 03850463; the plan-evidence commit is the last commit and its id is in git log. After counts stay 0 critical, 1 allowlisted high package entry (3 sharp advisories), 0 moderate and 0 low in dashboard, and 0 at every severity in video. The jest-dom reason now names the vitest >=5 <6 peer against the kept vitest 4.1.12; the matcher-rename claim is removed. The rspack binding row now records 1.7.12 -> 2.3.0 as taken. All other deferral reasons were re-checked with npm view and npm ls, and the unproved matcher, parse/export, config-migration, icon-rename and vite-version claims were replaced with facts from green-d3-r4-npmview.txt and green-d3-r4-npmls.txt. Remotion pins stayed at 4.0.545. video/storytime-song/scripts/render.mjs stayed modified by another track and was not touched; no PDF, image, dashboard/raw.json or primary_v2_look file was staged. Every committed file holds 0 Thai characters.
 END_MEASURE_AGENT_RESULT
