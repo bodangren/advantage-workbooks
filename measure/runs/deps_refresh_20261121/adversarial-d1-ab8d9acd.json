@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D1: dashboard critical and high (by 2026-11-23)",
+  "baseline_sha": "5e1044479ec3d91d6b5c9512ddae408c9f5cdd25",
+  "phase_base_sha": "5e1044479ec3d91d6b5c9512ddae408c9f5cdd25",
+  "role_base_sha": "ab8d9acddeecf00e8f4e7562707fae4bef89ed2f",
+  "audited_head_sha": "ab8d9acddeecf00e8f4e7562707fae4bef89ed2f",
+  "status": "pass",
+  "summary": "The reason-only delta left gate rules unchanged. Both gate commands passed, and pdfinfo confirmed the cited round-11 page counts.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD matched ab8d9acddeecf00e8f4e7562707fae4bef89ed2f before checks.",
+    "The diff from 057627d4 to ab8d9acd changes only the reason values for the three sharp entries; the gate logic and entry fields remain unchanged.",
+    "The self-test exits 0 with 19 passing rule checks.",
+    "The dashboard audit gate exits 0 with 3 high sharp advisories allowed by complete entries.",
+    "pdfinfo reports 14 pages for proof-s5-r11/quest5-l01.pdf and 16 pages for proof-s5-r11/adventure92-l09.pdf; both match green-d1r2-print-live.txt.",
+    "The delta reason text does not alter severity, identity, expiry, critical rejection, or advisory matching rules."
+  ],
+  "commands": [
+    "git rev-parse HEAD — ab8d9acddeecf00e8f4e7562707fae4bef89ed2f",
+    "git diff 057627d4..ab8d9acd -- measure/tracks/deps_refresh_20261121/audit-gate.mjs — only three sharp reason strings changed",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test — exit 0 (19 checks)",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard — exit 0",
+    "pdfinfo ~/Desktop/print-ready/primary-v2-look/proof-s5-r11/quest5-l01.pdf — exit 0, Pages: 14",
+    "pdfinfo ~/Desktop/print-ready/primary-v2-look/proof-s5-r11/adventure92-l09.pdf — exit 0, Pages: 16"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/adversarial-d1-ab8d9acd.json",
+    "measure/runs/deps_refresh_20261121/adversarial-d1-ab8d9acd.log",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T045003Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T045232Z.json",
+    "measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T045432Z.json"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    { "axis": "correctness", "score": 5, "evidence": "The audit gate passes with the three reason updates and retains its existing 19 passing rule checks." },
+    { "axis": "test_meaning", "score": 4, "evidence": "The self-test exercises 19 named rules, and the gate runs against live npm audit output." },
+    { "axis": "scope_discipline", "score": 5, "evidence": "This delta changes only reason text; this review changes only the requested artifacts and snapshots." },
+    { "axis": "evidence_quality", "score": 5, "evidence": "The two direct pdfinfo commands confirm the requested page counts at exit 0." }
+  ]
+}
