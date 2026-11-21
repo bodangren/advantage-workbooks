@@ -1,0 +1,27 @@
+D3r2 PM book proof (2026-11-21). Live print path: dashboard/scripts/print/make-book-pdf.ts.
+The re-run follows the in-range updates of both projects. Scratch: /tmp/opencode/deps-d3-proof-r2/.
+Book: origins-3.2-a0 (14 lessons), classic look, from primary/origins-3.2-a0/.
+Baseline proof: /home/daniebo/Desktop/print-ready/chrome/origins-3.2-a0.pdf, dated 2026-10-20 04:50 +0700.
+New render: /tmp/opencode/deps-d3-proof-r2/origins-3.2-a0.pdf. Nothing was written under ~/Desktop/print-ready.
+make-book-pdf.ts calls the compile route directly; no server was started and port 3005 was not used.
+EXIT_CODE (book render): 0; the driver reported "done origins-3.2-a0: 14 lessons, 233 pages".
+
+Page count (pdfinfo): baseline 233, new 233, MATCH.
+Page size (pdfinfo): both 594.96 x 808.08 pts, MATCH.
+PDF title: both "Primary Advantage Workbook - Origins 3.2", MATCH.
+File size: both 26558784 bytes, MATCH.
+SHA-256: baseline 733619acd9b88f4ec297bad79383cfbab3fed7a2c3f81314100f91d25e45f41c;
+         new      561478c7bad8b4f1a95065cbef2bade1c261d61b41cc517bf0aa50b9e8352b4a.
+  The digests differ because the PDF creation metadata differs; the file sizes and all page pixels match.
+pdffonts name, type and embedded: both hold the same 13 faces (diff empty), MATCH.
+
+Contact sheets: both built with pdftoppm -r 30 -png and PIL, identical settings,
+16 columns, 124x168 px thumbnails, white background. No page image was viewed.
+  Baseline sheet pixels: 1984 x 2520; new sheet pixels: 1984 x 2520; MATCH.
+  Single-page raster at 30 dpi: both 248 x 337 px, MATCH.
+Per-page numeric comparison (PIL ImageChops difference, all 233 pages):
+  pages compared 233; pages with any pixel difference 0; total changed pixels 0; max RMSE 0.0.
+
+VERDICT: MATCH. Page count, sheet size, font list and every page's pixels equal the last proof.
+The in-range updates of both projects did not change the live book print output.
+EXIT_CODE (numeric comparison): 0. The scratch folder is removed after this capture.

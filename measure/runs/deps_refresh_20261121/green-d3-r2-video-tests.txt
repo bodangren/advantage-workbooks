@@ -1,0 +1,35 @@
+# PROJECT_TESTS_VIDEO (npm test)
+EXIT_CODE: 0
+
+> storytime-song@1.0.0 test
+> node --test tests/*.test.mjs
+
+✔ the cast, the gesture frames, and the scene of the week map to files under public/ (1.33884ms)
+✔ the gesture box holds every frame of the inset (0.160658ms)
+✔ a cast member or a gesture with no cut-out is refused; a scene with no render keeps the placeholder (0.400577ms)
+✔ the phone cut shows the whole classroom scene at full width, at 16:9 (0.667855ms)
+✔ the parts of the portrait frame are in the frame, from the top, and do not overlap (0.174299ms)
+✔ the line text is larger in the phone cut than in the classroom cut, for the same frame width (0.145799ms)
+✔ the phone cut centres the actor row in the scene; the classroom cut keeps the inset side free (0.142259ms)
+✔ the frame is the picture pose of the gesture, else the last frame (the beat frame) (1.259201ms)
+✔ the crop is one square from above the head to below the belt, with every hand, in the frame (0.319077ms)
+✔ a crop outside the frame is an error (0.184719ms)
+✔ a week with its own Forge set uses it; another week uses the gesture library (1.39869ms)
+✔ a picture pose has its own crop: the whole figure with the raised foot, in the frame (0.227939ms)
+✔ a sung repeat in parentheses is its own segment, with no parentheses (1.711048ms)
+✔ a line whose word count differs from its tokens is refused (0.317438ms)
+✔ the scene is the named place, else the setting of the week (0.513486ms)
+✔ week 1: every line has its picture, actors, and the times of the package (5.572209ms)
+✔ a Forge scene video must be 1920x1080, silent, and as long as the song (0.403737ms)
+✔ lines with the same picture make one shot; the first shot starts at 0 and the last ends at the end (1.186101ms)
+✔ actors slide only inside one scene and only when the cast changes (0.245928ms)
+✔ in a gap the next line shows at most 1.2 s early, never before the last line ends (0.233718ms)
+✔ the gesture holds for the line and 0.5 s after it, else idle (0.151189ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.36263

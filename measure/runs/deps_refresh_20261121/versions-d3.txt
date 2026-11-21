@@ -1,37 +1,68 @@
 D3 version and removal table (dashboard and video/storytime-song).
+D3r2: `npm update` ran in both project folders after PA-D3-1. No package.json range changed;
+only lockfiles moved. npm outdated after the run has 0 in-range updates behind in each project.
 
-Direct dependency changes (old -> new):
-  dashboard eslint-config-next: 16.1.6 -> 16.4.6 (matches next 16.4.6; lint exits 0 with no product change)
-  dashboard pagedjs-cli: ^0.4.3 -> REMOVED (PM decision 2026-11-21; no live code imports it)
+In-range updates applied by npm update (before -> after):
+  dashboard:
+    @electric-sql/pglite: 0.5.8 -> 0.5.17
+    @google/genai: 1.39.0 -> 1.52.0
+    @playwright/test: 1.58.2 -> 1.65.1
+    @radix-ui/react-dialog: 1.1.15 -> 1.3.1
+    @radix-ui/react-label: 2.1.8 -> 2.1.17
+    @radix-ui/react-select: 2.2.6 -> 2.4.1
+    @radix-ui/react-slot: 1.2.4 -> 1.5.0
+    @tailwindcss/postcss: 4.1.18 -> 4.3.5
+    @testing-library/react: 16.3.2 -> 16.3.3
+    @types/node: 20.19.30 -> 20.19.43
+    @types/react: 19.2.10 -> 19.3.0
+    @types/react-dom: 19.2.3 -> 19.3.0
+    @vitejs/plugin-react: 5.1.2 -> 5.2.0
+    dotenv: 17.2.3 -> 17.4.2
+    eslint: 9.39.2 -> 9.39.5
+    tailwind-merge: 3.4.0 -> 3.7.1
+    tailwindcss: 4.1.18 -> 4.3.5
+    zod-to-json-schema: 3.25.1 -> 3.25.2
+  video/storytime-song:
+    @rspack/binding-linux-x64-gnu: 1.7.11 -> 1.7.12
 
-Removed transitively with pagedjs-cli (no direct entry):
-  qs: 6.16.2 -> absent (the four moderate qs advisories are gone)
-  katex: 0.16.47 -> absent (the low katex advisory is gone)
-  express and its chain, body-parser, proxy-addr -> absent
+Majors and other out-of-range updates (package | current | latest | decision | reason):
+  Decision is "deferred" for every row. No major was taken in this phase.
+  dashboard | @google/genai | 1.52.0 | 3.6.1 | deferred | breaking major with API changes; 1.52.0 applied in range; no advisory at either version
+  dashboard | @testing-library/jest-dom | 6.9.1 | 8.0.0 | deferred | breaking major with matcher changes; not attempted in a dependency chore
+  dashboard | @types/node | 20.19.43 | 26.6.6 | deferred | type major follows a Node runtime upgrade; runtime stays on Node 24; not attempted
+  dashboard | @vitejs/plugin-react | 5.2.0 | 6.3.0 | deferred | breaking major tied to a Vite major; not attempted
+  dashboard | @vitest/coverage-v8 | 4.1.12 | 5.1.1 | deferred | must move with vitest 5; deferred with vitest; not attempted
+  dashboard | dotenv | 17.4.2 | 18.0.10 | deferred | breaking major with parse and export changes; not attempted
+  dashboard | eslint | 9.39.5 | 10.15.0 | deferred | ESLint 10 needs an eslint.config.mjs migration; not attempted in this chore
+  dashboard | jsdom | 27.4.0 | 31.0.1 | deferred | breaking major; the DOM test environment and jsqr tests pin jsdom 27; not attempted
+  dashboard | lucide-react | 0.563.0 | 1.77.0 | deferred | breaking major with icon name and export changes; not attempted
+  dashboard | react | 19.2.3 | 19.3.1 | deferred | exact pin; a React minor can change rendering snapshots and golden print tests; not attempted
+  dashboard | react-dom | 19.2.3 | 19.3.1 | deferred | exact pin; paired with react; not attempted
+  dashboard | sharp | 0.34.5 | 0.35.5 | deferred | 0.35.5 fails three pinned print tests; capture green-d1-sharp-0355-capture.txt; allowlisted to 2026-12-15
+  dashboard | typescript | 5.9.3 | 7.0.2 | deferred | TS 7 is a breaking major with AST and type-check changes; not attempted
+  dashboard | vitest | 4.1.12 | 5.1.1 | deferred | Vitest 5 is a breaking major; the 171-file suite and 4 excludes pin the Vitest 4 runner; not attempted
+  video | @rspack/binding-linux-x64-gnu | 1.7.12 | 2.3.3 | deferred | paired with the Remotion 4.0.545 bundler pin; rspack 2 is outside that pin; not attempted
+  video | @types/react | 19.2.7 | 19.3.0 | deferred | exact pin; types-only minor; kept to hold the Remotion pin set; not attempted
+  video | @types/web | 0.0.166 | 0.0.367 | deferred | exact pin; large API surface change in 0.0.x; not attempted
+  video | eslint | 10.12.0 | 10.15.0 | deferred | exact pin; a bump could change the lint result of the Remotion source set; not attempted
+  video | prettier | 3.8.1 | 3.10.1 | deferred | exact pin; a bump changes formatting across many files; not attempted
+  video | react | 19.2.3 | 19.3.1 | deferred | exact pin; paired with Remotion 4.0.545; not attempted
+  video | react-dom | 19.2.3 | 19.3.1 | deferred | exact pin; paired with react; not attempted
+  video | typescript | 5.9.3 | 7.0.2 | deferred | TS 7 is a breaking major; the Remotion 4.0.545 pin targets TS 5; not attempted
 
-Removed npm overrides in dashboard/package.json (8, package gone from the tree after the removal):
-  puppeteer ^25.18.1 -> removed (only parent was pagedjs-cli)
-  @puppeteer/browsers ^3.2.7 -> removed (only parent was puppeteer under pagedjs-cli)
-  tar-fs ^3.1.3 -> removed (package absent from the tree)
-  pac-proxy-agent ^9.1.1 -> removed (package absent from the tree)
-  proxy-agent ^8.0.3 -> removed (package absent from the tree)
-  basic-ftp ^6.2.6 -> removed (package absent from the tree)
-  get-uri ^8.0.2 -> removed (package absent from the tree)
-  proxy-addr ^2.0.8 -> removed (only parent was express under pagedjs-cli)
+Changes from D3r1 that still hold:
+  dashboard eslint-config-next: 16.1.6 -> 16.4.6 (matches next 16.4.6; lint stays 0).
+  dashboard pagedjs-cli: ^0.4.3 -> removed (PM decision 2026-11-21).
+  dashboard transitive removals with pagedjs-cli: qs, katex, express and its chain, body-parser, proxy-addr.
+  Removed overrides (8): puppeteer, @puppeteer/browsers, tar-fs, pac-proxy-agent,
+    proxy-agent, basic-ftp, get-uri, proxy-addr.
+  Kept overrides (3): ws (parents @google/genai, jsdom), protobufjs (parent @google/genai),
+    eslint-plugin-react-hooks 7.0.1 (parent eslint-config-next).
 
-Kept npm overrides in dashboard/package.json (3, package still has a parent):
-  ws ^8.23.0 -> kept (parents @google/genai 1.39.0 and jsdom 27.4.0)
-  protobufjs ^7.6.6 -> kept (parent @google/genai 1.39.0)
-  eslint-plugin-react-hooks 7.0.1 -> kept (parent eslint-config-next; keeps the D1 lint baseline)
-
-Added npm override in video/storytime-song/package.json (1):
-  minimatch: 10.2.6 -> ^11.0.9 (resolved 11.0.9). Parents eslint 10.12.0,
-  @eslint/config-array 0.23.5 and @typescript-eslint/typescript-estree 8.71.2
-  requested ^10.2.x; the advisory covers >=7.0.0 <11.0.1, so the fixed major is required.
-  All four video gates pass with the override.
-
-Deferred breaking majors (not taken):
-  typescript 5.9.3 -> 7.0.2 and vitest 4.1.12 -> 5.1.1: major updates outside this phase's
-  advisory set; deferred to keep the golden print tests and the build stable.
-  sharp 0.34.5 -> 0.35.5: still deferred under the D1 allowlist to 2026-12-15.
-  @google/genai 1.39.0 -> 3.6.1: breaking major, deferred; no advisory at the current version.
+minimatch override decision (D3r2):
+  The video override ^11.0.9 was tested without the override in a throwaway lockfile.
+  Without it minimatch resolves to a 10.x line and npm audit reports 9 moderate package entries.
+  With it minimatch 11.0.9 resolves and npm audit reports 0 at every severity.
+  Parents @eslint/config-array 0.23.6 wants ^11.0.5, eslint 10.12.0 wants ^10.2.5,
+  and @typescript-eslint/typescript-estree 8.71.2 wants ^10.2.2, so the override is kept.
+  The exact remotion and @remotion pins at 4.0.545 were not changed.
