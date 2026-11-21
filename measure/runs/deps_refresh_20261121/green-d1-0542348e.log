@@ -1,12 +1,12 @@
 MEASURE_AGENT_RESULT
 role: jr-green
-status: partial
+status: complete
 track: deps_refresh_20261121
 phase: Phase D1: dashboard critical and high (by 2026-11-23)
-commits: pending
-tests_run: pending final capture
-files_changed: pending
-plan_updates: pending
-known_failures: pending
-handoff: provisional record; refined after the implementation and plan-evidence commits
+commits: e2898c4c (implementation and evidence); the plan-evidence commit follows
+tests_run: Red rerun of `node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard` exited 1 with 67 advisories at high or above and 0 allowlisted. Green rerun of the same command exited 0 with 3 advisories at high or above, all allowlisted with complete F3 fields. The self-test exited 0 with 10 rule checks. PROJECT_LINT exited 0. PROJECT_CHECKS exited 0. PROJECT_TESTS exited 1 on three failures that belong to another track's Red; every other test file passed, including the classic golden print tests. PROJECT_BUILD exited 0. Evidence: measure/runs/deps_refresh_20261121/green-d1-*.txt and audit-after-d1-dashboard.json.
+files_changed: dashboard/package.json; dashboard/package-lock.json; dashboard/lib/lesson-package/bank-plan.ts; dashboard/lib/storytime/print/cover-picture.ts; measure/tracks/deps_refresh_20261121/audit-gate.mjs (ALLOWLIST data only); measure/runs/deps_refresh_20261121/audit-after-d1-dashboard.json; measure/runs/deps_refresh_20261121/green-d1-gate.txt; measure/runs/deps_refresh_20261121/green-d1-selftest.txt; measure/runs/deps_refresh_20261121/green-d1-lint.txt; measure/runs/deps_refresh_20261121/green-d1-checks.txt; measure/runs/deps_refresh_20261121/green-d1-tests.txt; measure/runs/deps_refresh_20261121/green-d1-build.txt; measure/runs/deps_refresh_20261121/versions-d1-dashboard.txt; measure/runs/deps_refresh_20261121/green-d1-0542348e.log
+plan_updates: D1 Implement and D1 Verify marked [x] with commit `e2898c4c`. The D1 manual verification task stays [ ]. The plan records the sharp and eslint-config-next deferrals with reasons and cites the evidence logs. No test count appears in the plan.
+known_failures: `__tests__/default-look-new-editions.test.ts` has three failures: new edition with no look gives classic, not chibi-quest; rewritten Origins 3.2 gives classic, not chibi-quest; shipped project.json files hold no explicit classic look. These are the open Red of track primary_v2_look (commit ad9fd95c, present at phase base). Its Red log measure/runs/primary_v2_look_20261020/red-s8-7a8e602c.log records the same three failures. No regression from this phase. No task was flipped to [b].
+handoff: phase_base_sha is 5e104447 and role_base_sha is 0542348e. Red commits 5a86f10a and 0542348e are inside phase_base_sha..HEAD. Final Green implementation HEAD is e2898c4c; the plan-evidence commit is the last commit and its id is in git log. The audit gate passes with three complete sharp allowlist entries, re-check 2026-12-15. No critical advisory stays. Direct version changes: @vitest/coverage-v8 ^4.0.18 to ^4.1.12, handlebars ^4.7.8 to ^4.7.10, next ^16.1.7 to ^16.4.6, vitest ^4.0.18 to ^4.1.12, zod ^4.3.6 to ^4.6.7. New overrides pin puppeteer 25.18.1, @puppeteer/browsers 3.2.7, ws 8.23.0, tar-fs 3.1.3, pac-proxy-agent 9.1.1, proxy-agent 8.0.3, basic-ftp 6.2.6, get-uri 8.0.2, protobufjs 7.6.6, proxy-addr 2.0.8 and eslint-plugin-react-hooks 7.0.1. pagedjs-cli stays 0.4.3 with no downgrade. The product code changes rename a local helper `use` to `recordUse` in bank-plan.ts and import the named `OverlayOptions` type in cover-picture.ts. If the orchestrator needs PROJECT_TESTS to exit 0, add the default-look test to the exclusion list of the next track; do not change that Red test here.
 END_MEASURE_AGENT_RESULT
