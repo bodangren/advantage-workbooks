@@ -41,6 +41,7 @@ PROJECT_LINT='set -o pipefail; cd dashboard && npm run lint'              # scri
 PROJECT_CHECKS='set -o pipefail; cd dashboard && npx tsc --noEmit'        # package.json has no type-check script; tsc --noEmit is the project type check
 PROJECT_TESTS='set -o pipefail; cd dashboard && CI=true npx vitest run --exclude __tests__/storytime-unit2-sound-stage.test.ts --exclude __tests__/constants.test.ts --exclude __tests__/origins-thai-support.test.ts'
 # PROJECT_TESTS excludes: known failures of other tracks. constants.test.ts and origins-thai-support.test.ts: measure/runs/levels_5_9_20261006/green-g2-baseline-r2.txt. storytime-unit2-sound-stage.test.ts: the open Red of track storytime_l2_unit2_20261106 (PM 2026-11-18).
+# While Phase S8 Red of track primary_v2_look_20261020 stays open (Red commit ad9fd95c, log measure/runs/primary_v2_look_20261020/red-s8-7a8e602c.log), the orchestrator adds "--exclude __tests__/default-look-new-editions.test.ts" to PROJECT_TESTS. Remove that exclude after S8 Green.
 PROJECT_BUILD='set -o pipefail; cd dashboard && npm run build'            # scripts.build: "next build"
 
 # video/storytime-song gates (the real commands of video/storytime-song/package.json scripts)
@@ -54,7 +55,7 @@ Every lint, type-check, test, and build command above runs inside ONE heavy-run 
 
 ## Phase D1: dashboard critical and high (by 2026-11-23)
 
-- [~] Task: Red role (Tests first): run the gate on the phase base. Save the fresh output to `measure/runs/deps_refresh_20261121/red-d1-<short sha>.txt`. The `<short sha>` is the phase base. Then change `audit-gate.mjs` (F3, D1 only):
+- [x] Task: Red role (Tests first): run the gate on the phase base. Save the fresh output to `measure/runs/deps_refresh_20261121/red-d1-<short sha>.txt`. The `<short sha>` is the phase base. Then change `audit-gate.mjs` (F3, D1 only):
     - Every `ALLOWLIST` entry needs advisory id, package, severity, reason, and re-check date (YYYY-MM-DD).
     - The gate fails on an entry that lacks a field or that holds a past re-check date.
     - The gate writes the audit JSON it read to a dated snapshot file in `measure/runs/deps_refresh_20261121/`, so the result is reproducible.
@@ -65,7 +66,7 @@ Every lint, type-check, test, and build command above runs inside ONE heavy-run 
     - Red evidence (2026-11-21, phase base `5e104447`): `node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard` exits 1 with 67 advisories at high or above and 0 allowlisted. Fresh output: `measure/runs/deps_refresh_20261121/red-d1-5e104447.txt`. Self-test (`--self-test`, fixed fake data, no network): 10 rule checks pass; output: `measure/runs/deps_refresh_20261121/red-d1-5e104447-selftest.txt`. Snapshot of the audit JSON read: `measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T012823Z.json`. Red commit: `5a86f10a`.
 - [x] Task: Implement: run npm in `dashboard/` only. Fix every critical advisory. Fix every high advisory, or give it a full allowlist entry (F3 fields). Apply the `pagedjs-cli` decision above (npm `overrides`, no 0.0.7 downgrade). Do not keep a package major upgrade that breaks the build without the gates passing. Green commit: `e2898c4c`. Criticals cleared: next 16.4.6, vitest and @vitest/coverage-v8 4.1.12, handlebars 4.7.10, protobufjs 7.6.6, proxy-addr 2.0.8. The puppeteer 25 override clears the pagedjs chains; pagedjs-cli stays 0.4.3. sharp stays 0.34.5 because 0.35.5 breaks three pinned print tests; its three high advisories hold full allowlist entries with re-check 2026-12-15. eslint-config-next stays 16.1.6 and eslint-plugin-react-hooks is pinned to 7.0.1 because 7.1.x flags six pre-existing product patterns. Version table: `measure/runs/deps_refresh_20261121/versions-d1-dashboard.txt`.
 - [x] Task: Verify: run `GREEN_TEST_COMMAND_D1`, `PROJECT_LINT`, `PROJECT_CHECKS`, `PROJECT_TESTS` and `PROJECT_BUILD`; save the after-audit JSON to `measure/runs/deps_refresh_20261121/audit-after-d1-dashboard.json`. Evidence commit: `e2898c4c`. The audit gate and its self-test exit 0. Lint, the type check and the build exit 0. `PROJECT_TESTS` exits 1 on three failures of `__tests__/default-look-new-editions.test.ts`. That file is the open Red of track `primary_v2_look`, commit `ad9fd95c`, present at phase base. Its Red log `measure/runs/primary_v2_look_20261020/red-s8-7a8e602c.log` records the same three failures. Every other test file passes, including the classic golden print tests. Logs: `measure/runs/deps_refresh_20261121/green-d1-*.txt`. The after audit holds 0 critical, 1 high (allowlisted sharp), 1 moderate and 2 low advisories.
-- [ ] Task: Measure - User Manual Verification 'Phase D1: dashboard critical and high' (Protocol in workflow.md)
+- [ ] Task: Measure - User Manual Verification 'Phase D1: dashboard critical and high' (Protocol in workflow.md). This task is deferred to track close: no visible change. Phase acceptance checks the audit counts and the gate exits; the orchestrator states them to the PM.
 
 ## Phase D2: video/storytime-song critical and high (by 2026-11-23; runs after D1)
 
@@ -75,7 +76,7 @@ Before D2 Green, the orchestrator tells the PM, so the owner of track `storytime
     - Before record (2026-11-21, track commit `d8c3e935`): the gate exits 1 with one advisory: zod `GHSA-mrhx-c7xc-m3w5` (high). The 10 high entries all trace to it. Evidence: `measure/runs/deps_refresh_20261121/red-gate-video.txt`.
 - [ ] Task: Implement: run npm in `video/storytime-song/` only. Apply the `@remotion` decision above: one command, `npx remotion upgrade`, a patch upgrade inside 4.0.x, then pin every `remotion` and `@remotion/*` package to the same exact version (no caret), the newest 4.0.x that clears zod `GHSA-mrhx-c7xc-m3w5`. Record the pinned version in this plan after Green. Do not keep a package major upgrade that breaks the build without the gates passing.
 - [ ] Task: Verify: `GREEN_TEST_COMMAND_D2` exits 0 (the orchestrator sets the pair first). `PROJECT_LINT_VIDEO`, `PROJECT_CHECKS_VIDEO`, `PROJECT_TESTS_VIDEO`, and `PROJECT_BUILD_VIDEO` exit 0 in heavy-runs. Save the after-audit JSON to `measure/runs/deps_refresh_20261121/audit-after-d2-video.json`.
-- [ ] Task: Measure - User Manual Verification 'Phase D2: video/storytime-song critical and high' (Protocol in workflow.md)
+- [ ] Task: Measure - User Manual Verification 'Phase D2: video/storytime-song critical and high' (Protocol in workflow.md). This task is deferred to track close: no visible change. Phase acceptance checks the audit counts and the gate exits; the orchestrator states them to the PM.
 
 ## Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)
 
@@ -83,7 +84,7 @@ Before D2 Green, the orchestrator tells the PM, so the owner of track `storytime
     - Before record (2026-11-21, track commit `d8c3e935`): the gate exits 1 with 127 advisories without an allowlist reason across both projects. Evidence: `measure/runs/deps_refresh_20261121/red-gate-both-moderate.txt`.
 - [ ] Task: Implement: update the rest of the packages of both projects. Give each remaining moderate or low advisory a full allowlist entry (F3 fields) with its reason (no upstream fix, or a breaking major deferred). Defer a breaking major that does not fit by 2026-11-25. Record its reason here and in the allowlist.
 - [ ] Task: Verify: `GREEN_TEST_COMMAND_D3` exits 0 (the orchestrator sets the pair first). `GREEN_TEST_COMMAND_D1` and `GREEN_TEST_COMMAND_D2` still exit 0. All eight project gates exit 0 in heavy-runs. Save the after-audit JSON of both projects to `measure/runs/deps_refresh_20261121/audit-after-d3-dashboard.json` and `audit-after-d3-video.json`. Write the remaining moderate and low list with reasons to `measure/runs/deps_refresh_20261121/audit-after-counts.txt`.
-- [ ] Task: Measure - User Manual Verification 'Phase D3: the rest of the updates and the moderate/low list' (Protocol in workflow.md)
+- [ ] Task: Measure - User Manual Verification 'Phase D3: the rest of the updates and the moderate/low list' (Protocol in workflow.md). This task is deferred to track close: no visible change. Phase acceptance checks the audit counts and the gate exits; the orchestrator states them to the PM.
 
 ## Close
 
