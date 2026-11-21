@@ -1,0 +1,13 @@
+MEASURE_AGENT_RESULT
+role: measure-phase-acceptance
+status: complete
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: none
+tests_run: audit-gate.mjs --self-test exit 0 (19 checks); audit-gate.mjs dashboard exit 0 (3 allowed); one heavy-run wrapper at HEAD: lint exit 0, tsc exit 0, the 4 excluded test files exit 1 (30 of 86 tests fail with their documented names); original bank-plan.ts eslint exit 1 (1 error), current content exit 0; original cover-picture.ts in-memory tsc 0 diagnostics; npm ls --all exit 0; role-gate phase-acceptance and audit-result on these two artifacts exit 0; PDF comparison of round 11 against the new render (pages, fonts, text layer, raster at 60 dpi) equal for both lessons; I did not rerun the build or the full vitest suite (the product tree equals e2898c4c).
+files_changed: measure/runs/deps_refresh_20261121/phase-acceptance-d1-a274e5e4.json; measure/runs/deps_refresh_20261121/phase-acceptance-d1-a274e5e4.log; measure/runs/deps_refresh_20261121/audit-snapshot-dashboard-20261121T052945Z.json (gate by-product, untracked)
+plan_updates: none (report-only role)
+known_failures: none caused by D1. The 4 files that PROJECT_TESTS excludes still fail (30 of 86 tests) with the failures that their own tracks record. Nonblocking findings PA-D1-1 to PA-D1-4 stay open.
+handoff: Verdict PASS for HEAD a274e5e4 (phase_base_sha 5e1044479ec3d91d6b5c9512ddae408c9f5cdd25, role_base_sha a274e5e4); retry_recommendation none. Allowed later commit: a274e5e4 (measure/runs only, after the ab8d9acd reviews). Counts at package level: before critical 6, high 23, moderate 15, low 2, total 46; after critical 0, high 1 (sharp: 3 allowlisted advisories, re-check 2026-12-15), moderate 1, low 2, total 4. Deferred manual verification line: legitimate in substance (no visible change, no owner gate); close it at the D1 checkpoint (PA-D1-4). Route PA-D1-1, PA-D1-2, and PA-D1-4 to the plan owner as a plan.md edit after acceptance; route PA-D1-3 to the orchestrator (copy /tmp/d1-heavy-tests.txt into measure/runs). Commit by exact path: the 6 review ab8d9acd files, the 3 audit snapshots (T045523Z, T045653Z, T052945Z), and the 2 phase-acceptance files. Never stage dashboard/raw.json, video/storytime-song/scripts/render.mjs, or measure/runs/primary_v2_look_20261020/. Any change under dashboard/ or to audit-gate.mjs voids this acceptance. The sharp entries make the gate fail from 2026-12-16 UTC. Remove the S8 exclude from PROJECT_TESTS after S8 Green. D3 items: qs (4 moderate), katex and pagedjs-cli (low), 5 dead overrides, eslint-config-next 16.1.6, and the pagedjs-cli removal option of Review C.
+dispositions: none
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-c-ux-api
+status: complete
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: none
+tests_run: No new tests ran. Reviewed live proof records: 14 and 16 pages match round 11, seven embedded fonts match, and checks P1-P20 pass. Reviewed CLI record: 17 versus 14 pages, matching fonts.
+files_changed: measure/runs/deps_refresh_20261121/review-c-d1-ab8d9acd.json; measure/runs/deps_refresh_20261121/review-c-d1-ab8d9acd.log
+plan_updates: none
+known_failures: No blocking contract finding. C-D1-2 [Nit] review-c at plan.md:71 and green-d1r2-057627d4.log:7 needs renderer wording correction: the live path uses Playwright, not Puppeteer.
+handoff: PASS; retry_recommendation none. C-D1-1 is withdrawn and closed for D1. CLI pagination is not live-path parity. D3 should propose removing unused pagedjs-cli and its exclusive overrides after scope approval; retain pagedjs. phase_base_sha is 5e1044479ec3d91d6b5c9512ddae408c9f5cdd25. baseline_sha is 7030ba6afecb45e89844f774b382c6baabd06f51. role_base_sha and audited_head_sha are ab8d9acddeecf00e8f4e7562707fae4bef89ed2f. Both artifacts remain uncommitted. Facts changed: none.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "role": "review-b",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D1: dashboard critical and high (by 2026-11-23)",
+  "baseline_sha": "7030ba6afecb45e89844f774b382c6baabd06f51",
+  "phase_base_sha": "5e1044479ec3d91d6b5c9512ddae408c9f5cdd25",
+  "role_base_sha": "7030ba6afecb45e89844f774b382c6baabd06f51",
+  "audited_head_sha": "ab8d9acddeecf00e8f4e7562707fae4bef89ed2f",
+  "status": "pass",
+  "summary": "Re-review 3 of Phase D1. The diff is test code, evidence and snapshots only. My nit B-D1-1 is closed: the three sharp reasons now name the three print tests, and the sharp 0.35.5 first-run capture shows exactly those failures. Two new nits stay open: the one-off pagedjs-cli render used --no-sandbox while the HTML loaded an unpinned unpkg script, and the first-run capture lives only in /tmp.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "B-D1-2 [Nit] review-b: measure/runs/deps_refresh_20261121/green-d1r2-print-pagedjs-cli.txt records a Chrome run with --browserArgs=\"--no-sandbox\" over /tmp/opencode/deps-d1-proof-html/quest5-l01.html, and that HTML still loads https://unpkg.com/pagedjs/dist/paged.polyfill.js with no version pin. Rationale: remote JavaScript ran in a process with the OS sandbox off. The run was one-off, local and evidence-only, no repo file contains no-sandbox, and no live code calls pagedjs-cli, so the risk is low and bounded. Route: Green. For a future CLI render, strip or pin that script as the live path already does at dashboard/scripts/print/make-book-pdf.ts:60, or block the network, and keep --no-sandbox out of code.",
+    "B-D1-3 [Nit] review-b: measure/tracks/deps_refresh_20261121/plan.md:72 cites the sharp 0.35.5 first-run capture without a repository path, and green-d1r2-057627d4.log states that the capture exists at /tmp/d1-heavy-tests.txt only outside the repository. Rationale: the claim behind three high allowlist entries then rests on an ephemeral file that the 2026-12-15 re-check may not find. Route: Green. Copy the capture into measure/runs/deps_refresh_20261121/ and cite that path in the plan."
+  ],
+  "evidence": [
+    "git rev-parse HEAD returned ab8d9acddeecf00e8f4e7562707fae4bef89ed2f before this audit, so the audited head is current.",
+    "HEAD advanced during this audit to a274e5e4, a commit that adds only adversarial evidence files under measure/runs and no code; its adversarial-d1-ab8d9acd.json reports status pass with 0 findings. The audited head stays ab8d9acd as instructed and the verdict stands.",
+    "git diff --name-only 7030ba6a ab8d9acd lists 28 paths and all of them are under measure/: the gate script, plan.md, adversarial and Green evidence, reviewer artifacts and snapshots. No product, test, package or lock file changed.",
+    "B-D1-1 withdrawn: I read /tmp/d1-heavy-tests.txt, the sharp 0.35.5 first-run capture. It fails __tests__/storytime-book-pictures.test.ts (assertion expected '0.34.5' to be '0.35.5'), __tests__/storytime-print-c2-start-table.test.ts twice (missing sharp module at node_modules/sharp/lib/index.js), and __tests__/storytime-loops-share.test.ts J18. The four failure titles match the new ALLOWLIST reasons word for word.",
+    "The capture corroborates both mechanisms in the reasons: sharp 0.35.5 moved main from lib/index.js to dist/index.cjs, and the pinned JPEG values of the print tests no longer match.",
+    "All three named test files exist, contain the exact titles used in the reasons, and hold 0 Thai characters, so I checked their titles without reading any Thai text.",
+    "The three reasons sit at audit-gate.mjs:69, :76 and :83; recheck stays 2026-12-15 and severity stays high, both unchanged and correct.",
+    "The gate refactor is fail-closed: advisoriesFromAudit at :246 now throws on a non-object audit document, where the old code at that spot would have read zero advisories and passed. parseAuditOutput at :277-282 still fails on malformed JSON, and collectAdvisories at :462-474 still fails on a spawn error.",
+    "Input handling is unchanged: spawnSync at :36 and :463 still uses an array argument list with no shell, and the snapshot path at :484 still comes from the fixed RUNS_DIR, the validated project key and an ISO stamp.",
+    "The self-test grows to 19 checks and adds a severity case mismatch, an empty allowlist, a recheck equal to today, a transitive via string chain and a malformed JSON case; all pass in my HEAD rerun.",
+    "My rerun at HEAD: audit-gate.mjs --self-test exits 0 with 19 rule checks, and audit-gate.mjs dashboard exits 0 with the same 3 allowed sharp advisories.",
+    "git grep finds no no-sandbox string anywhere outside measure records, and no pagedjs-cli caller in dashboard code beyond the package.json declaration, so the flag and the CLI stay evidence-only.",
+    "The live print path did not use the flag: green-d1r2-print-live.txt records a full MATCH with round 11 at 14 and 16 pages, the same 7 embedded fonts and checks P1 to P20 passing.",
+    "pagedjs-cli/src/printer.js:160 calls page.goto on the HTML and :176 injects its own paged.js bundle, so the evidence run loaded both the page unpkg polyfill and the CLI polyfill. That may relate to the recorded 17 versus 14 page difference, which belongs to the correctness reviewers.",
+    "The adversarial round at 057627d4 reports status pass with 0 blocking and 0 nonblocking findings, and its gate, syntax, diffcheck and Thai-scan files record exit 0.",
+    "A2 consent gate: the diff flips no draft to published status and no product file changed. Not applicable.",
+    "A6 registry claim: measure/tracks.md:5 keeps the unchecked goal box; plan.md:71-72 record evidence without a new resolved-state claim. Not applicable.",
+    "My gate rerun wrote audit-snapshot-dashboard-20261121T045653Z.json, which the gate writes by design; it stays untracked.",
+    "Thai rule: every printed command output passed a Python U+0E00 to U+0E7F line filter, no content/ file and no test fixture with Thai was read, the /tmp capture showed only placeholder lines for its 5 Thai lines, and these two artifacts hold zero Thai characters."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline 7030ba6a..ab8d9acd; git diff --stat 7030ba6a ab8d9acd",
+    "git diff 7030ba6a ab8d9acd -- measure/tracks/deps_refresh_20261121/audit-gate.mjs measure/tracks/deps_refresh_20261121/plan.md (Python Thai line filter)",
+    "git diff --name-only 7030ba6a ab8d9acd (Python filter and path check: no file outside measure/)",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test (exit 0, 19 rule checks)",
+    "node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard (exit 0, 3 allowed sharp advisories)",
+    "git grep -n no-sandbox -- . ':!measure' (no matches); git grep -ln pagedjs-cli over dashboard code (package.json only)",
+    "Python filtered reads of /tmp/d1-heavy-tests.txt, green-d1r2-057627d4.log, green-d1r2-print-live.txt, green-d1r2-print-pagedjs-cli.txt, adversarial-d1-7030ba6a.json and the small adversarial txt files",
+    "Python title-presence checks on the three named test files (no file content printed)",
+    "Python filtered reads of /tmp/opencode/deps-d1-proof-html/quest5-l01.html attributes and of dashboard/node_modules/pagedjs-cli/src/printer.js"
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/review-b-d1-ab8d9acd.json",
+    "measure/runs/deps_refresh_20261121/review-b-d1-ab8d9acd.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "opencode-go/mimo-v2.6-flash",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "The ALLOWLIST reasons at audit-gate.mjs:69,76,83 match the sharp 0.35.5 first-run capture line for line, and my HEAD reruns reproduce the 19-check self-test and the gate pass."},
+    {"axis": "test_meaning", "score": 4, "evidence": "The self-test adds a fail-closed parse case at audit-gate.mjs:373, while the sharp failing run that the reasons cite lives outside the repository."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --name-only 7030ba6a ab8d9acd shows 28 paths, all under measure/, with no product, test or package file."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "Every claim here carries a command result or a file:line, but the cited first-run capture is a /tmp file rather than a repo artifact."}
+  ]
+}

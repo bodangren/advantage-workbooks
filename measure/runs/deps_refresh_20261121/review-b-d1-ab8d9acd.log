@@ -1,0 +1,94 @@
+# Review B re-review 3 (security and data handling): deps_refresh_20261121, Phase D1
+
+Audited head: ab8d9acddeecf00e8f4e7562707fae4bef89ed2f.
+`git rev-parse HEAD` matched that value before this audit started.
+Earlier review head: 7030ba6afecb45e89844f774b382c6baabd06f51.
+Diff under audit: `git diff 7030ba6a ab8d9acd`.
+
+HEAD advanced during this audit to a274e5e4.
+That commit adds only adversarial evidence files under measure/runs and no code.
+The audited head stays ab8d9acd as instructed.
+
+## Verdict
+
+Pass. No blocking security finding.
+B-D1-1 is closed and withdrawn.
+Two new nits stay open: B-D1-2 and B-D1-3.
+
+## What changed
+
+`git diff --name-only 7030ba6a ab8d9acd` lists 28 paths, all under measure/.
+No product, test, package or lock file changed.
+The Chrome binary sits in ~/.cache/puppeteer/chrome/linux-157.0.8103.78.
+`git status -- dashboard` shows only the known untracked dashboard/raw.json.
+
+audit-gate.mjs changes in three places.
+The three sharp reasons at lines 69, 76 and 83 now name the three print tests.
+The parsing moved into advisoriesFromAudit at line 246 and parseAuditOutput at line 277.
+The self-test grows from 14 to 19 checks.
+
+## Security effect of the change
+
+The refactor is fail-closed, not fail-open.
+Line 246 throws when the audit document is not an object.
+The old code in that spot would have read zero advisories and passed.
+Lines 277-282 still fail on malformed JSON.
+Lines 462-474 still fail on a spawn error.
+
+Input handling is unchanged.
+Line 36 and line 463 still spawn npm with an array argument list and no shell.
+Line 484 still builds the snapshot path from the fixed folder, a validated key and an ISO stamp.
+
+The allowlist data keeps severity high and recheck 2026-12-15 for all three entries.
+
+## B-D1-1 is closed
+
+I read /tmp/d1-heavy-tests.txt, the sharp 0.35.5 first-run capture.
+It fails storytime-book-pictures.test.ts with expected '0.34.5' to be '0.35.5'.
+It fails storytime-print-c2-start-table.test.ts twice with missing sharp module at lib/index.js.
+It fails storytime-loops-share.test.ts at J18.
+Those four titles match the new reasons word for word.
+The three named files exist, hold those titles, and hold 0 Thai characters.
+I withdraw B-D1-1.
+
+## The --no-sandbox evidence run
+
+It is a low and bounded risk.
+The run was one local render of one fixed HTML file to /tmp.
+No file outside measure records contains no-sandbox.
+No live code calls pagedjs-cli; only package.json declares it.
+The round 11 driver rendered both lesson PDFs without that flag and matched round 11.
+Dashboard live code reaches the browser through lib/print/render.ts, not through pagedjs-cli.
+One point stays: that HTML still loads an unpinned unpkg pagedjs script, so remote script ran with the OS sandbox off. This is B-D1-2.
+
+## Two new nits
+
+B-D1-2: strip or pin the unpkg script for a future CLI render, as the live path does at make-book-pdf.ts:60, and keep --no-sandbox out of code.
+B-D1-3: plan.md:72 cites the first-run capture with no repo path, and the capture lives only at /tmp/d1-heavy-tests.txt. Copy it into measure/runs before the 2026-12-15 re-check.
+
+## My reruns at HEAD
+
+`node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test` exits 0 with 19 rule checks.
+`node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard` exits 0 with 3 allowed sharp advisories.
+My gate rerun wrote one snapshot file, audit-snapshot-dashboard-20261121T045653Z.json.
+The gate writes such a snapshot by design. The file stays untracked.
+
+## Thai rule
+
+Every printed command output passed a Python U+0E00 to U+0E7F line filter.
+I read no file under content/ and no test fixture with Thai.
+The /tmp capture showed placeholder lines for its 5 Thai lines.
+These two artifacts hold zero Thai characters.
+
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: deps_refresh_20261121
+phase: Phase D1: dashboard critical and high (by 2026-11-23)
+commits: audited head ab8d9acd; adversarial 057627d4; Green r2 33c94f59 and ab8d9acd; earlier review head 7030ba6a; phase base 5e104447
+tests_run: `node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test` exited 0 with 19 rule checks. `node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard` exited 0 with 3 allowed sharp advisories. `git diff --name-only 7030ba6a ab8d9acd` showed no file outside measure/. `git grep no-sandbox` outside measure found no match. No heavy test, build, install or audit fix ran.
+files_changed: measure/runs/deps_refresh_20261121/review-b-d1-ab8d9acd.json; measure/runs/deps_refresh_20261121/review-b-d1-ab8d9acd.log
+plan_updates: none. This role is report-only and edits no product, test, plan or package file.
+known_failures: B-D1-2 [Nit] review-b: the one-off pagedjs-cli render used --no-sandbox over HTML that loads an unpinned unpkg script. B-D1-3 [Nit] review-b: the sharp first-run capture lives only at /tmp/d1-heavy-tests.txt while plan.md:72 cites it without a repo path. The 3 failures of dashboard/__tests__/default-look-new-editions.test.ts belong to track primary_v2_look and stay unchanged.
+handoff: Verdict is pass with 2 new nonblocking findings; B-D1-1 is withdrawn because I read the sharp 0.35.5 first-run capture and its four failure titles match the three ALLOWLIST reasons word for word. The gate refactor is fail-closed and input handling is unchanged. HEAD moved to a274e5e4 during the audit, evidence files only, no code. The --no-sandbox run was one local evidence render with no repo code and no live caller; the residual is the unpinned unpkg script in that HTML (B-D1-2), and the capture should move into measure/runs before the 2026-12-15 re-check (B-D1-3). My gate rerun wrote one untracked snapshot, audit-snapshot-dashboard-20261121T045653Z.json, by design. No product decision is needed from the user.
+END_MEASURE_AGENT_RESULT
