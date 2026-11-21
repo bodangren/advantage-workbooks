@@ -97,6 +97,7 @@ describe('Storytime app book pictures', () => {
             expect(hash(path.join(PICTURE_FOLDER, sourceName))).toBe(sourceHash);
             expect(Number(quality)).toBeGreaterThanOrEqual(75);
             expect(Number(quality)).toBeLessThanOrEqual(82);
+            expect(sharp.versions.sharp).toBe('0.35.5');
             expect(sharpVersion).toBe(sharp.versions.sharp);
         }
 

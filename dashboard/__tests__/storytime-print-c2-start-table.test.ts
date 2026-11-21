@@ -158,7 +158,7 @@ interface InkJob {
 const dashboardRoot = path.resolve(STORYTIME_ROOT, '..', '..', 'dashboard');
 const fontFolder = path.join(dashboardRoot, 'assets', 'print-fonts');
 const andikaFile = path.join(fontFolder, 'andika-regular.ttf');
-const sharpEntry = path.join(dashboardRoot, 'node_modules', 'sharp', 'lib', 'index.js');
+const sharpEntry = path.join(dashboardRoot, 'node_modules', 'sharp', 'dist', 'index.mjs');
 
 const temporaryFolders: string[] = [];
 afterAll(() => {
