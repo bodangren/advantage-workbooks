@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "role": "measure-ux-browser-review",
+  "track": "deps_refresh_20261121",
+  "phase": "Phase D3: the rest of the updates and the moderate/low list (by 2026-11-25)",
+  "baseline_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "phase_base_sha": "7515ae3bb523f25f67f85f1bc274a1a238035987",
+  "role_base_sha": "bc5623eebeed4fa9deca2c632c8c1a4a2a44a8f3",
+  "audited_head_sha": "bc5623eebeed4fa9deca2c632c8c1a4a2a44a8f3",
+  "route": "claude-code/claude-sonnet-5-5#max",
+  "model": "claude-sonnet-5-5",
+  "status": "pass",
+  "summary": "PASS with 0 Blocker and 5 Nit findings. Version 1.77.0 of lucide-react keeps the drawing of 28 of the 30 imported icon names and redraws two: BookOpen and BookOpenCheck. In the live app 22 distinct icons render and align, and the browser shows no console error or page error. Daniel must decide whether to accept the two new book drawings. The default is accept. Seven icons were not seen live, but their markup is identical in both versions.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F1 [Nit] ux-browser-review: dashboard/package.json:27 raises lucide-react from 0.563.0 to 1.77.0, and BookOpen and BookOpenCheck get a new drawing. The corner radius grows from 1 to 2 units. The top centre dip shrinks from 4 to 2 units. The bottom edge moves from y 18 to y 19. The bounding box stays 20 x 18 units, so each icon keeps its place. The changed pixels are 17.5 to 21.4 percent of the ink at 16, 24, and 96 px. The unchanged Plus control shows 0 percent. BookOpen shows in dashboard/components/dashboard-layout.tsx:11 (the logo on every page), dashboard/app/page.tsx:65, dashboard/app/projects/page.tsx:89, dashboard/app/projects/[projectId]/page.tsx:92, and :108. BookOpenCheck shows in dashboard/app/projects/[projectId]/page.tsx:114. Daniel decides whether to accept the new look. The default is accept. Plan decision (1) says no visible change, and this is not exact for these two icons. Evidence: /tmp/opencode/ux-d3/40-icon-compare-old-vs-new.png.",
+    "F2 [Nit] ux-browser-review: Five imported names are aliases in 1.77.0: CheckSquare, Edit, Home, Loader2, and Trash2. All five resolve, none has a deprecation mark, and the five drawings are identical to 0.563.0. Trash2 is now an alias of Trash, and the two were different icons in 0.563.0. Seven class lists change. CheckSquare, Edit, Home, Loader2, and Sparkles gain alias classes. Settings2 loses lucide-settings2. Trash2 changes from lucide-trash2 lucide-trash-2 to lucide-trash lucide-trash-2. No CSS, test, or script in dashboard/ selects a lucide- class, so D3 needs no action. Rationale: a later cleanup can use the names House, SquarePen, SquareCheckBig, LoaderCircle, and Trash.",
+    "F3 [Nit] ux-browser-review: These layout limits do not come from D3. At 1280 px the project page header row is wider than the main column. The button 'New Lesson from Source' is cut off, and the title wraps (screenshot 03; dashboard/app/projects/[projectId]/page.tsx:77 and :102). The fixed sidebar w-64 (dashboard/components/dashboard-layout.tsx:9) leaves a main column of 512 px at 768 px and 134 px at 390 px (screenshots 23 and 22). The document has no horizontal scroll, and main has overflow-auto (dashboard/components/dashboard-layout.tsx:47). The sidebar logo measures 20 x 24 px, not 24 x 24, because the flex row shrinks it (dashboard/components/dashboard-layout.tsx:11). The old and new icons have the same size attributes, so the upgrade does not change these sizes.",
+    "F4 [Nit] ux-browser-review: Icon-only controls at seven code sites have no accessible name, and D3 changes none of them. The five back controls are at dashboard/app/projects/[projectId]/page.tsx:81, dashboard/app/projects/[projectId]/lessons/[lessonId]/page.tsx:45, dashboard/app/projects/[projectId]/lessons/[lessonId]/preview/page.tsx:80, dashboard/app/projects/[projectId]/compile/page.tsx:90, and dashboard/app/projects/[projectId]/teacher-manual/preview/page.tsx:73. The clear button (dashboard/components/image-upload.tsx:152) and the delete button (dashboard/components/lesson-editor/ArticleEditor.tsx:133) also have no name. On the project page axe-core 4.12.1 reports button-name (critical, 1 node) and link-name (serious, 1 node). The icon keeps aria-hidden in lucide-react 1.77.0, so the icon gives no name. Rationale: an aria-label on each control fixes this, and the fix belongs in a later track.",
+    "F5 [Nit] ux-browser-review: Keyboard and navigation notes exist before D3. Each sidebar item has two tab stops, the link and the button inside it, so the 4 items need 8 Tab presses (dashboard/components/dashboard-layout.tsx:16 to :42). The Settings link opens /settings, which returns 404 (screenshot 11). Each page has two level-1 headings: the layout h1 at dashboard/components/dashboard-layout.tsx:12 and the page h1. Rationale: D3 changes none of this, so the notes only inform a later track."
+  ],
+  "evidence": [
+    "Head check: git rev-parse HEAD gave bc5623eebeed4fa9deca2c632c8c1a4a2a44a8f3 at the start and at the end of the audit. The phase base is 7515ae3bb523f25f67f85f1bc274a1a238035987. The brief gave no role base, so the role base equals the audited head.",
+    "Phase diff outside measure/ (git diff --name-only 7515ae3b..bc5623ee): dashboard/package.json, dashboard/package-lock.json, video/storytime-song/package.json, video/storytime-song/package-lock.json, 2 dashboard test files, and content/storytime/l2/media/w01/books/pictures.sha256. No user-facing source file changed, and ux-paths prints no path. The brief and Review C F2 ask for a browser check of the icon update, so ux_applicability is applicable.",
+    "Old package: npm pack lucide-react@0.563.0 --ignore-scripts into /tmp/opencode/lucide-old/tgz/. Its sha512 equals the lockfile entry at 7515ae3b. The new package is node_modules/lucide-react 1.77.0 (dashboard/package-lock.json:8048 to :8050). No npm install or update ran.",
+    "Import scan: 18 import statements in 18 files under dashboard/ name 30 distinct imported names (461 source files scanned, node_modules and .next excluded). A 19th file, dashboard/__tests__/image-upload-component.test.tsx, mentions lucide-react in comments only. dashboard/lib/document-wrapper/icons.ts holds static lucide-static data and does not import lucide-react.",
+    "Shape check: all 30 names resolve in both versions (0 missing). I rendered each name with 5 prop sets in each version under React 19.3.1, which gives 150 pairs. After I remove the class attribute, 140 pairs are identical. The 10 other pairs belong to BookOpen and BookOpenCheck. My first run of the check and a second run in this audit gave the same result. The other UX run (see below) found the same 2 changed names.",
+    "Default props are identical for all 30 names in both versions. They are width 24, height 24, viewBox 0 0 24 24, fill none, stroke currentColor, stroke-width 2, round caps and joins, and aria-hidden true. XIcon, CheckIcon, ChevronDownIcon, and ChevronUpIcon are the same components as X, Check, ChevronDown, and ChevronUp in both versions.",
+    "Drawing change: BookOpen spine goes from M12 7v14 to M12 5v16, and BookOpenCheck spine goes from M12 21V7 to M12 5v16. The outline corner radius goes from 1 to 2 units, and the top centre dip goes from 4 to 2 units. The bottom edge goes from y 18 to y 19. The BookOpenCheck check mark m16 12 2 2 4-4 does not change.",
+    "CSS and test reliance: no css, scss, ts, or tsx file under dashboard/ selects a lucide- class. The shadcn Button rule [&_svg:not([class*='size-'])]:size-4 (dashboard/components/ui/button.tsx:8) needs an svg element and a class without 'size-'. No icon class contains 'size-' in either version. dashboard/ uses no absoluteStrokeWidth, LucideProvider, createLucideIcon, DynamicIcon, or lucide-react sub-path import.",
+    "Deprecation: node_modules/lucide-react/dist/lucide-react.d.ts has 22 @deprecated lines. None concerns an icon that dashboard/ imports. The aliases CheckSquare, Edit, Home, Loader2, and Trash2 carry no mark.",
+    "Live app: next dev (Next.js 16.4.6, Turbopack) on 127.0.0.1:3117 ran in one heavy-run job from 04:37:56 to 04:41:28 on 2026-11-22 after a 38-minute queue wait. I started it with WORKBOOKS_READ_ONLY=1 and blank GEMINI_API_KEY, GOOGLE_GENERATIVE_AI_API_KEY, and OPERNROUTER_API_KEY. The server log shows 2 POST requests, both to /api/render (local template render), and no AI call.",
+    "Pages: on the desktop viewport 1280x800, 10 routes return HTTP 200. They are /, /projects, /projects/origins-3.1-a1, the lesson editor, the lesson preview, /compile, /teacher-manual/preview, /review, /review/quest-5/l01, and /projects/quest-4-a1. /settings returns 404. The 390x844 viewport covers /, /projects, and the project page. The 768x1024 viewport covers the project page.",
+    "Console and page errors: none on any page. The console holds only the React DevTools info line, HMR connected, and Fast Refresh lines. The page-error capture is empty after every navigation.",
+    "Icon render and alignment: 22 distinct icons render live. Each svg measures 16 x 16 px in buttons (h-4 w-4). It measures 20 x 20 px in card titles (h-5 w-5) and 12 x 12 px in the Secondary badge (h-3 w-3). The BookOpen and BookOpenCheck glyph box is 20 x 18 px in the new drawing, equal to the old drawing. Each icon sits left of its label with the mr-2 gap. I saw no clipped, doubled, or missing icon.",
+    "Vertical offset (dy) of each icon in its row is 0 px. The exceptions are -0.5 px for the logo and -1 px for the tab icons. GraduationCap (unchanged) and BookOpen (redrawn) both show -1 px in the same tab row. The tab style causes the offset, not the redraw.",
+    "Pixel measure: I rendered both drawings on a canvas and counted the changed pixels. The share is the changed pixels divided by the pixels with ink in either version. BookOpen shows 18.5 percent at 16 px, 20.7 percent at 24 px, and 21.4 percent at 96 px. BookOpenCheck 17.5, 20.1, and 21.1 percent. The unchanged Plus control shows 0 percent at all three sizes.",
+    "Accessibility: axe-core 4.12.1 on /projects/origins-3.1-a1 found 2 violations, 1 incomplete item, and 31 passes. The violations are button-name (critical) and link-name (serious), both on the icon-only back control. The incomplete item is color-contrast on 2 lesson-title nodes. Snapshots show the same unnamed back control on 5 pages and 3 more unnamed icon-only buttons on the lesson editor.",
+    "Keyboard probe on /projects: 8 Tab presses reach 8 stops. The stops are the link and the button of Dashboard, Projects, Review, and Settings, in that order. The link shows the browser focus outline (outline auto 1px). The button uses the ring style (outline none, box-shadow ring). Screenshot 39 caught the ring in its 150 ms transition, so I did not measure the ring contrast.",
+    "Responsive: no horizontal page overflow at 1280, 768, or 390 px (scrollWidth equals the viewport width). The main column measures 1024, 512, and 134 px. At 390 px the content is cut off inside main (screenshot 22).",
+    "Loading states: /review/quest-5/l01 (screenshot 09) and /projects/quest-4-a1 (screenshot 10) show 'Loading...' and 'Loading lessons...' at capture time. The first dev compile of /api/packages took about 31 s under machine load, and agent-browser reported page_wedged twice. The icons that these two pages show after loading (Star and the page icons) were not seen.",
+    "Coverage gaps: 7 icons were not seen live: CheckIcon, ChevronDownIcon, ChevronUpIcon, EyeOff, Link, Loader2, and Star. No dialog, Select list, fullscreen preview, or loaded review page was captured, because the text find command did not match the buttons. The shape check covers all 7 icons, and their markup is identical in both versions.",
+    "Screenshots 30 to 35 and 38 are not evidence. The click step failed, so each shows the page before the click.",
+    "No paid API call ran. The server log shows only GET requests and the 2 POST requests to /api/render. I pressed no button that generates, augments, saves, or prints.",
+    "Other run: at 04:42:58 another UX run (route openai/gpt-6.1-sol#high) wrote these two result paths with status inconclusive, because its shell denied the heavy-run command. This result replaces its files. Its mechanical comparison agrees with mine: 30 names, 28 identical, BookOpen and BookOpenCheck changed. Its scratch evidence stays in /tmp/opencode/ux-d3-r2/.",
+    "Side effects: next dev wrote the untracked file dashboard/AGENTS.md (679 bytes, not git-ignored) at 04:37:57 and rewrote the git-ignored dashboard/next-env.d.ts. The md5 of dashboard/package.json, dashboard/package-lock.json, dashboard/tsconfig.json, and dashboard/next.config.ts did not change.",
+    "Cleanup: the dev server and the browser sessions are stopped, and ports 3000, 3005, 3117, and 3127 are free. The shell guard denied rm, rmdir, mv, and a cp into scratch, so /tmp/opencode/lucide-old/ and /tmp/opencode/ux-d3-scripts/ remain. All scratch and screenshot files stay outside the repository.",
+    "Full job output with the console, snapshot, and axe text: /home/daniebo/.local/share/opencode/shell/e11d223cd8456b64cfabe47d0d5137ee5ff49d4c/sh_1ffe9e50a0013Bt3RBkdHm5oDZ.out. The log of this result keeps the key excerpts."
+  ],
+  "commands": [
+    "git rev-parse HEAD: bc5623eebeed4fa9deca2c632c8c1a4a2a44a8f3 at the start and at the end.",
+    "git diff --name-only 7515ae3b..bc5623ee -- . ':(exclude)measure': 7 files (package files, 2 tests, 1 checksum list).",
+    "python3 -I -B measure_interphase_checks.py ux-paths --baseline 7515ae3b --track deps_refresh_20261121: no path, exit 0.",
+    "npm pack lucide-react@0.563.0 --ignore-scripts, into /tmp/opencode/lucide-old/tgz/: passed; the sha512 equals the lockfile entry at 7515ae3b.",
+    "node stdin script with NODE_PATH set to dashboard/node_modules: server render of 30 names x 5 prop sets in both CJS builds under React 19.3.1; 150 pairs, 140 identical after the class strip; BookOpen and BookOpenCheck differ.",
+    "node stdin script: component identity of alias pairs (Home and House, Edit and SquarePen, CheckSquare and SquareCheckBig, Loader2 and LoaderCircle, Trash2 and Trash, XIcon and X): Trash2 and Trash differ in 0.563.0 and are equal in 1.77.0.",
+    "python3 -I stdin script: read lucide-react.d.ts for @deprecated marks: 22 lines, none for an imported icon.",
+    "grep and find over dashboard/: 18 import statements in 18 files, 461 source files, no lucide- class selector, no deprecated API.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; <next dev -p 3117 -H 127.0.0.1 in the background, then the agent-browser session, then a trap that stops the server>': exit 0, 04:37:56 to 04:41:28.",
+    "agent-browser 0.43.0 (headless Chrome 151): open, set viewport, eval, snapshot -i -c, a11y (axe-core 4.12.1), press Tab, screenshot, console, and errors on 11 routes at 1280x800, on 3 routes at 390x844, and on 1 route at 768x1024.",
+    "python3 -I stdin script with PIL: pixel scan of screenshot 39 and the 4x crop 41 (the ring shows mid-transition).",
+    "kill of my own leftover processes only: the probe job PID 2190555 and a runaway grep PID 1990401.",
+    "Read-only reads of the track plan, Review C round for D3, the audit validator, and the previous UX result files; git status --porcelain before and after."
+  ],
+  "changed_files": [
+    "measure/runs/deps_refresh_20261121/ux-browser-d3-bc5623ee.json",
+    "measure/runs/deps_refresh_20261121/ux-browser-d3-bc5623ee.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "medium",
+  "ux_applicability": "applicable",
+  "webbridge_status": "healthy",
+  "webbridge_evidence": {
+    "screenshots": [
+      "/tmp/opencode/ux-d3/01-home-desktop.png (1280x800, /: 8 icons; logo BookOpen and Documentation card BookOpen)",
+      "/tmp/opencode/ux-d3/02-projects-desktop.png (1280x800, /projects: 10 icons; Primary tab BookOpen, Secondary tab GraduationCap)",
+      "/tmp/opencode/ux-d3/03-project-desktop.png (1280x800, project page: 54 icons; Compile All BookOpen, Teacher Manual BookOpenCheck; header row cut off at the right edge)",
+      "/tmp/opencode/ux-d3/04-lesson-editor-desktop.png (1280x800, lesson editor: ArrowLeft, Sparkles, Save, Upload, X, Plus)",
+      "/tmp/opencode/ux-d3/05-lesson-preview-desktop.png (1280x800, lesson preview: ArrowLeft, Eye, Printer)",
+      "/tmp/opencode/ux-d3/06-compile-desktop.png (1280x800, compile page: ArrowLeft, Settings2, Info, Eye, Printer)",
+      "/tmp/opencode/ux-d3/07-teacher-manual-desktop.png (1280x800, teacher manual preview: ArrowLeft, Globe, Info, Eye, Printer)",
+      "/tmp/opencode/ux-d3/08-review-index-desktop.png (1280x800, /review: layout icons only; metrics read, image not viewed)",
+      "/tmp/opencode/ux-d3/09-review-lesson-desktop.png (1280x800, loading state of /review/quest-5/l01)",
+      "/tmp/opencode/ux-d3/10-primary-project-desktop.png (1280x800, loading state of /projects/quest-4-a1)",
+      "/tmp/opencode/ux-d3/11-settings-link-desktop.png (1280x800, the 404 page of /settings)",
+      "/tmp/opencode/ux-d3/20-home-mobile.png (390x844, /)",
+      "/tmp/opencode/ux-d3/21-projects-mobile.png (390x844, /projects)",
+      "/tmp/opencode/ux-d3/22-project-mobile.png (390x844, project page; main column 134 px)",
+      "/tmp/opencode/ux-d3/23-project-tablet.png (768x1024, project page; main column 512 px)",
+      "/tmp/opencode/ux-d3/36-compile-settings.png (1280x800, compile page with the Compilation Settings panel open)",
+      "/tmp/opencode/ux-d3/37-compile-print-info.png (1280x800, compile page with the Print Instructions panel open)",
+      "/tmp/opencode/ux-d3/39-keyboard-focus-after-8-tabs.png (1280x800, /projects with focus on the Settings button)",
+      "/tmp/opencode/ux-d3/41-keyboard-focus-ring-crop-x4.png (4x crop of screenshot 39; the focus ring shows mid-transition)",
+      "/tmp/opencode/ux-d3/40-icon-compare-old-vs-new.png (comparison sheet: BookOpen, BookOpenCheck, and the Plus control; old, new, and overlay at 16, 20, 24, 96, and 192 px)"
+    ],
+    "accessibility_snapshots": [
+      "agent-browser snapshot -i -c on /projects: 4 sidebar links with a nested button each, New Project, Secondary, Primary, and the project card link; all have names.",
+      "agent-browser snapshot -i -c on /projects/origins-3.1-a1: the back link and the back button have no name. Workbook Settings, Compile All, Teacher Manual, Add Lesson, New Lesson from Source, and the Edit and Preview links have names.",
+      "agent-browser snapshot -i -c on the lesson editor: the back control, the 2 clear (x) buttons, and the delete (trash) button have no name. Auto-Fill Pedagogy, Save Changes, Show Preview, Upload, and Add Image have names.",
+      "agent-browser snapshot -i -c on the lesson preview: the back button has no name. Fullscreen Preview, Print, and Back to Editor have names.",
+      "agent-browser snapshot -i -c on the compile page: the back button has no name. Compilation Settings and Print Instructions get their names from title attributes (dashboard/app/projects/[projectId]/compile/page.tsx:102 and :105).",
+      "agent-browser snapshot -i -c on the teacher manual preview: the back button has no name. The language select lists English and the Thai option. Print Instructions, Fullscreen Preview, Print, and Back to Project have names.",
+      "axe-core 4.12.1 on /projects/origins-3.1-a1: 2 violations (button-name critical, link-name serious), 1 incomplete (color-contrast, 2 nodes), 31 passes."
+    ],
+    "interactions": [
+      "Navigation through 11 routes at 1280x800, with a console capture and a page-error capture after each navigation.",
+      "Viewport changes to 390x844 (on /, /projects, and the project page) and to 768x1024 (on the project page).",
+      "Clicks on Compilation Settings and on Print Instructions on the compile page; both panels opened (screenshots 36 and 37). No data changed.",
+      "Keyboard probe: 8 Tab presses on /projects, with the focused element and its focus style read after each press (screenshot 39).",
+      "Attempted opens of New Project, Workbook Settings, Add Lesson, New Lesson from Source, and Fullscreen Preview: the text find command did not match, so no dialog opened. Screenshots 30 to 35 and 38 show the page before the click.",
+      "No form was submitted. WORKBOOKS_READ_ONLY=1 blocks lesson, metadata, and project writes."
+    ]
+  },
+  "icon_counts": {
+    "import_statements": 18,
+    "files_with_imports": 18,
+    "unique_imported_names": 30,
+    "missing": 0,
+    "identical_shape": 28,
+    "changed_shape": 2,
+    "alias_names_in_use": 5,
+    "class_list_changes": 7,
+    "ssr_pairs": 150,
+    "ssr_pairs_identical_after_class_strip": 140,
+    "distinct_icons_seen_live": 22,
+    "icons_not_seen_live": 7
+  },
+  "different_icons": [
+    {
+      "name": "BookOpen",
+      "old_shape_count": 2,
+      "new_shape_count": 2,
+      "change": "Spine M12 7v14 to M12 5v16; corner radius 1 to 2 units; top centre dip 4 to 2 units; bottom edge y 18 to y 19.",
+      "bounding_box_units_old": "20x18",
+      "bounding_box_units_new": "20x18",
+      "pixel_share_16": 18.5,
+      "pixel_share_24": 20.7,
+      "pixel_share_96": 21.4,
+      "sites": [
+        "dashboard/components/dashboard-layout.tsx:11",
+        "dashboard/app/page.tsx:65",
+        "dashboard/app/projects/page.tsx:89",
+        "dashboard/app/projects/[projectId]/page.tsx:92",
+        "dashboard/app/projects/[projectId]/page.tsx:108"
+      ],
+      "look_decision": "Daniel; default accept"
+    },
+    {
+      "name": "BookOpenCheck",
+      "old_shape_count": 3,
+      "new_shape_count": 3,
+      "change": "Same outline change as BookOpen; spine M12 21V7 to M12 5v16; the check mark m16 12 2 2 4-4 stays.",
+      "bounding_box_units_old": "20x18",
+      "bounding_box_units_new": "20x18",
+      "pixel_share_16": 17.5,
+      "pixel_share_24": 20.1,
+      "pixel_share_96": 21.1,
+      "sites": [
+        "dashboard/app/projects/[projectId]/page.tsx:114"
+      ],
+      "look_decision": "Daniel; default accept"
+    }
+  ],
+  "alias_imports": [
+    { "name": "CheckSquare", "canonical_class": "lucide-square-check-big", "shape": "identical" },
+    { "name": "Edit", "canonical_class": "lucide-square-pen", "shape": "identical" },
+    { "name": "Home", "canonical_class": "lucide-house", "shape": "identical" },
+    { "name": "Loader2", "canonical_class": "lucide-loader-circle", "shape": "identical" },
+    { "name": "Trash2", "canonical_class": "lucide-trash", "shape": "identical" }
+  ],
+  "class_list_changes": [
+    "CheckSquare: from 'lucide lucide-square-check-big' to 'lucide lucide-square-check-big lucide-check-square'",
+    "Edit: from 'lucide lucide-square-pen' to 'lucide lucide-square-pen lucide-pen-box lucide-edit lucide-pen-square'",
+    "Home: from 'lucide lucide-house' to 'lucide lucide-house lucide-home'",
+    "Loader2: from 'lucide lucide-loader-circle' to 'lucide lucide-loader-circle lucide-loader-2'",
+    "Settings2: from 'lucide lucide-settings2 lucide-settings-2' to 'lucide lucide-settings-2'",
+    "Sparkles: from 'lucide lucide-sparkles' to 'lucide lucide-sparkles lucide-stars'",
+    "Trash2: from 'lucide lucide-trash2 lucide-trash-2' to 'lucide lucide-trash lucide-trash-2'"
+  ],
+  "page_probes": [
+    { "path": "/", "viewport": "1280x800", "http": 200, "lucide_svgs": 8, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/01-home-desktop.png" },
+    { "path": "/projects", "viewport": "1280x800", "http": 200, "lucide_svgs": 10, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/02-projects-desktop.png" },
+    { "path": "/projects/origins-3.1-a1", "viewport": "1280x800", "http": 200, "lucide_svgs": 54, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/03-project-desktop.png" },
+    { "path": "/projects/origins-3.1-a1/lessons/01-The_Library_Map_workbook", "viewport": "1280x800", "http": 200, "lucide_svgs": 17, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/04-lesson-editor-desktop.png" },
+    { "path": "/projects/origins-3.1-a1/lessons/01-The_Library_Map_workbook/preview", "viewport": "1280x800", "http": 200, "lucide_svgs": 9, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/05-lesson-preview-desktop.png" },
+    { "path": "/projects/origins-3.1-a1/compile", "viewport": "1280x800", "http": 200, "lucide_svgs": 10, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/06-compile-desktop.png" },
+    { "path": "/projects/origins-3.1-a1/teacher-manual/preview", "viewport": "1280x800", "http": 200, "lucide_svgs": 10, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/07-teacher-manual-desktop.png" },
+    { "path": "/review", "viewport": "1280x800", "http": 200, "lucide_svgs": 5, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/08-review-index-desktop.png" },
+    { "path": "/review/quest-5/l01", "viewport": "1280x800", "http": 200, "lucide_svgs": 5, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/09-review-lesson-desktop.png", "note": "loading state at capture" },
+    { "path": "/projects/quest-4-a1", "viewport": "1280x800", "http": 200, "lucide_svgs": 5, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/10-primary-project-desktop.png", "note": "loading state at capture" },
+    { "path": "/settings", "viewport": "1280x800", "http": 404, "lucide_svgs": 5, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/11-settings-link-desktop.png" },
+    { "path": "/", "viewport": "390x844", "http": 200, "lucide_svgs": 8, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/20-home-mobile.png" },
+    { "path": "/projects", "viewport": "390x844", "http": 200, "lucide_svgs": 10, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/21-projects-mobile.png" },
+    { "path": "/projects/origins-3.1-a1", "viewport": "390x844", "http": 200, "lucide_svgs": 54, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/22-project-mobile.png" },
+    { "path": "/projects/origins-3.1-a1", "viewport": "768x1024", "http": 200, "lucide_svgs": 54, "horizontal_overflow": false, "console_errors": 0, "page_errors": 0, "screenshot": "/tmp/opencode/ux-d3/23-project-tablet.png" }
+  ],
+  "open_nit_ratings": {
+    "ReviewC-F2": {
+      "rating": "Nit",
+      "blocks_daniels_look": false,
+      "route": "Daniel, as question 1; the default is accept",
+      "reason": "The visual check found 2 of 30 imported icon names redrawn: BookOpen and BookOpenCheck. Size, place, and button layout stay the same. The other 28 names have identical markup."
+    }
+  },
+  "questions_for_daniel": [
+    "Question 1 (book icons): lucide-react 1.77.0 draws BookOpen and BookOpenCheck with rounder corners and a flatter centre dip. They show as the sidebar logo and on the Compile All and Teacher Manual buttons. Do you accept the new drawings? The sheet is /tmp/opencode/ux-d3/40-icon-compare-old-vs-new.png. The default is accept."
+  ],
+  "handoff": {
+    "verdict": "PASS. No Blocker. D3 can go to phase acceptance on the UX gate.",
+    "daniel_look": "Send question 1 to Daniel. The default is accept. Plan decision (1) says no visible change, so record that two icons change.",
+    "route_nits": "F3, F4, and F5 are older issues in the dashboard. Route them to a later track, not to Green in D3.",
+    "leftovers_for_orchestrator": [
+      "dashboard/AGENTS.md is untracked (679 bytes) and next dev wrote it at 04:37:57. It returns at each next dev start, and dashboard/next.config.ts has no agentRules setting. Delete it before staging, or stage by exact path as the plan says.",
+      "/tmp/opencode/lucide-old/ and /tmp/opencode/ux-d3-scripts/ are scratch. The shell guard denied rm, rmdir, and mv, so I could not delete them.",
+      "Screenshots 30 to 35 and 38 in /tmp/opencode/ux-d3/ are not evidence, because the click step failed. Delete them or ignore them.",
+      "The other UX run (openai/gpt-6.1-sol#high) wrote these result paths at 04:42:58 with status inconclusive. This result replaces its files, and its scratch evidence stays in /tmp/opencode/ux-d3-r2/."
+    ],
+    "green_action": "none",
+    "facts_changed": []
+  }
+}
