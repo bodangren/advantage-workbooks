@@ -1,18 +1,18 @@
-# Review A remediation: deps_refresh_20261121 Phase D1 (provisional, pre-commit)
+# Review A remediation: deps_refresh_20261121 Phase D1 (final, committed)
 
 role_base_sha: 873d6a93. phase_base_sha: 5e104447 (both resolve).
 Findings fixed: A-D1-1 [Blocker] (entry identity binding), A-D1-2 [Nit] (calendar date validation).
 Self-test: exit 0 (13 rule checks: 10 old plus 3 new negatives). Output: measure/runs/deps_refresh_20261121/red-d1r2-873d6a93-selftest.txt.
 Dashboard gate: exit 0 with the 3 sharp entries allowed (no allowlist data change). Output: measure/runs/deps_refresh_20261121/red-d1r2-873d6a93-gate.txt.
+Remediation commit: 7e59e1f0. Plan/log follow-up commit: amended below.
 Unrelated dirty work preserved and unstaged: video/storytime-song/scripts/render.mjs, dashboard/raw.json.
-Refining after commit with the remediation commit SHA.
 
 MEASURE_AGENT_RESULT
 role: measure-mid-red
-status: partial
+status: complete
 track: deps_refresh_20261121
 phase: Phase D1: dashboard critical and high (by 2026-11-23)
-commits: TBD (refine after commit)
+commits: 7e59e1f0
 tests_run: node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test -> exit 0 pass (13 rule checks); node measure/tracks/deps_refresh_20261121/audit-gate.mjs dashboard -> exit 0 pass (3 sharp advisories allowed with complete entries)
 files_changed: measure/tracks/deps_refresh_20261121/audit-gate.mjs (A-D1-1 identity binding in coveringEntry, A-D1-2 calendar date round-trip check, 3 new negative self-test cases); measure/tracks/deps_refresh_20261121/plan.md (remediation sub-bullet under the D1 Red task); measure/runs/deps_refresh_20261121/red-d1r2-873d6a93-selftest.txt, red-d1r2-873d6a93-gate.txt, audit-snapshot-dashboard-20261121T032036Z.json plus untracked T013035Z-T030233Z snapshots; review-a/b/c-d1-873d6a93.json and .log (reviewer artifacts)
 plan_updates: remediation sub-bullet added under the D1 Red task with evidence paths and commit id
