@@ -1,0 +1,64 @@
+D3r8 evidence: dashboard eslint 10.15.0 violates four required plugin peer ranges.
+Date: 2026-11-21. Finding: ADV-D3-R2-1 (Blocker) from the adversarial round 2.
+
+WHAT THE FINDING SAYS
+  adversarial-d3-r2-9fc91eb3.json, blocking_findings:
+    "ADV-D3-R2-1 [Blocker] adversarial-testing: dashboard/package.json:49 selects ESLint
+     10.15.0 outside four required plugin peer ranges. npm ls --all exits 1 with
+     ELSPROBLEMS. Rationale: risk 5 requires valid dependency trees. Green must restore
+     compatible dependency versions."
+  Capture of the broken tree: measure/runs/deps_refresh_20261121/adversarial-d3-r2-lock-tree.txt
+    dashboard_exit=1, video_exit=0
+    dashboard: inspected 1481 dependency nodes; problem records=23
+    ["dashboard", "problems", ["invalid: eslint@10.15.0 .../dashboard/node_modules/eslint"]]
+
+THE FOUR REQUIRED PLUGIN PEERS (npm view, versions installed under eslint-config-next 16.4.6)
+  eslint-plugin-import | 2.32.0 | peer eslint "^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8 || ^9"
+  eslint-plugin-jsx-a11y | 6.10.2 | peer eslint "^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9"
+  eslint-plugin-react-hooks | 7.0.1 | peer eslint "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0"
+  eslint-plugin-react | 7.37.5 | peer eslint "^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7"
+  Every range stops at 9. eslint 10.15.0 satisfies none of them.
+  eslint-config-next 16.4.6 asks for eslint ">=9.0.0", so eslint 9 satisfies it.
+  The eslint-plugin-react-hooks 7.0.1 override and eslint-config-next 16.4.6 stay unchanged.
+
+THE FIX
+  dashboard/package.json line 49: "eslint": "^10.15.0" -> "^9.39.5"
+  npm view eslint versions lists 9.39.5 as the last 9.x release, so 9.39.5 is the
+  latest 9.x and no newer 9.x exists. The caret style of the file stays.
+  npm install exited 0. The installed eslint is 9.39.5.
+  The lockfile change is the eslint 9 subtree only: 18 packages added, 13 removed and
+  14 version changes, all inside the eslint tree.
+
+PROOF AFTER THE FIX
+  npm ls --all in dashboard -> exit 0; no invalid package and no missing package.
+    The only UNMET records are optional platform binaries such as lightningcss-*-arm64.
+    Capture: measure/runs/deps_refresh_20261121/green-d3-r8-npmls.txt
+  node --test measure/tracks/deps_refresh_20261121/adversarial-d3-r2.test.mjs -> exit 0;
+    11 tests pass and 0 fail. The test "the dashboard ESLint version satisfies every
+    installed required plugin peer" now passes.
+    Capture: measure/runs/deps_refresh_20261121/green-d3-r8-adversarial.txt
+  npm ls --all in video/storytime-song -> exit 0 with no invalid package. The video
+  project was not changed in this round.
+  node measure/tracks/deps_refresh_20261121/audit-gate.mjs both --min moderate -> exit 0
+    with 0 advisories in both projects; dashboard --min high exit 0; video exit 0;
+    --self-test exit 0 with 19 rule checks.
+    Captures: green-d3-r8-gate-both.txt, green-d3-r8-gate-dashhigh.txt,
+    green-d3-r8-gate-video.txt, green-d3-r8-selftest.txt
+  cd dashboard && npm run lint -> exit 0 with 3 warnings and 0 errors.
+    Capture: green-d3-r8-lint.txt
+  cd dashboard && npx tsc --noEmit -> exit 0. Capture: green-d3-r8-tsc.txt
+  cd dashboard && CI=true npx vitest run with the 4 excludes -> exit 0.
+    Capture: green-d3-r8-tests.txt
+  cd dashboard && npm run build -> exit 0. Capture: green-d3-r8-build.txt
+  git status --porcelain content was empty before and after the vitest run; no restore
+  was needed and no file under content/ changed.
+
+THE DEFERRAL ROW IN versions-d3.txt
+  eslint | dashboard | 9.39.5 -> 10.15.0 | major | deferred | required peer conflict
+  under eslint-config-next 16.4.6: the four plugin ranges above exclude eslint 10;
+  npm ls --all exited 1 with ELSPROBLEMS; captures adversarial-d3-r2-lock-tree.txt
+  and green-d3-r8-npmls.txt
+
+NO PRINT PATH CHANGE
+  No print-path package changed: scripts/print/*, Playwright, pagedjs and sharp keep
+  their versions. No book proof was required in this round.

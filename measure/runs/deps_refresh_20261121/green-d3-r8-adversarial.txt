@@ -1,0 +1,22 @@
+# ADVERSARIAL_D3_R2 node --test, final tree (D3r8)
+✔ the real CLI rejects a new high advisory with an empty allowlist (69.350731ms)
+✔ filter words in the advisory title preserve a real hit (70.338824ms)
+✔ the moderate threshold rejects a moderate advisory (68.00316ms)
+✔ a complete high entry passes but cannot cover another advisory (141.088824ms)
+✔ a stale entry fails even when the audit has no advisories (66.280314ms)
+✔ each missing field fails even when the audit has no advisories (330.337475ms)
+✔ a future impossible calendar date fails without a live advisory (68.406688ms)
+✔ a critical advisory fails despite a complete entry (67.213816ms)
+✔ an empty audit passes with the empty allowlist (68.420968ms)
+✔ dotenv 18 preserves the caller options without loading real credentials (67.873742ms)
+✔ the dashboard ESLint version satisfies every installed required plugin peer (11.086198ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1076.878323
+
+EXIT_CODE: 0
