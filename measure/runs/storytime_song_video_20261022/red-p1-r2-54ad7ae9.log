@@ -1,0 +1,50 @@
+Red round 2 log for Phase 1 week 1 regression
+Role base: 54ad7ae9 (HEAD confirmed before edits)
+Phase base: 1ffd649b (resolves to a commit)
+HEAD at test run: 54ad7ae9
+
+Thai guard: first command ran the filter before any read. Every content read went through the filter. The new test file holds 0 Thai characters. The strategy and plan edits hold 0 Thai characters.
+
+What Green reported: all gates exit 0, but the week 1 test was weak. It read a mirrored folder and passed on a MISMATCH file. Green's evidence shows a scratch render with Remotion 4.0.545 does not match the approved frames (0 of 4 hashes, PSNR about 42 dB, uniform noise). The approved media predates the Remotion update of 2026-11-21. Old and new source give byte-identical stills (sha256 02b65b33) under one toolchain.
+
+Default applied: the guard asserts approved media unchanged in git and matching red-p1-w01-frames.txt, a same-toolchain comparison of phase-base source against new source with equal hashes from labeled lines, toolchain drift as information, and a PASS Result line. Week 1 bubble count stays 0.
+
+Exact labeled evidence lines Green must write (one per line):
+same-toolchain content/storytime/l2/media/w01/song.mp4 frame 753 base sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song.mp4 frame 753 new sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song.mp4 frame 1652 base sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song.mp4 frame 1652 new sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 753 base sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 753 new sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 1652 base sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 1652 new sha256: <64hex>
+toolchain drift approved vs current match count: <a> of 4
+toolchain drift PSNR dB: <n>
+render exit classroom: 0
+render exit phone: 0
+Result: PASS
+
+Red run:
+set -o pipefail; cd video/storytime-song && node --test tests/week1-regression.test.mjs
+Run through ONE heavy-run wrapper, no nesting.
+RED_R2_EXIT: 1
+Tests: 2 total, 1 pass, 1 fail.
+- T1.8 FAILS: approved hash must hold 64 hex chars for content/storytime/l2/media/w01/song-phone.mp4 frame 1652 (the current evidence line holds an 86-char hash, a Green measurement typo; the test also requires same-toolchain pairs and Result PASS, both absent).
+- T1.9 passes: labeled exits are 0 and git status for the two media files is empty.
+The file fails as a Red test must. No syntax or import errors occurred.
+
+Files changed: the RUNS path now resolves to the repo measure/runs folder, never video/measure. The wrong mirrored folder video/measure/runs/storytime_song_video_20261022/ was left untouched and unstaged.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+baseline_sha: 1ffd649b
+role_base_sha: 54ad7ae9
+head_sha: 54ad7ae9
+commits: dd2a5d8a plus the plan commit that holds this log
+tests: tests/week1-regression.test.mjs
+files: video/storytime-song/tests/week1-regression.test.mjs measure/tracks/storytime_song_video_20261022/test-strategy.md measure/tracks/storytime_song_video_20261022/plan.md
+remaining_failures: T1.8 T1.9-evidence
+status: red-complete
+END_MEASURE_AGENT_RESULT
