@@ -1,0 +1,28 @@
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+round: r2
+phase_base_sha: 1ffd649b
+role_base_sha: e9a3d039
+head_sha: 3a88763d8d045643c44b6fcf66c4f6ae8bf5d361
+commits: 3a88763d (evidence and script), then the plan-and-log commit that follows this log
+red_change_in_range: dd2a5d8a and e9a3d039 are inside phase_base_sha..HEAD; Red tests unchanged by Green
+tasks_flipped_to_x:
+  P1 week 1 regression: 3a88763d (PASS evidence, all four same-toolchain pairs equal)
+tasks_flipped_to_b: none
+new_files_added:
+  measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py
+method: git archive of phase-base source 1ffd649b into /tmp/opencode/w01-base/, installed node_modules by symlink, and npx remotion still with identical props and flags in the base tree and the current tree. Phone same-toolchain pairs use the composition still before the 720x1280 scale. The script hashes decoded raw rgb24 frames with sha256. Every hash and exit code in the evidence comes from a command in the script.
+gates:
+  week1-regression: exit 0, 2 pass, 0 fail
+  GREEN_TEST_COMMAND: exit 0, 13 pass, 0 fail
+  PROJECT_TESTS: exit 0, 36 pass, 0 fail
+  PROJECT_LINT and PROJECT_CHECKS: not rerun; no source code changed in r2
+evidence_result: 4 of 4 same-toolchain base/new pairs equal; toolchain drift approved vs current match count 0 of 4; toolchain drift PSNR dB 35.332 measured by ffmpeg psnr; render exit classroom 0; render exit phone 0; Result PASS
+evidence_integrity: every approved hash equals the Red baseline; no hash or exit code was typed by hand
+git_hygiene: the wrong untracked video/measure/ mirror was removed. render.mjs, content/, the handoff, and out/ render files were never staged. git status --porcelain content is empty. No push.
+thai: the first command was the Thai filter. All reads of content and all command outputs went through it. New files hold 0 Thai characters.
+final_head_note: head_sha names the evidence commit; the final Green HEAD is the commit that holds this log.
+status: green-complete
+END_MEASURE_AGENT_RESULT
