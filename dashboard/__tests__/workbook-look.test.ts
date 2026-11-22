@@ -52,11 +52,11 @@ describe('look values', () => {
     for (const book of ['origins-2', 'bank-5', 'bank-9', 'adventures-1.0', '']) expect(bookLook(book)).toBe('classic');
   });
 
-  it('takes the look of a project from project.json, or else from its book', () => {
+  it('takes the look of a project from project.json, or chibi-quest when it has none', () => {
     expect(projectLook({ seriesName: 'Quest', levelNumber: '5', cefrLevel: 'A1' })).toBe('chibi-quest');
     expect(projectLook({ seriesName: 'Adventure', levelNumber: '9.3', cefrLevel: 'A2' })).toBe('chibi-quest');
-    expect(projectLook({ seriesName: 'Quest', levelNumber: '4', cefrLevel: 'A1' })).toBe('classic');
-    expect(projectLook({ seriesName: 'Origins', levelNumber: '3.2', cefrLevel: 'A0+' })).toBe('classic');
+    expect(projectLook({ seriesName: 'Quest', levelNumber: '4', cefrLevel: 'A1' })).toBe('chibi-quest');
+    expect(projectLook({ seriesName: 'Origins', levelNumber: '3.2', cefrLevel: 'A0+' })).toBe('chibi-quest');
     expect(projectLook({ seriesName: 'Quest', levelNumber: '5', cefrLevel: 'A1', look: 'classic' })).toBe('classic');
     expect(projectLook({ seriesName: 'Origins', levelNumber: '2', cefrLevel: 'A0', look: 'chibi-quest' })).toBe('chibi-quest');
     expect(projectLook(null)).toBe('classic');
@@ -155,12 +155,11 @@ describe('compile route look', () => {
     return { status: res.status, html: ((await res.json()) as { html?: string }).html ?? '' };
   };
 
-  it('compiles a Quest 5 project in chibi-quest and a Quest 4 project in classic', async () => {
+  it('compiles a Quest 5 project and a Quest 4 project in chibi-quest', async () => {
     expect((await compile('quest-5-a1')).html).toContain(`<body ${CHIBI}>`);
-    const classic = await compile('quest-4-a1');
-    expect(classic.status).toBe(200);
-    expect(classic.html).toContain('<body>');
-    expect(classic.html).not.toContain('look-chibi-quest');
+    const q4 = await compile('quest-4-a1');
+    expect(q4.status).toBe(200);
+    expect(q4.html).toContain(`<body ${CHIBI}>`);
   });
 
   it('obeys the look in project.json, and fails on an unknown look', async () => {

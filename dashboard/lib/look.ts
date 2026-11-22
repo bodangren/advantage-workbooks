@@ -3,7 +3,7 @@ import type { ProjectMetadata } from './filesystem';
 
 export type { WorkbookLook } from './document-wrapper/types';
 
-/** Every print look; `classic` is the default (track primary_v2_look_20261020). */
+/** Every print look (track primary_v2_look_20261020). */
 export const WORKBOOK_LOOKS: readonly WorkbookLook[] = ['classic', 'chibi-quest'];
 
 /**
@@ -39,14 +39,16 @@ export function bookLook(book: string): WorkbookLook {
 }
 
 /**
- * The look of a dashboard project: the `look` of its project.json, or else the look of its book
- * (series and number, for example Quest 5 is `quest-5`).
+ * The look of a dashboard project: the `look` of its project.json, or `chibi-quest` when the
+ * project has none (a new or rewritten edition). A shipped edition states `classic` in its
+ * project.json (track primary_v2_look_20261020, Daniel 2026-11-21).
  * @param meta The project.json values, or null when the project has none.
- * @returns The look.
+ * @returns `classic` for null (the book-folder path), else the project's look.
  * @throws When project.json has an unknown look.
  */
 export function projectLook(meta: ProjectMetadata | null | undefined): WorkbookLook {
     if (!meta) return 'classic';
+    if (meta.look === undefined) return 'chibi-quest';
     const book = `${meta.seriesName ?? ''}-${meta.levelNumber ?? ''}`.toLowerCase();
-    return meta.look === undefined ? bookLook(book) : parseLook(meta.look, `project.json of ${book}`);
+    return parseLook(meta.look, `project.json of ${book}`);
 }
