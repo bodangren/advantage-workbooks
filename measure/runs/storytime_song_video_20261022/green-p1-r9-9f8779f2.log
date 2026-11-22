@@ -1,0 +1,57 @@
+Green round 9 log for Phase 1 at role base 9f8779f2
+
+Role base: 9f8779f2551c658008aaf6a8de7762c0964a41f2 (HEAD confirmed before edits)
+Phase base: 1ffd649b83df6f1f6625351d8da4afd5ee1ca513
+Review A round 5: FAIL at e7c9b7e1; F9 blocker and F8 major.
+PM 2026-11-23: finish round 4; one Green change.
+HEAD at implementation commit: 2451894bdefb38f858b215305d50b3eb08504110
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. All committed files hold 0 Thai characters. `git status --porcelain content` is empty. The handoff folder stayed read-only. render.mjs, content, out/, handoff and untracked review files were never edited or staged. `ls video` shows only storytime-song. All destructive probes ran under temporary roots.
+
+Findings and fixes:
+- F8 (Major): `prepare(rel)` now calls `weekOutDir(rel)` as its first statement. The containment and lstat guard runs before `mkdir`, the song.mp3 copy, and the spec.json write. A symlinked week folder makes prepare throw with no file written outside the project.
+- F9 (Blocker): `prepareWithManifest` writes audio and spec into a temporary week folder first, then swaps audio, spec and Forge as one transaction. Each current item moves to a backup name before its replacement is renamed in. Any failure restores every backup and removes the staging folders. The Forge stage keeps its `.forge-stage-w02-` name, and the r8 backup-and-restore behavior remains in force. A simulated audio write failure leaves the previous Forge file, spec, and audio byte-identical.
+- The successful path removes the temporary week folder. No `.week-stage-`, `.forge-stage-` or `.backup-` folder remains after the gates.
+- The inset, cast-only cut-outs, Lily placeholder, missing-handoff behaviour and week 1 output are unchanged.
+
+Combined GREEN command (one heavy-run wrapper, no nesting):
+set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/week1-regression.test.mjs tests/adversarial-p1.test.mjs tests/review-a-r5.test.mjs
+GREEN_EXIT: 0 (46 tests, 0 fail). Both Review A round 5 tests (ADV-P1-F8 and ADV-P1-F9) pass.
+
+Gates, each once through ONE heavy-run wrapper, no nesting:
+PROJECT_LINT (npm run lint): exit 0
+PROJECT_CHECKS (npx tsc --noEmit): exit 0
+PROJECT_TESTS (npm test): exit 0 (67 tests, 0 fail)
+
+Week 1 evidence: green-p1-r2-w01-evidence.py was rerun in full after the prepare.mjs change.
+Evidence exit: 0.
+same-toolchain pairs equal: 4 of 4.
+toolchain drift approved vs current match count: 0 of 4.
+toolchain drift PSNR dB: 35.332.
+render exit classroom: 0; render exit phone: 0.
+prepare snapshot spec sha256: 83f45092cd3047d25ee58249b0677e3e5cf43045d496c2d545f052173b4d8487
+prepare full w01 spec sha256: 31067c1580ad9a1f100314913b3e5758f25dda6016f280f745e61d5105ccd17a
+base stills source: base-tree prepare output and base-tree public assets
+Result: PASS
+
+Handoff folder (/home/daniebo/Desktop/handoff/storytime-song-art), read-only:
+before all commands: 110 files, MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759
+after all commands: 110 files, MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759
+
+New files added this round: measure/runs/storytime_song_video_20261022/green-p1-r9-9f8779f2.log. Product code changed: video/storytime-song/scripts/prepare.mjs only. The plan commit flips the reopened P2 intake task to [x] with the r9 SHA and adds the Green r9 sub-bullet.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+baseline_sha: 1ffd649b
+role_base_sha: 9f8779f2
+head_sha: 2451894bdefb38f858b215305d50b3eb08504110
+commits: 2451894b implementation; the plan-evidence commit that holds this log
+tests: tests/review-a-r5.test.mjs tests/week1-regression.test.mjs
+files: video/storytime-song/scripts/prepare.mjs measure/tracks/storytime_song_video_20261022/plan.md
+gates: GREEN_TEST_COMMAND 0 (46 tests); PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (67 tests)
+evidence: same-toolchain pairs 4 of 4 equal; Result PASS; render exits 0 and 0
+handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after
+status: green-complete
+END_MEASURE_AGENT_RESULT
