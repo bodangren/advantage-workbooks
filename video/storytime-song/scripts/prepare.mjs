@@ -5,7 +5,7 @@ import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { alphaBox, forgeSpec } from "./forge.mjs";
+import { SCREEN_PPM, alphaBox, forgeSpec } from "./forge.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const PROJECT = path.resolve(HERE, "..");
@@ -21,6 +21,9 @@ const WEEK_SCENE = {
   "st2/6": "meadow",
   "st2/7": "playroom",
 };
+
+/** The weeks whose art set fixes the scene; w07 has no stage file and uses the classroom render. */
+const SCENE_FORCE = { "st2/7": "classroom" };
 
 /** A place named in a picture prompt, in the order of the test (the first match wins). */
 const PLACES = [
@@ -54,6 +57,71 @@ const SOUNDS = new Set([
 const clean = (w) => w.replace(/[()]/g, "");
 const bare = (w) => w.toLowerCase().replace(/[^a-z']/g, "");
 
+/** Thai letters never reach the video: the range and the JSON "th" key are dropped before a spec is built. */
+const THAI = /[\u0E00-\u0E7F]/;
+
+/**
+ * Drops the Thai translations of a week package before the spec is built.
+ * @param {any} value The parsed week package or one of its parts.
+ * @returns {any} The same data with "th" keys and Thai strings removed.
+ */
+function stripThai(value) {
+  if (Array.isArray(value)) return value.map(stripThai);
+  if (value && typeof value === "object") {
+    const out = {};
+    for (const [key, val] of Object.entries(value)) {
+      if (key === "th" || THAI.test(key)) continue;
+      out[key] = stripThai(val);
+    }
+    return out;
+  }
+  if (typeof value === "string") return THAI.test(value) ? "" : value;
+  return value;
+}
+
+/** The flat placeholders of the animal sounds (w06, w02) and the toy props (w07). */
+const PLACEHOLDERS = [
+  ["cat", "Cat"],
+  ["dog", "Dog"],
+  ["bird", "Bird"],
+  ["fish", "Fish"],
+  ["frog", "Frog"],
+  ["duck", "Duck"],
+  ["box", "ToyBox"],
+  ["ball", "Ball"],
+  ["doll", "Doll"],
+  ["car", "ToyCar"],
+  ["kite", "Kite"],
+  ["drum", "Drum"],
+  ["train", "ToyTrain"],
+  ["top", "SpinningTop"],
+];
+
+/**
+ * The flat placeholder of an animal or a prop named in a picture prompt. Every hit is returned so a picture with
+ * more than one object keeps them all; an unmapped prompt gives no placeholder.
+ * @param {string} prompt The image prompt of a picture.
+ * @returns {string} The placeholder labels joined by " + ", or "" when the prompt names no animal or prop.
+ */
+export function placeholderOf(prompt) {
+  const text = String(prompt ?? "").toLowerCase();
+  return PLACEHOLDERS.filter(([word]) => text.includes(word))
+    .map(([, label]) => label)
+    .join(" + ");
+}
+
+/**
+ * The bounce of an animal or a prop: zero on a beat, eight pixels at the middle of a beat.
+ * @param {number} beat The position in beats (a whole number on a beat).
+ * @param {number} bpm The tempo of the song (kept in the signature for callers that pass seconds).
+ * @returns {number} The upward offset in pixels.
+ */
+export function bounceY(beat, bpm) {
+  const phase = beat - Math.floor(beat);
+  void bpm;
+  return Math.round(Math.sin(Math.PI * phase) * 8);
+}
+
 /**
  * Splits a sung line into its parts: the line, then each repeat in parentheses.
  * @param {{sentence: string, words: {word: string, start: number, end: number}[]}} time The line and word times.
@@ -86,6 +154,8 @@ export function segments(time) {
  * @returns {string} The scene id.
  */
 export function sceneOf(prompt, key) {
+  // w07 has no stage file: its cut-out set uses the classroom render, so its lines keep the default scene.
+  if (SCENE_FORCE[key]) return SCENE_FORCE[key];
   for (const [re, scene] of PLACES) if (re.test(prompt)) return scene;
   return WEEK_SCENE[key] ?? "classroom";
 }
@@ -96,7 +166,8 @@ export function sceneOf(prompt, key) {
  * @param {number} duration The length of the song audio in seconds.
  * @returns {any} The spec that the composition reads.
  */
-export function buildSpec(week, duration) {
+export function buildSpec(source, duration) {
+  const week = stripThai(source);
   const song = week.song;
   if (!song.audio || song.times.length !== song.lines.length)
     throw new Error(
@@ -110,11 +181,15 @@ export function buildSpec(week, duration) {
       );
     const picture = line.imageOf ?? i;
     const image = song.lines[picture].image ?? { prompt: "", characters: [] };
-    const actors = image.characters.length
+    let actors = image.characters.length
       ? image.characters
       : /\bclass of children\b/i.test(image.prompt)
         ? CLASS
         : [];
+    if (!actors.length) {
+      const placeholder = placeholderOf(image.prompt);
+      if (placeholder) actors = [placeholder];
+    }
     const bubbles = [];
     for (const part of segments(time)) {
       const sound = part.words.filter((w) => SOUNDS.has(bare(w.text)));
@@ -150,6 +225,110 @@ export function buildSpec(week, duration) {
     art: "placeholder",
     lines,
   };
+}
+
+/** The read-only Storytime handoff of Forge cut-outs and scene sets. */
+const HANDOFF = "/home/daniebo/Desktop/handoff/storytime-song-art";
+
+/**
+ * Reads the manifest of the read-only handoff (one row per ready file).
+ * @param {string} handoffDir The handoff folder.
+ * @returns {{file: string, who: string, commit: string, sha: string}[]} The rows of the TSV.
+ */
+function readManifestRows(handoffDir) {
+  const tsv = fs.readFileSync(path.join(handoffDir, "MANIFEST.tsv"), "utf8");
+  return tsv.trim().split("\n").slice(1).map((line) => {
+    const [file, who, commit, sha] = line.split("\t");
+    return { file, who, commit, sha };
+  });
+}
+
+/**
+ * Maps the handoff TSV into the Forge part of a line spec. The scene manifest of w04 sets the scale, the canvas,
+ * and the foot point; the "listen" cut-out of each classmate is its front. Lily has no rows, so she stays a
+ * placeholder. The 25 gesture frames of a classmate are grouped by their file slug.
+ * @param {string} handoffDir The handoff folder.
+ * @returns {any} The Forge input: scale, canvas, foot, cast fronts, and frames by gesture slug.
+ */
+export function manifestToForgeInput(handoffDir) {
+  const sceneManifest = JSON.parse(
+    fs.readFileSync(path.join(handoffDir, "scenes/w04/manifest.json"), "utf8"),
+  );
+  const cast = {};
+  const framesByGesture = {};
+  for (const { file, who } of readManifestRows(handoffDir)) {
+    const found = file.match(/^cutouts\/([^/]+)\/([^/]+)\.png$/);
+    if (!found) continue;
+    const [, name, gesture] = found;
+    const full = path.join(handoffDir, file);
+    if (!framesByGesture[gesture]) framesByGesture[gesture] = [];
+    framesByGesture[gesture].push(full);
+    if (gesture === "listen" && name.toLowerCase() !== "lily" && who !== "lily")
+      cast[name.toLowerCase()] = full;
+  }
+  return {
+    scale: SCREEN_PPM / sceneManifest.ppm,
+    canvas: sceneManifest.canvas,
+    foot: sceneManifest.footPoint,
+    cast,
+    framesByGesture,
+  };
+}
+
+/**
+ * Copies a named subset of manifest files out of the handoff. The handoff is read-only; every path is relative
+ * and holds no "..", so no copy can write into it.
+ * @param {string} handoffDir The handoff folder.
+ * @param {string} destDir The folder that receives the copy.
+ * @param {string[]} files The manifest-relative paths to copy.
+ * @returns {string[]} The paths of the copies.
+ */
+export function copyManifestSubset(handoffDir, destDir, files) {
+  const copied = [];
+  for (const rel of files) {
+    if (path.isAbsolute(rel) || rel.split("/").includes(".."))
+      throw new Error(`unsafe manifest path ${rel}`);
+    const src = path.join(handoffDir, rel);
+    const dst = path.join(destDir, rel);
+    fs.mkdirSync(path.dirname(dst), { recursive: true });
+    fs.copyFileSync(src, dst);
+    copied.push(dst);
+  }
+  return copied;
+}
+
+/**
+ * Prepares a week with the Forge cut-outs of the handoff. The classmates with cut-outs use them; a classmate
+ * without a row (Lily, Ben) keeps the placeholder. Only the files a week uses are copied into the project.
+ * @param {string} rel The week, as "l2/w04".
+ * @param {string} handoffDir The handoff folder.
+ * @returns {string} The spec file.
+ */
+export function prepareWithManifest(rel, handoffDir = HANDOFF) {
+  const week = JSON.parse(fs.readFileSync(path.join(CONTENT, `${rel}.json`), "utf8"));
+  const audio = path.join(CONTENT, week.song.audio);
+  const spec = buildSpec(week, probe(audio).duration);
+  const input = manifestToForgeInput(handoffDir);
+  const cast = {};
+  const files = new Set();
+  for (const name of usedArt(spec).actors) {
+    const front = input.cast[name.toLowerCase()];
+    if (!front) continue;
+    cast[name] = front;
+    files.add(path.relative(handoffDir, front));
+  }
+  const dest = path.join(PROJECT, "public", rel, "forge");
+  fs.rmSync(dest, { recursive: true, force: true });
+  copyManifestSubset(handoffDir, dest, [...files]);
+  spec.art = Object.keys(cast).length ? "forge" : "placeholder";
+  spec.forge = { ...input, cast };
+  const out = path.join(PROJECT, "public", rel);
+  fs.mkdirSync(out, { recursive: true });
+  fs.copyFileSync(audio, path.join(out, "song.mp3"));
+  spec.audio = `${rel}/song.mp3`;
+  const file = path.join(out, "spec.json");
+  fs.writeFileSync(file, JSON.stringify(spec, null, 1) + "\n");
+  return file;
 }
 
 /**

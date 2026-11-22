@@ -49,3 +49,12 @@ export const ACTOR_SPAN = {
   landscape: [200, 1480] as const,
   portrait: [320, 1600] as const,
 };
+
+/**
+ * The speech-bubble boxes of the animal sounds: high in the scene, clear of the lyric text and the gesture card.
+ * The landscape box sits above the two bottom cards; the portrait box sits inside the top scene band.
+ */
+export const BUBBLE_BOX: { landscape: Box; portrait: Box } = {
+  landscape: { left: 700, top: 60, width: 520, height: 150 },
+  portrait: { left: 280, top: 40, width: 520, height: 160 },
+};

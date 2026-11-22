@@ -21,6 +21,43 @@ const EXIT = 0.3;
 /** The seconds that the actors of a shot stay after its end to slide out. */
 export const EXIT_SECONDS = EXIT;
 
+/** The animal and prop words that name a flat placeholder of a picture close-up. */
+const PLACEHOLDER_WORDS = [
+  "cat", "dog", "bird", "fish", "frog", "duck",
+  "box", "ball", "doll", "car", "kite", "drum", "train", "top",
+];
+
+/** True when an actor label is a placeholder animal or prop, not a named classmate. */
+const isPlaceholder = (name: string) =>
+  PLACEHOLDER_WORDS.some((word) => name.toLowerCase().includes(word));
+
+/**
+ * A flat placeholder shape of an animal or a prop (no letters, not for release). It bounces with its row.
+ * @param props.kind The placeholder label from the package prompt.
+ * @param props.height The height of the shape in the scene frame.
+ */
+const Placeholder: React.FC<{ kind: string; height: number }> = ({
+  kind,
+  height,
+}) => {
+  const hue = [...kind].reduce((n, c) => n + c.charCodeAt(0), 0) % 360;
+  return (
+    <svg width={height * 0.9} height={height} viewBox="0 0 90 100">
+      <rect
+        x={5}
+        y={15}
+        width={80}
+        height={80}
+        rx={24}
+        fill={`hsl(${hue} 60% 72%)`}
+        stroke="#2B2B48"
+        strokeWidth={5}
+      />
+      <circle cx={45} cy={47} r={13} fill="#FFFBEF" stroke="#2B2B48" strokeWidth={4} />
+    </svg>
+  );
+};
+
 /**
  * The actors of one shot on the ground line. Inside a Sequence that starts at the shot start: the actors slide
  * in from the right when `shot.enter`, and slide out to the left after the shot end when `shot.exit`.
@@ -77,6 +114,21 @@ export const Actors: React.FC<{
                 height: forge.canvas[1] * s,
               }}
             />
+          );
+        }
+        if (isPlaceholder(name)) {
+          const h = kid;
+          return (
+            <div
+              key={name}
+              style={{
+                position: "absolute",
+                left: x - h * 0.45,
+                top: GROUND - h - bob,
+              }}
+            >
+              <Placeholder kind={name} height={h} />
+            </div>
           );
         }
         const look = LOOKS[name];

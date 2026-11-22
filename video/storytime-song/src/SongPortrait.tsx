@@ -5,6 +5,7 @@ import { GesturePanel } from "./GestureInset";
 import { PORTRAIT_BOXES, PORTRAIT_SCENE_SCALE, SCENE } from "./layout";
 import { Lyrics } from "./Lyrics";
 import { END_SECONDS, EndScreen, START_SECONDS, StartScreen } from "./Screens";
+import { SoundCard } from "./SoundCard";
 import { SceneLayer, type SongProps } from "./Song";
 
 /** The background of the portrait frame under the scene band (amber 100, beside the amber of the screens). */
@@ -51,6 +52,7 @@ export const SongPortrait: React.FC<SongProps> = ({ spec }) => {
         </div>
         <Lyrics spec={spec} portrait />
         <GesturePanel spec={spec} />
+        <SoundCard spec={spec} portrait />
         <Audio src={staticFile(spec.audio)} />
       </Sequence>
     </AbsoluteFill>

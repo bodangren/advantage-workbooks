@@ -112,6 +112,21 @@ export function lyricAt(
 }
 
 /**
+ * The animal-sound bubble on the screen at a time, shown only inside its sound-word window.
+ * @param spec The line spec.
+ * @param t The song-relative time in seconds.
+ * @returns The active bubble, or null when no sound word is being sung.
+ */
+export function bubbleAt(spec: Spec, t: number): Bubble | null {
+  for (const line of spec.lines) {
+    for (const bubble of line.bubbles) {
+      if (bubble.start <= t && t < bubble.end) return bubble;
+    }
+  }
+  return null;
+}
+
+/**
  * The gesture of the line at a time: the line from its start to 0.5 s after its end, else none (idle).
  * @param spec The line spec.
  * @param t The time in seconds.

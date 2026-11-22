@@ -6,6 +6,7 @@ import { SceneBackground } from "./art/Scene";
 import { GestureInset } from "./GestureInset";
 import { ACTOR_SPAN, SCENE } from "./layout";
 import { Lyrics } from "./Lyrics";
+import { SoundCard } from "./SoundCard";
 import { END_SECONDS, EndScreen, START_SECONDS, StartScreen } from "./Screens";
 import { sceneRuns, shots } from "./timeline";
 import type { Spec } from "./types";
@@ -38,6 +39,7 @@ export const Song: React.FC<SongProps> = ({ spec }) => {
         <SceneLayer spec={spec} />
         <Lyrics spec={spec} />
         <GestureInset spec={spec} />
+        <SoundCard spec={spec} />
         <Audio src={staticFile(spec.audio)} />
       </Sequence>
     </AbsoluteFill>
