@@ -1,0 +1,38 @@
+Week 1 regression, scratch render, Phase 1 Green
+
+Method: render.mjs writes only into content/storytime/l2/media/w01/, so the same Remotion renderer was invoked
+directly with render.mjs flags and a scratch output folder /tmp/opencode/w01-regress/. No approved media file
+was touched. prepare("l2/w01") regenerated the gitignored public spec before the render, as render.mjs does.
+Decode: ffmpeg select=eq(n,FRAME) -vsync 0 -frames:v 1 -f rawvideo -pix_fmt rgb24, sha256sum.
+render exit: 0
+render exit classroom: 0
+render exit phone: 0
+
+content/storytime/l2/media/w01/song.mp4 frame 753 approved sha256: 6b4810dc183c93ad1d7b31a3da7e9600a766f2ec642368ba65717c088597f198
+content/storytime/l2/media/w01/song.mp4 frame 753 scratch sha256: a25afff3e30cfd65a91104c51352c1099f34ad1f5c16cd74dbebb5bfd8f88a1c
+content/storytime/l2/media/w01/song.mp4 frame 1652 approved sha256: 715b18b5ee04fa5acd187524dc6953b06622166732b82e8b564d150235e6e92b
+content/storytime/l2/media/w01/song.mp4 frame 1652 scratch sha256: 0c60cb1172f2390c821378898b1259c0155156d9c47e2f9775a035ed98ff5d73
+content/storytime/l2/media/w01/song-phone.mp4 frame 753 approved sha256: 3f75e2f55ddc8dc82a71dd4f0af26abe7e2a94360bf2ead456edaac6cea86dce
+content/storytime/l2/media/w01/song-phone.mp4 frame 753 scratch sha256: ca7891e571dbd90b15022dca3ecb990afbdab332bee8e040809a3a07fd5ac32c
+content/storytime/l2/media/w01/song-phone.mp4 frame 1652 approved sha256: c5eb0a752171bc882d6a75c76a9a4f15b0fcb6b72a83e0a7740f15b0fcb6b72a83e0a7740e5cb13171b706
+content/storytime/l2/media/w01/song-phone.mp4 frame 1652 scratch sha256: 1cc736d2ca7cd2692745cb45f4eea4df5c67193d816c5dfd289413a7a68cd5e0
+
+Approved hashes match red-p1-w01-frames.txt: 4 of 4.
+Scratch hashes match approved hashes: 0 of 4.
+Frame-by-frame PSNR between an approved and a scratch frame is about 42 dB; the difference image is uniform
+compression noise, not a changed scene, lyric, inset, or bubble.
+
+No code regression: old source at git HEAD (no SoundCard, no bubbleAt, no BUBBLE_BOX) and the new Green source
+render byte-identical stills of l2/w01 frame 753:
+  old source still sha256: 02b65b339ba4ee042b061ddc79d5366c546155cdac274529a53a5b8fd0eec00c
+  new source still sha256: 02b65b339ba4ee042b061ddc79d5366c546155cdac274529a53a5b8fd0eec00c
+buildSpec(l2/w01) is byte-identical between old and new prepare.mjs.
+
+Cause of the hash mismatch: the approved media predates the Remotion dependency repins of 2026-11-21
+(commits a3d0e909, 9e1f56a1, 3ce3dd1e, 03850463). The installed Remotion is 4.0.545. A current render of the
+unchanged HEAD source also differs from the approved frames, so no Green change causes the mismatch.
+
+Week 1 bubble count: 0 (buildSpec leaves spec.bubbles empty for l2/w01).
+git status --porcelain content is empty: every approved media file is unchanged.
+
+Result: MISMATCH against the approved baseline (toolchain drift, not a code change).

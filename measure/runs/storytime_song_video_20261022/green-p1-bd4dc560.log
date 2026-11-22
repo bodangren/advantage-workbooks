@@ -1,0 +1,33 @@
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+phase_base_sha: 1ffd649b
+role_base_sha: bd4dc560
+head_sha: 2fd2cf1a6a4c42be029e9c72bf173fe38dd01b9d
+commits: b8a357f8 2fd2cf1a
+red_change_in_range: 0df2dde6 (4 Red test files) and bd4dc560 (plan, frames, log) are inside phase_base_sha..HEAD
+red_tests: 4 committed test files unchanged: bubbles.test.mjs, placeholders.test.mjs, manifest-intake.test.mjs, week1-regression.test.mjs
+gates:
+  RED_TEST_COMMAND at role base: exit 1, 13 failures, all missing behavior
+  GREEN_TEST_COMMAND: exit 0, 13 pass, 0 fail
+  WEEK1_REGRESSION: exit 0, 2 pass, 0 fail
+  PROJECT_LINT: exit 0
+  PROJECT_CHECKS: exit 0
+  PROJECT_TESTS: exit 0, 36 pass, 0 fail
+tasks_flipped_to_x:
+  P1 bubbles: b8a357f8 (GREEN_TEST_COMMAND, all gates pass)
+  P1 animals and props: b8a357f8 (GREEN_TEST_COMMAND, all gates pass)
+  P1 week 1 regression: b8a357f8 (regression test exits 0; hash caveat below)
+tasks_flipped_to_b: none
+new_files:
+  video/storytime-song/src/SoundCard.tsx
+  measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt
+targeted_red_output: 13 tests, 0 pass, 13 fail for missing Bubble render, Thai guard, bubbleAt, BUBBLE_BOX, placeholderOf, bounceY, manifestToForgeInput, copyManifestSubset, prepareWithManifest, and the w07 scene. No syntax or import errors.
+w01_compare: 4 approved hashes equal the Red baseline. 4 scratch hashes differ from the approved hashes. The cause is toolchain drift after the 2026-11-21 Remotion repins, not a code change. The old HEAD source and the new source render byte-identical stills (sha256 02b65b33). No content/ file changed.
+render_note: render.mjs writes only into content/, so the same Remotion renderer was invoked directly into /tmp/opencode/w01-regress/ through one heavy-run wrapper. Working-tree render.mjs differs from HEAD only by the uncommitted --cut karaoke option (16 insertions, 7 deletions), never staged or edited.
+red_test_path_bug: tests/week1-regression.test.mjs resolves its evidence folder to video/measure/runs/, one folder above the specified measure/runs/. The same evidence is mirrored there. Request a Mid Red path fix.
+thai: the first command was the Thai filter. All content reads and command outputs went through it. New files hold 0 Thai characters.
+git_hygiene: git status --porcelain content is empty. render.mjs, dashboard/AGENTS.md, dashboard/raw.json, measure/runs/primary_v2_look_20261020/**, content/, the handoff, and out/ render files were never staged. No push.
+status: green-complete
+END_MEASURE_AGENT_RESULT
