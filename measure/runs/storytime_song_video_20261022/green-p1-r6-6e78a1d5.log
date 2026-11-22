@@ -1,0 +1,58 @@
+Green round 6 log for Phase 1 at role base 6e78a1d5
+
+Role base: 6e78a1d5109bb93bd499f8bc3fc9a6188ea89afc (HEAD confirmed before edits)
+Phase base: 1ffd649b83df6f1f6625351d8da4afd5ee1ca513
+Adversarial round 1: FAIL at 8497d776; 5 of 11 tests failed.
+HEAD at implementation commit: 10e025f382204896b902ff0696d1996c39ddc3d4
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. All committed files hold 0 Thai characters. `git status --porcelain content` is empty. The handoff folder stayed read-only. render.mjs, content, out/, and untracked review files were never edited or staged.
+
+Findings and fixes:
+- ADV-P1-2a (Nit F3): `src/SoundCard.tsx` now sets `overflowWrap: "anywhere"` on the bubble text. Long unbroken sound text wraps inside `BUBBLE_BOX`.
+- ADV-P1-3 (Nit F2): `readManifestRows` rejects a path with "..", an absolute path, a file that is absent on disk, a duplicate row, and a cut-out row whose character has no `listen.png` front. Each rejection has a clear error.
+- ADV-P1-4a (Blocker F1): the production copy compares digests case-insensitively. Strict hex format validation rejects padded values.
+- ADV-P1-4b / 4c (Blocker F1): a wrong or padded digest removes the whole week output folder before the error is rethrown. No partial or stale output survives a failed refresh.
+- ADV-P1-4d, ADV-P1-5, ADV-P1-6, ADV-P1-1, ADV-P1-2b, ADV-P1-7 stay green. The inset, cast-only cut-outs, Lily placeholder, missing-handoff behaviour, per-week subsets, and week 1 output are unchanged.
+
+Targeted adversarial command (one heavy-run wrapper, no nesting):
+set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/adversarial-p1.test.mjs
+ADVERSARIAL_EXIT: 0 (11 tests, 0 fail)
+
+Gates, each once through ONE heavy-run wrapper, no nesting:
+GREEN_TEST_COMMAND: exit 0 (24 tests, 0 fail)
+PROJECT_LINT (npm run lint): exit 0
+PROJECT_CHECKS (npx tsc --noEmit): exit 0
+PROJECT_TESTS (npm test): exit 0 (56 tests, 0 fail)
+
+Week 1 evidence: green-p1-r2-w01-evidence.py was rerun in full after the SoundCard style change. The script archives phase base 1ffd649b into /tmp/opencode/w01-base, runs prepare in each tree, renders the base stills from base-tree prepare output and base-tree public assets, and hashes decoded raw rgb24 frames.
+Evidence exit: 0.
+same-toolchain pairs equal: 4 of 4.
+toolchain drift approved vs current match count: 0 of 4.
+toolchain drift PSNR dB: 35.332.
+render exit classroom: 0; render exit phone: 0.
+prepare snapshot spec sha256: 83f45092cd3047d25ee58249b0677e3e5cf43045d496c2d545f052173b4d8487
+prepare full w01 spec sha256: 31067c1580ad9a1f100314913b3e5758f25dda6016f280f745e61d5105ccd17a
+base stills source: base-tree prepare output and base-tree public assets
+Result: PASS
+
+Handoff folder (/home/daniebo/Desktop/handoff/storytime-song-art), read-only:
+before all commands: 110 files, MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759
+after all commands: 110 files, MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759
+
+New files added this round: measure/runs/storytime_song_video_20261022/green-p1-r6-6e78a1d5.log. Product code changed: video/storytime-song/scripts/prepare.mjs and video/storytime-song/src/SoundCard.tsx. Regenerated evidence: measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+baseline_sha: 1ffd649b
+role_base_sha: 6e78a1d5
+head_sha: 10e025f382204896b902ff0696d1996c39ddc3d4
+commits: 10e025f3 implementation; the plan-evidence commit that holds this log
+tests: tests/adversarial-p1.test.mjs tests/week1-regression.test.mjs
+files: video/storytime-song/scripts/prepare.mjs video/storytime-song/src/SoundCard.tsx measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt measure/tracks/storytime_song_video_20261022/plan.md
+gates: ADVERSARIAL 0 (11 tests); GREEN_TEST_COMMAND 0 (24 tests); PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (56 tests)
+evidence: same-toolchain pairs 4 of 4 equal; Result PASS
+handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after
+status: green-complete
+END_MEASURE_AGENT_RESULT
