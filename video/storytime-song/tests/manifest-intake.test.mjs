@@ -113,7 +113,17 @@ test("T2.4 the adapter maps the TSV to forgeSpec and falls back for Lily", () =>
   assert.deepEqual(input.foot, sceneManifest.footPoint);
   assert.ok(input.cast.pat && input.cast.sam && input.cast.mia && input.cast.may, "cast fronts missing");
   assert.ok(!input.cast.lily, "Lily must stay a placeholder");
-  assert.equal(Object.keys(input.framesByGesture || {}).length > 0, true);
+  assert.ok(!("framesByGesture" in input), "adapter must not leak handoff slug groups");
+  assert.ok(input.gestures && typeof input.gestures === "object", "adapter must map gestures by package name");
+  const bow = input.gestures.bow || [];
+  console.log(`Bow frame count: ${bow.length}`);
+  assert.equal(bow.length, 4);
+  assert.equal((input.gestures["hug self"] || []).length, 4);
+  assert.equal((input.gestures.listen || []).length, 4);
+  for (const p of [...bow, ...(input.idle || [])]) {
+    assert.ok(!path.isAbsolute(p), `gesture path must stay project-relative: ${p}`);
+  }
+  assert.ok(Array.isArray(input.idle) && input.idle.length > 0, "adapter must return the idle frame list");
 });
 
 test("T2.5 w07 has no stage file and uses the classroom scene", () => {

@@ -97,18 +97,28 @@ test("A-F4 the intake copy runs into a temp project folder and skips Lily", () =
   const byFile = new Map(rows.map((ln) => { const [file, , , sha] = ln.split("\t"); return [file, sha]; }));
   const w02 = readWeek("l2/w02");
   const input = manifestToForgeInput(HANDOFF);
-  const wanted = usedArt(buildSpec(w02, 60)).actors.filter((a) => input.cast[a.toLowerCase()]).map((a) => path.relative(HANDOFF, input.cast[a.toLowerCase()]));
-  const unique = [...new Set(wanted)];
-  console.log(`W02 copy file count: ${unique.length}`);
-  assert.ok(unique.length > 0, "no week files to copy");
-  assert.ok(!unique.some((f) => f.toLowerCase().includes("lily")), "Lily must never be copied");
+  const covered = usedArt(buildSpec(w02, 60)).actors.filter((a) => input.cast[a.toLowerCase()]);
+  console.log(`W02 covered actor count: ${covered.length}`);
+  assert.ok(covered.length > 0, "no covered actors");
+  assert.ok(covered.includes("Pat"), "w02 must cover Pat");
+  for (const name of covered) {
+    const p = input.cast[name.toLowerCase()];
+    assert.ok(!path.isAbsolute(p), `adapter cast path must stay project-relative: ${p}`);
+    assert.ok(p.startsWith("forge/"), `adapter cast path must sit under the forge base: ${p}`);
+  }
+  const manifestRels = [...new Set(covered.map((name) => input.cast[name.toLowerCase()].slice("forge/".length)))];
+  console.log(`W02 copy file count: ${manifestRels.length}`);
+  assert.ok(!manifestRels.some((f) => f.toLowerCase().includes("lily")), "Lily must never be copied");
+  for (const name of covered) {
+    assert.equal(input.cast[name.toLowerCase()], `forge/${manifestRels.find((rel) => byFile.get(rel) && rel.endsWith(`/${name.toLowerCase()}/listen.png`))}`, `${name} copy must match the adapter cast path directly`);
+  }
   const before = [...byFile.keys()].map((f) => `${f} ${fs.statSync(path.join(HANDOFF, f)).mtimeMs}`);
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "w02-intake-"));
-  const copied = copyManifestSubset(HANDOFF, tmp, unique);
-  assert.deepEqual(copied, unique, "copyManifestSubset must return the project-relative copies (Red r3 A-F4)");
+  const copied = copyManifestSubset(HANDOFF, tmp, manifestRels);
+  assert.deepEqual(copied, manifestRels, "copyManifestSubset must return the project-relative copies (Red r3 A-F4)");
   const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(path.join(dir, e.name)) : [path.relative(tmp, path.join(dir, e.name))]);
-  assert.deepEqual(walk(tmp).sort(), unique.sort(), "temp folder must hold only the week files");
-  for (const rel of unique) {
+  assert.deepEqual(walk(tmp).sort(), manifestRels.sort(), "temp folder must hold only the week files");
+  for (const rel of manifestRels) {
     const sha = crypto.createHash("sha256").update(fs.readFileSync(path.join(tmp, rel))).digest("hex");
     assert.equal(sha, byFile.get(rel), `sha256 mismatch for copied ${rel}`);
   }
