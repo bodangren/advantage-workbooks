@@ -1,0 +1,31 @@
+Red round 4 log: bounded A-F3 test fix at ac3a7c20
+Role base: ac3a7c20 (HEAD confirmed before edits)
+Phase base: 1ffd649b (resolves to a commit)
+HEAD at test run: ac3a7c20
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. The edited test file holds 0 Thai characters. The handoff folder stayed read-only. scripts/render.mjs was read to confirm line 44 and never edited or staged.
+
+Green r3 stopped before any change: the r3 A-F3 test asserted render.mjs source text contains prepareWithManifest. render.mjs holds another owner's uncommitted edit, so it cannot change in this phase, and a source-string check proves no behaviour. Orchestrator decision (Green option 1): test the entry point render.mjs:44 calls.
+
+Change: A-F3 now calls prepare("l2/w02"), the exact function committed render.mjs:44 invokes, and asserts the returned spec carries Forge art from MANIFEST.tsv for Pat with project-relative paths, placeholders for Ben and Nan through resolveActorArt, and an unchanged handoff folder. One structural check on the committed render.mjs line stays: HEAD:video/storytime-song/scripts/render.mjs contains prepare(rel). Every other assertion is unchanged.
+
+RED command (unchanged file set):
+set -o pipefail; cd video/storytime-song && node --test tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs
+Run through ONE heavy-run wrapper, no nesting.
+RED_R4_EXIT: 1
+Tests: 18 total, 13 pass, 5 fail.
+Failing: A-F1 (missing resolveActorArt fallback), A-F2 (missing gestures map), A-F3 (w02 spec.art is placeholder, want forge), A-F4 (absolute copy returns), A-note (no snapshot line in evidence). No syntax or import errors occurred.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+baseline_sha: 1ffd649b
+role_base_sha: ac3a7c20
+head_sha: ac3a7c20
+commits: 570ba80e plus the plan commit that holds this log
+tests: tests/forge-contracts.test.mjs
+files: video/storytime-song/tests/forge-contracts.test.mjs measure/tracks/storytime_song_video_20261022/plan.md
+remaining_failures: A-F1 A-F2 A-F3 A-F4 A-note
+status: red-complete
+END_MEASURE_AGENT_RESULT
