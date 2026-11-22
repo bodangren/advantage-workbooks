@@ -40,6 +40,7 @@ export const SoundCard: React.FC<{ spec: Spec; portrait?: boolean }> = ({
         fontSize: portrait ? 48 : 60,
         fontWeight: 700,
         textAlign: "center",
+        overflowWrap: "anywhere",
       }}
     >
       {bubble.text}

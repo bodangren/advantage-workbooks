@@ -274,16 +274,37 @@ function approvedInset() {
 }
 
 /**
- * Reads the manifest of the read-only handoff (one row per ready file).
+ * Reads and validates the manifest of the read-only handoff (one row per ready file).
+ * A row must name an existing file inside the handoff, appear once, and carry a bare 64-digit hex digest.
  * @param {string} handoffDir The handoff folder.
  * @returns {{file: string, who: string, commit: string, sha: string}[]} The rows of the TSV.
  */
 function readManifestRows(handoffDir) {
   const tsv = fs.readFileSync(path.join(handoffDir, "MANIFEST.tsv"), "utf8");
-  return tsv.trim().split("\n").slice(1).map((line) => {
+  const root = path.resolve(handoffDir);
+  const seen = new Set();
+  const rows = tsv.trim().split("\n").slice(1).map((line) => {
     const [file, who, commit, sha] = line.split("\t");
+    const escapes = !file || path.isAbsolute(file) || file.split(/[\\/]/).includes("..") ||
+      !path.resolve(root, file).startsWith(root + path.sep);
+    if (escapes) throw new Error(`unsafe manifest path ${file}`);
+    if (seen.has(file)) throw new Error(`duplicate manifest row ${file}`);
+    seen.add(file);
+    if (!fs.existsSync(path.join(root, file)))
+      throw new Error(`missing manifest file ${file}`);
+    if (!/^[0-9a-fA-F]{64}$/.test(sha ?? ""))
+      throw new Error(`invalid sha256 in manifest row ${file}`);
     return { file, who, commit, sha };
   });
+  // A character with cut-out rows must also carry its "listen" front; an absent front is a missing manifest file.
+  for (const { file } of rows) {
+    const cutout = file.match(/^cutouts\/([^/]+)\/[^/]+\.png$/);
+    if (!cutout) continue;
+    const front = `cutouts/${cutout[1]}/listen.png`;
+    if (!fs.existsSync(path.join(root, front)))
+      throw new Error(`missing manifest file ${front}`);
+  }
+  return rows;
 }
 
 /** The folder that receives handoff copies under public/, as a project-relative path. */
@@ -383,52 +404,59 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
     cutouts.add(file);
     cast[name] = `${rel}/${art.file}`;
   }
-  const dest = path.join(PROJECT, "public", rel, FORGE_BASE);
-  fs.rmSync(dest, { recursive: true, force: true });
-  copyManifestSubset(handoffDir, dest, [...cutouts]);
-  // The production copy fails on a handoff file whose bytes no longer match its manifest row.
-  const shas = new Map(readManifestRows(handoffDir).map((row) => [row.file, row.sha]));
-  for (const file of cutouts) {
-    const actual = createHash("sha256")
-      .update(fs.readFileSync(path.join(dest, file)))
-      .digest("hex");
-    if (shas.get(file) !== actual)
-      throw new Error(`sha256 mismatch for ${file} in the handoff manifest`);
-  }
-  // The handoff changes the actor row only. Gesture and idle frames stay the approved Adventurer inset.
-  if (Object.keys(cast).length) {
-    const inset = approvedInset();
-    for (const file of [...Object.values(inset.gestures).flat(), ...inset.idle]) {
-      const src = path.join(INSET_SOURCE, manifestRel(file));
-      const dst = path.join(dest, manifestRel(file));
-      fs.mkdirSync(path.dirname(dst), { recursive: true });
-      fs.copyFileSync(src, dst);
-    }
-    const gestures = Object.fromEntries(
-      Object.entries(inset.gestures).map(([name, list]) => [
-        name,
-        list.map((file) => `${rel}/${file}`),
-      ]),
-    );
-    spec.art = "forge";
-    spec.forge = {
-      scale: adapter.scale,
-      canvas: adapter.canvas,
-      foot: adapter.foot,
-      cast,
-      gestures,
-      idle: inset.idle.map((file) => `${rel}/${file}`),
-      gestureBox: adapter.gestureBox,
-      scenes: {},
-    };
-  }
   const out = path.join(PROJECT, "public", rel);
-  fs.mkdirSync(out, { recursive: true });
-  fs.copyFileSync(audio, path.join(out, "song.mp3"));
-  spec.audio = `${rel}/song.mp3`;
-  const file = path.join(out, "spec.json");
-  fs.writeFileSync(file, JSON.stringify(spec, null, 1) + "\n");
-  return file;
+  const dest = path.join(out, FORGE_BASE);
+  try {
+    fs.rmSync(dest, { recursive: true, force: true });
+    copyManifestSubset(handoffDir, dest, [...cutouts]);
+    // The production copy fails on a handoff file whose bytes no longer match its manifest row.
+    // Hex digests compare without regard to case; a padded or malformed digest is rejected at intake.
+    const shas = new Map(readManifestRows(handoffDir).map((row) => [row.file, row.sha.toLowerCase()]));
+    for (const file of cutouts) {
+      const actual = createHash("sha256")
+        .update(fs.readFileSync(path.join(dest, file)))
+        .digest("hex");
+      if (shas.get(file) !== actual)
+        throw new Error(`sha256 mismatch for ${file} in the handoff manifest`);
+    }
+    // The handoff changes the actor row only. Gesture and idle frames stay the approved Adventurer inset.
+    if (Object.keys(cast).length) {
+      const inset = approvedInset();
+      for (const file of [...Object.values(inset.gestures).flat(), ...inset.idle]) {
+        const src = path.join(INSET_SOURCE, manifestRel(file));
+        const dst = path.join(dest, manifestRel(file));
+        fs.mkdirSync(path.dirname(dst), { recursive: true });
+        fs.copyFileSync(src, dst);
+      }
+      const gestures = Object.fromEntries(
+        Object.entries(inset.gestures).map(([name, list]) => [
+          name,
+          list.map((file) => `${rel}/${file}`),
+        ]),
+      );
+      spec.art = "forge";
+      spec.forge = {
+        scale: adapter.scale,
+        canvas: adapter.canvas,
+        foot: adapter.foot,
+        cast,
+        gestures,
+        idle: inset.idle.map((file) => `${rel}/${file}`),
+        gestureBox: adapter.gestureBox,
+        scenes: {},
+      };
+    }
+    fs.mkdirSync(out, { recursive: true });
+    fs.copyFileSync(audio, path.join(out, "song.mp3"));
+    spec.audio = `${rel}/song.mp3`;
+    const file = path.join(out, "spec.json");
+    fs.writeFileSync(file, JSON.stringify(spec, null, 1) + "\n");
+    return file;
+  } catch (error) {
+    // A failed refresh leaves no partial or stale week output behind.
+    fs.rmSync(out, { recursive: true, force: true });
+    throw error;
+  }
 }
 
 /**
