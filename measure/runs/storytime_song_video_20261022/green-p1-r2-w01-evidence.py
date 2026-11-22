@@ -18,6 +18,7 @@ OUT = "/tmp/opencode/w01-r2"
 RUNS = os.path.join(REPO, "measure/runs/storytime_song_video_20261022")
 BASELINE = os.path.join(RUNS, "red-p1-w01-frames.txt")
 EVIDENCE = os.path.join(RUNS, "green-p1-w01-compare.txt")
+FIXTURE = os.path.join(REPO, "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json")
 PHASE_BASE = "1ffd649b"
 PROPS = '{"week":"l2/w01","spec":null}'
 CHROME = "/usr/bin/google-chrome"
@@ -137,6 +138,10 @@ def main():
 
     lines.append("render exit classroom: %d" % exits["classroom"])
     lines.append("render exit phone: %d" % exits["phone"])
+
+    with open(FIXTURE, "rb") as handle:
+        snapshot = hashlib.sha256(handle.read()).hexdigest()
+    lines.append("prepare snapshot spec sha256: %s" % snapshot)
 
     for media, frame, baseline_sha in baseline_rows():
         actual = approved_hashes[(media, frame)]
