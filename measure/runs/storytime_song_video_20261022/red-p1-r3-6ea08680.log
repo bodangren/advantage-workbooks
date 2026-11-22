@@ -1,0 +1,66 @@
+Red round 3 log for reviews A and C at 6ea08680
+Role base: 6ea08680 (HEAD confirmed before edits)
+Phase base: 1ffd649b (resolves to a commit)
+HEAD at test run: 6ea08680
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. All new and edited files hold 0 Thai characters. The handoff folder stayed read-only; no write, move, or delete there.
+
+Reviews read through the filter (0 Thai in both files):
+- review-a-p1-6ea08680.json: status fail. Blockers F1 (missing-cast fallback crashes on staticFile(forge.cast[name])) and F2 (adapter returns absolute handoff paths with framesByGesture, not the ForgeArt shape). Majors F3 (prepareWithManifest never called; render.mjs calls prepare) and F4 (intake tests never run the intake; T1.7 checks the classroom box).
+- review-c-p1-6ea08680.json: status fail. Blocker F1 (manifest intake unreachable, wrong ForgeArt shape, untested fallbacks).
+
+New Red tests (all fail now for missing behaviour, no syntax or import errors):
+- tests/forge-contracts.test.mjs A-F1: w04 actors Lily, Mom, Dad, Grandma, Grandpa, Tom lack cut-outs. Missing resolveActorArt(name, forge) per-actor fallback. Actors.tsx guards nothing before staticFile(forge.cast[name]).
+- tests/forge-contracts.test.mjs A-F2: adapter returns framesByGesture with absolute handoff paths. Missing gestures, idle, gestureBox, and scenes maps of src/types.ts.
+- tests/forge-contracts.test.mjs A-F3: prepare(rel), the entry render.mjs calls, never consults MANIFEST.tsv. prepareWithManifest has no caller on the render path.
+- tests/forge-contracts.test.mjs A-F4: copyManifestSubset returns absolute temp paths instead of project-relative copies. Temp copy, sha256 equality, handoff-unchanged, and Lily skip are asserted around it.
+- tests/prepare-snapshot.test.mjs A-note: buildSpec(l2/w01) from current prepare.mjs already equals the phase-base fixture (satisfied with evidence: current output matches 1ffd649b output for week 1). The test fails because green-p1-w01-compare.txt carries no labeled prepare snapshot line.
+
+Fixed existing test (passes, correction only):
+- tests/bubbles.test.mjs T1.7 now checks box.portrait against the portrait lyric and gesture boxes and the 607.5 px scene band.
+
+New fixture (0 Thai, committed):
+- tests/fixtures/w01-spec-1ffd649b.json from tests/fixtures/generate-w01-fixture.mjs, which imports git show 1ffd649b:video/storytime-song/scripts/prepare.mjs with its phase-base forge.mjs and builds buildSpec on the Thai-stripped w01 input at duration 85.37.
+
+RED command (updated in plan.md and test-strategy.md gate blocks):
+set -o pipefail; cd video/storytime-song && node --test tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs
+Run through ONE heavy-run wrapper, no nesting.
+RED_R3_EXIT: 1
+Tests: 18 total, 13 pass, 5 fail.
+Failing: A-F1, A-F2, A-F3, A-F4, A-note (listed above with exact assertions).
+Passing (already satisfied): T1.1-T1.7, T1.5, T1.6, T2.1-T2.6, and the snapshot equality premise inside A-note.
+
+Evidence lines Green must write (exact labeled format, one per line):
+same-toolchain content/storytime/l2/media/w01/song.mp4 frame 753 base sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song.mp4 frame 753 new sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song.mp4 frame 1652 base sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song.mp4 frame 1652 new sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 753 base sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 753 new sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 1652 base sha256: <64hex>
+same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 1652 new sha256: <64hex>
+prepare snapshot spec sha256: <sha256 of tests/fixtures/w01-spec-1ffd649b.json file bytes>
+render exit classroom: 0
+render exit phone: 0
+Result: PASS
+
+Green handoff:
+- Add resolveActorArt(name, forge) in scripts/prepare.mjs (or the module Green owns): kind forge for present cast, kind placeholder for Lily, Ben, and the w04 family. Use it in prepareWithManifest and in Actors.tsx before staticFile.
+- Return the ForgeArt shape from manifestToForgeInput: scale, canvas, foot, cast, gestures, idle, gestureBox, scenes, all paths project-relative. Drop framesByGesture and absolute handoff paths.
+- Wire the render path: prepare(rel) consults MANIFEST.tsv (or render.mjs reaches prepareWithManifest) so w02 prepares Forge art with project-relative Pat paths.
+- Make copyManifestSubset return the project-relative copies it wrote.
+- Record the prepare snapshot sha256 line in green-p1-w01-compare.txt.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+baseline_sha: 1ffd649b
+role_base_sha: 6ea08680
+head_sha: 6ea08680
+commits: f8c67007 plus the plan commit that holds this log
+tests: tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/bubbles.test.mjs
+files: video/storytime-song/tests/forge-contracts.test.mjs video/storytime-song/tests/prepare-snapshot.test.mjs video/storytime-song/tests/fixtures/generate-w01-fixture.mjs video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json video/storytime-song/tests/bubbles.test.mjs measure/tracks/storytime_song_video_20261022/test-strategy.md measure/tracks/storytime_song_video_20261022/plan.md
+remaining_failures: A-F1 A-F2 A-F3 A-F4 A-note
+status: red-complete
+END_MEASURE_AGENT_RESULT
