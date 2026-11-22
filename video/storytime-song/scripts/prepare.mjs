@@ -274,8 +274,33 @@ function approvedInset() {
 }
 
 /**
+ * Refuses a symlink at the handoff root or in any component of a manifest file path. The final target must be a
+ * regular file; no copy can then import bytes from outside the read-only handoff.
+ * @param {string} root The handoff folder.
+ * @param {string} rel The manifest-relative file path.
+ * @returns {void}
+ */
+function assertRegularHandoffFile(root, rel) {
+  const rootStat = fs.lstatSync(root);
+  if (rootStat.isSymbolicLink()) throw new Error(`symlink refused in handoff root ${root}`);
+  let current = path.resolve(root);
+  let stat = rootStat;
+  for (const part of rel.split("/")) {
+    current = path.join(current, part);
+    try {
+      stat = fs.lstatSync(current);
+    } catch (error) {
+      if (error.code === "ENOENT") throw new Error(`missing manifest file ${rel}`);
+      throw error;
+    }
+    if (stat.isSymbolicLink()) throw new Error(`symlink refused in manifest path ${rel}`);
+  }
+  if (!stat.isFile()) throw new Error(`manifest file is not regular ${rel}`);
+}
+
+/**
  * Reads and validates the manifest of the read-only handoff (one row per ready file).
- * A row must name an existing file inside the handoff, appear once, and carry a bare 64-digit hex digest.
+ * A row must name a canonical, existing regular file inside the handoff, appear once, and carry a bare hex digest.
  * @param {string} handoffDir The handoff folder.
  * @returns {{file: string, who: string, commit: string, sha: string}[]} The rows of the TSV.
  */
@@ -288,10 +313,11 @@ function readManifestRows(handoffDir) {
     const escapes = !file || path.isAbsolute(file) || file.split(/[\\/]/).includes("..") ||
       !path.resolve(root, file).startsWith(root + path.sep);
     if (escapes) throw new Error(`unsafe manifest path ${file}`);
+    if (file.includes("\\") || file !== path.posix.normalize(file) || file.startsWith("."))
+      throw new Error(`noncanonical manifest path ${file}`);
     if (seen.has(file)) throw new Error(`duplicate manifest row ${file}`);
     seen.add(file);
-    if (!fs.existsSync(path.join(root, file)))
-      throw new Error(`missing manifest file ${file}`);
+    assertRegularHandoffFile(root, file);
     if (!/^[0-9a-fA-F]{64}$/.test(sha ?? ""))
       throw new Error(`invalid sha256 in manifest row ${file}`);
     return { file, who, commit, sha };
@@ -301,8 +327,7 @@ function readManifestRows(handoffDir) {
     const cutout = file.match(/^cutouts\/([^/]+)\/[^/]+\.png$/);
     if (!cutout) continue;
     const front = `cutouts/${cutout[1]}/listen.png`;
-    if (!fs.existsSync(path.join(root, front)))
-      throw new Error(`missing manifest file ${front}`);
+    assertRegularHandoffFile(root, front);
   }
   return rows;
 }
@@ -327,6 +352,7 @@ const manifestRel = (file) =>
  */
 export function manifestToForgeInput(handoffDir = artDir()) {
   if (!fs.existsSync(path.join(handoffDir, "MANIFEST.tsv"))) return null;
+  assertRegularHandoffFile(handoffDir, "scenes/w04/manifest.json");
   const sceneManifest = JSON.parse(
     fs.readFileSync(path.join(handoffDir, "scenes/w04/manifest.json"), "utf8"),
   );
@@ -395,6 +421,23 @@ function weekOutDir(rel) {
   const out = path.resolve(root, rel);
   if (!out.startsWith(root + path.sep))
     throw new Error(`invalid week output ${out}; manifest integrity guard refuses the path`);
+  // A symlink at any level would redirect a delete or a write outside the video project. Refuse it before any I/O.
+  let current = path.resolve(PROJECT);
+  const relative = path.relative(current, out);
+  if (relative.startsWith("..") || path.isAbsolute(relative))
+    throw new Error(`invalid week output ${out}; manifest integrity guard refuses the path`);
+  for (const part of relative.split(path.sep).filter(Boolean)) {
+    current = path.join(current, part);
+    let stat;
+    try {
+      stat = fs.lstatSync(current);
+    } catch (error) {
+      if (error.code === "ENOENT") break;
+      throw error;
+    }
+    if (stat.isSymbolicLink())
+      throw new Error(`symlink refused in week output path ${current}`);
+  }
   return out;
 }
 
@@ -465,10 +508,29 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
         scenes: {},
       };
     }
-    // Swap only after every digest passes. The week's spec and audio are never touched on a forge failure.
-    fs.rmSync(dest, { recursive: true, force: true });
-    fs.mkdirSync(out, { recursive: true });
-    fs.renameSync(stage, dest);
+    // Swap only after every digest passes. Move the last good set aside, then restore it if the swap fails.
+    const tag = `${process.pid}-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
+    const backup = path.join(parent, `.forge-backup-${path.basename(out)}-${tag}`);
+    let movedOld = false;
+    try {
+      if (fs.existsSync(dest)) {
+        fs.renameSync(dest, backup);
+        movedOld = true;
+      }
+      fs.mkdirSync(out, { recursive: true });
+      fs.renameSync(stage, dest);
+    } catch (error) {
+      if (movedOld) {
+        try {
+          fs.rmSync(dest, { recursive: true, force: true });
+          fs.renameSync(backup, dest);
+        } catch {
+          // Keep the original swap failure as the reported error.
+        }
+      }
+      throw error;
+    }
+    fs.rmSync(backup, { recursive: true, force: true });
   } catch (error) {
     fs.rmSync(stage, { recursive: true, force: true });
     throw error;
