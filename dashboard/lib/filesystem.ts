@@ -227,27 +227,67 @@ export async function writeProjectMetadata(projectId: string, metadata: ProjectM
   assertSafePath(fullPath, metadataPath);
 
   // A write with no look keeps the look of the project. A shipped edition states its look.
-  const merged: ProjectMetadata = metadata.look === undefined
-    ? { ...metadata, ...(await readProjectLook(metadataPath)) }
+  // A look of null counts as no look.
+  const stored = await readProjectLook(metadataPath);
+  const merged: ProjectMetadata = metadata.look === undefined || metadata.look === null
+    ? { ...metadata, look: stored.look }
     : metadata;
 
-  await fs.writeFile(metadataPath, JSON.stringify(merged, null, 2), 'utf-8');
+  await writeFileAtomic(metadataPath, JSON.stringify(merged, null, 2));
 }
 
 /**
- * Reads the look of a project.json file. A file that is missing, unreadable, or not an object
- * has no look.
+ * Writes a file in one step: a temporary file in the same folder, then a rename. A reader
+ * sees the old file or the new file, never a truncated file.
+ * @param target The path of the file to write.
+ * @param data The content of the file.
+ */
+async function writeFileAtomic(target: string, data: string): Promise<void> {
+  const temp = `${target}.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  try {
+    await fs.writeFile(temp, data, 'utf-8');
+    await fs.rename(temp, target);
+  } catch (error) {
+    await fs.rm(temp, { force: true }).catch(() => undefined);
+    throw error;
+  }
+}
+
+/**
+ * Thrown when the project.json of a project exists but cannot be read or parsed. The write is
+ * refused, so that the look of the project stays.
+ */
+export class ProjectMetadataUnreadableError extends Error {
+  constructor() {
+    super('The project.json of this project cannot be read. The write was refused so that the look of the project stays.');
+    this.name = 'ProjectMetadataUnreadableError';
+  }
+}
+
+/**
+ * Reads the look of a project.json file. A file that is missing has no look. A file that
+ * exists and cannot be read or parsed fails the write, so that the look of the project stays.
  * @param metadataPath The path of the project.json file.
  * @returns The look of the file, or an empty object when the file has none.
+ * @throws ProjectMetadataUnreadableError When the file exists and cannot be read or parsed.
  */
 async function readProjectLook(metadataPath: string): Promise<Pick<ProjectMetadata, 'look'>> {
+  let content: string;
   try {
-    const parsed = JSON.parse(await fs.readFile(metadataPath, 'utf-8')) as ProjectMetadata;
-    if (parsed && typeof parsed === 'object' && parsed.look !== undefined) return { look: parsed.look };
-  } catch {
-    // No readable project.json: the write starts without a look.
+    content = await fs.readFile(metadataPath, 'utf-8');
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return {};
+    throw new ProjectMetadataUnreadableError();
   }
-  return {};
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(content);
+  } catch {
+    throw new ProjectMetadataUnreadableError();
+  }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+  const look = (parsed as ProjectMetadata).look;
+  return look === undefined ? {} : { look };
 }
 
 /**
@@ -278,6 +318,43 @@ async function projectFolderExists(rootPath: string, projectId: string): Promise
   }
 }
 
+/**
+ * Whether a project id is taken in either series folder. A Primary project and a Reading
+ * Advantage project may not share an id, because the lookup finds the first folder only.
+ * @param projectId The project folder name.
+ * @returns True when a folder with that id exists in primary/ or in secondary/.
+ */
+async function projectIdExists(projectId: string): Promise<boolean> {
+  for (const subdir of SERIES_SUBDIRS) {
+    const rootPath = path.join(getWorkbooksRoot(), subdir);
+    try {
+      assertSafePath(rootPath, path.join(rootPath, projectId));
+    } catch {
+      continue;
+    }
+    if (await projectFolderExists(rootPath, projectId)) return true;
+  }
+  return false;
+}
+
+/**
+ * Makes a project folder in one step. The folder is made without the recursive flag, so that
+ * an existing folder fails at once.
+ * @param rootPath The series folder, for example `primary`.
+ * @param projectPath The path of the project folder.
+ * @param projectId The project folder name.
+ * @throws ProjectExistsError When the project folder exists.
+ */
+async function makeProjectFolder(rootPath: string, projectPath: string, projectId: string): Promise<void> {
+  await fs.mkdir(rootPath, { recursive: true });
+  try {
+    await fs.mkdir(projectPath);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'EEXIST') throw new ProjectExistsError(projectId);
+    throw error;
+  }
+}
+
 export async function createProject(options: CreateProjectOptions): Promise<WorkbookProject>;
 /** @deprecated Use the object-based signature with type and metadata fields */
 export async function createProject(name: string): Promise<WorkbookProject>;
@@ -292,9 +369,9 @@ export async function createProject(nameOrOptions: string | CreateProjectOptions
 
     assertSafePath(rootPath, projectPath);
 
-    if (await projectFolderExists(rootPath, projectId)) throw new ProjectExistsError(projectId);
+    if (await projectIdExists(projectId)) throw new ProjectExistsError(projectId);
 
-    await fs.mkdir(projectPath, { recursive: true });
+    await makeProjectFolder(rootPath, projectPath, projectId);
 
     const defaultMetadata: ProjectMetadata = {
       seriesName: 'Origins',
@@ -322,9 +399,9 @@ export async function createProject(nameOrOptions: string | CreateProjectOptions
 
   assertSafePath(rootPath, projectPath);
 
-  if (await projectFolderExists(rootPath, projectId)) throw new ProjectExistsError(projectId);
+  if (await projectIdExists(projectId)) throw new ProjectExistsError(projectId);
 
-  await fs.mkdir(projectPath, { recursive: true });
+  await makeProjectFolder(rootPath, projectPath, projectId);
 
   const metadata: ProjectMetadata = {
     seriesName,

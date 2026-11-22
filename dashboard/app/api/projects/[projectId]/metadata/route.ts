@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readProjectMetadata, writeProjectMetadata, type ProjectMetadata } from '@/lib/filesystem';
+import {
+  readProjectMetadata,
+  writeProjectMetadata,
+  ProjectMetadataUnreadableError,
+  type ProjectMetadata,
+} from '@/lib/filesystem';
 import { parseLook } from '@/lib/look';
 
 export async function GET(
@@ -62,6 +67,9 @@ export async function PUT(
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    if (error instanceof ProjectMetadataUnreadableError) {
+      return NextResponse.json({ error: error.message }, { status: 409 });
+    }
     console.error('Error writing project metadata:', error);
     return NextResponse.json(
       { error: 'Failed to write project metadata' },
