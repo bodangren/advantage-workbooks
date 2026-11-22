@@ -1,0 +1,59 @@
+Green round 8 log for Phase 1 at role base f96474ed
+
+Role base: f96474ed6dbac8926ca68d6f48bad93afb3f7785 (HEAD confirmed before edits)
+Phase base: 1ffd649b83df6f1f6625351d8da4afd5ee1ca513
+Adversarial round 3: FAIL at 56a9994e; 4 of 20 tests failed (ADV-P1-4g, 4h, 4m, 4k).
+PM 2026-11-23: round 4 go, bounded; this is the last fix round of Phase 1.
+HEAD at implementation commit: c9a45b62d8fe6245dd58dd8ef7dbbe9d0ae47380
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. All committed files hold 0 Thai characters. `git status --porcelain content` is empty. The handoff folder stayed read-only. render.mjs, content, out/, and untracked review files were never edited or staged. `ls video` shows only storytime-song.
+
+Findings and fixes:
+- ADV-P1-4g (F5): `weekOutDir` lstats every component of the week output path under the video project before any read, write or delete. A symlinked week folder is refused, so no delete or spec write can follow the link.
+- ADV-P1-4h (F6): `assertRegularHandoffFile` lstats the handoff root and each component of a manifest file path, and requires a regular file at the end. A symlink to bytes outside the handoff is refused before the copy.
+- ADV-P1-4m (F7): the swap moves the last good Forge folder to a backup name, renames staging into place, and restores the backup if the rename fails. The old folder is deleted only after the swap succeeds. A simulated rename failure leaves the prior binary byte-identical.
+- ADV-P1-4k (F8): backslash and noncanonical manifest paths are rejected with a clear error, so an actor's art is never silently dropped.
+- ADV-P1-4i, 4j and 4l stay green. N1 (stale staging folders) is recorded as tech debt at track close in the plan.
+- The inset, cast-only cut-outs, Lily placeholder, missing-handoff behaviour and week 1 output are unchanged. All destructive probes run under temporary roots. No staging or backup folder was left behind.
+
+Combined GREEN command (one heavy-run wrapper, no nesting):
+set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/week1-regression.test.mjs tests/adversarial-p1.test.mjs
+GREEN_EXIT: 0 (44 tests, 0 fail). All 20 ADV-P1 cases pass.
+
+Gates, each once through ONE heavy-run wrapper, no nesting:
+PROJECT_LINT (npm run lint): exit 0
+PROJECT_CHECKS (npx tsc --noEmit): exit 0
+PROJECT_TESTS (npm test): exit 0 (65 tests, 0 fail)
+
+Week 1 evidence: green-p1-r2-w01-evidence.py was rerun in full after the prepare.mjs change.
+Evidence exit: 0.
+same-toolchain pairs equal: 4 of 4.
+toolchain drift approved vs current match count: 0 of 4.
+toolchain drift PSNR dB: 35.332.
+render exit classroom: 0; render exit phone: 0.
+prepare snapshot spec sha256: 83f45092cd3047d25ee58249b0677e3e5cf43045d496c2d545f052173b4d8487
+prepare full w01 spec sha256: 31067c1580ad9a1f100314913b3e5758f25dda6016f280f745e61d5105ccd17a
+base stills source: base-tree prepare output and base-tree public assets
+Result: PASS
+
+Handoff folder (/home/daniebo/Desktop/handoff/storytime-song-art), read-only:
+before all commands: 110 files, MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759
+after all commands: 110 files, MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759
+
+New files added this round: measure/runs/storytime_song_video_20261022/green-p1-r8-f96474ed.log. Product code changed: video/storytime-song/scripts/prepare.mjs. The plan commit also adds the metadata.json escalation key, the Green r8 sub-bullets, and the N1 tech-debt sub-bullet.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+baseline_sha: 1ffd649b
+role_base_sha: f96474ed
+head_sha: c9a45b62d8fe6245dd58dd8ef7dbbe9d0ae47380
+commits: c9a45b62 implementation; the plan-evidence commit that holds this log
+tests: tests/adversarial-p1.test.mjs tests/week1-regression.test.mjs
+files: video/storytime-song/scripts/prepare.mjs measure/tracks/storytime_song_video_20261022/metadata.json measure/tracks/storytime_song_video_20261022/plan.md
+gates: GREEN_TEST_COMMAND 0 (44 tests); PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (65 tests)
+evidence: same-toolchain pairs 4 of 4 equal; Result PASS; render exits 0 and 0
+handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after
+status: green-complete
+END_MEASURE_AGENT_RESULT
