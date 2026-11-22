@@ -1,0 +1,17 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: c0c05a44d3cf0434e6fdff829be7425e1c823729
+test_commit: 5d639250a143b3ff0e797ddd8c76423c60deb62b
+red_kind: standard
+finding: P2-F3 framing fix will break the T1.8 same-toolchain stills; the guard now masks the inset card
+tests: video/storytime-song/tests/week1-regression.test.mjs (T1.8 masked); video/storytime-song/tests/phase2-look.test.mjs (P2-F1..F3 unchanged)
+red_command_week1: exit 1, pass 1, fail 1; T1.8 fails with `missing labeled inset mask line for classroom`; T1.9 passes
+red_command_p2look: exit 1, pass 0, fail 3; same three failures as Red P2 r1
+evidence_formats_green_must_write: `inset mask: classroom 1602 708 270 324`; `inset mask: phone 120 1032 840 856` (composition pixels; Green scales to decoded frames); `same-toolchain masked base sha256: <file> <frame>: <64hex>`; `same-toolchain masked new sha256: <file> <frame>: <64hex>`; 4 masked pairs equal; mask inside the frame and within card plus 8 px a side
+guards: no product code edit; no fixture edit; other tests untouched; approved w01 files untouched and not re-rendered; `git status --porcelain content` empty; render.mjs never staged
+files: video/storytime-song/tests/week1-regression.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/runs/storytime_song_video_20261022/red-p2-r2-c0c05a44.log
+remaining_failures: T1.8 masked evidence; P2-F1; P2-F2; P2-F3
+END_MEASURE_AGENT_RESULT
