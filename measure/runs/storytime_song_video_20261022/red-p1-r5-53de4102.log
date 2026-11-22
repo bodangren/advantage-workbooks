@@ -1,0 +1,30 @@
+Red round 5 log: bounded fix of two contradictory assertions at 53de4102
+Role base: 53de4102 (HEAD confirmed before edits)
+Phase base: 1ffd649b (resolves to a commit)
+HEAD at test run: 53de4102
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. Both edited test files hold 0 Thai characters. The handoff folder stayed read-only. No product file was edited.
+
+Green r3 (9ef34f1a) passes 16 of 18. The 2 failures are contradictions between my own tests, confirmed by the orchestrator:
+1. manifest-intake T2.4 line 116 required input.framesByGesture non-empty, but forge-contracts A-F2 forbids framesByGesture. A-F2 is the reviewed contract (ForgeArt shape, src/types.ts:22-40). src/types.ts has a gestures field keyed by package gesture name (Record<string, string[]>), and no per-character cut-out gesture field, so the same intent is now asserted through it: 4 bow, 4 hug self, and 4 listen frames, plus no framesByGesture key.
+2. forge-contracts A-F4 line 100 computed path.relative(HANDOFF, input.cast[...]), which assumes an absolute handoff path. A-F2 makes adapter paths project-relative. A-F4 now compares the copied files with the adapter project-relative cast paths directly (forge/<rel> per covered actor) and checks their sha256 against the manifest rows.
+
+Kept every other assertion.
+
+Gate run through ONE heavy-run wrapper, no nesting:
+set -o pipefail; cd video/storytime-song && node --test tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs
+GATE_EXIT: 0. Tests: 18 total, 18 pass, 0 fail. Both the RED and GREEN commands pass on the current code. That is the expected outcome for this round: Green r3 already implemented the reviewed behaviour, and Red r5 only removed my own contradictions.
+
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+baseline_sha: 1ffd649b
+role_base_sha: 53de4102
+head_sha: 53de4102
+commits: 13d84c2d plus the plan commit that holds this log
+tests: tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs
+files: video/storytime-song/tests/manifest-intake.test.mjs video/storytime-song/tests/forge-contracts.test.mjs measure/tracks/storytime_song_video_20261022/test-strategy.md measure/tracks/storytime_song_video_20261022/plan.md
+remaining_failures: none
+status: red-complete
+END_MEASURE_AGENT_RESULT
