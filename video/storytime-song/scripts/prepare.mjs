@@ -5,7 +5,7 @@ import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { SCREEN_PPM, alphaBox, forgeSpec } from "./forge.mjs";
+import { SCREEN_PPM, alphaBox, forgeSpec, slug } from "./forge.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const PROJECT = path.resolve(HERE, "..");
@@ -120,6 +120,19 @@ export function bounceY(beat, bpm) {
   const phase = beat - Math.floor(beat);
   void bpm;
   return Math.round(Math.sin(Math.PI * phase) * 8);
+}
+
+/**
+ * The art of one actor: a cut-out when the Forge set has one, else a flat placeholder. A missing cast entry must
+ * never reach staticFile, so Lily, Ben, and the w04 family still render with Forge art on.
+ * @param {string} name The actor name from the package.
+ * @param {any} forge The Forge art of the spec (or null for the placeholder art).
+ * @returns {{kind: "forge"|"placeholder", file?: string, label?: string}} The art kind and its source.
+ */
+export function resolveActorArt(name, forge) {
+  const key = String(name).toLowerCase();
+  const file = forge?.cast?.[name] ?? forge?.cast?.[key];
+  return file ? { kind: "forge", file } : { kind: "placeholder", label: name };
 }
 
 /**
@@ -243,35 +256,53 @@ function readManifestRows(handoffDir) {
   });
 }
 
+/** The folder that receives handoff copies under public/, as a project-relative path. */
+const FORGE_BASE = "forge";
+
 /**
- * Maps the handoff TSV into the Forge part of a line spec. The scene manifest of w04 sets the scale, the canvas,
- * and the foot point; the "listen" cut-out of each classmate is its front. Lily has no rows, so she stays a
- * placeholder. The 25 gesture frames of a classmate are grouped by their file slug.
+ * The handoff path of a Forge path under public/.
+ * @param {string} file A Forge path, as "forge/cutouts/pat/listen.png".
+ * @returns {string} The manifest-relative path in the handoff.
+ */
+const manifestRel = (file) =>
+  file.startsWith(`${FORGE_BASE}/`) ? file.slice(FORGE_BASE.length + 1) : file;
+
+/**
+ * Maps the handoff TSV into the ForgeArt shape of src/types.ts. Every path is relative to public/; no path names
+ * the handoff. The scene manifest of w04 sets the scale, the canvas, and the foot point. The "listen" cut-out of
+ * each classmate is its front. Lily has no rows, so she stays a placeholder.
  * @param {string} handoffDir The handoff folder.
- * @returns {any} The Forge input: scale, canvas, foot, cast fronts, and frames by gesture slug.
+ * @returns {any} The Forge art: scale, canvas, foot, cast, gestures, idle, gestureBox, and scenes.
  */
 export function manifestToForgeInput(handoffDir) {
   const sceneManifest = JSON.parse(
     fs.readFileSync(path.join(handoffDir, "scenes/w04/manifest.json"), "utf8"),
   );
   const cast = {};
-  const framesByGesture = {};
+  const frames = {};
   for (const { file, who } of readManifestRows(handoffDir)) {
     const found = file.match(/^cutouts\/([^/]+)\/([^/]+)\.png$/);
     if (!found) continue;
     const [, name, gesture] = found;
-    const full = path.join(handoffDir, file);
-    if (!framesByGesture[gesture]) framesByGesture[gesture] = [];
-    framesByGesture[gesture].push(full);
+    const publicFile = `${FORGE_BASE}/${file}`;
+    if (!frames[gesture]) frames[gesture] = [];
+    frames[gesture].push(publicFile);
     if (gesture === "listen" && name.toLowerCase() !== "lily" && who !== "lily")
-      cast[name.toLowerCase()] = full;
+      cast[name.toLowerCase()] = publicFile;
   }
+  const gestures = {};
+  for (const [slug, list] of Object.entries(frames))
+    gestures[slug.replace(/-/g, " ")] = list;
+  const canvas = sceneManifest.canvas ?? [1024, 600];
   return {
     scale: SCREEN_PPM / sceneManifest.ppm,
-    canvas: sceneManifest.canvas,
+    canvas,
     foot: sceneManifest.footPoint,
     cast,
-    framesByGesture,
+    gestures,
+    idle: [...(frames.listen ?? [])],
+    gestureBox: { x: 0, y: 0, w: canvas[0], h: canvas[1] },
+    scenes: { classroom: `${FORGE_BASE}/scenes/w04/classroom.png` },
   };
 }
 
@@ -281,10 +312,9 @@ export function manifestToForgeInput(handoffDir) {
  * @param {string} handoffDir The handoff folder.
  * @param {string} destDir The folder that receives the copy.
  * @param {string[]} files The manifest-relative paths to copy.
- * @returns {string[]} The paths of the copies.
+ * @returns {string[]} The project-relative paths that were copied.
  */
 export function copyManifestSubset(handoffDir, destDir, files) {
-  const copied = [];
   for (const rel of files) {
     if (path.isAbsolute(rel) || rel.split("/").includes(".."))
       throw new Error(`unsafe manifest path ${rel}`);
@@ -292,9 +322,8 @@ export function copyManifestSubset(handoffDir, destDir, files) {
     const dst = path.join(destDir, rel);
     fs.mkdirSync(path.dirname(dst), { recursive: true });
     fs.copyFileSync(src, dst);
-    copied.push(dst);
   }
-  return copied;
+  return [...files];
 }
 
 /**
@@ -308,20 +337,44 @@ export function prepareWithManifest(rel, handoffDir = HANDOFF) {
   const week = JSON.parse(fs.readFileSync(path.join(CONTENT, `${rel}.json`), "utf8"));
   const audio = path.join(CONTENT, week.song.audio);
   const spec = buildSpec(week, probe(audio).duration);
-  const input = manifestToForgeInput(handoffDir);
-  const cast = {};
+  const adapter = manifestToForgeInput(handoffDir);
+  const use = usedArt(spec);
   const files = new Set();
-  for (const name of usedArt(spec).actors) {
-    const front = input.cast[name.toLowerCase()];
-    if (!front) continue;
-    cast[name] = front;
-    files.add(path.relative(handoffDir, front));
+  const add = (publicFile) => {
+    if (!publicFile) return null;
+    files.add(manifestRel(publicFile));
+    return `${rel}/${publicFile}`;
+  };
+  const cast = {};
+  for (const name of use.actors) {
+    const art = resolveActorArt(name, adapter);
+    if (art.kind === "forge") cast[name] = add(art.file);
   }
-  const dest = path.join(PROJECT, "public", rel, "forge");
+  const gestures = {};
+  for (const name of use.gestures) {
+    const list = adapter.gestures[name] ?? adapter.gestures[slug(name)];
+    if (list?.length) gestures[name] = list.map(add);
+  }
+  const idle = (adapter.idle ?? []).slice(0, 2).map(add);
+  const scenes = {};
+  for (const id of use.scenes) {
+    const file = adapter.scenes[id] ?? adapter.scenes.classroom;
+    if (file) scenes[id] = add(file);
+  }
+  const dest = path.join(PROJECT, "public", rel, FORGE_BASE);
   fs.rmSync(dest, { recursive: true, force: true });
   copyManifestSubset(handoffDir, dest, [...files]);
   spec.art = Object.keys(cast).length ? "forge" : "placeholder";
-  spec.forge = { ...input, cast };
+  spec.forge = {
+    scale: adapter.scale,
+    canvas: adapter.canvas,
+    foot: adapter.foot,
+    cast,
+    gestures,
+    idle,
+    gestureBox: adapter.gestureBox,
+    scenes,
+  };
   const out = path.join(PROJECT, "public", rel);
   fs.mkdirSync(out, { recursive: true });
   fs.copyFileSync(audio, path.join(out, "song.mp3"));
@@ -442,7 +495,18 @@ export function prepare(rel) {
   spec.audio = `${rel}/song.mp3`;
   const art = forgeDir(rel);
   fs.rmSync(path.join(out, "forge"), { recursive: true, force: true });
-  if (fs.existsSync(path.join(art, "manifest.json"))) {
+  // The handoff manifest is the first art source on the render path. A week with no cut-out rows keeps the art it
+  // had; week 1 has no rows, so its approved spec is built exactly as before.
+  const adapter = manifestToForgeInput(HANDOFF);
+  const covered = usedArt(spec).actors.filter(
+    (name) => resolveActorArt(name, adapter).kind === "forge",
+  );
+  if (covered.length) {
+    prepareWithManifest(rel, HANDOFF);
+    const withForge = JSON.parse(fs.readFileSync(path.join(out, "spec.json"), "utf8"));
+    spec.art = withForge.art;
+    spec.forge = withForge.forge;
+  } else if (fs.existsSync(path.join(art, "manifest.json"))) {
     const manifest = JSON.parse(fs.readFileSync(path.join(art, "manifest.json"), "utf8"));
     const { forge, files } = forgeSpec(manifest, usedArt(spec), (f) => alphaBox(path.join(art, f)), `${rel}/forge`);
     for (const f of files) {

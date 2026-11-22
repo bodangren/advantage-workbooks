@@ -100,7 +100,8 @@ export const Actors: React.FC<{
       {shot.actors.map((name, i) => {
         const x = left + ((i + 0.5) * (right - left)) / n;
         const bob = Math.abs(Math.sin(Math.PI * (beat + i * 0.25))) * 8;
-        if (forge) {
+        // A missing cut-out never reaches staticFile: the actor takes the placeholder path instead.
+        if (forge && name in forge.cast) {
           const s = forge.scale;
           return (
             <Img
@@ -116,7 +117,7 @@ export const Actors: React.FC<{
             />
           );
         }
-        if (isPlaceholder(name)) {
+        if (isPlaceholder(name) || (forge && !(name in forge.cast))) {
           const h = kid;
           return (
             <div
