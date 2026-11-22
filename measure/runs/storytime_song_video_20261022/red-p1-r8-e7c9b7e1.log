@@ -1,0 +1,15 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+baseline_sha: 1ffd649b83df6f1f6625351d8da4afd5ee1ca513
+role_base_sha: e7c9b7e1d0fc1621d9850dc6c348e33855a80390
+test_commit: 13fc53ca7a1a6038f04bd2a6caa73d187463e631
+red_kind: standard
+finding: Review A round 5 F8 (prepare writes through a week symlink before any guard) and F9 (post-swap audio or spec failure leaves a mixed week output)
+tests: video/storytime-song/tests/review-a-r5.test.mjs (ADV-P1-F9, ADV-P1-F8)
+red_command: exit 1, pass 0, fail 2; F9 fails with `a failed refresh must leave the previous Forge set byte-identical`; F8 fails with `prepare must refuse a symlinked week output folder before writing`
+guards: no product code edit; `git status --porcelain content` empty; render.mjs never staged; handoff read-only, temp roots only
+files: video/storytime-song/tests/review-a-r5.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/tracks/storytime_song_video_20261022/test-strategy.md
+remaining_failures: ADV-P1-F9, ADV-P1-F8 - both fail on current code; P2 intake task stays [~] until Green fixes the order
+END_MEASURE_AGENT_RESULT
