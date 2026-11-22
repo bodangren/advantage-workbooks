@@ -3,9 +3,10 @@
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { SCREEN_PPM, alphaBox, forgeSpec, slug } from "./forge.mjs";
+import { SCREEN_PPM, alphaBox, forgeSpec } from "./forge.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const PROJECT = path.resolve(HERE, "..");
@@ -240,8 +241,37 @@ export function buildSpec(source, duration) {
   };
 }
 
-/** The read-only Storytime handoff of Forge cut-outs and scene sets. */
-const HANDOFF = "/home/daniebo/Desktop/handoff/storytime-song-art";
+/**
+ * The read-only Storytime handoff of Forge cut-outs and scene sets. Read the environment at call time so a week
+ * with no handoff is prepared with placeholder art instead of failing.
+ * @returns {string} The handoff folder.
+ */
+const artDir = () =>
+  process.env.STORYTIME_SONG_ART_DIR ||
+  path.join(os.homedir(), "Desktop/handoff/storytime-song-art");
+
+/** The approved Adventurer inset set of week 1, the only source of gesture and idle frames for every week. */
+const INSET_SOURCE = path.join(CONTENT, "l2/media/w01/forge");
+
+/**
+ * The approved Adventurer inset frames, as public-relative paths. The handoff never supplies inset frames.
+ * @returns {{gestures: Record<string, string[]>, idle: string[]}} The gesture and idle frames.
+ */
+function approvedInset() {
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(INSET_SOURCE, "manifest.json"), "utf8"),
+  );
+  const frames = manifest.gestures?.adventurer ?? {};
+  const gestures = {};
+  for (const [slug, list] of Object.entries(frames)) {
+    if (slug === "idle") continue;
+    gestures[slug.replace(/-/g, " ")] = list.map((file) => `${FORGE_BASE}/${file}`);
+  }
+  return {
+    gestures,
+    idle: (frames.idle ?? []).map((file) => `${FORGE_BASE}/${file}`),
+  };
+}
 
 /**
  * Reads the manifest of the read-only handoff (one row per ready file).
@@ -274,34 +304,39 @@ const manifestRel = (file) =>
  * @param {string} handoffDir The handoff folder.
  * @returns {any} The Forge art: scale, canvas, foot, cast, gestures, idle, gestureBox, and scenes.
  */
-export function manifestToForgeInput(handoffDir) {
+export function manifestToForgeInput(handoffDir = artDir()) {
+  if (!fs.existsSync(path.join(handoffDir, "MANIFEST.tsv"))) return null;
   const sceneManifest = JSON.parse(
     fs.readFileSync(path.join(handoffDir, "scenes/w04/manifest.json"), "utf8"),
   );
   const cast = {};
-  const frames = {};
   for (const { file, who } of readManifestRows(handoffDir)) {
-    const found = file.match(/^cutouts\/([^/]+)\/([^/]+)\.png$/);
+    const found = file.match(/^cutouts\/([^/]+)\/(listen)\.png$/);
     if (!found) continue;
-    const [, name, gesture] = found;
-    const publicFile = `${FORGE_BASE}/${file}`;
-    if (!frames[gesture]) frames[gesture] = [];
-    frames[gesture].push(publicFile);
-    if (gesture === "listen" && name.toLowerCase() !== "lily" && who !== "lily")
-      cast[name.toLowerCase()] = publicFile;
+    const [, name] = found;
+    if (name.toLowerCase() !== "lily" && who !== "lily")
+      cast[name.toLowerCase()] = `${FORGE_BASE}/${file}`;
   }
-  const gestures = {};
-  for (const [slug, list] of Object.entries(frames))
-    gestures[slug.replace(/-/g, " ")] = list;
-  const canvas = sceneManifest.canvas ?? [1024, 600];
+  const inset = approvedInset();
+  const insetPaths = [...Object.values(inset.gestures).flat(), ...inset.idle];
+  const boxes = insetPaths.map((file) =>
+    alphaBox(path.join(INSET_SOURCE, manifestRel(file))),
+  );
+  const x = Math.min(...boxes.map((box) => box.x1));
+  const y = Math.min(...boxes.map((box) => box.y1));
   return {
     scale: SCREEN_PPM / sceneManifest.ppm,
-    canvas,
+    canvas: sceneManifest.canvas ?? [1024, 600],
     foot: sceneManifest.footPoint,
     cast,
-    gestures,
-    idle: [...(frames.listen ?? [])],
-    gestureBox: { x: 0, y: 0, w: canvas[0], h: canvas[1] },
+    gestures: inset.gestures,
+    idle: inset.idle,
+    gestureBox: {
+      x,
+      y,
+      w: Math.max(...boxes.map((box) => box.x2)) - x,
+      h: Math.max(...boxes.map((box) => box.y2)) - y,
+    },
     scenes: { classroom: `${FORGE_BASE}/scenes/w04/classroom.png` },
   };
 }
@@ -333,48 +368,60 @@ export function copyManifestSubset(handoffDir, destDir, files) {
  * @param {string} handoffDir The handoff folder.
  * @returns {string} The spec file.
  */
-export function prepareWithManifest(rel, handoffDir = HANDOFF) {
+export function prepareWithManifest(rel, handoffDir = artDir()) {
+  const adapter = manifestToForgeInput(handoffDir);
+  if (!adapter) return null;
   const week = JSON.parse(fs.readFileSync(path.join(CONTENT, `${rel}.json`), "utf8"));
   const audio = path.join(CONTENT, week.song.audio);
   const spec = buildSpec(week, probe(audio).duration);
-  const adapter = manifestToForgeInput(handoffDir);
-  const use = usedArt(spec);
-  const files = new Set();
-  const add = (publicFile) => {
-    if (!publicFile) return null;
-    files.add(manifestRel(publicFile));
-    return `${rel}/${publicFile}`;
-  };
   const cast = {};
-  for (const name of use.actors) {
+  const cutouts = new Set();
+  for (const name of usedArt(spec).actors) {
     const art = resolveActorArt(name, adapter);
-    if (art.kind === "forge") cast[name] = add(art.file);
-  }
-  const gestures = {};
-  for (const name of use.gestures) {
-    const list = adapter.gestures[name] ?? adapter.gestures[slug(name)];
-    if (list?.length) gestures[name] = list.map(add);
-  }
-  const idle = (adapter.idle ?? []).slice(0, 2).map(add);
-  const scenes = {};
-  for (const id of use.scenes) {
-    const file = adapter.scenes[id] ?? adapter.scenes.classroom;
-    if (file) scenes[id] = add(file);
+    if (art.kind !== "forge") continue;
+    const file = manifestRel(art.file);
+    cutouts.add(file);
+    cast[name] = `${rel}/${art.file}`;
   }
   const dest = path.join(PROJECT, "public", rel, FORGE_BASE);
   fs.rmSync(dest, { recursive: true, force: true });
-  copyManifestSubset(handoffDir, dest, [...files]);
-  spec.art = Object.keys(cast).length ? "forge" : "placeholder";
-  spec.forge = {
-    scale: adapter.scale,
-    canvas: adapter.canvas,
-    foot: adapter.foot,
-    cast,
-    gestures,
-    idle,
-    gestureBox: adapter.gestureBox,
-    scenes,
-  };
+  copyManifestSubset(handoffDir, dest, [...cutouts]);
+  // The production copy fails on a handoff file whose bytes no longer match its manifest row.
+  const shas = new Map(readManifestRows(handoffDir).map((row) => [row.file, row.sha]));
+  for (const file of cutouts) {
+    const actual = createHash("sha256")
+      .update(fs.readFileSync(path.join(dest, file)))
+      .digest("hex");
+    if (shas.get(file) !== actual)
+      throw new Error(`sha256 mismatch for ${file} in the handoff manifest`);
+  }
+  // The handoff changes the actor row only. Gesture and idle frames stay the approved Adventurer inset.
+  if (Object.keys(cast).length) {
+    const inset = approvedInset();
+    for (const file of [...Object.values(inset.gestures).flat(), ...inset.idle]) {
+      const src = path.join(INSET_SOURCE, manifestRel(file));
+      const dst = path.join(dest, manifestRel(file));
+      fs.mkdirSync(path.dirname(dst), { recursive: true });
+      fs.copyFileSync(src, dst);
+    }
+    const gestures = Object.fromEntries(
+      Object.entries(inset.gestures).map(([name, list]) => [
+        name,
+        list.map((file) => `${rel}/${file}`),
+      ]),
+    );
+    spec.art = "forge";
+    spec.forge = {
+      scale: adapter.scale,
+      canvas: adapter.canvas,
+      foot: adapter.foot,
+      cast,
+      gestures,
+      idle: inset.idle.map((file) => `${rel}/${file}`),
+      gestureBox: adapter.gestureBox,
+      scenes: {},
+    };
+  }
   const out = path.join(PROJECT, "public", rel);
   fs.mkdirSync(out, { recursive: true });
   fs.copyFileSync(audio, path.join(out, "song.mp3"));
@@ -497,12 +544,16 @@ export function prepare(rel) {
   fs.rmSync(path.join(out, "forge"), { recursive: true, force: true });
   // The handoff manifest is the first art source on the render path. A week with no cut-out rows keeps the art it
   // had; week 1 has no rows, so its approved spec is built exactly as before.
-  const adapter = manifestToForgeInput(HANDOFF);
-  const covered = usedArt(spec).actors.filter(
-    (name) => resolveActorArt(name, adapter).kind === "forge",
-  );
-  if (covered.length) {
-    prepareWithManifest(rel, HANDOFF);
+  const handoff = artDir();
+  const adapter = manifestToForgeInput(handoff);
+  const covered = adapter
+    ? usedArt(spec).actors.filter(
+        (name) => resolveActorArt(name, adapter).kind === "forge",
+      )
+    : [];
+  // Week 1 is approved and keeps its phase-base Forge set; the handoff never changes it.
+  if (rel !== "l2/w01" && covered.length) {
+    prepareWithManifest(rel, handoff);
     const withForge = JSON.parse(fs.readFileSync(path.join(out, "spec.json"), "utf8"));
     spec.art = withForge.art;
     spec.forge = withForge.forge;
