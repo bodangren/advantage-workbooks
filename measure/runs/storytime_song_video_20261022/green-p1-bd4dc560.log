@@ -4,8 +4,8 @@ track: storytime_song_video_20261022
 phase: Phase 1: Compositor with placeholder art
 phase_base_sha: 1ffd649b
 role_base_sha: bd4dc560
-head_sha: 2fd2cf1a6a4c42be029e9c72bf173fe38dd01b9d
-commits: b8a357f8 2fd2cf1a
+head_sha: 5dd30c66b931b6ea7cb4ddffe1ba738ed569db7d
+commits: b8a357f8 5dd30c66
 red_change_in_range: 0df2dde6 (4 Red test files) and bd4dc560 (plan, frames, log) are inside phase_base_sha..HEAD
 red_tests: 4 committed test files unchanged: bubbles.test.mjs, placeholders.test.mjs, manifest-intake.test.mjs, week1-regression.test.mjs
 gates:
@@ -29,5 +29,6 @@ render_note: render.mjs writes only into content/, so the same Remotion renderer
 red_test_path_bug: tests/week1-regression.test.mjs resolves its evidence folder to video/measure/runs/, one folder above the specified measure/runs/. The same evidence is mirrored there. Request a Mid Red path fix.
 thai: the first command was the Thai filter. All content reads and command outputs went through it. New files hold 0 Thai characters.
 git_hygiene: git status --porcelain content is empty. render.mjs, dashboard/AGENTS.md, dashboard/raw.json, measure/runs/primary_v2_look_20261020/**, content/, the handoff, and out/ render files were never staged. No push.
+final_head_note: this log follows head_sha; the final Green HEAD is the commit that holds this log.
 status: green-complete
 END_MEASURE_AGENT_RESULT
