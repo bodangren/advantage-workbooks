@@ -383,13 +383,31 @@ export function copyManifestSubset(handoffDir, destDir, files) {
 }
 
 /**
+ * Resolves the public output folder of a week and refuses any id outside the supported set. The guard runs before
+ * every write and delete, so no cleanup can reach a sibling of the video project.
+ * @param {string} rel The week, as "l2/w04".
+ * @returns {string} The absolute output folder.
+ */
+function weekOutDir(rel) {
+  if (typeof rel !== "string" || !/^l\d\/w\d\d$/.test(rel))
+    throw new Error(`invalid week id ${rel}; manifest integrity guard refuses the path`);
+  const root = path.resolve(PROJECT, "public");
+  const out = path.resolve(root, rel);
+  if (!out.startsWith(root + path.sep))
+    throw new Error(`invalid week output ${out}; manifest integrity guard refuses the path`);
+  return out;
+}
+
+/**
  * Prepares a week with the Forge cut-outs of the handoff. The classmates with cut-outs use them; a classmate
- * without a row (Lily, Ben) keeps the placeholder. Only the files a week uses are copied into the project.
+ * without a row (Lily, Ben) keeps the placeholder. Every new file is built in a staging folder beside the week
+ * and swapped in only after every digest passes. A failed refresh removes only the staging folder.
  * @param {string} rel The week, as "l2/w04".
  * @param {string} handoffDir The handoff folder.
  * @returns {string} The spec file.
  */
 export function prepareWithManifest(rel, handoffDir = artDir()) {
+  const out = weekOutDir(rel);
   const adapter = manifestToForgeInput(handoffDir);
   if (!adapter) return null;
   const week = JSON.parse(fs.readFileSync(path.join(CONTENT, `${rel}.json`), "utf8"));
@@ -404,17 +422,18 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
     cutouts.add(file);
     cast[name] = `${rel}/${art.file}`;
   }
-  const out = path.join(PROJECT, "public", rel);
   const dest = path.join(out, FORGE_BASE);
+  const parent = path.dirname(out);
+  fs.mkdirSync(parent, { recursive: true });
+  const stage = fs.mkdtempSync(path.join(parent, `.forge-stage-${path.basename(out)}-`));
   try {
-    fs.rmSync(dest, { recursive: true, force: true });
-    copyManifestSubset(handoffDir, dest, [...cutouts]);
+    copyManifestSubset(handoffDir, stage, [...cutouts]);
     // The production copy fails on a handoff file whose bytes no longer match its manifest row.
     // Hex digests compare without regard to case; a padded or malformed digest is rejected at intake.
     const shas = new Map(readManifestRows(handoffDir).map((row) => [row.file, row.sha.toLowerCase()]));
     for (const file of cutouts) {
       const actual = createHash("sha256")
-        .update(fs.readFileSync(path.join(dest, file)))
+        .update(fs.readFileSync(path.join(stage, file)))
         .digest("hex");
       if (shas.get(file) !== actual)
         throw new Error(`sha256 mismatch for ${file} in the handoff manifest`);
@@ -424,7 +443,7 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
       const inset = approvedInset();
       for (const file of [...Object.values(inset.gestures).flat(), ...inset.idle]) {
         const src = path.join(INSET_SOURCE, manifestRel(file));
-        const dst = path.join(dest, manifestRel(file));
+        const dst = path.join(stage, manifestRel(file));
         fs.mkdirSync(path.dirname(dst), { recursive: true });
         fs.copyFileSync(src, dst);
       }
@@ -446,17 +465,19 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
         scenes: {},
       };
     }
+    // Swap only after every digest passes. The week's spec and audio are never touched on a forge failure.
+    fs.rmSync(dest, { recursive: true, force: true });
     fs.mkdirSync(out, { recursive: true });
-    fs.copyFileSync(audio, path.join(out, "song.mp3"));
-    spec.audio = `${rel}/song.mp3`;
-    const file = path.join(out, "spec.json");
-    fs.writeFileSync(file, JSON.stringify(spec, null, 1) + "\n");
-    return file;
+    fs.renameSync(stage, dest);
   } catch (error) {
-    // A failed refresh leaves no partial or stale week output behind.
-    fs.rmSync(out, { recursive: true, force: true });
+    fs.rmSync(stage, { recursive: true, force: true });
     throw error;
   }
+  fs.copyFileSync(audio, path.join(out, "song.mp3"));
+  spec.audio = `${rel}/song.mp3`;
+  const file = path.join(out, "spec.json");
+  fs.writeFileSync(file, JSON.stringify(spec, null, 1) + "\n");
+  return file;
 }
 
 /**
@@ -569,7 +590,6 @@ export function prepare(rel) {
   fs.copyFileSync(audio, path.join(out, "song.mp3"));
   spec.audio = `${rel}/song.mp3`;
   const art = forgeDir(rel);
-  fs.rmSync(path.join(out, "forge"), { recursive: true, force: true });
   // The handoff manifest is the first art source on the render path. A week with no cut-out rows keeps the art it
   // had; week 1 has no rows, so its approved spec is built exactly as before.
   const handoff = artDir();
@@ -586,6 +606,7 @@ export function prepare(rel) {
     spec.art = withForge.art;
     spec.forge = withForge.forge;
   } else if (fs.existsSync(path.join(art, "manifest.json"))) {
+    fs.rmSync(path.join(out, "forge"), { recursive: true, force: true });
     const manifest = JSON.parse(fs.readFileSync(path.join(art, "manifest.json"), "utf8"));
     const { forge, files } = forgeSpec(manifest, usedArt(spec), (f) => alphaBox(path.join(art, f)), `${rel}/forge`);
     for (const f of files) {
