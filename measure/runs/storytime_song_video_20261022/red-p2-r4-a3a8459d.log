@@ -1,0 +1,16 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: a3a8459d9b1a82511384b05b018a48516f5fa80b
+test_commit: 5b8f8839ad26972e8ca81f677c17f1c7d5d74e5d
+red_kind: standard
+finding: T2.6 totals stale after SCRAPPED_3D; repaired to 4 Forge weeks and 2 placeholder weeks
+tests: video/storytime-song/tests/manifest-intake.test.mjs (T2.6 totals only)
+red_command: exit 0, pass 6, fail 0; T2.1, T2.2, T2.3, T2.4, T2.5, T2.6 all pass on the working tree; w07 covered 0, scrapped 1, placeholder branch taken
+note: Green P2 re-render bullet keeps its historical 5-of-5 render record; no other plan or strategy text states the old totals
+guards: no product code edit; prepare.mjs Green edits untouched, unstaged; `git status --porcelain content` empty; render.mjs never staged; handoff read-only
+files: video/storytime-song/tests/manifest-intake.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/runs/storytime_song_video_20261022/red-p2-r4-a3a8459d.log
+remaining_failures: none in this file; P2-F4 and P2-F5 still fail on the working tree pending the Green scrap landing
+END_MEASURE_AGENT_RESULT
