@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
+import { execFile } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { promisify } from "node:util";
 import { test } from "node:test";
 import { buildSpec, manifestToForgeInput, prepareWithManifest } from "../scripts/prepare.mjs";
 import * as timeline from "../src/timeline.ts";
@@ -15,6 +17,7 @@ const REPO = path.resolve(PROJECT, "../..");
 const CONTENT = path.join(REPO, "content/storytime");
 const REAL_HANDOFF = path.join(os.homedir(), "Desktop/handoff/storytime-song-art");
 const THAI = /[\u0E00-\u0E7F]/;
+const execFileAsync = promisify(execFile);
 
 const tempDir = (prefix) => fs.mkdtempSync(path.join(os.tmpdir(), prefix));
 const hash = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
@@ -223,16 +226,18 @@ test("ADV-P1-4b a wrong digest preserves the previous good week output", async (
     handoffFixture(art, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: data, sha: wrong }]);
     const week = path.join(root, "video/storytime-song/public/l2/w02");
     fs.mkdirSync(path.join(week, "forge"), { recursive: true });
-    fs.writeFileSync(path.join(week, "forge/previous-good.png"), "good cast art");
-    fs.writeFileSync(path.join(week, "spec.json"), "previous good spec");
-    fs.writeFileSync(path.join(week, "song.mp3"), "previous good audio");
+    fs.writeFileSync(path.join(week, "forge/previous-good.png"), Buffer.from([0, 1, 2, 255]));
+    fs.writeFileSync(path.join(week, "spec.json"), Buffer.from([10, 0, 13, 255]));
+    fs.writeFileSync(path.join(week, "song.mp3"), Buffer.from([255, 7, 0, 4]));
+    const before = ["forge/previous-good.png", "spec.json", "song.mp3"]
+      .map((file) => fs.readFileSync(path.join(week, file)));
     assert.throws(() => withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art)),
       /sha256|hash|mismatch|integrity|digest/i);
     assert.ok(fs.existsSync(path.join(week, "forge/previous-good.png")),
       "failed refresh must preserve the previous good cast file");
-    assert.equal(fs.readFileSync(path.join(week, "forge/previous-good.png"), "utf8"), "good cast art");
-    assert.equal(fs.readFileSync(path.join(week, "spec.json"), "utf8"), "previous good spec");
-    assert.equal(fs.readFileSync(path.join(week, "song.mp3"), "utf8"), "previous good audio");
+    const after = ["forge/previous-good.png", "spec.json", "song.mp3"]
+      .map((file) => fs.readFileSync(path.join(week, file)));
+    assert.deepEqual(after, before, "the prior week output must remain byte-identical");
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
@@ -292,6 +297,182 @@ test("ADV-P1-4f failed refresh cleanup cannot remove a path outside the project"
     assert.throws(() => withArtDir(art, () => sandbox.prepareWithManifest("../../payload", art)),
       /sha256|hash|mismatch|integrity|digest/i);
     assert.equal(fs.readFileSync(path.join(outsideProject, "keep.txt"), "utf8"), "must survive");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("ADV-P1-4g symlinked week output cannot redirect Forge replacement outside the project", async () => {
+  const root = tempDir("song-adversarial-week-link-");
+  const art = path.join(root, "handoff");
+  const sandbox = await isolatedPrepare(root);
+  try {
+    const data = Buffer.from("cutout bytes");
+    handoffFixture(art, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: data, sha: hash(data) }]);
+    const outsideWeek = path.join(root, "outside-week");
+    const outsideForge = path.join(outsideWeek, "forge");
+    fs.mkdirSync(outsideForge, { recursive: true });
+    fs.writeFileSync(path.join(outsideForge, "keep.bin"), Buffer.from([1, 2, 3]));
+    const weekParent = path.join(root, "video/storytime-song/public/l2");
+    fs.mkdirSync(weekParent, { recursive: true });
+    fs.symlinkSync(outsideWeek, path.join(weekParent, "w02"), "dir");
+    try {
+      withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art));
+    } catch {
+      // Rejecting the symlink is safe; following it to write output is not.
+    }
+    assert.deepEqual(fs.readFileSync(path.join(outsideForge, "keep.bin")), Buffer.from([1, 2, 3]));
+    assert.ok(!fs.existsSync(path.join(outsideWeek, "spec.json")),
+      "Forge preparation must not write the week spec through an output symlink");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("ADV-P1-4h handoff symlinks cannot import bytes from outside the handoff root", async () => {
+  const root = tempDir("song-adversarial-handoff-link-");
+  const art = path.join(root, "handoff");
+  const sandbox = await isolatedPrepare(root);
+  try {
+    const data = Buffer.from("external secret bytes");
+    handoffFixture(art, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: data, sha: hash(data) }]);
+    const link = path.join(art, "cutouts/pat/listen.png");
+    const external = path.join(root, "external.png");
+    fs.writeFileSync(external, data);
+    fs.unlinkSync(link);
+    fs.symlinkSync(external, link);
+    try {
+      withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art));
+    } catch {
+      // Rejecting the symlink is safe; copying from outside the handoff root is not.
+    }
+    const copied = path.join(root,
+      "video/storytime-song/public/l2/w02/forge/cutouts/pat/listen.png");
+    assert.ok(!fs.existsSync(copied) || !fs.readFileSync(copied).equals(data),
+      "Forge preparation must not import bytes from outside the handoff root");
+    assert.ok(fs.existsSync(external), "the outside handoff target must remain untouched");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("ADV-P1-4i abandoned staging-name prefixes do not block the next refresh", async () => {
+  const root = tempDir("song-adversarial-stale-stage-");
+  const art = path.join(root, "handoff");
+  const sandbox = await isolatedPrepare(root);
+  try {
+    const data = Buffer.from("cutout bytes");
+    handoffFixture(art, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: data, sha: hash(data) }]);
+    const publicLevel = path.join(root, "video/storytime-song/public/l2");
+    const stale = path.join(publicLevel, ".forge-stage-w02-abcdef");
+    fs.mkdirSync(stale, { recursive: true });
+    fs.writeFileSync(path.join(stale, "interrupted.bin"), "crash before swap");
+    assert.doesNotThrow(() => withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art)));
+    assert.equal(fs.readFileSync(path.join(stale, "interrupted.bin"), "utf8"), "crash before swap");
+    assert.ok(fs.existsSync(path.join(publicLevel, "w02/forge/cutouts/pat/listen.png")));
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("ADV-P1-4m a failed staging rename preserves the previous Forge set", async () => {
+  const root = tempDir("song-adversarial-swap-failure-");
+  const art = path.join(root, "handoff");
+  const sandbox = await isolatedPrepare(root);
+  const week = path.join(root, "video/storytime-song/public/l2/w02");
+  const previous = Buffer.from([0, 19, 200, 255]);
+  const renameSync = fs.renameSync;
+  try {
+    const data = Buffer.from("cutout bytes");
+    handoffFixture(art, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: data, sha: hash(data) }]);
+    fs.mkdirSync(path.join(week, "forge"), { recursive: true });
+    fs.writeFileSync(path.join(week, "forge/previous-good.bin"), previous);
+    fs.renameSync = (source, destination) => {
+      if (path.basename(source).startsWith(".forge-stage-w02-"))
+        throw new Error("simulated crash before staged Forge swap");
+      return renameSync(source, destination);
+    };
+    assert.throws(() => withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art)),
+      /simulated crash before staged Forge swap/);
+  } finally {
+    fs.renameSync = renameSync;
+    try {
+      assert.deepEqual(fs.readFileSync(path.join(week, "forge/previous-good.bin")), previous,
+        "a failed swap must leave the prior Forge set intact");
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  }
+});
+
+test("ADV-P1-4j week ids with Unicode or trailing newlines reject before filesystem changes", async () => {
+  const root = tempDir("song-adversarial-week-id-");
+  const art = path.join(root, "handoff");
+  const sandbox = await isolatedPrepare(root);
+  try {
+    const data = Buffer.from("cutout bytes");
+    handoffFixture(art, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: data, sha: hash(data) }]);
+    for (const rel of ["l２/w02", "l2/w02\n", "l2/w02\u2028"]) {
+      assert.throws(() => withArtDir(art, () => sandbox.prepareWithManifest(rel, art)),
+        /week|output|path|invalid/i);
+    }
+    assert.ok(!fs.existsSync(path.join(root, "video/storytime-song/public/l2")),
+      "rejected week ids must not create a public output directory");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("ADV-P1-4k manifest paths with dot segments or backslashes cannot silently drop cast art", () => {
+  const root = tempDir("song-adversarial-manifest-path-");
+  try {
+    const data = Buffer.from("pat");
+    for (const file of ["./cutouts/pat/listen.png", "cutouts\\pat\\listen.png"]) {
+      handoffFixture(root, [{
+        file,
+        who: "pat",
+        bytes: data,
+        sha: hash(data),
+        write: file.includes("\\"),
+      }]);
+      if (file.includes("\\")) {
+        fs.mkdirSync(path.join(root, "cutouts/pat"), { recursive: true });
+        fs.writeFileSync(path.join(root, "cutouts/pat/listen.png"), data);
+      }
+      let adapted;
+      try {
+        adapted = manifestToForgeInput(root);
+      } catch {
+        // Rejecting noncanonical paths is safe; accepting them without the cast art is not.
+        continue;
+      }
+      assert.equal(adapted.cast.pat, "forge/cutouts/pat/listen.png",
+        `${JSON.stringify(file)} must normalize to the canonical Forge path`);
+    }
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("ADV-P1-4l concurrent refreshes of one week leave a complete Forge file", async () => {
+  const root = tempDir("song-adversarial-concurrent-stage-");
+  const sandbox = await isolatedPrepare(root);
+  try {
+    const artA = path.join(root, "handoff-a");
+    const artB = path.join(root, "handoff-b");
+    const dataA = Buffer.from("first concurrent cast");
+    const dataB = Buffer.from("second concurrent cast");
+    handoffFixture(artA, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: dataA, sha: hash(dataA) }]);
+    handoffFixture(artB, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: dataB, sha: hash(dataB) }]);
+    const moduleUrl = pathToFileURL(path.join(root, "video/storytime-song/scripts/prepare.mjs")).href;
+    const source = `import { prepareWithManifest } from ${JSON.stringify(moduleUrl)}; prepareWithManifest("l2/w02", process.env.TEST_ART_DIR);`;
+    await Promise.all([artA, artB].map((dir) => execFileAsync(process.execPath, [
+      "--input-type=module", "-e", source,
+    ], { env: { ...process.env, TEST_ART_DIR: dir } })));
+    const output = fs.readFileSync(path.join(root,
+      "video/storytime-song/public/l2/w02/forge/cutouts/pat/listen.png"));
+    assert.ok(output.equals(dataA) || output.equals(dataB),
+      "the committed Forge file must match one complete, verified source");
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
