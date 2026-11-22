@@ -1,0 +1,45 @@
+Phase 2 re-render log, role base c26c72ba (2026-11-23)
+
+Phase base: 1ffd649b83df6f1f6625351d8da4afd5ee1ca513
+Accepted Phase 1 HEAD: c26c72ba3173b71194e50977a2b06c04e75e3df2
+P1 recording commit: a4ed694289e3ad15e904b5ded3f7da4200397e6c
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. All 40 untracked Phase 1 review, adversarial and acceptance files had 0 Thai characters before they were committed in a4ed6942. The new evidence file holds 0 Thai characters. The handoff folder stayed read-only. render.mjs was never edited or staged. No week JSON was written under content/storytime by this role.
+
+Renders: six weeks, one heavy-run wrapper per week, serial, never nested, concurrency 2:
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c "set -o pipefail; cd video/storytime-song && node scripts/render.mjs l2/wNN --concurrency 2"
+w02 exit 0; w03 exit 0; w04 exit 0; w05 exit 0; w06 exit 0; w07 exit 0.
+Week 1 was not rendered. Its approved media stayed unchanged.
+The working-tree render.mjs carries another owner's uncommitted --cut karaoke edit: 1 file changed, 16 insertions(+), 7 deletions(-). The default cut path does not use the karaoke branch. This stat is recorded in the evidence file.
+
+Evidence: measure/runs/storytime_song_video_20261022/green-p2-rerender-c26c72ba.txt, written by green-p2-rerender-c26c72ba.py.
+24 outputs: song.mp4, song-phone.mp4, song-poster.jpg and song-phone-poster.jpg for each week.
+Every output has a sha256 and an ffprobe record: classroom 1920x1080 H.264 plus AAC, phone 720x1280 H.264 plus AAC, posters 1280x720 and 720x1280, faststart yes on all MP4s.
+Art mode per week:
+- w02, w03, w05, w06: Forge scene video, no actor layer, bubbles on top (w06 has 4 bubbles).
+- w07: Forge classroom scene, May cut-out, placeholders for missing cast, w07 props drawn with their characters.
+- w04: placeholder art; no manifest-covered cast, so no cut-outs.
+Manifest-covered weeks with Forge art: 5 of 5. Silent Forge fallback weeks: none. Accepted risk F3 does not materialise in this pass.
+24 JPG frames at 10 s and 40 s of both cuts, named frames-p2-wNN-<cut>-<s>.jpg, about 2.5 MB in total.
+Evidence exit 0; Result PASS.
+
+Guards:
+- git status --porcelain content: empty.
+- Handoff folder: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after.
+- Week 1 media sha256 unchanged: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a; song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e.
+- ls video shows only storytime-song.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: 1ffd649b
+role_base_sha: c26c72ba
+head_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+commits: six week renders; evidence script and evidence file; frame JPGs; plan citation commit follows
+renders: w02 0; w03 0; w04 0; w05 0; w06 0; w07 0
+art_modes: w02 forge-video; w03 forge-video; w05 forge-video; w06 forge-video; w07 forge classroom with May cut-out and props; w04 placeholder
+evidence: 24 outputs, 24 frames, 5 of 5 covered weeks forged, no silent fallback, Result PASS
+handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after
+status: green-complete
+END_MEASURE_AGENT_RESULT
