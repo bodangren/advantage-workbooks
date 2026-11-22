@@ -59,7 +59,7 @@ _Story ref: spec.md#story-s3_
     - [x] Tech debt: step 11 (title and writing box on one page) and step 3 (QR block, header, inline pictures), checked on Quest 5 and Adventure 9 lessons
 - [x] Task: Verify: a scratch render of Quest 5 lesson 1; `make-pdfx.ts --check` passes; every page on a contact sheet [76b5975]
     - Quest 5 test book (l01, l02, all back matter): 47 pages, PDF/X-1a:2001, 9 fonts, no Type 3, all checks pass; classic: 78 of 78 HTML outputs byte-identical
-- [ ] Task: Measure - User Manual Verification 'Phase S3: Chibi Quest print kit' (Protocol in workflow.md)
+- [x] Task: Measure - User Manual Verification 'Phase S3: Chibi Quest print kit' (Protocol in workflow.md). Evidence: human, "PM 2026-11-22: covered by Daniel's S5 proof acceptance (2026-11-21), which rendered the S3 kit and printed the S4 step names." Daniel's words: "Chibi Quest print proof: accepted." (via PM). `commit d239acca`
 
 ## Phase S4: App step names in the v2 books
 _Story ref: spec.md#story-s4_
@@ -100,7 +100,7 @@ S3's open line (the User Manual Verification of the print kit) blocks nothing he
 - [x] Task S4.3 (Green, commit cbb076ef): the names by look. Change `dashboard/templates/primary_template.html` (the 13 `h2.section-title` texts of the S4.1 table, by the `chibi_quest` flag that the render context already sets, `template-renderer.ts` line 148) and `dashboard/lib/document-wrapper/sections/teacher-guide.ts` (the `Key Vocabulary` heading of line 12 reads `Preview Vocabulary` for `chibi-quest`). The look reaches the section through its caller in `lib/workbook-document-wrapper.ts` (line 98, one line). No change in `lib/teacher-manual/`. The ` – {{grammar_search_term}}` conditional of step 6 keeps its place in both looks.
   Done when: `GREEN_TEST_COMMAND`, `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` exit 0 in heavy-runs; each new rule has a mutant that a named test catches; the classic golden stays byte-identical; and the template commit id goes to the PM for the monorepo session (S7). Evidence: automated.
   - Green evidence (2026-11-19, commit cbb076ef, model opencode-go/deepseek-v4.1-flash): the code commit changes the template, the teacher-guide section, and one caller line in `lib/workbook-document-wrapper.ts`. Gate 1 exits 0 with 11 passed (`green-s4-tests.txt`). The look tests exit 0 with 16 passed (`green-s4-look-tests.txt`). `PROJECT_TESTS` exits 1 with 3107 passed; the only 3 failures are the earlier failures of other tracks (`green-s4-project-tests.txt`). `PROJECT_LINT` exits 0 (`green-s4-lint.txt`). `PROJECT_CHECKS` exits 0 with 0 output lines (`green-s4-tsc.txt`). The mutant gate catches 6 of 6 rules; the narrow step 6 title mutant survives and the table records it (`green-s4-mutants.txt`). No golden file changes: the `git diff a4f52b9e -- 'dashboard/**/golden/**'` output is empty. `pnpm-lock.yaml` does not change. The template commit id for the monorepo session is cbb076ef (S7).
-- [b] Task: Measure - User Manual Verification 'Phase S4: App step names in the v2 books' (Protocol in workflow.md) — deferred:daniel
+- [x] Task: Measure - User Manual Verification 'Phase S4: App step names in the v2 books' (Protocol in workflow.md). Evidence: human, "PM 2026-11-22: covered by Daniel's S5 proof acceptance (2026-11-21), which rendered the S3 kit and printed the S4 step names." Daniel's words: "Chibi Quest print proof: accepted." (via PM). `commit d239acca`
   - Human gate (orchestrator, 2026-11-19): Daniel's manual check of the step names; the page proofs of Phase S5 show them. The automated gates of S4.2 and S4.3 passed (Green evidence 5b0ca44e).
 
 Phase gates (roles, not tasks; their results live in measure/runs/primary_v2_look_20261020/):
@@ -162,6 +162,7 @@ _Story ref: spec.md#story-s5_
 - [x] Task: Daniel's notes fixed; new proofs until he approves (date and notes in this plan). Evidence: human, Daniel 2026-11-21, "Chibi Quest print proof: accepted." (via PM). `commit d239acca`
   - PM look decisions (2026-11-20, owner defaults so that Daniel looks once at the fixed proof), word for word: (1) Hero picture: full inline width, 84.8 mm, like the other pictures; close the empty strip. (2) Child readability, ages 9-12: labels at least 8 pt; writing lines at least 8 mm apart; Thai glosses 8 pt upright, not italic. (3) Step numbers: the book keeps its fixed 13 printed steps with its own numbers and names (company rule: 13 printed steps, fixed); the app mapping stays in the teacher notes, not on the page.
   - 2026-11-21: the optional look questions UX3-1 and UX2-4 to UX2-9 keep their defaults (no change), PM decision. The approval covers Phase S5 only; S3 and S4 manual checks stay open.
+  - 2026-11-22: the PM closed the S3 and S4 manual checks on this approval.
 - [x] Task: Measure - User Manual Verification 'Phase S5: Page proofs for Daniel' (Protocol in workflow.md). Evidence: human, Daniel 2026-11-21, "Chibi Quest print proof: accepted." (via PM). `commit d239acca`
 
 ## Phase S6: Quest 5 printer file
