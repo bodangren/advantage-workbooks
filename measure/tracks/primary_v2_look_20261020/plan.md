@@ -203,6 +203,14 @@ _Story ref: spec.md#story-s8_
     - Red r2 fixture fix (`14837c01`, 2026-11-22, model muse-spark-1.3-contributor): the decided rule gives `chibi-quest` only when `type` is `primary`. The 6 `NEW_EDITIONS` fixtures and the `rewritten` fixture hold no `type`. Green r4 gives them `classic`, so 2 tests fail. The fix adds `type: 'primary'` to those 7 fixtures plus one comment line. It changes no assertion. `GREEN_TEST_COMMAND` (3 files) exits 0 with 28 passed. `PROJECT_LINT` on the test file exits 0. Breakage proof: with `projectLook` neutralized to return `classic` for no-look, the S8 file exits 1 with the same 2 failures. `look.ts` stays byte-identical after restore (`git diff --quiet` exits 0; never committed). `git status --porcelain content` stays empty.
 - [x] Task: No rebuild of shipped or on-order print files. (`85bdb148`)
     - Green evidence (`85bdb148`): the phase base is 75766085 (phase record: 7a8e602c, the strategy capture point). `git diff --name-only 75766085 85bdb148 -- 'content/primary/**/print/'` is empty. `git status --porcelain content` is empty after every vitest run. The 72 book print files at HEAD equal the ones at 08bb160. The 8 Origins 2 assessment print files were removed earlier by `9922d0a7`, which predates `75766085`.
+- [~] Task: S8 adversarial round 1: test cross-folder ids, null look writes, concurrent writes, and look selection in a temporary root.
+    - Initial evidence at `bbe3d68f`: the new `adversarial-s8-default-look.test.ts` exits 1 with 10 failed and 9 passed.
+    - ADV-S8-1: seven duplicate-id cases create a second project. Six cases then hide the shipped lesson behind an empty secondary project.
+    - ADV-S8-2: concurrent look-less PUTs remove the shipped classic marker. Both requests return 200, and the final look becomes `chibi-quest`.
+    - ADV-S8-3: two null-marker cases replace the stored look with null. A stored `chibi-quest` then resolves to `classic`.
+    - The tests use only temporary roots. `git status --porcelain content primary secondary` stays empty after Vitest.
+    - Green owns the three findings. Keep the failing tests, then rerun the adversarial gate after the implementation changes.
+    - Audit: `measure/runs/primary_v2_look_20261020/adversarial-s8-bbe3d68f.json`. The task stays open because the gate fails.
 - [ ] Task: Measure - User Manual Verification 'Phase S8: Default look for new editions' (Protocol in workflow.md) This task is deferred until after S8 phase acceptance: the PM verifies it (no visible change in a shipped book; the new-edition default is proven by tests; Daniel accepted the Chibi Quest look in S5 on 2026-11-21).
 
 ## Close
