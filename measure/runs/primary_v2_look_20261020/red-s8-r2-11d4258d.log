@@ -1,0 +1,91 @@
+# Mid Red run log: Phase S8 Red r2 (fixture fix)
+
+Role: measure-mid-red, round 2. Model: muse-spark-1.3-contributor.
+Track: primary_v2_look_20261020 (short id primary_v2_look).
+Phase: S8 Default look for new editions.
+
+## Bases and commits
+
+- phase_base_sha: 7a8e602c (resolves; supplied by orchestrator).
+- role_base_sha: 11d4258d (resolves; HEAD equaled it at start).
+- Round 1 Red commit: ad9fd95c. Green r4 commit: f8de333e. Reviews A, B, C: 05473af0.
+- Test commit (this round): 14837c01 "test(primary_v2_look): S8 Red fixtures state type primary (Red r2)".
+- Plan+log commit: this commit (plan.md Red r2 evidence plus this log).
+
+## Reason
+
+Reviews A, B, C at 05473af0 found that the chibi-quest default reached Reading
+Advantage (secondary) projects. Spec puts them out of scope (spec.md:159).
+The decided rule (orchestrator default, PM-confirmed) gives chibi-quest only
+when project.json has no look and type is primary. A secondary project, a
+project with no type, a non-object meta, and null meta give classic. Green r4
+(f8de333e) implemented it. The Red file then failed 2 tests: its 6
+NEW_EDITIONS entries and its rewritten fixture state no type. A real Primary
+project.json always states type primary (createProject and the Settings
+dialog write it). This round adds type primary to those 7 fixtures.
+
+## Change
+
+File: dashboard/__tests__/default-look-new-editions.test.ts only.
+- One comment line states the S8 rule.
+- Each of the 6 NEW_EDITIONS entries gains type: 'primary'.
+- The rewritten fixture gains type: 'primary'.
+- No assertion changes. No product code changes.
+- Untouched: dashboard/lib/look.ts, workbook-look.test.ts,
+  default-look-guards.test.ts.
+
+## Gate evidence (each command ran through ONE heavy-run wrapper, never nested)
+
+1. Targeted suite (Green r4 code, fixed fixtures):
+   `set -o pipefail; cd dashboard && CI=true npx vitest run
+   __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts
+   __tests__/default-look-guards.test.ts` -> exit 0, 3 files passed, 28 passed.
+2. Lint:
+   `set -o pipefail; cd dashboard && npx eslint
+   __tests__/default-look-new-editions.test.ts` -> exit 0.
+3. Breakage proof (neutralized code, temporary, never committed):
+   changed projectLook so a no-look project gives classic, ran the S8 file ->
+   exit 1, 8 tests with 2 failed (new-edition default, rewritten edition),
+   6 passed. Restored look.ts byte-identical:
+   `git diff --quiet -- dashboard/lib/look.ts` -> exit 0.
+4. `git status --porcelain content` -> empty (no rebuild of shipped print files).
+
+## Thai and scope hygiene
+
+- Thai filter ran first; every file read passed through it; 0 Thai characters
+  in output. Nothing under content/ was read. Nothing under measure/runs/
+  was read except this log.
+- Dirty paths at start: the test file and plan.md (this round, relevant);
+  review/strategy logs under measure/runs/primary_v2_look_20261020 (other
+  roles, left alone); untracked proof and storytime files (unrelated user
+  work, left alone); dashboard/AGENTS.md and dashboard/raw.json (untracked,
+  unrelated, left alone). No unrelated file was staged or changed.
+
+## MEASURE_AGENT_RESULT
+
+```
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+round: 2
+track: primary_v2_look_20261020
+phase: S8
+baseline_sha: 7a8e602c
+role_base_sha: 11d4258d
+head_at_start: 11d4258d
+test_commit: 14837c01
+plan_log_commit: this commit
+files_changed: dashboard/__tests__/default-look-new-editions.test.ts
+plan_updated: measure/tracks/primary_v2_look_20261020/plan.md
+tests: default-look-new-editions.test.ts + workbook-look.test.ts + default-look-guards.test.ts
+tests_exit: 0
+tests_count: 3 files passed, 28 passed
+lint_exit: 0
+mutation_exit: 1 (expected fail on neutralized code; restored, diff quiet exit 0)
+content_status: empty
+remaining_failures: none (manual verification stays deferred:pm; close stays deferred:closeout)
+red_kind: gap_closing
+gaps: NEW_EDITIONS 6 fixtures lacked type primary; rewritten fixture lacked type primary
+breakage_proof: neutralized projectLook no-look branch to classic -> S8 file exits 1 with 2 failed (new-edition default, rewritten edition)
+status: ready-for-green-confirm
+handoff: Green confirms no code change is needed (14837c01 passes against f8de333e); phase acceptance may proceed; manual verification stays deferred to the PM.
+```
