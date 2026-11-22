@@ -150,8 +150,8 @@ test("T1.7 the bubble box stays clear of the lyric text and the inset", () => {
   const lyricsBox = { left: 80, top: 1080 - 48 - 324, width: 1920 - 80 - (48 + 270 + 40), height: 200 };
   assert.ok(!overlap(box.landscape, insetBox), "bubble over the inset");
   assert.ok(!overlap(box.landscape, lyricsBox), "bubble over the lyric text");
-  assert.ok(!overlap(box.landscape, layout.PORTRAIT_BOXES.lyrics), "bubble over the portrait lyric box");
-  assert.ok(!overlap(box.landscape, layout.PORTRAIT_BOXES.gesture), "bubble over the portrait gesture box");
+  assert.ok(!overlap(box.portrait, layout.PORTRAIT_BOXES.lyrics), "bubble over the portrait lyric box");
+  assert.ok(!overlap(box.portrait, layout.PORTRAIT_BOXES.gesture), "bubble over the portrait gesture box");
   const sceneBandHeight = 607.5;
   assert.ok(box.portrait.top + box.portrait.height <= sceneBandHeight, "portrait bubble outside the top scene band");
 });
