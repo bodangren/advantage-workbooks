@@ -98,6 +98,20 @@ const PLACEHOLDERS = [
   ["top", "SpinningTop"],
 ];
 
+/** The prop labels of the placeholder map. A prop is drawn beside the characters of a picture, not instead of them. */
+const PROP_LABELS = new Set([
+  "ToyBox", "Ball", "Doll", "ToyCar", "Kite", "Drum", "ToyTrain", "SpinningTop",
+]);
+
+/**
+ * The recognised props of a picture prompt, one label per prop.
+ * @param {string} prompt The image prompt of a picture.
+ * @returns {string[]} The prop labels, empty when the prompt names none.
+ */
+function propsOf(prompt) {
+  return placeholderOf(prompt).split(" + ").filter((label) => label && PROP_LABELS.has(label));
+}
+
 /**
  * The flat placeholder of an animal or a prop named in a picture prompt. Every hit is returned so a picture with
  * more than one object keeps them all; an unmapped prompt gives no placeholder.
@@ -196,13 +210,16 @@ export function buildSpec(source, duration) {
     const picture = line.imageOf ?? i;
     const image = song.lines[picture].image ?? { prompt: "", characters: [] };
     let actors = image.characters.length
-      ? image.characters
+      ? [...image.characters]
       : /\bclass of children\b/i.test(image.prompt)
-        ? CLASS
+        ? [...CLASS]
         : [];
     if (!actors.length) {
       const placeholder = placeholderOf(image.prompt);
       if (placeholder) actors = [placeholder];
+    } else {
+      // A picture keeps its characters and also draws the props that its prompt names (w07 toys).
+      actors.push(...propsOf(image.prompt));
     }
     const bubbles = [];
     for (const part of segments(time)) {
