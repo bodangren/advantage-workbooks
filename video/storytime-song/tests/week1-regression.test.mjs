@@ -74,20 +74,38 @@ test("T1.8 week 1 keeps approved media and matches source under one toolchain", 
   console.log(`Week 1 bubble count: ${bubbles.length}`);
   assert.equal(bubbles.length, 0);
   let pairCount = 0;
+  // The P2-F3 framing fix changes every inset card, so the same-toolchain comparison masks the card.
+  // Card rectangles: classroom 1602 708 270 324 (GestureInset INSET in the 1920x1080 frame);
+  // phone 120 1032 840 856 (layout.ts PORTRAIT_BOXES.gesture in the 1080x1920 composition frame).
+  const CARD = {
+    classroom: { x: 1602, y: 708, w: 270, h: 324, frameW: 1920, frameH: 1080 },
+    phone: { x: 120, y: 1032, w: 840, h: 856, frameW: 1080, frameH: 1920 },
+  };
+  for (const cut of ["classroom", "phone"]) {
+    const maskRe = new RegExp(`^inset mask: ${cut} (\\d+) (\\d+) (\\d+) (\\d+)$`, "m");
+    const mask = text.match(maskRe);
+    assert.ok(mask, `missing labeled inset mask line for ${cut}`);
+    const [mx, my, mw, mh] = mask.slice(1).map(Number);
+    console.log(`Inset mask ${cut}: ${mx} ${my} ${mw} ${mh}`);
+    const card = CARD[cut];
+    assert.ok(mx >= 0 && my >= 0 && mx + mw <= card.frameW && my + mh <= card.frameH, `inset mask ${cut} must sit inside the frame`);
+    assert.ok(Math.abs(mx - card.x) <= 8 && Math.abs(my - card.y) <= 8, `inset mask ${cut} must hug the inset card`);
+    assert.ok(Math.abs(mw - card.w) <= 16 && Math.abs(mh - card.h) <= 16, `inset mask ${cut} must be no larger than the card plus 8 px a side`);
+  }
   for (const r of rows) {
     const esc = r.file.replace(/[./]/g, (c) => `\\${c}`);
-    const baseRe = new RegExp(`^same-toolchain ${esc} frame ${r.frame} base sha256: ([0-9a-f]+)$`, "m");
-    const newRe = new RegExp(`^same-toolchain ${esc} frame ${r.frame} new sha256: ([0-9a-f]+)$`, "m");
+    const baseRe = new RegExp(`^same-toolchain masked base sha256: ${esc} frame ${r.frame}: ([0-9a-f]+)$`, "m");
+    const newRe = new RegExp(`^same-toolchain masked new sha256: ${esc} frame ${r.frame}: ([0-9a-f]+)$`, "m");
     const base = text.match(baseRe);
     const next = text.match(newRe);
-    assert.ok(base, `missing same-toolchain base line for ${r.file} frame ${r.frame}`);
-    assert.ok(next, `missing same-toolchain new line for ${r.file} frame ${r.frame}`);
-    assert.equal(base[1].length, 64, `same-toolchain base hash must hold 64 hex chars`);
-    assert.equal(next[1].length, 64, `same-toolchain new hash must hold 64 hex chars`);
-    assert.equal(base[1], next[1], `same-toolchain mismatch for ${r.file} frame ${r.frame}`);
+    assert.ok(base, `missing same-toolchain masked base line for ${r.file} frame ${r.frame}`);
+    assert.ok(next, `missing same-toolchain masked new line for ${r.file} frame ${r.frame}`);
+    assert.equal(base[1].length, 64, `same-toolchain masked base hash must hold 64 hex chars`);
+    assert.equal(next[1].length, 64, `same-toolchain masked new hash must hold 64 hex chars`);
+    assert.equal(base[1], next[1], `same-toolchain masked mismatch for ${r.file} frame ${r.frame}`);
     pairCount += 1;
   }
-  console.log(`Same-toolchain pair count: ${pairCount}`);
+  console.log(`Same-toolchain masked pair count: ${pairCount}`);
   assert.equal(pairCount, 4);
   const driftCount = text.match(/^toolchain drift approved vs current match count: (\d+) of (\d+)$/m);
   assert.ok(driftCount, "missing labeled toolchain drift match count line");
