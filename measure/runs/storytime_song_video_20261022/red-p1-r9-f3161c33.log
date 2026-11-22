@@ -1,0 +1,15 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+baseline_sha: 1ffd649b83df6f1f6625351d8da4afd5ee1ca513
+role_base_sha: f3161c33144bb5a922082131de9444c7fa29dd5b
+test_commit: c38c92d6fddd3eaf1f63d6b9709e51d53fcb30e8
+red_kind: standard
+finding: PA-F1 (w07 drops props when a picture lists characters); PA-F2 closes by design (Forge-video weeks draw no actor layer)
+tests: video/storytime-song/tests/phase-acceptance-p1.test.mjs (PA-F1, PA-F2)
+red_command: exit 1, pass 1, fail 1; PA-F1 fails with `w07 line 1 classroom must draw ToyBox with May, Ben`; PA-F2 passes with w02, w03, w05, w06 actor draw count 0, w06 bubble count 4, w04 actor draw count 40, w07 actor draw count 22
+guards: no product code edit; `git status --porcelain content` empty; render.mjs never staged; handoff untouched; no disk writes in the new tests
+files: video/storytime-song/tests/phase-acceptance-p1.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/tracks/storytime_song_video_20261022/test-strategy.md
+remaining_failures: PA-F1 - fails on current code; P1 animals task stays [~] until Green draws the w07 props with their characters
+END_MEASURE_AGENT_RESULT
