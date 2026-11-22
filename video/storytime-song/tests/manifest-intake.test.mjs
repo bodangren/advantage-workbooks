@@ -151,14 +151,35 @@ test("T2.6 every week 2-7 copies only its own files, with placeholders for the m
   const files = new Set(rows.map((r) => r.file));
   assert.ok(files.size === 108, "manifest set must hold 108 paths");
   assert.ok(![...files].some((f) => f.toLowerCase().includes("lily")), "Lily rows must never be copied");
+  const coveredNames = new Set(
+    rows.filter((r) => r.file.startsWith("cutouts/")).map((r) => r.character_or_week.toLowerCase()),
+  );
+  console.log(`Manifest covered actor count: ${coveredNames.size}`);
+  assert.equal(coveredNames.size, 4);
+  for (const name of ["pat", "sam", "mia", "may"]) {
+    assert.ok(coveredNames.has(name), `manifest must cover ${name}`);
+  }
+  const sceneRowsW04 = rows.filter((r) => r.character_or_week === "w04");
+  const sceneRowsW07 = rows.filter((r) => r.character_or_week === "w07");
+  console.log(`W04 scene row count: ${sceneRowsW04.length}`);
+  console.log(`W07 scene row count: ${sceneRowsW07.length}`);
+  assert.equal(sceneRowsW04.length, 4);
+  assert.equal(sceneRowsW07.length, 4);
   const before = rows.map((r) => `${r.file} ${fs.statSync(safeJoin(HANDOFF, r.file)).mtimeMs}`);
+  let forgeWeeks = 0;
+  let placeholderWeeks = 0;
   for (const rel of ["l2/w02", "l2/w03", "l2/w04", "l2/w05", "l2/w06", "l2/w07"]) {
     const spec = JSON.parse(fs.readFileSync(prepare.prepare(rel), "utf8"));
     const use = prepare.usedArt(spec);
     console.log(`${rel} actor count: ${use.actors.length}`);
     assert.ok(use.actors.length > 0, `no actors in ${rel}`);
+    const coveredActors = use.actors.filter((n) => coveredNames.has(String(n).toLowerCase()));
+    console.log(`${rel} covered actor count: ${coveredActors.length}`);
+    assert.ok(coveredActors.length >= 0, `negative covered actors in ${rel}`);
     for (const name of use.actors) {
-      const kind = spec.forge?.cast?.[name] ? "forge" : prepare.resolveActorArt(name, spec.forge).kind;
+      const kind = spec.forge?.cast?.[name] ?? spec.forge?.cast?.[String(name).toLowerCase()]
+        ? "forge"
+        : prepare.resolveActorArt(name, spec.forge).kind;
       if (name === "Lily" || name === "Ben" || ["Mom", "Dad", "Grandma", "Grandpa", "Tom"].includes(name)) {
         assert.equal(kind, "placeholder", `${rel} ${name} must resolve to a placeholder`);
       }
@@ -169,7 +190,18 @@ test("T2.6 every week 2-7 copies only its own files, with placeholders for the m
     }
     for (const p of spec.forge?.idle ?? []) assert.ok(!p.includes("cutouts/"), `${rel} idle must not use a cut-out: ${p}`);
     const dir = path.join(HERE, "..", "public", rel, "forge");
-    if (spec.art !== "forge") {
+    if (coveredActors.length > 0) {
+      assert.equal(spec.art, "forge", `${rel} has manifest-covered cast but prepares ${spec.art}`);
+      forgeWeeks += 1;
+      for (const name of coveredActors) {
+        const entry = spec.forge?.cast?.[name] ?? spec.forge?.cast?.[String(name).toLowerCase()];
+        assert.ok(entry, `${rel} covered actor ${name} must keep a Forge cast entry`);
+        const copied = path.join(HERE, "..", "public", String(entry));
+        assert.ok(fs.existsSync(copied), `${rel} covered actor ${name} copy must exist on disk: ${entry}`);
+      }
+    } else {
+      assert.notEqual(spec.art, "forge", `${rel} with no covered cast must not claim Forge art`);
+      placeholderWeeks += 1;
       assert.ok(!fs.existsSync(dir) || fs.readdirSync(dir).length === 0, `${rel} without Forge art keeps no forge folder`);
       continue;
     }
@@ -180,7 +212,25 @@ test("T2.6 every week 2-7 copies only its own files, with placeholders for the m
       assert.ok(!f.toLowerCase().includes("lily"), `${rel} must never copy Lily: ${f}`);
       assert.ok(files.has(f) || f.includes("adventurer"), `${rel} copied file must be manifest-listed or Adventurer inset: ${f}`);
     }
+    if (rel === "l2/w04" || rel === "l2/w07") {
+      const tag = rel.slice(3);
+      const sceneRows = rows.filter((r) => r.file.startsWith(`scenes/${tag}/`));
+      console.log(`${rel} scene row count: ${sceneRows.length}`);
+      assert.equal(sceneRows.length, 4, `${rel} must hold 4 manifest scene rows`);
+      for (const r of sceneRows) {
+        assert.ok(fs.existsSync(safeJoin(HANDOFF, r.file)), `${rel} scene file must exist in the handoff: ${r.file}`);
+      }
+    }
+    if (rel === "l2/w07") {
+      for (const line of spec.lines) {
+        assert.equal(line.scene, "classroom", "w07 lines use the classroom default");
+      }
+    }
   }
+  console.log(`Forge week count: ${forgeWeeks}`);
+  console.log(`Placeholder week count: ${placeholderWeeks}`);
+  assert.equal(forgeWeeks, 5);
+  assert.equal(placeholderWeeks, 1);
   const after = rows.map((r) => `${r.file} ${fs.statSync(safeJoin(HANDOFF, r.file)).mtimeMs}`);
   assert.deepEqual(after, before, "the handoff folder must stay unchanged");
 });
