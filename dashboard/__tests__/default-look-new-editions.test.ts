@@ -22,13 +22,14 @@ const SHIPPED_IDS = [
     'quest-4-a1',
 ];
 
+// S8 rule: the no-look default applies to Primary projects only, so each fixture states type primary.
 const NEW_EDITIONS: ProjectMetadata[] = [
-    { seriesName: 'Origins', levelNumber: '1', cefrLevel: 'A0' },
-    { seriesName: 'Origins', levelNumber: '2', cefrLevel: 'A0' },
-    { seriesName: 'Origins', levelNumber: '3.2', cefrLevel: 'A0+' },
-    { seriesName: 'Quest', levelNumber: '4', cefrLevel: 'A1' },
-    { seriesName: 'Quest', levelNumber: '5', cefrLevel: 'A1' },
-    { seriesName: 'Adventure', levelNumber: '9.3', cefrLevel: 'A2' },
+    { seriesName: 'Origins', levelNumber: '1', cefrLevel: 'A0', type: 'primary' },
+    { seriesName: 'Origins', levelNumber: '2', cefrLevel: 'A0', type: 'primary' },
+    { seriesName: 'Origins', levelNumber: '3.2', cefrLevel: 'A0+', type: 'primary' },
+    { seriesName: 'Quest', levelNumber: '4', cefrLevel: 'A1', type: 'primary' },
+    { seriesName: 'Quest', levelNumber: '5', cefrLevel: 'A1', type: 'primary' },
+    { seriesName: 'Adventure', levelNumber: '9.3', cefrLevel: 'A2', type: 'primary' },
 ];
 
 function readShippedMeta(id: string): ProjectMetadata {
@@ -47,7 +48,7 @@ describe('S8 default look for new editions', () => {
     });
 
     it('gives chibi-quest to a rewritten Origins 3.2 edition with no look', () => {
-        const rewritten: ProjectMetadata = { seriesName: 'Origins', levelNumber: '3.2', cefrLevel: 'A0+' };
+        const rewritten: ProjectMetadata = { seriesName: 'Origins', levelNumber: '3.2', cefrLevel: 'A0+', type: 'primary' };
         expect(rewritten.look).toBe(undefined);
         expect(projectLook(rewritten)).toBe('chibi-quest');
     });
