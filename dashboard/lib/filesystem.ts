@@ -10,7 +10,7 @@ export interface ProjectMetadata {
   levelNumber: string; // e.g., "3.1", "4.2", "5.3"
   cefrLevel: string; // e.g., "A1", "A2", "B1", "B2", "C1"
   type?: ProjectType;
-  /** The print look ("classic" or "chibi-quest"); when absent, the book's look (`projectLook` in lib/look.ts). */
+  /** The print look ("classic" or "chibi-quest"); when absent, a new Primary edition takes `chibi-quest` (`projectLook` in lib/look.ts). */
   look?: WorkbookLook;
 }
 
@@ -226,7 +226,56 @@ export async function writeProjectMetadata(projectId: string, metadata: ProjectM
 
   assertSafePath(fullPath, metadataPath);
 
-  await fs.writeFile(metadataPath, JSON.stringify(metadata, null, 2), 'utf-8');
+  // A write with no look keeps the look of the project. A shipped edition states its look.
+  const merged: ProjectMetadata = metadata.look === undefined
+    ? { ...metadata, ...(await readProjectLook(metadataPath)) }
+    : metadata;
+
+  await fs.writeFile(metadataPath, JSON.stringify(merged, null, 2), 'utf-8');
+}
+
+/**
+ * Reads the look of a project.json file. A file that is missing, unreadable, or not an object
+ * has no look.
+ * @param metadataPath The path of the project.json file.
+ * @returns The look of the file, or an empty object when the file has none.
+ */
+async function readProjectLook(metadataPath: string): Promise<Pick<ProjectMetadata, 'look'>> {
+  try {
+    const parsed = JSON.parse(await fs.readFile(metadataPath, 'utf-8')) as ProjectMetadata;
+    if (parsed && typeof parsed === 'object' && parsed.look !== undefined) return { look: parsed.look };
+  } catch {
+    // No readable project.json: the write starts without a look.
+  }
+  return {};
+}
+
+/**
+ * Thrown when a create would overwrite an existing project folder.
+ */
+export class ProjectExistsError extends Error {
+  readonly projectId: string;
+
+  constructor(projectId: string) {
+    super(`Project '${projectId}' already exists. Choose another name, or edit the existing project.`);
+    this.name = 'ProjectExistsError';
+    this.projectId = projectId;
+  }
+}
+
+/**
+ * Whether a project folder already exists under a series folder.
+ * @param rootPath The series folder, for example `primary`.
+ * @param projectId The project folder name.
+ * @returns True when the folder exists.
+ */
+async function projectFolderExists(rootPath: string, projectId: string): Promise<boolean> {
+  try {
+    const stat = await fs.stat(path.join(rootPath, projectId));
+    return stat.isDirectory();
+  } catch {
+    return false;
+  }
 }
 
 export async function createProject(options: CreateProjectOptions): Promise<WorkbookProject>;
@@ -242,6 +291,8 @@ export async function createProject(nameOrOptions: string | CreateProjectOptions
     const projectPath = path.join(rootPath, projectId);
 
     assertSafePath(rootPath, projectPath);
+
+    if (await projectFolderExists(rootPath, projectId)) throw new ProjectExistsError(projectId);
 
     await fs.mkdir(projectPath, { recursive: true });
 
@@ -270,6 +321,8 @@ export async function createProject(nameOrOptions: string | CreateProjectOptions
   const projectPath = path.join(rootPath, projectId);
 
   assertSafePath(rootPath, projectPath);
+
+  if (await projectFolderExists(rootPath, projectId)) throw new ProjectExistsError(projectId);
 
   await fs.mkdir(projectPath, { recursive: true });
 

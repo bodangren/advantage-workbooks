@@ -39,16 +39,25 @@ export function bookLook(book: string): WorkbookLook {
 }
 
 /**
+ * Whether a value can hold project metadata. A damaged project.json that holds a string, a
+ * number, or an array is not metadata, and it fails safe to the classic look.
+ */
+function isMetadataObject(value: unknown): value is ProjectMetadata {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+/**
  * The look of a dashboard project: the `look` of its project.json, or `chibi-quest` when the
- * project has none (a new or rewritten edition). A shipped edition states `classic` in its
- * project.json (track primary_v2_look_20261020, Daniel 2026-11-21).
+ * project is a new or rewritten Primary Advantage edition with no look. A Reading Advantage
+ * project, a project with no type, and a shipped edition that states `classic` keep `classic`
+ * (track primary_v2_look_20261020, Daniel 2026-11-21).
  * @param meta The project.json values, or null when the project has none.
- * @returns `classic` for null (the book-folder path), else the project's look.
+ * @returns `classic` for null or for a value that is not an object, else the project's look.
  * @throws When project.json has an unknown look.
  */
 export function projectLook(meta: ProjectMetadata | null | undefined): WorkbookLook {
-    if (!meta) return 'classic';
-    if (meta.look === undefined) return 'chibi-quest';
+    if (!isMetadataObject(meta)) return 'classic';
+    if (meta.look === undefined) return meta.type === 'primary' ? 'chibi-quest' : 'classic';
     const book = `${meta.seriesName ?? ''}-${meta.levelNumber ?? ''}`.toLowerCase();
     return parseLook(meta.look, `project.json of ${book}`);
 }

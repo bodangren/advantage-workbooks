@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { readProjectMetadata, writeProjectMetadata, type ProjectMetadata } from '@/lib/filesystem';
+import { parseLook } from '@/lib/look';
 
 export async function GET(
   request: NextRequest,
@@ -43,6 +44,16 @@ export async function PUT(
     if (!metadata.seriesName || !metadata.levelNumber || !metadata.cefrLevel) {
       return NextResponse.json(
         { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // An unknown look is refused. A write with no look keeps the look of the project.
+    try {
+      parseLook(metadata.look, `project.json of ${decodedProjectId}`);
+    } catch (error) {
+      return NextResponse.json(
+        { error: (error as Error).message },
         { status: 400 }
       );
     }

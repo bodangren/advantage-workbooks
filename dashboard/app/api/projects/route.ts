@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { listProjects, createProject, type CreateProjectOptions, type ProjectType } from '@/lib/filesystem';
+import { listProjects, createProject, ProjectExistsError, type CreateProjectOptions, type ProjectType } from '@/lib/filesystem';
 
 export async function GET(request: NextRequest) {
   try {
@@ -66,6 +66,9 @@ export async function POST(request: NextRequest) {
     const project = await createProject(name);
     return NextResponse.json(project);
   } catch (error) {
+    if (error instanceof ProjectExistsError) {
+      return NextResponse.json({ error: error.message }, { status: 409 });
+    }
     console.error('Error creating project:', error);
     return NextResponse.json(
       { error: 'Failed to create project' },

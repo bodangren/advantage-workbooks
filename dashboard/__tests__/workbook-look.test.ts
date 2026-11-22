@@ -52,11 +52,13 @@ describe('look values', () => {
     for (const book of ['origins-2', 'bank-5', 'bank-9', 'adventures-1.0', '']) expect(bookLook(book)).toBe('classic');
   });
 
-  it('takes the look of a project from project.json, or chibi-quest when it has none', () => {
-    expect(projectLook({ seriesName: 'Quest', levelNumber: '5', cefrLevel: 'A1' })).toBe('chibi-quest');
-    expect(projectLook({ seriesName: 'Adventure', levelNumber: '9.3', cefrLevel: 'A2' })).toBe('chibi-quest');
-    expect(projectLook({ seriesName: 'Quest', levelNumber: '4', cefrLevel: 'A1' })).toBe('chibi-quest');
-    expect(projectLook({ seriesName: 'Origins', levelNumber: '3.2', cefrLevel: 'A0+' })).toBe('chibi-quest');
+  it('takes the look of a project from project.json, or chibi-quest for a new Primary project with none', () => {
+    expect(projectLook({ seriesName: 'Quest', levelNumber: '5', cefrLevel: 'A1', type: 'primary' })).toBe('chibi-quest');
+    expect(projectLook({ seriesName: 'Adventure', levelNumber: '9.3', cefrLevel: 'A2', type: 'primary' })).toBe('chibi-quest');
+    expect(projectLook({ seriesName: 'Quest', levelNumber: '4', cefrLevel: 'A1', type: 'primary' })).toBe('chibi-quest');
+    expect(projectLook({ seriesName: 'Origins', levelNumber: '3.2', cefrLevel: 'A0+', type: 'primary' })).toBe('chibi-quest');
+    expect(projectLook({ seriesName: 'Origins', levelNumber: '2', cefrLevel: 'A0', type: 'secondary' })).toBe('classic');
+    expect(projectLook({ seriesName: 'Origins', levelNumber: '2', cefrLevel: 'A0' })).toBe('classic');
     expect(projectLook({ seriesName: 'Quest', levelNumber: '5', cefrLevel: 'A1', look: 'classic' })).toBe('classic');
     expect(projectLook({ seriesName: 'Origins', levelNumber: '2', cefrLevel: 'A0', look: 'chibi-quest' })).toBe('chibi-quest');
     expect(projectLook(null)).toBe('classic');

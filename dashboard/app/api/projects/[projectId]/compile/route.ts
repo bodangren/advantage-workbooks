@@ -172,7 +172,8 @@ export async function GET(
     const seriesTagline = 'Learning Made Fun';
     // The book name with its number ("Origins 3.1"), on the title page and in each lesson header.
     const bookName = `${seriesName}${levelNumber ? ` ${levelNumber}` : ''}`;
-    // The print look (track primary_v2_look_20261020): project.json, or else the book's look.
+    // The print look (track primary_v2_look_20261020): project.json, or else chibi-quest for
+    // a new Primary edition with no look.
     const look = projectLook(metadata);
 
     const renderOptions = metadata ? {
