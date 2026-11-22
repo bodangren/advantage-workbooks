@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-c-ux-api",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "e7c9b7e1d0fc1621d9850dc6c348e33855a80390",
+  "audited_head_sha": "e7c9b7e1d0fc1621d9850dc6c348e33855a80390",
+  "status": "pass",
+  "summary": "All reviewed contracts pass. F3 is accepted as a risk and routed to tech debt at track close.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F3 [Blocker] review-c: A present but empty or header-only MANIFEST.tsv is accepted as an empty manifest. readManifestRows() discards the first line and does not validate the header or require data rows (scripts/prepare.mjs:307-323); manifestToForgeInput() then returns an empty cast map (lines 353-388), and prepare() treats the lack of covered actors as a placeholder/local-art fallback instead of an error (lines 658-679). render.mjs calls prepare() before rendering (scripts/render.mjs:44), so corrupted handoff data can silently produce placeholder output. Reject an invalid header or empty manifest with a clear error; keep fallback only when the handoff or MANIFEST.tsv is absent. Rationale: empty/header-only input is malformed against the T2.1 manifest contract, and the consumer otherwise receives the wrong art without a failed render. | accepted risk, tech debt at track close (PM 2026-11-23: new edges after the last fix round go to tech debt)"
+  ],
+  "evidence": [
+    "HEAD e7c9b7e1d0fc1621d9850dc6c348e33855a80390 matches the supplied audited HEAD.",
+    "The phase delta since 8497d776 contains prepare.mjs and SoundCard.tsx product changes; the current manifest parser and error handling are in the changed prepare.mjs lines 283-323 and 353-388.",
+    "Missing handoff fallback remains intentional: manifestToForgeInput returns null when MANIFEST.tsv is absent at prepare.mjs:353-355, and prepare robustness test A-F6 passes with a missing path.",
+    "Malformed row errors are clear and throw: missing file, symlink, noncanonical path, duplicate row, and invalid digest messages appear at prepare.mjs:283-323. However, an empty TSV or arbitrary first-line header with no data passes the current parser.",
+    "The render entry calls prepare(rel) before Remotion rendering (scripts/render.mjs:44); prepare then treats no covered actors as fallback at prepare.mjs:658-679.",
+    "A-F3 and T2.6 prepare checks cover real-manifest weeks 1-7 without rendering; the focused serial suite passed these and all bubble checks.",
+    "The phase diff does not change week packages or committed render.mjs. spec.md:20 retains song.video, song.videoPhone, song.poster, and song.posterPhone; output names remain song.mp4, song-poster.jpg, song-phone.mp4, and song-phone-poster.jpg.",
+    "Bubble layout remains clear in landscape and portrait; tests/bubbles.test.mjs T1.7 and tests/adversarial-p1.test.mjs ADV-P1-2b pass. SoundCard.tsx:43 wraps long unbroken text.",
+    "Late-finding wrong-result exception applies: a phase product file silently sends placeholder art to the render consumer instead of failing on malformed present input.",
+    "metadata.json:11 records a third-round escalation and PM approval; no further automatic fix round is authorized."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse e7c9b7e1^{commit}; git diff --quiet e7c9b7e1 HEAD \u2014 exit 0; audited HEAD is current.",
+    "git diff --name-status 8497d776..e7c9b7e1 \u2014 changed files match the supplied product and test scope.",
+    "git diff --quiet 1ffd649b e7c9b7e1 -- content/storytime \u2014 exit 0; no week package changed.",
+    "git diff --quiet 1ffd649b e7c9b7e1 -- video/storytime-song/scripts/render.mjs \u2014 exit 0; committed render entry unchanged.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c \"set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/adversarial-p1.test.mjs | Thai-line filter\" \u2014 exit 0; 42 passed, 0 failed; output filter reported 0 Thai characters.",
+    "Thai-safe first-command filter processed 2,144 content/storytime files and reported 0 Thai characters remaining.",
+    "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py audit-result --role measure-review-c-ux-api --file measure/runs/storytime_song_video_20261022/review-c-p1-e7c9b7e1.json \u2014 PASS: audit result is valid."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/green-p1-bd4dc560.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-e9a3d039.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py",
+    "measure/runs/storytime_song_video_20261022/green-p1-r3-a0a1e827.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r4-1e08e2b9.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r5-fa4bfa76.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r6-6e78a1d5.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r7-e7a18373.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r8-f96474ed.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt",
+    "measure/runs/storytime_song_video_20261022/red-p1-1ffd649b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r2-54ad7ae9.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r3-6ea08680.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r4-ac3a7c20.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r5-53de4102.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r6-4b25714b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r7-5f3c0498.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-w01-frames.txt",
+    "measure/tracks/storytime_song_video_20261022/metadata.json",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md",
+    "video/storytime-song/package.json",
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/adversarial-p1.test.mjs",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-fixture.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-prepare-fixture.mjs",
+    "video/storytime-song/tests/fixtures/w01-prepare-spec-1ffd649b.json",
+    "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json",
+    "video/storytime-song/tests/forge-contracts.test.mjs",
+    "video/storytime-song/tests/forge-inset.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/prepare-robustness.test.mjs",
+    "video/storytime-song/tests/prepare-snapshot.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "ux_applicability": "not_applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {
+    "screenshots": [],
+    "accessibility_snapshots": [],
+    "interactions": []
+  },
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 3,
+      "evidence": "Valid and adversarial prepare cases pass, but scripts/prepare.mjs:307-323 accepts an empty present manifest and lines 658-679 fall back silently."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The wrapped serial suite passed 42 meaningful tests, but no test rejects a present empty or header-only manifest."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff 8497d776..e7c9b7e1 shows changes limited to the compositor track, tests, and track records."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The heavy wrapper exited 0 with 42 passed and 0 failed; the finding cites parser and render-path line ranges."
+    }
+  ]
+}

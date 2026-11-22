@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "e7c9b7e1d0fc1621d9850dc6c348e33855a80390",
+  "audited_head_sha": "e7c9b7e1d0fc1621d9850dc6c348e33855a80390",
+  "status": "fail",
+  "summary": "The tests pass, but the normal prepare(rel) entry bypasses the new output-path guard. A successful Forge swap can also leave partial week output if later audio or spec writing fails.",
+  "blocking_findings": [
+    "F9 [Blocker] green: `prepareWithManifest()` commits the staged Forge directory, then deletes its backup before writing `song.mp3` and `spec.json` (video/storytime-song/scripts/prepare.mjs:511-541). If either later write fails, the previous Forge directory is gone while its previous spec can remain. A temporary-root probe forced the audio copy to fail after the swap and confirmed that the function threw, the old Forge file was gone, and the old spec remained. The rollback branch also suppresses failures while deleting the new directory or restoring the backup (lines 522-529). Rationale: a failed refresh can leave a mixed old/new week output instead of preserving the previous good output."
+  ],
+  "nonblocking_findings": [
+    "F8 [Major] green: `prepare(rel)`, the normal render entry, does not call `weekOutDir()` before writing its output (video/storytime-song/scripts/prepare.mjs:643-652). A symlink at `public/l2/wNN` therefore receives `song.mp3` before `prepareWithManifest()` applies its guard; with a missing handoff, the call also writes `spec.json` through that symlink. The temporary-root probe confirmed both files were written outside the project. ADV-P1-4g tests call `prepareWithManifest()` directly and miss this entry-path case. Rationale: the renderer can write its output outside the project."
+  ],
+  "evidence": [
+    "F8 probe: `prepare(\"l2/w02\")` used a temporary `public/l2/w02` symlink and a missing handoff. Output confirmed `song.mp3=true, spec.json=true` in the outside target. The probe cleaned its temporary root.",
+    "F9 probe: a temporary sandbox injected an audio-copy error after `prepareWithManifest()` swapped Forge output. Output confirmed `threw=true, previous_forge=false, old_spec_preserved=true, forge_dir_present=true`. The probe cleaned its temporary root.",
+    "F9 source inspection: `fs.rmSync(backup)` runs at prepare.mjs:533 before the fallible audio and spec writes at lines 538-541. The restoration catch at lines 524-529 discards restoration errors.",
+    "Bubble wrap is applied by the shared SoundCard component in both cuts: Song.tsx:42 and SongPortrait.tsx:55 render it; SoundCard.tsx:21-44 selects each box and applies `overflowWrap: \"anywhere\"`. ADV-P1-2a and ADV-P1-2b pass. The tests check the CSS declaration and layout geometry, not decoded long-token pixels.",
+    "Week 1 and cast-only inset contract remain unchanged: adversarial tests ADV-P1-5 and ADV-P1-6 pass; prepare.mjs:484-509 uses approved inset frames and puts handoff cut-outs under cast. Green r8 evidence records four equal same-toolchain pairs and Result PASS.",
+    "All Phase 1 completed task lines include SHA evidence. Current P2 re-render remains [~]. Green r8 plan claims report 44 targeted tests and 65 project tests; the serial full suite in this audit reports 65 pass, 0 fail.",
+    "HEAD and role_base_sha equal e7c9b7e1d0fc1621d9850dc6c348e33855a80390. Audited the exact 1ffd649b83df6f1f6625351d8da4afd5ee1ca513..e7c9b7e1d0fc1621d9850dc6c348e33855a80390 diff. No uncommitted render.mjs edits were included.",
+    "repo-graph scanned 385 nodes and 599 edges. The changed SoundCard symbol has Song and SongPortrait call sites, confirmed at their source lines; graph caller lookup is ambiguous because it also finds an unnamed duplicate node."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse 1ffd649b; git diff --check 1ffd649b..e7c9b7e1 \u2014 HEAD matched e7c9b7e1; phase base resolved to 1ffd649b; diff check passed.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test' \u2014 exit 0; node tests ran serially; 65 pass, 0 fail.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; node /tmp/opencode/review-a-p1-symlink-prepare-probe.mjs' \u2014 exit 0; normal prepare wrote song.mp3 and spec.json through a temporary week symlink.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; node /tmp/opencode/review-a-p1-postswap-probe.mjs' \u2014 exit 0; injected audio write failure left the old spec and removed the previous Forge file.",
+    "repo-graph scan video/storytime-song /tmp/opencode/storytime-song-review-r5.db; repo-graph inspect /tmp/opencode/storytime-song-review-r5.db function:/home/daniebo/Desktop/Workbooks/video/storytime-song/src/SoundCard.tsx:SoundCard \u2014 scanned 385 nodes and 599 edges; graph showed SoundCard file/symbol structure; direct callers were confirmed from Song.tsx and SongPortrait.tsx.",
+    "python3 Phase 1 plan SHA scan \u2014 no [x] task line was missing SHA evidence."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/green-p1-bd4dc560.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-e9a3d039.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py",
+    "measure/runs/storytime_song_video_20261022/green-p1-r3-a0a1e827.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r4-1e08e2b9.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r5-fa4bfa76.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r6-6e78a1d5.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r7-e7a18373.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r8-f96474ed.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt",
+    "measure/runs/storytime_song_video_20261022/red-p1-1ffd649b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r2-54ad7ae9.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r3-6ea08680.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r4-ac3a7c20.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r5-53de4102.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r6-4b25714b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r7-5f3c0498.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-w01-frames.txt",
+    "measure/tracks/storytime_song_video_20261022/metadata.json",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md",
+    "video/storytime-song/package.json",
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/adversarial-p1.test.mjs",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-fixture.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-prepare-fixture.mjs",
+    "video/storytime-song/tests/fixtures/w01-prepare-spec-1ffd649b.json",
+    "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json",
+    "video/storytime-song/tests/forge-contracts.test.mjs",
+    "video/storytime-song/tests/forge-inset.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/prepare-robustness.test.mjs",
+    "video/storytime-song/tests/prepare-snapshot.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs"
+  ],
+  "test_strategy_violations": [
+    "F9: the failure tests cover digest and Forge rename failures but do not verify that audio/spec write failures preserve a complete prior week output."
+  ],
+  "live_contract_violations": [
+    "F8: the public render entry can write through a week-output symlink before the containment guard runs.",
+    "F9: a failure after the Forge swap can leave the week output partly refreshed."
+  ],
+  "prod_wiring_violations": [
+    "F8: prepare(rel) does not validate the week output path before its first write."
+  ],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 2,
+      "evidence": "The temporary symlink probe wrote song.mp3 and spec.json outside the project through prepare(rel) at prepare.mjs:650-652."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The serial suite passed 65 tests, but the symlink test covers prepareWithManifest directly and no test covers post-swap audio/spec failure."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The phase diff is limited to the compositor track, its tests, and Measure evidence; the render.mjs working-tree edit was excluded."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The serial suite passed 65 tests; two temporary-root probes reproduced the unguarded render path and partial refresh."
+    }
+  ]
+}

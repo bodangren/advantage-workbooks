@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-c-ux-api",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "8497d776a914b11f757eccc992ba26a85bb9a714",
+  "audited_head_sha": "8497d776a914b11f757eccc992ba26a85bb9a714",
+  "status": "pass",
+  "summary": "The prior PASS still holds. The stronger T2.6 checks enforce Forge cast preparation and w07 classroom scenes, and all six intake tests pass.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "The prior F2 remains withdrawn: production code is unchanged since 5f3c0498, and tests/manifest-intake.test.mjs:108-138 still compares gestures and idle to the approved Adventurer fixture.",
+    "The phase delta since 5f3c0498 contains the strengthened test, strategy and plan text, plus Red evidence; it contains no product code changes.",
+    "T2.6 derives the four manifest-covered actors, requires Forge art and an on-disk cast file for each covered week, and requires placeholder art when a week has no covered actor (tests/manifest-intake.test.mjs:154-206). The wrapped run passed these checks with five Forge weeks and one placeholder week.",
+    "The test checks four scene rows for w04 and w07; T2.1 verifies manifest file existence, and T2.2 checks the paired scene sets (tests/manifest-intake.test.mjs:22-79, 162-167). The w07 line contract remains classroom in T2.5 and T2.6 (lines 141-146, 224-227). This matches the strategy and default scene behavior.",
+    "ForgeArt retains cast, gestures, idle, gestureBox, and scenes fields (src/types.ts:23-39). The inset paths remain independent from cut-out cast paths (prepare.mjs:320-340; Actors.tsx:103-120; GestureInset.tsx:70-75).",
+    "The test command passed: 6 tests, 0 failures, with the output filter reporting 0 Thai characters.",
+    "HEAD 8497d776a914b11f757eccc992ba26a85bb9a714 matched the supplied audited HEAD. UX browser review remains not applicable under test-strategy.md:171-173."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse 8497d776^{commit}; git diff --quiet 8497d776 HEAD \u2014 exit 0; current HEAD is the audited commit.",
+    "git diff --name-status 5f3c0498..8497d776 \u2014 only the test, plan, strategy, and Red evidence changed; no product source changed.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c \"set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/manifest-intake.test.mjs | Thai-line filter\" \u2014 exit 0; 6 passed, 0 failed; 0 Thai characters remained in output.",
+    "Thai-safe first-command filter processed 2,144 content/storytime files and reported 0 Thai characters remaining."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/green-p1-bd4dc560.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-e9a3d039.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py",
+    "measure/runs/storytime_song_video_20261022/green-p1-r3-a0a1e827.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r4-1e08e2b9.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r5-fa4bfa76.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt",
+    "measure/runs/storytime_song_video_20261022/red-p1-1ffd649b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r2-54ad7ae9.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r3-6ea08680.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r4-ac3a7c20.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r5-53de4102.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r6-4b25714b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r7-5f3c0498.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-w01-frames.txt",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md",
+    "video/storytime-song/package.json",
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-fixture.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-prepare-fixture.mjs",
+    "video/storytime-song/tests/fixtures/w01-prepare-spec-1ffd649b.json",
+    "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json",
+    "video/storytime-song/tests/forge-contracts.test.mjs",
+    "video/storytime-song/tests/forge-inset.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/prepare-robustness.test.mjs",
+    "video/storytime-song/tests/prepare-snapshot.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "ux_applicability": "not_applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {
+    "screenshots": [],
+    "accessibility_snapshots": [],
+    "interactions": []
+  },
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "T2.6 asserts Forge art and copied paths for covered cast; its manifest-intake test passed on the audited HEAD."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The serial manifest-intake run passed all six tests, including T2.6 actor, scene, and classroom-default assertions."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff 5f3c0498..8497d776 shows no production source change."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The heavy wrapper exited 0 with 6 passed and 0 failed, and T2.6 contract assertions are at tests/manifest-intake.test.mjs:154-227."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "56a9994ef291312a0e85896b7137d92b41713e4b",
+  "pre_adversarial_head_sha": "56a9994ef291312a0e85896b7137d92b41713e4b",
+  "audited_head_sha": "56a9994ef291312a0e85896b7137d92b41713e4b",
+  "status": "fail",
+  "summary": "The serial suite passes 16 of 20 tests. Four implementation defects remain. This is round 3, and metadata.json has no escalation key for a third remediation round.",
+  "blocking_findings": [
+    "F5 [Blocker] adversarial-testing: weekOutDir checks lexical containment only. When public/l2/w02 is a symlink to a sibling directory, prepareWithManifest removes that directory's forge/keep.bin and writes the generated spec and audio through the link. Resolve and validate physical paths before any delete, rename, or write; ADV-P1-4g reproduces this in a temporary sandbox.",
+    "F6 [Blocker] adversarial-testing: readManifestRows accepts a manifest file symlink whose target is outside the handoff root, and copyManifestSubset imports those external bytes into public output. Reject symlinks or require each resolved source path to remain inside the handoff root; ADV-P1-4h verifies the external bytes appear in the copied Forge file.",
+    "F7 [Blocker] adversarial-testing: prepareWithManifest removes the existing Forge directory before the staging rename. When rename fails, the catch removes staging but cannot restore the prior Forge set. Swap without deleting the last good set first, or restore it on failure; ADV-P1-4m simulates failure at the rename call and finds the prior binary missing."
+  ],
+  "nonblocking_findings": [
+    "F8 [Major] adversarial-testing: readManifestRows accepts a backslash-separated manifest path, but manifestToForgeInput does not recognize it as a cut-out path and silently omits the character from the cast. Reject or normalize backslashes consistently before validation and adapter mapping; ADV-P1-4k observes cast.pat is undefined.",
+    "N1 [Nit] adversarial-testing: a staging folder left by an interrupted process remains under public/l2 after a later successful refresh. The stale folder does not block a new unique stage, but it is not cleaned up; ADV-P1-4i records the behavior."
+  ],
+  "evidence": [
+    "F1 withdrawn: ADV-P1-4b compares binary Forge, spec, and audio fixtures before and after a bad-digest refresh; all three remain byte-identical.",
+    "F4 withdrawn: ADV-P1-4f rejects the traversal week id and confirms its sibling keep.txt file survives.",
+    "The full serial suite reports 16 pass and 4 fail. Failures: ADV-P1-4g, ADV-P1-4h, ADV-P1-4m, and ADV-P1-4k. All other 16 tests pass.",
+    "New tests: ADV-P1-4g fails after the output symlink deletes the external sentinel; ADV-P1-4h fails because external handoff bytes are copied; ADV-P1-4i passes and confirms the stale stage remains; ADV-P1-4m fails because a simulated rename failure deletes prior Forge output; ADV-P1-4j passes for Unicode and trailing-newline week ids; ADV-P1-4k fails for backslash paths while the ./ variant is rejected; ADV-P1-4l passes with concurrent child-process refreshes.",
+    "ADV-P1-4b and ADV-P1-4f pass, so Green r7 fixes the earlier bad-digest preservation and traversal week-id cases. ADV-P1-4a also rejects a wrong uppercase SHA-256 digest.",
+    "Every destructive probe uses a mkdtemp sandbox under the system temporary directory and removes that sandbox. No real public week folder was modified.",
+    "Thai filter ran first: FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262. git status --porcelain content is empty; the read-only handoff folder was not accessed.",
+    "Audited HEAD and role_base_sha both equal 56a9994ef291312a0e85896b7137d92b41713e4b. Test-only commit f96474ed6dbac8926ca68d6f48bad93afb3f7785 changes only video/storytime-song/tests/adversarial-p1.test.mjs.",
+    "Late-finding rule applies to F6 and F8. Their paths produce wrong Forge output, but a third remediation round exceeds the round limit. F5 and F7 are defects in Green r7 changed lines and remain re-review findings.",
+    "measure/tracks/storytime_song_video_20261022/metadata.json has no escalation key. The orchestrator must obtain a human decision before any third remediation round."
+  ],
+  "commands": [
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/adversarial-p1.test.mjs' — exit 1; 16 pass, 4 fail",
+    "node --check video/storytime-song/tests/adversarial-p1.test.mjs && git diff --check — exit 0",
+    "Thai filter over content/storytime — FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262",
+    "git status --porcelain content — empty",
+    "repo-graph callers ./graph.db prepareWithManifest — no matches; exit 1",
+    "rg -n 'PASS=[0-9]+.*FAIL=0|all checks pass|all tests pass|markers consistent' measure/tracks/storytime_song_video_20261022/plan.md — no matches"
+  ],
+  "changed_files": [
+    "video/storytime-song/tests/adversarial-p1.test.mjs",
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-56a9994e.json",
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-56a9994e.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {"axis": "correctness", "score": 2, "evidence": "ADV-P1-4g, ADV-P1-4h, and ADV-P1-4m expose destructive or boundary-crossing behavior in the staged prepare path."},
+    {"axis": "test_meaning", "score": 4, "evidence": "The serial suite has 20 live filesystem tests; four fail on reproducible outcomes."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "Commit f96474ed changes only video/storytime-song/tests/adversarial-p1.test.mjs."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The heavy-run result, test names, Thai filter, content status, and commit SHA are recorded above."}
+  ]
+}

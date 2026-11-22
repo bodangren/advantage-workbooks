@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "4b25714b761231369540f0eadf2551d16379e7b4",
+  "audited_head_sha": "4b25714b761231369540f0eadf2551d16379e7b4",
+  "status": "fail",
+  "summary": "F1-F3 are fixed, but the new Forge gesture mapping changes the approved week 1 inset, and prepare depends on the optional handoff.",
+  "blocking_findings": [
+    "F5 [Blocker] green: The intake adapter routes classmate cut-out gesture frames into ForgeArt.gestures and ForgeArt.idle. GestureInset.tsx:70-75 consumes those fields for the inset, replacing the approved Adventurer. The current week 1 scratch frame at frame 753 visibly shows a small classmate instead of the Adventurer. prepare.mjs:500-506 applies this handoff path to w01 when CLASS fallback names match available cast. Rationale: the plan requires week 1 to stay approved and the Adventurer inset to remain unchanged.",
+    "F6 [Blocker] green: prepare(rel) reads MANIFEST.tsv and the scene manifest unconditionally at prepare.mjs:500 and manifestToForgeInput:277-280. A missing handoff folder or MANIFEST.tsv therefore makes a normal render fail, including w01, despite the week having no handoff cast requirement. Rationale: the handoff is an optional art source and must not break existing weeks."
+  ],
+  "nonblocking_findings": [
+    "F4 [Major] green: T2.6 still checks only the manifest path set and absence of Lily (tests/manifest-intake.test.mjs:137-143). A-F3 and A-F4 exercise preparation and copied-file hashes for w02 only (tests/forge-contracts.test.mjs:76-127), not the required per-week subsets for w03-w07. Rationale: the plan says T2.6 verifies actual copied files for weeks 2 to 7.",
+    "F7 [Major] green: The render-time copy path does not verify a copied file against its MANIFEST.tsv SHA. readManifestRows parses sha at prepare.mjs:251-255, but manifestToForgeInput ignores it at lines 283-305 and copyManifestSubset only copies bytes at lines 317-326. A-F4 hashes its w02 test copy (tests/forge-contracts.test.mjs:121-124), but prepare() does not enforce the check before a render. Rationale: changed or damaged handoff bytes can reach a render without an integrity failure."
+  ],
+  "evidence": [
+    "F1 withdrawn: src/Actors.tsx:103-133 guards missing cast entries and draws a placeholder; tests/forge-contracts.test.mjs A-F1 passes.",
+    "F2 withdrawn: prepare.mjs:277-306 returns ForgeArt fields with project-relative paths; tests/forge-contracts.test.mjs A-F2 passes.",
+    "F3 withdrawn: tests/forge-contracts.test.mjs A-F3 calls prepare('l2/w02') and verifies Forge art; committed scripts/render.mjs still calls prepare(rel).",
+    "The T1.7 portrait assertions now use box.portrait and verify it against portrait lyrics, gesture, and the scene band (tests/bubbles.test.mjs:142-157).",
+    "The prepare snapshot test passes and matches fixture SHA-256 83f45092cd3047d25ee58249b0677e3e5cf43045d496c2d545f052173b4d8487, but it compares buildSpec output only (tests/prepare-snapshot.test.mjs:33-47); it does not pin prepare(rel)'s handoff-selected ForgeArt.",
+    "The week 1 evidence records four same-toolchain base/new equal pairs, but the evidence script prepares once with current code and copies current public/l2 assets into the base tree (green-p1-r2-w01-evidence.py:99-105). This masks changed preparation output.",
+    "green-p1-w01-compare.txt records 0 of 4 approved/current hash matches and PSNR 19.316 dB. The approved frame shows the Adventurer inset; the current frame shows a small classmate inset. The difference is visible and is not only subtle toolchain drift.",
+    "The missing-handoff failure follows from the unconditional reads at prepare.mjs:500 and manifestToForgeInput:277-280. No test covers absent handoff data.",
+    "A-F4 checks copied file hashes against MANIFEST.tsv for its w02 temp copy. Production prepare does not perform that comparison.",
+    "The production copy target is video/storytime-song/public/l2/<week>/forge/, inside the project. `git check-ignore -v` confirms video/storytime-song/.gitignore:10 (`public/l*/`) ignores the copied files, so they will not land in git.",
+    "HEAD is 4b25714b761231369540f0eadf2551d16379e7b4, equal to audited_head_sha. phase_base_sha resolves to 1ffd649b83df6f1f6625351d8da4afd5ee1ca513.",
+    "Audited the exact committed diff 1ffd649b83df6f1f6625351d8da4afd5ee1ca513..4b25714b761231369540f0eadf2551d16379e7b4. The only render.mjs change is uncommitted and unrelated; committed code does not depend on it.",
+    "All completed plan task lines include SHA evidence, and the karaoke item remains deferred."
+  ],
+  "commands": [
+    {
+      "command": "git rev-parse HEAD; git rev-parse 1ffd649b; git diff --name-only 1ffd649b..4b25714b; git diff --check 1ffd649b..4b25714b",
+      "result": "HEAD and phase base matched supplied SHAs; exact diff listed; git diff --check passed."
+    },
+    {
+      "command": "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/week1-regression.test.mjs'",
+      "result": "exit 0; 20 pass, 0 fail."
+    },
+    {
+      "command": "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test'",
+      "result": "exit 0; 41 pass, 0 fail."
+    },
+    {
+      "command": "build-graph scan video/storytime-song /tmp/opencode/storytime-song-review-graph-r2.db",
+      "result": "Scanned 385 nodes and 599 edges; JS prepare.mjs exports are outside the TypeScript graph."
+    },
+    {
+      "command": "git check-ignore -v video/storytime-song/public/l2/w02/forge/cutouts/pat/listen.png",
+      "result": "video/storytime-song/.gitignore:10:public/l*/ ignores the destination."
+    }
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/green-p1-bd4dc560.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-e9a3d039.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py",
+    "measure/runs/storytime_song_video_20261022/green-p1-r3-a0a1e827.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r4-1e08e2b9.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt",
+    "measure/runs/storytime_song_video_20261022/red-p1-1ffd649b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r2-54ad7ae9.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r3-6ea08680.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r4-ac3a7c20.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r5-53de4102.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-w01-frames.txt",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md",
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-fixture.mjs",
+    "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json",
+    "video/storytime-song/tests/forge-contracts.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/prepare-snapshot.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs"
+  ],
+  "test_strategy_violations": [
+    "F4: T2.6 does not verify actual copied files for each week 2 to 7.",
+    "F5: week 1 regression pairs reuse current prepare output in both source trees; the guard misses handoff changes to final prepared ForgeArt.",
+    "F6: no test proves prepare succeeds when the handoff directory or MANIFEST.tsv is absent.",
+    "F7: runtime copy does not verify SHA values, although the w02 test copy does."
+  ],
+  "live_contract_violations": [
+    "F5: manifest gestures replace the approved Adventurer inset, including in the week 1 current scratch frame.",
+    "F6: normal prepare fails when the optional handoff or its manifest is missing."
+  ],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 2,
+      "evidence": "GestureInset.tsx:70-75 consumes classmate gesture frames, and the current frame differs visibly from approved week 1."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 3,
+      "evidence": "The suite passes 41 tests, but tests/manifest-intake.test.mjs:137-143 does not verify per-week copied files."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 2,
+      "evidence": "prepare.mjs:500-506 applies new handoff art to w01 despite the plan's keep-week-1 constraint."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "The evidence records zero approved/current frame matches and PSNR 19.316 dB; visual comparison confirms the inset changed."
+    }
+  ]
+}

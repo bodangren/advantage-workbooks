@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: blocked
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+commits: f96474ed6dbac8926ca68d6f48bad93afb3f7785
+tests_run: full serial adversarial suite exit 1 (16 pass, 4 fail); node --check and git diff --check exit 0
+files_changed: video/storytime-song/tests/adversarial-p1.test.mjs; measure/runs/storytime_song_video_20261022/adversarial-p1-56a9994e.json; measure/runs/storytime_song_video_20261022/adversarial-p1-56a9994e.log
+plan_updates: none
+known_failures: ADV-P1-4g output symlink deletes sibling files; ADV-P1-4h handoff symlink imports external bytes; ADV-P1-4m failed staging rename deletes prior Forge output; ADV-P1-4k backslash manifest path omits cast art
+handoff: F5-F7 are blockers. F8 is a Major wrong-output gap. N1 is a Nit. F1 and F4 are withdrawn. This is round 3; metadata.json has no escalation key for a third remediation round. Exact question: Should the orchestrator add a non-empty escalation reason to metadata.json and authorize a third Green remediation round, or keep the round limit and route the open findings to tech debt and human risk acceptance?
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-c-ux-api",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "5f3c0498f075c91ed293d9ebcc970ad61ddf4140",
+  "audited_head_sha": "5f3c0498f075c91ed293d9ebcc970ad61ddf4140",
+  "status": "pass",
+  "summary": "F2 is withdrawn. Forge cut-outs now populate only cast; the Adventurer inset stays unchanged. The CLI, preparation, and compatibility contracts pass focused checks.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "F2 withdrawn: video/storytime-song/scripts/prepare.mjs:320-340 derives gestures and idle only from approvedInset, and lines 398-405 copy only that inset; tests/forge-inset.test.mjs:18-36 compares both maps to the phase-base fixture.",
+    "F1 remains withdrawn: committed render path still calls prepare(rel), and the focused A-F3 check passed in the wrapped run.",
+    "ForgeArt has scale, canvas, foot, cast, gestures, idle, gestureBox, and scenes at video/storytime-song/src/types.ts:23-39; manifestToForgeInput returns that shape with public-relative paths at scripts/prepare.mjs:307-341.",
+    "GestureInset.tsx:70-75 still consumes gesture and idle frames; Actors.tsx:103-120 uses only cast paths and falls back to placeholders for missing actors.",
+    "STORYTIME_SONG_ART_DIR uses the configured path or ~/Desktop/handoff/storytime-song-art at scripts/prepare.mjs:249-251. Missing MANIFEST.tsv returns null at line 308; A-F6 verified placeholder preparation without a handoff.",
+    "The post-copy SHA-256 mismatch throws `sha256 mismatch for <file> in the handoff manifest` at scripts/prepare.mjs:388-396; A-F7 passed with a deliberately wrong manifest hash.",
+    "T2.4 and T2.6 passed: cut-outs remain under cast, inset paths match the approved Adventurer fixture, and all weeks 2-7 prepare with missing actors as placeholders.",
+    "Week 1 full prepare output matches the phase-base fixture (A-note2); weeks 2-7 prepare checks passed. No week package path differs across the phase diff.",
+    "spec.md:20 retains song.video, song.videoPhone, song.poster, and song.posterPhone; committed render.mjs:67-71 and 82-86/147-153 retain song.mp4, song-poster.jpg, song-phone.mp4, and song-phone-poster.jpg.",
+    "package.json test script remains serial with `node --test --test-concurrency=1 tests/*.test.mjs` (line 32).",
+    "Review C is applicable for CLI and pure contracts; the strategy explicitly marks UX browser review not applicable because there is no route or page (test-strategy.md:171-173).",
+    "Phase 2 needs no further code change for re-rendering. T2.7-T2.9 render and decoded-frame evidence remain separate outstanding work; no render was run.",
+    "The committed phase diff does not change scripts/render.mjs. Its working-tree `--cut karaoke` edit was excluded from this audit."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse 1ffd649b^{commit}; git rev-parse 5f3c0498^{commit}; git diff --quiet 5f3c0498 HEAD \u2014 HEAD is the required audited commit and is current.",
+    "git diff --quiet 1ffd649b 5f3c0498 -- content/storytime \u2014 exit 0; no shipped week package changed.",
+    "git diff --quiet 1ffd649b 5f3c0498 -- video/storytime-song/scripts/render.mjs \u2014 exit 0; committed render entry is unchanged.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c \"set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/forge-contracts.test.mjs tests/forge-inset.test.mjs tests/manifest-intake.test.mjs tests/prepare-robustness.test.mjs tests/prepare-snapshot.test.mjs | <Thai-line filter>\" \u2014 exit 0; 15 passed, 0 failed; output filter reported 0 Thai characters.",
+    "Thai-safe first-command filter over content/storytime wrote 2,144 filtered files and reported 0 remaining Thai characters."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/green-p1-bd4dc560.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-e9a3d039.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py",
+    "measure/runs/storytime_song_video_20261022/green-p1-r3-a0a1e827.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r4-1e08e2b9.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r5-fa4bfa76.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt",
+    "measure/runs/storytime_song_video_20261022/red-p1-1ffd649b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r2-54ad7ae9.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r3-6ea08680.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r4-ac3a7c20.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r5-53de4102.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r6-4b25714b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-w01-frames.txt",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md",
+    "video/storytime-song/package.json",
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-fixture.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-prepare-fixture.mjs",
+    "video/storytime-song/tests/fixtures/w01-prepare-spec-1ffd649b.json",
+    "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json",
+    "video/storytime-song/tests/forge-contracts.test.mjs",
+    "video/storytime-song/tests/forge-inset.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/prepare-robustness.test.mjs",
+    "video/storytime-song/tests/prepare-snapshot.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "ux_applicability": "not_applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {
+    "screenshots": [],
+    "accessibility_snapshots": [],
+    "interactions": []
+  },
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "scripts/prepare.mjs:398-405 preserves the approved inset, and tests/forge-inset.test.mjs:18-36 proves both maps match the phase-base fixture."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The wrapped focused run passed 15 intake, Forge-contract, inset, missing-handoff, hash-mismatch, and week-1 snapshot checks."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --quiet confirms no phase change to content/storytime or scripts/render.mjs."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The wrapped test command exited 0 with 15 passed and 0 failed, and source contracts are cited at scripts/prepare.mjs:249-405."
+    }
+  ],
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513"
+}

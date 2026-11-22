@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-c-ux-api",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b",
+  "role_base_sha": "6ea08680",
+  "audited_head_sha": "6ea086808ca6b95e06f3111935277c9d41e9a642",
+  "status": "fail",
+  "summary": "Bubble and placeholder contracts pass their artifact tests. Phase 2 Forge intake is not connected to rendering and does not build the ForgeArt shape.",
+  "blocking_findings": [
+    "F1 [Blocker] review-c: Phase 2 manifest intake is unreachable and does not produce the existing ForgeArt contract. `render.mjs` calls only `prepare(rel)` (line 44), and `prepare()` reads only the existing media `forge/manifest.json` (prepare.mjs lines 443-454); the CLI also calls only `prepare()` (line 483). `prepareWithManifest()` has no caller (lines 307-331), and its `spec.forge` has `framesByGesture` and absolute handoff paths instead of the `ForgeArt` fields `gestures`, `idle`, `gestureBox`, `scenes`, and public-relative paths (src/types.ts lines 22-40; scripts/forge.mjs lines 22-70). Therefore Phase 2 renders will not consume MANIFEST.tsv and cannot render its cut-outs through the current compositor contract. The T2.4 test checks only a few adapter values and does not prove the required output shape or Lily, Ben, and family fallbacks."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD is 6ea086808ca6b95e06f3111935277c9d41e9a642; `git diff --quiet 6ea08680 HEAD` returned success, so audited HEAD is current.",
+    "The exact phase diff changes prepare.mjs, compositor components, layout/timeline, tests, and the track plan/strategy; it does not change content/storytime packages or render.mjs.",
+    "scripts/prepare.mjs:307-331 defines `prepareWithManifest`; lines 432-467 define the separate ordinary `prepare()` path; lines 469-483 expose only the ordinary path through the CLI.",
+    "scripts/render.mjs:14,44 imports and calls `prepare(rel)`; src/types.ts:22-40 and scripts/forge.mjs:22-70 define the ForgeArt fields and the legacy adapter.",
+    "scripts/render.mjs retains the established outputs `song.mp4`, `song-poster.jpg`, `song-phone.mp4`, and `song-phone-poster.jpg`; these filenames agree with spec.md:20 and test-strategy.md:109.",
+    "Spec.md:20 records `song.video`, `song.videoPhone`, `song.poster`, and `song.posterPhone`; the phase diff does not alter these package keys or package files.",
+    "The test strategy says Review C applies to CLI flags, defaults, exit codes, output paths, and pure contracts, with no route or page (test-strategy.md:166). UX browser review does not apply; frame sheets and the Daniel/Storytime look check provide visual acceptance (line 168).",
+    "The initial Thai filter scanned 2,144 files under content/storytime and emitted `residual_files=0`; it reported source residual characters but did not emit source text.",
+    "The handoff manifest tests report 108 rows, 25 each for Pat, Sam, Mia, and May, four each for w04 and w07, and four matching scene-file comparisons."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git diff --quiet 6ea08680 HEAD — HEAD matched the required audited head.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs' — exit 0; 13 passed, 0 failed."
+  ],
+  "changed_files": [
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [
+    "F1: The Phase 2 MANIFEST.tsv intake helper is not wired to the CLI render path and does not emit the ForgeArt contract consumed by the compositor."
+  ],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "ux_applicability": "not_applicable",
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 2,
+      "evidence": "scripts/render.mjs:44 calls prepare(rel), not prepareWithManifest."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 2,
+      "evidence": "tests/manifest-intake.test.mjs T2.4: the test does not assert ForgeArt fields or the named missing-actor fallbacks."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The phase diff changes only the song-video track and evidence files."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "The wrapped test command passed 13 tests, and the integration gap is visible at scripts/render.mjs:44 and scripts/prepare.mjs:307-331."
+    }
+  ]
+}

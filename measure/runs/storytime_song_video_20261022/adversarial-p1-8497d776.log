@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: partial
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+commits: 6e78a1d5109bb93bd499f8bc3fc9a6188ea89afc
+tests_run: serial adversarial suite exit 1; 6 passed, 5 failed; node --check exit 0; git diff --check exit 0; audit-result exit 0
+files_changed: video/storytime-song/tests/adversarial-p1.test.mjs; measure/runs/storytime_song_video_20261022/adversarial-p1-8497d776.json; measure/runs/storytime_song_video_20261022/adversarial-p1-8497d776.log
+plan_updates: none
+known_failures: ADV-P1-2a overflow wrapping; ADV-P1-3 manifest row validation; ADV-P1-4a uppercase SHA acceptance; ADV-P1-4b and ADV-P1-4c cleanup after digest failure
+handoff: Audit FAIL. F1 is a blocker: accept uppercase SHA-256 and prevent partial week output after invalid hashes. F2 and F3 are Nits: validate manifest rows at intake and wrap long sound text. Tests ADV-P1-1, ADV-P1-2b, ADV-P1-4d, ADV-P1-5, ADV-P1-6, and ADV-P1-7 pass. Retry recommendation: escalate_human.
+END_MEASURE_AGENT_RESULT

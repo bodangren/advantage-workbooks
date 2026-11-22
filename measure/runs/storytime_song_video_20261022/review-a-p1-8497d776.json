@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "8497d776a914b11f757eccc992ba26a85bb9a714",
+  "audited_head_sha": "8497d776a914b11f757eccc992ba26a85bb9a714",
+  "status": "pass",
+  "summary": "F4 is fixed: T2.6 now requires manifest-covered actors to prepare Forge art and verifies each actor copy for all applicable weeks. F5-F7 remain withdrawn; product code did not change since the prior review.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "F4 withdrawn: tests/manifest-intake.test.mjs:154-161 derives covered cast names from manifest cut-out rows. Lines 171-206 prepare every week 2-7, require Forge art and a cast entry plus an existing copied file for each covered actor, and require empty placeholder output only when no actor is covered. Lines 208-233 check copied paths and assert five Forge weeks and one placeholder week.",
+    "F4 mutation proof: measure/runs/storytime_song_video_20261022/red-p1-r7-5f3c0498.log:12 records that skipping the w02 manifest makes T2.6 fail with `l2/w02 has manifest-covered cast but prepares placeholder`; the implementation was restored afterward.",
+    "F5 withdrawn: product code has no changes between 5f3c0498 and 8497d776. Prior evidence remains: approvedInset sources Adventurer gestures and idle, Forge cut-outs are under cast, and the week 1 same-toolchain comparison has four equal pairs. Tests/forge-inset.test.mjs and T2.6 passed in this run.",
+    "F6 withdrawn: product code has no changes between 5f3c0498 and 8497d776. tests/prepare-robustness.test.mjs A-F6 passed in this run and verifies prepare with a missing handoff directory plus full week 1 output equality.",
+    "F7 withdrawn: product code has no changes between 5f3c0498 and 8497d776. tests/prepare-robustness.test.mjs A-F7 passed in this run and verifies that production copy rejects a manifest SHA mismatch.",
+    "The complete serial npm test suite exited 0 with 45 passes and 0 failures. T2.6 reported five Forge weeks and one placeholder week; week 4 had no covered actors.",
+    "The exact phase diff was audited: 1ffd649b83df6f1f6625351d8da4afd5ee1ca513..8497d776a914b11f757eccc992ba26a85bb9a714. HEAD and role_base_sha both equal 8497d776a914b11f757eccc992ba26a85bb9a714. The only changes since the prior review are T2.6 tests and Measure evidence; product code is unchanged.",
+    "Every completed Phase 1 task line includes SHA evidence. The P2 re-render task remains [~]. The plan records the T2.6 mutation proof and does not claim the open re-render is complete.",
+    "package.json keeps `node --test --test-concurrency=1 tests/*.test.mjs`. No orchestration scripts, contract tests, or registry changed, so framework-wide anti-pattern checks do not apply."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git diff --check 1ffd649b..8497d776; git diff --name-only 5f3c0498..8497d776 \u2014 HEAD matched audited_head_sha; diff check passed; changes since round 3 are limited to T2.6 and Measure files.",
+    "git diff --quiet 5f3c0498..8497d776 -- video/storytime-song/scripts/prepare.mjs video/storytime-song/src video/storytime-song/package.json \u2014 exit 0; product code unchanged since round 3.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test' \u2014 exit 0; serial node tests: 45 pass, 0 fail.",
+    "python3 plan SHA scan of Phase 1 [x] task lines \u2014 no completed task line missing SHA evidence."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/green-p1-bd4dc560.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-e9a3d039.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py",
+    "measure/runs/storytime_song_video_20261022/green-p1-r3-a0a1e827.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r4-1e08e2b9.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r5-fa4bfa76.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt",
+    "measure/runs/storytime_song_video_20261022/red-p1-1ffd649b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r2-54ad7ae9.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r3-6ea08680.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r4-ac3a7c20.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r5-53de4102.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r6-4b25714b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r7-5f3c0498.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-w01-frames.txt",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md",
+    "video/storytime-song/package.json",
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-fixture.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-prepare-fixture.mjs",
+    "video/storytime-song/tests/fixtures/w01-prepare-spec-1ffd649b.json",
+    "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json",
+    "video/storytime-song/tests/forge-contracts.test.mjs",
+    "video/storytime-song/tests/forge-inset.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/prepare-robustness.test.mjs",
+    "video/storytime-song/tests/prepare-snapshot.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "tests/manifest-intake.test.mjs:193-205 asserts expected Forge output for each covered week and placeholder output only when none are covered."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 5,
+      "evidence": "The Red mutation proof in red-p1-r7-5f3c0498.log:12 shows T2.6 fails when the w02 manifest is skipped; the full suite passes 45 tests."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --quiet confirms no product code changed since round 3; the new phase diff adds only the requested test and Measure records."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The wrapped serial npm test exited 0 with 45 passes, and the Red log records the failing-first mutation proof."
+    }
+  ]
+}

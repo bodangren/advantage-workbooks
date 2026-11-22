@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "8497d776a914b11f757eccc992ba26a85bb9a714",
+  "pre_adversarial_head_sha": "8497d776a914b11f757eccc992ba26a85bb9a714",
+  "audited_head_sha": "8497d776a914b11f757eccc992ba26a85bb9a714",
+  "status": "fail",
+  "summary": "The committed serial adversarial suite passes 6 of 11 tests. It exposes a manifest checksum cleanup defect and two non-blocking edge gaps.",
+  "blocking_findings": [
+    "F1 [Blocker] adversarial-testing: prepareWithManifest compares the SHA-256 text case-sensitively and copies files before checking each digest; valid uppercase hashes fail, while a wrong or space-padded hash leaves a partial public week folder. Green should normalize valid hexadecimal digests, reject malformed values before copying, and remove or atomically withhold partial week output on failure."
+  ],
+  "nonblocking_findings": [
+    "F2 [Nit] adversarial-testing: manifestToForgeInput accepts traversal, absolute, missing-file, and duplicate rows. copyManifestSubset guards traversal later, so this test did not prove a path escape; reject malformed and duplicate rows at intake and validate referenced files before returning the adapter.",
+    "F3 [Nit] adversarial-testing: SoundCard has no wrapping rule for a long unbroken sound word, so text can overflow its fixed bubble box. Add a wrapping rule; shipped week 1-7 text did not trigger this edge."
+  ],
+  "evidence": [
+    "Pre-adversarial HEAD and role_base_sha both equal 8497d776a914b11f757eccc992ba26a85bb9a714; phase_base_sha is 1ffd649b83df6f1f6625351d8da4afd5ee1ca513.",
+    "The required first-command Thai filter scanned 2,144 content/storytime files and reported thai_chars_after_filter=0.",
+    "The serial adversarial test command exited 1 with 6 passes and 5 failures. ADV-P1-2a found missing long-word wrapping; ADV-P1-3 accepted all four malformed manifest variants; ADV-P1-4a rejected uppercase SHA-256; ADV-P1-4b and ADV-P1-4c left partial week folders after invalid digests.",
+    "ADV-P1-1 passed exact start/end edges, overlapping windows, repeated sounds, and parenthesized sung repeats. ADV-P1-2b passed both-cut geometry checks.",
+    "ADV-P1-4d confirmed a successful manifest refresh removes stale files. ADV-P1-5 confirmed the approved inset and cast-only rows. ADV-P1-6 confirmed full week 1 output equality with missing, file, and present handoff paths; w04 also fell back to placeholders for a file path. ADV-P1-7 found zero Thai characters in generated spec strings for weeks 1-7.",
+    "Commit 6e78a1d5109bb93bd499f8bc3fc9a6188ea89afc contains only video/storytime-song/tests/adversarial-p1.test.mjs. git status --porcelain content was empty."
+  ],
+  "commands": [
+    "python3 Thai filter over content/storytime — FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262",
+    "git rev-parse HEAD before audit — 8497d776a914b11f757eccc992ba26a85bb9a714; git status --porcelain content — empty",
+    "repo-graph callers ./graph.db bubbleAt — exit 1, no matches in the existing graph",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/adversarial-p1.test.mjs' — exit 1; 6 passed, 5 failed",
+    "node --check video/storytime-song/tests/adversarial-p1.test.mjs — exit 0",
+    "git diff --check HEAD^..HEAD — exit 0; commit 6e78a1d5109bb93bd499f8bc3fc9a6188ea89afc",
+    "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py audit-result --role adversarial-testing --file measure/runs/storytime_song_video_20261022/adversarial-p1-8497d776.json — exit 0; PASS: audit result is valid"
+  ],
+  "changed_files": [
+    "video/storytime-song/tests/adversarial-p1.test.mjs",
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-8497d776.json",
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-8497d776.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 2,
+      "evidence": "ADV-P1-4a, ADV-P1-4b, and ADV-P1-4c fail against prepare.mjs checksum handling at lines 389-397."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The 11-test serial run fails five targeted assertions and passes six boundary, geometry, inset, regression, and Thai checks."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "Commit 6e78a1d adds only the requested adversarial test file; no production files changed."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The wrapped test command reports 6 passes and 5 failures, and the content status check is empty."
+    }
+  ]
+}

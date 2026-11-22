@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "ab710ac77eac4b37c13e16acb1515c93da197b0b",
+  "pre_adversarial_head_sha": "ab710ac77eac4b37c13e16acb1515c93da197b0b",
+  "audited_head_sha": "ab710ac77eac4b37c13e16acb1515c93da197b0b",
+  "status": "fail",
+  "summary": "The serial suite passes 11 of 13 tests. A failed refresh deletes prior good outputs, and a traversal input deletes a sibling path outside the video project.",
+  "blocking_findings": [
+    "F1 [Blocker] adversarial-testing: prepareWithManifest removes the prior good week output when a later manifest copy fails. Preserve the prior good cast art, spec, and audio, or build the replacement in a temporary directory and swap it only after validation. | CONTEST kept: ADV-P1-4b fails because the wrong-digest refresh removes the existing forge file, spec, and audio.",
+    "F4 [Blocker] adversarial-testing: prepareWithManifest accepts a traversal week path and its failure cleanup recursively deletes the resolved output outside the video project. Reject rel values outside the supported week path format before reading or writing, and constrain cleanup to a verified directory under PROJECT/public; ADV-P1-4f removes video/payload/keep.txt from the sandbox sibling path."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "F2 withdrawn: tests/adversarial-p1.test.mjs ADV-P1-3 now verifies a truly absent file, traversal, an absolute path, duplicate rows, and a character without listen.png; the fixture skips writing absent rows.",
+    "F3 withdrawn: tests/adversarial-p1.test.mjs ADV-P1-2a verifies the wrapping rule; src/SoundCard.tsx contains overflowWrap: anywhere.",
+    "The real read-only MANIFEST.tsv has 108 rows, 4 cut-out characters, 4 listen.png fronts, no missing fronts, and no absent files.",
+    "The full serial adversarial suite reports 11 pass and 2 fail: ADV-P1-4b and ADV-P1-4f. ADV-P1-1, ADV-P1-2a, ADV-P1-2b, ADV-P1-3, ADV-P1-4a, ADV-P1-4c, ADV-P1-4d, ADV-P1-4e, ADV-P1-5, ADV-P1-6, and ADV-P1-7 pass. ADV-P1-4a also rejects a wrong uppercase digest.",
+    "The focused serial rerun reports ADV-P1-4b failure because the prior good cast file is gone; ADV-P1-4f failure because video/payload/keep.txt is gone after cleanup.",
+    "Thai filter: FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262; git status --porcelain content is empty.",
+    "Tests were committed as e7a183730b4c38d62bbce548bbcca69196f4fdfd. The implementation under review remains ab710ac77eac4b37c13e16acb1515c93da197b0b."
+  ],
+  "commands": [
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/adversarial-p1.test.mjs' — exit 1; 11 pass, 2 fail",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 --test-name-pattern=\"ADV-P1-4b|ADV-P1-4f\" tests/adversarial-p1.test.mjs' — exit 1; 0 pass, 2 fail",
+    "node --check video/storytime-song/tests/adversarial-p1.test.mjs && git diff --check — exit 0",
+    "repo-graph callers ./graph.db readManifestRows — no matches; exit 1",
+    "Real handoff manifest inspection — 108 rows; 4 of 4 cut-out characters have listen.png; 0 absent files",
+    "Thai filter over content/storytime — FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262",
+    "git status --porcelain content — empty"
+  ],
+  "changed_files": [
+    "video/storytime-song/tests/adversarial-p1.test.mjs",
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-ab710ac7.json",
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-ab710ac7.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {"axis": "correctness", "score": 2, "evidence": "ADV-P1-4b and ADV-P1-4f show destructive cleanup in prepare.mjs:410-458."},
+    {"axis": "test_meaning", "score": 4, "evidence": "The serial adversarial suite has 11 passes, two concrete failures, and ADV-P1-4a rejects a wrong uppercase digest."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "Commit e7a18373 changes only video/storytime-song/tests/adversarial-p1.test.mjs."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The full and focused heavy-run commands, manifest inspection, and Thai-filter result are recorded above."}
+  ]
+}

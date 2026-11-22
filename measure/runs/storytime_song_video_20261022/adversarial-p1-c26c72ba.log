@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+commits: none
+tests_run: combined serial suite via one heavy-run wrapper exit 0 (24 pass, 0 fail); adversarial test diff exit 0; audit-result exit 0
+files_changed: measure/runs/storytime_song_video_20261022/adversarial-p1-c26c72ba.json; measure/runs/storytime_song_video_20261022/adversarial-p1-c26c72ba.log
+plan_updates: none
+known_failures: none in requested confirmations; N1 and N2 remain nonblocking tech debt
+handoff: All 20 named ADV-P1 cases pass at c26c72ba. ADV-P1-F8, ADV-P1-F9, PA-F1, and PA-F2 also pass. The adversarial test file is unchanged. N1 and N2 remain nonblocking tech debt (PM 2026-11-23). retry_recommendation: none.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "pre_adversarial_head_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "audited_head_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "status": "pass",
+  "summary": "All 20 named ADV-P1 cases pass at c26c72ba. The combined suite passes 24 of 24 tests, and the adversarial test file is unchanged since f3161c33.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "N1 [Nit] adversarial-testing: interrupted refreshes can leave a stale staging folder. This remains recorded as tech debt in plan.md:79.",
+    "N2 [Nit] adversarial-testing: abrupt process termination between the sequential output renames can bypass exception rollback and leave backups or a mixed week output. Tech debt (PM 2026-11-23); no new attack was run."
+  ],
+  "evidence": [
+    "The requested combined serial suite reports 24 tests, 24 pass, and 0 fail. All 20 named ADV-P1 cases pass; ADV-P1-F8, ADV-P1-F9, PA-F1, and PA-F2 also pass.",
+    "ADV-P1-4g, 4h, 4m, and 4k remain covered by the unchanged adversarial test file and pass on c26c72ba.",
+    "The r10 product diff only changes prepare.mjs buildSpec: recognized props are appended to picture characters. PA-F1 and PA-F2 pass against this behavior.",
+    "git diff --exit-code f3161c33 c26c72ba -- video/storytime-song/tests/adversarial-p1.test.mjs exits 0.",
+    "Thai filter ran first: FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262. git status --porcelain content is empty; the handoff folder was not accessed.",
+    "HEAD and role_base_sha equal c26c72ba3173b71194e50977a2b06c04e75e3df2. No product or test file was modified, staged, or committed. All destructive tests use temporary roots."
+  ],
+  "commands": [
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/adversarial-p1.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs' — exit 0; 24 pass, 0 fail",
+    "git diff --exit-code f3161c33 c26c72ba -- video/storytime-song/tests/adversarial-p1.test.mjs — exit 0; no test diff",
+    "Thai filter over content/storytime — FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262",
+    "git status --porcelain content — empty"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-c26c72ba.json",
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-c26c72ba.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "All 20 named ADV-P1 cases pass on c26c72ba, including the four requested confirmations."},
+    {"axis": "test_meaning", "score": 5, "evidence": "The combined serial suite passes all 24 adversarial, review, and phase-acceptance tests."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "Only the requested JSON and log artifacts changed; no code or test file changed."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The heavy-run output, test diff, Thai filter, and HEAD are recorded above."}
+  ]
+}

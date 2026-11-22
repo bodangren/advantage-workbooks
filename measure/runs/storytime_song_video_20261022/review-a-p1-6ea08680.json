@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "audited_head_sha": "6ea086808ca6b95e06f3111935277c9d41e9a642",
+  "status": "fail",
+  "summary": "The P1 tests pass, but the Forge intake cannot honor missing-actor fallbacks or produce a renderable ForgeArt object.",
+  "blocking_findings": [
+    "F1 [Blocker] green: Missing-cast fallback fails after any Forge cast enables the Forge branch. prepare.mjs lines 314-324 omits unavailable actors, then Actors.tsx lines 103-117 calls staticFile(forge.cast[name]) without checking each actor. This breaks the specified Lily, Ben, and w04-family placeholder fallback. Rationale: the active intake contract requires mixed Forge and placeholder actors to render.",
+    "F2 [Blocker] green: manifestToForgeInput does not return the ForgeArt contract. prepare.mjs lines 269-275 returns absolute handoff paths and framesByGesture, but Actors.tsx and GestureInset.tsx require public-relative paths plus gestures, idle, gestureBox, and scenes (src/types.ts lines 22-40). Rationale: the adapter output cannot be consumed by the compositor."
+  ],
+  "nonblocking_findings": [
+    "F3 [Major] green: The intake helpers are not wired to the production preparation path. scripts/render.mjs line 44 calls prepare(rel); prepareWithManifest is never called, and prepare(rel) rebuilds the spec from media/forge/manifest.json instead of the handoff copy. Rationale: invoking the normal render command drops the TSV intake result.",
+    "F4 [Major] green: T2.3 does not run an intake function; it copies two rows directly (tests/manifest-intake.test.mjs lines 83-105). T2.4 checks adapter fields but does not exercise prepareWithManifest or missing-actor rendering (lines 107-117), and T2.6 checks the manifest set rather than copied output (lines 127-133). T1.7 also checks the landscape bubble against portrait lyric and gesture boxes instead of checking box.portrait (tests/bubbles.test.mjs lines 151-154). Rationale: passing tests do not establish these specified behaviors."
+  ],
+  "evidence": [
+    "HEAD resolved to 6ea086808ca6b95e06f3111935277c9d41e9a642, equal to audited_head_sha; phase base resolved to 1ffd649b83df6f1f6625351d8da4afd5ee1ca513.",
+    "Audited exact committed diff 1ffd649b83df6f1f6625351d8da4afd5ee1ca513..6ea086808ca6b95e06f3111935277c9d41e9a642; committed diff does not change scripts/render.mjs.",
+    "The working-tree render.mjs change is only an uncommitted --cut karaoke edit; committed caller line 44 still invokes prepare(rel), and does not depend on that edit.",
+    "T1.1-T1.7, T1.8-T1.9, and T2.1-T2.6 pass under the targeted test command; tests/npm test reports 36 pass, 0 fail.",
+    "Same-toolchain P1 evidence records four equal base/new pairs and two render exit codes of 0. It compares composition stills using current generated public/l2 assets copied to the phase-base tree, so it guards compositor-source changes but not prepare.mjs or generated-spec regressions.",
+    "The phone pair method compares the 1080x1920 composition still before the 720x1280 scale; the drift comparison scales to the approved output dimensions.",
+    "green-p1-w01-compare.txt records 0 of 4 approved/current frame hash matches and PSNR 35.332 dB. The approved and current frame 753 look nearly identical in composition; subtle texture and edge-shading differences are visible around faces and scene detail.",
+    "The plan's completed task lines include commit SHA evidence, the karaoke cut is marked deferred, and the P1 PASS evidence matches the observed 36-test exit."
+  ],
+  "commands": [
+    {
+      "command": "git rev-parse HEAD; git rev-parse 1ffd649b; git diff --stat 1ffd649b..6ea08680",
+      "result": "HEAD 6ea086808ca6b95e06f3111935277c9d41e9a642; phase base 1ffd649b83df6f1f6625351d8da4afd5ee1ca513; expected committed paths listed."
+    },
+    {
+      "command": "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/week1-regression.test.mjs'",
+      "result": "exit 0; 15 pass, 0 fail."
+    },
+    {
+      "command": "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test'",
+      "result": "exit 0; 36 pass, 0 fail."
+    },
+    {
+      "command": "build-graph scan video/storytime-song /tmp/opencode/storytime-song-review-graph.db",
+      "result": "Scanned 385 nodes and 599 edges; caller lookup was ambiguous for duplicate component symbols."
+    }
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/green-p1-bd4dc560.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-e9a3d039.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py",
+    "measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt",
+    "measure/runs/storytime_song_video_20261022/red-p1-1ffd649b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r2-54ad7ae9.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-w01-frames.txt",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md",
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs"
+  ],
+  "test_strategy_violations": [
+    "F4: T2.3 does not call the intake path; T2.4 does not execute missing-actor fallback; T2.6 does not inspect actual copies; T1.7 tests portrait overlap with landscape geometry."
+  ],
+  "live_contract_violations": [
+    "F1: absent cast entries reach staticFile(undefined), not the required placeholder path.",
+    "F2: manifestToForgeInput output violates the ForgeArt type and staticFile path contract."
+  ],
+  "prod_wiring_violations": [
+    "F3: scripts/render.mjs invokes prepare(rel), not prepareWithManifest; normal render preparation discards the intake spec."
+  ],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 2,
+      "evidence": "prepare.mjs:314-324 and Actors.tsx:103-117 fail the required missing-cast fallback."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 2,
+      "evidence": "tests/manifest-intake.test.mjs:83-133 passes without calling prepareWithManifest or inspecting its copied output."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 4,
+      "evidence": "The committed diff is limited to the track plan, its tests, and video/storytime-song implementation."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "The targeted suite passed 15 tests and npm test passed 36 tests under the required heavy-run wrapper."
+    }
+  ]
+}

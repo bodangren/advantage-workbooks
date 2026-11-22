@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+commits: none
+tests_run: combined serial suite via one heavy-run wrapper exit 0 (22 pass, 0 fail); ADV-P1 subset 20 pass; test diff check exit 0; audit-result exit 0
+files_changed: measure/runs/storytime_song_video_20261022/adversarial-p1-f3161c33.json; measure/runs/storytime_song_video_20261022/adversarial-p1-f3161c33.log
+plan_updates: none
+known_failures: none in requested confirmations; N1 and N2 are nonblocking tech debt observations
+handoff: ADV-P1-4g, 4h, 4m and 4k all pass for the intended code reasons. The adversarial test file is unchanged. N2 is tech debt (PM 2026-11-23): abrupt process termination between multi-file renames can bypass exception rollback. No new attack was added. retry_recommendation: none.
+END_MEASURE_AGENT_RESULT

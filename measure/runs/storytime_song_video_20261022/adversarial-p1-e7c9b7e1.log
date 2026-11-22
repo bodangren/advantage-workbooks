@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+commits: none
+tests_run: serial adversarial suite via one heavy-run wrapper exit 0 (20 pass, 0 fail); test diff check exit 0; audit-result exit 0
+files_changed: measure/runs/storytime_song_video_20261022/adversarial-p1-e7c9b7e1.json; measure/runs/storytime_song_video_20261022/adversarial-p1-e7c9b7e1.log
+plan_updates: none
+known_failures: none in the four requested confirmations; N1 remains documented tech debt for stale staging folders
+handoff: F5 withdrawn by ADV-P1-4g. F6 withdrawn by ADV-P1-4h. F7 withdrawn by ADV-P1-4m. F8 withdrawn by ADV-P1-4k. N1 remains a Nit in plan.md line 77. No new attacks or commits were made. Retry recommendation: none.
+END_MEASURE_AGENT_RESULT

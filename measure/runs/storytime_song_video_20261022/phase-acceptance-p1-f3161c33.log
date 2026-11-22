@@ -1,0 +1,38 @@
+Phase 1 acceptance: FAIL.
+
+Phase base: 1ffd649b83df6f1f6625351d8da4afd5ee1ca513
+Role base and audited HEAD: f3161c33144bb5a922082131de9444c7fa29dd5b
+Test-only exceptions: none
+Last product commit: 2451894b
+
+GREEN exit 0: 46 passed.
+PROJECT_LINT exit 0.
+PROJECT_CHECKS exit 0.
+PROJECT_TESTS exit 0: 67 passed, 0 failed, 0 skipped.
+Week 1 read-only media check exit 0: four approved hashes matched.
+Phase verification and diff whitespace checks exit 0.
+Review A and C audit-result and role-gate exit 0.
+Adversarial audit-result exit 0. The brief records its role-gate exit 0 at this HEAD.
+Review B and UX browser review do not apply.
+w07 prop contract probe exit 1: 14 recognized prop prompts, no prop actors.
+A5 identity probe exit 1: the r6 fixes are absent from the role base cited by the plan.
+Phase acceptance audit-result exit 0: the JSON is valid.
+Phase acceptance role-gate exit 1: the phase has three blockers.
+
+PA-F1 [Blocker] scripts/prepare.mjs:197-206: The w07 line spec has no prop actors.
+PA-F2 [Blocker] scripts/prepare.mjs:701-708 and src/Song.tsx:55-67: The w06 scene video bypasses bouncing placeholders in both cuts.
+PA-F3 [Blocker] plan.md:26-27: Passing Green results cite the pre-fix role bases.
+Closeout risks: F3, C-F4, and N1. Also record N2 and PA-N1 as nonblocking debt.
+
+MEASURE_AGENT_RESULT
+role: phase-acceptance
+status: blocked
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+commits: none
+tests_run: GREEN 0 (46 passed); PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (67 passed); week 1 disk verification 0; phase verification 0; w07 prop probe 1; A5 identity probe 1
+files_changed: phase-acceptance-p1-f3161c33.json, phase-acceptance-p1-f3161c33.log
+plan_updates: none
+known_failures: PA-F1 omits week 7 props; PA-F2 bypasses week 6 placeholders; PA-F3 cites the wrong Green test SHAs.
+handoff: May the orchestrator open one bounded remediation round for PA-F1 to PA-F3 after round 4? Options: authorize one round and rerun acceptance on the new HEAD (recommended), or keep Phase 1 blocked and do not start another round. Retain the accepted risks for closeout.
+END_MEASURE_AGENT_RESULT

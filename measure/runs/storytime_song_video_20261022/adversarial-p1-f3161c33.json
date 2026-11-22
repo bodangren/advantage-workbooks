@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "f3161c33144bb5a922082131de9444c7fa29dd5b",
+  "pre_adversarial_head_sha": "f3161c33144bb5a922082131de9444c7fa29dd5b",
+  "audited_head_sha": "f3161c33144bb5a922082131de9444c7fa29dd5b",
+  "status": "pass",
+  "summary": "All 20 ADV-P1 tests pass at f3161c33; the combined suite passes 22 of 22 tests. The adversarial test file is unchanged since e7c9b7e1.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "N1 [Nit] adversarial-testing: an interrupted refresh can leave a stale staging folder; this is already recorded as tech debt in plan.md:77.",
+    "N2 [Nit] adversarial-testing: the three output renames use exception rollback, but process termination between renames can bypass rollback and leave backup files or a mixed week output. Tech debt (PM 2026-11-23); no destructive probe was added."
+  ],
+  "evidence": [
+    "All 20 ADV-P1 tests pass in the combined suite. The two tests in tests/review-a-r5.test.mjs also pass; combined result is 22 pass, 0 fail.",
+    "ADV-P1-4g passes because weekOutDir (prepare.mjs:417-439) lstat-checks existing output-path components and rejects symlinks before output mutation.",
+    "ADV-P1-4h passes because assertRegularHandoffFile (prepare.mjs:283-301) lstat-checks the handoff root and manifest path components, rejects symlinks, and requires regular files.",
+    "ADV-P1-4m passes because prepare.mjs:522-552 backs up existing files and restores them when a rename throws; the test was not changed.",
+    "ADV-P1-4k passes because prepare.mjs:317 rejects backslash and noncanonical paths before adapter mapping; the test was not changed.",
+    "git diff --exit-code e7c9b7e1 f3161c33 -- video/storytime-song/tests/adversarial-p1.test.mjs exits 0.",
+    "Thai filter ran first: FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262. git status --porcelain content is empty; the handoff folder was not accessed.",
+    "HEAD and role_base_sha equal f3161c33144bb5a922082131de9444c7fa29dd5b. No product or test file was modified, staged, or committed."
+  ],
+  "commands": [
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/adversarial-p1.test.mjs tests/review-a-r5.test.mjs' — exit 0; 22 pass, 0 fail",
+    "git diff --exit-code e7c9b7e1 f3161c33 -- video/storytime-song/tests/adversarial-p1.test.mjs — exit 0; no test diff",
+    "Thai filter over content/storytime — FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262",
+    "git status --porcelain content — empty"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-f3161c33.json",
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-f3161c33.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "The 20 unchanged ADV-P1 tests pass on f3161c33, including all four requested confirmations."},
+    {"axis": "test_meaning", "score": 5, "evidence": "The unchanged adversarial suite and review-a-r5 suite pass 22 tests in serial mode."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "Only the two requested audit artifacts changed; no product or test file changed."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The wrapper result, unchanged-test diff, source lines, and Thai-filter result are recorded above."}
+  ]
+}

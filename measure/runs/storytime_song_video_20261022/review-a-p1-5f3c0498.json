@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "5f3c0498f075c91ed293d9ebcc970ad61ddf4140",
+  "audited_head_sha": "5f3c0498f075c91ed293d9ebcc970ad61ddf4140",
+  "status": "fail",
+  "summary": "F5-F7 are fixed. The week 1 guard now uses base-tree prepare output and assets, and the current inset matches the base still. F4 remains because T2.6 can accept missing Forge output for an applicable week.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F4 [Major] green: T2.6 invokes prepare for w02-w07, but its assertions permit a week with expected manifest-backed cast to return placeholder art: tests/manifest-intake.test.mjs:155-175 only require actors; when spec.art is not forge, the test accepts an absent or empty Forge folder and continues. It does not require manifest-covered actors to resolve to Forge for each applicable week. A regression that disables intake for w03-w07 can therefore pass. Rationale: T2.6 must prove each week's actual copied subset. | CONTEST kept: The new loop invokes prepare for all six weeks, but the early continue leaves the expected-art behavior unasserted for each applicable week."
+  ],
+  "evidence": [
+    "F5 withdrawn: video/storytime-song/scripts/prepare.mjs:253-273 sources gesture and idle paths from the approved week 1 Adventurer manifest; lines 398-420 installs those paths while cut-outs remain under cast. tests/forge-inset.test.mjs:18-36 deep-compares manifest adapter gestures and idle with the full phase-base prepare fixture and asserts cut-outs are under cast. T2.6 checks no cutout paths in every prepared week.",
+    "F5 visual check: /tmp/opencode/w01-r2/classroom-base-753.png and classroom-new-753.png show the same Adventurer inset; the rendered stills appear identical. green-p1-w01-compare.txt reports all four same-toolchain pairs equal.",
+    "F6 withdrawn: video/storytime-song/scripts/prepare.mjs:307-308 returns null when MANIFEST.tsv is absent; prepare.mjs:547-569 handles no handoff and retains week 1 media Forge art. tests/prepare-robustness.test.mjs:20-39 points STORYTIME_SONG_ART_DIR at a missing folder, calls prepare for w04 and w01, and deep-compares w01 output with the phase-base fixture.",
+    "F7 withdrawn: video/storytime-song/scripts/prepare.mjs:389-397 hashes every copied cut-out against its manifest SHA and throws on mismatch. tests/prepare-robustness.test.mjs:41-64 provides a corrupted manifest SHA and asserts production prepareWithManifest throws.",
+    "F4 remains: tests/manifest-intake.test.mjs:149-185 iterates w02-w07 and validates actual generated specs, but lines 171-175 continue successfully if an applicable week has no Forge output. The test does not assert per-week manifest-covered actors receive Forge art.",
+    "Week 1 guard: green-p1-r2-w01-evidence.py:89-109 archives phase base 1ffd649b and runs prepare in both trees; lines 137-143 render each tree from its own output. green-p1-w01-compare.txt lines 3-4 record base-tree public assets and prepare output. tests/prepare-snapshot.test.mjs:51-66 deep-compares complete prepare(w01) output to the phase-base fixture.",
+    "Phase 1 [x] task lines cite commit SHAs; the in-progress Phase 2 re-render remains [~]. The current Phase 1 gate record has no contradictory all-checks-pass claim.",
+    "HEAD is 5f3c0498f075c91ed293d9ebcc970ad61ddf4140, equal to audited_head_sha and role_base_sha. Audited the exact 1ffd649b83df6f1f6625351d8da4afd5ee1ca513..5f3c0498f075c91ed293d9ebcc970ad61ddf4140 diff. The uncommitted render.mjs edit was excluded.",
+    "package.json test script runs node --test --test-concurrency=1. repo-graph scanned 385 nodes and 599 edges; prepare.mjs is JavaScript and is outside the TypeScript symbol graph."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git diff --check 1ffd649b..5f3c0498; git diff --name-only 1ffd649b..5f3c0498 \u2014 HEAD matched audited_head_sha; diff check passed; changed paths were enumerated. The exact diff excluded the uncommitted render.mjs edit.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test' \u2014 Exit 0; node --test --test-concurrency=1; 45 passed, 0 failed, 0 skipped.",
+    "repo-graph scan video/storytime-song /tmp/opencode/storytime-song-review-r3.db; repo-graph stats /tmp/opencode/storytime-song-review-r3.db \u2014 Scanned 385 nodes, 599 edges, 29 files. Graph contains the TypeScript callers; prepare.mjs exports are JavaScript and outside graph coverage."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/green-p1-bd4dc560.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-e9a3d039.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py",
+    "measure/runs/storytime_song_video_20261022/green-p1-r3-a0a1e827.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r4-1e08e2b9.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r5-fa4bfa76.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt",
+    "measure/runs/storytime_song_video_20261022/red-p1-1ffd649b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r2-54ad7ae9.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r3-6ea08680.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r4-ac3a7c20.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r5-53de4102.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r6-4b25714b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-w01-frames.txt",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md",
+    "video/storytime-song/package.json",
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-fixture.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-prepare-fixture.mjs",
+    "video/storytime-song/tests/fixtures/w01-prepare-spec-1ffd649b.json",
+    "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json",
+    "video/storytime-song/tests/forge-contracts.test.mjs",
+    "video/storytime-song/tests/forge-inset.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/prepare-robustness.test.mjs",
+    "video/storytime-song/tests/prepare-snapshot.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs"
+  ],
+  "test_strategy_violations": [
+    "F4: T2.6 loops over all weeks but does not fail when Forge art is absent for a week with manifest-covered actors; this leaves the per-week intake contract under-asserted."
+  ],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_tests",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "prepare.mjs:398-420 keeps the approved Adventurer inset and places handoff cut-outs under cast; A-F6 and A-F7 pass."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The serial npm test run passed 45 tests; T2.6 still permits missing per-week Forge output at tests/manifest-intake.test.mjs:171-175."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff --name-only 1ffd649b..5f3c0498 contains the planned compositor, tests, fixtures, and Measure evidence; render.mjs is uncommitted and excluded."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The wrapped npm test exited 0 with 45 passes, and green-p1-w01-compare.txt records four equal same-toolchain frame pairs."
+    }
+  ]
+}

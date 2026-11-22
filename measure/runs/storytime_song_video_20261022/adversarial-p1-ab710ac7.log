@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+commits: e7a183730b4c38d62bbce548bbcca69196f4fdfd
+tests_run: full serial adversarial suite exit 1 (11 pass, 2 fail); focused ADV-P1-4b/4f rerun exit 1 (0 pass, 2 fail); node --check and git diff --check exit 0; ADV-P1-4a rejects a wrong uppercase digest
+files_changed: video/storytime-song/tests/adversarial-p1.test.mjs; measure/runs/storytime_song_video_20261022/adversarial-p1-ab710ac7.json; measure/runs/storytime_song_video_20261022/adversarial-p1-ab710ac7.log
+plan_updates: none
+known_failures: ADV-P1-4b shows failed refresh deletes the prior good art, spec, and audio; ADV-P1-4f shows cleanup deletes a sibling path outside the video project
+handoff: F1 remains open because failed refresh destroys valid output. F4 routes traversal cleanup deletion to Green. The implementation result is bound to ab710ac7; test commit e7a18373 contains tests only.
+END_MEASURE_AGENT_RESULT

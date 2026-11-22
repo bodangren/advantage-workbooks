@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "e7c9b7e1d0fc1621d9850dc6c348e33855a80390",
+  "pre_adversarial_head_sha": "e7c9b7e1d0fc1621d9850dc6c348e33855a80390",
+  "audited_head_sha": "e7c9b7e1d0fc1621d9850dc6c348e33855a80390",
+  "status": "pass",
+  "summary": "All 20 serial adversarial tests pass at e7c9b7e1. The four Green r8 fixes pass for the intended reasons, and the test diff is empty.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "N1 [Nit] adversarial-testing: interrupted refreshes can leave an abandoned staging folder. ADV-P1-4i confirms it does not block a later unique staging run; the plan already records this as tech debt at line 77."
+  ],
+  "evidence": [
+    "F5 withdrawn: ADV-P1-4g passes unchanged. prepare.mjs weekOutDir (lines 417-439) uses lstat on each existing output-path component and rejects the symlink before writes or deletes.",
+    "F6 withdrawn: ADV-P1-4h passes unchanged. prepare.mjs assertRegularHandoffFile (lines 283-301) uses lstat on the handoff root and each manifest path component, rejects symlinks, and requires a regular file.",
+    "F7 withdrawn: ADV-P1-4m passes unchanged. prepare.mjs lines 513-533 renames the old Forge directory to a backup, restores it if the staged rename fails, and removes the backup only after success.",
+    "F8 withdrawn: ADV-P1-4k passes unchanged. prepare.mjs line 317 rejects backslashes and noncanonical paths before adapter mapping.",
+    "The exact confirmation suite reports 20 tests, 20 pass, and 0 fail. ADV-P1-4g, 4h, 4m, and 4k all pass.",
+    "git diff --exit-code f96474ed e7c9b7e1 -- video/storytime-song/tests exits 0; the test suite was not changed by Green r8.",
+    "Thai filter ran first: FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262. git status --porcelain content is empty.",
+    "HEAD and role_base_sha equal e7c9b7e1d0fc1621d9850dc6c348e33855a80390. No test or product files were modified, staged, or committed in this confirmation run.",
+    "The heavy-run wrapper printed a /proc/<pid>/cmdline missing-file warning, then completed the suite with exit 0 and 20 passing tests."
+  ],
+  "commands": [
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/adversarial-p1.test.mjs' — exit 0; 20 pass, 0 fail",
+    "git diff --exit-code f96474ed e7c9b7e1 -- video/storytime-song/tests — exit 0; no test diff",
+    "Thai filter over content/storytime — FILTER_OK files=2144 thai_chars_after_filter=0 th_keys_removed=3262",
+    "git status --porcelain content — empty",
+    "repo-graph callers ./graph.db prepareWithManifest — no matches; exit 1"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-e7c9b7e1.json",
+    "measure/runs/storytime_song_video_20261022/adversarial-p1-e7c9b7e1.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "ADV-P1-4g, 4h, 4m, and 4k all pass at e7c9b7e1 with the targeted source guards present."},
+    {"axis": "test_meaning", "score": 5, "evidence": "The unchanged adversarial test file passes all 20 tests after Green r8."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "No test or product file changed; only the two requested audit artifacts were written."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The serial wrapper, source diff, test-diff check, and Thai filter results are recorded above."}
+  ]
+}

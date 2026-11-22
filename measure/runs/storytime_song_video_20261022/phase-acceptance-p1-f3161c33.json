@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "role": "phase-acceptance",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "f3161c33144bb5a922082131de9444c7fa29dd5b",
+  "audited_head_sha": "f3161c33144bb5a922082131de9444c7fa29dd5b",
+  "status": "fail",
+  "summary": "All four project gates passed. The shipped week 7 spec omits its props, and the week 6 render path bypasses the bouncing animals. The plan also attributes passing tests to pre-fix commits.",
+  "blocking_findings": [
+    "PA-F1 [Blocker] phase-acceptance: video/storytime-song/scripts/prepare.mjs:197-206 omits the mapped prop whenever a picture lists a character. The shipped w07 probe found 14 recognized prop prompts and zero prop actors. Children see May or Ben but no toy props in either cut. This fails plan.md:34. tests/placeholders.test.mjs:37-66 tests the map separately from the line spec.",
+    "PA-F2 [Blocker] phase-acceptance: video/storytime-song/scripts/prepare.mjs:685-708 sets sceneVideo for the shipped w06 even when it prepares new cast art. src/Song.tsx:55-67 bypasses the actor layer in both cuts. The default w06 path cannot show the compositor's bouncing animal placeholders from spec.md:19 and plan.md:34. Keep the approved week 1 path and S27 scene-video support.",
+    "PA-F3 [Blocker] phase-acceptance: measure/tracks/storytime_song_video_20261022/plan.md:26-27 attributes passing Green gates to the r5 and r6 role bases. The Green logs bind those results to e2e884f7 and 10e025f3, respectively. The r6 base lacks the fixes for the cited ADV-P1 failures. Correct the evidence references under A5."
+  ],
+  "nonblocking_findings": [
+    "F3 [Nit] review-c: Accepted risk for closeout. An empty or header-only MANIFEST.tsv can fall back without an error at video/storytime-song/scripts/prepare.mjs:307-324,675-690.",
+    "C-F4 [Nit] review-c: Accepted risk for closeout. The render entry copies audio before the transaction at video/storytime-song/scripts/prepare.mjs:668-686.",
+    "N1 [Nit] adversarial-testing: Accepted risk for closeout. An interrupted refresh can leave a staging folder at video/storytime-song/scripts/prepare.mjs:471-473.",
+    "N2 [Nit] adversarial-testing: Record the interruption risk at closeout. Process termination between the renames at video/storytime-song/scripts/prepare.mjs:535-552 bypasses exception rollback.",
+    "PA-N1 [Nit] phase-acceptance: video/storytime-song/tests/week1-regression.test.mjs:48-56,103-114 checks recorded hashes and git status, not the ignored MP4 bytes. Independent decoding matched all four baseline hashes. At closeout, separate the artifact test from the live media check in the strategy."
+  ],
+  "evidence": [
+    "HEAD equals the role base and audited HEAD. The exact phase diff passed git diff --check. The last product commit was 2451894b, and f3161c33 contains only the plan and Green log.",
+    "Review A, Review C, and adversarial artifacts all pass and name the exact phase base, role base, and audited HEAD. No test-only commit exception was needed. The brief records the jr-green and adversarial role gates at this HEAD.",
+    "Review B and UX browser review are not applicable under test-strategy.md:169-173. Daniel approved both week 1 cuts on 2026-11-04, per the PM release README:37. That approval lifted the hold at plan.md:59-60.",
+    "The strategy log is bound through aba2a8dd and 1ffd649b. The Red r1-r8 and Green r1-r9 logs record the failing tests, their remediations, and the final gate results.",
+    "All 9 Phase 1 tasks are marked complete and cite ancestor SHAs. The schema and song-media task resolves to abf36ff7, dashboard/lib/storytime/schema.ts:285-289, and dashboard/scripts/storytime/check-weeks.ts:411-414.",
+    "b1b00e71 and 242c19d5 establish the compositor, timeline, and portrait CLI. The aggregate tests cover repeats, scene changes, slide rules, and inset timing. The prepared inset still matches the Adventurer fixture.",
+    "The committed renderer calls prepare at scripts/render.mjs:43. Its classroom and phone paths set faststart and write posters. The uncommitted karaoke edit did not affect these checks and stayed untouched. Karaoke is not in release 1.",
+    "88c5b7c9 and src/screens-config.ts:2-6 establish the screens and jingle. Both cuts use the 3-second song offset and 4-second end screen. The renderer takes each poster at 1.5 seconds.",
+    "T1.1-T1.4, T1.7 and ADV-P1-1/2 passed. Four w06 bubbles use time data, and both cuts mount SoundCard. The tests also found 50 matching image prompts and zero Thai characters in the generated spec.",
+    "Phase 2 owns live frame checks for bubbles, bounce, and overlap. No render ran during acceptance. PA-F1 and PA-F2 concern current source and prepared inputs, not a missing Phase 2 artifact.",
+    "The week 1 evidence at green-p1-w01-compare.txt:8-26 records four equal same-toolchain pairs and two render exits of 0. The older approved media matches zero new-toolchain stills, at 35.332 dB PSNR.",
+    "Read-only ffprobe and frame decoding passed. Both approved MP4s matched both Red baseline hashes, 30 fps, H.264, AAC, and faststart. Both poster dimensions matched.",
+    "The read-only handoff held 110 files. MANIFEST.tsv SHA-256 was f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759. T2.1 verified all 108 data-row hashes.",
+    "All 38 phase commits leave content/ and render.mjs untouched and add zero Thai characters. The phase changes no Measure framework contract tests, filters, or registry, so A3, A4, A6, and A7 do not apply.",
+    "metadata.json:11 records the round 4 exception. The PM instruction limits further work to Phase 1 contract defects. No additional round is authorized."
+  ],
+  "commands": [
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/week1-regression.test.mjs tests/adversarial-p1.test.mjs tests/review-a-r5.test.mjs' — exit 0 (46 passed).",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm run lint' — exit 0.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npx tsc --noEmit' — exit 0.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test' — exit 0 (67 passed, no skips or failures).",
+    "git diff --check 1ffd649b..HEAD — exit 0.",
+    "Python phase scan with git rev-parse, git rev-list, git diff-tree, git log -p, git merge-base, and the read-only handoff checksum — exit 0.",
+    "Read-only ffprobe and ffmpeg decoding of frames 753 and 1652 from both approved MP4s under one heavy-run wrapper — exit 0.",
+    "node --input-type=module read-only buildSpec probe of filtered l2/w07.json — exit 1; the shipped actor list contains no props.",
+    "git diff --quiet 6e78a1d5 10e025f3 -- video/storytime-song/scripts/prepare.mjs video/storytime-song/src/SoundCard.tsx — exit 1; the r6 implementation differs from the plan's cited base.",
+    "measure_interphase_checks.py audit-result for review-a, review-c, and adversarial-testing, and role-gate for review-a and review-c — each exit 0."
+  ],
+  "changed_files": ["measure/runs/storytime_song_video_20261022/phase-acceptance-p1-f3161c33.json", "measure/runs/storytime_song_video_20261022/phase-acceptance-p1-f3161c33.log"],
+  "test_strategy_violations": ["PA-F1: T1.5 does not assert that mapped tokens enter the prepared w07 actor list."],
+  "live_contract_violations": ["PA-F1: The w07 compositor input omits the required toy props."],
+  "prod_wiring_violations": ["PA-F2: Both w06 cuts bypass the actor layer with the prepared sceneVideo."],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high (substitution: the DeepSeek free route stopped at its free limit before writing anything; ra-quota pick phase-acceptance exits 3 with DeepSeek excluded; Claude is at 87% of its week, over the 80% limit; this route is on the guard's approved list for phase-acceptance and passed a smoke test).",
+  "ratings": [
+    {"axis": "correctness", "score": 2, "evidence": "The w07 buildSpec probe found 14 recognized prop prompts and zero prop actors."},
+    {"axis": "test_meaning", "score": 3, "evidence": "T1.1 and T1.7 check timing and geometry, but T1.5 does not check the mapped actors in the prepared w07 spec."},
+    {"axis": "scope_discipline", "score": 4, "evidence": "The exact phase diff is limited to the compositor, planned intake work, tests, and Measure records."},
+    {"axis": "evidence_quality", "score": 3, "evidence": "Independent decoding matched all four baseline hashes, but plan.md:26-27 cites the pre-fix SHAs for two Green results."}
+  ],
+  "reviewer_ratings": [
+    {"reviewer_role": "review-a", "reviewer_route": "openai/gpt-6-luna#high", "agreed": true, "score": 4, "evidence": "The targeted F8 and F9 confirmations passed again in tests/review-a-r5.test.mjs."},
+    {"reviewer_role": "review-c", "reviewer_route": "openai/gpt-6-luna#high", "agreed": false, "score": 2, "evidence": "The CLI wiring review missed that prepare.mjs:701-708 gives w06 a scene video that bypasses the new actor layer."},
+    {"reviewer_role": "adversarial", "reviewer_route": "openai/gpt-6-luna#high", "agreed": true, "score": 4, "evidence": "All 20 ADV-P1 tests passed again, including ADV-P1-4m for rollback."}
+  ]
+}

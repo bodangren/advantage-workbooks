@@ -19,6 +19,8 @@ Capture `phase_base_sha` with `git rev-parse HEAD` immediately after the commit 
 
 ## Phase 1: Compositor with placeholder art
 
+Phase 1 acceptance PASS at `c26c72ba` (2026-11-23): measure/runs/storytime_song_video_20261022/phase-acceptance-p1-c26c72ba.json; PA-F2 closed by PM design (Forge-video weeks draw no actor layer, only bubbles). Accepted risks for tech debt at close: F3, C-F4, N1, N2, PA-N1 and the other nonblocking items in that file.
+
 - [x] Task: the schema keys `song.videoPhone` and `song.poster`, and the gate check `song-media` (abf36ff; mutation: a missing poster fails). commit abf36ff
 - [x] Task: the Remotion project `video/storytime-song/` (Remotion 4.0.537, own package.json, the video files out of git) and the prepare script (week package to the line spec: segments for sung repeats, scene from the named place or the week setting, actors from `image.characters`, animal-sound bubbles). Tests: 4 (node --test). commit b1b00e7
 - [x] Task: the composition (done part): scenes (hard cut only at a scene change), actors with slide motion (only when the cast changes), the gesture inset (24 gestures, mirrored, moving gestures swap key frames on the beat, hop/sway/turn move the sprite), the lyric text in Andika lit word by word. Tests: 4 for the timeline; 2 mutants caught. (`b1b00e71`) commit e2e884f7 commit 2451894b commit 10e8fd1e

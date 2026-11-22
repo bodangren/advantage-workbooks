@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-c-ux-api
+status: blocked
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+commits: none
+tests_run: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs' — exit 0; 13 passed, 0 failed
+files_changed: measure/runs/storytime_song_video_20261022/review-c-p1-6ea08680.json; measure/runs/storytime_song_video_20261022/review-c-p1-6ea08680.log
+plan_updates: none
+known_failures: F1 [Blocker] review-c: Phase 2 MANIFEST.tsv intake is unreachable from the render CLI and does not emit the ForgeArt shape consumed by the compositor; the audit JSON records evidence and affected lines.
+handoff: Route F1 to Green. Keep the package keys and media filenames unchanged. UX browser review does not apply; use frame sheets and the Daniel/Storytime look check for visual acceptance. The uncommitted render.mjs karaoke edit was excluded. Retry recommendation: escalate_human.
+END_MEASURE_AGENT_RESULT

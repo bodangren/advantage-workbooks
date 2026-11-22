@@ -1,0 +1,13 @@
+MEASURE_AGENT_RESULT
+role: measure-review-c-ux-api
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+commits: none
+tests_run: Heavy wrapper focused prepare suite; 15 passed, 0 failed; Thai-filtered output reported 0 Thai characters
+files_changed: measure/runs/storytime_song_video_20261022/review-c-p1-5f3c0498.json and review-c-p1-5f3c0498.log
+plan_updates: none
+known_failures: None in the reviewed CLI and pure-function contracts; Phase 2 render evidence T2.7-T2.9 remains outstanding
+handoff: F2 withdrawn: the Adventurer gesture inset stays approved and Forge cut-outs feed only cast. UX browser review is not applicable. Phase 2 re-rendering needs no further code change; run the specified heavy renders and frame checks.
+dispositions: F2=FIX
+END_MEASURE_AGENT_RESULT

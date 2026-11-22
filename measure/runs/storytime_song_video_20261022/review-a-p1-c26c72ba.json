@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "audited_head_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "status": "pass",
+  "summary": "PA-F1 and PA-F3 are confirmed fixed. W07 props appear with May and Ben in both cuts, the week 1 spec matches its phase-base fixture, and Forge scene videos still replace the actor layer. One plan checkpoint wording note is nonblocking tech debt.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "PA-N3 [Nit] tech debt (PM 2026-11-23): plan.md:41 says gate exits were at 1b21d806, while the Green log identifies 1b21d806 as the role base and 10e8fd1e as the implementation HEAD after which gates ran. The same plan line names implementation commits 2451894b and 10e8fd1e. Rationale: the checkpoint SHA wording can misstate the gate-tested HEAD."
+  ],
+  "evidence": [
+    "PA-F1 confirmed: prepare.mjs:217-223 leaves the picture characters intact and appends recognized props from propsOf(prompt). tests/phase-acceptance-p1.test.mjs:69-101 derives cut actors from shots(spec), asserts every recognized W07 prop and character in both cuts, and reports 14 prop lines, 23 recognized props, and 23 drawn props.",
+    "Both cuts render the same actor inputs: SongPortrait.tsx:9,51 imports and renders SceneLayer from Song.tsx; Song.tsx:55-67 renders SceneShots unless sceneVideo is set; Song.tsx:97-110 passes each shot to Actors. The PA-F1 test checks classroom and portrait lists separately.",
+    "PA-F2 contract unchanged: tests/phase-acceptance-p1.test.mjs:103-133 verifies W02, W03, W05, and W06 have no actor draw under sceneVideo and keeps sound bubbles. Song.tsx:59-66 renders only Video when sceneVideo is present; both Song.tsx:42 and SongPortrait.tsx:55 keep SoundCard mounted.",
+    "Week 1 spec unchanged: the full serial test run passed A-note2, which deep-compares prepare(\"l2/w01\") with tests/fixtures/w01-prepare-spec-1ffd649b.json. The test printed the full prepare fixture SHA-256 31067c1580ad9a1f100314913b3e5758f25dda6016f280f745e61d5105ccd17a. Green r10 log lines 26-35 records four equal same-toolchain pairs and Result: PASS.",
+    "PA-F3 confirmed for the prior gate claims: plan.md:26 names implementation commit e2e884f7 and separately labels role base fa4bfa76; plan.md:27 names implementation commit 10e025f3 and separately labels role base 6e78a1d5. Plan.md:41 names implementation commits 2451894b and 10e8fd1e. Green r10 log lines 3, 7, and 17-24 distinguishes role base 1b21d806 from post-implementation HEAD 10e8fd1e and records the passing gates.",
+    "HEAD and role_base_sha both equal c26c72ba3173b71194e50977a2b06c04e75e3df2. The exact phase_base_sha..audited_head_sha diff passed git diff --check. The current working tree has unrelated untracked files; this audit included only the committed diff.",
+    "Phase 1 plan scan: 6 completed task lines, 0 without a SHA. P2 re-render remains [~], as expected. The Measure routing artifacts and phase-acceptance-p1-f3161c33.json were read.",
+    "repo-graph scanned 385 nodes and 599 edges. It found SceneLayer exported at Song.tsx:55-67; manual source inspection confirmed Song.tsx and SongPortrait.tsx use sites."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git diff --check 1ffd649b..c26c72ba; git diff --name-only 1ffd649b..c26c72ba \u2014 HEAD c26c72ba; diff check passed; audited committed phase diff.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test' \u2014 exit 0; serial node tests: 69 pass, 0 fail.",
+    "python3 Phase 1 completed-task SHA scan \u2014 6 completed task lines, 0 missing SHA.",
+    "repo-graph scan video/storytime-song /tmp/opencode/storytime-song-review-r7.db; repo-graph search /tmp/opencode/storytime-song-review-r7.db SceneLayer; repo-graph inspect /tmp/opencode/storytime-song-review-r7.db function:/home/daniebo/Desktop/Workbooks/video/storytime-song/src/Song.tsx:SceneLayer \u2014 385 nodes, 599 edges; SceneLayer export found."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/green-p1-bd4dc560.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r10-1b21d806.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-e9a3d039.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py",
+    "measure/runs/storytime_song_video_20261022/green-p1-r3-a0a1e827.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r4-1e08e2b9.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r5-fa4bfa76.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r6-6e78a1d5.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r7-e7a18373.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r8-f96474ed.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-r9-9f8779f2.log",
+    "measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt",
+    "measure/runs/storytime_song_video_20261022/red-p1-1ffd649b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r2-54ad7ae9.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r3-6ea08680.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r4-ac3a7c20.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r5-53de4102.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r6-4b25714b.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r7-5f3c0498.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r8-e7c9b7e1.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-r9-f3161c33.log",
+    "measure/runs/storytime_song_video_20261022/red-p1-w01-frames.txt",
+    "measure/tracks/storytime_song_video_20261022/metadata.json",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md",
+    "video/storytime-song/package.json",
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/adversarial-p1.test.mjs",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-fixture.mjs",
+    "video/storytime-song/tests/fixtures/generate-w01-prepare-fixture.mjs",
+    "video/storytime-song/tests/fixtures/w01-prepare-spec-1ffd649b.json",
+    "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json",
+    "video/storytime-song/tests/forge-contracts.test.mjs",
+    "video/storytime-song/tests/forge-inset.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/phase-acceptance-p1.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/prepare-robustness.test.mjs",
+    "video/storytime-song/tests/prepare-snapshot.test.mjs",
+    "video/storytime-song/tests/review-a-r5.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "The 69-test suite confirms 23 of 23 recognized W07 props reach both cut actor lists, and the week 1 output matches its phase-base fixture."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "PA-F1 and PA-F2 tests assert the prepared actor lists and cut wiring, but do not decode a new W07 render."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The exact phase diff is limited to the compositor track, tests, and Measure records; unrelated untracked work was excluded."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "The serial npm test run passed 69 tests, and the plan SHA scan found no completed Phase 1 task without a SHA."
+    }
+  ]
+}

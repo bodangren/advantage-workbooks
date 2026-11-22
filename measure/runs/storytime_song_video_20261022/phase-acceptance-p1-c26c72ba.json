@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "role": "phase-acceptance",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "phase_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "audited_head_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "status": "pass",
+  "summary": "PA-F1 and PA-F3 are fixed at c26c72ba. The PM closed PA-F2 by design. All four fresh project gates passed.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F3 [Nit] review-c: Tech debt (PM 2026-11-23). An empty or header-only handoff manifest can fall back without an error at video/storytime-song/scripts/prepare.mjs:324-340.",
+    "C-F4 [Nit] review-c: Tech debt (PM 2026-11-23). The render entry copies audio before the transaction at video/storytime-song/scripts/prepare.mjs:679-705.",
+    "N1 [Nit] adversarial-testing: Tech debt (PM 2026-11-23). An interrupted refresh can leave a staging folder at video/storytime-song/scripts/prepare.mjs:488-490.",
+    "N2 [Nit] adversarial-testing: Tech debt (PM 2026-11-23). Process termination between renames at video/storytime-song/scripts/prepare.mjs:552-569 bypasses exception rollback.",
+    "PA-N1 [Nit] phase-acceptance: Tech debt (PM 2026-11-23). tests/week1-regression.test.mjs:48-56,103-114 checks the recorded hashes and git status, not the ignored MP4 bytes.",
+    "PA-N3 [Nit] phase-acceptance: Tech debt (PM 2026-11-23). The Green r10 and r9 checkpoint wording in plan.md:41,85 names role bases. The logs distinguish the role bases and the implementation SHAs.",
+    "PA-N4 [Nit] phase-acceptance: Tech debt (PM 2026-11-23). tests/phase-acceptance-p1.test.mjs:54-67 models the draw path with shared data. Phase 2 still owns proof from decoded frames."
+  ],
+  "evidence": [
+    "PA-F1 fixed: prepare.mjs:211-223 appends recognized props without removing the named characters. An independent probe checked the exact actor lists and shared shots for all 14 week 7 lines.",
+    "The independent week 7 probe matched 23 expected props. Song.tsx:39,55-67,97-110 and SongPortrait.tsx:51 use the same scene layer and actors. This is source and input proof, not visual proof.",
+    "The Red r9 log, line 11, records exit 1 at test commit c38c92d6. The first classroom line lacked ToyBox. Green r10 implementation 10e8fd1e adds the props.",
+    "PA-F2 withdrawn: The PM closed it by design on 2026-11-23. Weeks 2, 3, 5, and 6 include the 3D cast and animals in the Forge scene video.",
+    "Song.tsx:55-67 uses no extra actor layer for a Forge scene video. Both cuts still mount SoundCard. Weeks 4 and 7 keep the actor layer.",
+    "PA-F3 fixed: plan.md:26-27 now names e2e884f7 and 10e025f3 as the passing implementation commits. The separate role bases match the Green r5 and r6 logs.",
+    "Review A, Review C, and adversarial artifacts pass and bind to the exact phase base, role base, and audited HEAD. No test-only exception was used. The orchestrator records the jr-green and adversarial role gates as exit 0.",
+    "Review B and UX browser review do not apply under test-strategy.md:169-173. The PM hold remains lifted. Karaoke stays deferred.",
+    "All 9 Phase 1 tasks are complete and cite ancestor SHAs. The last product commit is 10e8fd1e. Commit c26c72ba changes only the plan and Green log.",
+    "The scan of all 42 phase commits found no content/ or render.mjs change and zero Thai characters added. The pre-existing uncommitted render.mjs edit stayed untouched.",
+    "The read-only handoff contains 110 files. MANIFEST.tsv SHA-256 is f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759.",
+    "The regenerated green-p1-w01-compare.txt records four equal same-toolchain pairs, two render exits of 0, and Result: PASS. Toolchain drift remains 0 of 4 at 35.332 dB PSNR.",
+    "A3, A4, A6, and A7 do not apply. The exact phase diff changes no Measure framework contract tests, filters, or registry.",
+    "The focused suite passed 48 tests. The full serial suite passed 69 tests with no skips or failures. No render ran during acceptance."
+  ],
+  "commands": [
+    "git rev-parse HEAD c26c72ba 1ffd649b; git diff --check 1ffd649b..HEAD — exit 0.",
+    "Read-only Python checks of git phase history, the task SHAs, prerequisite artifacts, handoff inventory and checksum, week 1 evidence, and PA-F3 gate attribution — exit 0.",
+    "node --input-type=module read-only probe of buildSpec and shots for filtered l2/w07.json — exit 0; 14 lines preserve their package characters and pass 23 props to the shared shots.",
+    "measure_interphase_checks.py audit-result for review-a, review-c, and adversarial-testing, and role-gate for review-a and review-c — each exit 0.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/week1-regression.test.mjs tests/adversarial-p1.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs' — exit 0; 48 passed.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm run lint' — exit 0.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npx tsc --noEmit' — exit 0.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test' — exit 0; 69 passed."
+  ],
+  "changed_files": ["measure/runs/storytime_song_video_20261022/phase-acceptance-p1-c26c72ba.json", "measure/runs/storytime_song_video_20261022/phase-acceptance-p1-c26c72ba.log"],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high (same substitution as round 2).",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "The independent shot probe checked all 14 week 7 lines against their package characters and exact expected props."},
+    {"axis": "test_meaning", "score": 4, "evidence": "PA-F1 failed before Green and now checks every week 7 line, but cutDraws at test line 54 models the draw path."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The f3161c33..c26c72ba diff limits the product change to the prop logic in prepare.mjs."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "The r5 and r6 attributions match their logs, and the current serial project suite passed all 69 tests."}
+  ],
+  "reviewer_ratings": [
+    {"reviewer_role": "review-a", "reviewer_route": "openai/gpt-6-luna#high", "agreed": true, "score": 5, "evidence": "The independent shot probe and the r5 and r6 Green logs confirm the Review A verdict."},
+    {"reviewer_role": "review-c", "reviewer_route": "openai/gpt-6-luna#high", "agreed": true, "score": 4, "evidence": "The focused suite confirms the input and render wiring, including PA-F1 and PA-F2."},
+    {"reviewer_role": "adversarial", "reviewer_route": "openai/gpt-6-luna#high", "agreed": true, "score": 5, "evidence": "The full focused suite passed the unchanged ADV-P1 tests and the new PA-F1 and PA-F2 tests."}
+  ]
+}

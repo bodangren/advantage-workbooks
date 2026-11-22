@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-c-ux-api
+status: blocked
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+commits: none
+tests_run: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/prepare.test.mjs' with Thai output filtering — exit 0; 16 passed, 0 failed
+files_changed: measure/runs/storytime_song_video_20261022/review-c-p1-4b25714b.json; measure/runs/storytime_song_video_20261022/review-c-p1-4b25714b.log
+plan_updates: none
+known_failures: F2 [Blocker] review-c: ForgeArt gesture and idle frames now supply classmate cut-outs to the approved Adventurer gesture inset; see audit JSON.
+handoff: F1 withdrawn: the committed render path now calls prepare(rel), which dispatches to prepareWithManifest for covered actors. Route F2 to Green. No further code step is needed to connect the Phase 2 render path, but restore the Adventurer inset before rendering; then complete T2.7-T2.9 and the frame-sheet look check. UX browser review does not apply. The uncommitted render.mjs edit was excluded. Retry recommendation: escalate_human.
+END_MEASURE_AGENT_RESULT

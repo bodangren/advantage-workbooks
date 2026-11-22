@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-c-ux-api",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 1: Compositor with placeholder art",
+  "baseline_sha": "1ffd649b",
+  "role_base_sha": "4b25714b",
+  "audited_head_sha": "4b25714b761231369540f0eadf2551d16379e7b4",
+  "status": "fail",
+  "summary": "F1 is fixed: rendering now reads the handoff manifest through prepare. The Forge gesture map replaces the approved Adventurer inset with classmate cut-outs.",
+  "blocking_findings": [
+    "F2 [Blocker] review-c: The new ForgeArt adapter changes the approved gesture inset to the handoff's classmate cut-outs. `manifestToForgeInput()` groups every `cutouts/<classmate>/<gesture>.png` into `gestures` and assigns the `listen` classmate frames to `idle` (scripts/prepare.mjs:283-305). `prepareWithManifest()` installs those maps into `spec.forge` (lines 353-376). `GestureCard` then selects `spec.forge.gestures[line.gesture]` or `spec.forge.idle` (src/GestureInset.tsx:53-74), and `ForgeFigure` cycles through those frames (lines 123-145). This violates the strategy requirement to keep the approved Adventurer gesture inset and change only the actor row (test-strategy.md:127). Do not accept Phase 2 frames until this contract is restored."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "F1 withdrawn: committed scripts/render.mjs:43-44 calls prepare(rel); scripts/prepare.mjs:500-508 checks manifest-backed actors and calls prepareWithManifest; tests/forge-contracts.test.mjs A-F3 passes for w02 with Forge art and project-relative paths.",
+    "HEAD is 4b25714b761231369540f0eadf2551d16379e7b4; `git diff --quiet 4b25714b HEAD` returned success.",
+    "The committed ForgeArt interface is src/types.ts:22-40. The adapter now returns scale, canvas, foot, cast, gestures, idle, gestureBox, and scenes with project-relative paths (scripts/prepare.mjs:277-306).",
+    "tests/forge-contracts.test.mjs A-F1 through A-F4 and tests/manifest-intake.test.mjs T2.1 through T2.6 pass. T2.1 reports 108 rows; T2.2 reports four equal scene-file comparisons; A-F3 prepares w02 through prepare(rel).",
+    "The wrapped prepare-level check passed 16 tests with no render. It includes the week 1 snapshot and the W02 manifest render-path check.",
+    "Committed render.mjs still writes song.mp4, song-poster.jpg, song-phone.mp4, and song-phone-poster.jpg (lines 43-44 and 79-153); spec.md:20 retains song.video, song.videoPhone, song.poster, and song.posterPhone. The phase diff does not change content/storytime package files.",
+    "prepare(rel) builds the common line spec, then adds audio and optional ForgeArt. The same Spec and ForgeArt interfaces are consumed by both Song and SongPortrait (src/Song.tsx:14,21-43; src/SongPortrait.tsx:20-56).",
+    "The strategy says Review C applies to CLI, output, and pure contracts but no route or page exists (test-strategy.md:166). UX browser review does not apply; frame sheets and the Daniel/Storytime look check provide visual acceptance (line 168).",
+    "The render.mjs working-tree edit is uncommitted and was excluded. No render was run. The Phase 2 render/evidence task remains open."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git diff --quiet 4b25714b HEAD — HEAD matched the required audited head.",
+    "Heavy-run wrapper: `node --test tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/prepare.test.mjs`, with stdout passed through the Thai filter — exit 0; 16 passed, 0 failed; filter reported 0 residual Thai characters."
+  ],
+  "changed_files": [
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/SongPortrait.tsx",
+    "video/storytime-song/src/SoundCard.tsx",
+    "video/storytime-song/src/layout.ts",
+    "video/storytime-song/src/timeline.ts",
+    "video/storytime-song/tests/bubbles.test.mjs",
+    "video/storytime-song/tests/placeholders.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs",
+    "video/storytime-song/tests/forge-contracts.test.mjs",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/prepare-snapshot.test.mjs",
+    "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [
+    "F2: ForgeArt.gestures and ForgeArt.idle now feed classmate cut-outs to the Adventurer gesture inset, contrary to test-strategy.md:127."
+  ],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "ux_applicability": "not_applicable",
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "openai/gpt-6-luna#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 3,
+      "evidence": "tests/forge-contracts.test.mjs A-F3 verifies the W02 manifest path, but GestureInset.tsx:70-74 consumes classmate gesture frames."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 3,
+      "evidence": "The 16 passing prepare-level tests verify intake and shape but do not catch the Adventurer inset contract violation."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The committed remediation is limited to the Storytime compositor track."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "The wrapped tests passed 16 cases, and the inset wiring is visible in scripts/prepare.mjs:293-305 and src/GestureInset.tsx:53-74."
+    }
+  ]
+}
