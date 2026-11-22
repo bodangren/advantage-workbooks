@@ -19,6 +19,7 @@ RUNS = os.path.join(REPO, "measure/runs/storytime_song_video_20261022")
 BASELINE = os.path.join(RUNS, "red-p1-w01-frames.txt")
 EVIDENCE = os.path.join(RUNS, "green-p1-w01-compare.txt")
 FIXTURE = os.path.join(REPO, "video/storytime-song/tests/fixtures/w01-spec-1ffd649b.json")
+FIXTURE_FULL = os.path.join(REPO, "video/storytime-song/tests/fixtures/w01-prepare-spec-1ffd649b.json")
 PHASE_BASE = "1ffd649b"
 PROPS = '{"week":"l2/w01","spec":null}'
 CHROME = "/usr/bin/google-chrome"
@@ -95,19 +96,25 @@ def main():
     base_project = os.path.join(BASE, "video/storytime-song")
     os.symlink(os.path.join(CURRENT, "node_modules"),
                os.path.join(base_project, "node_modules"))
-
-    # render.mjs regenerates the gitignored spec before a render. Do it once and use the same spec in both trees.
+    # The base tree prepares from the real week packages but writes its own public/ assets. No current-tree output
+    # is copied into it, so a prepare.mjs regression in the current tree cannot hide in the base stills.
+    os.symlink(os.path.join(REPO, "content"), os.path.join(BASE, "content"))
+    if command(["node", "-e",
+                'import("./scripts/prepare.mjs").then((m) => m.prepare("l2/w01"))'],
+               cwd=base_project):
+        raise RuntimeError("base-tree prepare failed for l2/w01")
     if command(["node", "-e",
                 'import("./scripts/prepare.mjs").then((m) => m.prepare("l2/w01"))'],
                cwd=CURRENT):
-        raise RuntimeError("prepare failed for l2/w01")
-    shutil.copytree(os.path.join(CURRENT, "public/l2"),
-                    os.path.join(base_project, "public/l2"))
+        raise RuntimeError("current-tree prepare failed for l2/w01")
 
     lines = [
         "Week 1 regression, same-toolchain evidence, Phase 1 Green r2",
         "Method: git archive of phase-base source %s, installed node_modules by symlink, and the current source."
         % PHASE_BASE,
+        "Method: each tree runs its own prepare(\"l2/w01\") before the stills; the base tree reads the week packages"
+        " through a symlink and writes its own public/ assets.",
+        "base stills source: base-tree prepare output and base-tree public assets",
         "Method: npx remotion still with the same props and flags in both trees. Frame hashes come from ffmpeg"
         " decoding of the PNG still to raw rgb24, sha256.",
         "Method: the phone same-toolchain pairs use the composition still before the 720x1280 scale."
@@ -142,6 +149,9 @@ def main():
     with open(FIXTURE, "rb") as handle:
         snapshot = hashlib.sha256(handle.read()).hexdigest()
     lines.append("prepare snapshot spec sha256: %s" % snapshot)
+    with open(FIXTURE_FULL, "rb") as handle:
+        full_snapshot = hashlib.sha256(handle.read()).hexdigest()
+    lines.append("prepare full w01 spec sha256: %s" % full_snapshot)
 
     for media, frame, baseline_sha in baseline_rows():
         actual = approved_hashes[(media, frame)]

@@ -1,0 +1,53 @@
+Green round 5 log for Phase 1 at role base fa4bfa76
+
+Role base: fa4bfa76 (HEAD confirmed before edits)
+Phase base: 1ffd649b (resolves to a commit)
+HEAD at implementation commit: e2e884f74074b7919fb23a8dd212548e04fea81b
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. All files committed this round hold 0 Thai characters. `git status --porcelain content` is empty. The handoff folder stayed read-only.
+
+The interrupted r5 session left uncommitted edits in prepare.mjs, package.json, the evidence script, and the compare file. I reviewed them, kept them, and finished the round. render.mjs was never edited, staged, or reverted; its uncommitted --cut karaoke edit belongs to another owner.
+
+Targeted Red command rerun at fa4bfa76 (with the uncommitted implementation already present):
+set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs
+Run through ONE heavy-run wrapper, no nesting.
+RED_RERUN_EXIT: 0 (22 tests, 0 fail). It no longer fails because the interrupted session's uncommitted implementation already fixed A-F5, A-F6, A-F7, T2.4, T2.6, and A-note2.
+
+Gates, each once through ONE heavy-run wrapper, no nesting:
+GREEN_TEST_COMMAND: exit 0 (22 tests, 0 fail) — the rerun above.
+node --test tests/week1-regression.test.mjs: exit 0 (2 tests, 0 fail).
+PROJECT_LINT (npm run lint): exit 0.
+PROJECT_CHECKS (npx tsc --noEmit): exit 0.
+PROJECT_TESTS (npm test): exit 0 (45 tests, 0 fail).
+
+Week 1 evidence: green-p1-r2-w01-evidence.py was rerun in full after the implementation was in place. The script archives phase base 1ffd649b into /tmp/opencode/w01-base, symlinks node_modules and content, runs prepare("l2/w01") in each tree, renders the base stills from base-tree prepare output and base-tree public assets, and hashes decoded raw rgb24 frames.
+Evidence exit: 0.
+same-toolchain pairs equal: 4 of 4.
+toolchain drift approved vs current match count: 0 of 4.
+toolchain drift PSNR dB: 35.332.
+render exit classroom: 0; render exit phone: 0.
+prepare snapshot spec sha256: 83f45092cd3047d25ee58249b0677e3e5cf43045d496c2d545f052173b4d8487
+prepare full w01 spec sha256: 31067c1580ad9a1f100314913b3e5758f25dda6016f280f745e61d5105ccd17a
+base stills source: base-tree prepare output and base-tree public assets
+Result: PASS
+
+Handoff folder (/home/daniebo/Desktop/handoff/storytime-song-art), read-only:
+before all commands: 110 files, MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759
+after all commands: 110 files, MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759
+
+New files added this round: none. Modified product code: video/storytime-song/scripts/prepare.mjs and video/storytime-song/package.json. Regenerated evidence: measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py and measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt. render.mjs and all untracked review files were left untouched and unstaged.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+baseline_sha: 1ffd649b
+role_base_sha: fa4bfa76
+head_sha: e2e884f74074b7919fb23a8dd212548e04fea81b
+commits: e2e884f7 implementation; the plan-evidence commit that holds this log
+tests: tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/prepare-snapshot.test.mjs tests/manifest-intake.test.mjs tests/week1-regression.test.mjs
+files: video/storytime-song/scripts/prepare.mjs video/storytime-song/package.json measure/runs/storytime_song_video_20261022/green-p1-r2-w01-evidence.py measure/runs/storytime_song_video_20261022/green-p1-w01-compare.txt measure/tracks/storytime_song_video_20261022/plan.md
+gates: GREEN_TEST_COMMAND 0; week1-regression 0; PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0
+evidence: same-toolchain pairs 4 of 4 equal; Result PASS; prepare full w01 spec sha256 31067c1580ad9a1f100314913b3e5758f25dda6016f280f745e61d5105ccd17a
+status: green-complete
+END_MEASURE_AGENT_RESULT
