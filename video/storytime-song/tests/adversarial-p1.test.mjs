@@ -43,6 +43,7 @@ function copyTree(from, to) {
 }
 
 function handoffFixture(root, rows) {
+  fs.rmSync(root, { recursive: true, force: true });
   fs.mkdirSync(path.join(root, "scenes/w04"), { recursive: true });
   fs.writeFileSync(path.join(root, "scenes/w04/manifest.json"), JSON.stringify({
     ppm: 450,
@@ -50,6 +51,7 @@ function handoffFixture(root, rows) {
     footPoint: { col: 512, row: 580 },
   }));
   for (const row of rows) {
+    if (row.write === false) continue;
     const target = path.join(root, row.file);
     fs.mkdirSync(path.dirname(target), { recursive: true });
     fs.writeFileSync(target, row.bytes);
@@ -176,10 +178,16 @@ test("ADV-P1-3 manifest adapter rejects traversal, absolute, missing, and duplic
       }
     };
     for (const file of ["../outside.png", path.resolve(root, "outside.png")]) {
-      rejected(`unsafe path ${file}`, [{ ...good, file }]);
+      rejected(`unsafe path ${file}`, [{ ...good, file, write: false }]);
     }
-    rejected("missing manifest file", [{ ...good, file: "cutouts/pat/missing.png" }]);
+    rejected("missing manifest file", [{ ...good, file: "cutouts/pat/missing.png", write: false }]);
     rejected("duplicate manifest row", [good, good]);
+    rejected("cut-out character without a listen front", [{
+      ...good,
+      file: "cutouts/pat/wave.png",
+      bytes: Buffer.from("wave"),
+      sha: hash(Buffer.from("wave")),
+    }]);
     assert.deepEqual(accepted, [], `intake accepted invalid rows: ${accepted.join(", ")}`);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
@@ -195,12 +203,17 @@ test("ADV-P1-4a manifest copy accepts an upper-case SHA-256 digest", async () =>
     const row = { file: "cutouts/pat/listen.png", who: "pat", bytes: data, sha: hash(data).toUpperCase() };
     handoffFixture(art, [row]);
     assert.doesNotThrow(() => withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art)));
+    const wrong = hash(data).replace(/^./, (c) => c === "0" ? "1" : "0").toUpperCase();
+    handoffFixture(art, [{ ...row, sha: wrong }]);
+    assert.throws(() => withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art)),
+      /sha256|hash|mismatch|integrity|digest/i,
+      "an upper-case digest with the wrong value must still fail");
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
 });
 
-test("ADV-P1-4b a wrong digest removes stale and partial week output", async () => {
+test("ADV-P1-4b a wrong digest preserves the previous good week output", async () => {
   const root = tempDir("song-adversarial-copy-");
   const art = path.join(root, "handoff");
   const sandbox = await isolatedPrepare(root);
@@ -210,17 +223,22 @@ test("ADV-P1-4b a wrong digest removes stale and partial week output", async () 
     handoffFixture(art, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: data, sha: wrong }]);
     const week = path.join(root, "video/storytime-song/public/l2/w02");
     fs.mkdirSync(path.join(week, "forge"), { recursive: true });
-    fs.writeFileSync(path.join(week, "forge/stale.png"), "old manifest");
+    fs.writeFileSync(path.join(week, "forge/previous-good.png"), "good cast art");
+    fs.writeFileSync(path.join(week, "spec.json"), "previous good spec");
+    fs.writeFileSync(path.join(week, "song.mp3"), "previous good audio");
     assert.throws(() => withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art)),
       /sha256|hash|mismatch|integrity|digest/i);
-    assert.ok(!fs.existsSync(week),
-      "failed manifest copy must remove the incomplete week output");
+    assert.ok(fs.existsSync(path.join(week, "forge/previous-good.png")),
+      "failed refresh must preserve the previous good cast file");
+    assert.equal(fs.readFileSync(path.join(week, "forge/previous-good.png"), "utf8"), "good cast art");
+    assert.equal(fs.readFileSync(path.join(week, "spec.json"), "utf8"), "previous good spec");
+    assert.equal(fs.readFileSync(path.join(week, "song.mp3"), "utf8"), "previous good audio");
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
 });
 
-test("ADV-P1-4c a digest with surrounding spaces is rejected before output changes", async () => {
+test("ADV-P1-4c a digest with surrounding spaces is rejected before creating output", async () => {
   const root = tempDir("song-adversarial-copy-");
   const art = path.join(root, "handoff");
   const sandbox = await isolatedPrepare(root);
@@ -236,6 +254,44 @@ test("ADV-P1-4c a digest with surrounding spaces is rejected before output chang
     assert.throws(() => withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art)),
       /sha256|hash|mismatch|integrity|digest/i);
     assert.ok(!fs.existsSync(week), "invalid digest must not leave a partial week folder");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("ADV-P1-4e a failed first copy leaves no partial week output", async () => {
+  const root = tempDir("song-adversarial-empty-copy-");
+  const art = path.join(root, "handoff");
+  const sandbox = await isolatedPrepare(root);
+  try {
+    const data = Buffer.from("cutout bytes");
+    const wrong = hash(data).replace(/^./, (c) => c === "0" ? "1" : "0");
+    handoffFixture(art, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: data, sha: wrong }]);
+    const week = path.join(root, "video/storytime-song/public/l2/w02");
+    assert.throws(() => withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art)),
+      /sha256|hash|mismatch|integrity|digest/i);
+    assert.ok(!fs.existsSync(week), "failed initial copy must leave no partial week output");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("ADV-P1-4f failed refresh cleanup cannot remove a path outside the project", async () => {
+  const root = tempDir("song-adversarial-boundary-");
+  const art = path.join(root, "handoff");
+  const sandbox = await isolatedPrepare(root);
+  try {
+    const payload = readFilteredWeek("w02");
+    fs.writeFileSync(path.join(root, "payload.json"), JSON.stringify(payload));
+    const data = Buffer.from("cutout bytes");
+    const wrong = hash(data).replace(/^./, (c) => c === "0" ? "1" : "0");
+    handoffFixture(art, [{ file: "cutouts/pat/listen.png", who: "pat", bytes: data, sha: wrong }]);
+    const outsideProject = path.join(root, "video/payload");
+    fs.mkdirSync(outsideProject, { recursive: true });
+    fs.writeFileSync(path.join(outsideProject, "keep.txt"), "must survive");
+    assert.throws(() => withArtDir(art, () => sandbox.prepareWithManifest("../../payload", art)),
+      /sha256|hash|mismatch|integrity|digest/i);
+    assert.equal(fs.readFileSync(path.join(outsideProject, "keep.txt"), "utf8"), "must survive");
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
