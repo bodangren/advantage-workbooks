@@ -233,8 +233,9 @@ test("T2.6 every week 2-7 copies only its own files, with placeholders for the m
   }
   console.log(`Forge week count: ${forgeWeeks}`);
   console.log(`Placeholder week count: ${placeholderWeeks}`);
-  assert.equal(forgeWeeks, 5);
-  assert.equal(placeholderWeeks, 1);
+  // SCRAPPED_3D leaves w07 with no covered cast, so w07 counts as a placeholder-art week (P2-F2 covers its scene).
+  assert.equal(forgeWeeks, 4);
+  assert.equal(placeholderWeeks, 2);
   const after = rows.map((r) => `${r.file} ${fs.statSync(safeJoin(HANDOFF, r.file)).mtimeMs}`);
   assert.deepEqual(after, before, "the handoff folder must stay unchanged");
 });
