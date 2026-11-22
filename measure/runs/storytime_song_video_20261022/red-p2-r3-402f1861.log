@@ -1,0 +1,15 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: 402f1861ff909e10863a00fcbee6908ce6a57491
+test_commit: d441361b2808d6ec1d434d929ea6384fc441abb1
+red_kind: standard
+finding: PM 2026-11-23 scrapped the 3D sprout base model; T2.6 contradicts P2-F2 on w07 May; working tree still draws the 3D May cut-out
+tests: video/storytime-song/tests/manifest-intake.test.mjs (T2.6 with SCRAPPED_3D); video/storytime-song/tests/may-2d.test.mjs (P2-F4, P2-F5)
+red_command: exit 1, pass 5, fail 3; T2.6 fails with `l2/w07 with no covered cast must not claim Forge art` (w07 covered 0, scrapped 1); P2-F4 fails with `w07 must not reference the scrapped 3D May frames: l2/w07/forge/cutouts/may/listen.png`; P2-F5 fails with `w07 May must not use the scrapped 3D frames` (book page 900x675 verified, PNG checker self-test passed, May 2D folder missing so branch b applies)
+guards: no product code edit; prepare.mjs Green edits untouched, unstaged, unreverted; `git status --porcelain content` empty; render.mjs never staged; handoff and book page read-only; may folder absent
+files: video/storytime-song/tests/manifest-intake.test.mjs, video/storytime-song/tests/may-2d.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/tracks/storytime_song_video_20261022/test-strategy.md
+remaining_failures: T2.6 scrapped-May exclusion; P2-F4; P2-F5
+END_MEASURE_AGENT_RESULT
