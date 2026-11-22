@@ -228,7 +228,7 @@ _Story ref: spec.md#story-s8_
     - The payload test exposes no dashboard-only symlink operation. All fixtures stay under temporary roots.
     - At track close, record the three Nits in tech debt. This audit passes with 0 Blockers. Phase acceptance can continue.
     - Audit: `measure/runs/primary_v2_look_20261020/adversarial-s8-b5492228.json`.
-- [ ] Task: Measure - User Manual Verification 'Phase S8: Default look for new editions' (Protocol in workflow.md) This task is deferred until after S8 phase acceptance: the PM verifies it (no visible change in a shipped book; the new-edition default is proven by tests; Daniel accepted the Chibi Quest look in S5 on 2026-11-21).
+- [x] Task: Measure - User Manual Verification 'Phase S8: Default look for new editions' (Protocol in workflow.md). Evidence: human, "PM 2026-11-22: (a) git diff 7a8e602c..39b79520 with ':(glob)content/primary/**/print/**' gives 0 of 72 print files (run by the PM); (b) the 5 shipped primary project.json files state look classic, secondary/origins-3.1-a1 has no look and resolves to classic (read by the PM); (c) 3,249 tests exit 0 in your phase acceptance gate." Accepted HEAD `39b79520`; acceptance record `075615b1`.
 - S8 phase acceptance PASS at `39b79520` (2026-11-22): measure/runs/primary_v2_look_20261020/phase-acceptance-s8-39b79520.json; gates GREEN 0 (61 tests), PROJECT_LINT 0, PROJECT_CHECKS 0, PROJECT_TESTS 0 (3249 tests). Open Nits for tech debt at track close: A-F4, A-F5/B-F8, B-F9, B-F10, C-F4, C-F5, PA-S8-5, PA-S8-6 ("70 print files" is 72 at HEAD), PA-S8-7 (graph.db stale).
 
 ## Close
