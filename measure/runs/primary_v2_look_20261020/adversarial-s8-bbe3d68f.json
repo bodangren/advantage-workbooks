@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "primary_v2_look_20261020",
+  "phase": "Phase S8: Default look for new editions",
+  "baseline_sha": "7a8e602c668773a2a278074ccbfa8dcddfd5b2f6",
+  "phase_base_sha": "7a8e602c668773a2a278074ccbfa8dcddfd5b2f6",
+  "role_base_sha": "bbe3d68f66560f324e7f35421a8c823d0773c4a0",
+  "audited_head_sha": "bbe3d68f66560f324e7f35421a8c823d0773c4a0",
+  "status": "fail",
+  "summary": "Two durable runs each have 10 failures and 9 passes. Cross-folder creation hides shipped lessons. Concurrent writes remove a shipped classic marker. Lint and TypeScript checks pass.",
+  "blocking_findings": [
+    "ADV-S8-1 [Blocker] adversarial-testing: createProject checks only the destination folder at dashboard/lib/filesystem.ts:295 and :325. Seven POST cases create duplicate ids instead of returning 409. The five shipped-id cases and the legacy case then return zero lessons. Expected: reject an id that exists in either series folder and preserve metadata, lessons, and unique listing. Tests: POST refuses a secondary twin of shipped id <id> for all five SHIPPED rows; POST refuses a legacy secondary twin of a shipped Primary id; POST refuses a Primary twin of an existing secondary id.",
+    "ADV-S8-2 [Blocker] adversarial-testing: concurrent look-less metadata writes remove a shipped classic marker at dashboard/lib/filesystem.ts:229-250. The second writer reads the first writer's truncated file. readProjectLook suppresses the parse error, and the second write persists no look. Both PUTs return 200, and projectLook then returns chibi-quest. Expected: both valid look-less PUTs preserve the stored classic marker through concurrent writes. Test: concurrent look-less PUTs preserve a shipped classic marker across truncation."
+  ],
+  "nonblocking_findings": [
+    "ADV-S8-3 [Nit] adversarial-testing: PUT accepts look null at dashboard/app/api/projects/[projectId]/metadata/route.ts:53 and replaces the stored marker at dashboard/lib/filesystem.ts:230. A stored chibi-quest look then resolves to classic. Expected: reject null with 400 or treat null as omission; preserve the stored marker. Tests: PUT look null preserves a stored classic marker; PUT look null preserves a stored chibi-quest marker."
+  ],
+  "evidence": [
+    "The initial command created a Thai filter. All displayed file reads and shell output passed that filter. No content file was opened.",
+    "The confirmed pre-adversarial HEAD and role base are bbe3d68f66560f324e7f35421a8c823d0773c4a0. The immutable phase base is 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6.",
+    "The first Vitest run exited 1: 19 tests, 10 failed, 9 passed. adversarial-s8-bbe3d68f-tests.txt records each test and assertion.",
+    "The final committed test also exits 1 with the same 10 failures and 9 passes. ESLint exits 0, and tsc --noEmit exits 0.",
+    "Commit 9ad76f4a873f4557cd136c907c693eaf3cbbcae5 contains only the durable test and plan evidence. A Git note records the task summary.",
+    "The implementation diff from bbe3d68f through 9ad76f4a is empty across dashboard/lib, dashboard/app, dashboard/scripts, primary, and secondary.",
+    "All 72 print paths have identical Git tree entries at the phase base, audited HEAD, and test commit. This comparison opened no content file.",
+    "Every fixture lives under a fresh temporary WORKBOOKS_ROOT. The tests execute the actual POST handler, PUT handler, and filesystem functions.",
+    "All seven duplicate-id tests fail on HTTP 200 instead of 409. The five shipped-id cases prove that the lookup loses the sentinel lesson.",
+    "The same-type POST conflict test passes and preserves the complete metadata bytes.",
+    "Both null-marker tests fail. The classic marker becomes null; the chibi-quest marker becomes null and resolves to classic.",
+    "The concurrent PUT test fails: the stored look is undefined and projectLook returns chibi-quest instead of classic.",
+    "The concurrency fixture intercepts only fs.writeFile calls for its temporary project.json. It performs a real open with w, real truncation, real reads, and real writes.",
+    "The concurrency fixture schedules a possible write interleaving. It does not mock metadata readers, route handlers, look selection, or returned responses.",
+    "Nine controls pass: same-type POST conflict, PUT omission through bookLessons, new Primary through bookLessons, unknown-look rejection, explicit-look acceptance, exact type selection, invalid POST types, direct look preservation, and new creation.",
+    "repo-graph has no projectLook result and ambiguous stale writer nodes. Source searches confirm all three projectLook callers and both createProject calls.",
+    "The exact phase diff includes the separate dependency track. The S8 review covers its look functions, writer guards, routes, tests, five markers, and plan.",
+    "All five shipped project.json diffs add only look classic. The phase diff contains no changed content/primary/**/print/ path.",
+    "The existing readShippedMeta helper omits type. Its classic-result assertion alone is weak, but the separate exact classic-marker assertion protects that requirement.",
+    "S8 changes no marker checker or banned-term filter. The framework-specific all-tilde fixture and banned-term probe do not apply to this implementation.",
+    "The S8 plan records historical gate exits and the later fixture correction. This audit does not infer a current aggregate pass from those records.",
+    "The render route's omitted type is accepted pre-existing debt in review-c-s8-bbe3d68f.json. This audit does not reopen that finding.",
+    "No browser, server, PDF render, dependency install, or production file write ran. The status for content, primary, and secondary stayed empty after both runs.",
+    "The test-only commit changes no implementation under review. Its complete SHA is 9ad76f4a873f4557cd136c907c693eaf3cbbcae5."
+  ],
+  "commands": [
+    "git rev-parse HEAD: bbe3d68f66560f324e7f35421a8c823d0773c4a0.",
+    "git diff 7a8e602c..bbe3d68f -- dashboard/lib/look.ts dashboard/lib/filesystem.ts dashboard/app/api/projects: inspected exact phase changes.",
+    "repo-graph callers graph.db projectLook; repo-graph callers graph.db writeProjectMetadata; repo-graph callers graph.db createProject: no current usable caller results.",
+    "Filtered source search for projectLook, bookLook, createProject, and writeProjectMetadata: inspected current callers.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/adversarial-s8-default-look.test.ts --reporter=verbose': exit 1, 10 failed, 9 passed.",
+    "git status --porcelain content primary secondary: empty immediately after the first Vitest run.",
+    "Final heavy-run: npx eslint __tests__/adversarial-s8-default-look.test.ts exits 0; npx tsc --noEmit exits 0; the repeated targeted Vitest exits 1 with 10 failed and 9 passed.",
+    "git status --porcelain ../content ../primary ../secondary from dashboard: empty immediately after the final Vitest run.",
+    "Git tree comparison across 7a8e602c, bbe3d68f, and HEAD: exit 0; 72 identical print paths.",
+    "git diff --check -- dashboard/__tests__/adversarial-s8-default-look.test.ts measure/tracks/primary_v2_look_20261020/plan.md: exit 0."
+  ],
+  "changed_files": [
+    "dashboard/__tests__/adversarial-s8-default-look.test.ts",
+    "measure/tracks/primary_v2_look_20261020/plan.md",
+    "measure/runs/primary_v2_look_20261020/adversarial-s8-bbe3d68f.json",
+    "measure/runs/primary_v2_look_20261020/adversarial-s8-bbe3d68f.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6.1-sol#high (ra-quota pick adversarial --not-family minimax --not-family kimi).",
+  "ratings": [
+    {"axis": "correctness", "score": 2, "evidence": "The duplicate-id and concurrent-PUT tests expose missing lessons and a changed shipped look."},
+    {"axis": "test_meaning", "score": 4, "evidence": "Nineteen durable tests exercise real routes and temporary storage; only the concurrency schedule uses a narrow filesystem spy."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The role changes only its test, plan evidence, and audit artifacts."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "Two recorded Vitest runs expose the same defects; final ESLint and TypeScript checks exit 0."}
+  ]
+}

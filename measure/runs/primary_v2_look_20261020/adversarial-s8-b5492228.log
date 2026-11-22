@@ -1,0 +1,90 @@
+Round 2 verdict: PASS, with three Nits and no Blockers.
+Phase base: 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6.
+Role base and audited implementation: b54922289c4852e184ed3522c958d7d9ea5f7d90.
+Test and plan commit: 39b79520.
+Full commit: 39b7952060403e41e83ed7d432e00c91568d558e.
+The Git note records the completed audit.
+The audit-result validator exits 0 and reports PASS: audit result is valid.
+All 19 original cases pass, including the 10 previous failures.
+All 14 new cases pass. ESLint exits 0. TypeScript exits 0.
+No content file was opened. All test writes use temporary roots.
+The status for content, primary, and secondary is empty immediately after Vitest.
+
+PASS: PUT returns 409 for damaged metadata with incoming look undefined and preserves every byte
+PASS: PUT returns 409 for damaged metadata with incoming look classic and preserves every byte
+PASS: parallel same-type POSTs give one success and one 409
+PASS: a failed rename preserves the old metadata and removes the temporary file
+PASS: a partial temporary write failure preserves the old metadata and removes the temporary file
+PASS: readers see the complete old metadata until the atomic rename completes
+PASS: parallel cross-type creates preserve an existing primary project
+PASS: parallel cross-type creates preserve an existing secondary project
+PASS: parallel cross-type creates of a new id preserve the shipped project and the resolved type
+PASS: parallel explicit and omitted looks retain a known marker and preserve shipped classic
+PASS: parallel classic and omitted PUTs cannot introduce chibi-quest into a shipped edition
+PASS: metadata payload fields cannot create a temporary symlink or write an outside target
+PASS: a precreated temporary symlink requires direct folder access and retains the shipped look
+PASS: atomic replacement retains a readable classic marker and records any file-mode change
+
+ADV-S8-1 withdrawn: seven repaired duplicate-id tests preserve bytes and lessons with HTTP 409.
+ADV-S8-2 withdrawn: the truncation test passes, and the new test intercepts the actual atomic rename.
+Readers see the complete old file while the complete new file waits for replacement.
+ADV-S8-3 withdrawn: both null-marker tests retain the stored value.
+The round 1 task can remain marked complete with tests 9ad76f4a and implementation 2d6056da.
+The historical audit remains FAIL at its earlier implementation SHA.
+
+ADV-S8-4 [Nit]: B-F8 creates both folders for one new id through a raw API race.
+Observed statuses: [200,200]. Observed folders: [secondary,primary].
+Both existing-project cases instead return [409,409] and preserve the lesson lookup.
+Follow-up: reserve an id across both folders.
+
+ADV-S8-5 [Nit]: B-F9 loses an explicit update after a stale omitted-look write.
+Observed scheduled=true, finalLook=classic, lostExplicitUpdate=true.
+The shipped fixture stays byte-identical. Concurrent classic and omitted writes still load classic.
+Follow-up: serialize writes per project.
+
+ADV-S8-6 [Nit]: B-F10 follows a precreated temporary symlink and changes the target mode.
+Observed status=200, followed=true, targetIsSymlink=true.
+The reproduction creates the symlink directly through the filesystem.
+The API payload cannot create that symlink or select an outside target.
+Observed mode: 640 becomes 664.
+Follow-up: reserve the temporary name exclusively, use a cryptographic name, and preserve the mode.
+
+The Nit diagnostics record weaknesses without requiring those weaknesses to persist.
+Their assertions enforce the supplied shipped-safety boundary.
+No new implementation defect meets the supplied blocking threshold.
+No CONTEST item was supplied.
+Framework-wide marker and banned-term probes do not apply to these writer changes.
+
+Main command:
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard; npx eslint __tests__/adversarial-s8-default-look.test.ts; lint=$?; echo ESLINT_EXIT=$lint; npx tsc --noEmit; types=$?; echo TSC_EXIT=$types; CI=true npx vitest run __tests__/adversarial-s8-default-look.test.ts --reporter=verbose; tests=$?; echo VITEST_EXIT=$tests; git status --porcelain ../content ../primary ../secondary; if [ "$lint" -ne 0 ] || [ "$types" -ne 0 ]; then exit 2; fi; exit "$tests"'
+Result: exit 0; ESLINT_EXIT=0; TSC_EXIT=0; VITEST_EXIT=0; 33 passed.
+Output: adversarial-s8-b5492228-checks.txt.
+In-memory mutation check: PASS, exit 0.
+The Vite transform changes the loaded filesystem.ts module in memory only.
+The transform requires exactly one source match. No production source file changes.
+Configuration: /home/daniebo/.cache/opencode/s8-adversarial-mutant.config.ts.
+Output: adversarial-s8-b5492228-mutants.txt.
+
+M1 damaged: replace the JSON parse exception with return {}.
+Caught by both damaged-metadata PUT cases: expected 409, received 200. Exit 1.
+M2 create: restore recursive mkdir on the final project folder.
+Caught by parallel same-type POSTs: expected [200,409], received [200,200]. Exit 1.
+M3 cleanup: remove the fs.rm call after a failed temporary write or rename.
+Caught by the rename-failure test: the real temporary file remains. Exit 1.
+M4 atomic: replace writeFileAtomic with fs.writeFile on the metadata target.
+Caught by the reader test: the atomic rename is not observed. Exit 1.
+Each mutant uses a named test filter. Every mutant fails its intended assertion.
+The post-Vitest status for content, primary, and secondary is empty after every run.
+
+MEASURE_AGENT_RESULT
+role: adversarial-testing
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: 39b79520
+tests_run: Targeted Vitest exits 0 with 33 passed. ESLint exits 0. tsc --noEmit exits 0. Four in-memory mutants are caught.
+files_changed: Durable test file; plan evidence; audit artifacts.
+plan_updates: Confirmed the round 1 completion marker and completed the round 2 task with independent test and mutation evidence.
+known_failures: No blocking failure. Three recorded Nits remain.
+handoff: Proceed to phase acceptance. No implementation retry is required. Record ADV-S8-4, ADV-S8-5, and ADV-S8-6 in tech debt at track close. Rerun this gate after any implementation change.
+END_MEASURE_AGENT_RESULT

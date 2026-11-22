@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S8: Default look for new editions
+commits: none
+tests_run: heavy-run "set -o pipefail; cd dashboard && CI=true npx vitest run <default-look-new-editions, workbook-look, default-look-guards, filesystem-restructure, filesystem-integration, e2e-integration, compile-route>" (exit 0, 7 files, 66 tests passed, git status --porcelain content secondary primary empty); 2 heavy-run tsx probes of lib/filesystem, lib/look, and the POST and PUT route handlers on a temp WORKBOOKS_ROOT (exit 0, temp root removed); 1 node computation over the level option lists (no file written)
+files_changed: measure/runs/primary_v2_look_20261020/review-b-s8-bbe3d68f.json; measure/runs/primary_v2_look_20261020/review-b-s8-bbe3d68f.log
+plan_updates: none
+known_failures: none; 0 Blockers; 3 Nits: F5 cross-type id shadows a shipped project, F6 PUT with look null replaces the stored look, F7 the new guards are not atomic
+handoff: PASS at bbe3d68f with 0 Blockers and 3 Nits; retry_recommendation is none and no escalation is needed. F1 (secondary leak), F2 (Settings Save and Create drop the marker), F3 (comments), and F4 (non-object project.json) are fixed and verified with real-code probes: the 5 shipped Primary projects and secondary/origins-3.1-a1 give classic, a Settings-save payload keeps look classic, a create over a shipped Primary id gives 409 with the file unchanged, and an unknown look gives 400 with the file unchanged. The new surfaces hold for every path the dashboard UI can reach: path normalization cannot bypass the existence check, the 409 and 400 bodies echo only the client's own id and look text, a PUT keeps the look when it is omitted, and a PUT can change the look on purpose by design. The 3 Nits are optional: F5 refuse an id that exists in either series folder (API or legacy name only, no look flip, zero-lesson print runs), F6 answer 400 for look null or treat null as absent, F7 atomic create and fail-closed read (8 of 8 concurrent creates resolve; 0 of 6400 concurrent writes lost the look). Route F5 to F7 to Green only if the PM wants them; they do not block the phase.
+END_MEASURE_AGENT_RESULT

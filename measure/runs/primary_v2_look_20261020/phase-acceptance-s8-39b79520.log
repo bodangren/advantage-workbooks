@@ -1,0 +1,70 @@
+Verdict: PASS. Phase S8 passes acceptance at HEAD 39b79520.
+Audited HEAD: 39b7952060403e41e83ed7d432e00c91568d558e. It was current at the start, after the gates, and at the end.
+phase_base_sha: 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6. role_base_sha: 39b79520.
+Result: 0 Blockers, 1 Major, 13 Nits. retry_recommendation: none.
+
+Gate exits (each command ran once in ONE heavy-run wrapper, never nested):
+- GREEN_TEST_COMMAND (4 files): exit 0. Test Files 4 passed (4). Tests 61 passed (61).
+- PROJECT_LINT (9 targets): exit 0.
+- PROJECT_CHECKS (tsc --noEmit): exit 0.
+- PROJECT_TESTS (3 recorded excludes): exit 0. Test Files 174 passed (174). Tests 3249 passed (3249).
+- git status --porcelain content secondary primary after each vitest run: empty.
+- Earlier failures, informational run of the 3 excluded files: 3 files failed. 27 tests failed, 51 passed.
+  constants.test.ts 1, origins-thai-support.test.ts 2, storytime-unit2-sound-stage.test.ts 24.
+  The numeric exit code of this run was not captured. The failure counts show it was red.
+
+Confirmations asked in the brief:
+- S8 tasks: 7 tasks. Five are [x] with SHAs on the task lines. Only the manual verification (plan.md:231)
+  and the Close task (plan.md:235) are open, and both say deferred. Script check: incomplete non-deferred 0.
+- Story S8 done-when: AC1, AC2, and AC3 each have a passing test and a file or git proof (see the JSON evidence).
+- git diff --name-only 7a8e602c 39b79520 -- 'content/primary/**/print/' is empty. This check is VACUOUS: the
+  pathspec matches 0 tracked files (finding PA-S8-1). The working pathspec ':(glob)content/primary/**/print/**'
+  also lists 0 changed paths, and it matches 72 tracked files. All 72 print blobs are identical at the base and at HEAD.
+- The 5 shipped project.json files state type primary and look classic. secondary/origins-3.1-a1 has type
+  secondary and no look, so it resolves classic. The classic golden test passes (default-look-new-editions.test.ts:100-109).
+- No forbidden path in the S8 commits: 15 commits, 18 distinct paths, 0 forbidden.
+- Thai: 0 added lines with Thai characters in the 15 S8 commits. This log holds 0 Thai characters.
+- Prerequisites: review-a, review-b, review-c, and adversarial round 2 all bind to b5492228 with status pass.
+  No product commit follows the last review: 2d6056da precedes b5492228. The one later commit, 39b79520, changes
+  the adversarial test file and 14 plan lines (records only). I applied the PM rule of 2026-11-21 (test-only or
+  plan-only commits after a review keep the review). Allowed test-only commit: 39b79520.
+
+Finding (Major, nonblocking):
+- PA-S8-1: the print-folder pathspec 'content/primary/**/print/' cannot fail (0 matches; control 0 of 8 known
+  changes). It sits in test-strategy.md:548, plan.md:207, and the brief. The fact is true. Fix the text in the
+  plan commit that records this acceptance.
+
+Nits (nonblocking): PA-S8-2 (plan.md:217 names the audited HEAD, not 39b79520), PA-S8-3 (plan.md:202 names the
+Green commit, not the Red commits), PA-S8-4 (plan.md:19 gate definition is stale), PA-S8-5 (test at
+default-look-new-editions.test.ts:56-69 cannot detect a lost marker), A-F4, A-F5/B-F8, B-F9, B-F10, C-F4, C-F5,
+C-F6, PA-S8-6 (70 vs 72 print files), PA-S8-7 (graph.db stale). The JSON holds the full text and file:line of each.
+
+Open items for closeout (tech debt): A-F4, A-F5/B-F8, B-F9, B-F10, C-F4, C-F5, C-F6, the "70 print files" wording,
+and graph.db staleness. Fix C-F6 (plan.md:185) before the PM sends the S7 rule to the monorepo session.
+Manual verification of S8 stays deferred. The PM verifies it after this acceptance.
+
+Paths to commit (this role does not commit):
+- measure/runs/primary_v2_look_20261020/phase-acceptance-s8-39b79520.json
+- measure/runs/primary_v2_look_20261020/phase-acceptance-s8-39b79520.log
+Uncommitted S8 audit artifacts that these results cite (closeout commits the runs folder):
+- measure/runs/primary_v2_look_20261020/review-{a,b,c}-s8-{05473af0,bbe3d68f,b5492228}.{json,log}
+- measure/runs/primary_v2_look_20261020/adversarial-s8-{bbe3d68f,b5492228}.{json,log}
+- measure/runs/primary_v2_look_20261020/adversarial-s8-bbe3d68f-tests.txt and adversarial-s8-bbe3d68f-final-checks.txt
+- measure/runs/primary_v2_look_20261020/adversarial-s8-b5492228-checks.txt and adversarial-s8-b5492228-mutants.txt
+
+This role wrote only the two files above. It made no commit. It ran no install, build, render, or dev server.
+It used no port 3005. It did not touch video/, content/, dashboard/raw.json, dashboard/AGENTS.md, or other tracks.
+
+MEASURE_AGENT_RESULT
+role: measure-phase-acceptance
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: none
+tests_run: GREEN_TEST_COMMAND exit 0 (4 files, 61 tests); PROJECT_LINT exit 0; PROJECT_CHECKS exit 0; PROJECT_TESTS exit 0 (174 files, 3249 tests, 3 recorded excludes); git status --porcelain content secondary primary empty after each vitest run; informational run of the 3 excluded files red (27 failed, 51 passed) as recorded
+files_changed: measure/runs/primary_v2_look_20261020/phase-acceptance-s8-39b79520.json; measure/runs/primary_v2_look_20261020/phase-acceptance-s8-39b79520.log
+plan_updates: none (gate-only role)
+known_failures: none for S8; earlier failures outside this track, recorded: constants.test.ts 1, origins-thai-support.test.ts 2, storytime-unit2-sound-stage.test.ts 24 (all excluded from PROJECT_TESTS)
+handoff: Commit the two paths above. In the plan commit that records this acceptance, fix PA-S8-1 (use the glob pathspec in plan.md:207 and test-strategy.md:548), PA-S8-2, PA-S8-3, PA-S8-4, and C-F6 (plan.md:185, before the S7 handoff to the monorepo session). Record A-F4, A-F5/B-F8, B-F9, B-F10, C-F4, C-F5, C-F6, the 70 vs 72 print files wording, and graph.db staleness in measure/tech-debt.md at closeout. Manual verification of S8 stays deferred to the PM. I applied the PM rule of 2026-11-21 for the plan lines of 39b79520; align the role text with that rule.
+END_MEASURE_AGENT_RESULT
+RESULT: PASS

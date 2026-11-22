@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "primary_v2_look_20261020",
+  "phase": "Phase S8: Default look for new editions",
+  "baseline_sha": "7a8e602c668773a2a278074ccbfa8dcddfd5b2f6",
+  "phase_base_sha": "7a8e602c668773a2a278074ccbfa8dcddfd5b2f6",
+  "role_base_sha": "05473af09ed8072d4e6829bd70165daa902d4e5b",
+  "audited_head_sha": "05473af09ed8072d4e6829bd70165daa902d4e5b",
+  "status": "fail",
+  "summary": "New Primary projects select chibi-quest. Secondary projects also change, and duplicate creation removes shipped classic markers. Two blockers require Green remediation.",
+  "blocking_findings": [
+    "F1 [Blocker] review-c: dashboard/lib/look.ts:51 changes secondary projects to chibi-quest because it ignores metadata.type. The compile route passes this look into the document wrapper at dashboard/app/api/projects/[projectId]/compile/route.ts:195. The probe returns chibi-quest for a secondary Origins 2 project; the phase base returns classic. Scope the changed default to Primary projects. Owner: Green.",
+    "F2 [Blocker] review-c: dashboard/lib/filesystem.ts:274-283 reuses an existing project folder and overwrites project.json without its look marker. POST /api/projects with the dashboard Quest 4 selection returns 200, removes classic, and changes the shipped project's compile look to chibi-quest. Reject an existing project ID or preserve its metadata. Keep a new edition separate from shipped stock. Owner: Green."
+  ],
+  "nonblocking_findings": [
+    "F3 [Nit] review-c: measure/tracks/primary_v2_look_20261020/plan.md:184 still instructs the monorepo handoff to state default classic without the S8 distinction. Document chibi-quest for new Primary projects and classic for the low-level renderer and protected editions. Route the corrected handoff through the PM. Owner: orchestrator.",
+    "F4 [Nit] review-c: dashboard/app/api/render/route.ts:22-26 forwards the project look but omits metadata.type. Compile forwards type at dashboard/app/api/projects/[projectId]/compile/route.ts:181. The renderer defaults to secondary at dashboard/lib/template-renderer.ts:176, so Primary preview and compile select different templates. This defect predates S8; the probe confirms it. Owner: Green follow-up."
+  ],
+  "evidence": [
+    "git rev-parse confirms phase_base_sha 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6 and current audited HEAD 05473af09ed8072d4e6829bd70165daa902d4e5b. role_base_sha equals audited HEAD.",
+    "The phase range includes interleaved deps_refresh commits. The S8 source diff contains look.ts, two test files, five shipped metadata files, and plan.md. No reviewed route or CLI file changes.",
+    "test-strategy.md:591 makes the contract review applicable. Lines 593-594 exclude the visual UX review and browser review. The S8 diff changes no page component, template, CSS, or font.",
+    "dashboard/components/create-project-dialog.tsx:68-76 posts type, seriesName, levelNumber, and cefrLevel. dashboard/app/api/projects/route.ts:52-54 passes these fields to createProject.",
+    "dashboard/lib/filesystem.ts:248-255 and :276-283 write project.json without look in both creation overloads. No creation path explicitly writes a look.",
+    "The corrected heavy-run executes nine in-memory contract probes: six pass and three fail. The failures prove secondary scope leakage, duplicate marker loss, and the pre-existing preview type omission.",
+    "The probes execute actual TypeScript bodies for look.ts, filesystem.ts, the project POST route, both output routes, and bookLessons. They mock storage, lesson data, and renderers. They do not prove live rendering.",
+    "The new Primary POST probe passes. Both routes receive chibi-quest. The compile route also receives type primary.",
+    "The shipped Quest 4 probe selects classic before duplicate creation. After duplicate POST, status is 200, look is absent, and compilation selects chibi-quest.",
+    "dashboard/scripts/print/make-book-pdf.ts:53 calls the compile route. dashboard/scripts/print/make-lesson-pdfs.ts:71-78 passes bookLessons.look into lessonDocument.",
+    "dashboard/lib/print/book-lessons.ts:57 uses projectLook for mapped project folders. Line 61 uses bookLook for package folders. The in-memory branch probe passes.",
+    "dashboard/scripts/render-lesson-html.ts:43 parses --look and :58 defaults package rendering through bookLook. This differs intentionally from new project editions, per test-strategy.md:577.",
+    "The explicit-classic probe passes. Invalid look values retain status 500 in both routes. projectLook(null) and parseLook(undefined) retain classic.",
+    "git status --porcelain content returns no entries after the probes. No content file, live server, browser, PDF renderer, or generated print artifact enters this audit.",
+    "The reviewed source has no working-tree changes against HEAD. Existing unrelated modifications and untracked artifacts remain untouched.",
+    "The first probe attempt lost interpolated diagnostic text. The corrected attempt replaces interpolation with concatenation and supersedes that output."
+  ],
+  "commands": [
+    "All command output passes through a Python filter that removes lines containing U+0E00-U+0E7F.",
+    "git rev-parse HEAD 7a8e602c^{commit} 05473af0^{commit}",
+    "git show --stat --oneline 85bdb148 ad9fd95c f72cf0cf 36905b0d 05473af0",
+    "git log --format=%h %s 7a8e602c..05473af0 -- dashboard/lib/look.ts dashboard/__tests__/workbook-look.test.ts dashboard/__tests__/default-look-new-editions.test.ts primary/*/project.json measure/tracks/primary_v2_look_20261020",
+    "git diff 7a8e602c..05473af0 -- dashboard/lib/look.ts dashboard/__tests__/workbook-look.test.ts primary/*/project.json",
+    "Filtered source inspection of the strategy, specification, plan, project flow, routes, print callers, and project memory",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; node -e <BEGIN_AUDIT_PROBE script from review-c-s8-05473af0.log>' — corrected run exits 1; six pass, three fail",
+    "git diff --name-only HEAD -- dashboard/lib/look.ts dashboard/lib/filesystem.ts dashboard/app/api/projects dashboard/app/api/render/route.ts dashboard/lib/print/book-lessons.ts dashboard/components/create-project-dialog.tsx",
+    "git status --porcelain content",
+    "git rev-parse HEAD — final confirmation: 05473af09ed8072d4e6829bd70165daa902d4e5b"
+  ],
+  "changed_files": [
+    "dashboard/lib/look.ts",
+    "dashboard/__tests__/default-look-new-editions.test.ts",
+    "dashboard/__tests__/workbook-look.test.ts",
+    "primary/adventures-1.0-a1/project.json",
+    "primary/origins-2-a0/project.json",
+    "primary/origins-3.1-a0/project.json",
+    "primary/origins-3.2-a0/project.json",
+    "primary/quest-4-a1/project.json",
+    "measure/tracks/primary_v2_look_20261020/plan.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [
+    "F1: The Primary-only default reaches secondary compilation.",
+    "F2: The existing-project creation path removes the marker that protects shipped editions."
+  ],
+  "route_parity_violations": [
+    "F4: Pre-existing and nonblocking. Primary preview omits the template type that compile forwards."
+  ],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "contract_applicability": "applicable",
+  "ux_applicability": "not_applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {"screenshots": [], "accessibility_snapshots": [], "interactions": []},
+  "route": "openai/gpt-6.1-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 2, "evidence": "The corrected in-memory probes show secondary look leakage and shipped marker loss after duplicate creation."},
+    {"axis": "test_meaning", "score": 3, "evidence": "dashboard/__tests__/default-look-new-editions.test.ts:40-85 checks the helper but omits project creation and secondary scope."},
+    {"axis": "scope_discipline", "score": 3, "evidence": "dashboard/lib/look.ts:51 changes secondary behavior outside the Primary scope stated in spec.md:15."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The corrected heavy-run records six passing probes, three failing probes, and classic results from the phase-base helper."}
+  ]
+}

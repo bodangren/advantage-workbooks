@@ -1,0 +1,279 @@
+Provisional verdict: inconclusive.
+The first command filtered Thai text from measure/index.md.
+Every subsequent file read and command output uses the same line filter.
+HEAD: 05473af09ed8072d4e6829bd70165daa902d4e5b.
+Phase base: 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6.
+Role base: 05473af09ed8072d4e6829bd70165daa902d4e5b.
+The repository contains unrelated tracked changes and untracked artifacts.
+role: review-c
+status: partial
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: none
+tests_run: none; inspection in progress
+files_changed: review-c-s8-05473af0.json; review-c-s8-05473af0.log
+plan_updates: none
+known_failures: provisional audit remains incomplete
+handoff: Final inspection will replace this provisional result.
+END_MEASURE_AGENT_RESULT
+
+BEGIN_AUDIT_PROBE
+const fs = require("node:fs");
+const path = require("node:path");
+const vm = require("node:vm");
+const ts = require("./dashboard/node_modules/typescript");
+const assert = require("node:assert/strict");
+const root = "/audit-memory";
+const memory = new Map();
+const quiet = { log() {}, error() {} };
+function load(file, deps = {}, sourceOverride) {
+  const source = sourceOverride ?? fs.readFileSync(file, "utf8");
+  const code = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true }
+  }).outputText;
+  const module = { exports: {} };
+  vm.runInNewContext(code, {
+    module, exports: module.exports,
+    require(id) {
+      if (!(id in deps)) throw new Error("Unmocked dependency " + file + ": " + id);
+      return deps[id];
+    },
+    process: { env: { WORKBOOKS_ROOT: root }, cwd: () => "/audit-memory/dashboard" },
+    console: quiet, URLSearchParams
+  }, { filename: file });
+  return module.exports;
+}
+const looks = load("dashboard/lib/look.ts");
+const memfs = {
+  async mkdir() {},
+  async writeFile(file, value) { memory.set(file, value); },
+  async readFile(file) {
+    if (!memory.has(file)) throw new Error("ENOENT");
+    return memory.get(file);
+  }
+};
+const files = load("dashboard/lib/filesystem.ts", {
+  "fs/promises": memfs, path, "./cutover": { assertWritable() {} }
+});
+const responses = { NextResponse: { json(body, options) {
+  return { status: options?.status ?? 200, body, async json() { return body; } };
+} } };
+const projects = load("dashboard/app/api/projects/route.ts", {
+  "next/server": responses, "@/lib/filesystem": files
+});
+const lesson = { lesson_title: "Audit fixture", vocabulary: [], comprehension_questions: [] };
+const routeFiles = {
+  readProjectMetadata: files.readProjectMetadata,
+  listLessons: async () => [{ id: "audit" }],
+  readLesson: async () => lesson
+};
+const preview = load("dashboard/app/api/render/route.ts", {
+  "next/server": responses,
+  "@/lib/filesystem": routeFiles,
+  "@/lib/look": looks,
+  "@/lib/template-renderer": { renderLessonTemplate: async (_lesson, options) => JSON.stringify(options ?? {}) }
+});
+const compile = load("dashboard/app/api/projects/[projectId]/compile/route.ts", {
+  "next/server": responses,
+  "@/lib/filesystem": routeFiles,
+  "@/lib/look": looks,
+  "@/lib/template-renderer": { renderMultipleLessons: async (_lessons, options) => JSON.stringify(options ?? {}) },
+  "@/lib/workbook-document-wrapper": { wrapWorkbookDocument: (_html, _toc, options) => JSON.stringify(options) },
+  "@/lib/preface-loader": { getPrefaceByCefrLevel: () => null },
+  "@/lib/document-wrapper/sections/answer-key": { answerKeyEntry: () => null }
+});
+const books = load("dashboard/lib/print/book-lessons.ts", {
+  fs: { readdirSync: () => ["l01.json"], readFileSync: () => JSON.stringify({ meta: { number: 1, cefrLevel: "A0" } }) },
+  path,
+  "../lesson-package/schema": { LessonPackageSchema: { parse: (value) => value } },
+  "../lesson-package/build": { buildWorkbookLesson: () => lesson },
+  "../filesystem": routeFiles, "../look": looks
+});
+const request = (body) => ({ json: async () => body });
+const compilation = async (id) => {
+  const result = await compile.GET({ nextUrl: { searchParams: new URLSearchParams() } }, { params: Promise.resolve({ projectId: id }) });
+  return { status: result.status, options: JSON.parse(result.body.html ?? "{}") };
+};
+let failures = 0;
+async function check(name, action) {
+  try { await action(); console.log("PASS " + name); }
+  catch (error) { failures++; console.log("FAIL " + name + ": " + error.message); }
+}
+(async () => {
+  console.log("In-memory contract probes. Renderers and storage are mocked. No content files are read.");
+  const primary = { type: "primary", seriesName: "Origins", levelNumber: "1", cefrLevel: "A0" };
+  const created = await projects.POST(request(primary));
+  const id = created.body.id;
+  await check("POST creates primary metadata without an explicit look", () => {
+    assert.equal(created.status, 200);
+    assert.equal(Object.hasOwn(created.body.metadata, "look"), false);
+    assert.equal(looks.projectLook(created.body.metadata), "chibi-quest");
+  });
+  await check("compile sends the new primary look and type", async () => {
+    const result = await compilation(id);
+    assert.equal(result.status, 200);
+    assert.equal(result.options.look, "chibi-quest");
+    assert.equal(result.options.type, "primary");
+  });
+  await check("preview sends the same primary look", async () => {
+    const result = await preview.POST(request({ projectId: id, lesson }));
+    assert.equal(result.status, 200);
+    assert.equal(JSON.parse(result.body.html).look, "chibi-quest");
+  });
+  await check("preview forwards the primary type like compile", async () => {
+    const result = await preview.POST(request({ projectId: id, lesson }));
+    assert.equal(JSON.parse(result.body.html).type, "primary");
+  });
+  const secondary = await projects.POST(request({ ...primary, type: "secondary", levelNumber: "2", cefrLevel: "A1" }));
+  await check("secondary compile keeps the previous classic look", async () => {
+    const result = await compilation(secondary.body.id);
+    console.log("OBSERVED secondary compile look=" + result.options.look + " type=" + result.options.type);
+    assert.equal(result.options.look, "classic");
+  });
+  const shipped = { type: "primary", seriesName: "Quest", levelNumber: "4", cefrLevel: "A1", look: "classic" };
+  memory.set(path.join(root, "primary", "quest-4-a1", "project.json"), JSON.stringify(shipped));
+  await check("shipped project compiles classic before duplicate creation", async () => {
+    assert.equal((await compilation("quest-4-a1")).options.look, "classic");
+  });
+  await check("bookLessons keeps project folders and book folders distinct", async () => {
+    assert.equal((await books.bookLessons("quest-4", "/never-read")).look, "classic");
+    assert.equal((await books.bookLessons("origins-1", "/never-read")).look, "classic");
+    assert.equal(looks.bookLook("quest-5"), "chibi-quest");
+  });
+  const duplicate = await projects.POST(request({ type: "primary", seriesName: "Quest", levelNumber: "4", cefrLevel: "A1" }));
+  await check("duplicate creation preserves the shipped classic marker", async () => {
+    const meta = await files.readProjectMetadata("quest-4-a1");
+    const result = await compilation("quest-4-a1");
+    console.log("OBSERVED duplicate status=" + duplicate.status + " lookKey=" + meta.look + " compileLook=" + result.options.look);
+    assert.equal(result.options.look, "classic");
+  });
+  await check("explicit look and unknown-look error contracts stay unchanged", async () => {
+    const file = path.join(root, "primary", id, "project.json");
+    memory.set(file, JSON.stringify({ ...primary, look: "classic" }));
+    assert.equal((await compilation(id)).options.look, "classic");
+    memory.set(file, JSON.stringify({ ...primary, look: "invalid" }));
+    assert.equal((await compilation(id)).status, 500);
+    assert.equal((await preview.POST(request({ projectId: id, lesson }))).status, 500);
+    assert.equal(looks.projectLook(null), "classic");
+    assert.equal(looks.parseLook(undefined, "audit"), "classic");
+  });
+  const execSync = require("node:child_process").execFileSync;
+  const baseSource = execSync("git", ["show", "7a8e602c:dashboard/lib/look.ts"], { encoding: "utf8" });
+  const baseline = load("dashboard/lib/look.ts", {}, baseSource);
+  console.log("BASELINE secondary=" + baseline.projectLook(secondary.body.metadata) + " duplicate=" + baseline.projectLook({ ...shipped, look: undefined }));
+  console.log("SUMMARY " + failures + " failed contract probes");
+  process.exitCode = failures ? 1 : 0;
+})().catch((error) => { console.error(error); process.exitCode = 2; });
+END_AUDIT_PROBE
+
+PROBE_OUTPUT
+Referenced but unset environment variable evaluates to an empty string: failures, file, id, name
+Invalid environment variable name evaluates to an empty string: baseline.projectLook(secondary.body.metadata), duplicate.status, error.message, meta.look, result.options.look, result.options.type
+In-memory contract probes. Renderers and storage are mocked. No content files are read.
+PASS 
+PASS 
+PASS 
+FAIL : 
+OBSERVED secondary compile look= type=
+FAIL : 
+PASS 
+PASS 
+OBSERVED duplicate status= lookKey= compileLook=
+FAIL : 
+PASS 
+BASELINE secondary= duplicate=classic
+SUMMARY  failed contract probes
+PROBE_EXIT: 1
+
+PROBE_OUTPUT_CORRECTED
+In-memory contract probes. Renderers and storage are mocked. No content files are read.
+PASS POST creates primary metadata without an explicit look
+PASS compile sends the new primary look and type
+PASS preview sends the same primary look
+FAIL preview forwards the primary type like compile: Expected values to be strictly equal:
++ actual - expected
+
++ undefined
+- 'primary'
+
+OBSERVED secondary compile look=chibi-quest type=secondary
+FAIL secondary compile keeps the previous classic look: Expected values to be strictly equal:
++ actual - expected
+
++ 'chibi-quest'
+- 'classic'
+
+PASS shipped project compiles classic before duplicate creation
+PASS bookLessons keeps project folders and book folders distinct
+OBSERVED duplicate status=200 lookKey=undefined compileLook=chibi-quest
+FAIL duplicate creation preserves the shipped classic marker: Expected values to be strictly equal:
++ actual - expected
+
++ 'chibi-quest'
+- 'classic'
+
+PASS explicit look and unknown-look error contracts stay unchanged
+BASELINE secondary=classic duplicate=classic
+SUMMARY 3 failed contract probes
+PROBE_EXIT: 1
+
+FINAL_AUDIT
+Verdict: FAIL.
+Contract applicability: applicable, per test-strategy.md:591 and the exact S8 source diff.
+UX browser review applicability: not_applicable, per test-strategy.md:593-594.
+The audit uses no browser, dev server, build, render, or content file.
+The probes mock storage and rendering. They check integration contracts, not live output.
+The corrected heavy-run exits 1: six probes pass and three probes fail.
+The first probe output loses interpolated text. The corrected output supersedes it.
+
+F1 [Blocker] review-c: dashboard/lib/look.ts:51 applies the new default to secondary projects.
+The compile route passes that look into its document wrapper.
+The phase-base helper returns classic for the same secondary metadata.
+Owner: Green. Limit the changed default to Primary projects.
+
+F2 [Blocker] review-c: dashboard/lib/filesystem.ts:274-283 overwrites an existing project's metadata without its classic marker.
+The Quest 4 creation request returns 200 and changes subsequent compilation to chibi-quest.
+Owner: Green. Reject an existing ID or preserve its metadata.
+Keep a new edition separate from a shipped project.
+
+F3 [Nit] review-c: measure/tracks/primary_v2_look_20261020/plan.md:184 retains an incomplete default-classic handoff.
+Owner: orchestrator. Distinguish the new Primary project default from the unchanged renderer default.
+Send the corrected contract through the PM.
+
+F4 [Nit] review-c: dashboard/app/api/render/route.ts:22-26 omits metadata.type.
+Compile forwards type; the single-lesson renderer defaults to secondary.
+This defect predates S8 and does not block this phase.
+Owner: Green follow-up.
+
+The dashboard creation path writes project.json without an explicit look.
+Both createProject overloads omit look.
+A new Primary project therefore selects chibi-quest in compile and preview options.
+Explicit classic still wins. Unknown looks still produce status 500 in both routes.
+The CLI paths agree with the strategy.
+make-book-pdf calls compile. make-lesson-pdfs forwards bookLessons.look.
+bookLessons uses projectLook for mapped projects and bookLook for package folders.
+render-lesson-html keeps its package-folder default and explicit --look flag.
+
+Final provenance checks:
+git diff --name-only HEAD over the reviewed source paths: empty, exit 0.
+git status --porcelain content: empty, exit 0.
+git rev-parse HEAD: 05473af09ed8072d4e6829bd70165daa902d4e5b, exit 0.
+The phase base is 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6.
+The role base equals audited HEAD.
+Interleaved dependency commits and unrelated dirty files remain outside this audit.
+The audit writes only its supplied JSON and log.
+Facts changed: audit status FAIL; two blockers; two nonblocking findings.
+
+MEASURE_AGENT_RESULT
+role: review-c
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: none
+tests_run: One heavy-run wrapper per attempt; corrected in-memory probes exit 1, six pass and three fail; content status remains empty
+files_changed: measure/runs/primary_v2_look_20261020/review-c-s8-05473af0.json; measure/runs/primary_v2_look_20261020/review-c-s8-05473af0.log
+plan_updates: none
+known_failures: F1 secondary default leakage; F2 duplicate creation removes shipped classic marker; pre-existing F4 preview type omission
+handoff: Route F1 and F2 to Green. Correct the S7 handoff for F3. Record F4 as pre-existing. retry_recommendation: retry_implementation. No browser review applies.
+END_MEASURE_AGENT_RESULT
+RESULT: FAIL

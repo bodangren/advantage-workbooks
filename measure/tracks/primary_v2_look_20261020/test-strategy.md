@@ -545,7 +545,7 @@ Each new rule must have a mutant that a named test catches. Record the mutant, t
 
 ### Closeout gate
 
-Phase acceptance runs on the head after the S8 implementation. Gates: `RED_TEST_COMMAND` and `GREEN_TEST_COMMAND` exit 0; `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` exit 0 in heavy-runs. The role states the exit code of each gate. It also checks that `git diff --exit-code -- 'content/primary/**/print/'` is empty and that no new printer file exists under `~/Desktop/print-ready/`. It writes `measure/runs/primary_v2_look_20261020/phase-acceptance-s8-<sha8>.json` with PASS and 0 open blockers. It records that file in `plan.md`. The checkpoint commit and its git note then follow the workflow protocol. Any gate failure other than the recorded earlier failures fails the closeout gate.
+Phase acceptance runs on the head after the S8 implementation. Gates: `RED_TEST_COMMAND` and `GREEN_TEST_COMMAND` exit 0; `PROJECT_TESTS`, `PROJECT_LINT`, and `PROJECT_CHECKS` exit 0 in heavy-runs. The role states the exit code of each gate. It also checks that `git diff --exit-code -- ':(glob)content/primary/**/print/**'` is empty and that no new printer file exists under `~/Desktop/print-ready/`. It writes `measure/runs/primary_v2_look_20261020/phase-acceptance-s8-<sha8>.json` with PASS and 0 open blockers. It records that file in `plan.md`. The checkpoint commit and its git note then follow the workflow protocol. Any gate failure other than the recorded earlier failures fails the closeout gate.
 
 ### Test cases in `dashboard/__tests__/default-look-new-editions.test.ts`
 
@@ -556,7 +556,7 @@ Phase acceptance runs on the head after the S8 implementation. Gates: `RED_TEST_
 5. Unknown `look` still throws: `projectLook({ ..., look: 'riven-lands' })` throws, and `parseLook('riven-lands', where)` throws with the source name in the message.
 6. Golden byte identity: `lessonDocument` of the `origins-3.2/print/p05.json` record with no look and with `classic` equals `lesson-05.html`; the no-key variant equals `lesson-05-no-key.html`. One byte of change fails the test.
 7. Book-folder path stays classic: `bookLook('origins-1')`, `bookLook('origins-2')`, `bookLook('origins-3.1')`, `bookLook('origins-3.2')`, and `bookLook('quest-4')` each return `classic`. The content folders that feed shipped print files do not change.
-8. No shipped print file is rebuilt: the test reads git status over `content/primary/**/print/` and fails when any tracked print file differs from HEAD. It also fails when a new file appears under that path.
+8. No shipped print file is rebuilt: the test reads git status over `content/primary` and fails when any tracked print file differs from HEAD. It also fails when a new file appears under that path. The phase check uses the pathspec `':(glob)content/primary/**/print/**'` (PA-S8-1); it matches the tracked print files.
 
 ### Fixtures, mocks, and live-behavior proof
 

@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "primary_v2_look_20261020",
+  "phase": "Phase S8: Default look for new editions",
+  "baseline_sha": "7a8e602c668773a2a278074ccbfa8dcddfd5b2f6",
+  "phase_base_sha": "7a8e602c668773a2a278074ccbfa8dcddfd5b2f6",
+  "role_base_sha": "05473af09ed8072d4e6829bd70165daa902d4e5b",
+  "audited_head_sha": "05473af09ed8072d4e6829bd70165daa902d4e5b",
+  "status": "fail",
+  "summary": "The Primary defaults and shipped editions pass the targeted tests. The shared default also changes an existing secondary project to chibi-quest.",
+  "blocking_findings": [
+    "F1 [Blocker] review-a: dashboard/lib/look.ts:51 changes every no-look project, including secondary projects, to chibi-quest. The tracked secondary/origins-3.1-a1/project.json:2-5 has no look and now returns chibi-quest instead of classic. The compile route forwards that value at dashboard/app/api/projects/[projectId]/compile/route.ts:176-195. The wrapper applies the Chibi Quest styles without a product-type guard at dashboard/lib/workbook-document-wrapper.ts:26-38. Rationale: spec.md:132-137 limits this change to Primary Advantage, and spec.md:159 excludes Reading Advantage. Green must preserve the previous secondary default and add a failing-first regression through the compile route."
+  ],
+  "nonblocking_findings": [
+    "F2 [Nit] review-a: dashboard/lib/filesystem.ts:13 and dashboard/app/api/projects/[projectId]/compile/route.ts:175 still describe the fallback as the book's look. Rationale: projectLook now selects chibi-quest for absent look values, independently of bookLook. Update these contract comments with the next implementation change."
+  ],
+  "evidence": [
+    "HEAD remained 05473af09ed8072d4e6829bd70165daa902d4e5b before and after the audit.",
+    "The audit used 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6..05473af09ed8072d4e6829bd70165daa902d4e5b. It did not substitute Green's earlier 75766085 base.",
+    "The exact range also contains the separate deps_refresh_20261121 track. Its dependency changes and run artifacts are not S8 implementation findings.",
+    "The supplied Route line and test-strategy.md:587-596 define review routing. No repository routing file was found outside the restricted run folder.",
+    "Read the Measure skill, build-graph skill, contracts.md, measure/index.md, project memory, track spec, S8 plan, and S8 test strategy through the Thai filter.",
+    "Targeted Vitest exited 0: 2 files and 18 tests passed. git status --porcelain content was empty immediately afterward.",
+    "Every primary/*/project.json was enumerated. The complete folder list is adventures-1.0-a1, origins-2-a0, origins-3.1-a0, origins-3.2-a0, and quest-4-a1.",
+    "primary/adventures-1.0-a1/project.json: classic. It declares Origins 2, as the strategy records.",
+    "primary/origins-2-a0/project.json: classic.",
+    "primary/origins-3.1-a0/project.json: classic.",
+    "primary/origins-3.2-a0/project.json: classic.",
+    "primary/quest-4-a1/project.json: classic.",
+    "Each shipped project differs from the phase base only by its added look key. No additional existing Primary project silently changes look.",
+    "Read-only execution of the actual projectLook implementation returned classic for null metadata, undefined metadata, and metadata with look:null.",
+    "The same probe returned chibi-quest for absent look values in both Primary and secondary metadata. The tracked secondary project previously selected classic through bookLook.",
+    "The public metadata type excludes null look values, but readProjectMetadata returns unvalidated JSON. Runtime look:null therefore remains reachable and preserves parseLook's existing classic behavior.",
+    "No projectLook test pins look:null or undefined metadata. An existing adversarial test pins parseLook(null) at dashboard/__tests__/chibi-quest-step-names.adversarial.test.ts:77.",
+    "Production projectLook callers are bookLessons:57, the compile route:176, and the render route:25. Compile and bookLessons have targeted coverage; no render-route test reference was found.",
+    "bookLook and CHIBI_QUEST_BOOKS remain live and consistent with the strategy's separate content-folder contract.",
+    "bookLook callers remain dashboard/lib/print/book-lessons.ts:61 and dashboard/scripts/render-lesson-html.ts:58. The latter retains its explicit --look override.",
+    "dashboard/scripts/print/make-book-pdf.ts:53 uses the compile route. make-lesson-pdfs.ts:71-78 and export-print-data.ts:46-62 obtain the look from bookLessons.",
+    "make-teacher-manual-pdf.ts:86-98 reads project metadata without using projectLook. S8 leaves that manual path unchanged.",
+    "repo-graph inspect, callers, and deps found no projectLook node. The graph stores an old checkout root and an August index timestamp; source searches supplied the caller inventory.",
+    "The unchanged classic golden assertions passed in workbook-look.test.ts:72-78. The S8 test also passed four exact golden comparisons at default-look-new-editions.test.ts:99-107.",
+    "Git tree metadata shows 72 print files at both the phase base and audited HEAD, with identical paths and blob identities.",
+    "All 72 current print files match 08bb160. That older commit contains 80 print files; the eight removals predate this phase.",
+    "The S8 manual task remains unchecked at plan.md:201. Its deferral names the PM and the post-acceptance trigger; it does not prove manual verification.",
+    "The Close task remains unchecked at plan.md:205. Its track-close deferral matches test-strategy.md:626 and does not claim completion.",
+    "The plan's targeted pass claim matches the independent exit-0 result. Aggregate tests, lint, and tsc were reported by Green but were not independently rerun.",
+    "Green's permitted log reports four caught mutants. It does not contain raw output for the aggregate gates or every suggested strategy mutant.",
+    "The S8 implementation changes no orchestration script, framework contract test, or registry. Framework-wide A3/A4/A5 fixture checks do not apply.",
+    "S8 tests use exact strings and edition identities rather than digit matching. Required shipped metadata and golden files use direct reads, so missing files throw.",
+    "The implementation adds no abstraction. Its defect is an overly broad shared default, not an unnecessary architectural layer.",
+    "The scoped tracked status remained clean. Pre-existing unrelated untracked run artifacts were left unchanged.",
+    "No content file was opened directly by the audit. Only the permitted Vitest command read its content fixtures. Every displayed file and command output passed the Thai filter."
+  ],
+  "commands": [
+    "git rev-parse HEAD: 05473af09ed8072d4e6829bd70165daa902d4e5b",
+    "git diff --name-only 7a8e602c..05473af0 and git log --oneline 7a8e602c..05473af0: inspected the exact range and separated the other track.",
+    "git diff 7a8e602c..05473af0 -- dashboard/lib/look.ts dashboard/__tests__/default-look-new-editions.test.ts dashboard/__tests__/workbook-look.test.ts primary/*/project.json measure/tracks/primary_v2_look_20261020/plan.md: inspected.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts': exit 0, 18 passed.",
+    "git status --porcelain content: exit 0, empty after Vitest.",
+    "repo-graph inspect graph.db projectLook; repo-graph callers graph.db projectLook; repo-graph callers graph.db bookLook; repo-graph deps graph.db projectLook: each exited 1 with no matches.",
+    "Filtered rg searches over dashboard and dashboard/scripts: confirmed three projectLook callers, two bookLook callers, and print-script wiring.",
+    "Python metadata inventory and JSON comparison against git show 7a8e602c:<project>: five Primary projects; only look keys added.",
+    "Read-only node probe used typescript.transpileModule on dashboard/lib/look.ts and executed projectLook without rendering or file writes: exit 0.",
+    "git ls-tree -r 08bb160, 7a8e602c, and 05473af0 -- content/primary: compared print paths and blob identities without opening content files.",
+    "git diff --check 7a8e602c..05473af0 -- dashboard/lib/look.ts dashboard/__tests__/default-look-new-editions.test.ts dashboard/__tests__/workbook-look.test.ts primary measure/tracks/primary_v2_look_20261020/plan.md: exit 0.",
+    "git status --porcelain --untracked-files=no -- dashboard primary secondary content measure/tracks/primary_v2_look_20261020: empty."
+  ],
+  "changed_files": [
+    "dashboard/lib/look.ts",
+    "dashboard/__tests__/default-look-new-editions.test.ts",
+    "dashboard/__tests__/workbook-look.test.ts",
+    "primary/adventures-1.0-a1/project.json",
+    "primary/origins-2-a0/project.json",
+    "primary/origins-3.1-a0/project.json",
+    "primary/origins-3.2-a0/project.json",
+    "primary/quest-4-a1/project.json",
+    "measure/tracks/primary_v2_look_20261020/plan.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6.1-sol#high (ra-quota pick review-a --not-family minimax --not-family kimi).",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 2,
+      "evidence": "dashboard/lib/look.ts:51 changes the tracked secondary/origins-3.1-a1 project to chibi-quest, outside the Primary-only requirement."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 3,
+      "evidence": "The targeted command passed 18 meaningful tests, but workbook-look.test.ts:126-168 contains only Primary compile fixtures."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 2,
+      "evidence": "The small S8 diff leaves print files unchanged but changes secondary output through compile/route.ts:176."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Independent targeted tests and Git tree comparisons support the main claims; aggregate gate output remains a Green log report."
+    }
+  ]
+}

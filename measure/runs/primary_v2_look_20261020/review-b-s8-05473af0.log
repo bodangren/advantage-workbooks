@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S8: Default look for new editions
+commits: none
+tests_run: heavy-run "set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts" (exit 0, 2 files, 18 tests passed; run twice, git status --porcelain content empty); node probes of dashboard/lib/look.ts on the 6 real project.json files, on look values, and on non-object meta (no file written)
+files_changed: measure/runs/primary_v2_look_20261020/review-b-s8-05473af0.json; measure/runs/primary_v2_look_20261020/review-b-s8-05473af0.log
+plan_updates: none
+known_failures: F1 [Blocker] secondary/origins-3.1-a1 (Reading Advantage, no look key) builds in chibi-quest at dashboard/lib/look.ts:51 where the phase base built classic; F2 [Major] Workbook Settings Save and Create project delete the look classic of a shipped project.json; F3 and F4 are Nits
+handoff: FAIL at 05473af0 with 1 Blocker, 1 Major, and 2 Nits; retry_recommendation is retry_implementation and no escalation is needed. Route F1 and F2 to Green. F1: projectLook gives chibi-quest to every project.json with no look key, and this includes the tracked Reading Advantage project secondary/origins-3.1-a1 (type secondary), which spec.md:159 puts out of scope; default fix is classic when meta.type is secondary, with a failing-first test that reads that file. F2: the explicit look classic is the only guard of a shipped edition, and the Settings dialog and createProject overwrite project.json without it; default fix is to keep the old look in a write that has none and to refuse an existing id. Checked and clean: look value validation (unknown, null, non-string, prototype keys), error handling (generic 500, no echo), the request surface (no look input; assertSafePath bounds the project id), the importers in tutor-advantage and the monorepo (a look key breaks neither), secrets, Thai text, A2 (not applicable), and A6 (holds). The 5 shipped Primary projects give classic and the targeted tests pass, but the suite is green while F1 and F2 stand.
+END_MEASURE_AGENT_RESULT

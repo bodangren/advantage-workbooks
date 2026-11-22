@@ -1,0 +1,74 @@
+Audit verdict: FAIL. Both runs have 10 failed tests and 9 passed tests.
+Implementation under review: bbe3d68f66560f324e7f35421a8c823d0773c4a0.
+Phase base: 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6.
+Role base: bbe3d68f66560f324e7f35421a8c823d0773c4a0.
+Route: openai/gpt-6.1-sol#high (ra-quota pick adversarial --not-family minimax --not-family kimi).
+
+The tests use synthetic English data under temporary roots.
+The tests execute real API handlers and filesystem functions.
+The concurrency test schedules real truncation and writes through a narrow fs.writeFile spy.
+No renderer, server, browser, or production write runs.
+The post-Vitest status for content, primary, and secondary is empty.
+Final ESLint exits 0. Final tsc --noEmit exits 0.
+The committed test repeats the same 10 failures and 9 passes, with Vitest exit 1.
+The post-Vitest status is empty after both runs.
+The final command output is adversarial-s8-bbe3d68f-final-checks.txt.
+Test commit: 9ad76f4a873f4557cd136c907c693eaf3cbbcae5.
+The commit contains only the durable test and plan evidence.
+The implementation diff from the audited HEAD is empty.
+All 72 print paths retain identical Git tree entries.
+
+FAIL: POST refuses a secondary twin of shipped id origins-2-a0
+FAIL: POST refuses a secondary twin of shipped id adventures-1.0-a1
+FAIL: POST refuses a secondary twin of shipped id origins-3.1-a0
+FAIL: POST refuses a secondary twin of shipped id origins-3.2-a0
+FAIL: POST refuses a secondary twin of shipped id quest-4-a1
+FAIL: POST refuses a legacy secondary twin of a shipped Primary id
+FAIL: POST refuses a Primary twin of an existing secondary id
+PASS: POST returns 409 for an existing same-type project and preserves its bytes
+FAIL: PUT look null preserves a stored classic marker
+FAIL: PUT look null preserves a stored chibi-quest marker
+PASS: PUT omission keeps the shipped marker through the real print loader
+PASS: a new Primary project uses chibi-quest through the real print loader
+PASS: PUT rejects unknown looks without changing a shipped metadata byte
+PASS: PUT accepts a known explicit look instead of the Primary default
+PASS: selects the default only for the exact primary type
+PASS: POST rejects case, whitespace, and unsupported type values without a write
+FAIL: concurrent look-less PUTs preserve a shipped classic marker across truncation
+PASS: keeps a stored explicit look across a direct look-less write
+PASS: creates a new Primary project without an explicit look
+
+ADV-S8-1: Refuse ids that exist in either series folder with HTTP 409.
+Preserve the lesson lookup, metadata, and one listing entry.
+Seven route tests fail because the create guard checks only one folder.
+Six cases then hide the shipped sentinel lesson behind an empty secondary project.
+
+ADV-S8-2: Preserve the shipped classic marker across concurrent look-less writes.
+Both real PUT handlers return 200 in the scheduled race.
+The final project.json has no look, and projectLook returns chibi-quest.
+The writer suppresses the parse error from the first writer's truncated file.
+Green must preserve the stored marker through both valid writes.
+
+ADV-S8-3: Refuse null with HTTP 400 or treat null as omission.
+Preserve an existing classic or chibi-quest marker.
+Both null tests fail because the route stores null.
+The chibi-quest case then selects classic.
+
+Retry recommendation: retry_implementation.
+Rerun the adversarial gate after any implementation change.
+The framework marker and banned-term probes do not apply to this implementation.
+The role changes no marker checker or banned-term filter.
+The S8 plan records historical gate exits, not a current adversarial pass.
+
+MEASURE_AGENT_RESULT
+role: adversarial-testing
+status: partial
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: 9ad76f4a
+tests_run: Two targeted Vitest runs each exit 1 with 10 failed and 9 passed. ESLint exits 0. tsc --noEmit exits 0.
+files_changed: dashboard/__tests__/adversarial-s8-default-look.test.ts; plan evidence; audit JSON and log
+plan_updates: Added the in-progress S8 adversarial task.
+known_failures: Seven duplicate-id cases; two null-marker cases; one shipped-marker race.
+handoff: Green owns ADV-S8-1, ADV-S8-2, and ADV-S8-3. Keep the failing tests. Retry implementation, then rerun this gate on the new HEAD.
+END_MEASURE_AGENT_RESULT

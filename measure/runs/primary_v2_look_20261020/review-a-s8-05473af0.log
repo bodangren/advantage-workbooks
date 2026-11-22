@@ -1,0 +1,115 @@
+Final verdict: FAIL.
+
+Provenance
+phase_base_sha: 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6
+role_base_sha: 05473af09ed8072d4e6829bd70165daa902d4e5b
+audited_head_sha: 05473af09ed8072d4e6829bd70165daa902d4e5b
+HEAD matched the audited commit before and after the audit.
+The JSON records the findings, evidence, commands, scope, and ratings.
+
+F1 [Blocker] review-a: dashboard/lib/look.ts:51 also changes secondary projects to chibi-quest.
+The tracked secondary/origins-3.1-a1/project.json has no look key.
+Read-only execution returned chibi-quest; the previous bookLook fallback returned classic.
+The compile route forwards that value into the document wrapper.
+The wrapper applies Chibi Quest styles without checking the product type.
+The spec limits S8 to Primary Advantage and excludes Reading Advantage.
+Green must preserve the secondary default.
+Green must add a failing-first regression through the compile route.
+
+F2 [Nit] review-a: dashboard/lib/filesystem.ts:13 and compile/route.ts:175 still describe the previous fallback.
+Update those comments with the next implementation change.
+
+Independent targeted test
+Command:
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts'
+RUN v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+Test Files 2 passed (2)
+Tests 18 passed (18)
+Duration 1.39s
+TEST_EXIT: 0
+CONTENT_STATUS_EMPTY: True
+The Vite configuration warning did not fail the command.
+No aggregate suite, lint, tsc, build, PDF render, or server ran during this audit.
+
+Primary inventory
+adventures-1.0-a1: classic
+origins-2-a0: classic
+origins-3.1-a0: classic
+origins-3.2-a0: classic
+quest-4-a1: classic
+These are all primary/*/project.json files.
+Each differs from the phase base only by the added look key.
+
+Runtime edge probe
+null metadata: classic
+undefined metadata: classic
+missing look: chibi-quest
+null look: classic
+secondary no look: chibi-quest
+The probe executed the actual look.ts implementation after in-memory TypeScript transpilation.
+It wrote no file and rendered no document.
+ProjectMetadata excludes null look values, but the metadata reader accepts unvalidated JSON.
+parseLook preserves its existing null-to-classic contract.
+The targeted tests do not pin projectLook with look:null.
+
+Caller inspection
+projectLook: book-lessons.ts:57, compile/route.ts:176, render/route.ts:25.
+bookLook: book-lessons.ts:61 and render-lesson-html.ts:58.
+bookLook and CHIBI_QUEST_BOOKS remain live.
+The strategy intentionally keeps the content-folder rule separate from the project rule.
+make-book-pdf.ts:53 calls the compile route.
+make-lesson-pdfs.ts:71 and export-print-data.ts:46 use bookLessons.
+The teacher-manual script reads metadata but does not use projectLook.
+The targeted tests cover the compile route and shipped bookLessons behavior.
+No test reference to the render route was found.
+repo-graph inspect, callers, and deps returned no matching projectLook node.
+The graph stores an old checkout root and an August index timestamp.
+Source searches supplied the caller inventory; the audit did not rebuild graph.db.
+
+Print identity
+Git tree metadata contains 72 print files at the phase base and audited HEAD.
+Their paths and blob identities are equal.
+All 72 current files match 08bb160.
+That older commit contains eight additional files removed before this phase.
+The unchanged classic golden tests passed.
+The audit compared Git tree metadata without opening content files.
+
+Plan verification
+The independent targeted exit matches the plan's targeted pass claim.
+Green reports aggregate tests, lint, tsc, and four caught mutants in its permitted log.
+The audit did not independently rerun those aggregate gates.
+The manual task at plan.md:201 remains unchecked.
+Its deferral names the PM and the post-acceptance trigger.
+It does not count as manual verification or authorize phase close.
+The Close task at plan.md:205 remains unchecked.
+Its track-close deferral matches test-strategy.md:626.
+Neither marker falsely claims completion.
+Framework-wide anti-pattern fixtures do not apply to the S8 implementation.
+S8 changes no orchestration script, framework contract test, or registry.
+The S8 metadata and golden checks use direct reads, so a missing required file throws.
+The exact phase range also contains the separate dependency-refresh track.
+The audit did not attribute that track's dependency changes to S8.
+
+Safety
+The first command established the Thai filter.
+Every displayed file and command output passed that filter.
+The permitted Vitest command read its own content fixtures.
+The audit opened no content file directly.
+The scoped tracked status remained clean.
+Pre-existing unrelated untracked artifacts were left unchanged.
+The audit wrote only its supplied JSON and log.
+Facts changed: none.
+
+MEASURE_AGENT_RESULT
+role: review-a
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: none
+tests_run: The prescribed single-wrapper Vitest command exited 0; 2 files and 18 tests passed. The content status was empty afterward.
+files_changed: review-a-s8-05473af0.json; review-a-s8-05473af0.log
+plan_updates: none
+known_failures: F1 Blocker at dashboard/lib/look.ts:51 changes secondary output outside S8 scope. F2 Nit identifies stale fallback comments.
+handoff: Route F1 and F2 to Green. Preserve the secondary default and add a failing-first compile regression. retry_recommendation: retry_implementation.
+END_MEASURE_AGENT_RESULT
+RESULT: FAIL

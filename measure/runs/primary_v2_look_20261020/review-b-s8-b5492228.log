@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-review-b-security
+status: complete
+track: primary_v2_look_20261020
+phase: ## Phase S8: Default look for new editions
+commits: none
+tests_run: heavy-run "set -o pipefail; cd dashboard && npx vitest run <default-look-new-editions, workbook-look, default-look-guards, adversarial-s8-default-look, filesystem-restructure, filesystem-integration, e2e-integration, compile-route>" (exit 0, 8 files, 85 tests passed, git status --porcelain content secondary primary empty); 3 heavy-run tsx probes of lib/filesystem and the POST and PUT route handlers on a temp WORKBOOKS_ROOT (exit 0, temp root removed)
+files_changed: measure/runs/primary_v2_look_20261020/review-b-s8-b5492228.json; measure/runs/primary_v2_look_20261020/review-b-s8-b5492228.log
+plan_updates: none
+known_failures: none; 0 Blockers; 4 Nits: F8 create race across the two series folders, F9 lost update between an explicit look and an omitted look, F10 guessable temp file name that follows a symlink, F11 3 remediation claims with no test
+handoff: PASS at b5492228 with 0 Blockers and 4 Nits; retry_recommendation is none and no escalation is needed. F5, F6, and F7 are fixed and verified with real-code probes on a temp WORKBOOKS_ROOT. A create over any id in either series folder gives 409, and a PUT with look null keeps the stored look. 8 same-type creates give 1 success, 7,200 look-less writes lose the look 0 times, and a damaged project.json gives 409. The temp file is removed after a rename error and after a partial write, and no 409 or 500 body holds a server path. The 4 Nits are optional. F8: two creates of one new id with different types still make both folders in 300 of 300 rounds. The Primary twin cannot be reached by id. F9: an explicit look can lose to an omitted look in a race (393 of 400 rounds). F10: open the temp file with flag 'wx' and a crypto name, because a symlink at the guessed name is followed. F11: add 3 tests for the damaged project.json 409, a parallel create pair, and a failing rename. A damaged project.json blocks every Save until a person fixes the file on disk, and the Settings dialog shows no message. This is a note, as the brief asks. Route F8 to F11 to Green only if the PM wants them, because they allow the phase to close.
+END_MEASURE_AGENT_RESULT

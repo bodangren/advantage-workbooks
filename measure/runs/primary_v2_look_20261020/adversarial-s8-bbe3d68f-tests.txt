@@ -1,0 +1,676 @@
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-2-a0 19ms
+   → expected 200 to be 409 // Object.is equality
+   → expected [] to deeply equal [ 'content_sentinel' ]
+   → expected { seriesName: 'Origins', …(3) } to deeply equal { type: 'primary', …(4) }
+   → expected [ 'origins-2-a0', 'origins-2-a0' ] to deeply equal [ 'origins-2-a0' ]
+   → expected [ 'origins-2-a0' ] to deeply equal []
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id adventures-1.0-a1 5ms
+   → expected 200 to be 409 // Object.is equality
+   → expected [] to deeply equal [ 'content_sentinel' ]
+   → expected { seriesName: 'Adventures', …(3) } to deeply equal { type: 'primary', …(4) }
+   → expected [ 'adventures-1.0-a1', …(1) ] to deeply equal [ 'adventures-1.0-a1' ]
+   → expected [ 'adventures-1.0-a1' ] to deeply equal []
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.1-a0 4ms
+   → expected 200 to be 409 // Object.is equality
+   → expected [] to deeply equal [ 'content_sentinel' ]
+   → expected { seriesName: 'Origins', …(3) } to deeply equal { type: 'primary', …(4) }
+   → expected [ 'origins-3.1-a0', 'origins-3.1-a0' ] to deeply equal [ 'origins-3.1-a0' ]
+   → expected [ 'origins-3.1-a0' ] to deeply equal []
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.2-a0 3ms
+   → expected 200 to be 409 // Object.is equality
+   → expected [] to deeply equal [ 'content_sentinel' ]
+   → expected { seriesName: 'Origins', …(3) } to deeply equal { type: 'primary', …(4) }
+   → expected [ 'origins-3.2-a0', 'origins-3.2-a0' ] to deeply equal [ 'origins-3.2-a0' ]
+   → expected [ 'origins-3.2-a0' ] to deeply equal []
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id quest-4-a1 4ms
+   → expected 200 to be 409 // Object.is equality
+   → expected [] to deeply equal [ 'content_sentinel' ]
+   → expected { seriesName: 'Quest', …(3) } to deeply equal { type: 'primary', …(4) }
+   → expected [ 'quest-4-a1', 'quest-4-a1' ] to deeply equal [ 'quest-4-a1' ]
+   → expected [ 'quest-4-a1' ] to deeply equal []
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a legacy secondary twin of a shipped Primary id 3ms
+   → expected 200 to be 409 // Object.is equality
+   → expected [] to deeply equal [ 'content_sentinel' ]
+   → expected [ 'origins-2-a0' ] to deeply equal []
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a Primary twin of an existing secondary id 3ms
+   → expected 200 to be 409 // Object.is equality
+   → expected [ 'origins-2-a0' ] to deeply equal []
+   → expected [ 'origins-2-a0', 'origins-2-a0' ] to deeply equal [ 'origins-2-a0' ]
+ ✓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST returns 409 for an existing same-type project and preserves its bytes 2ms
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored classic marker 3ms
+   → expected { type: 'primary', …(4) } to deeply equal { type: 'primary', …(4) }
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored chibi-quest marker 3ms
+   → expected { type: 'primary', …(4) } to deeply equal { type: 'primary', …(4) }
+   → expected 'classic' to be 'chibi-quest' // Object.is equality
+ ✓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT omission keeps the shipped marker through the real print loader 3ms
+ ✓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a new Primary project uses chibi-quest through the real print loader 2ms
+ ✓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT rejects unknown looks without changing a shipped metadata byte 3ms
+ ✓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT accepts a known explicit look instead of the Primary default 1ms
+ ✓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > selects the default only for the exact primary type 1ms
+ ✓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST rejects case, whitespace, and unsupported type values without a write 1ms
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > concurrent look-less PUTs preserve a shipped classic marker across truncation 3ms
+   → expected undefined to be 'classic' // Object.is equality
+   → expected 'chibi-quest' to be 'classic' // Object.is equality
+ ✓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > keeps a stored explicit look across a direct look-less write 1ms
+ ✓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > creates a new Primary project without an explicit look 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-2-a0
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id adventures-1.0-a1
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.1-a0
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.2-a0
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id quest-4-a1
+AssertionError: expected 200 to be 409 // Object.is equality
+
+- Expected
++ Received
+
+- 409
++ 200
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:87:42
+     85|
+     86|             // Check the real downstream lookup as well as the HTTP co…
+     87|             expect.soft(response.status).toBe(409);
+       |                                          ^
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-2-a0
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id adventures-1.0-a1
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.1-a0
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.2-a0
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id quest-4-a1
+AssertionError: expected [] to deeply equal [ 'content_sentinel' ]
+
+- Expected
++ Received
+
+- [
+-   "content_sentinel",
+- ]
++ []
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:88:77
+     86|             // Check the real downstream lookup as well as the HTTP co…
+     87|             expect.soft(response.status).toBe(409);
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+       |                                                                             ^
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-2-a0
+AssertionError: expected { seriesName: 'Origins', …(3) } to deeply equal { type: 'primary', …(4) }
+
+- Expected
++ Received
+
+  {
+    "cefrLevel": "A0",
+    "levelNumber": "2",
+-   "look": "classic",
+    "seriesName": "Origins",
+-   "type": "primary",
++   "type": "secondary",
+  }
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:89:56
+     87|             expect.soft(response.status).toBe(409);
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+       |                                                        ^
+     90|             expect.soft((await listProjects()).map((project) => projec…
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-2-a0
+AssertionError: expected [ 'origins-2-a0', 'origins-2-a0' ] to deeply equal [ 'origins-2-a0' ]
+
+- Expected
++ Received
+
+  [
+    "origins-2-a0",
++   "origins-2-a0",
+  ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:90:78
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+       |                                                                              ^
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+     92|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-2-a0
+AssertionError: expected [ 'origins-2-a0' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "origins-2-a0",
++ ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:91:73
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+       |                                                                         ^
+     92|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+     93|         },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id adventures-1.0-a1
+AssertionError: expected { seriesName: 'Adventures', …(3) } to deeply equal { type: 'primary', …(4) }
+
+- Expected
++ Received
+
+  {
+    "cefrLevel": "A1",
+    "levelNumber": "1.0",
+-   "look": "classic",
+    "seriesName": "Adventures",
+-   "type": "primary",
++   "type": "secondary",
+  }
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:89:56
+     87|             expect.soft(response.status).toBe(409);
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+       |                                                        ^
+     90|             expect.soft((await listProjects()).map((project) => projec…
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id adventures-1.0-a1
+AssertionError: expected [ 'adventures-1.0-a1', …(1) ] to deeply equal [ 'adventures-1.0-a1' ]
+
+- Expected
++ Received
+
+  [
+    "adventures-1.0-a1",
++   "adventures-1.0-a1",
+  ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:90:78
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+       |                                                                              ^
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+     92|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id adventures-1.0-a1
+AssertionError: expected [ 'adventures-1.0-a1' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "adventures-1.0-a1",
++ ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:91:73
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+       |                                                                         ^
+     92|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+     93|         },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.1-a0
+AssertionError: expected { seriesName: 'Origins', …(3) } to deeply equal { type: 'primary', …(4) }
+
+- Expected
++ Received
+
+  {
+    "cefrLevel": "A0",
+    "levelNumber": "3.1",
+-   "look": "classic",
+    "seriesName": "Origins",
+-   "type": "primary",
++   "type": "secondary",
+  }
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:89:56
+     87|             expect.soft(response.status).toBe(409);
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+       |                                                        ^
+     90|             expect.soft((await listProjects()).map((project) => projec…
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.1-a0
+AssertionError: expected [ 'origins-3.1-a0', 'origins-3.1-a0' ] to deeply equal [ 'origins-3.1-a0' ]
+
+- Expected
++ Received
+
+  [
+    "origins-3.1-a0",
++   "origins-3.1-a0",
+  ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:90:78
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+       |                                                                              ^
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+     92|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.1-a0
+AssertionError: expected [ 'origins-3.1-a0' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "origins-3.1-a0",
++ ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:91:73
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+       |                                                                         ^
+     92|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+     93|         },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.2-a0
+AssertionError: expected { seriesName: 'Origins', …(3) } to deeply equal { type: 'primary', …(4) }
+
+- Expected
++ Received
+
+  {
+    "cefrLevel": "A0",
+    "levelNumber": "3.2",
+-   "look": "classic",
+    "seriesName": "Origins",
+-   "type": "primary",
++   "type": "secondary",
+  }
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:89:56
+     87|             expect.soft(response.status).toBe(409);
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+       |                                                        ^
+     90|             expect.soft((await listProjects()).map((project) => projec…
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.2-a0
+AssertionError: expected [ 'origins-3.2-a0', 'origins-3.2-a0' ] to deeply equal [ 'origins-3.2-a0' ]
+
+- Expected
++ Received
+
+  [
+    "origins-3.2-a0",
++   "origins-3.2-a0",
+  ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:90:78
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+       |                                                                              ^
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+     92|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.2-a0
+AssertionError: expected [ 'origins-3.2-a0' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "origins-3.2-a0",
++ ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:91:73
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+       |                                                                         ^
+     92|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+     93|         },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id quest-4-a1
+AssertionError: expected { seriesName: 'Quest', …(3) } to deeply equal { type: 'primary', …(4) }
+
+- Expected
++ Received
+
+  {
+    "cefrLevel": "A1",
+    "levelNumber": "4",
+-   "look": "classic",
+    "seriesName": "Quest",
+-   "type": "primary",
++   "type": "secondary",
+  }
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:89:56
+     87|             expect.soft(response.status).toBe(409);
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+       |                                                        ^
+     90|             expect.soft((await listProjects()).map((project) => projec…
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id quest-4-a1
+AssertionError: expected [ 'quest-4-a1', 'quest-4-a1' ] to deeply equal [ 'quest-4-a1' ]
+
+- Expected
++ Received
+
+  [
+    "quest-4-a1",
++   "quest-4-a1",
+  ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:90:78
+     88|             expect.soft((await listLessons(id)).map((lesson) => lesson…
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+       |                                                                              ^
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+     92|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id quest-4-a1
+AssertionError: expected [ 'quest-4-a1' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "quest-4-a1",
++ ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:91:73
+     89|             expect.soft(await readProjectMetadata(id)).toEqual(meta);
+     90|             expect.soft((await listProjects()).map((project) => projec…
+     91|             expect.soft(await fs.readdir(path.join(root, 'secondary'))…
+       |                                                                         ^
+     92|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+     93|         },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a legacy secondary twin of a shipped Primary id
+AssertionError: expected 200 to be 409 // Object.is equality
+
+- Expected
++ Received
+
+- 409
++ 200
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:100:38
+     98|         const before = await fs.readFile(file, 'utf8');
+     99|         const response = await POST(request('/api/projects', 'POST', {…
+    100|         expect.soft(response.status).toBe(409);
+       |                                      ^
+    101|         expect.soft((await listLessons('origins-2-a0')).map((lesson) =…
+    102|         expect.soft(await fs.readdir(path.join(root, 'secondary'))).to…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a legacy secondary twin of a shipped Primary id
+AssertionError: expected [] to deeply equal [ 'content_sentinel' ]
+
+- Expected
++ Received
+
+- [
+-   "content_sentinel",
+- ]
++ []
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:101:85
+     99|         const response = await POST(request('/api/projects', 'POST', {…
+    100|         expect.soft(response.status).toBe(409);
+    101|         expect.soft((await listLessons('origins-2-a0')).map((lesson) =…
+       |                                                                                     ^
+    102|         expect.soft(await fs.readdir(path.join(root, 'secondary'))).to…
+    103|         expect(await fs.readFile(file, 'utf8')).toBe(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a legacy secondary twin of a shipped Primary id
+AssertionError: expected [ 'origins-2-a0' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "origins-2-a0",
++ ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:102:69
+    100|         expect.soft(response.status).toBe(409);
+    101|         expect.soft((await listLessons('origins-2-a0')).map((lesson) =…
+    102|         expect.soft(await fs.readdir(path.join(root, 'secondary'))).to…
+       |                                                                     ^
+    103|         expect(await fs.readFile(file, 'utf8')).toBe(before);
+    104|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a Primary twin of an existing secondary id
+AssertionError: expected 200 to be 409 // Object.is equality
+
+- Expected
++ Received
+
+- 409
++ 200
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:111:38
+    109|         const before = await fs.readFile(file, 'utf8');
+    110|         const response = await POST(request('/api/projects', 'POST', P…
+    111|         expect.soft(response.status).toBe(409);
+       |                                      ^
+    112|         expect.soft(await fs.readdir(path.join(root, 'primary'))).toEq…
+    113|         expect.soft((await listProjects()).map((project) => project.id…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a Primary twin of an existing secondary id
+AssertionError: expected [ 'origins-2-a0' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "origins-2-a0",
++ ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:112:67
+    110|         const response = await POST(request('/api/projects', 'POST', P…
+    111|         expect.soft(response.status).toBe(409);
+    112|         expect.soft(await fs.readdir(path.join(root, 'primary'))).toEq…
+       |                                                                   ^
+    113|         expect.soft((await listProjects()).map((project) => project.id…
+    114|         expect(await fs.readFile(file, 'utf8')).toBe(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a Primary twin of an existing secondary id
+AssertionError: expected [ 'origins-2-a0', 'origins-2-a0' ] to deeply equal [ 'origins-2-a0' ]
+
+- Expected
++ Received
+
+  [
+    "origins-2-a0",
++   "origins-2-a0",
+  ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:113:74
+    111|         expect.soft(response.status).toBe(409);
+    112|         expect.soft(await fs.readdir(path.join(root, 'primary'))).toEq…
+    113|         expect.soft((await listProjects()).map((project) => project.id…
+       |                                                                          ^
+    114|         expect(await fs.readFile(file, 'utf8')).toBe(before);
+    115|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored classic marker
+AssertionError: expected { type: 'primary', …(4) } to deeply equal { type: 'primary', …(4) }
+
+- Expected
++ Received
+
+  {
+    "cefrLevel": "A0",
+    "levelNumber": "2",
+-   "look": "classic",
++   "look": null,
+    "seriesName": "Origins",
+    "type": "primary",
+  }
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:137:33
+    135|             expect([200, 400]).toContain(response.status);
+    136|             const stored = JSON.parse(await fs.readFile(file, 'utf8'))…
+    137|             expect.soft(stored).toEqual(meta);
+       |                                 ^
+    138|             expect(projectLook(stored)).toBe(look);
+    139|         },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored chibi-quest marker
+AssertionError: expected { type: 'primary', …(4) } to deeply equal { type: 'primary', …(4) }
+
+- Expected
++ Received
+
+  {
+    "cefrLevel": "A0",
+    "levelNumber": "2",
+-   "look": "chibi-quest",
++   "look": null,
+    "seriesName": "Origins",
+    "type": "primary",
+  }
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:137:33
+    135|             expect([200, 400]).toContain(response.status);
+    136|             const stored = JSON.parse(await fs.readFile(file, 'utf8'))…
+    137|             expect.soft(stored).toEqual(meta);
+       |                                 ^
+    138|             expect(projectLook(stored)).toBe(look);
+    139|         },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored chibi-quest marker
+AssertionError: expected 'classic' to be 'chibi-quest' // Object.is equality
+
+Expected: "chibi-quest"
+Received: "classic"
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:138:41
+    136|             const stored = JSON.parse(await fs.readFile(file, 'utf8'))…
+    137|             expect.soft(stored).toEqual(meta);
+    138|             expect(projectLook(stored)).toBe(look);
+       |                                         ^
+    139|         },
+    140|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > concurrent look-less PUTs preserve a shipped classic marker across truncation
+AssertionError: expected undefined to be 'classic' // Object.is equality
+
+- Expected:
+"classic"
+
++ Received:
+undefined
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:245:38
+    243|             expect(responses.map((response) => response.status)).toEqu…
+    244|             const stored = JSON.parse(await fs.readFile(file, 'utf8'))…
+    245|             expect.soft(stored.look).toBe('classic');
+       |                                      ^
+    246|             expect(projectLook(stored)).toBe('classic');
+    247|         } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/36]⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > concurrent look-less PUTs preserve a shipped classic marker across truncation
+AssertionError: expected 'chibi-quest' to be 'classic' // Object.is equality
+
+Expected: "classic"
+Received: "chibi-quest"
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:246:41
+    244|             const stored = JSON.parse(await fs.readFile(file, 'utf8'))…
+    245|             expect.soft(stored.look).toBe('classic');
+    246|             expect(projectLook(stored)).toBe('classic');
+       |                                         ^
+    247|         } finally {
+    248|             if (timer) clearTimeout(timer);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/36]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  10 failed | 9 passed (19)
+   Start at  11:03:59
+   Duration  347ms (transform 46ms, setup 41ms, import 124ms, tests 66ms, environment 0ms)
+

@@ -1,0 +1,229 @@
+Provisional verdict: inconclusive.
+The first command filters Thai lines before it prints any file.
+The audited HEAD and role base are bbe3d68f66560f324e7f35421a8c823d0773c4a0.
+The phase base is 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6.
+MEASURE_AGENT_RESULT
+role: review-c
+status: partial
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: none
+tests_run: none; inspection in progress
+files_changed: review-c-s8-bbe3d68f.json; review-c-s8-bbe3d68f.log
+plan_updates: none
+known_failures: provisional audit remains incomplete
+handoff: The final audit will replace this provisional verdict.
+END_MEASURE_AGENT_RESULT
+
+BEGIN_AUDIT_PROBE
+const fs = require("node:fs");
+const path = require("node:path");
+const vm = require("node:vm");
+const ts = require("./dashboard/node_modules/typescript");
+const assert = require("node:assert/strict");
+const root = "/audit-memory";
+const memory = new Map();
+const directories = new Set();
+function load(file, deps = {}) {
+  const source = fs.readFileSync(file, "utf8");
+  const code = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true }
+  }).outputText;
+  const module = { exports: {} };
+  vm.runInNewContext(code, {
+    module, exports: module.exports,
+    require(id) {
+      if (!(id in deps)) throw new Error("Unmocked dependency " + file + ": " + id);
+      return deps[id];
+    },
+    process: { env: { WORKBOOKS_ROOT: root }, cwd: () => "/audit-memory/dashboard" },
+    console: { log() {}, error() {} }, URLSearchParams
+  }, { filename: file });
+  return module.exports;
+}
+const looks = load("dashboard/lib/look.ts");
+const files = load("dashboard/lib/filesystem.ts", {
+  "fs/promises": {
+    async stat(file) {
+      if (!directories.has(file)) throw new Error("ENOENT");
+      return { isDirectory: () => true };
+    },
+    async mkdir(file) { directories.add(file); },
+    async writeFile(file, value) { memory.set(file, value); },
+    async readFile(file) {
+      if (!memory.has(file)) throw new Error("ENOENT");
+      return memory.get(file);
+    }
+  },
+  path, "./cutover": { assertWritable() {} }
+});
+const responses = { NextResponse: { json(body, options) {
+  return { status: options?.status ?? 200, body };
+} } };
+const projects = load("dashboard/app/api/projects/route.ts", {
+  "next/server": responses, "@/lib/filesystem": files
+});
+const metadata = load("dashboard/app/api/projects/[projectId]/metadata/route.ts", {
+  "next/server": responses, "@/lib/filesystem": files, "@/lib/look": looks
+});
+const request = (body) => ({ json: async () => body });
+const put = (id, body) => metadata.PUT(request(body), { params: Promise.resolve({ projectId: id }) });
+const seed = (kind, id, value) => {
+  directories.add(path.join(root, kind, id));
+  memory.set(path.join(root, kind, id, "project.json"), JSON.stringify(value));
+};
+const primary = { type: "primary", seriesName: "Origins", levelNumber: "1", cefrLevel: "A0" };
+let failures = 0;
+let passes = 0;
+async function check(name, action) {
+  try { await action(); passes++; console.log("PASS " + name); }
+  catch (error) { failures++; console.log("FAIL " + name + ": " + error.message); }
+}
+(async () => {
+  console.log("In-memory API probes. Storage is mocked. No content file or renderer is used.");
+  await check("F1: only Primary metadata gets the new default", () => {
+    assert.equal(looks.projectLook(primary), "chibi-quest");
+    assert.equal(looks.projectLook({ ...primary, type: "secondary" }), "classic");
+    assert.equal(looks.projectLook({ ...primary, type: undefined }), "classic");
+    assert.equal(looks.projectLook(null), "classic");
+  });
+  await check("POST creates a new Primary project with no explicit look", async () => {
+    const result = await projects.POST(request(primary));
+    assert.equal(result.status, 200);
+    assert.equal(Object.hasOwn(result.body.metadata, "look"), false);
+    assert.equal(looks.projectLook(await files.readProjectMetadata(result.body.id)), "chibi-quest");
+  });
+  const shipped = { type: "primary", seriesName: "Quest", levelNumber: "4", cefrLevel: "A1", look: "classic" };
+  seed("primary", "quest-4-a1", shipped);
+  await check("F2: duplicate Primary POST returns 409 without a write", async () => {
+    const file = path.join(root, "primary", "quest-4-a1", "project.json");
+    const before = memory.get(file);
+    const result = await projects.POST(request({ ...shipped, look: undefined }));
+    assert.equal(result.status, 409);
+    assert.match(result.body.error, /quest-4-a1.*already exists/);
+    assert.equal(memory.get(file), before);
+  });
+  const secondary = { ...primary, type: "secondary", levelNumber: "3.1", cefrLevel: "A1" };
+  seed("secondary", "origins-3.1-a1", secondary);
+  await check("F2: duplicate legacy POST returns 409 without a write", async () => {
+    const file = path.join(root, "secondary", "origins-3.1-a1", "project.json");
+    const before = memory.get(file);
+    const result = await projects.POST(request({ name: "origins-3.1-a1" }));
+    assert.equal(result.status, 409);
+    assert.match(result.body.error, /already exists/);
+    assert.equal(memory.get(file), before);
+  });
+  await check("POST keeps its required-field error status", async () => {
+    const result = await projects.POST(request({ type: "primary" }));
+    assert.equal(result.status, 400);
+    assert.match(result.body.error, /Missing required fields/);
+  });
+  await check("Settings-shaped PUT without look retains shipped classic", async () => {
+    const result = await put("quest-4-a1", { ...shipped, look: undefined });
+    assert.equal(result.status, 200);
+    assert.equal((await files.readProjectMetadata("quest-4-a1")).look, "classic");
+  });
+  await check("unknown-look PUT returns 400 and leaves metadata unchanged", async () => {
+    const file = path.join(root, "primary", "quest-4-a1", "project.json");
+    const before = memory.get(file);
+    const result = await put("quest-4-a1", { ...shipped, look: "invalid" });
+    assert.equal(result.status, 400);
+    assert.match(result.body.error, /quest-4-a1.*unknown look/);
+    assert.equal(memory.get(file), before);
+  });
+  await check("known-look PUT succeeds and saves the requested look", async () => {
+    const result = await put("quest-4-a1", { ...shipped, look: "chibi-quest" });
+    assert.equal(result.status, 200);
+    assert.equal((await files.readProjectMetadata("quest-4-a1")).look, "chibi-quest");
+  });
+  await check("PUT keeps its required-field error status", async () => {
+    const result = await put("quest-4-a1", { look: "classic" });
+    assert.equal(result.status, 400);
+    assert.equal(result.body.error, "Missing required fields");
+  });
+  await check("book folders retain their original map", () => {
+    assert.equal(looks.bookLook("origins-1"), "classic");
+    assert.equal(looks.bookLook("quest-4"), "classic");
+    assert.equal(looks.bookLook("quest-5"), "chibi-quest");
+    assert.equal(looks.parseLook(undefined, "audit"), "classic");
+  });
+  console.log("SUMMARY " + passes + " passed; " + failures + " failed");
+  process.exitCode = failures ? 1 : 0;
+})().catch((error) => { console.error(error); process.exitCode = 2; });
+END_AUDIT_PROBE
+
+PROBE_OUTPUT
+In-memory API probes. Storage is mocked. No content file or renderer is used.
+PASS F1: only Primary metadata gets the new default
+PASS POST creates a new Primary project with no explicit look
+PASS F2: duplicate Primary POST returns 409 without a write
+PASS F2: duplicate legacy POST returns 409 without a write
+PASS POST keeps its required-field error status
+PASS Settings-shaped PUT without look retains shipped classic
+PASS unknown-look PUT returns 400 and leaves metadata unchanged
+PASS known-look PUT succeeds and saves the requested look
+PASS PUT keeps its required-field error status
+PASS book folders retain their original map
+SUMMARY 10 passed; 0 failed
+PROBE_EXIT: 0
+
+FINAL_AUDIT
+Verdict: PASS.
+Contract applicability: applicable, per test-strategy.md:591 and the exact phase diff.
+UX browser review applicability: not_applicable, per test-strategy.md:593-594.
+The phase changes no visible component, template, CSS, or font.
+The audit uses no browser, build, render, dev server, or content file.
+The single heavy-run exits 0 with ten passing in-memory probes.
+Storage is mocked. These probes do not establish live rendering behavior.
+
+F1 withdrawn: look.ts:60 limits the changed default to type primary.
+The probe checks Primary, secondary, absent type, and null metadata.
+F2 withdrawn: both creation overloads reject existing folders.
+Both duplicate POST probes return 409 and preserve the metadata bytes.
+F3 withdrawn: plan.md:185 records the changed Primary project default for the PM handoff.
+F6 below covers a separate package-folder wording issue.
+C-F4 remains accepted pre-existing debt, as directed.
+The audit does not reopen the render route's missing type.
+No CONTEST item was supplied.
+
+Client handling:
+create-project-dialog.tsx:88-90 reads the error JSON and sets its error state.
+Line 153 displays that error. Line 96 clears loading.
+The dialog remains open after a 409 and does not report success.
+project-settings-dialog.tsx:88-97 logs a failed PUT but displays no error.
+Settings sends a fresh body without look at lines 75-85.
+The create dialog also sends no look at lines 71-76.
+The client search finds no current dashboard sender of look.
+The new unknown-look 400 therefore has no current Settings UI trigger.
+The Settings-shaped PUT probe preserves the shipped classic marker.
+
+F5 [Nit] review-c: dashboard/components/project-settings-dialog.tsx:88-97 provides console-only error feedback.
+Record visible server-error feedback for a future Settings change.
+This gap is nonblocking because the current client sends no look.
+
+F6 [Nit] review-c: measure/tracks/primary_v2_look_20261020/plan.md:185 overgeneralizes the package-folder default.
+The unchanged map gives chibi-quest to Quest 5 through Adventure 9.3 folders.
+Qualify the S7 note before the PM sends it.
+The code and the passing book-folder probe retain the correct map.
+
+Final provenance:
+Phase base: 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6.
+Role base and current audited HEAD: bbe3d68f66560f324e7f35421a8c823d0773c4a0.
+git diff --name-only HEAD over reviewed source: empty, exit 0.
+git status --porcelain content: empty, exit 0.
+The audit changes only its supplied JSON and log.
+Facts changed: Review C status PASS; prior blockers withdrawn; two nonblocking notes remain.
+
+MEASURE_AGENT_RESULT
+role: review-c
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: none
+tests_run: One heavy-run exits 0 with ten passing in-memory API probes; content status remains empty
+files_changed: measure/runs/primary_v2_look_20261020/review-c-s8-bbe3d68f.json; measure/runs/primary_v2_look_20261020/review-c-s8-bbe3d68f.log
+plan_updates: none
+known_failures: No blockers; F5 Settings error feedback and F6 S7 package-folder wording are nonblocking
+handoff: F1-F3 withdrawn. C-F4 stays pre-existing debt. Record F5 for follow-up and qualify F6 before the PM handoff. retry_recommendation: none. No browser review applies.
+END_MEASURE_AGENT_RESULT
+RESULT: PASS

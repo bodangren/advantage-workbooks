@@ -1,0 +1,124 @@
+Final verdict: PASS with two nonblocking Nits.
+
+Provenance
+phase_base_sha: 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6
+role_base_sha: b54922289c4852e184ed3522c958d7d9ea5f7d90
+audited_head_sha: b54922289c4852e184ed3522c958d7d9ea5f7d90
+HEAD matched the audited commit before and after the audit.
+The audit retained the exact phase range and separately inspected bbe3d68f..b5492228.
+
+Prior findings
+F3 withdrawn: filesystem.ts:348-355 uses exclusive final-folder creation and maps EEXIST to ProjectExistsError.
+The same-folder concurrent probe produced one success, one ProjectExistsError, and one metadata write.
+F1 and F2 remain withdrawn.
+
+New findings
+F4 [Nit] review-a: filesystem.ts:246-251 does not reserve its temporary name exclusively.
+A forced timestamp/random collision lets one write rename another write's bytes.
+The second write then fails with ENOENT.
+Use exclusive temporary-file creation with collision retries.
+The ordinary collision probability is low; the probe measures behavior after a forced collision.
+
+F5 [Nit] review-a: filesystem.ts:327-337 checks both series before creating a folder in only one series.
+Concurrent Primary and secondary creates can both succeed with the same id.
+The in-memory probe produced two successful creates and two metadata writes.
+Exclusive mkdir protects one series folder but does not reserve the id across both folders.
+A shared id reservation would enforce the global uniqueness rule.
+
+Independent targeted test
+Command:
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts __tests__/default-look-guards.test.ts __tests__/adversarial-s8-default-look.test.ts'
+RUN v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+Test Files 4 passed (4)
+Tests 47 passed (47)
+Duration 3.33s
+TEST_EXIT: 0
+CONTENT_STATUS_EMPTY: True
+The Vite configuration warning did not fail the command.
+No aggregate test suite, lint, tsc, build, render, or server ran during this audit.
+
+Atomic-write probes
+The probes loaded the actual filesystem.ts implementation through in-memory TypeScript transpilation.
+Private helper exports existed only in the in-memory module.
+No repository code changed, and no real file was written.
+Normal replacement: fulfilled; target NEW; zero remaining temporary files.
+Partial-write failure: ENOSPC; target OLD; one cleanup call; zero remaining temporary files.
+Rename failure: EACCES; target OLD; one cleanup call; zero remaining temporary files.
+Forced name collision: first call fulfilled; second returned ENOENT; target contained SECOND.
+Both temporary paths shared the target's parent directory.
+The normal rename therefore stays on the same filesystem.
+Cleanup is best-effort and preserves the original error.
+The committed tests do not cover temporary allocation or cleanup errors.
+The adversarial truncation case intercepts the final target, not the temporary path.
+It does not prove collision-safe allocation.
+
+Project-create probes
+Missing series root: fulfilled; recursive root mkdir preceded non-recursive final-folder mkdir.
+Same-folder concurrent creates: one fulfilled; one ProjectExistsError; one metadata write.
+Cross-folder concurrent creates: both fulfilled; two metadata writes.
+The committed adversarial tests prove sequential cross-folder conflicts return 409 and preserve shipped bytes.
+
+Fail-closed reads and null
+ENOENT: no stored look.
+EACCES: ProjectMetadataUnreadableError.
+Malformed JSON: ProjectMetadataUnreadableError.
+Valid classic JSON: stored classic.
+The metadata PUT route maps ProjectMetadataUnreadableError to 409.
+The committed tests do not invoke that new error response.
+An incoming null or undefined look retains stored.look.
+Adversarial tests cover both stored markers and the real print loader.
+
+Callers
+Repository-wide source search found two production createProject calls in the projects route.
+It found one writeProjectMetadata call in the metadata route and no script caller.
+Existing direct test callers create fresh valid metadata or expect a duplicate error.
+The projects route maps ProjectExistsError to 409.
+The create dialog displays the returned error message.
+The settings dialog sends type and omits look.
+It logs a failed metadata response and does not report that write as successful.
+Both exported writers retain the cutover guard as their first operation.
+The graph lacks new symbols and retains stale writer nodes.
+Source searches supplied the current caller inventory; the audit did not rebuild the graph.
+
+Primary inventory
+adventures-1.0-a1: classic
+origins-2-a0: classic
+origins-3.1-a0: classic
+origins-3.2-a0: classic
+quest-4-a1: classic
+These are all primary/*/project.json files.
+Each differs from the phase base only by the added look key.
+
+Print and plan evidence
+The phase base, previous review, and audited HEAD contain identical sets of 72 print blobs.
+Every current print blob matches 08bb160.
+The eight older absent assessment files were removed before this phase.
+The unchanged classic golden assertions pass.
+The current plan's 47-test pass claim matches the independent exit-0 result.
+The manual task at plan.md:217 remains unchecked and deferred until after acceptance.
+The Close task at plan.md:221 remains unchecked and deferred to track close.
+Neither deferral proves completion.
+Framework-wide A3/A4/A5 fixtures do not apply to these application changes.
+
+Safety
+The first command established the Thai filter.
+Every displayed read and command result passed that filter.
+The audit opened no content file directly.
+The permitted test command read its own fixtures.
+The scoped tracked status remained clean.
+Only the supplied round-three JSON and log were written.
+Facts changed: none.
+
+MEASURE_AGENT_RESULT
+role: review-a
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: none
+tests_run: The four-file single-wrapper Vitest command exited 0; 47 tests passed. The content status remained empty.
+files_changed: review-a-s8-b5492228.json; review-a-s8-b5492228.log
+plan_updates: none
+known_failures: No blockers. F4 Nit records temporary-name collisions; F5 Nit records simultaneous cross-folder duplicate ids.
+handoff: F3 is withdrawn for same-folder creation. Continue with phase acceptance; retry_recommendation: none.
+END_MEASURE_AGENT_RESULT
+RESULT: PASS

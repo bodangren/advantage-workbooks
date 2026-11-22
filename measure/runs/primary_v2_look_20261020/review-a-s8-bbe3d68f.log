@@ -1,0 +1,130 @@
+Final verdict: PASS with one nonblocking Nit.
+
+Provenance
+phase_base_sha: 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6
+role_base_sha: bbe3d68f66560f324e7f35421a8c823d0773c4a0
+audited_head_sha: bbe3d68f66560f324e7f35421a8c823d0773c4a0
+HEAD matched the audited commit before and after the audit.
+The audit retained the exact phase range and separately inspected the remediation range.
+
+Prior findings
+F1 withdrawn: look.ts:59-60 now limits the new no-look default to Primary metadata objects.
+F2 withdrawn: filesystem.ts:13 and compile/route.ts:175-176 now describe the new default.
+The tracked secondary project remains classic.
+
+New finding
+F3 [Nit] review-a: filesystem.ts:295-297 and :325-327 use a separate existence check before a recursive mkdir.
+Concurrent calls can both pass the check and write project.json.
+An in-memory probe of the actual implementation returned two fulfilled creates and two writes.
+The probe wrote no real file.
+This is a nonblocking concurrent-request gap; sequential duplicate protection works.
+Use exclusive directory creation and add a concurrent-create test when this guard changes next.
+
+Independent targeted test
+Command:
+HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd dashboard && CI=true npx vitest run __tests__/default-look-new-editions.test.ts __tests__/workbook-look.test.ts __tests__/default-look-guards.test.ts'
+RUN v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+Test Files 3 passed (3)
+Tests 28 passed (28)
+Duration 2.00s
+TEST_EXIT: 0
+CONTENT_STATUS_EMPTY: True
+The Vite configuration warning did not fail the command.
+The audit did not run aggregate tests, lint, tsc, a build, a render, or a server.
+
+Red fixture review
+Red r2 adds type primary to six NEW_EDITIONS objects and the rewritten object.
+It changes no assertion or expected output.
+Every fixture still omits look.
+The fixtures match createProject's typed metadata.
+The constant-classic mutant would still fail the two default tests.
+The plan records that caught mutant.
+The independent targeted run confirms all final cases pass.
+
+Runtime look probe
+Primary no look: chibi-quest
+secondary no look: classic
+no type: classic
+null: classic
+undefined: classic
+string: classic
+array: classic
+Primary null look: classic
+Explicit values still pass through parseLook.
+The existing null-look behavior remains unchanged.
+
+Writer and route review
+Both createProject signatures reject an existing folder with ProjectExistsError.
+The targeted tests compare the existing metadata bytes before and after rejection.
+POST /api/projects maps the same error class to 409.
+The create dialog displays the returned error message.
+The tests exercise the filesystem rejection directly, not the POST status mapping.
+writeProjectMetadata preserves the existing look when the new value is undefined.
+The settings dialog sends type but omits look, so that caller retains the shipped marker.
+The metadata PUT route validates look before it writes.
+The tests cover unknown-look rejection with 400 and known-look persistence.
+The tests also cover stored-look preservation directly.
+
+Primary inventory
+adventures-1.0-a1: classic
+origins-2-a0: classic
+origins-3.1-a0: classic
+origins-3.2-a0: classic
+quest-4-a1: classic
+These are all primary/*/project.json files.
+Each differs from the phase base only by the added look key.
+The shipped metadata helper omits type.
+Its separate explicit-look assertion and bookLessons coverage retain the missing-marker protection.
+
+Print identity
+The phase base, previous review, and audited HEAD contain identical sets of 72 print blobs.
+Every current print blob matches 08bb160.
+The eight older missing assessment files were removed before the phase.
+The unchanged classic golden assertions pass.
+The audit inspected tree metadata without opening content files.
+
+Architecture
+projectLook callers remain book-lessons.ts:57, compile/route.ts:177, and render/route.ts:25.
+bookLook and CHIBI_QUEST_BOOKS remain live and unchanged.
+The two bookLook callers preserve the separate content-folder rule.
+createProject has two production calls in the projects route.
+writeProjectMetadata has one production call in the metadata route.
+repo-graph lacks the changed look symbols and retains stale writer nodes.
+Qualified graph caller queries return no results.
+Source searches supplied the current caller inventory.
+The audit did not rebuild graph.db.
+
+Plan evidence
+The plan records the historical Green failure and the later fixture fix separately.
+The later claim of 28 passing tests matches the independent run.
+The manual task at plan.md:206 remains unchecked and deferred until after phase acceptance.
+The Close task at plan.md:210 remains unchecked and deferred to track close.
+Neither deferral proves completion.
+The current brief supplies the accepted route and writer contracts.
+The original strategy still describes the narrower initial scope.
+Framework-wide anti-pattern checks do not apply to these application changes.
+The required artifact checks use direct reads, so missing files throw.
+
+Safety
+The first command established the Thai filter.
+Every displayed read and command result passed that filter.
+The audit opened no content file directly.
+The permitted test command read its own content fixtures.
+The scoped tracked status remained clean.
+Only the supplied round-two JSON and log were written.
+No production code, test, plan, registry, or graph file changed.
+Facts changed: none.
+
+MEASURE_AGENT_RESULT
+role: review-a
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: none
+tests_run: The expanded single-wrapper Vitest command exited 0; 3 files and 28 tests passed. The content status remained empty.
+files_changed: review-a-s8-bbe3d68f.json; review-a-s8-bbe3d68f.log
+plan_updates: none
+known_failures: No blocking finding. F3 Nit records a concurrent-create gap in the new sequential guard.
+handoff: F1 and F2 are withdrawn. The Red fixture change preserves the S8 assertions. Continue with phase acceptance; retry_recommendation: none.
+END_MEASURE_AGENT_RESULT
+RESULT: PASS

@@ -1,0 +1,292 @@
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (../../../.cache/opencode/s8-adversarial-mutant.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+S8 in-memory mutation applied: damaged
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-2-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id adventures-1.0-a1
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.1-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.2-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id quest-4-a1
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a legacy secondary twin of a shipped Primary id
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a Primary twin of an existing secondary id
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST returns 409 for an existing same-type project and preserves its bytes
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored classic marker
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored chibi-quest marker
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT omission keeps the shipped marker through the real print loader
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a new Primary project uses chibi-quest through the real print loader
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT rejects unknown looks without changing a shipped metadata byte
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT accepts a known explicit look instead of the Primary default
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > selects the default only for the exact primary type
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST rejects case, whitespace, and unsupported type values without a write
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > concurrent look-less PUTs preserve a shipped classic marker across truncation
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > keeps a stored explicit look across a direct look-less write
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > creates a new Primary project without an explicit look
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT returns 409 for damaged metadata with incoming look undefined and preserves every byte 13ms
+   → expected 200 to be 409 // Object.is equality
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT returns 409 for damaged metadata with incoming look classic and preserves every byte 2ms
+   → expected 200 to be 409 // Object.is equality
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel same-type POSTs give one success and one 409
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a failed rename preserves the old metadata and removes the temporary file
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a partial temporary write failure preserves the old metadata and removes the temporary file
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > readers see the complete old metadata until the atomic rename completes
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates preserve an existing primary project
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates preserve an existing secondary project
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates of a new id preserve the shipped project and the resolved type
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel explicit and omitted looks retain a known marker and preserve shipped classic
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel classic and omitted PUTs cannot introduce chibi-quest into a shipped edition
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > metadata payload fields cannot create a temporary symlink or write an outside target
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a precreated temporary symlink requires direct folder access and retains the shipped look
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > atomic replacement retains a readable classic marker and records any file-mode change
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT returns 409 for damaged metadata with incoming look undefined and preserves every byte
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT returns 409 for damaged metadata with incoming look classic and preserves every byte
+AssertionError: expected 200 to be 409 // Object.is equality
+
+- Expected
++ Received
+
+- 409
++ 200
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:276:37
+    274|             const rename = vi.spyOn(fs, 'rename');
+    275|             const response = await put('origins-2-a0', { ...PRIMARY, l…
+    276|             expect(response.status).toBe(409);
+       |                                     ^
+    277|             expect(await response.json()).toEqual({
+    278|                 error: 'The project.json of this project cannot be rea…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 31 skipped (33)
+   Start at  12:33:45
+   Duration  343ms (transform 54ms, setup 71ms, import 143ms, tests 17ms, environment 0ms)
+
+MUTANT=damaged EXIT=1
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (../../../.cache/opencode/s8-adversarial-mutant.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+S8 in-memory mutation applied: create
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-2-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id adventures-1.0-a1
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.1-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.2-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id quest-4-a1
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a legacy secondary twin of a shipped Primary id
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a Primary twin of an existing secondary id
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST returns 409 for an existing same-type project and preserves its bytes
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored classic marker
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored chibi-quest marker
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT omission keeps the shipped marker through the real print loader
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a new Primary project uses chibi-quest through the real print loader
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT rejects unknown looks without changing a shipped metadata byte
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT accepts a known explicit look instead of the Primary default
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > selects the default only for the exact primary type
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST rejects case, whitespace, and unsupported type values without a write
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > concurrent look-less PUTs preserve a shipped classic marker across truncation
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > keeps a stored explicit look across a direct look-less write
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > creates a new Primary project without an explicit look
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT returns 409 for damaged metadata with incoming look undefined and preserves every byte
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT returns 409 for damaged metadata with incoming look classic and preserves every byte
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel same-type POSTs give one success and one 409 13ms
+   → expected [ 200, 200 ] to deeply equal [ 200, 409 ]
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a failed rename preserves the old metadata and removes the temporary file
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a partial temporary write failure preserves the old metadata and removes the temporary file
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > readers see the complete old metadata until the atomic rename completes
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates preserve an existing primary project
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates preserve an existing secondary project
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates of a new id preserve the shipped project and the resolved type
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel explicit and omitted looks retain a known marker and preserve shipped classic
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel classic and omitted PUTs cannot introduce chibi-quest into a shipped edition
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > metadata payload fields cannot create a temporary symlink or write an outside target
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a precreated temporary symlink requires direct folder access and retains the shipped look
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > atomic replacement retains a readable classic marker and records any file-mode change
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel same-type POSTs give one success and one 409
+AssertionError: expected [ 200, 200 ] to deeply equal [ 200, 409 ]
+
+- Expected
++ Received
+
+  [
+    200,
+-   409,
++   200,
+  ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:292:69
+    290|             POST(request('/api/projects', 'POST', fresh)),
+    291|         ]);
+    292|         expect(responses.map((response) => response.status).sort()).to…
+       |                                                                     ^
+    293|         const conflict = responses.find((response) => response.status …
+    294|         expect((await conflict.json()).error).toBe(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 32 skipped (33)
+   Start at  12:33:46
+   Duration  309ms (transform 62ms, setup 39ms, import 148ms, tests 15ms, environment 0ms)
+
+MUTANT=create EXIT=1
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (../../../.cache/opencode/s8-adversarial-mutant.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+S8 in-memory mutation applied: cleanup
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-2-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id adventures-1.0-a1
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.1-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.2-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id quest-4-a1
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a legacy secondary twin of a shipped Primary id
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a Primary twin of an existing secondary id
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST returns 409 for an existing same-type project and preserves its bytes
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored classic marker
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored chibi-quest marker
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT omission keeps the shipped marker through the real print loader
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a new Primary project uses chibi-quest through the real print loader
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT rejects unknown looks without changing a shipped metadata byte
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT accepts a known explicit look instead of the Primary default
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > selects the default only for the exact primary type
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST rejects case, whitespace, and unsupported type values without a write
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > concurrent look-less PUTs preserve a shipped classic marker across truncation
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > keeps a stored explicit look across a direct look-less write
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > creates a new Primary project without an explicit look
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT returns 409 for damaged metadata with incoming look undefined and preserves every byte
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT returns 409 for damaged metadata with incoming look classic and preserves every byte
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel same-type POSTs give one success and one 409
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a failed rename preserves the old metadata and removes the temporary file 15ms
+   → expected [ 'content_sentinel.json', …(2) ] to deeply equal [ 'content_sentinel.json', …(1) ]
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a partial temporary write failure preserves the old metadata and removes the temporary file
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > readers see the complete old metadata until the atomic rename completes
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates preserve an existing primary project
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates preserve an existing secondary project
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates of a new id preserve the shipped project and the resolved type
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel explicit and omitted looks retain a known marker and preserve shipped classic
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel classic and omitted PUTs cannot introduce chibi-quest into a shipped edition
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > metadata payload fields cannot create a temporary symlink or write an outside target
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a precreated temporary symlink requires direct folder access and retains the shipped look
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > atomic replacement retains a readable classic marker and records any file-mode change
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a failed rename preserves the old metadata and removes the temporary file
+AssertionError: expected [ 'content_sentinel.json', …(2) ] to deeply equal [ 'content_sentinel.json', …(1) ]
+
+- Expected
++ Received
+
+  [
+    "content_sentinel.json",
+    "project.json",
++   "project.json.tmp-1840334-1795325627101-mg9e7l4j",
+  ]
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:320:63
+    318|         expect(path.dirname(attempted[0])).toBe(path.dirname(file));
+    319|         expect(await fs.readFile(file, 'utf8')).toBe(before);
+    320|         expect((await fs.readdir(path.dirname(file))).sort()).toEqual(…
+       |                                                               ^
+    321|     });
+    322|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 32 skipped (33)
+   Start at  12:33:46
+   Duration  286ms (transform 48ms, setup 38ms, import 124ms, tests 16ms, environment 0ms)
+
+MUTANT=cleanup EXIT=1
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (../../../.cache/opencode/s8-adversarial-mutant.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+S8 in-memory mutation applied: atomic
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-2-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id adventures-1.0-a1
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.1-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id origins-3.2-a0
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a secondary twin of shipped id quest-4-a1
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a legacy secondary twin of a shipped Primary id
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST refuses a Primary twin of an existing secondary id
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST returns 409 for an existing same-type project and preserves its bytes
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored classic marker
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT look null preserves a stored chibi-quest marker
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT omission keeps the shipped marker through the real print loader
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a new Primary project uses chibi-quest through the real print loader
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT rejects unknown looks without changing a shipped metadata byte
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT accepts a known explicit look instead of the Primary default
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > selects the default only for the exact primary type
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > POST rejects case, whitespace, and unsupported type values without a write
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > concurrent look-less PUTs preserve a shipped classic marker across truncation
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > keeps a stored explicit look across a direct look-less write
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > creates a new Primary project without an explicit look
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT returns 409 for damaged metadata with incoming look undefined and preserves every byte
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > PUT returns 409 for damaged metadata with incoming look classic and preserves every byte
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel same-type POSTs give one success and one 409
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a failed rename preserves the old metadata and removes the temporary file
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a partial temporary write failure preserves the old metadata and removes the temporary file
+ × __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > readers see the complete old metadata until the atomic rename completes 13ms
+   → expected false to be true // Object.is equality
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates preserve an existing primary project
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates preserve an existing secondary project
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel cross-type creates of a new id preserve the shipped project and the resolved type
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel explicit and omitted looks retain a known marker and preserve shipped classic
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > parallel classic and omitted PUTs cannot introduce chibi-quest into a shipped edition
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > metadata payload fields cannot create a temporary symlink or write an outside target
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > a precreated temporary symlink requires direct folder access and retains the shipped look
+ ↓ __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > atomic replacement retains a readable classic marker and records any file-mode change
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/adversarial-s8-default-look.test.ts > S8 adversarial default look > readers see the complete old metadata until the atomic rename completes
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ __tests__/adversarial-s8-default-look.test.ts:364:30
+    362|         try {
+    363|             await Promise.race([ready.promise, pending]);
+    364|             expect(observed).toBe(true);
+       |                              ^
+    365|             expect(await fs.readFile(file, 'utf8')).toBe(before);
+    366|             expect(projectLook(await readProjectMetadata('origins-2-a0…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 32 skipped (33)
+   Start at  12:33:47
+   Duration  290ms (transform 54ms, setup 38ms, import 128ms, tests 14ms, environment 0ms)
+
+MUTANT=atomic EXIT=1

@@ -1,0 +1,335 @@
+Provisional verdict: inconclusive.
+The first command filters Thai lines before it prints any file.
+The audited HEAD and role base are b54922289c4852e184ed3522c958d7d9ea5f7d90.
+The phase base is 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6.
+MEASURE_AGENT_RESULT
+role: review-c
+status: partial
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: none
+tests_run: none; inspection in progress
+files_changed: review-c-s8-b5492228.json; review-c-s8-b5492228.log
+plan_updates: none
+known_failures: provisional audit remains incomplete
+handoff: The final audit will replace this provisional verdict.
+END_MEASURE_AGENT_RESULT
+
+BEGIN_AUDIT_PROBE
+const fs = require("node:fs");
+const path = require("node:path");
+const vm = require("node:vm");
+const ts = require("./dashboard/node_modules/typescript");
+const assert = require("node:assert/strict");
+const root = "/audit-memory";
+const memory = new Map();
+const directories = new Set();
+const readErrors = new Map();
+function errno(code) { return Object.assign(new Error(code), { code }); }
+function load(file, deps = {}) {
+  const code = ts.transpileModule(fs.readFileSync(file, "utf8"), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true }
+  }).outputText;
+  const module = { exports: {} };
+  vm.runInNewContext(code, {
+    module, exports: module.exports,
+    require(id) {
+      if (!(id in deps)) throw new Error("Unmocked dependency " + file + ": " + id);
+      return deps[id];
+    },
+    process: { pid: 1, env: { WORKBOOKS_ROOT: root }, cwd: () => root + "/dashboard" },
+    console: { log() {}, error() {} }, URLSearchParams
+  }, { filename: file });
+  return module.exports;
+}
+const files = load("dashboard/lib/filesystem.ts", {
+  "fs/promises": {
+    async stat(file) {
+      if (!directories.has(file)) throw errno("ENOENT");
+      return { isDirectory: () => true };
+    },
+    async mkdir(file, options) {
+      if (directories.has(file) && !options?.recursive) throw errno("EEXIST");
+      directories.add(file);
+    },
+    async writeFile(file, value) { memory.set(file, value); },
+    async readFile(file) {
+      if (readErrors.has(file)) throw errno(readErrors.get(file));
+      if (!memory.has(file)) throw errno("ENOENT");
+      return memory.get(file);
+    },
+    async rename(from, to) { memory.set(to, memory.get(from)); memory.delete(from); },
+    async rm(file) { memory.delete(file); }
+  },
+  path, "./cutover": { assertWritable() {} }
+});
+const looks = load("dashboard/lib/look.ts");
+const responses = { NextResponse: { json(body, options) {
+  const status = options?.status ?? 200;
+  return { status, ok: status >= 200 && status < 300, body, async json() { return body; } };
+} } };
+const projects = load("dashboard/app/api/projects/route.ts", {
+  "next/server": responses, "@/lib/filesystem": files
+});
+const metadata = load("dashboard/app/api/projects/[projectId]/metadata/route.ts", {
+  "next/server": responses, "@/lib/filesystem": files, "@/lib/look": looks
+});
+const primary = { type: "primary", seriesName: "Quest", levelNumber: "4", cefrLevel: "A1" };
+const request = (body) => ({ json: async () => body });
+const put = (id, body) => metadata.PUT(request(body), { params: Promise.resolve({ projectId: id }) });
+const filename = (type, id) => path.join(root, type, id, "project.json");
+function seed(type, id, value) {
+  directories.add(path.join(root, type, id));
+  memory.set(filename(type, id), typeof value === "string" ? value : JSON.stringify(value));
+}
+function handler(file, name, globals) {
+  const source = fs.readFileSync(file, "utf8");
+  const expression = new RegExp("const " + name + " = (async [\\s\\S]*?\\n  });").exec(source)?.[1];
+  if (!expression) throw new Error("Handler not found: " + name);
+  const code = ts.transpileModule("const run = " + expression + "; run;", {
+    compilerOptions: { target: ts.ScriptTarget.ES2022 }
+  }).outputText;
+  return vm.runInNewContext(code, globals);
+}
+let passed = 0, failed = 0;
+async function check(name, action) {
+  try { await action(); passed++; console.log("PASS " + name); }
+  catch (error) { failed++; console.log("FAIL " + name + ": " + error.message); }
+}
+(async () => {
+  console.log("In-memory contract and extracted-handler probes. No content, browser, or renderer is used.");
+  const stored = { ...primary, look: "classic" };
+  seed("secondary", "quest-4-a1", { ...stored, type: "secondary" });
+  const before = memory.get(filename("secondary", "quest-4-a1"));
+  const cross = await projects.POST(request(primary));
+  await check("POST cross-series duplicate returns 409 and preserves existing metadata", () => {
+    assert.equal(cross.status, 409);
+    assert.deepEqual(Object.keys(cross.body), ["error"]);
+    assert.match(cross.body.error, /quest-4-a1.*already exists/);
+    assert.equal(memory.get(filename("secondary", "quest-4-a1")), before);
+    assert.equal(directories.has(path.join(root, "primary", "quest-4-a1")), false);
+  });
+  seed("primary", "legacy-primary", stored);
+  await check("legacy POST checks the other series folder", async () => {
+    assert.equal((await projects.POST(request({ name: "legacy-primary" }))).status, 409);
+    assert.equal(directories.has(path.join(root, "secondary", "legacy-primary")), false);
+  });
+  await check("new POST still returns 200 and selects the Primary default", async () => {
+    const result = await projects.POST(request({ ...primary, levelNumber: "5" }));
+    assert.equal(result.status, 200);
+    assert.equal(looks.projectLook(result.body.metadata), "chibi-quest");
+  });
+  seed("primary", "damaged", "{broken");
+  const damage = await put("damaged", primary);
+  await check("PUT malformed JSON file returns the exact 409 body without a write", () => {
+    assert.equal(damage.status, 409);
+    assert.deepEqual(Object.keys(damage.body), ["error"]);
+    assert.equal(damage.body.error, "The project.json of this project cannot be read. The write was refused so that the look of the project stays.");
+    assert.equal(memory.get(filename("primary", "damaged")), "{broken");
+  });
+  await check("PUT refuses a damaged file even with an explicit known look", async () => {
+    assert.equal((await put("damaged", { ...primary, look: "classic" })).status, 409);
+    assert.equal(memory.get(filename("primary", "damaged")), "{broken");
+  });
+  seed("primary", "null-stored", stored);
+  await check("PUT null preserves a stored classic marker", async () => {
+    assert.equal((await put("null-stored", { ...primary, look: null })).status, 200);
+    assert.equal(JSON.parse(memory.get(filename("primary", "null-stored"))).look, "classic");
+  });
+  directories.add(path.join(root, "primary", "missing-meta"));
+  await check("PUT null stays absent when the stored metadata file is missing", async () => {
+    assert.equal((await put("missing-meta", { ...primary, look: null })).status, 200);
+    assert.equal(Object.hasOwn(JSON.parse(memory.get(filename("primary", "missing-meta"))), "look"), false);
+  });
+  seed("primary", "unreadable", stored);
+  readErrors.set(filename("primary", "unreadable"), "EACCES");
+  await check("PUT unreadable file returns the same 409 contract", async () => {
+    const result = await put("unreadable", primary);
+    assert.equal(result.status, 409);
+    assert.equal(result.body.error, damage.body.error);
+    assert.equal(memory.get(filename("primary", "unreadable")), JSON.stringify(stored));
+  });
+  seed("primary", "null-marker", { ...primary, look: "chibi-quest" });
+  await check("PUT null look retains the stored explicit look", async () => {
+    assert.equal((await put("null-marker", { ...primary, look: null })).status, 200);
+    assert.equal((await files.readProjectMetadata("null-marker")).look, "chibi-quest");
+  });
+  directories.add(path.join(root, "primary", "missing-file"));
+  await check("PUT missing file accepts null as absent and writes no look key", async () => {
+    assert.equal((await put("missing-file", { ...primary, look: null })).status, 200);
+    assert.equal(Object.hasOwn(await files.readProjectMetadata("missing-file"), "look"), false);
+  });
+  await check("PUT unknown look remains a 400 validation error", async () => {
+    const result = await put("null-marker", { ...primary, look: "invalid" });
+    assert.equal(result.status, 400);
+    assert.match(result.body.error, /unknown look/);
+  });
+  await check("POST and PUT conflicts share status and error envelope", () => {
+    assert.equal(cross.status, damage.status);
+    assert.deepEqual(Object.keys(cross.body), Object.keys(damage.body));
+    assert.equal(Object.hasOwn(cross.body, "code"), false);
+    assert.equal(Object.hasOwn(damage.body, "code"), false);
+  });
+  await check("create dialog displays the cross-series 409 and clears loading", async () => {
+    const errors = [], loading = [], successes = [];
+    const run = handler("dashboard/components/create-project-dialog.tsx", "handleSubmit", {
+      setError: (value) => errors.push(value), setSuccess: (value) => successes.push(value),
+      setLoading: (value) => loading.push(value), selectedOption: { series: "Quest", value: "4", cefr: "A1" },
+      type: "primary", fetch: async () => cross, console: { error() {} },
+      setTimeout() { throw new Error("Unexpected success timer"); }
+    });
+    await run({ preventDefault() {} });
+    assert.equal(errors.at(-1), cross.body.error);
+    assert.equal(loading.at(-1), false);
+    assert.equal(successes.some(Boolean), false);
+  });
+  await check("Settings keeps the dialog open on 409 but logs only a generic error", async () => {
+    const saving = [], opened = [], messages = [];
+    let reloaded = false, sent;
+    const run = handler("dashboard/components/project-settings-dialog.tsx", "handleSave", {
+      setSaving: (value) => saving.push(value), setOpen: (value) => opened.push(value),
+      ensureMetadataLevelOption: (value) => value,
+      getWorkbookLevelOptions: () => [{ series: "Quest", value: "4", cefr: "A1" }],
+      type: "primary", metadata: primary, selectedLevel: "4", projectId: "damaged",
+      fetch: async (_url, options) => { sent = JSON.parse(options.body); return put("damaged", sent); },
+      window: { location: { reload() { reloaded = true; } } },
+      console: { error: (value) => messages.push(value) }
+    });
+    await run();
+    assert.equal(Object.hasOwn(sent, "look"), false);
+    assert.equal(saving.at(-1), false);
+    assert.equal(opened.length, 0);
+    assert.equal(reloaded, false);
+    assert.deepEqual(messages, ["Failed to save metadata"]);
+  });
+  await check("atomic metadata updates leave no temporary file", () => {
+    assert.equal([...memory.keys()].some((key) => key.includes(".tmp-")), false);
+  });
+  console.log("OBSERVED POST conflict: " + JSON.stringify({ status: cross.status, body: cross.body }));
+  console.log("OBSERVED PUT conflict: " + JSON.stringify({ status: damage.status, body: damage.body }));
+  console.log("SUMMARY " + passed + " passed; " + failed + " failed");
+  process.exitCode = failed ? 1 : 0;
+})().catch((error) => { console.error(error); process.exitCode = 2; });
+END_AUDIT_PROBE
+
+PROBE_OUTPUT
+In-memory contract and extracted-handler probes. No content, browser, or renderer is used.
+PASS POST cross-series duplicate returns 409 and preserves existing metadata
+PASS legacy POST checks the other series folder
+PASS new POST still returns 200 and selects the Primary default
+PASS PUT malformed JSON file returns the exact 409 body without a write
+PASS PUT refuses a damaged file even with an explicit known look
+PASS PUT unreadable file returns the same 409 contract
+PASS PUT null look retains the stored explicit look
+PASS PUT missing file accepts null as absent and writes no look key
+PASS PUT unknown look remains a 400 validation error
+PASS POST and PUT conflicts share status and error envelope
+PASS create dialog displays the cross-series 409 and clears loading
+PASS Settings keeps the dialog open on 409 but logs only a generic error
+PASS atomic metadata updates leave no temporary file
+OBSERVED POST conflict: {"status":409,"body":{"error":"Project 'quest-4-a1' already exists. Choose another name, or edit the existing project."}}
+OBSERVED PUT conflict: {"status":409,"body":{"error":"The project.json of this project cannot be read. The write was refused so that the look of the project stays."}}
+SUMMARY 13 passed; 0 failed
+PROBE_EXIT: 0
+
+PROBE_OUTPUT_NULL_CASES
+In-memory contract and extracted-handler probes. No content, browser, or renderer is used.
+PASS POST cross-series duplicate returns 409 and preserves existing metadata
+PASS legacy POST checks the other series folder
+PASS new POST still returns 200 and selects the Primary default
+PASS PUT malformed JSON file returns the exact 409 body without a write
+PASS PUT refuses a damaged file even with an explicit known look
+PASS PUT null preserves a stored classic marker
+PASS PUT null stays absent when the stored metadata file is missing
+PASS PUT unreadable file returns the same 409 contract
+PASS PUT null look retains the stored explicit look
+PASS PUT missing file accepts null as absent and writes no look key
+PASS PUT unknown look remains a 400 validation error
+PASS POST and PUT conflicts share status and error envelope
+PASS create dialog displays the cross-series 409 and clears loading
+PASS Settings keeps the dialog open on 409 but logs only a generic error
+PASS atomic metadata updates leave no temporary file
+OBSERVED POST conflict: {"status":409,"body":{"error":"Project 'quest-4-a1' already exists. Choose another name, or edit the existing project."}}
+OBSERVED PUT conflict: {"status":409,"body":{"error":"The project.json of this project cannot be read. The write was refused so that the look of the project stays."}}
+SUMMARY 15 passed; 0 failed
+PROBE_EXIT: 0
+
+FINAL_AUDIT
+Verdict: PASS.
+Contract applicability: applicable.
+UX browser review applicability: not_applicable.
+The strategy assigns Review C at test-strategy.md:591.
+Lines 593-594 exclude the visual and browser reviews.
+The exact phase diff changes no visible component, template, CSS, or font.
+
+Response contract:
+POST /api/projects returns 409 when the ID exists in either series folder.
+Its body has one error string, including the project ID.
+The object and legacy signature probes preserve existing metadata and create no competing folder.
+PUT metadata returns 409 when an existing project.json cannot be read or parsed.
+Its body has one error string:
+The project.json of this project cannot be read. The write was refused so that the look of the project stays.
+Both endpoints use the same conflict status and the same error-body shape.
+Neither endpoint supplies a separate machine-readable error code.
+Invalid request fields and unknown looks retain status 400.
+Unexpected failures retain status 500.
+A missing stored metadata file differs from an unreadable file.
+The missing-file path permits a successful write.
+A null request look preserves the stored marker or stays absent when none exists.
+Malformed and unreadable files remain unchanged after refused writes.
+
+Client handling:
+The create handler reads error JSON, sets its visible error, and resets loading.
+It does not report success after a 409.
+The extracted handler probe uses the actual cross-series conflict response.
+The Settings handler sends no look.
+It keeps the dialog open and resets saving after a 409.
+It logs only Failed to save metadata and does not display the response body.
+The new damaged-file refusal makes the recorded F5 gap reachable through a normal save.
+
+Dependencies:
+The inspected production clients are the create dialog and the Settings dialog.
+No production script calls the changed writer functions outside their API routes.
+The book PDF script calls compile GET, not these mutation endpoints.
+No inspected production caller deliberately uses duplicate creation as an overwrite.
+No inspected production caller deliberately uses metadata PUT to repair a damaged file.
+The fixed-folder create-project e2e test expects a fresh creation.
+It now gets a conflict when that folder exists; it expresses no overwrite requirement.
+The audit does not run that browser test or change its ownership.
+External callers remain outside this repository audit.
+
+F5 [Nit] review-c: dashboard/components/project-settings-dialog.tsx:88-97 keeps console-only error feedback.
+Keep the recorded feedback follow-up. No new blocker.
+F6 [Nit] review-c: measure/tracks/primary_v2_look_20261020/plan.md:185 keeps the package-folder overgeneralization.
+Qualify that note before the PM handoff.
+C-F4 stays accepted pre-existing debt, as directed.
+F1-F3 stay withdrawn. No CONTEST item was supplied.
+
+Verification:
+The initial heavy-run exits 0 with thirteen probes.
+The expanded heavy-run exits 0 with fifteen probes.
+Each run uses one wrapper, never nested.
+The probes execute actual TypeScript route bodies and extracted client handlers.
+They mock storage and use no content file, React render, browser, build, or dev server.
+They leave no temporary metadata file in the mocked store.
+The audit claims no live rendering proof.
+git status --porcelain content: empty, exit 0.
+git diff --name-only HEAD over reviewed source: empty, exit 0.
+Current audited HEAD and role base: b54922289c4852e184ed3522c958d7d9ea5f7d90.
+Phase base: 7a8e602c668773a2a278074ccbfa8dcddfd5b2f6.
+The audit writes only its supplied JSON and log.
+Facts changed: Review C round 3 PASS; fifteen probes pass; no new blockers.
+
+MEASURE_AGENT_RESULT
+role: review-c
+status: complete
+track: primary_v2_look_20261020
+phase: Phase S8: Default look for new editions
+commits: none
+tests_run: Initial thirteen and expanded fifteen probes pass; both heavy-runs exit 0; one wrapper per run; content status remains empty
+files_changed: measure/runs/primary_v2_look_20261020/review-c-s8-b5492228.json; measure/runs/primary_v2_look_20261020/review-c-s8-b5492228.log
+plan_updates: none
+known_failures: No blockers; F5 Settings feedback and F6 S7 wording remain nonblocking; C-F4 stays pre-existing debt
+handoff: POST and PUT use consistent 409 error bodies. No inspected production caller depends on overwrite or damaged-file repair. retry_recommendation: none. No browser review applies.
+END_MEASURE_AGENT_RESULT
+RESULT: PASS
