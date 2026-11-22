@@ -28,6 +28,11 @@ ROWS = [
     ("content/storytime/l2/media/w01/song-phone.mp4", "StorytimeSongPortrait", 720, 1280),
 ]
 FRAMES = [753, 1652]
+# The inset card in each composition still, in composition pixels (Red P2 r2).
+MASK = {
+    "classroom": (1602, 708, 270, 324),
+    "phone": (120, 1032, 840, 856),
+}
 
 
 def command(args, cwd=None):
@@ -45,6 +50,14 @@ def raw_hash(png, scale=None):
     if scale:
         args += ["-vf", "scale=%d:%d" % scale]
     args += ["-f", "rawvideo", "-pix_fmt", "rgb24", "-"]
+    return hashlib.sha256(output(args)).hexdigest()
+
+
+def masked_hash(png, cut):
+    x, y, w, h = MASK[cut]
+    filt = "drawbox=x=%d:y=%d:w=%d:h=%d:color=black@1:t=fill" % (x, y, w, h)
+    args = ["ffmpeg", "-v", "error", "-i", png, "-vf", filt,
+            "-f", "rawvideo", "-pix_fmt", "rgb24", "-"]
     return hashlib.sha256(output(args)).hexdigest()
 
 
@@ -120,11 +133,17 @@ def main():
         "Method: the phone same-toolchain pairs use the composition still before the 720x1280 scale."
         " The drift comparison scales that still to 720x1280 to match the approved phone video.",
         "Method: approved hashes come from ffmpeg decoding of the unchanged media files to raw rgb24, sha256.",
+        "Method: the P2-F3 framing change alters the inset card, so four same-toolchain pairs are also hashed with"
+        " that card painted out. The masked hashes come from ffmpeg drawbox on the same stills.",
+        "inset mask: classroom %d %d %d %d" % MASK["classroom"],
+        "inset mask: phone %d %d %d %d" % MASK["phone"],
     ]
 
     exits = {}
     base_hashes = {}
     new_hashes = {}
+    masked_base = {}
+    masked_new = {}
     approved_hashes = {}
     psnrs = []
     for media, composition, width, height in ROWS:
@@ -140,6 +159,8 @@ def main():
             exit_code |= still(CURRENT, composition, frame, new_png)
             base_hashes[(media, frame)] = raw_hash(base_png)
             new_hashes[(media, frame)] = raw_hash(new_png)
+            masked_base[(media, frame)] = masked_hash(base_png, short)
+            masked_new[(media, frame)] = masked_hash(new_png, short)
             psnrs.append(psnr_of(approved_png, new_png, scale=(width, height)))
         exits[short] = exit_code
 
@@ -160,6 +181,7 @@ def main():
         lines.append("%s frame %d approved sha256: %s" % (media, frame, actual))
 
     equal = []
+    masked_equal = []
     for media, _composition, _width, _height in ROWS:
         for frame in FRAMES:
             base = base_hashes[(media, frame)]
@@ -167,6 +189,11 @@ def main():
             equal.append(base == new)
             lines.append("same-toolchain %s frame %d base sha256: %s" % (media, frame, base))
             lines.append("same-toolchain %s frame %d new sha256: %s" % (media, frame, new))
+            mb = masked_base[(media, frame)]
+            mn = masked_new[(media, frame)]
+            masked_equal.append(mb == mn)
+            lines.append("same-toolchain masked base sha256: %s frame %d: %s" % (media, frame, mb))
+            lines.append("same-toolchain masked new sha256: %s frame %d: %s" % (media, frame, mn))
 
     drift = 0
     for media, _composition, width, height in ROWS:
@@ -179,14 +206,16 @@ def main():
                 drift += 1
     lines.append("toolchain drift approved vs current match count: %d of 4" % drift)
     lines.append("toolchain drift PSNR dB: %.3f" % (sum(psnrs) / len(psnrs)))
-    lines.append("Result: %s" % ("PASS" if all(equal) else "FAIL"))
+    ok = all(equal) and all(masked_equal)
+    lines.append("Result: %s" % ("PASS" if ok else "FAIL"))
 
     with open(EVIDENCE, "w", encoding="utf-8") as handle:
         handle.write("\n".join(lines) + "\n")
     print("same-toolchain pairs equal: %d of %d" % (sum(equal), len(equal)))
+    print("same-toolchain masked pairs equal: %d of %d" % (sum(masked_equal), len(masked_equal)))
     print("drift matches: %d of 4" % drift)
     print("wrote", EVIDENCE)
-    return 0 if all(equal) else 1
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":

@@ -23,8 +23,11 @@ const WEEK_SCENE = {
   "st2/7": "playroom",
 };
 
-/** The weeks whose art set fixes the scene; w07 has no stage file and uses the classroom render. */
-const SCENE_FORCE = { "st2/7": "classroom" };
+/** The weeks whose art set fixes the scene; both use the Forge classroom render, w07 has no stage file. */
+const SCENE_FORCE = { "st2/4": "classroom", "st2/7": "classroom" };
+
+/** PM 2026-11-23: Daniel scrapped the 3D sprout base model; w07 must not draw the 3D May cut-out. */
+const SCRAPPED_3D = { "l2/w07": ["may"] };
 
 /** A place named in a picture prompt, in the order of the test (the first match wins). */
 const PLACES = [
@@ -352,6 +355,18 @@ function readManifestRows(handoffDir) {
 /** The folder that receives handoff copies under public/, as a project-relative path. */
 const FORGE_BASE = "forge";
 
+/** The folder that receives the approved inset and Forge classroom picture, kept separate from cast cut-outs. */
+const LOOK_BASE = "look";
+
+/**
+ * The pixel size of the approved Adventurer inset frames, read from the PNG header of the idle frame.
+ * @returns {number[]} The width and height of an inset frame.
+ */
+function insetCanvas() {
+  const bytes = fs.readFileSync(path.join(INSET_SOURCE, "gestures/adventurer/idle.png"));
+  return [bytes.readUInt32BE(16), bytes.readUInt32BE(20)];
+}
+
 /**
  * The handoff path of a Forge path under public/.
  * @param {string} file A Forge path, as "forge/cutouts/pat/listen.png".
@@ -475,7 +490,9 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
   const spec = buildSpec(week, probe(audio).duration);
   const cast = {};
   const cutouts = new Set();
+  const scrapped = SCRAPPED_3D[rel] ?? [];
   for (const name of usedArt(spec).actors) {
+    if (scrapped.includes(String(name).toLowerCase())) continue;
     const art = resolveActorArt(name, adapter);
     if (art.kind !== "forge") continue;
     const file = manifestRel(art.file);
@@ -487,6 +504,7 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
   const tag = `${process.pid}-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
   fs.mkdirSync(parent, { recursive: true });
   const stage = fs.mkdtempSync(path.join(parent, `.forge-stage-${path.basename(out)}-`));
+  const lookStage = fs.mkdtempSync(path.join(parent, `.look-stage-${path.basename(out)}-`));
   let stagedWeek = null;
   try {
     copyManifestSubset(handoffDir, stage, [...cutouts]);
@@ -500,33 +518,44 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
       if (shas.get(file) !== actual)
         throw new Error(`sha256 mismatch for ${file} in the handoff manifest`);
     }
-    // The handoff changes the actor row only. Gesture and idle frames stay the approved Adventurer inset.
-    if (Object.keys(cast).length) {
-      const inset = approvedInset();
-      for (const file of [...Object.values(inset.gestures).flat(), ...inset.idle]) {
-        const src = path.join(INSET_SOURCE, manifestRel(file));
-        const dst = path.join(stage, manifestRel(file));
-        fs.mkdirSync(path.dirname(dst), { recursive: true });
-        fs.copyFileSync(src, dst);
-      }
-      const gestures = Object.fromEntries(
-        Object.entries(inset.gestures).map(([name, list]) => [
-          name,
-          list.map((file) => `${rel}/${file}`),
-        ]),
-      );
-      spec.art = "forge";
-      spec.forge = {
-        scale: adapter.scale,
-        canvas: adapter.canvas,
-        foot: adapter.foot,
-        cast,
-        gestures,
-        idle: inset.idle.map((file) => `${rel}/${file}`),
-        gestureBox: adapter.gestureBox,
-        scenes: {},
-      };
+    // The approved Adventurer inset lives in its own look folder, so the forge folder holds only manifest cut-outs.
+    // A week with no covered cast still gets the inset and the Forge classroom picture, but keeps its placeholders.
+    const inset = approvedInset();
+    for (const file of [...Object.values(inset.gestures).flat(), ...inset.idle]) {
+      const src = path.join(INSET_SOURCE, manifestRel(file));
+      const dst = path.join(lookStage, manifestRel(file));
+      fs.mkdirSync(path.dirname(dst), { recursive: true });
+      fs.copyFileSync(src, dst);
     }
+    const gestures = Object.fromEntries(
+      Object.entries(inset.gestures).map(([name, list]) => [
+        name,
+        list.map((file) => `${rel}/${LOOK_BASE}/${manifestRel(file)}`),
+      ]),
+    );
+    const scenes = {};
+    if (rel === "l2/w04" || rel === "l2/w07") {
+      const room = "scenes/w04/classroom.png";
+      const dst = path.join(lookStage, room);
+      fs.mkdirSync(path.dirname(dst), { recursive: true });
+      fs.copyFileSync(path.join(handoffDir, room), dst);
+      const want = readManifestRows(handoffDir).find((row) => row.file === room)?.sha.toLowerCase();
+      const got = createHash("sha256").update(fs.readFileSync(dst)).digest("hex");
+      if (want !== got) throw new Error(`sha256 mismatch for ${room} in the handoff manifest`);
+      scenes.classroom = `${rel}/${LOOK_BASE}/${room}`;
+    }
+    const [insetW, insetH] = insetCanvas();
+    spec.art = Object.keys(cast).length ? "forge" : "placeholder";
+    spec.forge = {
+      scale: adapter.scale,
+      canvas: [insetW, insetH],
+      foot: adapter.foot,
+      cast,
+      gestures,
+      idle: inset.idle.map((file) => `${rel}/${LOOK_BASE}/${manifestRel(file)}`),
+      gestureBox: { x: 0, y: 0, w: insetW, h: insetH },
+      scenes,
+    };
     // Write the fallible audio and spec files to a temporary week folder first. No week file changes until every
     // write passes, so a failure here leaves the previous audio, spec, and Forge set byte-identical.
     fs.mkdirSync(out, { recursive: true });
@@ -547,6 +576,7 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
       item("song.mp3", path.join(out, "song.mp3"), path.join(stagedWeek, "song.mp3")),
       item("spec.json", path.join(out, "spec.json"), path.join(stagedWeek, "spec.json")),
       item("forge", dest, stage),
+      item("look", path.join(out, LOOK_BASE), lookStage),
     ];
     const moved = [];
     try {
@@ -573,6 +603,7 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
   } catch (error) {
     if (stagedWeek) fs.rmSync(stagedWeek, { recursive: true, force: true });
     fs.rmSync(stage, { recursive: true, force: true });
+    fs.rmSync(lookStage, { recursive: true, force: true });
     throw error;
   }
   return path.join(out, "spec.json");
@@ -699,7 +730,9 @@ export function prepare(rel) {
       )
     : [];
   // Week 1 is approved and keeps its phase-base Forge set; the handoff never changes it.
-  if (rel !== "l2/w01" && covered.length) {
+  // Every other week gets the approved inset and, for w04 and w07, the Forge classroom picture, even with no
+  // manifest-covered cast. Such a week keeps placeholder actors and does not claim Forge art.
+  if (rel !== "l2/w01" && adapter) {
     prepareWithManifest(rel, handoff);
     const withForge = JSON.parse(fs.readFileSync(path.join(out, "spec.json"), "utf8"));
     spec.art = withForge.art;
