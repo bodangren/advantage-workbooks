@@ -1,0 +1,17 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: 6595f393e591617351df4b720a849ddf2ad6a7e0
+test_commit: 9e6eba6280cf38fcc5e878272381a3b218998f76
+red_kind: standard
+finding: Green re-render frames show three faults - w04 stick-figure inset, placeholder classroom on w04 and w07, cropped Adventurer in every inset
+tests: video/storytime-song/tests/phase2-look.test.mjs (P2-F1, P2-F2, P2-F3)
+red_command: exit 1, pass 0, fail 3; P2-F1 fails with `w04 must prepare Forge art so both cuts draw the Adventurer inset, not the stick figure`; P2-F2 fails with `w04 line 1 classroom must draw the Forge classroom picture, not the placeholder`; P2-F3 fails with `w02 classroom inset image top -61.3 must sit inside the card, not cropped`
+framing_choice: bottom-aligned, from the ForgeFigure docstring `with the feet near the bottom` in src/GestureInset.tsx
+breaks_on_fix: tests/week1-regression.test.mjs T1.8 same-toolchain pairs (all 4 stills show the inset and will differ; evidence Result becomes MISMATCH); tests/forge.test.mjs `the gesture box holds every frame of the inset` pins gestureBox {x:230,y:243,w:560,h:941} if the fix changes the box computation (a placement-only fix in GestureInset.tsx leaves it green); tests/prepare-snapshot.test.mjs stays green (prepare output unchanged by a tsx-only fix)
+guards: no product code edit; `git status --porcelain content` empty; render.mjs never staged; handoff read-only; prepare() writes only shared public week dirs under the serial gate
+files: video/storytime-song/tests/phase2-look.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/tracks/storytime_song_video_20261022/test-strategy.md
+remaining_failures: P2-F1; P2-F2; P2-F3
+END_MEASURE_AGENT_RESULT
