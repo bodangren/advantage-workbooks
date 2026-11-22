@@ -467,8 +467,10 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
   }
   const dest = path.join(out, FORGE_BASE);
   const parent = path.dirname(out);
+  const tag = `${process.pid}-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
   fs.mkdirSync(parent, { recursive: true });
   const stage = fs.mkdtempSync(path.join(parent, `.forge-stage-${path.basename(out)}-`));
+  let stagedWeek = null;
   try {
     copyManifestSubset(handoffDir, stage, [...cutouts]);
     // The production copy fails on a handoff file whose bytes no longer match its manifest row.
@@ -508,38 +510,55 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
         scenes: {},
       };
     }
-    // Swap only after every digest passes. Move the last good set aside, then restore it if the swap fails.
-    const tag = `${process.pid}-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
-    const backup = path.join(parent, `.forge-backup-${path.basename(out)}-${tag}`);
-    let movedOld = false;
+    // Write the fallible audio and spec files to a temporary week folder first. No week file changes until every
+    // write passes, so a failure here leaves the previous audio, spec, and Forge set byte-identical.
+    fs.mkdirSync(out, { recursive: true });
+    stagedWeek = path.join(out, `.week-stage-${path.basename(out)}-${tag}`);
+    fs.mkdirSync(stagedWeek);
+    fs.copyFileSync(audio, path.join(stagedWeek, "song.mp3"));
+    spec.audio = `${rel}/song.mp3`;
+    fs.writeFileSync(path.join(stagedWeek, "spec.json"), JSON.stringify(spec, null, 1) + "\n");
+
+    // Swap audio, spec and Forge as one transaction. Move each current item aside and restore it on any failure.
+    const item = (name, current, staged) => ({
+      name,
+      current,
+      staged,
+      backup: path.join(parent, `.backup-${path.basename(out)}-${tag}-${name}`),
+    });
+    const swaps = [
+      item("song.mp3", path.join(out, "song.mp3"), path.join(stagedWeek, "song.mp3")),
+      item("spec.json", path.join(out, "spec.json"), path.join(stagedWeek, "spec.json")),
+      item("forge", dest, stage),
+    ];
+    const moved = [];
     try {
-      if (fs.existsSync(dest)) {
-        fs.renameSync(dest, backup);
-        movedOld = true;
+      for (const part of swaps) {
+        if (fs.existsSync(part.current)) {
+          fs.renameSync(part.current, part.backup);
+          moved.push(part);
+        }
+        fs.renameSync(part.staged, part.current);
       }
-      fs.mkdirSync(out, { recursive: true });
-      fs.renameSync(stage, dest);
     } catch (error) {
-      if (movedOld) {
+      for (const part of moved.reverse()) {
         try {
-          fs.rmSync(dest, { recursive: true, force: true });
-          fs.renameSync(backup, dest);
+          fs.rmSync(part.current, { recursive: true, force: true });
+          fs.renameSync(part.backup, part.current);
         } catch {
           // Keep the original swap failure as the reported error.
         }
       }
       throw error;
     }
-    fs.rmSync(backup, { recursive: true, force: true });
+    for (const part of swaps) fs.rmSync(part.backup, { recursive: true, force: true });
+    fs.rmSync(stagedWeek, { recursive: true, force: true });
   } catch (error) {
+    if (stagedWeek) fs.rmSync(stagedWeek, { recursive: true, force: true });
     fs.rmSync(stage, { recursive: true, force: true });
     throw error;
   }
-  fs.copyFileSync(audio, path.join(out, "song.mp3"));
-  spec.audio = `${rel}/song.mp3`;
-  const file = path.join(out, "spec.json");
-  fs.writeFileSync(file, JSON.stringify(spec, null, 1) + "\n");
-  return file;
+  return path.join(out, "spec.json");
 }
 
 /**
@@ -641,13 +660,14 @@ const forgeDir = (rel) => path.join(CONTENT, rel.replace(/\/(w\d\d)$/, "/media/$
  * @returns {string} The spec file.
  */
 export function prepare(rel) {
+  // The render entry validates the output path before its first write. A symlinked week folder is refused.
+  const out = weekOutDir(rel);
   const week = JSON.parse(
     fs.readFileSync(path.join(CONTENT, `${rel}.json`), "utf8"),
   );
   const audio = path.join(CONTENT, week.song.audio);
   const duration = probe(audio).duration;
   const spec = buildSpec(week, duration);
-  const out = path.join(PROJECT, "public", rel);
   fs.mkdirSync(out, { recursive: true });
   fs.copyFileSync(audio, path.join(out, "song.mp3"));
   spec.audio = `${rel}/song.mp3`;
