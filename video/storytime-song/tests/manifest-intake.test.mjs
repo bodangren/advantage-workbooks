@@ -154,6 +154,8 @@ test("T2.6 every week 2-7 copies only its own files, with placeholders for the m
   const coveredNames = new Set(
     rows.filter((r) => r.file.startsWith("cutouts/")).map((r) => r.character_or_week.toLowerCase()),
   );
+  /** PM 2026-11-23: Daniel scrapped the 3D sprout base model; w07 must not draw the 3D May cut-out. */
+  const SCRAPPED_3D = { "l2/w07": ["may"] };
   console.log(`Manifest covered actor count: ${coveredNames.size}`);
   assert.equal(coveredNames.size, 4);
   for (const name of ["pat", "sam", "mia", "may"]) {
@@ -173,8 +175,10 @@ test("T2.6 every week 2-7 copies only its own files, with placeholders for the m
     const use = prepare.usedArt(spec);
     console.log(`${rel} actor count: ${use.actors.length}`);
     assert.ok(use.actors.length > 0, `no actors in ${rel}`);
-    const coveredActors = use.actors.filter((n) => coveredNames.has(String(n).toLowerCase()));
+    const scrapped = (SCRAPPED_3D[rel] ?? []).map((n) => n.toLowerCase());
+    const coveredActors = use.actors.filter((n) => coveredNames.has(String(n).toLowerCase()) && !scrapped.includes(String(n).toLowerCase()));
     console.log(`${rel} covered actor count: ${coveredActors.length}`);
+    console.log(`${rel} scrapped actor count: ${scrapped.length}`);
     assert.ok(coveredActors.length >= 0, `negative covered actors in ${rel}`);
     for (const name of use.actors) {
       const kind = spec.forge?.cast?.[name] ?? spec.forge?.cast?.[String(name).toLowerCase()]
