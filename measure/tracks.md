@@ -2,9 +2,6 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
-- [ ] **Track: Dependency refresh of dashboard and storytime-song: every package to the latest version that works, all critical and high audit advisories fixed by 2026-11-23, and each remaining moderate or low advisory listed with its reason by 2026-11-25.** *(Created: 2026-11-21)*
-  *Link: [./tracks/deps_refresh_20261121/](./tracks/deps_refresh_20261121/)*
-
 - [ ] **Track: Storytime Advantage Level 2 Unit 2 (weeks 9 to 16): the week texts, the picture list for Forge, the Thai parts for Daniel's check, the unit scope change of the makers, the print build with the unit 1 makers, and the hand-offs; unit 1 first; print-ready 2026-12-08 (internal). Series plan: `measure/storytime-series-plan.md`.** *(Created: 2026-11-06)*
   *Link: [./tracks/storytime_l2_unit2_20261106/](./tracks/storytime_l2_unit2_20261106/)*
 
@@ -195,6 +192,11 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 
 ## Archived Tracks
+
+- [x] **Track: Dependency refresh of dashboard and storytime-song: every package to the latest version that works, all critical and high audit advisories fixed by 2026-11-23, and each remaining moderate or low advisory listed with its reason by 2026-11-25.** *(Completed: 2026-11-22)*
+  *Link: [./archive/deps_refresh_20261121/](./archive/deps_refresh_20261121/)*
+  *Update every package of dashboard/ and video/storytime-song/ to the latest version that works, fix all critical and high npm audit advisories by 2026-11-23, and list each remaining moderate or low advisory with its reason by 2026-11-25.*
+  *Note: Final acceptance PASS at 3e7f7917; the final-acceptance role gate exited 0 and the audit result exited 0. Phase acceptances PASS at D1 a274e5e4, D2 d7d6984d, and D3 fe38aa7c. Final audit counts: dashboard 0 critical, 0 high, 0 moderate, 0 low from 6 critical, 23 high, 15 moderate, 2 low; video 0 critical, 0 high, 0 moderate, 0 low from 0 critical, 10 high, 10 moderate, 0 low. The adversarial round 3 passed at 0a3ca739 with 0 blocking findings. Deferred dependency majors and the pre-existing UX Nits are in measure/tech-debt.md. This role did not push; safe-push runs after closeout.*
 
 - [x] **Track: The Storytime write-in workbook cover system: the shared cover module, the data of the 16 student books, the three mock covers on Google Drive for Daniel's check, and the Level 2 Unit 1 cover print file.** *(Completed: 2026-11-02)*
   *Link: [./archive/storytime_covers_20261027/](./archive/storytime_covers_20261027/)*

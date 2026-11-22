@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: measure-final-acceptance
+status: complete
+track: deps_refresh_20261121
+phase: track review
+commits: none
+tests_run: five audit gates exit 0; npm ls exits 0 in both projects; video lint, tsc, and 21 tests exit 0; final-acceptance role gate exits 0 with PROJECT_LINT, PROJECT_CHECKS, and four-exclude PROJECT_TESTS
+files_changed: measure/runs/deps_refresh_20261121/final-acceptance-3e7f7917.json and .log
+plan_updates: none
+known_failures: none; measure/doctor.sh is absent and PROJECT_CHECKS is the documented substitute
+handoff: closeout owns PA-D3-7 follow-up debt, PA-D3-9 stale plan text, PA-D3-10 deferral records, memory updates, and safe-push
+END_MEASURE_AGENT_RESULT

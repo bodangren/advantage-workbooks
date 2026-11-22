@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "role": "measure-closeout",
+  "track": "deps_refresh_20261121",
+  "short_id": "deps_refresh",
+  "closed_at": "2026-11-22T00:00:00+0700",
+  "timezone": "Asia/Bangkok",
+  "model": "opencode-go/hy4-flash-free#high",
+  "model_deviation": "The closeout ran on the opencode-go hy4-flash-free route under the ra-quota record (PM: no new Kimi role this week). Final acceptance ran on kimi-code-plan-cn/k3.1-pro#high and recorded its route in the final acceptance result.",
+  "pre_closeout_head_sha": "3e7f7917828538de66c3078d80ba38f964823896",
+  "final_acceptance": {
+    "result_file": "measure/runs/deps_refresh_20261121/final-acceptance-3e7f7917.json",
+    "log_file": "measure/runs/deps_refresh_20261121/final-acceptance-3e7f7917.log",
+    "status": "pass",
+    "audited_head_sha": "3e7f7917828538de66c3078d80ba38f964823896",
+    "audited_head_equals_pre_closeout_head": true,
+    "role_gate_exit_code": 0,
+    "audit_result_exit_code": 0,
+    "blocking": 0,
+    "nonblocking": 3,
+    "route": "kimi-code-plan-cn/k3.1-pro#high"
+  },
+  "phase_acceptances": [
+    {
+      "phase": "Phase D1: dashboard critical and high",
+      "result_file": "measure/runs/deps_refresh_20261121/phase-acceptance-d1-a274e5e4.json",
+      "status": "pass",
+      "audited_head_sha": "a274e5e426dd56f7fd100b3b25957cf5fe2a7275"
+    },
+    {
+      "phase": "Phase D2: video/storytime-song critical and high",
+      "result_file": "measure/runs/deps_refresh_20261121/phase-acceptance-d2-d7d6984d.json",
+      "status": "pass",
+      "audited_head_sha": "d7d6984dd43411f46126d0b2d220b439de2972d3"
+    },
+    {
+      "phase": "Phase D3: the rest of the updates and the moderate/low list",
+      "result_file": "measure/runs/deps_refresh_20261121/phase-acceptance-d3-fe38aa7c.json",
+      "status": "pass",
+      "audited_head_sha": "fe38aa7c55620e683d0c3caff2397fab25570678"
+    }
+  ],
+  "superseded_phase_acceptance": {
+    "result_file": "measure/runs/deps_refresh_20261121/phase-acceptance-d3-66f67278.json",
+    "status": "fail",
+    "reason": "The later D3 remediation and re-acceptance at fe38aa7c superseded this result. Each phase has exactly one passing acceptance."
+  },
+  "commits": {
+    "pre_closeout_head": "3e7f7917828538de66c3078d80ba38f964823896",
+    "memory_commit": "6e4d875e45807d8c9a3cb0f7dc361659198fe1cb",
+    "closeout_commit": "set by the closeout commit that contains this manifest"
+  },
+  "record_edits": [
+    {
+      "id": "R1",
+      "finding": "PA-D3-7 follow-up debt",
+      "action": "Added one follow-up dependency row to measure/tech-debt.md.",
+      "detail": "The row names the deferred majors and target versions: dashboard @testing-library/jest-dom 7.0.1, vitest 5.1.1 plus @vitest/coverage-v8 5.1.1, typescript 6.0.3, jsdom 28.1.0 to 30.1.3, @google/genai 2.32.0, eslint 10 and @types/node 26; video typescript 7 and @rspack/binding-linux-x64-gnu 2.3.3. Evidence: measure/runs/deps_refresh_20261121/versions-d3.txt."
+    },
+    {
+      "id": "R2",
+      "finding": "PM 2026-11-22 UX Nits",
+      "action": "Added one short UX Nits row to measure/tech-debt.md.",
+      "detail": "The row names the icon-only buttons with no accessible name, the project header overflow at 1280 px, the 134 px sidebar main column at 390 px, and the Settings 404. Evidence: measure/runs/deps_refresh_20261121/ux-browser-d3-bc5623ee.json. The two redrawn Lucide icons were accepted by the PM and are not debt."
+    },
+    {
+      "id": "R3",
+      "finding": "tech-debt.md 50-line cap",
+      "action": "Merged two Low rows to make room for R1 and R2.",
+      "detail": "Merged the two teacher_manual_app_20261020 Low rows (blank sheet in book mode plus duplicate series label, and the two app versions), and merged the teacher_guide_renumbering and teacher_guide_technique Low rows. Both merges keep every fact. File stays at 50 lines."
+    },
+    {
+      "id": "R4",
+      "finding": "lessons learned",
+      "action": "Added two consolidated lesson lines and merged two pairs of existing lines.",
+      "detail": "The new lines record the EALLOWSCRIPTS fallback (plan.md:119), the HEAVY_PREFLIGHT_WAIT_S 3600-second limit (5400 caused TimeoutExpired; use 3000), the sharp-isolating proof with sharp 0.35.5, the untracked dashboard/AGENTS.md written by next dev, and npm ls --all as a required-peer gate. Merged the two concurrency gotchas and the two planning-improvement lines to keep the file at 50 lines. Added-line Thai count is 0."
+    },
+    {
+      "id": "R5",
+      "finding": "PA-D3-9 stale plan text",
+      "action": "Added superseded markers to the archived plan.",
+      "detail": "Line 104 now states that Green r6 installed sharp 0.35.5, removed the three ALLOWLIST entries, and left dashboard 0 high. Line 109 now states that Green r8 reverted dashboard eslint from 10.15.0 to ^9.39.5 because the eslint-config-next 16.4.6 plugin peers break under eslint 10, and npm ls --all then exits 0. Both name their evidence captures."
+    },
+    {
+      "id": "R6",
+      "finding": "PA-D3-10 exact-pin and deferral records",
+      "action": "Corrected the archived plan and the version evidence file.",
+      "detail": "plan.md line 100 now records the one deferred exact-pin non-major: the video @rspack/binding-linux-x64-gnu stays at 2.3.0 (latest 2.3.3) to match @rspack/core 2.3.0. versions-d3.txt now has the two missing deferral rows: @google/genai 1.52.0 to 3.6.1, with the default API version change and green-d3-r7-genai-apiversion.txt, and @rspack/binding-linux-x64-gnu 2.3.0 to 2.3.3, with the @rspack/core match reason."
+    },
+    {
+      "id": "R7",
+      "finding": "Close tasks",
+      "action": "Marked both Close tasks [x] with a commit SHA.",
+      "detail": "The memory task cites memory commit 6e4d875e45807d8c9a3cb0f7dc361659198fe1cb. The Push task states that safe-push by the orchestrator runs after closeout, that the pushed range ends at the closeout commit, and that the pushed SHA goes in the orchestrator's PM report; it cites the same memory commit SHA."
+    },
+    {
+      "id": "R8",
+      "finding": "registry and metadata",
+      "action": "Archived the track and set its status to done.",
+      "detail": "metadata.json has status done, completed 2026-11-22 and updated_at 2026-11-22. measure/tracks.md drops the active entry and carries an Archived Tracks entry whose description line equals the metadata description. The note states the final audit counts, the three passing phase acceptances, the passing adversarial round 3 and the no-push handoff."
+    },
+    {
+      "id": "R9",
+      "finding": "old-path references",
+      "action": "Updated the path strings inside the archived track documents.",
+      "detail": "Ten references in plan.md and the two USAGE comment lines in audit-gate.mjs now name measure/archive/deps_refresh_20261121/. A repository-wide scan of tests, scripts and support files found 0 hardcoded measure/tracks/deps_refresh_20261121/ references, so no test change was needed."
+    }
+  ],
+  "archive": {
+    "from": "measure/tracks/deps_refresh_20261121",
+    "to": "measure/archive/deps_refresh_20261121",
+    "command": "git mv measure/tracks/deps_refresh_20261121 measure/archive/deps_refresh_20261121",
+    "metadata_status": "done",
+    "metadata_completed": "2026-11-22",
+    "registry_active_entry_removed": true,
+    "registry_archive_entry_added": true,
+    "registry_description_equals_metadata": true
+  },
+  "audits": {
+    "A5": "pass: the archived plan holds no false-claim text. The final acceptance checked each PASS and FAIL claim against its capture at 3e7f7917. The two historical claims that later D3 commits superseded now carry explicit superseded markers that name sharp 0.35.5 in Green r6 and the eslint revert in Green r8. The exact-pin claim now records the rspack binding deferral.",
+    "A6": "pass: the registry note states the true adversarial state. The final D3 adversarial round passed at 0a3ca739 with 0 blocking findings, and the note names that result. The final audit counts are 0/0/0/0 in each project, from 6/23/15/2 in dashboard and 0/10/10/0 in video. No resolved state is claimed that a test contradicts.",
+    "A9": "pass: a repository-wide grep of .sh, .py, .mjs, .js, .json and .md files found 0 references to measure/tracks/deps_refresh_20261121/ outside the track's own run and track folders. No test, script or support file needs a fix. The path strings inside the archived plan and gate USAGE comments were updated to the archive path so the recorded commands remain runnable. The orchestrator rule for this closeout forbids npm, tests and heavy runs, so no project test gate was rerun in this role."
+  },
+  "test_references_fixed": [],
+  "commands": [
+    "git rev-parse HEAD: 3e7f7917828538de66c3078d80ba38f964823896, equal to the final acceptance audited_head_sha",
+    "python3 measure_interphase_checks.py closeout --repo . --track deps_refresh_20261121 (before archive): 8 FAIL lines, all about the archive move, the registry and the missing manifest",
+    "python3 Thai-line scan of every file in measure/runs/deps_refresh_20261121/: 0 files with U+0E00 to U+0E7F characters",
+    "python3 added-line Thai scan of the tech-debt and lessons-learned diff: TOTAL_THAI_ADDED 0",
+    "grep -rInE 'measure/tracks/deps_refresh_20261121' across .sh, .py, .mjs, .js, .json and .md files outside the track folders: 0 hits",
+    "git add measure/tech-debt.md measure/lessons-learned.md; git commit -m 'measure(memory): deps_refresh close lessons and tech debt': exit 0, commit 6e4d875e45807d8c9a3cb0f7dc361659198fe1cb",
+    "git mv measure/tracks/deps_refresh_20261121 measure/archive/deps_refresh_20261121: exit 0",
+    "python3 measure_interphase_checks.py closeout --repo . --track deps_refresh_20261121 (after the edits, before the manifest): 1 FAIL line, the missing manifest"
+  ],
+  "closeout_check": {
+    "command": "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py closeout --repo /home/daniebo/Desktop/Workbooks --track deps_refresh_20261121",
+    "capture": "measure/runs/deps_refresh_20261121/closeout-3e7f7917.log",
+    "exit_code": 0,
+    "note": "Run after the manifest write and after the archive edits. Output: INFO light lane, INFO no measure/generated folder, PASS: closeout checks passed."
+  },
+  "retained_evidence": "measure/runs/deps_refresh_20261121/ retains final-acceptance-3e7f7917.json and .log, the three passing phase-acceptance results, closeout-3e7f7917.log, versions-d3.txt with the two added deferral rows, all audit snapshots, all D1 to D3 Red and Green captures, all review and adversarial results, and the UX browser review result. All run files under this track were scanned; 0 contain Thai characters.",
+  "artifact_cleanup": "No run artifact was deleted. The orchestrator named no bulky artifact for deletion, so final acceptance and closeout evidence stay. Untracked files of other tracks, the modified video/storytime-song/scripts/render.mjs, dashboard/AGENTS.md and dashboard/raw.json, and the untracked root PNG and --help files were not touched or staged.",
+  "notes": "No push by this role. The orchestrator runs safe-push after closeout; its pushed range ends at the closeout commit and its pushed SHA goes in the PM report. No npm, test, build or heavy-run command ran in this role, per the orchestrator brief. Edits touch measure/ files only."
+}

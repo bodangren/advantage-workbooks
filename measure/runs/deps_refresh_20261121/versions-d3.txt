@@ -129,6 +129,8 @@ Remaining deferrals (package | project | current -> latest | kind | decision | c
   jsdom | dashboard | 27.4.0 -> 31.0.1 | major | deferred | PROJECT_TESTS exit 1 on __tests__/image-upload-component.test.tsx > uploads file successfully and calls onUploadSuccess; capture green-d3-r5-jsdom-trial.txt
   typescript | dashboard | 5.9.3 -> 7.0.2 | major | deferred | TS2694/TS2339 at __tests__/storytime-loops-book-pages.test.ts:63,66; capture green-d3-r6-ts7-dashboard.txt
   vitest | dashboard | 4.1.12 -> 5.1.1 | major | deferred | the coordinated trial fails PROJECT_CHECKS with 88 TS2339 at __tests__/image-upload-component.test.tsx:20; the vitest 5 Assertion type drops the global jest.Matchers inheritance that the jest-dom matchers use; capture green-d3-r7-vitest5-tsc.txt and green-d3-r7-vitest5-jestdom6-tsc.txt
+  @google/genai | dashboard | 1.52.0 -> 3.6.1 | major | deferred | 3.6.1 changes the default Gemini Developer API version from v1beta to v1; the preview model calls with no apiVersion at dashboard/lib/lesson-generator.ts:59 and dashboard/lib/ai-augmentor.ts:73 then use the v1 endpoint, and a live check needs a paid call; facts in green-d3-r7-genai-apiversion.txt
+  @rspack/binding-linux-x64-gnu | video | 2.3.0 -> 2.3.3 | patch | deferred | kept at exact 2.3.0 to match @rspack/core 2.3.0; capture green-d3-r4-rspack-npmls.txt
   typescript | video | 5.9.3 -> 7.0.2 | major | deferred | TS2304 at src/Root.tsx:16; capture green-d3-r6-ts7-video.txt
 
 Changes from D3r1 that still hold:

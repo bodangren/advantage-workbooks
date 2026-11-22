@@ -8,8 +8,8 @@
  * the before state and passes after Green.
  *
  * Usage:
- *   node measure/tracks/deps_refresh_20261121/audit-gate.mjs [--min <severity>] <project> [<project>...]
- *   node measure/tracks/deps_refresh_20261121/audit-gate.mjs --self-test
+ *   node measure/archive/deps_refresh_20261121/audit-gate.mjs [--min <severity>] <project> [<project>...]
+ *   node measure/archive/deps_refresh_20261121/audit-gate.mjs --self-test
  *
  * Projects: `dashboard`, `video`, or `both`. The default minimum severity is
  * `high`, so critical and high advisories gate. Phase D3 uses `--min moderate`.
