@@ -1,0 +1,86 @@
+MEASURE_AGENT_RESULT (provisional)
+role: strategy
+status: provisional — commit pending
+track: storytime_song_video_20261022
+phases: Phase 1: Compositor with placeholder art; Phase 2: Forge art; Phase 3: Hand-off
+role_base_sha: 9256a77b (HEAD 9256a77bc87ba5f480a696f5cf8579e05e92ee09 at authoring)
+phase_base_sha: capture after the strategy commit; see capture_point
+date: 2026-11-22
+
+Scope: P1 bubbles and place-holders, the week 1 regression guard, and the P2 Forge intake and weeks 2-7 re-render. No product source edit. No render, no npm install, no paid generation, no push.
+END_MEASURE_AGENT_RESULT (provisional)
+
+MEASURE_AGENT_RESULT (refined)
+role: strategy
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art; Phase 2: Forge art; Phase 3: Hand-off
+role_base_sha: 9256a77b (HEAD 9256a77bc87ba5f480a696f5cf8579e05e92ee09 at authoring)
+phase_base_sha: not embedded; capture after the strategy commit (see capture_point)
+head: 9256a77b at authoring; the strategy commit is the new head after this commit lands
+date: 2026-11-22
+
+## What I read
+measure/index.md, measure/tracks.md, measure/anti-patterns.md (A1 and A8 retired, A2 to A10 active, A11 reserved with no definition), the track spec.md and plan.md, the primary_v2_look plan gate block (lines 7-19), video/storytime-song/package.json, README.md, scripts/prepare.mjs, scripts/forge.mjs, scripts/render.mjs (diff only), src/timeline.ts, src/types.ts, src/layout.ts, src/Lyrics.tsx, src/Actors.tsx, src/GestureInset.tsx, the five existing tests, the week packages l2/w01 to w07 through the Thai filter (TOTAL_THAI_CHARS_LEFT=0), the ready Forge handoff folder (MANIFEST.tsv, README.md, scene manifests), and the earlier green render evidence. The Thai filter was the first command. graph.db has no storytime-song nodes, so I read the shipped source directly and did not rebuild the graph.
+
+## Gate commands assigned (exact strings are in plan.md and strategy section 2)
+RED_TEST_COMMAND: set -o pipefail; cd video/storytime-song && node --test tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs
+GREEN_TEST_COMMAND: the same command; must exit 0 after Green
+PROJECT_LINT: set -o pipefail; cd video/storytime-song && npm run lint
+PROJECT_CHECKS: set -o pipefail; cd video/storytime-song && npx tsc --noEmit
+PROJECT_TESTS: set -o pipefail; cd video/storytime-song && npm test
+HEAVY_RENDER: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node scripts/render.mjs l2/wNN --concurrency 2'
+Every gate command and render uses ONE heavy-run wrapper, never nested. Exit 75 means the pre-flight wait ended; retry once.
+
+## Review gates
+Review A correctness: applies in all three phases (lead).
+Review B security: applies in Phase 2 only, narrow — TSV path traversal, 108 SHA-256 values, read-only handoff, no secret or private file staged, no Thai in outputs, video files out of git. Not applicable in Phase 1 or Phase 3.
+Review C UX/API: applies in Phase 1 and Phase 2, narrow — CLI flags, defaults, exit codes, output paths, and pure layout and intake contracts. No route or page. Not applicable in Phase 3.
+Adversarial: applies in Phase 1 and Phase 2, one focused round each (one-frame time shift, bubble overlap, missing manifest row, changed hash, missing cut-out, week 1 frame hashes). Not applicable in Phase 3.
+UX browser: not applicable in all phases. No page, route, DOM, CSS, or interactive flow. Remotion studio is a viewing aid. Visual acceptance comes from decoded frame sheets and the Daniel or Storytime look check; week 1 was approved 2026-11-04.
+
+## Top risks
+1. Week 1 is approved by Daniel. A pixel change in frames 753 or 1652 of either cut fails the regression.
+2. Bubble word-time sync, no Thai, and no overlap with the lyric box or the inset in both cuts.
+3. The 108-row handoff: 25 frames per cut-out character, byte-identical scene sets, all SHA-256 values match, read-only source.
+4. The TSV-to-manifest adapter and the new per-actor fallback for Lily, Ben, and the w04 family (forge.mjs now throws on a missing cut-out).
+5. Twenty-four render outputs with ffprobe, SHA-256, 24 frames, and every exit code.
+
+## Files changed
+measure/tracks/storytime_song_video_20261022/test-strategy.md (new).
+measure/tracks/storytime_song_video_20261022/plan.md (gate block, split Phase 1 line 7, deferred render-script line, lifted hold and ready art, Phase 2 intake and re-render lines).
+measure/runs/storytime_song_video_20261022/strategy-p1-9256a77b.log (this file, provisional then refined).
+No other path is staged. In particular, video/storytime-song/scripts/render.mjs stays uncommitted and untouched (unknown owner, --cut karaoke edit); the renders do not need it.
+
+## Commit
+Subject: measure(strategy): storytime_song_video P1 bubbles and placeholders, weeks 2-7 re-render
+Only the three paths above. SHA is assigned at commit time; this file is in that commit.
+
+## Tests run
+None. This is a bounded strategy role. I ran the Thai filter, git, ls, cat, sha256sum, ffprobe read-only, and the codebase graph query only. No npm test, no tsc, no render, no npm install, no dev server, no port 3005, no paid generation, no push. The PM (not I) ran sha256 on all 108 handoff rows; I verified the counts and the byte-identical scene sets again.
+
+## capture_point
+Immediately after the strategy commit lands, the orchestrator runs `git rev-parse HEAD` and records that value as the immutable phase_base_sha, before Task 7 Red creates tests/bubbles.test.mjs. Do not use 9256a77b; it predates the strategy commit.
+
+## Phase lines for the gate
+Phase 1: after Green, three new P1 task lines are [x]; the render-script line is [x] with 'Karaoke deferred: not in release 1 (decision 2026-10-26)'. Phase 1 then has 0 non-deferred incomplete lines.
+Phase 2: the history line is [x] with the same deferred wording; the two new P2 lines close at P2 Green.
+Phase 3: the tech-debt and lessons-learned line stays [ ] because it is outside Phase 1; it closes at final acceptance. If a global gate reads all lines, mark it '[b] deferred:after release 1 (PM 2026-11-22)' instead.
+
+## Anti-pattern coverage
+A2 not applicable (no publish command); A3 labeled integers for rows, frames, and outputs; A4 counts greater than zero, never a bare zero-failure pass; A5 pass claims cite named evidence captures; A6 no registry overstatement before frame evidence; A7 no bare English exclusion tokens, named allow-list only; A9 tests read shipped week files, not archived track plans; A10 not applicable (no generated facts in this flow); A11 has no definition, promotion candidate only (skill text versus checker substring for 'deferred'). Every test in the strategy has a falsification condition.
+
+## facts_changed
+Status: the Daniel hold is lifted; the Forge art is ready; the render-script line is done for release 1 with karaoke deferred.
+Date: the approval date 2026-11-04 and the PM relay date 2026-11-22 are recorded; no due date moved.
+Numbers: 108 manifest rows (100 cut-outs, 25 per character, 4 per scene week), 24 render outputs, 24 frames.
+Names: Pat, Sam, Mia, May have cut-outs; Lily, Ben, and the w04 family use placeholders.
+
+## handoff |
+Non-blocking defaults, no question that blocks strategy or Red.
+1. The new cut-outs change the actor row only. Keep the approved Adventurer gesture inset. Default: do not change the inset.
+2. Lily, Ben, and the w04 family have no cut-out rows. Default: placeholder and no prepare abort.
+3. Do not re-render week 1 with the new art. Default: keep the approved files and compare frames only.
+4. The uncommitted render.mjs --cut karaoke edit is not used and not staged. Default: renders use the committed three cuts.
+5. The role gate counts a line with the word 'deferred' as complete by substring, but the skill asks for a trailing deferred:<owner> field. The plan uses [x] plus the word 'deferred' so both readings agree. Default: accept this and record it as an A11 promotion candidate.
+END_MEASURE_AGENT_RESULT (refined)
