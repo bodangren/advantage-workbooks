@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
@@ -73,20 +74,22 @@ test("A-F2 the manifest adapter returns the ForgeArt shape with project paths", 
 });
 
 test("A-F3 the render path prepares weeks from the manifest", () => {
-  const renderSrc = fs.readFileSync(path.resolve(HERE, "../scripts/render.mjs"), "utf8");
-  assert.ok(renderSrc.includes("prepare(rel)"), "render.mjs must keep calling prepare(rel)");
-  assert.ok(prepare.toString().includes("manifestToForgeInput") || prepare.toString().includes("prepareWithManifest") || prepare.toString().includes("HANDOFF") || prepare.toString().includes("MANIFEST"), "prepare(rel) must consult the handoff manifest (Red r3 A-F3)");
-  assert.ok(renderSrc.includes("prepareWithManifest"), "the render path must reach prepareWithManifest (Red r3 A-F3)");
-  const w02 = readWeek("l2/w02");
-  const spec = buildSpec(w02, 60);
-  const input = manifestToForgeInput(HANDOFF);
-  const names = usedArt(spec).actors.filter((a) => input.cast[a.toLowerCase()]);
-  console.log(`W02 covered actor count: ${names.length}`);
-  assert.ok(names.includes("Pat"), "w02 must cover Pat from the manifest");
-  for (const name of names) {
-    const p = input.cast[name.toLowerCase()];
-    assert.ok(!path.isAbsolute(p), `w02 ${name} cut-out must be project-relative (Red r3 A-F3)`);
+  const committed = execFileSync("git", ["show", "HEAD:video/storytime-song/scripts/render.mjs"], { encoding: "utf8" });
+  assert.ok(committed.includes("prepare(rel)"), "render.mjs:44 must keep calling prepare(rel)");
+  const rows = fs.readFileSync(path.join(HANDOFF, "MANIFEST.tsv"), "utf8").trim().split("\n").slice(1);
+  const before = rows.map((ln) => ln.split("\t")[0]).map((f) => `${f} ${fs.statSync(path.join(HANDOFF, f)).mtimeMs}`);
+  const spec = JSON.parse(fs.readFileSync(prepare("l2/w02"), "utf8"));
+  assert.equal(spec.art, "forge", "w02 must prepare Forge art from MANIFEST.tsv (Red r4 A-F3)");
+  const pat = spec.forge && spec.forge.cast && spec.forge.cast.Pat;
+  assert.ok(pat, "w02 must carry the Pat cut-out from the manifest");
+  assert.ok(!path.isAbsolute(pat), `Pat cut-out must be project-relative: ${pat}`);
+  console.log(`W02 forge cast count: ${Object.keys(spec.forge.cast).length}`);
+  assert.equal(typeof prepareAll.resolveActorArt, "function", "missing resolveActorArt(name, forge) per-actor fallback (Red r4 A-F3)");
+  for (const name of ["Ben", "Nan"]) {
+    assert.equal(prepareAll.resolveActorArt(name, spec.forge).kind, "placeholder", `${name} must resolve to a placeholder`);
   }
+  const after = rows.map((ln) => ln.split("\t")[0]).map((f) => `${f} ${fs.statSync(path.join(HANDOFF, f)).mtimeMs}`);
+  assert.deepEqual(after, before, "the handoff folder must stay unchanged");
 });
 
 test("A-F4 the intake copy runs into a temp project folder and skips Lily", () => {
