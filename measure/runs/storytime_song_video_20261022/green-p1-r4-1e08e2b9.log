@@ -1,0 +1,27 @@
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 1: Compositor with placeholder art
+round: r4
+status: green-complete
+phase_base_sha: 1ffd649b
+role_base_sha: 1e08e2b9
+head_sha: 1e08e2b9
+implementation_sha: 9ef34f1a62cb613e78600d20e3b69d3a3bfa0299
+tasks_marked_x:
+  P1 bubbles: 9ef34f1a
+  P1 animals and props: 9ef34f1a
+  P1 week 1 regression: 9ef34f1a
+  P2 intake: 9ef34f1a
+tasks_flipped_to_b: none
+code_change_this_round: none
+gates:
+  GREEN_TEST_COMMAND: exit 0, 18 tests, 18 pass, 0 fail
+  week1-regression: exit 0, 2 tests, 2 pass, 0 fail
+  PROJECT_TESTS: exit 0, 41 tests, 41 pass, 0 fail
+  PROJECT_LINT and PROJECT_CHECKS: not rerun; no source change this round
+red_r5: 13d84c2d fixed T2.4 and A-F4 so they follow the ForgeArt contract; the contradictions from r3 are gone
+evidence: green-p1-w01-compare.txt from r3 stands, with 4 equal same-toolchain pairs, prepare snapshot spec sha256 83f45092cd3047d25ee58249b0677e3e5cf43045d496c2d545f052173b4d8487, drift 0 of 4, and Result PASS
+git_hygiene: render.mjs uncommitted karaoke edit preserved and never staged; git status --porcelain content empty; no push; 0 Thai characters in new prose
+final_head_note: head_sha names the role base; the final Green head is the commit that holds this log.
+END_MEASURE_AGENT_RESULT
