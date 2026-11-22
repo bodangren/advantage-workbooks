@@ -3,12 +3,13 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
-import { buildSpec, CONTENT } from "../scripts/prepare.mjs";
+import { buildSpec, CONTENT, prepare } from "../scripts/prepare.mjs";
 
 const HERE = path.dirname(new URL(import.meta.url).pathname);
 const REPO = path.resolve(HERE, "../../..");
 const RUNS = path.join(REPO, "measure/runs/storytime_song_video_20261022");
 const FIXTURE = path.join(HERE, "fixtures/w01-spec-1ffd649b.json");
+const FIXTURE_FULL = path.join(HERE, "fixtures/w01-prepare-spec-1ffd649b.json");
 const THAI = /[\u0e00-\u0e7f]/;
 
 function stripThai(value) {
@@ -45,4 +46,21 @@ test("A-note the week 1 guard covers prepare.mjs output, not only compositor sou
   assert.ok(line, "evidence must carry a labeled prepare snapshot spec sha256 line (Red r3 A-note)");
   assert.equal(line[1].length, 64, "snapshot hash must hold 64 hex chars");
   assert.equal(line[1], fileHash, "evidence snapshot hash must match the fixture file");
+});
+
+test("A-note2 prepare full week 1 output equals the phase base", () => {
+  const spec = JSON.parse(fs.readFileSync(prepare("l2/w01"), "utf8"));
+  const fixture = JSON.parse(fs.readFileSync(FIXTURE_FULL, "utf8"));
+  assert.deepEqual(spec, fixture.spec, "a prepare change that alters week 1 must fail here (Red r6)");
+  const fileBytes = fs.readFileSync(FIXTURE_FULL);
+  const fileHash = crypto.createHash("sha256").update(fileBytes).digest("hex");
+  console.log(`Full prepare fixture sha256: ${fileHash}`);
+  const evidence = path.join(RUNS, "green-p1-w01-compare.txt");
+  assert.ok(fs.existsSync(evidence), "missing week 1 compare evidence");
+  const text = fs.readFileSync(evidence, "utf8");
+  const line = text.match(/^prepare full w01 spec sha256: ([0-9a-f]+)$/m);
+  assert.ok(line, "evidence must carry a labeled prepare full w01 spec sha256 line (Red r6)");
+  assert.equal(line[1].length, 64, "full spec hash must hold 64 hex chars");
+  assert.equal(line[1], fileHash, "evidence full spec hash must match the fixture file");
+  assert.ok(/^base stills source: base-tree prepare output and base-tree public assets$/m.test(text), "evidence must record the base-tree prepare methodology (Red r6)");
 });

@@ -8,6 +8,7 @@ import { sceneOf } from "../scripts/prepare.mjs";
 import * as prepare from "../scripts/prepare.mjs";
 
 const HANDOFF = "/home/daniebo/Desktop/handoff/storytime-song-art";
+const HERE = path.dirname(new URL(import.meta.url).pathname);
 const THAI = /[\u0E00-\u0E7F]/;
 
 function safeJoin(root, rel) {
@@ -113,17 +114,28 @@ test("T2.4 the adapter maps the TSV to forgeSpec and falls back for Lily", () =>
   assert.deepEqual(input.foot, sceneManifest.footPoint);
   assert.ok(input.cast.pat && input.cast.sam && input.cast.mia && input.cast.may, "cast fronts missing");
   assert.ok(!input.cast.lily, "Lily must stay a placeholder");
-  assert.ok(!("framesByGesture" in input), "adapter must not leak handoff slug groups");
-  assert.ok(input.gestures && typeof input.gestures === "object", "adapter must map gestures by package name");
-  const bow = input.gestures.bow || [];
-  console.log(`Bow frame count: ${bow.length}`);
-  assert.equal(bow.length, 4);
-  assert.equal((input.gestures["hug self"] || []).length, 4);
-  assert.equal((input.gestures.listen || []).length, 4);
-  for (const p of [...bow, ...(input.idle || [])]) {
+  const rows = readManifest();
+  const perName = {};
+  for (const r of rows.filter((x) => x.file.startsWith("cutouts/"))) {
+    perName[r.character_or_week] = (perName[r.character_or_week] || 0) + 1;
+  }
+  for (const name of ["pat", "sam", "mia", "may"]) {
+    console.log(`Cutout row count for ${name}: ${perName[name] || 0}`);
+    assert.equal(perName[name], 25, `cut-out frames counted under cast: 25 per character for ${name}`);
+  }
+  const gesturePaths = [...Object.values(input.gestures).flat(), ...(input.idle || [])];
+  assert.ok(gesturePaths.length > 0, "no inset frames to guard");
+  for (const p of gesturePaths) {
+    assert.ok(!p.includes("cutouts/"), `no cut-out path in gestures or idle: ${p}`);
     assert.ok(!path.isAbsolute(p), `gesture path must stay project-relative: ${p}`);
   }
-  assert.ok(Array.isArray(input.idle) && input.idle.length > 0, "adapter must return the idle frame list");
+  assert.ok(!("framesByGesture" in input), "adapter must not leak handoff slug groups");
+  const raw = JSON.parse(fs.readFileSync(path.join(HERE, "fixtures/w01-prepare-spec-1ffd649b.json"), "utf8"));
+  const tail = (p) => p.slice(p.indexOf("gestures/"));
+  for (const key of Object.keys(raw.spec.forge.gestures)) {
+    assert.deepEqual((input.gestures[key] || []).map(tail), raw.spec.forge.gestures[key].map(tail), `gesture ${key} must equal the approved Adventurer inset`);
+  }
+  assert.deepEqual(input.idle.map(tail), raw.spec.forge.idle.map(tail), "idle must equal the approved Adventurer idle");
 });
 
 test("T2.5 w07 has no stage file and uses the classroom scene", () => {
@@ -134,10 +146,41 @@ test("T2.5 w07 has no stage file and uses the classroom scene", () => {
   assert.equal(typeof prepare.prepareWithManifest, "function", "missing prepareWithManifest art switch (Red)");
 });
 
-test("T2.6 only the files a week uses are copied; Lily is never copied", () => {
+test("T2.6 every week 2-7 copies only its own files, with placeholders for the missing cast", () => {
   const rows = readManifest();
   const files = new Set(rows.map((r) => r.file));
   assert.ok(files.size === 108, "manifest set must hold 108 paths");
   assert.ok(![...files].some((f) => f.toLowerCase().includes("lily")), "Lily rows must never be copied");
-  assert.equal(typeof prepare.copyManifestSubset, "function", "missing copyManifestSubset week copy (Red)");
+  const before = rows.map((r) => `${r.file} ${fs.statSync(safeJoin(HANDOFF, r.file)).mtimeMs}`);
+  for (const rel of ["l2/w02", "l2/w03", "l2/w04", "l2/w05", "l2/w06", "l2/w07"]) {
+    const spec = JSON.parse(fs.readFileSync(prepare.prepare(rel), "utf8"));
+    const use = prepare.usedArt(spec);
+    console.log(`${rel} actor count: ${use.actors.length}`);
+    assert.ok(use.actors.length > 0, `no actors in ${rel}`);
+    for (const name of use.actors) {
+      const kind = spec.forge?.cast?.[name] ? "forge" : prepare.resolveActorArt(name, spec.forge).kind;
+      if (name === "Lily" || name === "Ben" || ["Mom", "Dad", "Grandma", "Grandpa", "Tom"].includes(name)) {
+        assert.equal(kind, "placeholder", `${rel} ${name} must resolve to a placeholder`);
+      }
+    }
+    assert.ok(!JSON.stringify(spec.forge?.cast ?? {}).toLowerCase().includes("lily"), `${rel} cast must never hold Lily`);
+    for (const list of Object.values(spec.forge?.gestures ?? {})) {
+      for (const p of list) assert.ok(!p.includes("cutouts/"), `${rel} inset must not use a cut-out gesture frame: ${p}`);
+    }
+    for (const p of spec.forge?.idle ?? []) assert.ok(!p.includes("cutouts/"), `${rel} idle must not use a cut-out: ${p}`);
+    const dir = path.join(HERE, "..", "public", rel, "forge");
+    if (spec.art !== "forge") {
+      assert.ok(!fs.existsSync(dir) || fs.readdirSync(dir).length === 0, `${rel} without Forge art keeps no forge folder`);
+      continue;
+    }
+    const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(path.join(d, e.name)) : [path.relative(dir, path.join(d, e.name))]);
+    const onDisk = walk(dir);
+    assert.ok(onDisk.length > 0, `${rel} Forge art must copy week files`);
+    for (const f of onDisk) {
+      assert.ok(!f.toLowerCase().includes("lily"), `${rel} must never copy Lily: ${f}`);
+      assert.ok(files.has(f) || f.includes("adventurer"), `${rel} copied file must be manifest-listed or Adventurer inset: ${f}`);
+    }
+  }
+  const after = rows.map((r) => `${r.file} ${fs.statSync(safeJoin(HANDOFF, r.file)).mtimeMs}`);
+  assert.deepEqual(after, before, "the handoff folder must stay unchanged");
 });
