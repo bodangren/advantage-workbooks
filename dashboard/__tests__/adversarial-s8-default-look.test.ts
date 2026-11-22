@@ -264,4 +264,264 @@ describe('S8 adversarial default look', () => {
         expect(project.metadata).toEqual(PRIMARY);
         expect(projectLook(await readProjectMetadata(project.id))).toBe('chibi-quest');
     });
+
+    it.each([undefined, 'classic'] as const)(
+        'PUT returns 409 for damaged metadata with incoming look %s and preserves every byte',
+        async (look) => {
+            const file = await seed('primary', 'origins-2-a0', { ...PRIMARY, look: 'classic' });
+            const damaged = '{"type":"primary","look":"classic",';
+            await fs.writeFile(file, damaged);
+            const rename = vi.spyOn(fs, 'rename');
+            const response = await put('origins-2-a0', { ...PRIMARY, look });
+            expect(response.status).toBe(409);
+            expect(await response.json()).toEqual({
+                error: 'The project.json of this project cannot be read. The write was refused so that the look of the project stays.',
+            });
+            expect(await fs.readFile(file, 'utf8')).toBe(damaged);
+            expect(rename).not.toHaveBeenCalled();
+            expect((await fs.readdir(path.dirname(file))).sort()).toEqual(['content_sentinel.json', 'project.json']);
+        },
+    );
+
+    it('parallel same-type POSTs give one success and one 409', async () => {
+        const fresh = { ...PRIMARY, levelNumber: '30' };
+        const responses = await Promise.all([
+            POST(request('/api/projects', 'POST', fresh)),
+            POST(request('/api/projects', 'POST', fresh)),
+        ]);
+        expect(responses.map((response) => response.status).sort()).toEqual([200, 409]);
+        const conflict = responses.find((response) => response.status === 409)!;
+        expect((await conflict.json()).error).toBe(
+            "Project 'origins-30-a0' already exists. Choose another name, or edit the existing project.",
+        );
+        expect((await listProjects()).map((project) => project.id)).toEqual(['origins-30-a0']);
+        expect(await readProjectMetadata('origins-30-a0')).toEqual(fresh);
+        expect(await fs.readdir(path.join(root, 'primary', 'origins-30-a0'))).toEqual(['project.json']);
+    });
+
+    it('a failed rename preserves the old metadata and removes the temporary file', async () => {
+        const file = await seed('primary', 'origins-2-a0', { ...PRIMARY, look: 'classic' });
+        const before = await fs.readFile(file, 'utf8');
+        const originalRename = fs.rename.bind(fs);
+        const attempted: string[] = [];
+        vi.spyOn(console, 'error').mockImplementation(() => undefined);
+        vi.spyOn(fs, 'rename').mockImplementation(async (source, target) => {
+            if (target !== file) return originalRename(source, target);
+            attempted.push(String(source));
+            expect(JSON.parse(await fs.readFile(source, 'utf8')).look).toBe('chibi-quest');
+            throw Object.assign(new Error('Injected rename failure'), { code: 'EACCES' });
+        });
+        const response = await put('origins-2-a0', { ...PRIMARY, look: 'chibi-quest' });
+        expect(response.status).toBe(500);
+        expect(await response.json()).toEqual({ error: 'Failed to write project metadata' });
+        expect(attempted).toHaveLength(1);
+        expect(path.dirname(attempted[0])).toBe(path.dirname(file));
+        expect(await fs.readFile(file, 'utf8')).toBe(before);
+        expect((await fs.readdir(path.dirname(file))).sort()).toEqual(['content_sentinel.json', 'project.json']);
+    });
+
+    it('a partial temporary write failure preserves the old metadata and removes the temporary file', async () => {
+        const file = await seed('primary', 'origins-2-a0', { ...PRIMARY, look: 'classic' });
+        const before = await fs.readFile(file, 'utf8');
+        const originalWrite = fs.writeFile.bind(fs);
+        let injected = false;
+        vi.spyOn(console, 'error').mockImplementation(() => undefined);
+        vi.spyOn(fs, 'writeFile').mockImplementation(async (target, data, options) => {
+            if (typeof target !== 'string' || !target.startsWith(`${file}.tmp-`) || typeof data !== 'string') {
+                return originalWrite(target, data, options);
+            }
+            injected = true;
+            await originalWrite(target, data.slice(0, 8), options);
+            throw Object.assign(new Error('Injected partial write failure'), { code: 'ENOSPC' });
+        });
+        const response = await put('origins-2-a0', { ...PRIMARY, look: 'chibi-quest' });
+        expect(injected).toBe(true);
+        expect(response.status).toBe(500);
+        expect(await fs.readFile(file, 'utf8')).toBe(before);
+        expect((await fs.readdir(path.dirname(file))).sort()).toEqual(['content_sentinel.json', 'project.json']);
+    });
+
+    it('readers see the complete old metadata until the atomic rename completes', async () => {
+        const file = await seed('primary', 'origins-2-a0', { ...PRIMARY, look: 'classic' });
+        const before = await fs.readFile(file, 'utf8');
+        const originalRename = fs.rename.bind(fs);
+        const ready = signal();
+        const release = signal();
+        let observed = false;
+        vi.spyOn(fs, 'rename').mockImplementation(async (source, target) => {
+            if (target === file) {
+                expect(path.dirname(String(source))).toBe(path.dirname(file));
+                expect(JSON.parse(await fs.readFile(source, 'utf8')).look).toBe('chibi-quest');
+                observed = true;
+                ready.resolve();
+                await release.promise;
+            }
+            return originalRename(source, target);
+        });
+        const pending = put('origins-2-a0', { ...PRIMARY, look: 'chibi-quest' });
+        try {
+            await Promise.race([ready.promise, pending]);
+            expect(observed).toBe(true);
+            expect(await fs.readFile(file, 'utf8')).toBe(before);
+            expect(projectLook(await readProjectMetadata('origins-2-a0'))).toBe('classic');
+        } finally {
+            release.resolve();
+            expect((await pending).status).toBe(200);
+        }
+        expect(projectLook(await readProjectMetadata('origins-2-a0'))).toBe('chibi-quest');
+        expect((await fs.readdir(path.dirname(file))).sort()).toEqual(['content_sentinel.json', 'project.json']);
+    });
+
+    it.each(['primary', 'secondary'] as const)(
+        'parallel cross-type creates preserve an existing %s project',
+        async (type) => {
+            const meta: ProjectMetadata = { ...PRIMARY, type, look: 'classic' };
+            const file = await seed(type, 'origins-2-a0', meta);
+            const before = await fs.readFile(file, 'utf8');
+            const responses = await Promise.all([
+                POST(request('/api/projects', 'POST', PRIMARY)),
+                POST(request('/api/projects', 'POST', { ...PRIMARY, type: 'secondary' })),
+            ]);
+            expect(responses.map((response) => response.status)).toEqual([409, 409]);
+            expect(await fs.readFile(file, 'utf8')).toBe(before);
+            expect(await readProjectMetadata('origins-2-a0')).toEqual(meta);
+            expect((await listLessons('origins-2-a0')).map((lesson) => lesson.id)).toEqual(['content_sentinel']);
+            expect((await listProjects()).map((project) => project.id)).toEqual(['origins-2-a0']);
+        },
+    );
+
+    it('parallel cross-type creates of a new id preserve the shipped project and the resolved type', async () => {
+        const file = await seed('primary', 'origins-2-a0', { ...PRIMARY, look: 'classic' });
+        const before = await fs.readFile(file, 'utf8');
+        const fresh = { ...PRIMARY, levelNumber: '30' };
+        const responses = await Promise.all([
+            POST(request('/api/projects', 'POST', fresh)),
+            POST(request('/api/projects', 'POST', { ...fresh, type: 'secondary' })),
+        ]);
+        const statuses = responses.map((response) => response.status);
+        expect(statuses).toContain(200);
+        for (const status of statuses) expect([200, 409]).toContain(status);
+        const projects = (await listProjects()).filter((project) => project.id === 'origins-30-a0');
+        expect(projects.length).toBeGreaterThanOrEqual(1);
+        const meta = await readProjectMetadata('origins-30-a0');
+        expect(meta).not.toBeNull();
+        const resolvedType = projects.some((project) => project.type === 'secondary') ? 'secondary' : 'primary';
+        expect(meta?.type).toBe(resolvedType);
+        expect(projectLook(meta)).toBe(resolvedType === 'primary' ? 'chibi-quest' : 'classic');
+        expect(await fs.readFile(file, 'utf8')).toBe(before);
+        expect(projectLook(await readProjectMetadata('origins-2-a0'))).toBe('classic');
+        // A Nit diagnostic records duplicate allocation without requiring the defect to persist.
+        console.info('S8 B-F8 diagnostic', JSON.stringify({ statuses, folders: projects.map((project) => project.type) }));
+    });
+
+    it('parallel explicit and omitted looks retain a known marker and preserve shipped classic', async () => {
+        const shipped = await seed('primary', 'origins-2-a0', { ...PRIMARY, look: 'classic' });
+        const shippedBefore = await fs.readFile(shipped, 'utf8');
+        const fresh = { ...PRIMARY, levelNumber: '30' };
+        const file = await seed('primary', 'origins-30-a0', { ...fresh, look: 'classic' });
+        const originalRename = fs.rename.bind(fs);
+        const staleReady = signal();
+        const release = signal();
+        let intercepted = false;
+        vi.spyOn(fs, 'rename').mockImplementation(async (source, target) => {
+            if (target === file) {
+                const incoming = JSON.parse(await fs.readFile(source, 'utf8')) as ProjectMetadata;
+                if (incoming.seriesName === 'Omitted look write') {
+                    intercepted = true;
+                    staleReady.resolve();
+                    await release.promise;
+                }
+            }
+            return originalRename(source, target);
+        });
+        const omitted = put('origins-30-a0', { ...fresh, seriesName: 'Omitted look write' });
+        let timeout: ReturnType<typeof setTimeout> | undefined;
+        try {
+            await Promise.race([staleReady.promise, omitted]);
+            const explicit = put('origins-30-a0', { ...fresh, look: 'chibi-quest' });
+            // A future serialized writer may wait for the omitted request.
+            await Promise.race([
+                explicit,
+                new Promise<void>((resolve) => { timeout = setTimeout(resolve, 1000); }),
+            ]);
+            release.resolve();
+            const responses = await Promise.all([omitted, explicit]);
+            expect(responses.map((response) => response.status)).toEqual([200, 200]);
+            const stored = await readProjectMetadata('origins-30-a0');
+            expect(['classic', 'chibi-quest']).toContain(stored?.look);
+            expect(projectLook(stored)).toBe(stored?.look);
+            expect(await fs.readFile(shipped, 'utf8')).toBe(shippedBefore);
+            expect(projectLook(await readProjectMetadata('origins-2-a0'))).toBe('classic');
+            console.info('S8 B-F9 diagnostic', JSON.stringify({
+                scheduled: intercepted, finalLook: stored?.look, lostExplicitUpdate: stored?.look !== 'chibi-quest',
+            }));
+        } finally {
+            if (timeout) clearTimeout(timeout);
+            release.resolve();
+            await omitted;
+        }
+    });
+
+    it('parallel classic and omitted PUTs cannot introduce chibi-quest into a shipped edition', async () => {
+        await seed('primary', 'origins-2-a0', { ...PRIMARY, look: 'classic' });
+        const responses = await Promise.all([
+            put('origins-2-a0', { ...PRIMARY, look: 'classic' }),
+            put('origins-2-a0', PRIMARY),
+        ]);
+        expect(responses.map((response) => response.status)).toEqual([200, 200]);
+        const book = await bookLessons('origins-2', path.join(root, 'unused-packages'));
+        expect(book.look).toBe('classic');
+        expect(book.lessons).toHaveLength(1);
+    });
+
+    it('metadata payload fields cannot create a temporary symlink or write an outside target', async () => {
+        const file = await seed('primary', 'origins-2-a0', { ...PRIMARY, look: 'classic' });
+        const outside = path.join(root, 'outside-project.json');
+        const bytes = 'Outside fixture stays unchanged';
+        await fs.writeFile(outside, bytes);
+        const response = await put('origins-2-a0', {
+            ...PRIMARY, temp: `${file}.tmp-chosen`, symlink: outside, target: outside, mode: 0o777,
+        });
+        expect(response.status).toBe(200);
+        expect(await fs.readFile(outside, 'utf8')).toBe(bytes);
+        expect((await fs.lstat(file)).isSymbolicLink()).toBe(false);
+        expect((await fs.readdir(path.dirname(file))).sort()).toEqual(['content_sentinel.json', 'project.json']);
+        expect(projectLook(await readProjectMetadata('origins-2-a0'))).toBe('classic');
+    });
+
+    it('a precreated temporary symlink requires direct folder access and retains the shipped look', async () => {
+        const file = await seed('primary', 'origins-2-a0', { ...PRIMARY, look: 'classic' });
+        const outside = path.join(root, 'outside-project.json');
+        const outsideBefore = 'Outside fixture before the local symlink probe';
+        await fs.writeFile(outside, outsideBefore);
+        vi.spyOn(Date, 'now').mockReturnValue(123456);
+        vi.spyOn(Math, 'random').mockReturnValue(0.5);
+        const temp = `${file}.tmp-${process.pid}-123456-${(0.5).toString(36).slice(2, 10)}`;
+        // This local filesystem operation is the attack prerequisite, not an API capability.
+        await fs.symlink(outside, temp);
+        vi.spyOn(console, 'error').mockImplementation(() => undefined);
+        const response = await put('origins-2-a0', PRIMARY);
+        expect([200, 409, 500]).toContain(response.status);
+        expect(projectLook(await readProjectMetadata('origins-2-a0'))).toBe('classic');
+        expect((await listLessons('origins-2-a0')).map((lesson) => lesson.id)).toEqual(['content_sentinel']);
+        console.info('S8 B-F10 symlink diagnostic', JSON.stringify({
+            status: response.status,
+            followed: (await fs.readFile(outside, 'utf8')) !== outsideBefore,
+            targetIsSymlink: (await fs.lstat(file)).isSymbolicLink(),
+        }));
+    });
+
+    it('atomic replacement retains a readable classic marker and records any file-mode change', async () => {
+        const file = await seed('primary', 'origins-2-a0', { ...PRIMARY, look: 'classic' });
+        await fs.chmod(file, 0o640);
+        const modeBefore = (await fs.stat(file)).mode & 0o777;
+        expect((await put('origins-2-a0', PRIMARY)).status).toBe(200);
+        const modeAfter = (await fs.stat(file)).mode & 0o777;
+        expect(modeAfter & 0o400).toBe(0o400);
+        expect(projectLook(await readProjectMetadata('origins-2-a0'))).toBe('classic');
+        expect((await fs.readdir(path.dirname(file))).sort()).toEqual(['content_sentinel.json', 'project.json']);
+        console.info('S8 B-F10 mode diagnostic', JSON.stringify({
+            before: modeBefore.toString(8), after: modeAfter.toString(8),
+        }));
+    });
 });

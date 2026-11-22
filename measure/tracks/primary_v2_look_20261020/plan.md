@@ -214,6 +214,20 @@ _Story ref: spec.md#story-s8_
     - Green owns the three findings. Keep the failing tests, then rerun the adversarial gate after the implementation changes.
     - Audit: `measure/runs/primary_v2_look_20261020/adversarial-s8-bbe3d68f.json`. The task stayed open because the gate failed.
     - Green r5 (`2d6056da`, 2026-11-22): the gate passes. The adversarial file exits 0 with 19 tests, and it is inside `GREEN_TEST_COMMAND` (4 files, 47 tests). The three findings are closed in the implementation commit.
+- [x] Task: S8 adversarial round 2: verify the remediation and test failed writes, parallel creates, and concurrent look changes in temporary roots. (audited `b5492228`; all 33 tests pass)
+    - Independent evidence at `b5492228`: all 33 cases in `adversarial-s8-default-look.test.ts` pass. ESLint and `tsc --noEmit` exit 0.
+    - Confirmed the round 1 completion marker: the 19 unchanged tests pass, including the 10 original failures. Tests: `9ad76f4a`; implementation: `2d6056da`.
+    - The original audit remains FAIL at `bbe3d68f`. This independent run confirms the repaired behavior at `b5492228`.
+    - B-F11 now has durable tests for damaged-file 409 responses, one-success parallel creates, and cleanup after rename failure.
+    - Additional tests verify cleanup after a partial write and complete metadata reads before the atomic rename.
+    - Four in-memory mutants are caught: ignored parse errors, recursive project creation, removed cleanup, and an in-place metadata write.
+    - Each mutant exits 1 on its named test. The mutation check exits 0. No production file changes.
+    - B-F8 remains a Nit: a raw race creates both folders for one new id. Parallel creates against existing projects return 409 and preserve their bytes.
+    - B-F9 remains a Nit: a stale look-less write can undo an explicit API change. Concurrent classic and omitted writes preserve shipped classic.
+    - B-F10 remains a Nit: a local temporary symlink is followed, and mode 640 becomes 664. The symlink needs direct folder write access.
+    - The payload test exposes no dashboard-only symlink operation. All fixtures stay under temporary roots.
+    - At track close, record the three Nits in tech debt. This audit passes with 0 Blockers. Phase acceptance can continue.
+    - Audit: `measure/runs/primary_v2_look_20261020/adversarial-s8-b5492228.json`.
 - [ ] Task: Measure - User Manual Verification 'Phase S8: Default look for new editions' (Protocol in workflow.md) This task is deferred until after S8 phase acceptance: the PM verifies it (no visible change in a shipped book; the new-edition default is proven by tests; Daniel accepted the Chibi Quest look in S5 on 2026-11-21).
 
 ## Close
