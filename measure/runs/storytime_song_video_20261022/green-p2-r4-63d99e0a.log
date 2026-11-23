@@ -1,0 +1,61 @@
+Green Phase 2 round 4 log, role base 63d99e0a
+
+Phase 2 baseline: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Role base: 63d99e0a977e17a276cd64a1983e125cd43797aa (HEAD confirmed before edits)
+Product commit: 2893b58259ede37060165c1ac168bc0d611637cc
+PM 2026-11-23: last look round; further look issues go to Daniel's look check.
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. Committed files hold 0 Thai characters. `git status --porcelain content` is empty. The song-art handoff stayed read-only. render.mjs was never edited or staged. No test or fixture was edited. No push was made.
+
+Fixes (product commit 2893b582):
+- New src/actorBoxes.ts exports ActorBox and the pure actorBoxes(spec, line, cut) function. It returns frame-pixel boxes with feet on the floor band, in slots that keep actors off the rug centre, the lyric box and the inset card, and apart from each other. Boxes carry both the left/top/width/height and x/y/w/h conventions so both the renderer and the rectangle helpers can read them.
+- Actors.tsx now draws exactly those boxes: cut-out, Figure/Puppy, or flat Placeholder. It still bobs on the beat from bpm. Song.tsx computes the boxes for each shot and passes the portrait scene scale so the phone cut draws them at the right size.
+- A first phone pass had an inverted box scale and drew small figures near the top of the scene band. I corrected the scale, reran all gates, regenerated the week 1 evidence, and re-rendered w04 and w07 before judging the frames.
+- P2-F6 and P2-F7 pass. Forge-video weeks keep no actor layer. w01 is unchanged outside the masked inset card. The Adventurer inset and the w07 May placeholder are unchanged.
+
+Gates, each once through ONE heavy-run wrapper, no nesting (final code):
+GREEN_TEST_COMMAND: exit 0 (33 tests, 0 fail)
+PROJECT_LINT (npm run lint): exit 0
+PROJECT_CHECKS (npx tsc --noEmit): exit 0
+PROJECT_TESTS (npm test): exit 0 (76 tests, 0 fail)
+
+Week 1 evidence: green-p1-r2-w01-evidence.py rerun after the source change.
+same-toolchain pairs equal: 4 of 4; same-toolchain masked pairs equal: 4 of 4; Result: PASS.
+The approved w01 media files were not re-rendered and their sha256 values are unchanged.
+
+Re-render, one heavy-run wrapper per week, concurrency 2:
+w04 exit 0; w07 exit 0.
+w01, w02, w03, w05 and w06 were not rendered.
+Evidence: measure/runs/storytime_song_video_20261022/green-p2-boxes-63d99e0a.txt, written by green-p2-boxes-63d99e0a.py: 8 outputs with sha256 and ffprobe, the drawn boxes of every w04 and w07 line, and 8 JPG frames at 10 s and 40 s of each cut.
+
+Frame review (I read all eight JPGs):
+- w04 classroom 10 s and 40 s: the Forge room is visible; the standing family figures and the Lily placeholder are readable near the floor; the rug centre stays free; the lyric band and the Adventurer inset card stay clear.
+- w04 phone 10 s and 40 s: the same figures appear in the top scene band at a readable size; the rug centre is clear; the lyric box and large Adventurer panel below stay clear.
+- w07 classroom 10 s and 40 s: the pink May person figure is visible on the left; the flat prop placeholders sit apart from her; the rug centre, lyric band and inset stay clear.
+- w07 phone 10 s and 40 s: May and the props are visible inside the top scene band; the rug, lyric box and inset stay clear.
+Known limit for Daniel's look check: the placeholders are plain figures, not finished art; the real art comes later.
+
+Guards before and after:
+- Song-art handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after.
+- `git status --porcelain content`: empty.
+- w01 media sha256: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a; song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e, unchanged.
+- May folder: absent before and after.
+
+New files added: src/actorBoxes.ts, green-p2-boxes-63d99e0a.py, green-p2-boxes-63d99e0a.txt, the 8 frame JPGs, and this log.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba
+role_base_sha: 63d99e0a
+head_sha: 2893b58259ede37060165c1ac168bc0d611637cc
+commits: 2893b582 product; the evidence and plan commit that holds this log
+gates: GREEN_TEST_COMMAND 0 (33 tests); PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (76 tests)
+renders: w04 0; w07 0; other weeks not rendered
+evidence: 8 outputs, drawn boxes per line, 8 frames reviewed; week 1 masked pairs 4 of 4 equal
+frame_review: figures and May readable in both cuts, rug centre free, lyric and inset clear
+known_limit: placeholders are plain figures; real art comes later; Daniel's look check owns further look issues
+handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after
+status: green-complete
+END_MEASURE_AGENT_RESULT
