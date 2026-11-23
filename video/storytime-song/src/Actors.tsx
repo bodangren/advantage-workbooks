@@ -1,48 +1,34 @@
 import React from "react";
 import {
   AbsoluteFill,
-  Easing,
   Img,
-  interpolate,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import type { ActorBox } from "./actorBoxes";
 import { Figure, LOOKS, NEUTRAL, Puppy } from "./art/Figure";
-import { GROUND } from "./art/Scene";
-import { ACTOR_SPAN } from "./layout";
-import type { Shot } from "./timeline";
 import type { ForgeArt } from "./types";
 
-const ENTER = 0.45;
-/** The new actors start to slide in after the old ones have mostly left. */
-const ENTER_DELAY = 0.15;
 const EXIT = 0.3;
 /** The seconds that the actors of a shot stay after its end to slide out. */
 export const EXIT_SECONDS = EXIT;
 
-/** The animal and prop words that name a flat placeholder of a picture close-up. */
-const PLACEHOLDER_WORDS = [
-  "cat", "dog", "bird", "fish", "frog", "duck",
-  "box", "ball", "doll", "car", "kite", "drum", "train", "top",
-];
-
-/** True when an actor label is a placeholder animal or prop, not a named classmate. */
-const isPlaceholder = (name: string) =>
-  PLACEHOLDER_WORDS.some((word) => name.toLowerCase().includes(word));
-
 /**
- * A flat placeholder shape of an animal or a prop (no letters, not for release). It bounces with its row.
+ * A flat placeholder shape of an animal or a prop (no letters, not for release). It fills the box chosen by
+ * actorBoxes, so the drawn box and the tested box are the same rectangle.
  * @param props.kind The placeholder label from the package prompt.
- * @param props.height The height of the shape in the scene frame.
+ * @param props.width The width of the shape in scene pixels.
+ * @param props.height The height of the shape in scene pixels.
  */
-const Placeholder: React.FC<{ kind: string; height: number }> = ({
+const Placeholder: React.FC<{ kind: string; width: number; height: number }> = ({
   kind,
+  width,
   height,
 }) => {
   const hue = [...kind].reduce((n, c) => n + c.charCodeAt(0), 0) % 360;
   return (
-    <svg width={height * 0.9} height={height} viewBox="0 0 90 100">
+    <svg width={width} height={height} viewBox="0 0 90 100" preserveAspectRatio="none">
       <rect
         x={5}
         y={15}
@@ -59,96 +45,55 @@ const Placeholder: React.FC<{ kind: string; height: number }> = ({
 };
 
 /**
- * The actors of one shot on the ground line. Inside a Sequence that starts at the shot start: the actors slide
- * in from the right when `shot.enter`, and slide out to the left after the shot end when `shot.exit`.
- * @param props.shot The shot.
- * @param props.bpm The tempo of the song (the actors bob on the beat).
- * @param props.forge The Forge art: each actor is its front cut-out, at one scale, with the foot point on the ground.
- * @param props.span The left and right ends of the actor row in the scene frame.
+ * The actors of one shot, drawn at the boxes computed by actorBoxes. The boxes are frame pixels of the cut; in the
+ * portrait cut the scene is scaled, so boxScale converts them back to scene pixels before drawing.
+ * @param props.boxes The drawn boxes, one per actor of the line.
+ * @param props.bpm The tempo: the whole row bobs on the beat.
+ * @param props.forge The Forge art: a cut-out actor uses its manifest front.
+ * @param props.boxScale The frame pixels per scene pixel (1 in classroom, the portrait scene scale in phone).
  */
 export const Actors: React.FC<{
-  shot: Shot;
+  boxes: ActorBox[];
   bpm: number;
   forge?: ForgeArt;
-  span?: readonly [number, number];
-}> = ({ shot, bpm, forge, span = ACTOR_SPAN.landscape }) => {
-  const [left, right] = span;
+  boxScale?: number;
+}> = ({ boxes, bpm, forge, boxScale = 1 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const t = frame / fps;
-  const length = shot.end - shot.start;
-  const n = shot.actors.length;
-  if (!n) return null;
-  const kid = n <= 2 ? 520 : n <= 4 ? 470 : 400;
-  const slideIn = shot.enter
-    ? interpolate(t, [ENTER_DELAY, ENTER_DELAY + ENTER], [1500, 0], {
-        extrapolateLeft: "clamp",
-        extrapolateRight: "clamp",
-        easing: Easing.out(Easing.back(1.1)),
-      })
-    : 0;
-  const slideOut = shot.exit
-    ? interpolate(t, [length, length + EXIT], [0, -1700], {
-        extrapolateLeft: "clamp",
-        extrapolateRight: "clamp",
-        easing: Easing.in(Easing.quad),
-      })
-    : 0;
-  const beat = (t * bpm) / 60;
+  const beat = (frame / fps / 60) * bpm;
+  const bob = Math.abs(Math.sin(Math.PI * beat)) * 8;
+  if (!boxes.length) return null;
   return (
-    <AbsoluteFill style={{ translate: `${slideIn + slideOut}px 0px` }}>
-      {shot.actors.map((name, i) => {
-        const x = left + ((i + 0.5) * (right - left)) / n;
-        const bob = Math.abs(Math.sin(Math.PI * (beat + i * 0.25))) * 8;
-        // A missing cut-out never reaches staticFile: the actor takes the placeholder path instead.
-        if (forge && name in forge.cast) {
-          const s = forge.scale;
+    <AbsoluteFill style={{ translate: `0px ${-bob}px` }}>
+      {boxes.map(({ name, kind, box }) => {
+        const left = box.left / boxScale;
+        const top = box.top / boxScale;
+        const width = box.width / boxScale;
+        const height = box.height / boxScale;
+        if (kind === "cutout" && forge && name in forge.cast) {
           return (
             <Img
               key={name}
               src={staticFile(forge.cast[name])}
-              style={{
-                position: "absolute",
-                left: x - forge.foot.col * s,
-                top: GROUND - forge.foot.row * s - bob,
-                width: forge.canvas[0] * s,
-                height: forge.canvas[1] * s,
-              }}
+              style={{ position: "absolute", left, top, width, height }}
             />
           );
         }
-        if (isPlaceholder(name) || (forge && !(name in forge.cast))) {
-          const h = kid;
+        if (kind === "figure") {
+          const look = LOOKS[name];
           return (
-            <div
-              key={name}
-              style={{
-                position: "absolute",
-                left: x - h * 0.45,
-                top: GROUND - h - bob,
-              }}
-            >
-              <Placeholder kind={name} height={h} />
+            <div key={name} style={{ position: "absolute", left, top, width, height }}>
+              {name === "Pip" ? (
+                <Puppy height={height} />
+              ) : (
+                <Figure look={look ?? LOOKS.Pat} pose={NEUTRAL} height={height} />
+              )}
             </div>
           );
         }
-        const look = LOOKS[name];
-        const h = name === "Pip" ? kid * 0.55 : kid * (look?.scale ?? 1);
-        const w = name === "Pip" ? (h * 240) / 200 : (h * 240) / 340;
         return (
-          <div
-            key={name}
-            style={{
-              position: "absolute",
-              left: x - w / 2,
-              top: GROUND - h - bob,
-            }}
-          >
-            {name === "Pip" ? (
-              <Puppy height={h} />
-            ) : (
-              <Figure look={look ?? LOOKS.Pat} pose={NEUTRAL} height={h} />
-            )}
+          <div key={name} style={{ position: "absolute", left, top, width, height }}>
+            <Placeholder kind={name} width={width} height={height} />
           </div>
         );
       })}

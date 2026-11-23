@@ -1,10 +1,11 @@
 import { Audio, Video } from "@remotion/media";
 import React from "react";
 import { AbsoluteFill, Sequence, staticFile, useVideoConfig } from "remotion";
+import { actorBoxes } from "./actorBoxes";
 import { Actors, EXIT_SECONDS } from "./Actors";
 import { SceneBackground } from "./art/Scene";
 import { GestureInset } from "./GestureInset";
-import { ACTOR_SPAN, SCENE } from "./layout";
+import { PORTRAIT_SCENE_SCALE, SCENE } from "./layout";
 import { Lyrics } from "./Lyrics";
 import { SoundCard } from "./SoundCard";
 import { END_SECONDS, EndScreen, START_SECONDS, StartScreen } from "./Screens";
@@ -94,23 +95,27 @@ export const SceneShots: React.FC<{ spec: Spec; portrait?: boolean }> = ({
           />
         </Sequence>
       ))}
-      {list.map((shot) => (
-        <Sequence
-          key={`shot-${shot.start}`}
-          from={f(shot.start)}
-          durationInFrames={Math.max(
-            1,
-            f(shot.end) - f(shot.start) + (shot.exit ? f(EXIT_SECONDS) : 0),
-          )}
-        >
-          <Actors
-            shot={shot}
-            bpm={spec.bpm}
-            forge={spec.forge}
-            span={portrait ? ACTOR_SPAN.portrait : ACTOR_SPAN.landscape}
-          />
-        </Sequence>
-      ))}
+      {list.map((shot) => {
+        const lineIndex = spec.lines.findIndex((l) => l.picture === shot.picture);
+        const boxes = actorBoxes(spec, lineIndex < 0 ? 0 : lineIndex, portrait ? "portrait" : "classroom");
+        return (
+          <Sequence
+            key={`shot-${shot.start}`}
+            from={f(shot.start)}
+            durationInFrames={Math.max(
+              1,
+              f(shot.end) - f(shot.start) + (shot.exit ? f(EXIT_SECONDS) : 0),
+            )}
+          >
+            <Actors
+              boxes={boxes}
+              bpm={spec.bpm}
+              forge={spec.forge}
+              boxScale={portrait ? PORTRAIT_SCENE_SCALE : 1}
+            />
+          </Sequence>
+        );
+      })}
     </>
   );
 };
