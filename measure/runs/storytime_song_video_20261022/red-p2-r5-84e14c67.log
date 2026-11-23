@@ -1,0 +1,17 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: 84e14c6781b2aa0d44ac38d9368c17248a30ed27
+test_commit: adcb3a99e25e529ed22d97acabbf11bda6c66e4d
+red_kind: standard
+finding: w04 family renders as huge prop boxes covering rug and lyrics; w07 phone shows no May; no pure bounding-box function exists
+tests: video/storytime-song/tests/phase2-boxes.test.mjs (P2-F6, P2-F7)
+red_command: exit 1, pass 0, fail 1 file; ERR_MODULE_NOT_FOUND for src/actorBoxes.ts; both tests fail at load
+green_contract: import { actorBoxes } from "../src/actorBoxes.ts"; export type ActorBox = { name: string; kind: "cutout" | "figure" | "placeholder"; box: { left: number; top: number; width: number; height: number } }; export function actorBoxes(spec: Spec, line: number, cut: "classroom" | "portrait"): ActorBox[]; frame pixels of the drawn cut (1920x1080 classroom, 1080x1920 portrait); same math as Actors.tsx with SceneLayer and layout.ts; pure, no hooks or I/O
+no_pure_function: only the Actors component, the Shot type, and layout consts exist; Green must add the export
+guards: no product code edit; `git status --porcelain content` empty; src untouched; render.mjs never staged; handoff read-only; no render run
+files: video/storytime-song/tests/phase2-boxes.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/tracks/storytime_song_video_20261022/test-strategy.md
+remaining_failures: P2-F6; P2-F7
+END_MEASURE_AGENT_RESULT
