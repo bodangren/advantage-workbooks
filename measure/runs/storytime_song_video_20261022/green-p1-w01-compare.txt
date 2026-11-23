@@ -5,6 +5,9 @@ base stills source: base-tree prepare output and base-tree public assets
 Method: npx remotion still with the same props and flags in both trees. Frame hashes come from ffmpeg decoding of the PNG still to raw rgb24, sha256.
 Method: the phone same-toolchain pairs use the composition still before the 720x1280 scale. The drift comparison scales that still to 720x1280 to match the approved phone video.
 Method: approved hashes come from ffmpeg decoding of the unchanged media files to raw rgb24, sha256.
+Method: the P2-F3 framing change alters the inset card, so four same-toolchain pairs are also hashed with that card painted out. The masked hashes come from ffmpeg drawbox on the same stills.
+inset mask: classroom 1602 708 270 324
+inset mask: phone 120 1032 840 856
 render exit classroom: 0
 render exit phone: 0
 prepare snapshot spec sha256: 83f45092cd3047d25ee58249b0677e3e5cf43045d496c2d545f052173b4d8487
@@ -15,12 +18,20 @@ content/storytime/l2/media/w01/song-phone.mp4 frame 753 approved sha256: 3f75e2f
 content/storytime/l2/media/w01/song-phone.mp4 frame 1652 approved sha256: c5eb0a752171bc882d6a75c76a9a4f15b0fcb6b72a83e0a7740e5cb13171b706
 same-toolchain content/storytime/l2/media/w01/song.mp4 frame 753 base sha256: 5af47c29565d524f47db45d9e76c72a2b32fdeb965895754a2ffd77dce813575
 same-toolchain content/storytime/l2/media/w01/song.mp4 frame 753 new sha256: 5af47c29565d524f47db45d9e76c72a2b32fdeb965895754a2ffd77dce813575
+same-toolchain masked base sha256: content/storytime/l2/media/w01/song.mp4 frame 753: 0cb553280d2e9b71f094926a208de7592e24694d43a3fd4d064f7ece67b7247f
+same-toolchain masked new sha256: content/storytime/l2/media/w01/song.mp4 frame 753: 0cb553280d2e9b71f094926a208de7592e24694d43a3fd4d064f7ece67b7247f
 same-toolchain content/storytime/l2/media/w01/song.mp4 frame 1652 base sha256: 276b227ce72c804a268e88d707700c60941da573e82ab593f5182412fda1465b
 same-toolchain content/storytime/l2/media/w01/song.mp4 frame 1652 new sha256: 276b227ce72c804a268e88d707700c60941da573e82ab593f5182412fda1465b
+same-toolchain masked base sha256: content/storytime/l2/media/w01/song.mp4 frame 1652: c5cfbdd3e479ea94678faf61c5038dffcf6ff3aa5d944ce263560c50b914f3c6
+same-toolchain masked new sha256: content/storytime/l2/media/w01/song.mp4 frame 1652: c5cfbdd3e479ea94678faf61c5038dffcf6ff3aa5d944ce263560c50b914f3c6
 same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 753 base sha256: 4800ea99b56371864d5c756f72b8903bb3ecd4ae357ddf42d00eea0984cf9a75
 same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 753 new sha256: 4800ea99b56371864d5c756f72b8903bb3ecd4ae357ddf42d00eea0984cf9a75
+same-toolchain masked base sha256: content/storytime/l2/media/w01/song-phone.mp4 frame 753: f59d6715789968e7f1887528a60089f3258fe4d70d71c1a8df3b8c3f841df26f
+same-toolchain masked new sha256: content/storytime/l2/media/w01/song-phone.mp4 frame 753: f59d6715789968e7f1887528a60089f3258fe4d70d71c1a8df3b8c3f841df26f
 same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 1652 base sha256: 8fccc16c23af096427cfa6f5486b213323d09ee410b19a514b830bc6fbaafd23
 same-toolchain content/storytime/l2/media/w01/song-phone.mp4 frame 1652 new sha256: 8fccc16c23af096427cfa6f5486b213323d09ee410b19a514b830bc6fbaafd23
+same-toolchain masked base sha256: content/storytime/l2/media/w01/song-phone.mp4 frame 1652: 280bca1118217fc07320041c9df7e0197726d75c5f8b5f4ee13a81004c13b0ff
+same-toolchain masked new sha256: content/storytime/l2/media/w01/song-phone.mp4 frame 1652: 280bca1118217fc07320041c9df7e0197726d75c5f8b5f4ee13a81004c13b0ff
 toolchain drift approved vs current match count: 0 of 4
 toolchain drift PSNR dB: 35.332
 Result: PASS

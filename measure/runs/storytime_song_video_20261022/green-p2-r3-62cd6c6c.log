@@ -1,0 +1,57 @@
+Green Phase 2 round 3 log, role base 62cd6c6c
+
+Phase 2 baseline: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Role base: 62cd6c6c5da3fe3b24ea87069388bb07efa61ce5 (HEAD confirmed before edits)
+Product commit: 6c7de6690b21be2a4f35bee0ff29508761910a7f
+Red r4 repaired the T2.6 totals to 4 Forge weeks and 2 placeholder weeks; the repaired test passes on this tree.
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. Committed files hold 0 Thai characters. `git status --porcelain content` is empty. The song-art handoff stayed read-only. render.mjs was never edited or staged. No test or fixture was edited. No push was made.
+
+Fixes (product commit 6c7de669):
+- P2-F1: every week 2-7 prepares the approved Adventurer gestures and idle frames, so both cuts draw the inset instead of the stick figure. A week with no covered cast still gets the inset and keeps placeholders for its actors.
+- P2-F2: w04 and w07 draw the handoff Forge classroom picture from a separate look/ folder in both cuts. w04 lines use the classroom scene; w04 keeps placeholders for Lily, Ben and the family. Forge-video weeks w02/w03/w05/w06 keep their scene video, no actor layer, and bubbles.
+- P2-F3: the inset uses a full-frame gesture box on the inset canvas, so the whole Adventurer sits inside both cards with no top crop.
+- P2-F4/P2-F5: w07 has no 3D May cast entry and copies no cutouts/may frames. The single 2D cut attempt from the approved book page was not clean (room pixels at the edge, most of the shirt and arms missing, specks, rough alpha). The May folder was deleted; w07 uses the May placeholder. Preview kept at measure/runs/storytime_song_video_20261022/green-p2-may-cut-preview.png.
+- The first w04 render failed with a 404 because spec inset paths carried an extra forge/ segment. I fixed the path construction, reran GREEN, and the w04 render then exited 0.
+
+Gates, each once through ONE heavy-run wrapper, no nesting (final code):
+GREEN_TEST_COMMAND: exit 0 (31 tests, 0 fail)
+PROJECT_LINT (npm run lint): exit 0
+PROJECT_CHECKS (npx tsc --noEmit): exit 0
+PROJECT_TESTS (npm test): exit 0 (74 tests, 0 fail)
+
+Week 1 evidence: green-p1-r2-w01-evidence.py was extended with the inset mask lines and masked same-toolchain hashes, then rerun in full.
+inset mask: classroom 1602 708 270 324
+inset mask: phone 120 1032 840 856
+same-toolchain pairs equal: 4 of 4; same-toolchain masked pairs equal: 4 of 4; Result: PASS.
+The approved w01 media files were not re-rendered and their sha256 values are unchanged.
+
+Re-render, one heavy-run wrapper per week, concurrency 2:
+w04 exit 0; w07 exit 0.
+w01, w02, w03, w05 and w06 were not rendered.
+Evidence: measure/runs/storytime_song_video_20261022/green-p2-look-62cd6c6c.txt, written by green-p2-look-62cd6c6c.py.
+8 outputs with sha256 and ffprobe; both weeks use the handoff Forge classroom picture and the approved Adventurer inset; w07 May art mode is placeholder; 8 JPG frames at 10 s and 40 s of each cut.
+
+Guards before and after:
+- Song-art handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after.
+- `git status --porcelain content`: empty.
+- w01 media sha256: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a; song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e, unchanged.
+- May folder: absent before and after.
+
+New files added: green-p2-look-62cd6c6c.py, green-p2-look-62cd6c6c.txt, the 8 frame JPGs, green-p2-may-cut-preview.png, and this log.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba
+role_base_sha: 62cd6c6c
+head_sha: 6c7de6690b21be2a4f35bee0ff29508761910a7f
+commits: 6c7de669 product; the evidence and plan commit that holds this log
+gates: GREEN_TEST_COMMAND 0 (31 tests); PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (74 tests)
+renders: w04 0; w07 0; other weeks not rendered
+evidence: 8 outputs, 8 frames, Result PASS; week 1 masked pairs 4 of 4 equal
+may_cut: not clean; folder deleted; w07 May placeholder; preview kept
+handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after
+status: green-complete
+END_MEASURE_AGENT_RESULT

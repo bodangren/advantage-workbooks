@@ -1,0 +1,35 @@
+Phase 2 look evidence, role base 62cd6c6c (2026-11-23)
+Only w04 and w07 were re-rendered; w01, w02, w03, w05 and w06 were not rendered.
+Each week used one heavy-run wrapper: node scripts/render.mjs l2/wNN --concurrency 2.
+render.mjs keeps another owner's uncommitted --cut karaoke edit; the default cut path does not use it.
+May folder present: no
+
+week w04 render exit: 0
+week w04 scene layer: l2/w04/look/scenes/w04/classroom.png
+week w04 inset frames: 10
+week w04 inset source: l2/w04/look/gestures/adventurer/clap-apart.png
+week w04 May art mode: placeholder
+w04 song.mp4 sha256: 576bbc0a4571682be4a140bdef92a910e80506b49433664e1f93a97d57d8d624
+w04 song.mp4 ffprobe: codec=h264/aac size=1920x1080 fps=30/1 duration=81.600000 faststart=yes
+w04 song-phone.mp4 sha256: 99e91e1cf1f2150343b15b61064fef7739daa9e95b6d14249dbfd4a4c58da084
+w04 song-phone.mp4 ffprobe: codec=h264/aac size=720x1280 fps=30/1 duration=81.600000 faststart=yes
+w04 song-poster.jpg sha256: 4008e62b2ceeba7eb0fb8b1ed7982fc791f58c60f5f4be38bba4b9911888cbf7
+w04 song-poster.jpg ffprobe: codec=mjpeg/none size=1280x720 fps=25/1 duration=0.040000 faststart=n/a
+w04 song-phone-poster.jpg sha256: d1bbaf48ffcd6a89ff383d548eba33269eb72835ef5bfe3eb5a10145a82915eb
+w04 song-phone-poster.jpg ffprobe: codec=mjpeg/none size=720x1280 fps=25/1 duration=0.040000 faststart=n/a
+week w07 render exit: 0
+week w07 scene layer: l2/w07/look/scenes/w04/classroom.png
+week w07 inset frames: 10
+week w07 inset source: l2/w07/look/gestures/adventurer/clap-apart.png
+week w07 May art mode: placeholder
+w07 song.mp4 sha256: f123a0be86f12cf8c048d3a8aab954dac9610da73c427fb771e4c557a1b668a1
+w07 song.mp4 ffprobe: codec=h264/aac size=1920x1080 fps=30/1 duration=78.741000 faststart=yes
+w07 song-phone.mp4 sha256: 7cd84fc666b51c1bbd95d90799609b4a3636a9504f6794df9d1d192254845150
+w07 song-phone.mp4 ffprobe: codec=h264/aac size=720x1280 fps=30/1 duration=78.741000 faststart=yes
+w07 song-poster.jpg sha256: 6fa042449c0c1e70888d8c071f623c5287803ef6e267d777e6c7576bbdf7a8eb
+w07 song-poster.jpg ffprobe: codec=mjpeg/none size=1280x720 fps=25/1 duration=0.040000 faststart=n/a
+w07 song-phone-poster.jpg sha256: dad3765371db856ba8fe11dce88ad411839beeb11c709811be0b8122c2030285
+w07 song-phone-poster.jpg ffprobe: codec=mjpeg/none size=720x1280 fps=25/1 duration=0.040000 faststart=n/a
+rendered output count: 8
+decoded frame count: 8
+Result: PASS
