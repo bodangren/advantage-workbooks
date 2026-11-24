@@ -1,0 +1,27 @@
+Build log: record the slide-motion spec deviation FA-1, role base d46b60eb
+
+Cause: final acceptance finding FA-1 (final-acceptance-d46b60eb.json). The PM ruled option A on 2026-11-25.
+Fact: the w04 and w07 cuts hard-cut at shot changes. Actors.tsx has a vertical bounce only. Song.tsx ends each actor sequence at the next shot. This is an accepted spec deviation, not a pass.
+
+Changes (docs only):
+- spec.md: a dated "Deviation (PM 2026-11-25)" note under item 3. The original requirement text stays.
+- plan.md line 26: the plan format has no partial marker, so the task stays [x] and the line carries the text "PARTIAL: slide motion not delivered for w04 and w07 (spec deviation PM 2026-11-25, accepted risk FA-1; follow-up in tech debt)". No other task state or SHA changed.
+- tech-debt.md: rows FA-1 (Medium, Open) and FA-2 (Low, Open) added after the track rows. The 2 oldest other-track rows (2026-10-20, teacher_manual_app and primary_v2_look) moved unchanged to tech-debt-archive.md. The file holds 50 lines.
+- tech-debt-archive.md: 2 rows appended; the header count reads 21.
+
+Verification (python3 -I script outside the repo): tech-debt.md 50 lines and 0 Thai; lessons-learned.md sha256 unchanged; plan.md diff has one hunk at line 26; every old row is in the live file or the archive; every existing id is kept; the first track row holds F3; nothing is staged except the files named below.
+Not touched: video/storytime-song/scripts/render.mjs, content/, product code, tests, renders. No push. No gates were rerun (docs only).
+
+Commits: one commit with the message "docs(storytime_song_video): record slide-motion spec deviation FA-1 (track_id: storytime_song_video_20261022)". A commit cannot name itself; read the SHA from git log.
+
+MEASURE_AGENT_RESULT
+role: build
+status: complete
+track: storytime_song_video_20261022
+role_base_sha: d46b60ebd20abefa171180baa58c6e8d51afa947
+commits: one docs commit (see git log -1 after d46b60eb)
+files_changed: measure/tracks/storytime_song_video_20261022/spec.md, measure/tracks/storytime_song_video_20261022/plan.md, measure/tech-debt.md, measure/tech-debt-archive.md, measure/runs/storytime_song_video_20261022/build-fa1-d46b60eb.log
+plan_updates: line 26 only; the task stays [x] and carries the PARTIAL text; no task state or SHA changed
+known_failures: none
+handoff: FA-1 is an accepted spec deviation (PM 2026-11-25). The Forge cast re-render adds the w04 and w07 slides, and P2-F9 then needs a real slide test. FA-2: measure/doctor.sh is absent; PROJECT_CHECKS (tsc) is the substitute until the next measure setup.
+END_MEASURE_AGENT_RESULT
