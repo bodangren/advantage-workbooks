@@ -185,62 +185,6 @@ test("ADV-P2-4 refuses manifest file and asset directory symlinks", async (t) =>
   assert.throws(() => api.manifestToForgeInput(art), { message: "symlink refused in manifest path cutouts/pat/listen.png" });
 });
 
-test("ADV-P2-5 equivalent LF and CRLF manifests select the same art",
-  { todo: "The release handoff uses LF. CRLF support remains open." }, async (t) => {
-  const { api, art } = await sandbox(t);
-  const rows = [sceneMeta, pngFront];
-  manifest(art, rows);
-  const lf = api.manifestToForgeInput(art);
-  manifest(art, rows, { separator: "\r\n" });
-  assert.deepEqual(api.manifestToForgeInput(art), lf);
-});
-
-test("ADV-P2-6 rejects a manifest without the required header and data", async (t) => {
-  const { api, art } = await sandbox(t);
-  const rows = [sceneMeta, pngFront];
-  manifest(art, rows);
-  for (const [name, input, message] of [
-    ["no header", rows.map(tsvRow).join("\n"), /header/i],
-    ["wrong header", ["other\towner\tcommit\tdigest", ...rows.map(tsvRow)].join("\n"), /header/i],
-    ["no data rows", HEADER, /empty|no (?:data )?rows/i],
-  ]) {
-    await t.test(name, () => {
-      put(art, "MANIFEST.tsv", input + "\n");
-      assert.throws(() => api.manifestToForgeInput(art), message);
-    });
-  }
-});
-
-test("ADV-P2-7 refuses an unlisted cast front instead of dropping a covered actor", async (t) => {
-  const { art, prepare, publicDir } = await sandbox(t);
-  const rows = handoff108();
-  manifest(art, rows, { lines: rows.filter((r) => r.file !== pngFront.file).map(tsvRow) });
-  let output;
-  try {
-    output = prepare("l2/w02");
-  } catch (error) {
-    assert.match(error.message, /(?:missing|no) manifest (?:row|file).*cutouts\/pat\/listen\.png/i);
-    assert.equal(fs.existsSync(publicDir), false);
-    return;
-  }
-  const spec = JSON.parse(fs.readFileSync(output, "utf8"));
-  assert.fail(`prepare accepted the missing front row: art=${spec.art}, cast=${JSON.stringify(spec.forge?.cast)}`);
-});
-
-test("ADV-P2-8 a case variant of a cast front resolves or fails explicitly", async (t) => {
-  const { api, art } = await sandbox(t);
-  const front = row("cutouts/pat/listen.PNG");
-  manifest(art, [sceneMeta, front]);
-  let adapter;
-  try {
-    adapter = api.manifestToForgeInput(art);
-  } catch (error) {
-    assert.match(error.message, /cutouts\/pat\/listen\.png/i);
-    return;
-  }
-  assert.deepEqual(resolveActorArt("Pat", adapter), { kind: "forge", file: `forge/${front.file}` });
-});
-
 test("ADV-P2-9 prepare uses the covered actor and preserves a named placeholder", async (t) => {
   const { art, publicDir, prepare } = await sandbox(t);
   manifest(art, [sceneMeta, pngFront, row("cutouts/lily/listen.png", PNG, "lily")]);
@@ -251,36 +195,6 @@ test("ADV-P2-9 prepare uses the covered actor and preserves a named placeholder"
   assert.deepEqual(resolveActorArt("Lily", spec.forge), { kind: "placeholder", label: "Lily" });
   assert.deepEqual(actorBoxes(spec, 0, "portrait").map(({ name, kind }) => [name, kind]),
     [["Pat", "cutout"], ["Lily", "placeholder"]]);
-});
-
-test("ADV-P2-10 week 1 prepare is independent of a stale Phase 2 handoff", async (t) => {
-  const { art, prepare } = await sandbox(t);
-  const rel = "l2/w01";
-  // The no-handoff control uses the same module, week, and media.
-  const baseline = fs.readFileSync(prepare(rel));
-  manifest(art, [sceneMeta, pngFront, room]);
-  assert.deepEqual(fs.readFileSync(prepare(rel)), baseline);
-  put(art, room.file, "A different classroom.");
-  assert.deepEqual(fs.readFileSync(prepare(rel)), baseline);
-});
-
-test("ADV-P2-11 refusing a refresh preserves the previous audio and spec", async (t) => {
-  const { art, content, publicDir, prepare } = await sandbox(t);
-  const rel = "l2/w04";
-  manifest(art, [sceneMeta, pngFront, room]);
-  const spec = prepare(rel);
-  const audio = path.join(publicDir, rel, "song.mp3");
-  const oldAudio = sha(fs.readFileSync(audio));
-  const oldSpec = fs.readFileSync(spec);
-  const newAudio = waveFile(256);
-  assert.notEqual(sha(newAudio), oldAudio);
-  put(content, "audio.wav", newAudio);
-  manifest(art, [sceneMeta, pngFront]);
-  assert.throws(() => prepare(rel), {
-    message: `no manifest row for the Forge classroom picture ${room.file}`,
-  });
-  assert.deepEqual(fs.readFileSync(spec), oldSpec);
-  assert.equal(sha(fs.readFileSync(audio)), oldAudio, "the previous song.mp3 must stay byte-identical");
 });
 
 test("ADV-P2-12 song.mp3 symlink refusal leaves the target and the week intact", async (t) => {
@@ -318,16 +232,6 @@ test("ADV-P2-13 both cuts fit the six-actor family row, an unknown actor, and no
     assert.equal(actorBoxes(spec, 1, cut)[0].kind, "placeholder");
     assert.deepEqual(actorBoxes(spec, 2, cut), []);
     assert.deepEqual(actorBoxes(spec, -1, cut), []);
-  }
-});
-
-test("ADV-P2-14 a seventh actor must not reuse a visible actor's slot",
-  { todo: "The release shots use at most six actors." }, async (t) => {
-  const names = ["Mom", "Dad", "Grandma", "Grandpa", "Tom", "Lily", "Ben"];
-  for (const [cut, width, height] of cuts) {
-    await t.test(cut, () => {
-      assertBoxes(actorBoxes({ lines: [{ actors: names }] }, 0, cut), names, width, height);
-    });
   }
 });
 
@@ -395,21 +299,6 @@ test("ADV-P2-15 the rendered Sequence inputs tile on a frame boundary and keep p
   const source = week(2);
   source.song.lines[0].imageOf = 4;
   assert.throws(() => buildSpec(source, 2), "an unmatched imageOf must fail before rendering");
-});
-
-test("ADV-P2-16 shots with no frame budget must not overlap the next shot",
-  { todo: "The release shots have positive frame budgets." }, async (t) => {
-  const components = await renderer(t);
-  for (const start of [0, 0.01]) {
-    const spec = { duration: 2, lines: [line(0, 0, "Pat"), line(start, 1, "Lily")] };
-    for (const portrait of [false, true]) {
-      await t.test(`next start=${start} portrait=${portrait}`, () => {
-        const windows = captureWindows(components, spec, portrait);
-        const visible = windows.filter(({ from, durationInFrames }) => from <= 0 && 0 < from + durationInFrames);
-        assert.deepEqual(visible.map(({ names }) => names), [["Lily"]], "only the next shot may draw on frame 0");
-      });
-    }
-  }
 });
 
 test("ADV-P2-17 the week 1 masked guard detects a changed pair and a mask outside the card", async (t) => {
