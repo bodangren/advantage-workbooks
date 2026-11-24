@@ -1,0 +1,12 @@
+MEASURE_AGENT_RESULT
+role: final-acceptance
+status: blocked
+track: storytime_song_video_20261022
+phase: track review
+commits: none
+tests_run: PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (90 pass, 8 skipped); GREEN_TEST_COMMAND 0 (38 pass after an outer timeout); bash measure/doctor.sh 127
+files_changed: measure/runs/storytime_song_video_20261022/final-acceptance-d46b60eb.json; measure/runs/storytime_song_video_20261022/final-acceptance-d46b60eb.log
+plan_updates: none
+known_failures: FA-1 required actor slides absent in w04 and w07; FA-2 required Doctor script missing; FA-3 Phase 1 acceptance used the final audit route.
+handoff: Do not close the track. Route the actor-slide and Doctor findings to remediation. Use an independent model family for the next final audit. Keep the five human gates open. retry_recommendation: create_remediation_track.
+END_MEASURE_AGENT_RESULT

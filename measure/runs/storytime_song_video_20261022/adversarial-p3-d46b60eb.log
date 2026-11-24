@@ -1,0 +1,22 @@
+Phase base: a7f1b55e403854de0d9596756ee10a2c371f4680
+Role base and audited HEAD: d46b60ebd20abefa171180baa58c6e8d51afa947
+F1 withdrawn. The previously untracked Phase 2 audit JSON resolves with git cat-file at HEAD.
+The hand-off probe exits 0. Check 3 uses Git object lookup only.
+Git resolves 93 tech debt paths, 14 lesson paths, 32 plan run citations, and one strategy run citation.
+The live registries have 50 and 49 lines and zero Thai characters. Lessons archive: count only, 39.
+The track has 34 unique scoped IDs, with F3 first. The eight named skips and five open human gates match.
+All 21 completed checkbox items cite existing commits. No non-deferred incomplete item remains.
+All six negative controls trigger rejection. No product or test file changed.
+
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 3: Hand-off
+commits: none
+tests_run: Git-only hand-off probe via heavy-run exit 0; F1 git cat-file exit 0; A4 fixture exit 1 as expected
+files_changed: measure/runs/storytime_song_video_20261022/adversarial-p3-d46b60eb.json; measure/runs/storytime_song_video_20261022/adversarial-p3-d46b60eb.log
+plan_updates: none
+known_failures: none in scope; F1 withdrawn
+handoff: PASS at d46b60eb. retry_recommendation: none. Proceed to phase acceptance.
+END_MEASURE_AGENT_RESULT

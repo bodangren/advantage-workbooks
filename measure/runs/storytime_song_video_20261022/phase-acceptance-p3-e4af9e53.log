@@ -1,0 +1,48 @@
+Phase 3 acceptance round 2: FAIL (one blocker).
+
+Phase base: a7f1b55e403854de0d9596756ee10a2c371f4680
+Role base and audited HEAD: e4af9e534d64ad50e04267433a40d1071383c502
+Round 1 result: phase-acceptance-p3-d46b60eb.json (PASS at d46b60eb). It does not cover the later commit e4af9e53.
+
+Blocker F1: the new FA-1 row at measure/tech-debt.md line 39 cites measure/runs/storytime_song_video_20261022/final-acceptance-d46b60eb.json.
+The file exists on disk and is untracked. Git does not hold it at HEAD.
+18 run-folder citations exist in the 7 track docs. 17 resolve in git. This one does not. At d46b60eb, 17 of 17 resolved.
+Adversarial P3 F1 rated the same defect a Blocker at 2e29824d. Green r3 fixed it by committing the artifacts.
+Fix: commit the file (0 Thai characters), or cite only tracked sources in the row. Then rerun this acceptance at the new HEAD.
+
+Everything else passes:
+- The diff d46b60eb..e4af9e53 names exactly 5 files: spec.md, plan.md, tech-debt.md, tech-debt-archive.md, build-fa1-d46b60eb.log.
+- The product diff a7f1b55e..e4af9e53 holds 0 files in video, content, and dashboard.
+- spec.md: 0 lines removed, 1 added after item 3. The original requirement text is intact.
+- plan.md: only line 26 differs, by an appended PARTIAL clause. All 21 checkbox states and all 140 SHA tokens are unchanged.
+- tech-debt.md: 50 lines, 0 Thai. 0 rows lost between d46b60eb and e4af9e53 (live plus archive: 52 to 54 rows). The adversarial F3 row stays first in this track.
+- FA-1 (Medium, Open) and FA-2 (Low, Open) rows are accurate. Actors.tsx has a vertical bounce only. Song.tsx ends each actor sequence at the next shot. measure/doctor.sh does not exist.
+- The five human gates (lines 42 to 50) are identical to d46b60eb and 0 are marked done. Daniel's look check of w02 to w07, the Thai review, the Forge cast arrival with its re-render, w01 ships on 2026-11-25, and the push that waits for the PM all stay open. The branch is ahead 89, so no push occurred.
+- GREEN exit 0: 38 tests, 38 pass, 0 fail.
+- PROJECT_TESTS exit 0: 98 tests, 90 pass, 0 fail, 8 skipped.
+- PROJECT_LINT exit 0. PROJECT_CHECKS exit 0.
+- Week 1 song.mp4 4c88951f... and song-phone.mp4 74ccefed... are unchanged. 28 of 28 outputs match the Phase 2 render record. The handoff holds 110 files with the same manifest hash.
+- The added lines of the commit hold 0 Thai characters. UX browser review and runtime security do not apply.
+
+Disclosure: my first npm test and lint calls shared one call block and may have overlapped. I reran both serially with the same results.
+Self-check: my Phase 2 acceptance did not catch FA-1. Commit 2893b582 removed the slide logic from Actors.tsx after Phase 1 delivered it. I did not compare Phase 1 task line 26 with Actors.tsx.
+
+Nonblocking findings of this audit:
+PA3b-N1 The FA-1 row omits its cause (commit 2893b582) and its original Blocker rating.
+PA3b-N2 FA-3 (the Phase 1 acceptance route equals the final audit route) has no registry row and no ruling in the brief.
+PA3-N1, PA3-N2, review-a N1, review-a N2 are carried from round 1.
+
+No render and no ffmpeg ran. render.mjs stays untouched (sha256 9a5fc7a2...). No Thai text was printed.
+
+MEASURE_AGENT_RESULT
+role: phase-acceptance
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 3: Hand-off
+commits: none
+tests_run: GREEN 0 (38 pass); PROJECT_TESTS 0 (90 pass, 8 skipped); PROJECT_LINT 0; PROJECT_CHECKS 0; doc census checks 0; citation check found 1 unresolved citation
+files_changed: phase-acceptance-p3-e4af9e53.json, phase-acceptance-p3-e4af9e53.log
+plan_updates: none
+known_failures: F1: tech-debt.md line 39 cites final-acceptance-d46b60eb.json, which git does not hold
+handoff: FAIL. Retry recommendation: retry_implementation. Commit measure/runs/storytime_song_video_20261022/final-acceptance-d46b60eb.json, or cite only tracked sources in the FA-1 row. Then rerun this acceptance at the new HEAD. No product change is needed.
+END_MEASURE_AGENT_RESULT

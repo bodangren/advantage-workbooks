@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 3: Hand-off",
+  "baseline_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "phase_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "role_base_sha": "d46b60ebd20abefa171180baa58c6e8d51afa947",
+  "pre_adversarial_head_sha": "d46b60ebd20abefa171180baa58c6e8d51afa947",
+  "audited_head_sha": "d46b60ebd20abefa171180baa58c6e8d51afa947",
+  "status": "pass",
+  "summary": "The hand-off probe passes. The corrected Phase 2 evidence resolves in Git, and no checked citation of this track's evidence is missing.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "F1 withdrawn: git cat-file -e HEAD:measure/runs/storytime_song_video_20261022/adversarial-p2-f8c1c01d.json exits 0. The committed JSON reports the original Phase 2 FAIL at f8c1c01d.",
+    "HEAD stayed at d46b60ebd20abefa171180baa58c6e8d51afa947. The phase base a7f1b55e403854de0d9596756ee10a2c371f4680 is an ancestor. Since 2e29824d only the 37 run files changed.",
+    "The Git-only path check resolves 93 tech debt paths and 14 lesson paths. It also resolves 32 run citations in the plan and one in the strategy. Across those files, 38 references point to this track's own run evidence. The check does not use worktree existence.",
+    "Check 3 excludes the accepted other-track shorthand, literal placeholders, the quoted PA2-N4 typo, and generic references. It also excludes runtime output names and external dependencies that do not serve as this track's evidence.",
+    "The live registries have 50 and 49 lines, with zero Thai characters. The lessons archive was excluded from every diff and inspection. The count-only command reports 39.",
+    "The 12 song-video debt rows define 34 unique scoped IDs. The first entry is the Phase 2 adversarial F3. All eight skipped tests retain the registry's named reasons. All five human gates remain open.",
+    "The 21 plan checkbox items in Phases 1–3 cite existing commits. No non-deferred incomplete item remains.",
+    "The probe rejects six negative controls: all-[~] markers, invalid SHA, closed gate, duplicate ID, missing skip reason, and broken evidence. The actual phase-acceptance checker also rejects the all-[~] fixture. Both A7 probe lines retain the banned term.",
+    "The exact A5 false-claim scan has no match. The audited product and tests are unchanged since a7f1b55e. No product tests or render ran in this audit."
+  ],
+  "commands": [
+    "git rev-parse HEAD a7f1b55e d46b60eb; git merge-base --is-ancestor a7f1b55e HEAD; git diff --name-only 2e29824d HEAD — 37 run files only.",
+    "git cat-file -e HEAD:measure/runs/storytime_song_video_20261022/adversarial-p2-f8c1c01d.json — exit 0; jq verifies the original Phase 2 audit verdict and SHA.",
+    "PROBE=$HOME/.cache/opencode/measure-p3-d46b60eb/handoff_probe.py HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; python3 \"$PROBE\"' — exit 0.",
+    "git show d46b60eb:measure/lessons-learned-archive.md | python3 \"$HOME/.cache/opencode/measure-p3-d46b60eb/thai-filter.py\" --count — output 39 only.",
+    "measure_interphase_checks.py role-gate --role phase-acceptance on an all-[~] temporary plan — expected exit 1 for two incomplete tasks."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/adversarial-p3-d46b60eb.json",
+    "measure/runs/storytime_song_video_20261022/adversarial-p3-d46b60eb.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "The hand-off probe exits 0 and git cat-file resolves the formerly missing F1 evidence."},
+    {"axis": "test_meaning", "score": 5, "evidence": "The hand-off probe rejects six deliberate changes while it accepts the committed documents."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The 2e29824d..d46b60eb diff changes only run files."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The path probe uses git cat-file -e HEAD:<path> for every checked citation."}
+  ]
+}

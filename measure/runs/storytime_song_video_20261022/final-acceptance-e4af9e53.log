@@ -1,0 +1,17 @@
+PM 2026-11-25: no third-family decision route; Phases 2 and 3 and Review A ran on Claude
+Audit HEAD: e4af9e534d64ad50e04267433a40d1071383c502
+FA-1 record verified. The original spec text stays. The plan marks the deviation PARTIAL, and the debt row records the follow-up.
+All four configured video gates ran once in series through heavy-run and passed. Media and handoff hashes stayed unchanged.
+
+MEASURE_AGENT_RESULT
+role: final-acceptance
+status: blocked
+track: storytime_song_video_20261022
+phase: track review
+commits: none
+tests_run: PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (90 pass, 8 skipped); GREEN_TEST_COMMAND 0 (38 pass); bash measure/doctor.sh 127
+files_changed: measure/runs/storytime_song_video_20261022/final-acceptance-e4af9e53.json; measure/runs/storytime_song_video_20261022/final-acceptance-e4af9e53.log
+plan_updates: none
+known_failures: FA-R2-1 latest phase acceptance does not cover the changed spec and debt paths; FA-2 required Doctor script absent.
+handoff: Do not close the track. Restore the Doctor gate through remediation. Refresh Phase 3 acceptance on the resulting HEAD before final acceptance. Keep the five human gates open. retry_recommendation: create_remediation_track.
+END_MEASURE_AGENT_RESULT

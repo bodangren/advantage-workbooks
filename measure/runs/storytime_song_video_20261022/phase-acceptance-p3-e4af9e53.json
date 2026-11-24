@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "role": "phase-acceptance",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 3: Hand-off",
+  "baseline_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "phase_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "role_base_sha": "e4af9e534d64ad50e04267433a40d1071383c502",
+  "audited_head_sha": "e4af9e534d64ad50e04267433a40d1071383c502",
+  "status": "fail",
+  "summary": "Phase 3 fails at e4af9e53 on one blocker. The new FA-1 row in measure/tech-debt.md cites final-acceptance-d46b60eb.json, and git does not hold that file. Every other check passes: the diff is exactly the five named files, spec.md keeps its original text, plan.md changes only line 26, no row is lost, the registry holds 50 lines with 0 Thai, the FA-1 and FA-2 rows are accurate, the five human gates stay open, and all four gates exit 0. The fix is to commit the file. This audit then reruns at the new HEAD.",
+  "blocking_findings": [
+    "F1 [Blocker] phase-acceptance: The FA-1 row cites an evidence file that git does not hold. measure/tech-debt.md line 39 cites measure/runs/storytime_song_video_20261022/final-acceptance-d46b60eb.json. The file exists on disk and is untracked. The command git cat-file -e on that path at HEAD fails. Of 18 run-folder citations in the 7 track docs, this is the only one that fails. At d46b60eb all 17 resolved. Adversarial P3 F1 rated the same defect a Blocker at 2e29824d, and Green r3 fixed it by committing the artifacts. A clean checkout cannot open the evidence of FA-1. Fix: commit the file (it holds 0 Thai characters), or cite only tracked sources in the row. Then rerun this acceptance at the new HEAD."
+  ],
+  "nonblocking_findings": [
+    "PA3b-N1 [Nit] phase-acceptance: The FA-1 row omits its cause and its original rating. Commit 2893b582 (Green P2 r4) removed the slide logic from Actors.tsx: 10 lines that match slide, interpolate, or translateX at c26c72ba, and 0 at a7f1b55e. tests/timeline.test.mjs checks the enter and exit flags only, so it kept passing. The final acceptance rated FA-1 a Blocker. PM ruling A makes it Medium. Name the cause and the original rating in the row at the next edit.",
+    "PA3b-N2 [Nit] phase-acceptance: FA-3 has no registry row. final-acceptance-d46b60eb.json lists FA-3 [Blocker]: the Phase 1 acceptance route equals the final audit route. The commit records FA-1 and FA-2 only, and the brief for this round names neither FA-3 nor a ruling on it. Ask the PM whether FA-3 needs a ruling or a row.",
+    "PA3-N1 [Nit] phase-acceptance: Carried from phase-acceptance-p3-d46b60eb.json. Two rows of this track exceed 2000 characters (tech-debt.md lines 29 and 36, 2251 and 2254 characters). The Read tool truncates them.",
+    "PA3-N2 [Nit] phase-acceptance: Carried from phase-acceptance-p3-d46b60eb.json. The Phase 1 review-c F3 has no own ID in the registry. Line 29 item 2 (adversarial F1) covers the same defect.",
+    "N1 [Nit] review-a: Carried. lessons-learned.md:38 cites plan.md:92. The wrong-result exception is at plan.md:94.",
+    "N2 [Nit] review-a: Carried. The lessons archive holds 3 Thai lines (39 characters), moved verbatim. Its header does not name the Thai filter rule for non-Claude roles.",
+    "CARRY [Nit] phase-acceptance: All risks carried by phase-acceptance-p3-d46b60eb.json stay in the registry. The row census shows 0 rows lost between d46b60eb and e4af9e53. FA-1 (Medium) and FA-2 (Low) are the two new accepted risks (PM 2026-11-25)."
+  ],
+  "evidence": [
+    "git rev-parse HEAD returns e4af9e534d64ad50e04267433a40d1071383c502. It equals audited_head_sha. The phase base a7f1b55e is an ancestor. Nothing is staged. One commit follows d46b60eb.",
+    "The diff d46b60eb..e4af9e53 names exactly 5 files: spec.md (1 line added), plan.md (line 26), measure/tech-debt.md, measure/tech-debt-archive.md, and the new log build-fa1-d46b60eb.log. The product diff a7f1b55e..e4af9e53 holds 0 files in video, content, and dashboard. The phase diff outside measure/runs is the 4 registry and archive files, plan.md, and spec.md.",
+    "Prerequisites: Review A, B, and C bind to 2e29824d. Adversarial testing binds to d46b60eb. Interphase audit-result exits with PASS for all four. The commits after 2e29824d are 8d298e20 and d46b60eb (runs only) and e4af9e53 (Measure docs and one run log). The e4af9e53 files are outside the literal test-or-runs exception. They are the docs of PM ruling A. No review covers the FA rows; this audit reads them.",
+    "spec.md: 0 lines removed and 1 added. The 28 original lines stay in order. The added line sits directly after item 3 and begins with Deviation (PM 2026-11-25). The original requirement text is intact.",
+    "plan.md: 114 lines before and after. Only line 26 differs. The new text starts with the full old text and appends the PARTIAL clause. All 21 checkbox states are unchanged (21 of 21 are [x]). The 140 hex SHA tokens are identical. The interphase script has 0 mentions of partial, so its gate reads line 26 as complete. The deviation shows in the prose, in spec.md, and in the registry.",
+    "measure/tech-debt.md has 50 lines and 0 Thai characters. The archive has 0 Thai. Rows: live 33 and archive 19 before; live 33 and archive 21 after. The union grows from 52 to 54 rows with 0 lost and 0 duplicated. The 2 new rows are FA-1 and FA-2. The 2 moved rows (teacher_manual_app_20261020 and primary_v2_look_20261020) sit verbatim in the archive. 31 of 33 old live rows stay verbatim. The archive header says 21 and the archive holds 21 rows. The lessons files are unchanged. This track holds 14 rows, and the adversarial F3 row is first.",
+    "FA-1 row: Medium, Open. It is accurate. Actors.tsx:49-94 draws a vertical bounce only (one translate at line 63). Song.tsx:97-115 ends each actor sequence at the next shot. Slide logic existed at c26c72ba and was removed at 2893b582. The final acceptance FA-1 text matches the row. FA-2 row: Low, Open. It is accurate: measure/doctor.sh does not exist, and PROJECT_CHECKS (npx tsc --noEmit) exits 0.",
+    "Citation check by script: 18 distinct run-folder citations in plan.md, spec.md, test-strategy.md, both registries, and both archives. 17 resolve in git at HEAD. 1 does not: final-acceptance-d46b60eb.json, cited at tech-debt.md line 39. At d46b60eb, 17 of 17 resolved.",
+    "Open human gates: tech-debt.md lines 42 to 50 are identical to d46b60eb. They list five gates and mark 0 as done: Daniel's look check of w02 to w07, the Thai review, the Forge cast arrival with its re-render, w01 ships on 2026-11-25, and the push that waits for the PM. Today is 2026-11-25. No record of the w01 ship exists, so I leave that gate open. git status -sb shows the branch ahead 89, so no push occurred.",
+    "GREEN_TEST_COMMAND exits 0: 38 tests, 38 pass, 0 fail. npm test exits 0: 98 tests, 90 pass, 0 fail, 8 skipped. npm run lint exits 0. npx tsc --noEmit exits 0. Each gate ran through one heavy-run wrapper. Disclosure: my first npm test and lint calls shared one call block and may have overlapped. I reran both serially with the same results.",
+    "Guards: week 1 song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a and song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e are unchanged. 28 of 28 outputs match the Phase 2 render record. The handoff holds 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759. git status --porcelain content is empty. render.mjs (sha256 9a5fc7a2...) stays untouched. The added lines of the commit hold 0 Thai characters.",
+    "A5 holds: the build log claims no gate reran, and the claims about line counts and rows match this audit. A3, A4, A6, and A7 do not apply. The diff changes no framework contract test, filter, or measure/tracks.md.",
+    "Self-check: my Phase 2 acceptance at a7f1b55e did not catch FA-1. It checked Phase 2 tasks against Phase 2 code and recorded Review A N2 (the dead shot.exit flag). It did not compare Phase 1 task line 26 with Actors.tsx. The gap is mine.",
+    "UX browser review and runtime security do not apply to a documentation phase. No render and no ffmpeg ran. No Thai text was printed.",
+    "No product, test, plan, spec, registry, render, or content file was changed. This audit writes only its JSON and log."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log d46b60eb..HEAD; git diff --name-status d46b60eb HEAD; git diff --name-only a7f1b55e HEAD -- video content dashboard - 0 files.",
+    "git diff -U2 for spec.md and plan.md, and git diff -U0 for the registry and archive, through a Thai-hiding filter.",
+    "python3 -I read-only checks: spec.md line census; plan.md line, checkbox, and SHA census; registry row census over live and archive; line and Thai counts; gate section comparison; citation resolution through git cat-file.",
+    "python3 -I measure_interphase_checks.py audit-result for review-a, review-b, review-c, and adversarial-testing - each PASS.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs tests/phase2-security.test.mjs' - exit 0; 38 pass, 0 fail.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test' - exit 0; 98 tests, 90 pass, 0 fail, 8 skipped (run twice, second serial).",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm run lint' - exit 0 (run twice, second serial).",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npx tsc --noEmit' - exit 0.",
+    "sha256sum of the week 1 MP4 files and render.mjs; hash check of 28 outputs against green-p2-r8-rerender.txt; find and sha256sum of the handoff; git status --porcelain content - all unchanged."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/phase-acceptance-p3-e4af9e53.json",
+    "measure/runs/storytime_song_video_20261022/phase-acceptance-p3-e4af9e53.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "claude-agent/sonnet#xhigh",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "The docs match the described diff in every check except one evidence citation that git does not hold (tech-debt.md:39)."},
+    {"axis": "test_meaning", "score": 4, "evidence": "The doc checks run by script (row census 0 lost, 50 lines, 0 Thai) and the rerun gates show 38 and 90 pass with 8 skipped, but no failing-first test exists for documentation."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff d46b60eb..e4af9e53 names exactly the five files in the brief, and the product diff is 0 files."},
+    {"axis": "evidence_quality", "score": 3, "evidence": "The FA-1 row cites an evidence file that is untracked (17 of 18 run citations resolve in git), so a clean checkout cannot open it."}
+  ],
+  "reviewer_ratings": [
+    {"reviewer_role": "review-a", "reviewer_route": "claude-agent/opus#high", "agreed": true, "score": 5, "evidence": "My row census again shows 0 rows lost, and its N1 and N2 still hold (lessons-learned.md:38 cites plan.md:92; the lessons archive holds 3 Thai lines)."},
+    {"reviewer_role": "review-b", "reviewer_route": "openai/gpt-6.2-sol#high", "agreed": true, "score": 4, "evidence": "The e4af9e53 diff adds 0 Thai lines and no secret-like text, but its pass at 2e29824d predates the FA rows."},
+    {"reviewer_role": "review-c", "reviewer_route": "openai/gpt-6.2-sol#high", "agreed": true, "score": 4, "evidence": "The five open gates and the 50-line limit still hold at e4af9e53, but its pass predates the FA rows."},
+    {"reviewer_role": "adversarial", "reviewer_route": "openai/gpt-6.2-sol#high", "agreed": true, "score": 5, "evidence": "Its pass at d46b60eb holds (17 of 17 citations resolved then), and its F1 standard for untracked citations is the one that fails the FA-1 row now."}
+  ]
+}

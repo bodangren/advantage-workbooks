@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "role": "final-acceptance",
+  "track": "storytime_song_video_20261022",
+  "phase": "track review",
+  "baseline_sha": "e4af9e534d64ad50e04267433a40d1071383c502",
+  "track_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "e4af9e534d64ad50e04267433a40d1071383c502",
+  "audited_head_sha": "e4af9e534d64ad50e04267433a40d1071383c502",
+  "status": "fail",
+  "summary": "The FA-1 record matches the PM decision, and all four video gates pass. The phase acceptance coverage and Doctor gates do not pass. PM 2026-11-25: no third-family decision route; Phases 2 and 3 and Review A ran on Claude",
+  "blocking_findings": [
+    "FA-R2-1 [Blocker] phase acceptance coverage: The latest passing result audits d46b60eb. Commit e4af9e53 changes the track spec and two debt files that the track touched before d46b60eb. These are track paths outside the plan and evidence exception.",
+    "FA-2 [Blocker] Doctor: bash measure/doctor.sh exits 127 because the script is absent. The debt record names tsc as the PM substitute. That substitute does not satisfy the required Doctor exit gate."
+  ],
+  "nonblocking_findings": [
+    "FA-1 disposition verified. The original spec requirement stays. The release deviation, PARTIAL plan note, and Forge cast re-render follow-up match the PM decision.",
+    "The final audit uses the PM route waiver. The five human gates remain open and do not block this audit."
+  ],
+  "evidence": [
+    "PM 2026-11-25: no third-family decision route; Phases 2 and 3 and Review A ran on Claude",
+    "git rev-parse HEAD and git rev-parse 1ffd649b resolve to the full audited HEAD and track baseline in this result.",
+    "git diff --name-only e4af9e53 HEAD: exit 0; empty output.",
+    "git diff --name-only d46b60eb HEAD: exit 0; output:\nmeasure/runs/storytime_song_video_20261022/build-fa1-d46b60eb.log\nmeasure/tech-debt-archive.md\nmeasure/tech-debt.md\nmeasure/tracks/storytime_song_video_20261022/plan.md\nmeasure/tracks/storytime_song_video_20261022/spec.md",
+    "git diff --name-only a7f1b55e HEAD -- video/storytime-song content dashboard: exit 0; empty output.",
+    "git diff --cached --name-only -- video/storytime-song/scripts/render.mjs: exit 0; empty output.",
+    "The Track scope scan used git rev-list 1ffd649b..d46b60eb, git show -s --format=%s%x00%b, and git diff-tree -r --root --cc --no-renames --name-only --no-commit-id. It found 85 track commits, zero other-track commits, and 266 touched paths. The build log and plan are covered. The track spec, measure/tech-debt.md, and measure/tech-debt-archive.md are not.",
+    "Each plan phase has exactly one passing acceptance: 1ffd649b to c26c72ba, c26c72ba to a7f1b55e, and a7f1b55e to d46b60eb. Each baseline and role base is an ancestor of its audited HEAD. Each audited HEAD is an ancestor of e4af9e53.",
+    "spec.md:18 adds the dated deviation under item 3 and keeps the original text. It states the w04 and w07 release behavior, the Forge cast re-render, and the separate PA-F2 decision.",
+    "plan.md:26 is the only changed plan line. It appends PARTIAL for w04 and w07. The scan found 21 [x] lines with ancestor SHA evidence. No marker or SHA changed. Karaoke stays deferred.",
+    "measure/tech-debt.md:39-40 adds FA-1 and FA-2. F3 stays first among the track rows. The live file has 50 lines and zero Thai characters. The row comparison found zero lost rows and two new rows.",
+    "A5: The literal false-claim scan found zero hits. The PARTIAL note qualifies the slide claim. The fresh counts match the plan. A6: the registry claims no adversarial resolution. The eight skips match the reasons in tech debt. A9: there are zero tests/*.sh files.",
+    "The read-only hash probe matched all 28 outputs in green-p2-r8-rerender.txt before and after the gates. The week 1 MP4 hashes are 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a and 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e.",
+    "The handoff has 110 files before and after the gates. MANIFEST.tsv SHA-256 is f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759. T2.1 verified all 108 row digests.",
+    "The post-gate HEAD remains e4af9e53. git status --porcelain -- content returns no paths. The unstaged render.mjs edit retains SHA-256 9a5fc7a2a526df933bca5632655103670e4e8a53cc32d225a80dd122a29aed26.",
+    "The prior review and adversarial results pass at their accepted revisions. The Phase 3 acceptance and adversarial JSON and log at d46b60eb exist.",
+    "The human gate text is unchanged at measure/tech-debt.md:42-50: Daniel's look check, Thai review, Forge cast and re-render, week 1 ship, and PM push.",
+    "The round 2 docs diff, selected text inputs, and each of the four gate outputs contain zero Thai characters. This audit did not read week JSON or the lessons archive."
+  ],
+  "commands": [
+    "bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm run lint' — exit 0.",
+    "bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npx tsc --noEmit' — exit 0.",
+    "bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test' — exit 0; 98 total, 90 pass, 0 fail, 8 skipped.",
+    "bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs tests/phase2-security.test.mjs' — exit 0; 38 pass, 0 fail, 0 skipped.",
+    "bash measure/doctor.sh — exit 127; No such file or directory.",
+    "Read-only Python probes verified phase ancestry and counts, exact plan changes, debt preservation, coverage paths, and the media inventory."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/final-acceptance-e4af9e53.json",
+    "measure/runs/storytime_song_video_20261022/final-acceptance-e4af9e53.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "create_remediation_track",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high"
+}

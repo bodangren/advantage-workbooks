@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "role": "phase-acceptance",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 3: Hand-off",
+  "baseline_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "phase_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "role_base_sha": "d46b60ebd20abefa171180baa58c6e8d51afa947",
+  "audited_head_sha": "d46b60ebd20abefa171180baa58c6e8d51afa947",
+  "status": "pass",
+  "summary": "Phase 3 passes at d46b60eb. The one Phase 3 task is [x] and meets its gate. No non-deferred task is open in any phase. All four fresh project gates exit 0. The live registries hold 50 and 49 lines with 0 Thai characters, and both archives exist with no entry lost. The product diff from a7f1b55e is empty. Five human gates stay open. No blocker exists. Two new nits and the carried risks go to the track closeout.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "PA3-N1 [Nit] phase-acceptance: Two merged rows of this track exceed 2000 characters. measure/tech-debt.md line 29 (the adversarial F3-first row) has 2251 characters. Line 36 (the Phase 1 risks) has 2254. The Read tool truncates a line at 2000 characters. A role that uses it loses the end of item 6 (N3) in line 29 and the sources of items 5 and 6 in line 36. The file holds the full text. Shorten the two rows at the track closeout.",
+    "PA3-N2 [Nit] phase-acceptance: The Phase 1 review-c F3 has no own ID in measure/tech-debt.md. phase-acceptance-p1-c26c72ba.json lists it as accepted: an empty or header-only manifest falls back with no error. Line 29 item 2 (adversarial F1, skipped test ADV-P2-6) covers the same defect. Add the cross-reference F3 (Phase 1) to that item at the next registry edit.",
+    "N1 [Nit] review-a: Carried from review-a-p3-2e29824d.json. The lesson at measure/lessons-learned.md:38 cites plan.md:92. plan.md:92 is the Green P2 r7b role-base repair. The wrong-result exception sits at plan.md:94. Cite plan.md:94 at the next registry edit.",
+    "N2 [Nit] review-a: Carried from review-a-p3-2e29824d.json. measure/lessons-learned-archive.md holds 3 lines with Thai text (39 characters). They moved verbatim from the live file, where they sat at a7f1b55e. The archive header names the 3 entries. It does not name the Thai filter rule for non-Claude roles. The live files hold 0 Thai.",
+    "CARRY-1 [Nit] phase-acceptance: Accepted tech debt (PM 2026-11-24), tech-debt.md line 29. Adversarial F3 (fix first), F1, F2, N1, N2, N3. The 8 skipped tests ADV-P2-11, 6, 7, 8, 10, 5, 14, 16 stay skipped and map to these six IDs.",
+    "CARRY-2 [Major] phase-acceptance: Accepted risk (PM 2026-11-24), tech-debt.md lines 30, 32, 37. Review A round 1 F3 (High), Review A N1 (Medium), and PA2-N1 (Medium). The plan still cites nine test-strategy rows that do not exist (P2-F1 to P2-F5, P2-F7, P2-B1, P2-B2, P2-B5).",
+    "CARRY-3 [Nit] phase-acceptance: Accepted tech debt (PM 2026-11-24), tech-debt.md lines 31, 33, 34, 35. Review A F4 to F6, N2, N3. Review B B6 to B10. Review C C-P2-2 and C-P2-3. N3 is a look item for Daniel.",
+    "CARRY-4 [Nit] phase-acceptance: Accepted risk (PM 2026-11-23), tech-debt.md line 36. Phase 1 items C-F4, PA-N1, N1, N2, PA-N3, PA-N4.",
+    "CARRY-5 [Nit] phase-acceptance: Accepted risk (PM 2026-11-24), tech-debt.md lines 38 to 40. PA2-N2 to PA2-N6 (including the serif bubble font) and MAY-1. SCRAP-3D is Resolved: SCRAPPED_3D sits at prepare.mjs:30 and P2-F4 and P2-F5 pass in this audit."
+  ],
+  "evidence": [
+    "git rev-parse HEAD returns d46b60ebd20abefa171180baa58c6e8d51afa947. It equals audited_head_sha. Phase base a7f1b55e is an ancestor. Nothing is staged.",
+    "Prerequisites: Review A, B, and C bind to 2e29824d. Adversarial testing binds to d46b60eb. Interphase audit-result exits with PASS for all four files. Only 8d298e20 and d46b60eb follow 2e29824d. They change 0 files outside measure/runs. No test-only exception was needed.",
+    "The phase diff a7f1b55e..d46b60eb touches 4 registry or archive files, plan.md, and run files. It touches 0 files in video, content, or dashboard. measure/tracks.md has 0 changes.",
+    "Plan state: Phase 1 holds 9 task lines, Phase 2 holds 9, and Phase 3 holds 1. All 21 checkbox lines are [x]. 0 are [ ], [~], or [b]. The plan diff flips only the Phase 3 task, moves the Red P2 r10 bullet into Phase 2, marks old sub-bullets as closed, marks the May claim as superseded, and adds SHAs to the render task line. No other task state changed. The Phase 3 task cites ec22f400 and 45069196. Both are ancestors of HEAD.",
+    "Gate of test-strategy.md:160-167 and the PM line limit: measure/tech-debt.md has 50 lines and measure/lessons-learned.md has 49. Both hold 0 Thai characters. The two files hold 0 Markdown links. Every path citation of this track resolves in git at HEAD: 17 of 17 in the debt registry, 1 of 1 in the lessons registry, 14 of 14 run citations in plan.md. The workflow rule at workflow.md line 279 asks for 50 lines or fewer.",
+    "Archives: tech-debt-archive.md has 23 lines and lessons-learned-archive.md has 13. Entry census by script: the 40 other-track rows of a7f1b55e are 21 live and 19 archived, 0 lost, 0 changed. The 31 lessons of a7f1b55e are 24 live and 7 archived, 0 lost, 0 changed. The archive entries are verbatim. The 3 Thai lines of the base moved to the lessons archive. Live files hold 0 Thai.",
+    "Thai: of all added lines in the phase diff, 3 hold Thai text, all in measure/lessons-learned-archive.md. They are a verbatim move of text that a7f1b55e already tracked. No Thai text was printed. Every read of a file with Thai text used a line filter.",
+    "GREEN_TEST_COMMAND exits 0: 38 tests, 38 pass, 0 fail, 0 skipped. npm test exits 0: 98 tests, 90 pass, 0 fail, 8 skipped. npm run lint exits 0. npx tsc --noEmit exits 0. Each gate ran once through one heavy-run wrapper, in series. Green P3 r3 ran no gates because it changed no code. This audit supplies the gate result at d46b60eb.",
+    "A5: the plan and log counts (38 and 98, 90, 0, 8) match this audit. The grep for PASS=N, FAIL=0, and all checks pass finds 0 matches. A3, A4, A6, and A7 do not apply: the phase diff changes no framework contract test, filter, or registry, and measure/tracks.md has 0 changes.",
+    "Registry claims against reality: the 8 skip reasons of npm test map to adversarial F3, F1, F2, N1, N2, and N3 as line 29 states. SCRAPPED_3D exists at prepare.mjs:30. Spot checks of cited code lines match their descriptions: prepare.mjs:837, 845-862, 886; actorBoxes.ts:79; Song.tsx:105-108; render.mjs:43 in the committed file. The working-tree render.mjs carries the other owner's edit, which shifts its lines by 1.",
+    "Open human gates stay open. measure/tech-debt.md lines 42 to 50 list five gates and mark 0 as done: Daniel's look check of w02 to w07, the Thai review of the Phase 2 outputs, the Forge cast arrival with its re-render, w01 ships on 2026-11-25, and the push that waits for the PM. git status -sb shows the branch ahead 88 of its remote, so no push occurred. My shell rejected the command that tests the 9256a77b ancestry against the remote ref. I rely on the Review A round 1 result for that fact.",
+    "Guards: week 1 song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a and song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e are unchanged. 28 of 28 outputs of weeks 1 to 7 match the Phase 2 render record. The handoff holds 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759. git status --porcelain content is empty. ls video shows only storytime-song. render.mjs (sha256 9a5fc7a2...) stays untouched.",
+    "UX browser review and runtime security do not apply to a documentation phase (test-strategy.md:160-167). Review B and Review C passed anyway. No render and no ffmpeg ran.",
+    "The workflow Definition of Done lists a git note per task (workflow.md item 10). No commit of this track carries one, as in the accepted Phase 1 and Phase 2. I do not raise it.",
+    "No product, test, plan, registry, render, or content file was changed. This audit writes only its JSON and log."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline; git diff --name-only a7f1b55e HEAD; git diff --name-only 2e29824d HEAD - 0 files outside measure/runs after 2e29824d.",
+    "python3 -I measure_interphase_checks.py audit-result for review-a, review-b, review-c, adversarial-testing - each PASS.",
+    "python3 -I read-only checks: line counts and Thai counts of the four registry files; entry census against a7f1b55e; plan checkbox census by phase; path-citation resolution through git cat-file; row lengths - all as stated above.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs tests/phase2-security.test.mjs' - exit 0; 38 pass, 0 fail.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test' - exit 0; 98 tests, 90 pass, 0 fail, 8 skipped.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm run lint' - exit 0.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npx tsc --noEmit' - exit 0.",
+    "sha256sum of the week 1 MP4 files and render.mjs; python3 -I hash check of 28 outputs against green-p2-r8-rerender.txt; find and sha256sum of the handoff; git status --porcelain content - all unchanged."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/phase-acceptance-p3-d46b60eb.json",
+    "measure/runs/storytime_song_video_20261022/phase-acceptance-p3-d46b60eb.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "claude-agent/sonnet#xhigh",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "The live registries hold 50 and 49 lines with 0 Thai, no entry was lost (40 of 40 rows, 31 of 31 lessons), and all five gates stay open, but two rows exceed 2000 characters (tech-debt.md:29,36)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "The doc gate is proved by script counts and the rerun gates show 38 and 90 pass with 8 skipped, but no failing-first test exists for documentation."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The phase diff outside measure/runs is 4 registry or archive files and plan.md, and the product diff for video, content, and dashboard is 0 files."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Every claim has a count or command result, but my shell rejected the remote-ancestry check of the push gate, which rests on Review A round 1."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "claude-agent/opus#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "My entry census reproduces its zero-loss result, and its N1 and N2 hold (lessons-learned.md:38 cites plan.md:92; the lessons archive holds 3 Thai lines)."
+    },
+    {
+      "reviewer_role": "review-b",
+      "reviewer_route": "openai/gpt-6.2-sol#high",
+      "agreed": true,
+      "score": 4,
+      "evidence": "My diff scan finds 3 added Thai lines, all in the archive it excluded by design, so its zero-added-Thai claim holds outside that file."
+    },
+    {
+      "reviewer_role": "review-c",
+      "reviewer_route": "openai/gpt-6.2-sol#high",
+      "agreed": true,
+      "score": 4,
+      "evidence": "I reproduced the 50 and 49 line counts, the 0 Thai count, and the five open gates, but it did not flag the two rows over 2000 characters (PA3-N1)."
+    },
+    {
+      "reviewer_role": "adversarial",
+      "reviewer_route": "openai/gpt-6.2-sol#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "I resolved the plan run citations (14 of 14) and the registry citations (17 of 17) in git and found the plan fully [x]."
+    }
+  ]
+}
