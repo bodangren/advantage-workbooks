@@ -1,0 +1,42 @@
+Review A round 2 (Phase 2: Forge art), track storytime_song_video_20261022
+Route: claude-agent/opus#high
+phase_base_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: d398c2356f6e670f9a710235af1ae2389485b35f
+audited_head_sha: b87ee87d4c8086224df45d714459fc7723536f6b (equal to HEAD)
+Audited diff: d398c235..b87ee87d
+
+Verdict: PASS. retry_recommendation: none.
+
+Round 1 F1 (figure outside its box): fixed. The figure box width is height*240/340, which is the Figure svg width.
+Every w04 and w07 box lies inside the frame (classroom) or the 607.5 px scene band (phone), with no overlap.
+Frames from the delivered videos show every actor in frame: w04 lines 2, 4, 6, 8, 9 and w07 line 1, both cuts.
+
+Round 1 F2 (exit tail): fixed. Song.tsx drops EXIT_SECONDS; the shot windows are contiguous.
+Frames at w04 13.48 s, w04 24.12 s (both cuts) and w07 25.72 s show only the actors of the new shot.
+
+P2-F6 band-relative floor: justified. The old phone floor and the Figure aspect cannot both hold for five figures.
+The new floor still fails a row below 133 px.
+
+Regressions: none found. Week 1 sha256 unchanged. Scene-video weeks never reach actorBoxes.
+
+Nonblocking:
+N1 [Minor] Daniel's look check moved to closeout, but no Phase 3 task records it; stale "stays open" sub-bullets.
+N2 [Nit] P2-F8 mirrors the aspect literal; P2-F9 is a source regex; shot.exit is now dead in timeline.ts.
+N3 [Nit] Look item: some w04 figures stand on the rug fringe; the tested rug centre stays free.
+
+Tests were not rerun at this HEAD. The one heavy-run call extracted 14 frames (exit 0).
+Frames: /tmp/opencode/ra-p2r2/
+Result JSON: measure/runs/storytime_song_video_20261022/review-a-p2-b87ee87d.json
+
+MEASURE_AGENT_RESULT
+role: review-a
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+commits: none
+tests_run: No project tests rerun. Node check over actorBoxes and shots() for w02 to w07 in both cuts: every w04 and w07 box in frame, exact Figure aspect, no overlap. sha256sum of w04, w07 and w01 media. heavy-run.sh ffmpeg extract of 14 frames from w04 and w07 song.mp4 and song-phone.mp4, exit 0.
+files_changed: measure/runs/storytime_song_video_20261022/review-a-p2-b87ee87d.json, measure/runs/storytime_song_video_20261022/review-a-p2-b87ee87d.log
+plan_updates: none
+known_failures: No blockers. Round 1 F1 and F2 are fixed and withdrawn. N1 Minor (look check moved to closeout, but no Phase 3 task records it), N2 Nit (P2-F8 copies the aspect number, P2-F9 searches source text, shot.exit unused) and N3 Nit (some w04 figures stand on the rug edge) are nonblocking.
+handoff: PASS. Retry recommendation: none. Put N1 and N2 into the closeout tech-debt task. Put N3 on Daniel's look check list.
+END_MEASURE_AGENT_RESULT

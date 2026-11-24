@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 2: Forge art",
+  "baseline_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "phase_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "role_base_sha": "f8c1c01d47ae2750aff48f790be8e2a04ce560e7",
+  "audited_head_sha": "f8c1c01d47ae2750aff48f790be8e2a04ce560e7",
+  "route": "openai/gpt-6.2-sol#high",
+  "status": "pass",
+  "summary": "Fresh decodes confirm that all eight re-rendered videos show the full Adventurer inset in the sampled frames. All 24 Phase 2 outputs match the recorded SHA-256 values and dimensions. The 12 protected outputs and the eight posters from the re-rendered weeks are unchanged.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD at role start resolves to f8c1c01d47ae2750aff48f790be8e2a04ce560e7. Phase base c26c72ba3173b71194e50977a2b06c04e75e3df2 is an ancestor. The prior audit bound C-P2-1 to b87ee87d4c8086224df45d714459fc7723536f6b.",
+    "The b87ee87d..f8c1c01d diff adds 27 evidence files under the track run folder. No product, test, or plan file changes in that range. Review C remains applicable under test-strategy.md:170–176 because the full phase changes the prepare path and delivers video files. There is no web route.",
+    "C-P2-1 withdrawn: I decoded 10 s and 40 s directly from both live cuts of w02, w03, w05, and w06. I also decoded both cuts of w04 and w07 at 10 s. The frame check did not use committed JPGs.",
+    "All 20 samples match an approved mirrored Adventurer PNG across the head, body, and boots. The full sprite mean absolute RGB error is 2.7–4.8 on a 0–255 scale. The sprite stays clear of all four card edges. Head and boot gaps from the outer card edges are 92–93 px and 19 px in classroom. They are 123–124 px and 18 px on phone.",
+    "The sampled scene region matches the source Forge video at song time in w02, w03, w05, and w06. It matches the Forge classroom PNG in w04 and w07. The mean absolute RGB error is 0.4–3.2. Every sample has high-contrast lyric text, separate from the inset.",
+    "Fresh w06 decodes show all four sound cards at the expected times in both cuts. The card region rises from 0% cream pixels before each sound to 76–79.3% during it. Text masks show readable dark lettering. The cards are above the lyric and gesture boxes.",
+    "Live SHA-256 checks agree with green-p2-r8-rerender.txt:12–119. The before hashes agree with the last audit records. Only the eight videos from w02, w03, w05, and w06 changed. Their eight posters and all 12 outputs for w01, w04, and w07 are byte-identical.",
+    "Fresh ffprobe checks confirm 24 Phase 2 outputs: classroom H.264/AAC 1920×1080, phone H.264/AAC 720×1280, classroom posters 1280×720, and phone posters 720×1280. Both cuts are 30 fps. MP4 atom checks confirm faststart.",
+    "Live w01 video SHA-256 values remain 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a and 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e.",
+    "C-P2-2 and C-P2-3 remain accepted tech debt and are outside this re-review. No CONTEST item was supplied.",
+    "The first command proved the Thai filter on synthetic input. I did not read any week JSON directly. I did not render or run the project suite. The other owner's render.mjs edit remained untouched."
+  ],
+  "commands": [
+    "git rev-parse HEAD f8c1c01d c26c72ba b87ee87d; git merge-base --is-ancestor c26c72ba f8c1c01d; git diff --name-status b87ee87d f8c1c01d",
+    "Python hashlib.file_digest and ffprobe -show_entries stream=codec_type,codec_name,width,height,r_frame_rate: 24 Phase 2 outputs match; 12 protected files and 8 re-render posters unchanged.",
+    "ffmpeg single-frame PNG decode to stdout and Pillow comparisons: 20 live frames passed the full sprite, Forge scene, and lyric checks.",
+    "ffmpeg cropped RGB and grayscale decodes to stdout: four timed w06 sound cards verified in both cuts.",
+    "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py audit-result --role review-c --file measure/runs/storytime_song_video_20261022/review-c-p2-f8c1c01d.json"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/green-p2-r8-rerender.txt",
+    "measure/runs/storytime_song_video_20261022/green-p2-r8-b87ee87d.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "ux_applicability": "not_applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {"screenshots": [], "accessibility_snapshots": [], "interactions": []},
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "Fresh decodes show the full Adventurer in all 20 sampled live frames, and all 24 output hashes and dimensions match."},
+    {"axis": "test_meaning", "score": 4, "evidence": "The live decode checks cover both cuts at two times per re-rendered week and all four speech-card windows."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The b87ee87d..f8c1c01d diff adds only evidence, and the SHA-256 comparison isolates the delivery change to eight videos."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The ffmpeg, ffprobe, and SHA-256 results independently verify the live files against the approved sprites, Forge sources, and prior output records."}
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 3: Hand-off",
+  "baseline_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "phase_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "role_base_sha": "fea23cee1783130fcdeef9e2b930f1bebdf42acb",
+  "audited_head_sha": "2e29824dd5f9479bffbbe89925b54c167e9fdb00",
+  "route": "claude-agent/opus#high",
+  "status": "pass",
+  "summary": "Green P3 r2 lost no row or lesson. All 40 rows of other tracks at fea23cee are verbatim in exactly one of the live tech-debt.md (21) or tech-debt-archive.md (19). All 31 lessons of other tracks are verbatim in the live file or the lessons archive. The 30 rows of this track merge into 12 rows: every id, severity and status is kept, every Notes cell maps to the same (k) index, and only the three named citations changed. F3 is item (1) of the first row of this track. The High row and the two Medium rows stay single. The four Phase 1 rows match phase-acceptance-p1-c26c72ba.json. The live files hold 50 and 49 lines with 0 Thai. The plan changes no task state. Two Nits remain.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "N1 [Nit] review-a: Lesson 7 (lessons-learned.md, the wrong-result exception entry) cites 'Source: plan.md:92'. plan.md:92 is the Green P2 r7b role-base repair and does not name the exception; the exception is at plan.md:94 ('Red P2 r8 (faaa9b74): Review A r3 F1 and F2 (PM wrong-result exception)'). Cite plan.md:94 at the next registry edit.",
+    "N2 [Nit] review-a: measure/lessons-learned-archive.md keeps 3 entries with Thai text (grep -cP Thai = 3 lines), moved verbatim from the live file, where they were already present at a7f1b55e. The live files hold 0 Thai. A non-Claude role that reads the archive must run the Thai filter first (AGENTS.md 'Thai filter first'). Name this in the archive header or keep non-Claude roles out of the archive."
+  ],
+  "evidence": [
+    "git rev-parse HEAD = 2e29824dd5f9479bffbbe89925b54c167e9fdb00, equal to audited_head_sha. Commits fea23cee..HEAD: 45069196 (registries, archives, P3 log fix, gate outputs), 2e29824d (plan evidence and r2 log).",
+    "git diff --name-only a7f1b55e..2e29824d names only measure/** files: the two registries, the two new archives, plan.md and six Green P3 run files. No video/, content/, test, or render.mjs path.",
+    "Row census (python3 -I over git show): fea23cee has 70 rows = 40 other-track + 30 this-track. At 2e29824d: live 33 rows (21 other + 12 this-track), archive 19 rows. All 40 other-track rows are byte-identical lines in live or archive; 0 new other-track rows; 0 lost.",
+    "Archive scope: the 19 archived rows date 2026-04-21 to 2026-10-12, and the oldest live row dates 2026-10-20, so the archive holds the oldest rows as its header says.",
+    "Merge check: each of the 30 original Item cells appears verbatim after '(k) ' in one merged Item cell; the Notes cell segment '(k) ' of the same k equals the original Notes text for 27 rows. The three changed segments are the named citation fixes: adversarial F1 adds prepare.mjs:479-488 (the Pat drop); adversarial N3 adds Song.tsx:105-108 before timeline.ts:47; C-F4 render.mjs:44 to render.mjs:43. Severity and Status equal the original for all 30.",
+    "Single rows: review-a F3 (High), review-a N1 (Medium), PA2-N1 (Medium), MAY-1 and SCRAP-3D stay as their own rows with Item text unchanged. Every merged row is Low/Open, so no merge mixes severities.",
+    "F3 first: the first this-track row is 'Six adversarial-testing rows of Phase 2 ... (fix F3 first). (1) F3 ...', with Notes (1) ending 'Fix this one first.'",
+    "Phase 1 rows: adversarial N1 (prepare.mjs:488-490 at c26c72ba), adversarial N2 (prepare.mjs:552-569 at c26c72ba, 'No new attack was run'), PA-N3 (plan.md:41 and plan.md:85 at c26c72ba), PA-N4 (phase-acceptance-p1.test.mjs:54-67 at c26c72ba) match the nonblocking items of phase-acceptance-p1-c26c72ba.json and adversarial-p1-c26c72ba.json; all Nit to Low, PM 2026-11-23.",
+    "Lessons census: fea23cee has 38 bullets; 2e29824d has 31 live + 7 archive. The 7 archive entries and the 31 other live entries match fea23cee byte for byte, with 0 duplicates. Three track lessons changed: lesson 5 only adds a source pointer; lessons 6 and 7 were rewritten under Review C C-P3-4 (review-c-p3-fea23cee.json). The r2 log and plan.md disclose this. The new text matches contracts.md:114-120 (dispositions optional, required with routed findings; FIX and DECLINE take no text) and contracts.md:166-176 (two tests; the Round limit wins; the exception counts toward it).",
+    "Line and Thai counts: wc -l gives tech-debt.md 50, lessons-learned.md 49, tech-debt-archive.md 23, lessons-learned-archive.md 13. grep -cP '[\\x{0E00}-\\x{0E7F}]' gives 0, 0, 0 and 3 (archive, pre-existing at a7f1b55e: 3).",
+    "Plan state: git diff a7f1b55e..2e29824d -- measure/tracks shows the only checkbox change [ ] to [x] on the Phase 3 task (now 'commit ec22f400 commit 45069196'); the render task line keeps [x]. fea23cee..2e29824d adds only the commit SHA and the Green P3 r2 sub-bullet.",
+    "Gates: green-p3-r2-green.txt tests 38, pass 38; green-p3-r2-project.txt tests 98, pass 90, fail 0, skipped 8. These match plan.md and green-p3-r2-fea23cee.log.",
+    "Round 1 items: N1 (Phase 1 rows) fixed; N2 (budget claim) fixed in green-p3-a7f1b55e.log and the new headers state 50 lines; N3 (three citations) fixed; N4 (head_sha and task-state text) fixed in green-p3-a7f1b55e.log; N5 source pointers added to lessons 5 to 7 and the push gate.",
+    "Push gate source: git merge-base --is-ancestor 9256a77b origin/master is false (checked in round 1)."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git log --oneline fea23cee..HEAD",
+    "git diff --stat fea23cee..HEAD",
+    "git diff --name-only a7f1b55e..2e29824d",
+    "wc -l measure/tech-debt.md measure/lessons-learned.md measure/tech-debt-archive.md measure/lessons-learned-archive.md",
+    "python3 -I -c (row census and merge check over git show fea23cee and 2e29824d)",
+    "python3 -I -c (lesson census over git show fea23cee and 2e29824d)",
+    "grep -cP '[\\x{0E00}-\\x{0E7F}]' on the four registry files",
+    "git diff fea23cee..2e29824d -- measure/lessons-learned.md measure/tracks/ green-p3-a7f1b55e.log",
+    "sed -n '110,122p;166,178p' ~/.agents/skills/measure-orchestrator/references/contracts.md",
+    "tail green-p3-r2-green.txt green-p3-r2-project.txt"
+  ],
+  "changed_files": [
+    "measure/lessons-learned-archive.md",
+    "measure/lessons-learned.md",
+    "measure/runs/storytime_song_video_20261022/green-p3-a7f1b55e.log",
+    "measure/runs/storytime_song_video_20261022/green-p3-r2-fea23cee.log",
+    "measure/runs/storytime_song_video_20261022/green-p3-r2-green.txt",
+    "measure/runs/storytime_song_video_20261022/green-p3-r2-project.txt",
+    "measure/tech-debt-archive.md",
+    "measure/tech-debt.md",
+    "measure/tracks/storytime_song_video_20261022/plan.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "The row census over git show fea23cee and 2e29824d finds 0 lost and 0 altered other-track rows, and 30 of 30 track ids with the same severity and status."},
+    {"axis": "test_meaning", "score": 4, "evidence": "Docs-only round; green-p3-r2-project.txt shows 90 pass, 0 fail, 8 skipped, and the 8 skips are the registered ADV-P2 rows."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --name-only a7f1b55e..2e29824d names only measure/** files, and the only checkbox change is the Phase 3 task."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "green-p3-r2-fea23cee.log states the census and gate results, which this audit reproduced; one lesson source points at plan.md:92 instead of plan.md:94 (N1)."}
+  ]
+}

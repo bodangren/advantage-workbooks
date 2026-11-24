@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "role": "review-b",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 2: Forge art",
+  "baseline_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "phase_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "role_base_sha": "d398c2356f6e670f9a710235af1ae2389485b35f",
+  "audited_head_sha": "d398c2356f6e670f9a710235af1ae2389485b35f",
+  "security_applicability": "applicable",
+  "route": "openai/gpt-6.2-sol#high",
+  "status": "pass",
+  "summary": "B1 through B5 pass on the audited release path. All 108 handoff digests match. No blocking regression remains.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "B9 [Nit] review-b: The intake checks the final suffix, not the full asset name. prepare.mjs:327–331 accepts a non-hidden double extension that ends in an approved suffix. The audited handoff has no such rows. Record stricter path validation as tech debt for other handoffs.",
+    "B10 [Nit] review-b: The legacy final spec write at prepare.mjs:885–886 can follow a pre-existing spec.json symlink in week 1 or without a handoff. The remediation did not change that write, and the local specs are regular files. Record this as tech debt."
+  ],
+  "evidence": [
+    "HEAD was d398c2356f6e670f9a710235af1ae2389485b35f. The phase baseline is its ancestor. Product files match 5eae4c75. The intervening commits changed evidence and the plan only.",
+    "test-strategy.md:89–112 and 167–172 apply Review B to the external intake. The phase diff includes production changes in prepare.mjs and the render components.",
+    "B1: prepare.mjs:380–401 and 830–849 check every digest before the first copy. The release manifest includes the scene metadata read at 464–468.",
+    "B2: prepare.mjs:582–585 requires a classroom row. Lines 636–646 recheck the regular source before copying and verify the copy before installation.",
+    "B3: prepare.mjs:342–344 checks the manifest file before reading it. Lines 303–318 reject a symlink at the root or in a row path, including a symlinked directory.",
+    "B4: prepare.mjs:812–821 and 845–849 use lstat to reject a song.mp3 symlink, including a dangling link, before copying audio.",
+    "B5: prepare.mjs:327–331 and 348–360 reject dot-prefixed segments and disallowed final suffixes before any row byte read. They reject absolute paths, traversal, backslashes and noncanonical paths without accepting a normalized replacement.",
+    "The suffix check accepts .PNG and rejects .Env. Cast discovery still expects lowercase .png at prepare.mjs:483. A leading-dot name remains forbidden even when its final suffix is approved.",
+    "The independent read-only check recomputed 108 matching digests and four matching scene pairs. It found no symlink in the checked handoff paths.",
+    "The handoff contains 110 files. The manifest SHA-256 is f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759. It matches Green's before-and-after record.",
+    "The standard intake reads the handoff and writes to the project output. The audit made no handoff changes. The checked manifest names only expected assets, and the audit opened no secret file.",
+    "Git had no staged files or added .env or key filenames. The text scan found zero Thai characters in all committed versions of 86 changed text paths, seven local specs, and five handoff text files.",
+    "The scan did not inspect image pixels or audio. Git tracks no song video or poster in the Storytime product paths. Ignore rules cover all 24 Phase 2 deliveries.",
+    "The committed Green log records P2-B1, P2-B2 and P2-B5 passing and all 79 project tests passing on the same product tree. This review did not rerun project tests.",
+    "B6 through B8 were declined as nits, not contested. The brief contained no CONTEST item. B9 and B10 do not require another phase fix round.",
+    "A2 does not apply: no draft-to-published transition exists. A6 does not apply: the audited registry entry makes no claim that an intake security state is resolved."
+  ],
+  "commands": [
+    "git rev-parse HEAD d398c235^{commit} c26c72ba^{commit} 5eae4c75^{commit}",
+    "git merge-base --is-ancestor c26c72ba d398c235",
+    "git diff --no-ext-diff 748c95be..d398c235 -- video/storytime-song/scripts/prepare.mjs video/storytime-song/tests/phase2-security.test.mjs",
+    "git diff --name-status c26c72ba..d398c235 -- video/storytime-song measure/tracks/storytime_song_video_20261022 measure/tracks.md",
+    "git diff --quiet 5eae4c75 d398c235 -- video/storytime-song content/storytime",
+    "git show d398c235:video/storytime-song/scripts/prepare.mjs | nl -ba",
+    "git show d398c235:measure/runs/storytime_song_video_20261022/green-p2-r6-01f45859.log | nl -ba",
+    "Read-only Python check: validate handoff paths, recompute all digests, and scan Git history and generated specs without printing file contents.",
+    "git rev-parse HEAD"
+  ],
+  "changed_files": ["video/storytime-song/scripts/prepare.mjs", "video/storytime-song/src/Actors.tsx", "video/storytime-song/src/Song.tsx", "video/storytime-song/src/actorBoxes.ts", "video/storytime-song/tests/phase2-security.test.mjs"],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "ratings": [
+    {"axis": "correctness", "score": 4, "evidence": "prepare.mjs:327–360 checks asset paths before the digest pass, but deliberately checks only the final suffix."},
+    {"axis": "test_meaning", "score": 4, "evidence": "P2-B5 checks that rejected rows cause no file reads, but the committed suite does not specifically check the song.mp3 leaf symlink."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The remediation commit 5eae4c75 changes only the intake script."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "The independent read-only check verified all 108 digests, and the committed Green log records 79 passing tests."}
+  ]
+}

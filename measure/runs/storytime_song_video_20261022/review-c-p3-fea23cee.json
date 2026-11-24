@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 3: Hand-off",
+  "baseline_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "phase_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "role_base_sha": "fea23cee1783130fcdeef9e2b930f1bebdf42acb",
+  "audited_head_sha": "fea23cee1783130fcdeef9e2b930f1bebdf42acb",
+  "contract_applicability": "not_applicable",
+  "ux_applicability": "not_applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {"screenshots": [], "accessibility_snapshots": [], "interactions": []},
+  "status": "fail",
+  "summary": "API and UX review do not apply. The hand-off records the open gates, but the Phase 3 task does not meet the documentation gate or the project memory limit.",
+  "blocking_findings": [
+    "C-P3-1 [Blocker] review-c: The Phase 3 task is complete in plan.md:112, but the tech debt registry has 91 lines and the lessons registry has 59. measure/workflow.md:47–50 and :270–279 require at most 50 lines per registry. The new headers defer the required work without changing the workflow. Route to Green to condense the registries and retain full hand-off evidence and open gates.",
+    "C-P3-2 [Blocker] review-c: test-strategy.md:160–167 requires zero Thai characters in both registries. The audited lessons registry contains 39 Thai characters on lines 16, 28, and 53. All 39 predate Phase 3, and Phase 3 added none. The committed Green log checks only new writing. Route to Green to satisfy the whole-file gate."
+  ],
+  "nonblocking_findings": [
+    "C-P3-3 [Nit] review-c: measure/tech-debt.md:87–89 gives no path to the exact review media and assigns no owner for the Thai review or the re-render. Cite the Phase 2 render inventory and name the responsible roles. Tell the next owner where to record the review results.",
+    "C-P3-4 [Nit] review-c: measure/lessons-learned.md:46–47 overstates two workflow rules. contracts.md:114–120 makes dispositions conditional, and :170–176 says the wrong-result exception does not override the round limit. Correct the lessons so the next owner can apply the rules.",
+    "C-P3-5 [Nit] review-c: The registry omits the Phase 1 staging and interrupted-rename risks accepted for track close in phase-acceptance-p1-c26c72ba.json. plan.md:81 also directs the staging finding to tech debt. Preserve both risks in one recovery entry."
+  ],
+  "evidence": [
+    "HEAD resolved to fea23cee1783130fcdeef9e2b930f1bebdf42acb at role start and after inspection. Phase base a7f1b55e403854de0d9596756ee10a2c371f4680 is an ancestor.",
+    "Both commits in the exact phase range touch only the listed Markdown files and run evidence. The path-limited diff for video, dashboard, and content exits 0 with no output.",
+    "test-strategy.md:160–167 and :185–191 exclude Review C API and UX checks in Phase 3. The committed CLI, route, and deliverable paths did not change.",
+    "The existing worktree edit to video/storytime-song/scripts/render.mjs is outside the immutable audit. test-strategy.md:17 records it as a pre-existing edit.",
+    "plan.md:112 cites ec22f400, which adds 30 tech debt rows and seven lessons. The Phase 3 plan records the task and points to the Green evidence.",
+    "measure/tech-debt.md:83–91 keeps Daniel's look check, the Thai review, the Forge cast and re-render, the planned w01 ship, and the PM push open.",
+    "The Phase 2 review inventory is committed at measure/runs/storytime_song_video_20261022/green-p2-r8-rerender.txt. The registry does not cite it in the open gates.",
+    "The registry reference check resolves 25 distinct cited paths in the committed tree. The correct adversarial JSON is local run evidence only. The one absent path is explicitly listed as a typo.",
+    "The read-only registry scan found 91 and 59 lines at the audited HEAD, compared with 50 and 50 at the phase base. It found zero Thai characters on added registry lines.",
+    "The Green logs record 38 pass in the focused gate and 90 pass with eight skips in the project gate. This review did not rerun either suite or read week JSON."
+  ],
+  "commands": [
+    "git rev-parse HEAD fea23cee^{commit} a7f1b55e^{commit}; git merge-base --is-ancestor a7f1b55e fea23cee",
+    "git diff --name-status a7f1b55e fea23cee; git log --name-only a7f1b55e..fea23cee",
+    "git diff --check a7f1b55e fea23cee; git diff --exit-code a7f1b55e fea23cee -- video dashboard content",
+    "git show at fea23cee: plan, test strategy, workflow, phase evidence, and Green logs",
+    "python3 -I read-only scan of committed registry blobs and diff additions: line counts, track entries, Thai character counts, and path resolution",
+    "git status --short --untracked-files=no -- video/storytime-song/scripts/render.mjs content measure/lessons-learned.md measure/tech-debt.md measure/tracks/storytime_song_video_20261022"
+  ],
+  "changed_files": [
+    "measure/lessons-learned.md",
+    "measure/runs/storytime_song_video_20261022/green-p3-a7f1b55e.log",
+    "measure/runs/storytime_song_video_20261022/green-p3-green.txt",
+    "measure/runs/storytime_song_video_20261022/green-p3-project.txt",
+    "measure/tech-debt.md",
+    "measure/tracks/storytime_song_video_20261022/plan.md"
+  ],
+  "test_strategy_violations": [
+    "C-P3-2: test-strategy.md:164 and :167 require zero Thai characters in both registry files; the committed lessons registry contains 39 inherited Thai characters."
+  ],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "measure/tech-debt.md:83–91 keeps the human gates open, but the registry files do not meet the completion rule in measure/workflow.md:279."},
+    {"axis": "test_meaning", "score": 2, "evidence": "green-p3-a7f1b55e.log records product suites and checks new writing, while test-strategy.md:164 requires a whole-file Thai check."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --exit-code a7f1b55e fea23cee -- video dashboard content exits 0 with no output."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "plan.md:112–113 cites the docs commit and Green log, but measure/tech-debt.md:87–89 does not identify the media for the human gates."}
+  ]
+}

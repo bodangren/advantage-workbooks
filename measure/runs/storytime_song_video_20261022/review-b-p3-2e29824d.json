@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "role": "review-b",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 3: Hand-off",
+  "baseline_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "phase_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "role_base_sha": "2e29824dd5f9479bffbbe89925b54c167e9fdb00",
+  "audited_head_sha": "2e29824dd5f9479bffbbe89925b54c167e9fdb00",
+  "status": "pass",
+  "security_applicability": "not_applicable",
+  "summary": "Phase 3 changes only documentation and logs. The inspected diff adds no secrets, credentials, secure test items, private paths, or Thai text. The specified archive was excluded.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD matched the audited SHA at role entry and after the checks. The phase base is an ancestor of HEAD.",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md:160-167 defines a documentation-only phase and marks Review B not applicable.",
+    "The tree diff and the four phase commits match the ten inspected paths in changed_files after exclusion. Git tree metadata identifies the eleventh path, the specified archive.",
+    "The phase diff and round 2 diff each contain zero added Thai matches and 39 removed matches outside the excluded archive. All review output passed the zero-Thai filter.",
+    "The active lessons and debt files each have zero Thai characters. This role read no Storytime week JSON or contents of measure/lessons-learned-archive.md.",
+    "green-p3-r2-fea23cee.log:12-19 records that the excluded archive contains entries moved verbatim. This role verified the archive path and blob ID only.",
+    "The inspected diff added no credential or private path matches. The secure-test match at measure/tech-debt-archive.md:9 is a reference to a teacher guide, not secure test material.",
+    "All 19 rows in measure/tech-debt-archive.md match previously tracked rows verbatim.",
+    "No product, test, render.mjs, content, video, poster, or handoff artifact changed in the phase commits. The seven existing song-handoff files retain their blob IDs.",
+    "The index has no staged changes. The pre-existing unstaged render.mjs change remains outside the audited commits.",
+    "A2: No publish transition changed. A6: measure/tracks.md did not change, and the test log still marks the accepted skips as debt.",
+    "green-p3-r2-project.txt:25-32 records the accepted skips. This role did not rerun the project tests.",
+    "The Review B role gate passed. The final check confirmed the audited HEAD, an empty index, and zero Thai characters in both result artifacts."
+  ],
+  "commands": [
+    "git rev-parse HEAD a7f1b55e 2e29824d",
+    "git merge-base --is-ancestor a7f1b55e 2e29824d",
+    "git diff --name-only --no-renames -z a7f1b55e 2e29824d -- . ':(exclude)measure/lessons-learned-archive.md'",
+    "git rev-list a7f1b55e..2e29824d (path check with git diff-tree and the same exclusion for each commit)",
+    "git diff --no-ext-diff --no-textconv --no-renames --unified=0 a7f1b55e 2e29824d -- . ':(exclude)measure/lessons-learned-archive.md' (Python Thai and disclosure checks)",
+    "git diff --no-ext-diff --no-textconv --no-renames --unified=0 fea23cee 2e29824d -- . ':(exclude)measure/lessons-learned-archive.md' (Python Thai and disclosure checks)",
+    "git diff --check a7f1b55e 2e29824d -- . ':(exclude)measure/lessons-learned-archive.md'",
+    "git diff --cached --quiet",
+    "git diff --name-status -- . ':(exclude)measure/lessons-learned-archive.md'",
+    "git ls-tree 2e29824d -- measure/lessons-learned-archive.md",
+    "git ls-tree -r 2e29824d -- content/storytime/l2/media video/storytime-song"
+  ],
+  "changed_files": [
+    "measure/lessons-learned-archive.md",
+    "measure/lessons-learned.md",
+    "measure/runs/storytime_song_video_20261022/green-p3-a7f1b55e.log",
+    "measure/runs/storytime_song_video_20261022/green-p3-green.txt",
+    "measure/runs/storytime_song_video_20261022/green-p3-project.txt",
+    "measure/runs/storytime_song_video_20261022/green-p3-r2-fea23cee.log",
+    "measure/runs/storytime_song_video_20261022/green-p3-r2-green.txt",
+    "measure/runs/storytime_song_video_20261022/green-p3-r2-project.txt",
+    "measure/tech-debt-archive.md",
+    "measure/tech-debt.md",
+    "measure/tracks/storytime_song_video_20261022/plan.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "The active registry checks passed, and green-p3-r2-fea23cee.log:12-19 records the verbatim move to the excluded archive."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 3,
+      "evidence": "The raw diff scan verifies the Thai condition in test-strategy.md:167 for the active files, but this review did not check link resolution."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The tree diff and phase commit paths match the documentation and log allowlist."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Git and the filter verify the scope and Thai counts, while green-p3-r2-fea23cee.log:12-19 supplies the archive content claim."
+    }
+  ]
+}

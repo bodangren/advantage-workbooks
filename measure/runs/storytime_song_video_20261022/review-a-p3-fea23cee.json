@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 3: Hand-off",
+  "baseline_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "phase_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "role_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "audited_head_sha": "fea23cee1783130fcdeef9e2b930f1bebdf42acb",
+  "route": "claude-agent/opus#high",
+  "status": "pass",
+  "summary": "The Phase 3 diff is docs only and records no wrong result. All 30 new tech-debt rows trace to a run artifact: 29 match the nonblocking ids of phase-acceptance-p2-a7f1b55e.json one to one, and SCRAP-3D traces to prepare.mjs:29-30 and plan.md:106. The adversarial F3 row is first. The plan diff changes one task state (Phase 3 [ ] to [x], commit ec22f400) and keeps the render task SHAs. The gate claims match the committed outputs. The 50-line overrun is disclosed. Five nonblocking items remain; the main one is that four Phase 1 risks that plan.md:22 sends to tech debt at close have no row.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "N1 [Minor] review-a: Four Phase 1 accepted risks have no tech-debt row. plan.md:22 says 'Accepted risks for tech debt at close: F3, C-F4, N1, N2, PA-N1 and the other nonblocking items' of phase-acceptance-p1-c26c72ba.json, and plan.md:81 repeats N1. The registry holds C-F4 (tech-debt.md:70) and PA-N1 (tech-debt.md:73) only. Missing: adversarial P1 N1 (a stale staging folder after an interrupted refresh), adversarial P1 N2 (process termination between the output renames bypasses rollback), PA-N3 and PA-N4. Review C P1 F3 (empty or header-only manifest) is covered in substance by the adversarial P2 F1 row (tech-debt.md:53). Add the four rows at closeout.",
+    "N2 [Nit] review-a: The Green log says 'Their headers state the new budget', but the new headers (tech-debt.md:3-5, lessons-learned.md:3-5) state no budget. They replace the rule 'Keep it at or below 50 lines' with a history note, while measure/automation-script.sh:400 and :417 still ask for 50 lines or less. The files hold 91 and 59 lines. The overrun is disclosed and accepted for this phase; closeout must trim the files or state a number.",
+    "N3 [Nit] review-a: Three rows point near the cause, not at it. The adversarial N3 row (tech-debt.md:57) cites timeline.ts:47; the source finding cites Song.tsx:98-108, where Math.max(1, ...) at Song.tsx:105-108 gives an empty shot one frame. The C-F4 row (tech-debt.md:70) cites render.mjs:44; at HEAD the prepare(rel) call is render.mjs:43. The adversarial F1 row (tech-debt.md:53) cites prepare.mjs:327-357 only; the Pat drop that the source cites at prepare.mjs:479-488 is not named.",
+    "N4 [Nit] review-a: The Green P3 log text has two small mismatches. Its result block gives head_sha a7f1b55e (the role base, before the commit). Its body says 'No task state and no task SHA changed', but the Phase 3 task flipped to [x]; plan.md:113 says 'No other task state' correctly.",
+    "N5 [Nit] review-a: Lessons 5 and 6 (lessons-learned.md:45-46) and human gates 4 and 5 (tech-debt.md:90-91) have no run-log source in this track. They are consistent with the evidence: the Green P2 logs carry bare dispositions lines such as 'B6=DECLINE', plan.md:92 records the r7 role base repair, and 9256a77b is not an ancestor of origin/master. Add a source pointer at closeout."
+  ],
+  "evidence": [
+    "git rev-parse HEAD = fea23cee1783130fcdeef9e2b930f1bebdf42acb, equal to audited_head_sha.",
+    "git log a7f1b55e..HEAD: ec22f400 (tech-debt, lessons, Green log and gate outputs), fea23cee (plan.md only).",
+    "git diff --name-only a7f1b55e..HEAD: measure/lessons-learned.md, measure/tech-debt.md, plan.md and three files under measure/runs/storytime_song_video_20261022/. No video/, content/, test, or render.mjs path.",
+    "Thai count in the diff: grep -cP '[\\x{0E00}-\\x{0E7F}]' = 0.",
+    "Row count: tech-debt.md:52-81 holds 30 storytime_song_video_20261022 rows. The ids F3, F1, F2, N1, N2, N3 (adversarial), F3, F4, F5, F6, N1, N2, N3 (review-a), B6 to B10, C-F4, C-P2-2, C-P2-3, PA-N1, PA2-N1 to PA2-N6 and MAY-1 equal the 29 nonblocking ids of phase-acceptance-p2-a7f1b55e.json. SCRAP-3D traces to prepare.mjs:29-30 (SCRAPPED_3D) and plan.md:106.",
+    "F3 order: tech-debt.md:52 is the first new row: the adversarial F3 song.mp3 overwrite, with 'Fix this one first'. Source adversarial-p2-a7f1b55e.json lists F3 first; ADV-P2-11 is first in the skipped file per plan.md:109.",
+    "F3 content check: prepare.mjs:849 copies song.mp3 at HEAD; the classroom row check runs later inside prepareWithManifest at prepare.mjs:583-585 through the call at prepare.mjs:861. The row text is correct.",
+    "Line citations checked at HEAD with git show: prepare.mjs:269-271, 327-331, 347, 464-468, 578-585, 837, 849, 852, 860-861, 886, 890-905; actorBoxes.ts:23, 68-79; timeline.ts:47, 52; Song.tsx:100; layout.ts:48; Actors.tsx:71-75; SoundCard.tsx:36-41; Lyrics.tsx:10; week1-regression.test.mjs:131-132; phase2-look.test.mjs:57-58; phase-acceptance-p1.test.mjs:40-41; phase2-boxes.test.mjs:137-168, 172-194; test-strategy.md:114-119; README.md:5-14. All hold the cited code except the drift in N3.",
+    "shot.exit: grep '\\.exit\\b' video/storytime-song/src returns only timeline.ts:52, so the row claim 'no renderer reads it' holds.",
+    "PA2-N4 row: git cat-file -t 19e6bf191f3dd22bca97c0c068ec6b3894b4a737 = commit; adversarial-p2-f8c1c01d.json exists.",
+    "Plan task state: the only checkbox change in git diff a7f1b55e..HEAD -- plan.md is the Phase 3 task, '- [ ]' to '- [x] ... commit ec22f400'. The render task line keeps b1b00e71 and 242c19d5 (format change only). The Red P2 r8 and r9 sub-bullets gain a closing note and keep no checkbox. The Red P2 r10 bullet moved from Phase 3 to the end of Phase 2 with text unchanged.",
+    "plan.md:89, 90-92, 94-95, 96, 103, 106-107 at HEAD hold the content that the rows cite, so the move of the r10 bullet did not shift the cited lines.",
+    "Gate claims: green-p3-green.txt ends 'tests 38, pass 38, fail 0'; green-p3-project.txt ends 'tests 98, pass 90, fail 0, skipped 8'. These match plan.md:113 and the Green log.",
+    "Human gates 1 to 3 match the 'Open human gates' text of phase-acceptance-p2-a7f1b55e.json. Gate 5: git merge-base --is-ancestor 9256a77b origin/master is false (not pushed).",
+    "Budget: wc -l gives tech-debt.md 91 and lessons-learned.md 59 (both 50 at a7f1b55e). The overrun is disclosed in both headers and in the Green log 'Known limit'.",
+    "Lessons 1 to 4 and 7 trace to review-c-p2-b87ee87d.json C-P2-1, green-p2-r8-b87ee87d.log (w02, w03, w05, w06 re-render), review-a-p2-d398c235.json F1, plan.md:93 (the 22 percent floor, 1920 x 0.22 = 422 px against a 607.5 px band) and the 'wrong-result exception' text in the run logs."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git log --oneline a7f1b55e..HEAD",
+    "git diff --stat a7f1b55e..HEAD",
+    "git diff a7f1b55e..HEAD -- measure/tech-debt.md measure/lessons-learned.md measure/tracks/storytime_song_video_20261022/plan.md",
+    "python3 -I -c (list blocking and nonblocking ids of every run JSON)",
+    "git show HEAD:video/storytime-song/<file> | awk (line citations)",
+    "git cat-file -t 19e6bf191f3dd22bca97c0c068ec6b3894b4a737",
+    "git diff a7f1b55e..HEAD | grep -cP '[\\x{0E00}-\\x{0E7F}]'",
+    "grep -rn '\\.exit\\b' video/storytime-song/src",
+    "wc -l measure/tech-debt.md measure/lessons-learned.md",
+    "git merge-base --is-ancestor 9256a77b origin/master",
+    "tail green-p3-green.txt green-p3-project.txt"
+  ],
+  "changed_files": [
+    "measure/lessons-learned.md",
+    "measure/runs/storytime_song_video_20261022/green-p3-a7f1b55e.log",
+    "measure/runs/storytime_song_video_20261022/green-p3-green.txt",
+    "measure/runs/storytime_song_video_20261022/green-p3-project.txt",
+    "measure/tech-debt.md",
+    "measure/tracks/storytime_song_video_20261022/plan.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "ratings": [
+    {"axis": "correctness", "score": 4, "evidence": "29 of 30 rows match the phase-acceptance-p2-a7f1b55e.json ids one to one and F3 is first at tech-debt.md:52, but four Phase 1 risks named at plan.md:22 have no row (N1)."},
+    {"axis": "test_meaning", "score": 4, "evidence": "Docs-only phase; green-p3-project.txt shows 90 pass, 0 fail, 8 skipped, and the 8 skips are the registered rows for ADV-P2-5 to ADV-P2-16."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "git diff --name-only a7f1b55e..HEAD names only measure/** files, and the only checkbox change is the Phase 3 task."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "Each row carries a file:line that holds at HEAD, with three rows that drift (N3) and two lessons and two gates without a run-log source (N5)."}
+  ]
+}

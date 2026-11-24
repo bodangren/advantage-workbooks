@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "role": "review-c",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 2: Forge art",
+  "baseline_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "phase_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "role_base_sha": "b87ee87d4c8086224df45d714459fc7723536f6b",
+  "audited_head_sha": "b87ee87d4c8086224df45d714459fc7723536f6b",
+  "route": "openai/gpt-6.2-sol#high",
+  "status": "fail",
+  "summary": "The eight delivered w02, w03, w05, and w06 videos still crop the Adventurer inset at the top. All 24 outputs exist and match the recorded dimensions and SHA-256 values. The w04 and w07 samples show the expected Forge room and readable lyrics. The late wrong-result finding needs approval for another Green round.",
+  "blocking_findings": [
+    "C-P2-1 [Blocker] review-c: The delivered song.mp4 and song-phone.mp4 for w02, w03, w05, and w06 crop the top of the Adventurer's head. Phase 2 plan.md:88 lists these videos as deliverables. P2-F3 at plan.md:90 requires the full figure in both cuts. I decoded a frame from each of the eight current videos. Every frame matched the corresponding committed frames-p2 image byte for byte. The later look render did not regenerate these four weeks (green-p2-look-62cd6c6c.txt:2). Route to Green after approval. Regenerate the four weeks from the reviewed source. Keep the existing Forge scene videos and week 1 media unchanged. Verify that the inset shows the full figure in both cuts."
+  ],
+  "nonblocking_findings": [
+    "C-P2-2 [Nit] review-c: The README documents the legacy week 1 import but omits STORYTIME_SONG_ART_DIR and the default TSV handoff for weeks 2–7 (README.md:5–14; prepare.mjs:265–271, 397–401, 857–875). Document which fallback is intentional and how to tell which art the command used. The phase render command and dimensions are correct. Route to tech debt.",
+    "C-P2-3 [Nit] review-c: The inherited CLI parsers accept unknown flags. The prepare probe with --forg reached package lookup instead of showing usage (prepare.mjs:890–904). The render parser does not validate --concurrency locally (render.mjs:17–31, 47–54). The prescribed phase command uses valid flags. Route to tech debt."
+  ],
+  "evidence": [
+    "HEAD and the role start both resolve to b87ee87d4c8086224df45d714459fc7723536f6b. The phase base c26c72ba3173b71194e50977a2b06c04e75e3df2 is an ancestor.",
+    "test-strategy.md:170–176 assigns Phase 2 to Review C for the CLI and intake contracts. The phase diff changes prepare.mjs, SceneLayer callers, actor rendering, and release evidence. No web route or package JSON changes in the phase.",
+    "All 24 live files match their recorded SHA-256 values. green-p2-rerender-c26c72ba.txt:7–66 covers w02, w03, w05, and w06. green-p2-r7-01f45859.txt:51–58,104–111 covers w04 and w07. Each week has 1920×1080 and 720×1280 H.264/AAC videos and 1280×720 and 720×1280 JPEG posters.",
+    "Week 1 was outside both release render sets. The live w01 video hashes match green-p2-r7-e01b8308.log:56. The masked frame guard reports PASS in green-p1-w01-compare.txt:37.",
+    "The render and prepare usage probes returned exit 2 for a missing or malformed week. Prepare also returned exit 2 for missing --forge and --scene values. The committed renderer returned exit 2 for a missing --cut value and invalid cuts.",
+    "render.mjs:43 calls prepare before either cut. Lines 62–69 and 77–145 select the cut and write the expected names. I used committed render bytes for the usage probes. The checkout's other-owner render.mjs change stayed untouched.",
+    "prepare.mjs:342–401 rejects bad rows and SHA-256 mismatches with the row or file name before output writes. Lines 857–875 preserve the week 1 art path and handle the planned missing-handoff fallback. Missing cast is not a render error.",
+    "frames-p2-w02-*-10.jpg, frames-p2-w03-*-40.jpg, frames-p2-w05-*-10.jpg, and frames-p2-w06-*-10.jpg visibly crop the Adventurer's head. Both cuts in each sample match fresh decodes from the delivered videos byte for byte.",
+    "The four scene-video weeks still show the Forge scenes and clear lyrics in the inspected frames. At w02 10 s, a sun fills the scene. At w03 40 s, three children stand in the room. At w05 10 s, Sam stands inside the frame. At w06 10 s, three children and a cat stand inside the frame.",
+    "The r7 w04 samples show the timber room, the red rug, Dad inside the frame, and Lily's existing flat placeholder. At 13.48 s, one Lily placeholder remains and Dad is gone. The lyric text stays clear in both cuts.",
+    "Both r7 w07 samples show May as a person placeholder at the left of the Forge room. The prop placeholders stay separate from May and the lyrics. The Adventurer's head and feet are visible in both w04 and w07 inset samples.",
+    "All four w06 speech cards appear high in the scene during their sound windows in both cuts. In the card region, cream pixels rise from 0% before each window to 76–79% at the midpoint. A decoded text mask at 8.48 s shows readable dark Meow, meow! lettering in both cuts. No card reaches the lyric or inset regions (layout.ts:57–60).",
+    "tests/phase2-look.test.mjs:195–221 checks the prepared inset geometry, not the delivered pixels. The Green rerun passes, but it does not establish that the four existing videos contain the new inset.",
+    "The wrong-result exception applies to C-P2-1 because the named Phase 2 files contain cropped pixels. The metadata escalation concerns a different defect. No additional remediation round starts from this audit.",
+    "I ran the Thai filter self-check first. It returned 0 Thai characters. I did not read a week JSON file directly."
+  ],
+  "commands": [
+    "git rev-parse HEAD b87ee87d c26c72ba; git merge-base --is-ancestor c26c72ba b87ee87d",
+    "git diff --name-status c26c72ba b87ee87d; git show b87ee87d:<audited path>",
+    "Python hashlib.file_digest against the committed ffprobe and SHA-256 records: 24 of 24 delivered outputs match.",
+    "Node prepare usage probes and stdin execution of the committed render body with imports resolved to file URLs: nine expected usage exits; the unknown prepare flag instead reached package lookup.",
+    "ffmpeg single-frame seeks to stdout with one decode thread: 12 of 12 decoded JPGs byte-match the evidence frames; four timed w06 sound cards detected in both cuts.",
+    "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py audit-result --role review-c --file measure/runs/storytime_song_video_20261022/review-c-p2-b87ee87d.json"
+  ],
+  "changed_files": [
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/actorBoxes.ts",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/may-2d.test.mjs",
+    "video/storytime-song/tests/phase2-boxes.test.mjs",
+    "video/storytime-song/tests/phase2-look.test.mjs",
+    "video/storytime-song/tests/phase2-security.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs",
+    "measure/tracks/storytime_song_video_20261022/plan.md",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [
+    "C-P2-1: Both delivered cuts for w02, w03, w05, and w06 fail the P2-F3 no-top-crop requirement."
+  ],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "contract_applicability": "applicable",
+  "ux_applicability": "not_applicable",
+  "webbridge_status": "not_run",
+  "webbridge_evidence": {
+    "screenshots": [],
+    "accessibility_snapshots": [],
+    "interactions": []
+  },
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "All 24 outputs match the required dimensions, but eight delivered videos fail P2-F3."},
+    {"axis": "test_meaning", "score": 3, "evidence": "The P2-F3 test in tests/phase2-look.test.mjs:195–221 proves prepared geometry, not the pixels in the delivered files."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The exact phase diff changes intake, presentation, and their proofs without changing the renderer CLI or the week packages."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The 24 hash comparisons and 12 byte-identical frame decodes tie the evidence to the current delivery."}
+  ]
+}

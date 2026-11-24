@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "role": "review-a",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 2: Forge art",
+  "baseline_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "phase_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "role_base_sha": "d398c2356f6e670f9a710235af1ae2389485b35f",
+  "audited_head_sha": "d398c2356f6e670f9a710235af1ae2389485b35f",
+  "route": "claude-agent/opus#high",
+  "status": "fail",
+  "summary": "The intake, inset, Forge classroom, resolveActorArt and week 1 guards hold. The actorBoxes contract does not hold: the person figures draw outside their tested boxes. Four w04 phone lines lose their subject (Mom, Dad, Tom, Grandma) off the right edge. A leftover 0.3 s exit tail also draws two shots' actors together at 22 w04 and w07 shot changes. Both defects are in delivered videos.",
+  "blocking_findings": [
+    "F1 [Blocker] review-a: actorBoxes is not what Actors.tsx draws for kind figure. Figure (src/art/Figure.tsx:243-246) draws an svg of width height*240/340 with the body centred at half that width, and Actors.tsx:84-91 places it in a box of 150 px (classroom) or 100 px (portrait) width. In the portrait cut the svg is 311 frame px wide for a 100 px box, so the body centre sits at box.left+155. The w04 portrait boxes at left 980 (lines 1, 2, 6, 9) put Mom, Dad, Tom and Grandma at centre x 1135, past the 1080 frame edge: the subject of the sung line is absent from the phone cut. The rendered frame frames-p2boxes-w04-phone-10.jpg ('This is my dad. Hello, Dad!') shows no Dad. frames-p2boxes-w04-phone-40.jpg shows Mom and Dad overlapping, Grandma on the rug, and Tom clipped behind Lily. P2-F6 passes because tests/phase2-boxes.test.mjs checks only the returned box, and it has no in-frame check for the family (only May, at slot 0). The Green r4 plan claims 'the tested boxes are the drawn boxes' and 'figures ... readable in both cuts' (plan.md:97) are false. Fix: make the drawn figure fill or centre in its box (or give actorBoxes the figure aspect), and add a test that ties the figure kind box to the Figure geometry plus an in-frame check for every drawn actor in both cuts. Late finding: meets the wrong-result exception (delivered Actors.tsx/actorBoxes.ts; a viewer sees the named family member missing).",
+    "F2 [Blocker] review-a: Song.tsx:102-108 still extends each shot Sequence by EXIT_SECONDS (0.3 s) when shot.exit is true, but Actors.tsx no longer slides actors out. The old and new actors draw together at the same slots for 9 frames. A pure check over shots() and actorBoxes counts 13 such w04 changes and 9 w07 changes, with the same actor at two slots (Lily, Tom, Grandma, ToyBox, Ben) or a new actor over an old one. The rendered w04 song.mp4 (sha256 65cbe6fd...) at 13.48 s shows two Lily placeholders and the previous Dad over the line 'Mom, Dad, my family!'; at 13.80 s only one Lily remains. This also breaks the P2-F6 'clear of each other' claim in time. Fix: drop the exit tail (or restore the slide) and add a test that each shot's actor window ends at the next shot start when no slide-out exists. Late finding: meets the wrong-result exception (delivered Song.tsx; a viewer sees a duplicated actor at most shot changes)."
+  ],
+  "nonblocking_findings": [
+    "F3 [Major] review-a: Stale plan evidence. plan.md:90-92 say 'Tests: P2-F1 to P2-F3 / P2-F6 and P2-F7 / P2-B1 and P2-B2 in test-strategy.md', but test-strategy.md holds no P2-F* or P2-B* row (grep returns no match). plan.md:91 is [x] although its done-when needs Daniel's look check approval, and the plan records no such approval. Route to the plan owner; record under tech debt if not fixed.",
+    "F4 [Nit] review-a: Test mirrors of the renderer drifted. tests/phase2-look.test.mjs:56-58 and 84-85 and tests/phase-acceptance-p1.test.mjs:40-41 and 62-63 still classify actors with the PLACEHOLDER_WORDS rule that this phase removed from Actors.tsx. The renderer now uses PERSON_FIGURES in actorBoxes.ts:23 (for example, Ben draws as a flat placeholder, the mirror says figure). The assertions accept either kind, so nothing fails, but the mirrors no longer describe the drawn output. Import actorBoxes instead. Tech debt.",
+    "F5 [Nit] review-a: Dead code and duplicated constants. prepare.mjs:852-856 computes `covered` and never reads it. layout.ts:48 ACTOR_SPAN has no renderer consumer and only tests/layout.test.mjs guards it. actorBoxes.ts:55-62 hard-codes 800 (GROUND in art/Scene.tsx:5) and 1080/1920 (PORTRAIT_SCENE_SCALE). Song.tsx:100 maps an unmatched picture to line 0, a silent fallback that cannot occur today. LOOKS[].scale (adult heights) is now ignored. Tech debt.",
+    "F6 [Nit] review-a: Latent cut-out distortion. Actors.tsx:76-81 stretches a Forge cut-out Img to the fixed 150x300 or 100x440 box and no longer uses forge.scale, canvas or foot. No current week draws a cut-out through the actor layer (Forge-video weeks draw no actor layer, w04 and w07 have no cast), so no delivered frame changes. actorBoxes also clamps more than 6 (classroom) or 8 (portrait) actors into the last slot without an error. Tech debt."
+  ],
+  "evidence": [
+    "git rev-parse HEAD = d398c2356f6e670f9a710235af1ae2389485b35f, equal to audited_head_sha. Audited diff c26c72ba..d398c235 in video/storytime-song: prepare.mjs, Actors.tsx, Song.tsx, actorBoxes.ts (new), and tests.",
+    "Round count: Review B ran at 3c6a151d, 748c95be and d398c235, so this Review A run is round 3 of Phase 2 and F1 to F6 are late findings. F1 and F2 meet the wrong-result exception: each names a delivered product file listed in plan.md:91 and a wrong output that a viewer sees. F3 to F6 go to measure/tech-debt.md. The orchestrator must check the Round limit before it starts the one fix round.",
+    "F1 numeric check: node script over public/l2/w04/spec.json with actorBoxes and the Figure geometry prints 'w04 portrait line 1 Mom', 'line 2 Dad', 'line 6 Tom', 'line 9 Grandma' with 'figure centre x 1135 > frame width 1080'.",
+    "F1 frame check: green-p2-boxes-63d99e0a.txt lists 'Dad=figure[980,10,100,440]' for w04 portrait line 2; frames-p2boxes-w04-phone-10.jpg shows that line with only the Lily placeholder in the scene band.",
+    "F2 check: node script over shots() prints 'w04 shots 14 exit-tail shots 13' and 'w07 shots 14 exit-tail shots 9'. Frames extracted through heavy-run.sh (exit 0) from content/storytime/l2/media/w04/song.mp4 (sha256 65cbe6fdec5d5f5c4d3f71131ceb59f25ca8216ce40c4de0537843fb0756a0e5, equal to the boxes-round evidence) at 13.48 s and 13.80 s show the duplicate, then its end.",
+    "Intake: T2.1 (108 rows, labeled counts) is unchanged and passes per the Green r6 log. verifiedManifest (prepare.mjs:397-402) checks every row digest before any copy; Review B verified 108 digests at this HEAD.",
+    "resolveActorArt: unchanged in this diff (prepare.mjs:150). P2-F2 (phase2-look.test.mjs:164-168) asserts w04 and w07 actors resolve to placeholder; T2.10 covers the forge kind.",
+    "Adventurer inset: prepareWithManifest copies the approved inset into look/ for every week 2-7 with a manifest (prepare.mjs:620-634). P2-F1 checks every line of w02-w07 in both cuts against the phase-base fixture frames and asserts no cutouts/ path.",
+    "Forge classroom: prepare.mjs:582-585 refuses w04 or w07 without the classroom row; P2-F2 compares the copied bytes against the handoff sha256 on every w04 and w07 line.",
+    "Bubbles on top: Song.tsx renders SoundCard after SceneLayer; P2-F2 checks bubbleAt for the Forge-video weeks. PA-F2 closed by design (no actor layer under a scene video).",
+    "Week 1: prepare() skips prepareWithManifest for l2/w01 (prepare.mjs:860); week1-regression.test.mjs compares 4 masked same-toolchain pairs with a mask held within 8 px of the card. w01 draws a scene video, so the Actors rewrite does not reach it.",
+    "Callers: render.mjs:14 imports only CONTENT, PROJECT and prepare; prepare(rel) keeps its signature. prepareWithManifest gains an optional third argument, so old callers still work. The only <Actors> caller is Song.tsx:110 (SongPortrait reaches it through SceneLayer). render.mjs carries the other owner's uncommitted --cut karaoke edit; this audit did not touch it.",
+    "Tests were not rerun. The Green r6 log records GREEN_TEST_COMMAND 0 (36 tests) and PROJECT_TESTS 0 (79 tests) on the same product tree. F1 and F2 do not depend on a test failure; the tests pass while the drawn output is wrong.",
+    "No Thai text was printed. No production, test, plan or registry file was changed."
+  ],
+  "commands": [
+    "git rev-parse HEAD c26c72ba",
+    "git diff c26c72ba..d398c235 -- video/storytime-song/src video/storytime-song/scripts/prepare.mjs video/storytime-song/tests/week1-regression.test.mjs video/storytime-song/tests/manifest-intake.test.mjs measure/tracks/storytime_song_video_20261022/test-strategy.md",
+    "grep -n 'P2-F|P2-B' measure/tracks/storytime_song_video_20261022/test-strategy.md (no match)",
+    "node --input-type=module script: shots() exit tails and actorBoxes portrait figure centres for w04 and w07",
+    "HEAVY_PRIORITY=p1 HEAVY_MIN_AVAIL_MB=1500 heavy-run.sh -c 'ffmpeg -ss 13.48 / 13.80 -i content/storytime/l2/media/w04/song.mp4 -frames:v 1 /tmp/opencode/ra-p2/...' (exit 0)",
+    "sha256sum content/storytime/l2/media/w04/song.mp4",
+    "Read frames-p2boxes-w04-phone-10.jpg, frames-p2boxes-w04-phone-40.jpg, frames-p2boxes-w04-classroom-40.jpg, frames-p2boxes-w07-phone-10.jpg"
+  ],
+  "changed_files": [
+    "video/storytime-song/scripts/prepare.mjs",
+    "video/storytime-song/src/Actors.tsx",
+    "video/storytime-song/src/Song.tsx",
+    "video/storytime-song/src/actorBoxes.ts",
+    "video/storytime-song/tests/manifest-intake.test.mjs",
+    "video/storytime-song/tests/may-2d.test.mjs",
+    "video/storytime-song/tests/phase2-boxes.test.mjs",
+    "video/storytime-song/tests/phase2-look.test.mjs",
+    "video/storytime-song/tests/phase2-security.test.mjs",
+    "video/storytime-song/tests/week1-regression.test.mjs"
+  ],
+  "test_strategy_violations": [
+    "plan.md:90-92 cite P2-F1 to P2-F3, P2-F6, P2-F7, P2-B1 and P2-B2 rows in test-strategy.md that do not exist (F3)."
+  ],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "ratings": [
+    {"axis": "correctness", "score": 2, "evidence": "The w04 phone cut draws Mom, Dad, Tom and Grandma with body centre x 1135 > 1080 on lines 1, 2, 6 and 9, and w04 song.mp4 at 13.48 s shows a duplicate Lily from the exit tail at Song.tsx:102-108."},
+    {"axis": "test_meaning", "score": 2, "evidence": "tests/phase2-boxes.test.mjs:79-93 checks the box that actorBoxes returns, not the Figure svg that Actors.tsx:84-91 draws, so P2-F6 passes while the drawn figure leaves the frame."},
+    {"axis": "scope_discipline", "score": 3, "evidence": "The Actors.tsx rewrite also removed the slide-in and slide-out motion and the per-actor bob phase, which no Phase 2 task asked for, and left the exit tail behind."},
+    {"axis": "evidence_quality", "score": 3, "evidence": "Gate exits are recorded per round, but plan.md:97 claims the figures are readable in both cuts while frames-p2boxes-w04-phone-10.jpg shows no Dad."}
+  ]
+}

@@ -1,0 +1,23 @@
+Review C round 3. Phase 2: Forge art.
+Phase base: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Prior audited HEAD: b87ee87d4c8086224df45d714459fc7723536f6b
+Role base and current audited HEAD: f8c1c01d47ae2750aff48f790be8e2a04ce560e7
+
+Verdict: PASS. C-P2-1 withdrawn. The fresh decodes show the head, body, and boots inside the inset in all 20 samples. I checked both cuts of w02, w03, w05, and w06 at 10 s and 40 s. I also checked both cuts of w04 and w07 at 10 s. The check opened the live videos, not the committed JPGs. The scene region matches the Forge source in each sample. The lyric text is clear of the inset. Four w06 speech cards appear at the expected times in both cuts. They stay clear of the lyric and inset boxes.
+
+All 24 live Phase 2 outputs match the recorded SHA-256 values, dimensions, and codecs. Only the eight target videos changed. The eight re-rendered posters and all 12 w01, w04, and w07 outputs are byte-identical. The approved week 1 video hashes still start with 4c88951f and 74ccefed.
+
+The diff since the prior audit adds only evidence. C-P2-2 and C-P2-3 remain accepted tech debt. I did not run a render or the project suite.
+
+MEASURE_AGENT_RESULT
+role: review-c
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+commits: none
+tests_run: 20 fresh live frame checks, four timed w06 speech cards in both cuts, 24 Phase 2 SHA-256 and ffprobe checks, and 12 protected output hash checks passed. No render or project-suite rerun.
+files_changed: measure/runs/storytime_song_video_20261022/review-c-p2-f8c1c01d.json, measure/runs/storytime_song_video_20261022/review-c-p2-f8c1c01d.log
+plan_updates: none
+known_failures: None. C-P2-1 withdrawn. C-P2-2 and C-P2-3 remain accepted tech debt.
+handoff: Verdict PASS at f8c1c01d. Retry recommendation: none.
+END_MEASURE_AGENT_RESULT

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 2: Forge art",
+  "baseline_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "phase_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "role_base_sha": "f8c1c01d47ae2750aff48f790be8e2a04ce560e7",
+  "pre_adversarial_head_sha": "f8c1c01d47ae2750aff48f790be8e2a04ce560e7",
+  "audited_head_sha": "f8c1c01d47ae2750aff48f790be8e2a04ce560e7",
+  "status": "fail",
+  "summary": "The Phase 2 gate fails on manifest intake, week 1 isolation, and output preservation. The checked week 2–7 specs have no box overlap or empty shot windows.",
+  "blocking_findings": [
+    "F1 [Blocker] adversarial-testing: prepare.mjs:342–370 and :479–488 accept invalid headers or no data rows. The intake can also silently drop Pat from Forge art. Rationale: ADV-P2-7 removes only Pat's front row from the 108-row fixture. Pat's file stays on disk, but prepare returns art=placeholder and cast={}. ADV-P2-8 accepts a case variant of the PNG extension, then resolves Pat to a placeholder. ADV-P2-6 confirms the header and empty manifest failures. The Phase 2 intake contract requires verified rows and no silent fallback.",
+    "F2 [Blocker] adversarial-testing: prepare.mjs:830–860 checks the Phase 2 handoff before it excludes week 1. Rationale: ADV-P2-10 gets the same week 1 spec with and without a valid handoff. One changed w04 digest then prevents prepare from returning the approved week 1 spec. Week 1 must remain independent of the Phase 2 handoff.",
+    "F3 [Blocker] adversarial-testing: prepare.mjs:845–862 overwrites public/l2/w04/song.mp3 before it can reject a missing classroom row. Rationale: ADV-P2-11 first prepares a good week. The failed refresh leaves the old spec.json but changes the audio SHA-256. A downstream consumer can receive new audio with the old spec after prepare reports an error."
+  ],
+  "nonblocking_findings": [
+    "N1 [Nit] adversarial-testing: prepare.mjs:347–360 rejects a valid CRLF manifest as an invalid digest (ADV-P2-5). Rationale: The release handoff uses LF. Keep the portability case as tech debt.",
+    "N2 [Nit] adversarial-testing: actorBoxes.ts:72–79 assigns the same slot to two figures when a shot has seven actors (ADV-P2-14). Rationale: The boxes fully overlap in both cuts in the fixture. No checked week 2–7 shot has more than six actors. Keep the capacity case as tech debt.",
+    "N3 [Nit] adversarial-testing: Song.tsx:98–108 gives an empty shot one frame, so two casts draw on frame 0 (ADV-P2-16). Rationale: The failure occurs with equal shot starts and with distinct starts that round to the same frame. The shortest checked release window is 79 frames. Keep the timing case as tech debt."
+  ],
+  "evidence": [
+    "The phase base is c26c72ba3173b71194e50977a2b06c04e75e3df2. The pre-adversarial HEAD is f8c1c01d47ae2750aff48f790be8e2a04ce560e7. The production script and source diff from 959dd2c5 to f8c1c01d is empty.",
+    "The final serial run reports 34 test records: 17 pass, 8 fail, and 9 TODO. Five top-level adversarial cases fail: ADV-P2-6, 7, 8, 10, and 11. The three TODO groups run their assertions for N1–N3.",
+    "ADV-P2-1 verifies a 108-row synthetic handoff and rejects a changed digest in the last unused row. ADV-P2-2 to 4 and 12 pass the path, row, and symlink refusal checks. ADV-P2-9 verifies the copied Pat bytes and Lily's named fallback.",
+    "ADV-P2-15 uses the actual SceneShots component and Remotion context. It checks the Sequence inputs at exact frame boundaries and preserves each picture's cast. It also proves that buildSpec rejects an unmatched imageOf.",
+    "A read-only probe checks 80 shots and 302 actor boxes across both cuts of the six generated specs. All boxes fit, all windows tile in frames, and no box overlaps another. Four weeks use a scene video instead of the actor layer.",
+    "ADV-P2-17 runs the existing T1.8 guard in a scratch tree. The control reports four equal masked pairs. A changed hash and an oversized mask each produce exit 1.",
+    "A4: An all-[~] temporary plan reports two incomplete tasks, and the phase-acceptance gate exits 1. A7: Both probe lines retain BANNED_PROBE with the words 'never' and 'do not'. A5: No explicit all-checks-pass or PASS=N, FAIL=0 claim matched in the phase plan.",
+    "The first command proves zero Thai characters on a synthetic filter input. The six generated specs passed the filter, and the raw test output contains zero Thai characters. No source week JSON or real handoff file was read.",
+    "The repo graph has no current entries for actorBoxes or resolveActorArt. Source tracing confirms that Song and SongPortrait share SceneLayer. The tests load the real prepare entry and test the real SceneShots component.",
+    "Commit 19e6bf191f3dd22bca97c0c068ec6b3894b4a737 changes only the new test file. No render ran. The other owner's render.mjs has the same worktree hash before and after."
+  ],
+  "commands": [
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-reporter=spec --test-concurrency=1 tests/adversarial-p2.test.mjs tests/layout.test.mjs tests/timeline.test.mjs' — exit 1; 17 pass, 8 fail, 9 TODO.",
+    "Filtered public/l2/w02..w07/spec.json into a temp root; ran actorBoxes and shots on the six snapshots — exit 0; 80 shots and 302 boxes.",
+    "measure_interphase_checks.py status and role-gate --role phase-acceptance on an all-[~] temp plan — 2/2 remaining, gate exit 1.",
+    "git diff --cached --check; git diff --name-status f8c1c01d 19e6bf19; git diff --exit-code HEAD -- measure/tracks/storytime_song_video_20261022/plan.md — test-only commit and no plan diff."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/adversarial-p2-f8c1c01d.json",
+    "measure/runs/storytime_song_video_20261022/adversarial-p2-f8c1c01d.log",
+    "video/storytime-song/tests/adversarial-p2.test.mjs"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "The 80 checked release shots pass, but ADV-P2-7, 10, and 11 expose wrong results in prepare."},
+    {"axis": "test_meaning", "score": 4, "evidence": "ADV-P2-15 checks the real Sequence inputs and ADV-P2-17 rejects two changes to a known-good evidence file."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The f8c1c01d..19e6bf19 commit diff adds only the requested adversarial test file."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The serial run reports the failing case names and records an audio hash change in ADV-P2-11."}
+  ]
+}

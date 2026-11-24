@@ -1,0 +1,24 @@
+Phase base: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Role base and audited HEAD: f8c1c01d47ae2750aff48f790be8e2a04ce560e7
+Test commit: 19e6bf191f3dd22bca97c0c068ec6b3894b4a737
+Serial heavy-run exit: 1. Test records: 34. Pass: 17. Fail: 8. TODO: 9.
+F1: ADV-P2-6 to 8. Invalid manifest structure passes. A missing or mixed-case cast front causes a silent fallback.
+F2: ADV-P2-10. One changed w04 classroom digest blocks prepare for week 1.
+F3: ADV-P2-11. A refused w04 refresh changes song.mp3 and leaves the old spec.
+N1–N3: ADV-P2-5, 14, and 16 remain TODO. CRLF intake fails. A seventh actor and an empty frame window cause overlap in synthetic cases.
+ADV-P2-17: The masked guard accepts the control. The changed hash and oversized mask each exit 1.
+Snapshot probe: 80 shots and 302 boxes across both cuts. No overlaps or empty shot windows.
+Thai characters in raw test output: 0. No source week JSON read. No render ran.
+
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: partial
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+commits: 19e6bf19
+tests_run: serial heavy-run, exit 1 (17 pass, 8 fail, 9 TODO); six-spec geometry probe, exit 0; A4 fixture gate, expected exit 1
+files_changed: video/storytime-song/tests/adversarial-p2.test.mjs; measure/runs/storytime_song_video_20261022/adversarial-p2-f8c1c01d.json; measure/runs/storytime_song_video_20261022/adversarial-p2-f8c1c01d.log
+plan_updates: none; removed the temporary task marker
+known_failures: F1 manifest intake silently drops cast; F2 stale handoff blocks week 1; F3 refused refresh overwrites audio; N1–N3 synthetic boundary cases
+handoff: retry_recommendation: retry_implementation. Route F1–F3 under the wrong-result exception, subject to the round limit. Record N1–N3 as tech debt. Rerun the gate after any product commit.
+END_MEASURE_AGENT_RESULT

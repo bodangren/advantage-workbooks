@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "role": "phase-acceptance",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 2: Forge art",
+  "baseline_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "phase_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "role_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "audited_head_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "status": "pass",
+  "summary": "Phase 2 passes at a7f1b55e. All nine Phase 2 tasks are [x] and meet their Done-when. All four fresh project gates exit 0. The 24 delivered outputs match the recorded hashes. The week 1 media hashes are unchanged. No blocker exists. Six new nonblocking findings and the accepted risks go to closeout. Three human gates stay open.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "PA2-N1 [Minor] phase-acceptance: The plan cites nine strategy rows that do not exist. plan.md:90-92 and plan.md:96 name P2-F1 to P2-F5, P2-F7, P2-B1, P2-B2, and P2-B5 in test-strategy.md. The strategy holds rows only for P2-F6, P2-F8, and P2-F9 (test-strategy.md:114-116). The tests with those IDs pass. This is the open part of the earlier Review A F3. Add the rows or reword the plan in the closeout task.",
+    "PA2-N2 [Nit] phase-acceptance: Two historical claims no longer match HEAD. plan.md:89 says w07 uses the May cut-out and that 5 of 5 covered weeks use Forge art. T2.6 now prints Forge week count 4 and placeholder week count 2, and the May folder is absent. The text is dated to d325517b. Add a note that plan.md:103 and plan.md:106-107 supersede it.",
+    "PA2-N3 [Nit] phase-acceptance: Phase 2 evidence sits under the Phase 3 task. The Red P2 r10 bullet is at plan.md:112, below the heading Phase 3: Hand-off. The sub-bullets at plan.md:94-95 still say the task stays open, while the task is [x]. Move the r10 bullet to Phase 2 and mark the old bullets as history.",
+    "PA2-N4 [Nit] phase-acceptance: The Red P2 r10 log has two identifier typos. red-p2-r10-19e6bf19.log lists a role_base_sha of 39 characters (19e6bf19f3dd...). The real SHA is 19e6bf191f3dd22bca97c0c068ec6b3894b4a737. The log names adversarial-p2-f8c01d5.json. The file is adversarial-p2-f8c1c01d.json.",
+    "PA2-N5 [Nit] phase-acceptance: T2.8 and T2.9 had no named artifact before this audit. test-strategy.md:117-119 requires decoded-frame proof. Review C and this audit decoded the w06 bubble windows in both cuts. Cream card pixels are 0.0 percent before and after each window and 69.3 to 78.1 percent inside. The bounce proof does not apply to w06, because the Forge scene video draws no placeholder animals. The T2.9 reference render without a bubble was not run. Geometry test T1.7 and PA-F2 cover the overlap. Mark both rows as covered by those proofs.",
+    "PA2-N6 [Nit] phase-acceptance: The bubble text does not use the lyric font. src/SoundCard.tsx:36-41 sets no fontFamily. The live w06 frame at 8.5 s shows serif letters. src/Lyrics.tsx:10 loads Andika for the lyric. No test checks the bubble font. Add the item to Daniel's look check or to tech debt.",
+    "F3 [Nit] adversarial-testing: Accepted tech debt (PM 2026-11-24). A w04 refresh with a missing classroom row can replace song.mp3 before the row check fails. ADV-P2-11 is skipped. Fix this one first.",
+    "F1 [Nit] adversarial-testing: Accepted tech debt (PM 2026-11-24). Intake accepts a headerless or rowless manifest. An unlisted or case-variant cast front replaces Pat with a placeholder. ADV-P2-6, ADV-P2-7, and ADV-P2-8 are skipped.",
+    "F2 [Nit] adversarial-testing: Accepted tech debt (PM 2026-11-24). A stale Phase 2 handoff can block prepare for week 1. ADV-P2-10 is skipped.",
+    "N1 [Nit] adversarial-testing: Accepted tech debt (PM 2026-11-24). Intake rejects CRLF manifests. The release manifest has 0 CR bytes. ADV-P2-5 is skipped.",
+    "N2 [Nit] adversarial-testing: Accepted tech debt (PM 2026-11-24). A seventh actor reuses a visible slot. Release shots use at most six actors. ADV-P2-14 is skipped.",
+    "N3 [Nit] adversarial-testing: Accepted tech debt (PM 2026-11-24). A zero-frame shot overlaps the next shot. The shortest release shot spans 79 frames. ADV-P2-16 is skipped.",
+    "C-P2-2 [Nit] review-c: Accepted tech debt. README.md omits STORYTIME_SONG_ART_DIR and the default handoff for weeks 2 to 7.",
+    "C-P2-3 [Nit] review-c: Accepted tech debt. The prepare and render parsers accept unknown flags and an unvalidated --concurrency value.",
+    "N1 [Minor] review-a: Accepted risk. Daniel's look check moved to closeout, and the Phase 3 task line does not record it. This audit lists the look check as an open human gate.",
+    "N2 [Nit] review-a: Accepted tech debt. P2-F8 mirrors the 240/340 aspect as a literal. P2-F9 is a source-text check. shot.exit in timeline.ts is dead.",
+    "N3 [Nit] review-a: Accepted look item for Daniel. Some w04 figures stand on the rug fringe. The tested rug centre stays free.",
+    "B6 [Nit] review-b: Accepted tech debt. A scene-free manifest still reads unhashed scene metadata (prepare.mjs:445-449).",
+    "B7 [Nit] review-b: Accepted tech debt. An exported helper trusts a supplied row array (prepare.mjs:559-566).",
+    "B8 [Nit] review-b: Accepted tech debt. The render entry copies local audio before the classroom row check (prepare.mjs:808-809).",
+    "B9 [Nit] review-b: Accepted tech debt. The suffix check accepts a double extension that ends in an approved suffix (prepare.mjs:327-331).",
+    "B10 [Nit] review-b: Accepted tech debt. The legacy final spec write can follow a spec.json symlink (prepare.mjs:885-886).",
+    "F3 [Major] review-a: Accepted risk (round d398c235). The plan cites strategy rows that do not exist. PA2-N1 records the open part.",
+    "F4 [Nit] review-a: Accepted tech debt (round d398c235). Test mirrors of the renderer still use the PLACEHOLDER_WORDS rule.",
+    "F5 [Nit] review-a: Accepted tech debt (round d398c235). Dead code and duplicated constants remain in prepare.mjs, layout.ts, and actorBoxes.ts.",
+    "F6 [Nit] review-a: Accepted tech debt (round d398c235). Actors.tsx stretches a Forge cut-out to a fixed box. No current week draws a cut-out through the actor layer.",
+    "C-F4 [Nit] review-c: Accepted tech debt (Phase 1). The render entry copies audio before the transaction (prepare.mjs).",
+    "PA-N1 [Nit] phase-acceptance: Accepted tech debt (Phase 1). tests/week1-regression.test.mjs checks recorded hashes and git status, not the ignored MP4 bytes. This audit hashed the two week 1 MP4 files directly and they match.",
+    "MAY-1 [Nit] green: Accepted risk. The one 2D May cut from the book page was not clean (plan.md:103). The May folder is deleted. w07 draws the May placeholder."
+  ],
+  "evidence": [
+    "git rev-parse HEAD returns a7f1b55e403854de0d9596756ee10a2c371f4680. It equals audited_head_sha. The phase base c26c72ba is an ancestor.",
+    "Prerequisite results: Review A and Review B bind to b87ee87d. Review C binds to f8c1c01d. Adversarial testing binds to a7f1b55e. Interphase audit-result exits with PASS for all four files.",
+    "Test-only exception used. The commits after b87ee87d are f8c1c01d (runs only), 19e6bf19 and 82073e7d (tests only), and a7f1b55e (runs, plan.md, test-strategy.md). git diff 959dd2c5..a7f1b55e shows no change in src, scripts, public, content, or package files. Commit a7f1b55e edits two Measure docs outside the literal test-or-runs set. The orchestrator confirms that the exception covers them.",
+    "Plan check: plan.md Phase 2 holds 9 task lines. All 9 are [x]. 0 lines are unchecked. All 45 SHA tokens in the section resolve to commits that are ancestors of HEAD. The commit subjects match the claimed work (7213f4e, 242c19d5, a6d3c726, 5d38868e, 9ef34f1a, e2e884f7, 2451894b, d325517b, 6c7de669, 2893b582, 959dd2c5, 41f61c8e, 5eae4c75).",
+    "Done-when: intake T2.1 to T2.6 pass (108 rows, 4 scene comparisons, labeled counts). Look round P2-F1 to P2-F3 pass. Boxes round P2-F6 to P2-F9 pass. Security round P2-B1, P2-B2, and P2-B5 pass. The portrait task has 4 layout tests. The scene video task has 1 contract test. The reader task has 3 forge tests. All run inside the 98-test suite.",
+    "GREEN_TEST_COMMAND exits 0: 38 tests, 38 pass, 0 fail, 0 skipped. npm test exits 0: 98 tests, 90 pass, 0 fail, 8 skipped. npm run lint exits 0. npx tsc --noEmit exits 0. Each gate ran once through one heavy-run wrapper, serially.",
+    "A5: plan test counts match the logs. r3 31 and 74, r4 33 and 76, r5 35 and 78, r6 36 and 79, r7b 38 and 81 match their evidence files. Red r10 claims 90 pass, 0 fail, 8 skipped. This audit reproduced exactly that. The grep for PASS=N, FAIL=0, and all checks pass finds 0 matches in plan.md and test-strategy.md. PA2-N2 records one stale historical claim.",
+    "A3, A4, A6, and A7 do not apply. The exact phase diff changes no Measure framework contract test, filter, or registry. measure/tracks.md has 0 changes. The only files outside video/storytime-song and measure/runs are plan.md and test-strategy.md. The adversarial result records its A4, A5, and A7 probes as passing.",
+    "Skipped tests: 8 tests are skipped with named reasons in tests/adversarial-p2-known-defects.test.mjs. The file is not in GREEN_TEST_COMMAND. test-strategy.md:145-158 records the PM ruling. The adversarial AST comparison shows the test bodies are unchanged. The release manifest has 0 CR bytes, which supports the N1 reason.",
+    "Week 1: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a and song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e are unchanged before and after the gates. T1.8 and T1.9 pass. green-p1-w01-compare.txt ends with Result: PASS and 4 masked pairs.",
+    "Outputs: 24 of 24 Phase 2 files match the after-hash in green-p2-r8-rerender.txt. ffprobe confirms H.264 plus AAC at 1920x1080 and 720x1280, and JPEG posters at 1280x720 and 720x1280. 12 of 12 MP4 files have faststart. All 24 files are git-ignored. git ls-files lists 0 MP4 files under content/storytime/l2/media.",
+    "Live bubble decode of w06 in both cuts: 4 bubbles, 8 windows. Cream card pixels are 0.0 percent before and after each window. They are 69.3 to 72.0 percent inside in the classroom cut and 76.6 to 78.1 percent in the phone cut. The phone crop shows 7 percent green outside the windows. That green is the Forge scene, not the card.",
+    "Frames read first-hand from the live videos: w02 classroom at 10 s and 20 s, w04 phone at 10 s, w06 classroom at 8.5 s, and w07 classroom at 10 s. The w02 sun at 10 s equals the Forge source scene.mp4 at 7 s. The full Adventurer sits inside the inset card in every frame. The w04 pill shape is the Lily placeholder. The w07 frame shows the May placeholder and prop placeholders.",
+    "Guards: the handoff holds 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 after the gates. git status --porcelain content is empty. ls video shows only storytime-song. Nothing is staged. The added lines of the phase diff hold 0 Thai characters.",
+    "The uncommitted render.mjs edit (16 insertions, 7 deletions, sha256 9a5fc7a2...) stays untouched. The Phase 2 renders use the committed all, classroom, and phone behaviour.",
+    "UX browser review does not apply (test-strategy.md:191). The deliverable is video. Decoded frames replace a browser gate.",
+    "Disclosure: the bubble probe called ffmpeg through Python subprocess for 36 single-frame decodes outside heavy-run. The measure-guard did not intercept them. The later frame extracts ran through heavy-run. No render ran.",
+    "Open human gates, not role gates: (1) Daniel's look check of the Phase 2 videos for w02 to w07, including the rug-fringe figures (Review A N3), the flat Lily and Ben placeholders, the w04 and w07 plain figures, and the bubble font (PA2-N6). (2) The Thai review of the Phase 2 outputs. The automated Thai count is 0 and does not replace it. (3) The Forge cast arrival: cut-outs for the w04 family, Lily, and Ben, and 2D May art for w07 after the 3D sprout scrap. A re-render follows that arrival.",
+    "Closeout handoff: the Phase 3 task line holds no record of the look check, the Thai review, the Forge cast arrival, the 8 skipped tests, or the accepted risks above. The Phase 3 task must carry them into measure/tech-debt.md and measure/lessons-learned.md.",
+    "No product, test, plan, or registry file was changed. This audit writes only its JSON and log."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git log --oneline; git diff --name-only c26c72ba a7f1b55e; git diff --stat 959dd2c5 a7f1b55e -- video/storytime-song/src video/storytime-song/scripts video/storytime-song/public content - empty product diff.",
+    "python3 -I measure_interphase_checks.py audit-result for review-a, review-b, review-c, and adversarial-testing - each PASS.",
+    "python3 -I read-only plan check: 9 Phase 2 task lines, 0 unchecked, 45 SHA tokens resolve to ancestors of HEAD.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs tests/phase2-security.test.mjs' - exit 0; 38 pass, 0 fail.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm test' - exit 0; 98 tests, 90 pass, 0 fail, 8 skipped.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npm run lint' - exit 0.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && npx tsc --noEmit' - exit 0.",
+    "sha256sum of the week 1 MP4 files; find and sha256sum of the handoff; git status --porcelain content; ls video - all unchanged.",
+    "python3 -I read-only check of 24 outputs: sha256 against green-p2-r8-rerender.txt, ffprobe codec and size, faststart, git check-ignore - 24 of 24 match.",
+    "python3 -I probe of w06 song.mp4 and song-phone.mp4: 36 single-frame ffmpeg decodes, cream and green pixel fractions in the bubble box - 8 of 8 windows show the card inside only.",
+    "HEAVY_PRIORITY=p1 HEAVY_MIN_AVAIL_MB=1500 bash heavy-run.sh -c 'ffmpeg -ss ... -frames:v 1 ...' for six live frames - exit 0.",
+    "git diff c26c72ba a7f1b55e (added lines) filtered by U+0E00 to U+0E7F - 0 lines."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/phase-acceptance-p2-a7f1b55e.json",
+    "measure/runs/storytime_song_video_20261022/phase-acceptance-p2-a7f1b55e.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "claude-agent/sonnet#xhigh",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 4,
+      "evidence": "All nine Phase 2 tasks meet their Done-when and 24 outputs match their hashes, but the bubble font and nine missing strategy rows remain (SoundCard.tsx:36-41, test-strategy.md:114-116)."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 4,
+      "evidence": "GREEN passes 38 and npm test passes 90 with 8 shelved defects, and my live w06 decode shows 0.0 to 78.1 percent cream card pixels, but P2-F8 and P2-F9 stay weak (Review A N2)."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "git diff 959dd2c5..a7f1b55e shows no change in src, scripts, public, or content, and the phase diff outside video/storytime-song and measure/runs is plan.md and test-strategy.md."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 4,
+      "evidence": "Every claim has a command result, but T2.8 and T2.9 had no named artifact before this audit and plan.md:89 holds superseded claims."
+    }
+  ],
+  "reviewer_ratings": [
+    {
+      "reviewer_role": "review-a",
+      "reviewer_route": "claude-agent/opus#high",
+      "agreed": true,
+      "score": 4,
+      "evidence": "Its pass and its N1 gap hold: plan counts 38 and 81 match the logs and the look check has no Phase 3 record, but it did not rerun tests."
+    },
+    {
+      "reviewer_role": "review-b",
+      "reviewer_route": "openai/gpt-6.2-sol#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "I re-checked the handoff (110 files, manifest sha256 f16560ba...), the 24 git-ignored outputs, and 0 Thai characters in the phase diff."
+    },
+    {
+      "reviewer_role": "review-c",
+      "reviewer_route": "openai/gpt-6.2-sol#high",
+      "agreed": true,
+      "score": 4,
+      "evidence": "I re-checked 24 hashes and the w06 bubble windows, but its readable-lettering note missed the serif bubble font (PA2-N6)."
+    },
+    {
+      "reviewer_role": "adversarial",
+      "reviewer_route": "openai/gpt-6.2-sol#high",
+      "agreed": true,
+      "score": 5,
+      "evidence": "My npm test run reproduced 90 pass, 0 fail, 8 skipped, and the release manifest has 0 CR bytes, which supports its N1 reason."
+    }
+  ]
+}

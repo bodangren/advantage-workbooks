@@ -1,0 +1,23 @@
+Phase base: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Role base and audited HEAD: a7f1b55e403854de0d9596756ee10a2c371f4680
+Product source commit: 959dd2c5. No product diff.
+All 17 test callbacks and the fixture helpers match 19e6bf19.
+Serial heavy-run exit: 0. Pass: 9. Fail: 0. Skipped: 8. TODO: 0.
+Skipped in order: ADV-P2-11, 6, 7, 8, 10, 5, 14, and 16. Each test has a reason.
+F3 first: the recorded w04 refresh overwrites song.mp3 before the missing classroom-row check. The old spec remains in place.
+Geometry probe exit: 0. Shots: 80. Boxes: 302. Minimum shot: 79 frames. Maximum actors: 6.
+The aggregate result of 90 pass and 8 skipped comes from Red. This audit did not rerun it.
+Thai characters in the raw test output: 0. No source week JSON read. No render ran.
+
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+commits: none
+tests_run: serial heavy-run exit 0 (9 pass, 0 fail, 8 skipped); geometry exit 0 (80 shots, 302 boxes); callback comparison exit 0
+files_changed: measure/runs/storytime_song_video_20261022/adversarial-p2-a7f1b55e.json; measure/runs/storytime_song_video_20261022/adversarial-p2-a7f1b55e.log
+plan_updates: none
+known_failures: F3, F1, F2, N1, N2, and N3 remain accepted tech debt; eight explicit skips
+handoff: PASS at a7f1b55e. retry_recommendation: none. Proceed to phase acceptance. Rerun this gate after any product commit.
+END_MEASURE_AGENT_RESULT

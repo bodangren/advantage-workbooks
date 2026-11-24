@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "role": "review-b",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 2: Forge art",
+  "baseline_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "phase_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "role_base_sha": "748c95be705a59502c65c05a5d641f93b1cc7cb0",
+  "audited_head_sha": "748c95be705a59502c65c05a5d641f93b1cc7cb0",
+  "security_applicability": "applicable",
+  "route": "openai/gpt-6.2-sol#high",
+  "status": "fail",
+  "summary": "Green fixed B1 through B3 on the render path. The new digest preflight reads any listed regular file, including nested private files.",
+  "blocking_findings": [
+    "B5 [Blocker] review-b: The new preflight reads unapproved file types. prepare.mjs:333–345 accepts nested dotfiles and does not restrict rows to Forge assets. prepare.mjs:364–369 reads each listed file before it can reject a bad digest. A nested .env can therefore be read without any art copy. Restrict row paths to approved asset classes before reading their bytes."
+  ],
+  "nonblocking_findings": [
+    "B4 [Nit] review-b: The previously declined output leaf symlink gap is unchanged at prepare.mjs:516–542 and 808–809. It needs a pre-existing local output symlink and is outside the remediation.",
+    "B6 [Nit] review-b: Scene-free manifests still use unhashed metadata at prepare.mjs:445–449. The release handoff declares and verifies the metadata, and a classroom copy cannot use the exception. Use trusted numeric defaults for the legacy case.",
+    "B7 [Nit] review-b: The exported helper trusts a supplied row array at prepare.mjs:559–566. The only product caller supplies verified rows at 799–821. Keep the trusted-row helper private so callers cannot skip preflight.",
+    "B8 [Nit] review-b: The render entry copies local audio at prepare.mjs:808–809 before the classroom row check at 565–566. A missing classroom row cannot copy handoff bytes, but the render entry can still replace local audio before it rejects the input."
+  ],
+  "evidence": [
+    "HEAD at start and at the final recheck was 748c95be705a59502c65c05a5d641f93b1cc7cb0. The phase baseline is its ancestor.",
+    "test-strategy.md:89–112 and 167–172 apply Review B to external intake. The scoped phase diff changes prepare.mjs and the render components.",
+    "B1 fixed for the render path: prepare.mjs:364–385 and 799–809 verify every listed digest before the first copy. The release manifest includes the scene metadata row used at 445–449.",
+    "B2 fixed for handoff bytes: prepare.mjs:563–566 requires the classroom row. Lines 617–627 check the source again before copying and check the staged digest. These checks assume the handoff stays stable during intake.",
+    "B3 fixed: prepare.mjs:328–330 checks that MANIFEST.tsv is a regular file before reading it.",
+    "Green's committed logs report both P2-B1 and P2-B2 passing and 78 project tests passing. The two new tests call prepareWithManifest, not the render entry prepare.",
+    "The independent read-only check verified 108 of 108 digests and all four scene pairs. The handoff has 110 files and the same manifest SHA-256 as the prior review. No checked path is a symlink.",
+    "The current handoff rows name approved files only. The scoped sources load no .env configuration, and the audit opened no secret file. Git had no staged paths or added .env or key filenames.",
+    "The text scan found zero Thai characters in all committed versions of 79 changed text paths, seven local specs, and the manifest plus four listed text files. The scan did not inspect pixels or audio.",
+    "Git tracks no song video or poster in the audited product paths. The ignore rules cover all 24 Phase 2 deliveries.",
+    "A2 does not apply: no draft-to-published transition exists. A6 does not apply: the audited registry entry makes no claim that a security state is resolved.",
+    "The new blocker is in the remediation code at prepare.mjs:364–369. The brief contained no CONTEST item."
+  ],
+  "commands": [
+    "git rev-parse HEAD 748c95be^{commit} c26c72ba^{commit}",
+    "git merge-base --is-ancestor c26c72ba 748c95be",
+    "git diff --no-ext-diff 3c6a151d..748c95be -- video/storytime-song/scripts/prepare.mjs",
+    "git diff --name-status c26c72ba..748c95be -- video/storytime-song measure/tracks/storytime_song_video_20261022 measure/tracks.md",
+    "git show 748c95be:video/storytime-song/tests/phase2-security.test.mjs | nl -ba",
+    "git show 748c95be:measure/runs/storytime_song_video_20261022/green-p2-r5-c11449be.log | nl -ba",
+    "Read-only Python check: validate allowed handoff paths, recompute all digests, and scan Git history and generated specs without printing file contents.",
+    "git rev-parse HEAD"
+  ],
+  "changed_files": ["video/storytime-song/scripts/prepare.mjs", "video/storytime-song/src/Actors.tsx", "video/storytime-song/src/Song.tsx", "video/storytime-song/src/actorBoxes.ts", "video/storytime-song/tests/phase2-security.test.mjs"],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "prepare.mjs:364–385 verifies every digest but does not restrict the files that it reads."},
+    {"axis": "test_meaning", "score": 3, "evidence": "P2-B1 checks rejected digests and P2-B2 checks unlisted classroom sources, but neither tests forbidden file types."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The remediation diff at 41f61c8e changes only the intake script."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "The independent handoff check verified 108 digests, and the committed Green log records both new tests passing."}
+  ]
+}

@@ -1,0 +1,24 @@
+Phase base: a7f1b55e403854de0d9596756ee10a2c371f4680
+Role base and audited HEAD: 2e29824dd5f9479bffbbe89925b54c167e9fdb00
+One-off hand-off probe via heavy-run: exit 1. Check 3b fails. The other requested checks pass.
+1: Tech debt 50 lines and zero Thai. Lessons 49 lines and zero Thai. Lessons archive: count only, 39.
+2: 33 live rows. No duplicate row. This track has 34 unique scoped IDs in 12 rows. F3 comes first.
+3: All 165 concrete references resolve in this worktree. The correct PA2-N4 run JSON is untracked. Git cannot resolve it at the audited HEAD.
+4: Eight named tests have the expected skip reasons. F3 is first.
+5: All five human gates are open.
+6–7: Phase 1 has 9 checkbox items, Phase 2 has 11, and Phase 3 has 1. All completed items cite existing commits. None is incomplete.
+Negative controls: all-[~] markers, invalid SHA, closed gate, duplicate ID, absent skip reason, and missing evidence each trigger rejection.
+No product or test changes. No archive text displayed. No product tests or render ran.
+
+MEASURE_AGENT_RESULT
+role: measure-adversarial-testing
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 3: Hand-off
+commits: none
+tests_run: hand-off probe via heavy-run exit 1 (3b only); git cat-file exit 128 for the cited JSON; A4 fixture exit 1 as expected
+files_changed: measure/runs/storytime_song_video_20261022/adversarial-p3-2e29824d.json; measure/runs/storytime_song_video_20261022/adversarial-p3-2e29824d.log
+plan_updates: none
+known_failures: F1: the corrected evidence citation at measure/tech-debt.md:38 depends on an untracked JSON file
+handoff: retry_recommendation: retry_implementation. Make the evidence reference resolve in the committed hand-off, then rerun the probe. No product change is needed.
+END_MEASURE_AGENT_RESULT

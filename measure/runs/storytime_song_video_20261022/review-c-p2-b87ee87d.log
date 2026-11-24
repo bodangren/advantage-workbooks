@@ -1,0 +1,25 @@
+Review C — Phase 2: Forge art
+Phase base: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Role base and current audited HEAD: b87ee87d4c8086224df45d714459fc7723536f6b
+Contract applicability: applicable. The phase changes the intake and the delivered video output. There is no web route.
+
+Verdict: FAIL. C-P2-1 is a wrong result in eight Phase 2 videos, not a record defect. Both cuts of w02, w03, w05, and w06 crop the Adventurer's head. All eight defective samples match fresh decodes byte for byte. P2-F3 requires the full figure. The later render covered only w04 and w07.
+
+All 24 media hashes match the corresponding ffprobe records. The w04 and w07 samples show the Forge room, clear lyrics, and actors inside the frame. The w07 samples show May as a person placeholder. The timed w06 speech cards appear away from the lyric and gesture boxes. The week 1 hashes match the prior record.
+
+CLI usage probes passed for missing or malformed week IDs, missing declared prepare values, and invalid or missing cut values. The negative probe for the unknown prepare flag reached package lookup. The prescribed commands use valid flags. No browser, render, or project-suite rerun was necessary. I did not read week JSON files directly.
+
+Late items C-P2-2 and C-P2-3 go to tech debt. C-P2-1 goes to Green only after the orchestrator obtains approval for another round.
+
+MEASURE_AGENT_RESULT
+role: review-c
+status: blocked
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+commits: none
+tests_run: Read-only CLI probes, 24 SHA-256 checks, 12 exact frame comparisons, and timed w06 speech-card checks. No render or project-suite rerun.
+files_changed: measure/runs/storytime_song_video_20261022/review-c-p2-b87ee87d.json, measure/runs/storytime_song_video_20261022/review-c-p2-b87ee87d.log
+plan_updates: none
+known_failures: C-P2-1: Both delivered cuts for w02, w03, w05, and w06 crop the Adventurer inset. C-P2-2 and C-P2-3 are nonblocking.
+handoff: Verdict FAIL. Retry recommendation: escalate_human. Orchestrator question: Which action do you approve for C-P2-1? Options: A. Authorize one Green round to re-render and verify both cuts for w02, w03, w05, and w06. B. Keep Phase 2 blocked with the current videos.
+END_MEASURE_AGENT_RESULT

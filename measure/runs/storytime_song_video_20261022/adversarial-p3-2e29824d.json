@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 3: Hand-off",
+  "baseline_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "phase_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "role_base_sha": "2e29824dd5f9479bffbbe89925b54c167e9fdb00",
+  "pre_adversarial_head_sha": "2e29824dd5f9479bffbbe89925b54c167e9fdb00",
+  "audited_head_sha": "2e29824dd5f9479bffbbe89925b54c167e9fdb00",
+  "status": "fail",
+  "summary": "The hand-off evidence check fails. One registry reference resolves in this worktree but not in the audited commit. The other requested invariants pass.",
+  "blocking_findings": [
+    "F1 [Blocker] adversarial-testing: measure/tech-debt.md:38 names adversarial-p2-f8c1c01d.json as the correct evidence file for PA2-N4. The JSON exists only as an untracked file. Rationale: git cat-file -e for that run path at 2e29824d exits 128. A reader of the committed hand-off cannot open the corrected evidence. The intentional quotation of the old misspelling is not the failure."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD stayed at 2e29824dd5f9479bffbbe89925b54c167e9fdb00. The phase base a7f1b55e403854de0d9596756ee10a2c371f4680 is an ancestor. The phase diff changes only Measure documents and logs.",
+    "The live tech debt registry has 50 lines, and the live lessons registry has 49. Each has zero Thai characters. The lessons archive was excluded from every diff, and the count-only command reported 39 Thai characters.",
+    "The live debt table has 33 rows and no duplicate row. The 12 song-video rows define 34 unique IDs in their review and phase scopes. The Phase 2 adversarial F3 entry comes first. Bare IDs repeat across review scopes.",
+    "The path probe resolves 134 concrete tech debt references and 31 concrete lesson references locally. It excludes exact examples, templates, and the explicitly identified historical typo. The corrected PA2-N4 evidence is the only run reference missing from the audited tree.",
+    "The eight skipped tests named in the registry exactly match the named skip reasons in adversarial-p2-known-defects.test.mjs. The order starts with ADV-P2-11 for F3.",
+    "The five open gates are Daniel's look check, the Thai review, the Forge cast arrival and re-render, the w01 ship, and the PM-controlled push. None has a completion marker.",
+    "The probe checks 9 Phase 1, 11 Phase 2, and 1 Phase 3 checkbox items. Every completed item cites an existing Git commit. No non-deferred incomplete item remains.",
+    "The probe rejects negative controls for all-[~] markers, an invalid SHA, a closed gate, a duplicate ID, a missing skip reason, and a broken path. The real phase-acceptance checker also rejects the all-[~] fixture. Both A7 probe lines retain the banned term.",
+    "No exact A5 false-claim pattern matches the plan. The committed Green r2 log records the prior test exits. This audit did not rerun product tests.",
+    "Reviews A, B, and C report PASS at the audited SHA. Phase 2 adversarial round 2 reports PASS at a7f1b55e. The product and tests have no committed change since that SHA."
+  ],
+  "commands": [
+    "git rev-parse HEAD a7f1b55e 2e29824d; git merge-base --is-ancestor a7f1b55e 2e29824d; git diff --exit-code a7f1b55e 2e29824d -- video/storytime-song content — exit 0.",
+    "git show 2e29824d:measure/lessons-learned-archive.md | python3 \"$HOME/.cache/opencode/measure-p3-2e29824d/thai-filter.py\" --count — output 39 only.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; python3 \"$PROBE\"' — exit 1, check 3b only. PROBE is the temporary hand-off check.",
+    "git cat-file -e 2e29824d:measure/runs/storytime_song_video_20261022/adversarial-p2-f8c1c01d.json — exit 128; git status --porcelain for that file reports ??.",
+    "measure_interphase_checks.py role-gate --role phase-acceptance on the all-[~] fixture — expected exit 1, two incomplete tasks."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/adversarial-p3-2e29824d.json",
+    "measure/runs/storytime_song_video_20261022/adversarial-p3-2e29824d.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "The hand-off probe passes the registry and plan checks except check 3b for the untracked evidence file."},
+    {"axis": "test_meaning", "score": 5, "evidence": "The hand-off probe rejects six negative controls and finds a real missing target in the audited tree."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The a7f1b55e..2e29824d diff changes only the Phase 3 documents and run records."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The git cat-file command exits 128 for the cited JSON at 2e29824d."}
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "role": "review-b",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 2: Forge art",
+  "baseline_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "phase_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "role_base_sha": "3c6a151d4ec332c22199d31549790447cd54c30b",
+  "audited_head_sha": "3c6a151d4ec332c22199d31549790447cd54c30b",
+  "security_applicability": "applicable",
+  "route": "openai/gpt-6.2-sol#high",
+  "status": "fail",
+  "summary": "All 108 current handoff digests match. Production copies before verification, and the new classroom copy can follow an unlisted symlink.",
+  "blocking_findings": [
+    "B1 [Blocker] review-b: Production has no preflight for all 108 digests. prepare.mjs:510–519 checks only staged cut-outs after copying. The new classroom copy also checks its digest after copying at prepare.mjs:537–544. The adapter reads the scene metadata without verifying its digest at prepare.mjs:385–390.",
+    "B2 [Blocker] review-b: The new classroom copy can read outside the handoff. prepare.mjs:537–544 copies the fixed source path before it requires a manifest row. The row validator at prepare.mjs:327–344 does not inspect an unlisted file. A symlink at that path would pass outside bytes into temporary public storage before rejection."
+  ],
+  "nonblocking_findings": [
+    "B3 [Nit] review-b: The existing intake reads MANIFEST.tsv before checking that it is a regular file at prepare.mjs:327–340. The phase baseline has the same behavior.",
+    "B4 [Nit] review-b: The existing output guard checks directories, not output files. prepare.mjs:449–473 and 719–720 let a song.mp3 symlink redirect the first write into the handoff. The phase baseline has the same behavior."
+  ],
+  "evidence": [
+    "Role-start HEAD and the final HEAD check both returned 3c6a151d4ec332c22199d31549790447cd54c30b. c26c72ba3173b71194e50977a2b06c04e75e3df2 is an ancestor.",
+    "test-strategy.md:89–112 and 167–172 identify external manifest intake as security-relevant. The scoped phase diff adds the classroom copy at prepare.mjs:537–545.",
+    "The read-only handoff check verified 108 of 108 SHA-256 digests and four matching scene pairs. The manifest and all checked path components were not symlinks.",
+    "The handoff has 110 files. Its manifest SHA-256 is f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759, which matches green-p2-r4-63d99e0a.log:38–39.",
+    "prepare.mjs:303–344 rejects absolute paths, parent traversal, noncanonical paths, duplicates, and symlinks on listed row paths. The regular-file check does not bind the later copy to the checked file.",
+    "All normal manifest copy destinations are under the project's public folder at prepare.mjs:502–506 and 536–541. The audit did not write, delete, or rename in the handoff.",
+    "prepare.mjs:269–271 reads only the handoff directory override. The scoped sources do not load or print .env values. The Git index was empty. No .env or key filename was added in the phase range.",
+    "The text scan found zero Thai characters in all committed versions of 71 changed text paths, seven local generated specs, and the manifest plus four listed text files. The scan did not inspect image pixels or audio.",
+    "Git tracked no Storytime song videos or posters at HEAD. The ignore rules cover all 24 Phase 2 deliveries. The phase added frame evidence, not the delivery files.",
+    "A2 does not apply: this flow has no draft-to-published status transition. A6 does not apply: the bound registry entry does not claim that an intake security state is resolved.",
+    "T2.1 checks the live fixture separately from production. T2.14 checks a bad digest on one used cut-out. P2-F2 compares the copied classroom file with the source, but does not check missing-row or symlink rejection.",
+    "No prior Phase 2 Review A, B, C, adversarial, or acceptance artifact was present in the checked run records. The brief contained no CONTEST items."
+  ],
+  "commands": [
+    "git rev-parse HEAD 3c6a151d^{commit} c26c72ba^{commit}",
+    "git merge-base --is-ancestor c26c72ba 3c6a151d",
+    "git diff --no-ext-diff c26c72ba..3c6a151d -- video/storytime-song/scripts/prepare.mjs video/storytime-song/src",
+    "git show 3c6a151d:video/storytime-song/scripts/prepare.mjs | nl -ba",
+    "git show 3c6a151d:measure/tracks/storytime_song_video_20261022/test-strategy.md | nl -ba",
+    "Read-only Python check: lstat the handoff paths, validate the manifest shape, hash all listed files, and count Thai characters in handoff text.",
+    "Read-only Python check: scan Git phase history, index, product paths, and generated specs without printing their contents.",
+    "git check-ignore -z --stdin (24 expected videos and posters)",
+    "git rev-parse HEAD"
+  ],
+  "changed_files": ["video/storytime-song/scripts/prepare.mjs", "video/storytime-song/src/Actors.tsx", "video/storytime-song/src/Song.tsx", "video/storytime-song/src/actorBoxes.ts"],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "ratings": [
+    {"axis": "correctness", "score": 2, "evidence": "prepare.mjs:510–519 and 537–544 check only used assets after their copies."},
+    {"axis": "test_meaning", "score": 3, "evidence": "T2.1 verifies the live fixture, but T2.14 covers only one used cut-out and does not check preflight order."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The phase diff contains the planned art and its evidence, with no new week JSON or render script commit."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "The read-only handoff audit confirmed 108 matching digests and four matching scene pairs."}
+  ]
+}

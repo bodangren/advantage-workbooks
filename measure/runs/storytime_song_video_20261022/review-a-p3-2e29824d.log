@@ -1,0 +1,41 @@
+Review A round 2, Phase 3: Hand-off, storytime_song_video_20261022
+Route: claude-agent/opus#high
+
+phase_base_sha: a7f1b55e403854de0d9596756ee10a2c371f4680
+role_base_sha: fea23cee1783130fcdeef9e2b930f1bebdf42acb (the round 1 audited head)
+audited_head_sha: 2e29824dd5f9479bffbbe89925b54c167e9fdb00 (git rev-parse HEAD equal)
+Commits audited: 45069196, 2e29824d. Docs only.
+
+Verdict: PASS. No blocker. Two Nits.
+
+Checks:
+- No loss: fea23cee has 70 rows (40 other-track, 30 this-track). All 40 other-track rows are byte-identical in live tech-debt.md (21) or tech-debt-archive.md (19). Lessons: 38 at fea23cee; 31 live + 7 archive; 0 lost, 0 duplicated.
+- Merge: 30 rows into 12. Every Item text sits verbatim after its (k); every Notes segment with the same k equals the original, except the three named citation fixes (F1 adds prepare.mjs:479-488; N3 adds Song.tsx:105-108; C-F4 render.mjs:43). Severity and status unchanged for all 30.
+- Single rows: review-a F3 (High), review-a N1 (Medium), PA2-N1 (Medium), MAY-1, SCRAP-3D.
+- F3 first: item (1) of the first this-track row, with "Fix this one first".
+- Phase 1 rows (adversarial N1, N2, PA-N3, PA-N4) match phase-acceptance-p1-c26c72ba.json and adversarial-p1-c26c72ba.json.
+- Lessons 6 and 7 were rewritten under Review C C-P3-4. The change is disclosed, and the new text matches contracts.md:114-120 and :166-176.
+- Lines and Thai: tech-debt.md 50, lessons-learned.md 49, both 0 Thai. The lessons archive holds 3 Thai lines, moved verbatim.
+- Plan: the only checkbox change since a7f1b55e is the Phase 3 task to [x]; this round adds commit 45069196 and the r2 sub-bullet.
+- Scope: only measure/** files changed. Gates: 38 pass / 0 fail; 98 tests, 90 pass, 0 fail, 8 skipped.
+- Round 1 N1 to N5 are fixed.
+
+Nonblocking findings:
+- N1 [Nit]: lesson 7 cites plan.md:92 (the r7b role-base repair); the wrong-result exception is at plan.md:94.
+- N2 [Nit]: the lessons archive keeps 3 Thai entries in the public repo; a non-Claude role that reads it must filter first.
+
+No tests rerun. No heavy command. This review wrote only this log and the result JSON.
+Result JSON: measure/runs/storytime_song_video_20261022/review-a-p3-2e29824d.json
+
+MEASURE_AGENT_RESULT
+role: review-a
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 3: Hand-off
+commits: none
+tests_run: No project tests rerun. Read green-p3-r2-green.txt (38 pass, 0 fail) and green-p3-r2-project.txt (90 pass, 0 fail, 8 skipped). Ran a row and lesson census over git show fea23cee and 2e29824d, a per-cell merge check, line and Thai counts, and the plan checkbox diff.
+files_changed: measure/runs/storytime_song_video_20261022/review-a-p3-2e29824d.json, measure/runs/storytime_song_video_20261022/review-a-p3-2e29824d.log
+plan_updates: none
+known_failures: No blockers. N1 Nit (lesson 7 cites plan.md:92, the exception is at plan.md:94). N2 Nit (the lessons archive holds 3 Thai entries; non-Claude readers must filter first).
+handoff: PASS. Retry recommendation: none. Fix N1 and N2 at the next registry edit; neither blocks closeout.
+END_MEASURE_AGENT_RESULT

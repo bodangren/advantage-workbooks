@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "role": "adversarial-testing",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 2: Forge art",
+  "baseline_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "phase_base_sha": "c26c72ba3173b71194e50977a2b06c04e75e3df2",
+  "role_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "pre_adversarial_head_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "audited_head_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "status": "pass",
+  "summary": "The nine active tests pass. The eight accepted defect tests report skips, not passes. All test bodies are unchanged. The week 2–7 geometry probe passes.",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "F3 [Nit] adversarial-testing: Accepted tech debt (PM, 2026-11-24). In the recorded w04 refresh with a missing classroom row, prepare overwrites song.mp3 before the classroom-row check. The old spec remains in place. ADV-P2-11 is the first skipped test.",
+    "F1 [Nit] adversarial-testing: Accepted tech debt (PM, 2026-11-24). Intake accepts invalid headers or no data rows. An unlisted or case-variant cast front can silently replace Pat with a placeholder. ADV-P2-6, 7, and 8 are skipped.",
+    "F2 [Nit] adversarial-testing: Accepted tech debt (PM, 2026-11-24). A stale Phase 2 handoff can block prepare for week 1. ADV-P2-10 is skipped.",
+    "N1 [Nit] adversarial-testing: Accepted tech debt (PM, 2026-11-24). Intake rejects CRLF manifests. The release handoff uses LF. ADV-P2-5 is skipped.",
+    "N2 [Nit] adversarial-testing: Accepted tech debt (PM, 2026-11-24). A seventh actor can reuse an occupied slot in either cut. The checked release shots use at most six actors. ADV-P2-14 is skipped.",
+    "N3 [Nit] adversarial-testing: Accepted tech debt (PM, 2026-11-24). A zero-frame shot can overlap the next shot. The shortest checked release shot spans 79 frames. ADV-P2-16 is skipped."
+  ],
+  "evidence": [
+    "HEAD remained a7f1b55e403854de0d9596756ee10a2c371f4680. The phase base is c26c72ba3173b71194e50977a2b06c04e75e3df2. Git reports no product source, script, or content change from 959dd2c5.",
+    "The TypeScript AST comparison against 19e6bf19 matches all 17 callback texts and their fixture helpers. The nine active registrations have no skip option. The eight deferred registrations have named skip reasons in order 11, 6, 7, 8, 10, 5, 14, and 16.",
+    "One serial heavy-run reports 9 pass, 0 fail, 8 skipped, and 0 TODO for the two adversarial files. ADV-P2-1 checks a changed digest, ADV-P2-15 checks actual Sequence inputs, and ADV-P2-17 rejects two altered control records.",
+    "The geometry probe checks 80 shots and 302 boxes across both cuts. No overlap, out-of-frame box, or empty window occurs in the six generated specs. The actor bounds also cover boxes that the scene video replaces in four weeks.",
+    "The PM disposition matches test-strategy.md:145–158. Red reports 90 pass, 0 fail, and 8 skipped for the aggregate suite. This audit did not rerun that aggregate suite.",
+    "The Red log at red-p2-r10-19e6bf19.log:10 misspells the prior JSON filename. The correct source is adversarial-p2-f8c1c01d.json.",
+    "A4: the all-[~] fixture fails phase acceptance for two incomplete tasks. A7: both banned-term probe lines survive the English wording. A5: the exact false-claim scan has no match in the plan.",
+    "The first filter output and the raw test capture each contain zero Thai characters. The six inputs are filtered generated specs, not source week JSON. No real handoff file was read and no render ran.",
+    "The worktree hash of the other owner's render.mjs did not change. This audit changes only its JSON and log."
+  ],
+  "commands": [
+    "git rev-parse HEAD c26c72ba a7f1b55e; git merge-base --is-ancestor c26c72ba a7f1b55e; git diff --exit-code 959dd2c5 a7f1b55e -- video/storytime-song/src video/storytime-song/scripts content — exit 0, no product diff.",
+    "TypeScript AST comparison with git show 19e6bf19:video/storytime-song/tests/adversarial-p2.test.mjs — exit 0, all 17 callbacks and their helpers match.",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'set -o pipefail; cd video/storytime-song || exit 1; node --test --test-concurrency=1 --test-reporter=spec tests/adversarial-p2.test.mjs tests/adversarial-p2-known-defects.test.mjs; t=$?; node \"$PROBE\"; g=$?; printf \"Node tests exit: %s. Geometry exit: %s.\\n\" \"$t\" \"$g\"; test \"$t\" = 0 && test \"$g\" = 0' — exit 0; 9 pass, 8 skipped; geometry exit 0.",
+    "measure_interphase_checks.py role-gate --role phase-acceptance on the all-[~] fixture — expected exit 1, two incomplete tasks."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/adversarial-p2-a7f1b55e.json",
+    "measure/runs/storytime_song_video_20261022/adversarial-p2-a7f1b55e.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "The geometry probe passes for 80 release shots, and the six accepted defects remain open."},
+    {"axis": "test_meaning", "score": 4, "evidence": "ADV-P2-17 rejects both altered records, and the runner distinguishes all eight skips from the nine passes."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The git diff from 19e6bf19 to a7f1b55e shows only the two test paths under video/storytime-song."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The AST comparison proves that every test callback still matches 19e6bf19 byte for byte."}
+  ]
+}

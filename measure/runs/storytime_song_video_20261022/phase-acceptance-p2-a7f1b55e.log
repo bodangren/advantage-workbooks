@@ -1,0 +1,54 @@
+Phase 2 acceptance: PASS.
+
+Phase base: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Role base and audited HEAD: a7f1b55e403854de0d9596756ee10a2c371f4680
+Last product commit: 959dd2c5. The diff from 959dd2c5 to a7f1b55e has no product change.
+Test-only exception: used for f8c1c01d (runs), 19e6bf19 and 82073e7d (tests), and a7f1b55e (runs, plan.md, test-strategy.md).
+Commit a7f1b55e edits two Measure docs. The orchestrator confirms that the exception covers them.
+
+Prerequisites: Review A and B at b87ee87d, Review C at f8c1c01d, adversarial at a7f1b55e. All four pass the interphase audit-result check.
+
+Tasks: 9 of 9 Phase 2 tasks are [x]. 0 are unchecked. All 45 cited SHA tokens resolve to ancestors of HEAD.
+GREEN exit 0: 38 tests, 38 pass, 0 fail.
+PROJECT_TESTS exit 0: 98 tests, 90 pass, 0 fail, 8 skipped.
+PROJECT_LINT exit 0.
+PROJECT_CHECKS exit 0.
+Each gate ran once, serially, through one heavy-run wrapper.
+
+Outputs: 24 of 24 files match the recorded hashes, the ffprobe streams, and the sizes. 12 of 12 MP4 files have faststart. All 24 are git-ignored.
+Week 1: song.mp4 4c88951f... and song-phone.mp4 74ccefed... are unchanged. T1.8 and T1.9 pass.
+Handoff: 110 files, MANIFEST.tsv sha256 f16560ba... unchanged. git status --porcelain content is empty.
+Live w06 bubbles: 8 windows in both cuts. The card shows inside each window only (0.0 percent before and after, 69.3 to 78.1 percent inside).
+Added lines of the phase diff hold 0 Thai characters.
+A5 holds: the plan test counts match the logs. A3, A4, A6, and A7 do not apply: the phase diff has no framework change.
+UX browser review does not apply.
+
+Nonblocking findings of this audit:
+PA2-N1 The plan cites nine strategy rows that do not exist (P2-F1 to P2-F5, P2-F7, P2-B1, P2-B2, P2-B5).
+PA2-N2 plan.md:89 holds claims that HEAD supersedes (w07 May cut-out, 5 of 5 Forge weeks).
+PA2-N3 The Red P2 r10 bullet sits under Phase 3 at plan.md:112. Old sub-bullets still say the task stays open.
+PA2-N4 The Red P2 r10 log has a 39-character role_base_sha and a wrong adversarial file name.
+PA2-N5 T2.8 and T2.9 had no named artifact. Review C and this audit supply the decoded-frame proof.
+PA2-N6 The bubble text uses a serif font. The lyric uses Andika. SoundCard.tsx:36-41 sets no fontFamily.
+
+Accepted risks carried to closeout: F3, F1, F2, N1, N2, N3 (adversarial, 8 skipped tests; F3 first); C-P2-2, C-P2-3;
+Review A N1, N2, N3; Review B B6 to B10; Review A round-1 F3 to F6; C-F4; PA-N1 (Phase 1); May cut rejection.
+
+Open human gates (not role gates): Daniel's look check of w02 to w07; the Thai review of the Phase 2 outputs; the Forge cast arrival
+(w04 family, Lily, Ben, 2D May for w07) and the re-render that follows.
+
+Disclosure: the bubble probe called ffmpeg through Python subprocess (36 single-frame decodes) outside heavy-run. The guard did not intercept them.
+The later frame extracts ran through heavy-run. No render ran. render.mjs stays untouched (sha256 9a5fc7a2...).
+
+MEASURE_AGENT_RESULT
+role: phase-acceptance
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+commits: none
+tests_run: GREEN 0 (38 pass); PROJECT_TESTS 0 (90 pass, 8 skipped); PROJECT_LINT 0; PROJECT_CHECKS 0; 24-output hash and ffprobe check 0; live w06 bubble decode 8 of 8 windows
+files_changed: phase-acceptance-p2-a7f1b55e.json, phase-acceptance-p2-a7f1b55e.log
+plan_updates: none
+known_failures: none blocking; 6 new nonblocking findings (PA2-N1 to PA2-N6) and the accepted risks above; 3 open human gates
+handoff: Accept Phase 2 at a7f1b55e. Retry recommendation: none. Carry the accepted risks, the 8 skipped tests, and the 3 open human gates into the Phase 3 closeout task.
+END_MEASURE_AGENT_RESULT

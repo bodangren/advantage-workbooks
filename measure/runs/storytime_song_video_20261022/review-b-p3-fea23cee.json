@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "role": "review-b",
+  "track": "storytime_song_video_20261022",
+  "phase": "Phase 3: Hand-off",
+  "baseline_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "phase_base_sha": "a7f1b55e403854de0d9596756ee10a2c371f4680",
+  "role_base_sha": "fea23cee1783130fcdeef9e2b930f1bebdf42acb",
+  "audited_head_sha": "fea23cee1783130fcdeef9e2b930f1bebdf42acb",
+  "status": "pass",
+  "security_applicability": "not_applicable",
+  "summary": "The phase changes only documentation and test logs. The disclosure check found no secret, credential, secure test item, Thai text, or private path added by the phase.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD matched the audited SHA at role entry and after the checks. The phase base is an ancestor of HEAD.",
+    "measure/tracks/storytime_song_video_20261022/test-strategy.md:160-167 specifies a documentation-only phase and marks Review B not applicable.",
+    "The tree diff and both commits touch exactly the six paths in changed_files. No product, test, render.mjs, content, video, poster, handoff artifact, or tracks.md path changed.",
+    "The phase diff contains 0 Thai code points and 0 escaped Thai matches. No week JSON was opened.",
+    "The diff scan found no credential patterns or secure test material. The two local-path matches were unchanged context: an npm configuration reference and a temporary render workspace.",
+    "A manual read of the changed text found test names, counts, and fixture and media digests, but no secure test items, answers, secrets, or new private paths.",
+    "The Git index has no staged changes. The worktree has an unstaged render.mjs edit outside the audited commits, which this role did not read or change.",
+    "Both Git trees have zero tracked video and poster outputs in the song paths. The seven tracked song-handoff files predate Phase 3 and did not change.",
+    "A2: No publish transition or consent gate changed. A6: tracks.md did not change, and the handoff records the skipped adversarial tests as open debt.",
+    "The design-only SCRAP-3D row in measure/tech-debt.md:81 has a passing check in green-p3-project.txt:122. It is not a security resolution.",
+    "green-p3-project.txt:25-32 records the accepted skips. This role read the committed log and did not rerun project tests.",
+    "The Review B role gate passed. The final verification confirmed that HEAD did not move and the index remained empty."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git rev-parse a7f1b55e",
+    "git rev-parse fea23cee",
+    "git merge-base --is-ancestor a7f1b55e fea23cee",
+    "git diff --name-only --no-renames -z a7f1b55e fea23cee --",
+    "git log --format='%h %s' --name-status --no-renames a7f1b55e..fea23cee --",
+    "git diff --no-ext-diff --no-textconv --no-renames a7f1b55e fea23cee -- (Python Thai filter and disclosure scan)",
+    "git diff --check a7f1b55e fea23cee --",
+    "git diff --cached --quiet",
+    "git diff --name-status --",
+    "git ls-tree -r --name-only a7f1b55e -- content/storytime/l2/media video/storytime-song",
+    "git ls-tree -r --name-only fea23cee -- content/storytime/l2/media video/storytime-song",
+    "measure_interphase_checks.py role-gate --repo . --role review-b --track storytime_song_video_20261022 --phase 'Phase 3: Hand-off' --baseline fea23cee --result-file measure/runs/storytime_song_video_20261022/review-b-p3-fea23cee.json --log-file measure/runs/storytime_song_video_20261022/review-b-p3-fea23cee.log"
+  ],
+  "changed_files": [
+    "measure/lessons-learned.md",
+    "measure/runs/storytime_song_video_20261022/green-p3-a7f1b55e.log",
+    "measure/runs/storytime_song_video_20261022/green-p3-green.txt",
+    "measure/runs/storytime_song_video_20261022/green-p3-project.txt",
+    "measure/tech-debt.md",
+    "measure/tracks/storytime_song_video_20261022/plan.md"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high",
+  "ratings": [
+    {
+      "axis": "correctness",
+      "score": 5,
+      "evidence": "The committed diff passes the documentation scope and disclosure checks for measure/tracks/storytime_song_video_20261022/test-strategy.md:160-167."
+    },
+    {
+      "axis": "test_meaning",
+      "score": 3,
+      "evidence": "The raw diff scan verifies the zero-Thai condition in measure/tracks/storytime_song_video_20261022/test-strategy.md:167, but this review did not check link resolution."
+    },
+    {
+      "axis": "scope_discipline",
+      "score": 5,
+      "evidence": "The tree diff and both commits match the six-path documentation allowlist."
+    },
+    {
+      "axis": "evidence_quality",
+      "score": 5,
+      "evidence": "Git confirms the audited HEAD and the empty index, and the raw diff scan confirms zero Thai code points."
+    }
+  ]
+}
