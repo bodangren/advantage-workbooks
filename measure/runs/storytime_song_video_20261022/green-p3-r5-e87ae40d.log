@@ -1,0 +1,34 @@
+Green Phase 3 round 5 log, role base e87ae40d
+
+Phase 3 baseline: a7f1b55e403854de0d9596756ee10a2c371f4680
+Role base: e87ae40d8abf96a2647631c194f954f2d415c92a (HEAD confirmed before edits)
+Cause: final acceptance round 3 finding FA-R3-1. Phase 3 had two passing acceptance results (d46b60eb and e87ae40d). PM ruling 2026-11-25: evidence move only.
+
+What I did (docs and evidence only; no product, test, render, or content edit; no heavy command):
+1. git mv of phase-acceptance-p3-d46b60eb.json and .log into measure/runs/storytime_song_video_20261022/superseded/. Names and content unchanged (rename similarity 100%). I also added the 4 audit artifacts final-acceptance-e87ae40d.{json,log} and phase-acceptance-p3-e87ae40d.{json,log}; a script found 0 Thai characters, 0 secret-pattern hits, no binary. Commit 849e8e408c664aa13096785111149385a9d25cbc.
+2. No citation of the moved paths exists in tech-debt.md, tech-debt-archive.md, lessons-learned.md or plan.md, so none changed. The FA-2 row of tech-debt.md now says: measure/doctor.sh does not exist; the final-acceptance role requires it only when the repo has it; tsc and the project gates are the check; FA-2 needs no waiver; status Resolved by rule change (PM 2026-11-25). Item (2) now says Review A of Phases 2 and 3 ran on Claude and Review A of Phase 1 ran on openai/gpt-6-luna#high. FA-1 stays Open. Commit 8c552a278a4f627cedc7fe175e31f2e5772a71d8.
+3. Verification script:
+- Passing phase-acceptance result per phase in the active run folder: Phase 1 c26c72ba (f3161c33 is a fail); Phase 2 a7f1b55e; Phase 3 e87ae40d (e4af9e53 is a fail; d46b60eb is in superseded/). Exactly one pass per phase.
+- tech-debt.md 50 lines, 0 Thai; lessons-learned.md 49 lines, 0 Thai; 33 rows before and after, same order, none lost; the F3 group is first among the rows of this track.
+- 21 full-path measure/runs/ citations in the four files; 20 resolve with git cat-file -e HEAD:<path>. Unresolved and accepted: the literal adversarial-p10-<sha>.json placeholder of another track. The bare-name misses are unchanged from round 4.
+- No untracked path is left under the run folder.
+
+Gates: not run (no code change). No push was made. render.mjs and content/ were not touched.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 3: Hand-off
+baseline_sha: a7f1b55e403854de0d9596756ee10a2c371f4680
+role_base_sha: e87ae40d8abf96a2647631c194f954f2d415c92a
+head_sha: 8c552a278a4f627cedc7fe175e31f2e5772a71d8
+commits: 849e8e408c664aa13096785111149385a9d25cbc (supersede and 4 artifacts); 8c552a278a4f627cedc7fe175e31f2e5772a71d8 (FA-2 row); the log commit follows
+tasks_flipped: none
+tasks_blocked: none
+gates: not run (docs and evidence only)
+tech_debt: 50 lines, 0 Thai; FA-2 Resolved by rule change; FA-1 Open
+lessons: no change
+guards: 0 Thai, 0 secret hits in the 4 added files; render.mjs and content/ untouched
+dispositions: FA-R3-1=FIX
+status: green-complete
+END_MEASURE_AGENT_RESULT
