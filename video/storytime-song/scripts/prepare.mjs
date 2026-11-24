@@ -321,10 +321,12 @@ function assertRegularHandoffFile(root, rel) {
 /**
  * Reads and validates the manifest of the read-only handoff (one row per ready file).
  * A row must name a canonical, existing regular file inside the handoff, appear once, and carry a bare hex digest.
+ * The manifest itself must be a regular file inside the handoff root.
  * @param {string} handoffDir The handoff folder.
  * @returns {{file: string, who: string, commit: string, sha: string}[]} The rows of the TSV.
  */
 function readManifestRows(handoffDir) {
+  assertRegularHandoffFile(handoffDir, "MANIFEST.tsv");
   const tsv = fs.readFileSync(path.join(handoffDir, "MANIFEST.tsv"), "utf8");
   const root = path.resolve(handoffDir);
   const seen = new Set();
@@ -352,11 +354,56 @@ function readManifestRows(handoffDir) {
   return rows;
 }
 
+/**
+ * Checks the SHA-256 of every manifest row against the bytes of its file. The check runs before any copy or write
+ * into the project, so a changed byte of any row stops the intake.
+ * @param {string} handoffDir The handoff folder.
+ * @param {{file: string, sha: string}[]} rows The rows of the manifest.
+ * @returns {void}
+ */
+function verifyManifestDigests(handoffDir, rows) {
+  for (const { file, sha } of rows) {
+    const actual = createHash("sha256")
+      .update(fs.readFileSync(path.join(handoffDir, file)))
+      .digest("hex");
+    if (actual !== sha.toLowerCase())
+      throw new Error(`sha256 mismatch for ${file} in the handoff manifest`);
+  }
+}
+
+/**
+ * Reads the manifest of the handoff and verifies every row before any copy or write. A handoff with no manifest
+ * holds no Forge art, so the rows are null and the week keeps its placeholder art.
+ * @param {string} handoffDir The handoff folder.
+ * @returns {{file: string, who: string, commit: string, sha: string}[]|null} The verified rows, or null without a
+ *   manifest.
+ */
+function verifiedManifest(handoffDir) {
+  if (!fs.existsSync(path.join(handoffDir, "MANIFEST.tsv"))) return null;
+  const rows = readManifestRows(handoffDir);
+  verifyManifestDigests(handoffDir, rows);
+  return rows;
+}
+
+/**
+ * The row of a file of the handoff, or null when the manifest does not declare the file.
+ * @param {{file: string}[]} rows The verified rows of the manifest.
+ * @param {string} file The manifest-relative path.
+ * @returns {{file: string, who: string, commit: string, sha: string}|null} The row of the file.
+ */
+const manifestRow = (rows, file) => rows.find((row) => row.file === file) ?? null;
+
 /** The folder that receives handoff copies under public/, as a project-relative path. */
 const FORGE_BASE = "forge";
 
 /** The folder that receives the approved inset and Forge classroom picture, kept separate from cast cut-outs. */
 const LOOK_BASE = "look";
+
+/** The manifest-relative path of the scene metadata that sets the scale, the canvas, and the foot point. */
+const SCENE_MANIFEST = "scenes/w04/manifest.json";
+
+/** The manifest-relative path of the Forge classroom picture that the w04 and w07 weeks draw. */
+const CLASSROOM_PICTURE = "scenes/w04/classroom.png";
 
 /**
  * The pixel size of the approved Adventurer inset frames, read from the PNG header of the idle frame.
@@ -376,20 +423,44 @@ const manifestRel = (file) =>
   file.startsWith(`${FORGE_BASE}/`) ? file.slice(FORGE_BASE.length + 1) : file;
 
 /**
- * Maps the handoff TSV into the ForgeArt shape of src/types.ts. Every path is relative to public/; no path names
- * the handoff. The scene manifest of w04 sets the scale, the canvas, and the foot point. The "listen" cut-out of
- * each classmate is its front. Lily has no rows, so she stays a placeholder.
+ * Maps the verified handoff manifest into the ForgeArt shape of src/types.ts. Every row digest is checked before
+ * the adapter reads the handoff. A handoff with no manifest holds no Forge art, so the result is null.
  * @param {string} handoffDir The handoff folder.
- * @returns {any} The Forge art: scale, canvas, foot, cast, gestures, idle, gestureBox, and scenes.
+ * @returns {any} The Forge art, or null without a manifest.
  */
 export function manifestToForgeInput(handoffDir = artDir()) {
-  if (!fs.existsSync(path.join(handoffDir, "MANIFEST.tsv"))) return null;
-  assertRegularHandoffFile(handoffDir, "scenes/w04/manifest.json");
-  const sceneManifest = JSON.parse(
-    fs.readFileSync(path.join(handoffDir, "scenes/w04/manifest.json"), "utf8"),
-  );
+  const rows = verifiedManifest(handoffDir);
+  if (!rows) return null;
+  return forgeInputFromRows(handoffDir, rows);
+}
+
+/**
+ * Reads the scene metadata of the handoff. The bytes are read only after the preflight covered them: the manifest
+ * must declare the metadata, or the manifest must declare no scene file. A handoff that declares scene art without
+ * its metadata is refused, because the metadata would then be unverified.
+ * @param {string} handoffDir The handoff folder.
+ * @param {{file: string}[]} rows The verified rows of the manifest.
+ * @returns {any} The parsed scene metadata.
+ */
+function readSceneManifest(handoffDir, rows) {
+  if (!manifestRow(rows, SCENE_MANIFEST) && rows.some((row) => row.file.startsWith("scenes/")))
+    throw new Error(`no manifest row for the scene metadata ${SCENE_MANIFEST}`);
+  assertRegularHandoffFile(handoffDir, SCENE_MANIFEST);
+  return JSON.parse(fs.readFileSync(path.join(handoffDir, SCENE_MANIFEST), "utf8"));
+}
+
+/**
+ * Maps the verified manifest rows into the ForgeArt shape of src/types.ts. Every path is relative to public/; no
+ * path names the handoff. The scene manifest of w04 sets the scale, the canvas, and the foot point. The "listen"
+ * cut-out of each classmate is its front. Lily has no rows, so she stays a placeholder.
+ * @param {string} handoffDir The handoff folder.
+ * @param {{file: string, who: string}[]} rows The verified rows of the manifest.
+ * @returns {any} The Forge art: scale, canvas, foot, cast, gestures, idle, gestureBox, and scenes.
+ */
+function forgeInputFromRows(handoffDir, rows) {
+  const sceneManifest = readSceneManifest(handoffDir, rows);
   const cast = {};
-  for (const { file, who } of readManifestRows(handoffDir)) {
+  for (const { file, who } of rows) {
     const found = file.match(/^cutouts\/([^/]+)\/(listen)\.png$/);
     if (!found) continue;
     const [, name] = found;
@@ -416,7 +487,7 @@ export function manifestToForgeInput(handoffDir = artDir()) {
       w: Math.max(...boxes.map((box) => box.x2)) - x,
       h: Math.max(...boxes.map((box) => box.y2)) - y,
     },
-    scenes: { classroom: `${FORGE_BASE}/scenes/w04/classroom.png` },
+    scenes: { classroom: `${FORGE_BASE}/${CLASSROOM_PICTURE}` },
   };
 }
 
@@ -477,14 +548,23 @@ function weekOutDir(rel) {
  * Prepares a week with the Forge cut-outs of the handoff. The classmates with cut-outs use them; a classmate
  * without a row (Lily, Ben) keeps the placeholder. Every new file is built in a staging folder beside the week
  * and swapped in only after every digest passes. A failed refresh removes only the staging folder.
+ * The preflight verifies every manifest row before the first copy or write, so a changed byte never reaches the
+ * project.
  * @param {string} rel The week, as "l2/w04".
  * @param {string} handoffDir The handoff folder.
+ * @param {{file: string, who: string, commit: string, sha: string}[]|undefined} verified The already verified rows of
+ *   the manifest, or undefined to read and verify the manifest again.
  * @returns {string} The spec file.
  */
-export function prepareWithManifest(rel, handoffDir = artDir()) {
+export function prepareWithManifest(rel, handoffDir = artDir(), verified = undefined) {
   const out = weekOutDir(rel);
-  const adapter = manifestToForgeInput(handoffDir);
-  if (!adapter) return null;
+  const rows = verified === undefined ? verifiedManifest(handoffDir) : verified;
+  if (!rows) return null;
+  // The Forge classroom copies only through a verified manifest row, so a missing row stops the week before any copy.
+  const wantsClassroom = rel === "l2/w04" || rel === "l2/w07";
+  if (wantsClassroom && !manifestRow(rows, CLASSROOM_PICTURE))
+    throw new Error(`no manifest row for the Forge classroom picture ${CLASSROOM_PICTURE}`);
+  const adapter = forgeInputFromRows(handoffDir, rows);
   const week = JSON.parse(fs.readFileSync(path.join(CONTENT, `${rel}.json`), "utf8"));
   const audio = path.join(CONTENT, week.song.audio);
   const spec = buildSpec(week, probe(audio).duration);
@@ -510,7 +590,7 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
     copyManifestSubset(handoffDir, stage, [...cutouts]);
     // The production copy fails on a handoff file whose bytes no longer match its manifest row.
     // Hex digests compare without regard to case; a padded or malformed digest is rejected at intake.
-    const shas = new Map(readManifestRows(handoffDir).map((row) => [row.file, row.sha.toLowerCase()]));
+    const shas = new Map(rows.map((row) => [row.file, row.sha.toLowerCase()]));
     for (const file of cutouts) {
       const actual = createHash("sha256")
         .update(fs.readFileSync(path.join(stage, file)))
@@ -534,14 +614,17 @@ export function prepareWithManifest(rel, handoffDir = artDir()) {
       ]),
     );
     const scenes = {};
-    if (rel === "l2/w04" || rel === "l2/w07") {
-      const room = "scenes/w04/classroom.png";
+    if (wantsClassroom) {
+      const room = CLASSROOM_PICTURE;
+      const row = manifestRow(rows, room);
       const dst = path.join(lookStage, room);
       fs.mkdirSync(path.dirname(dst), { recursive: true });
+      // The row was verified by the preflight. The lstat refuses a symlink that replaced the file since.
+      assertRegularHandoffFile(handoffDir, room);
       fs.copyFileSync(path.join(handoffDir, room), dst);
-      const want = readManifestRows(handoffDir).find((row) => row.file === room)?.sha.toLowerCase();
       const got = createHash("sha256").update(fs.readFileSync(dst)).digest("hex");
-      if (want !== got) throw new Error(`sha256 mismatch for ${room} in the handoff manifest`);
+      if (got !== row.sha.toLowerCase())
+        throw new Error(`sha256 mismatch for ${room} in the handoff manifest`);
       scenes.classroom = `${rel}/${LOOK_BASE}/${room}`;
     }
     const [insetW, insetH] = insetCanvas();
@@ -710,6 +793,12 @@ const forgeDir = (rel) => path.join(CONTENT, rel.replace(/\/(w\d\d)$/, "/media/$
 export function prepare(rel) {
   // The render entry validates the output path before its first write. A symlinked week folder is refused.
   const out = weekOutDir(rel);
+  // The handoff manifest is the first art source on the render path. Its preflight runs before the first write,
+  // so a changed byte of any row stops the week. A week with no cut-out rows keeps the art it had; week 1 has no
+  // rows, so its approved spec is built exactly as before.
+  const handoff = artDir();
+  const rows = verifiedManifest(handoff);
+  const adapter = rows ? forgeInputFromRows(handoff, rows) : null;
   const week = JSON.parse(
     fs.readFileSync(path.join(CONTENT, `${rel}.json`), "utf8"),
   );
@@ -720,10 +809,6 @@ export function prepare(rel) {
   fs.copyFileSync(audio, path.join(out, "song.mp3"));
   spec.audio = `${rel}/song.mp3`;
   const art = forgeDir(rel);
-  // The handoff manifest is the first art source on the render path. A week with no cut-out rows keeps the art it
-  // had; week 1 has no rows, so its approved spec is built exactly as before.
-  const handoff = artDir();
-  const adapter = manifestToForgeInput(handoff);
   const covered = adapter
     ? usedArt(spec).actors.filter(
         (name) => resolveActorArt(name, adapter).kind === "forge",
@@ -733,7 +818,7 @@ export function prepare(rel) {
   // Every other week gets the approved inset and, for w04 and w07, the Forge classroom picture, even with no
   // manifest-covered cast. Such a week keeps placeholder actors and does not claim Forge art.
   if (rel !== "l2/w01" && adapter) {
-    prepareWithManifest(rel, handoff);
+    prepareWithManifest(rel, handoff, rows);
     const withForge = JSON.parse(fs.readFileSync(path.join(out, "spec.json"), "utf8"));
     spec.art = withForge.art;
     spec.forge = withForge.forge;
