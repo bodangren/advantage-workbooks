@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
 import { prepare } from "../scripts/prepare.mjs";
+import { shots } from "../src/timeline.ts";
 // Green contract (missing 2026-11-23, Red P2 r5): provide src/actorBoxes.ts with
 //   export type ActorBox = { name: string; kind: "cutout" | "figure" | "placeholder"; box: { left: number; top: number; width: number; height: number } };
 //   export function actorBoxes(spec: Spec, line: number, cut: "classroom" | "portrait"): ActorBox[];
@@ -124,4 +125,63 @@ test("P2-F7 w07 draws a visible May placeholder in both cuts, uncovered by prop 
   }
   console.log(`W07 May box count: ${mayTotal}`);
   assert.equal(mayTotal, mayLines.length, "w07 must draw May on every line that lists her");
+});
+
+test("P2-F8 drawn figures fill their boxes and stay inside the frame in both cuts", () => {
+  // Figure.tsx:243-246 draws an svg of width height*240/340 with the body centred at half that
+  // width (viewBox "-20 -30 240 340", body centre x 100). Actors.tsx renders the svg at the box
+  // top-left with no centering, so the drawn rect starts at the box origin.
+  const SVG_W = 240 / 340;
+  let figureTotal = 0;
+  for (const week of ["w02", "w03", "w04", "w05", "w06", "w07"]) {
+    const spec = preparedSpec(week);
+    // SceneLayer draws the scene video instead of shots when the week has one (Song.tsx SceneLayer).
+    const drawn = !spec.sceneVideo;
+    for (const cut of ["classroom", "portrait"]) {
+      const frame = cut === "classroom" ? CLASSROOM : PORTRAIT;
+      spec.lines.forEach((line, i) => {
+        for (const item of actorBoxes(spec, i, cut)) {
+          if (item.kind !== "figure" || item.name === "Pip") continue;
+          if (cut === "classroom") figureTotal += 1;
+          const figW = item.box.height * SVG_W;
+          const figLeft = item.box.left;
+          const centreX = figLeft + figW / 2;
+          assert.ok(centreX >= item.box.left && centreX <= item.box.left + item.box.width,
+            `${week} line ${i + 1} ${cut} ${item.name} body centre ${centreX.toFixed(1)} must lie inside its box`);
+          assert.ok(figLeft >= item.box.left && figLeft + figW <= item.box.left + item.box.width,
+            `${week} line ${i + 1} ${cut} ${item.name} full figure extent must lie inside its box`);
+          if (drawn) {
+            assert.ok(figLeft >= 0 && figLeft + figW <= frame.width && item.box.top >= -8 && item.box.top + item.box.height <= frame.height + 8,
+              `${week} line ${i + 1} ${cut} ${item.name} body must lie fully inside the frame`);
+          }
+        }
+      });
+    }
+  }
+  console.log(`Figure box count: ${figureTotal}`);
+  assert.ok(figureTotal > 0, "weeks 2-7 must draw figure boxes");
+});
+
+test("P2-F9 each shot actor window ends at the next shot start when no slide-out exists", () => {
+  const songSrc = fs.readFileSync(path.join(HERE, "../src/Song.tsx"), "utf8");
+  const actorsSrc = fs.readFileSync(path.join(HERE, "../src/Actors.tsx"), "utf8");
+  const shotBlock = songSrc.slice(songSrc.indexOf("list.map((shot)"));
+  const tailPresent = /shot\.exit/.test(shotBlock) && /EXIT_SECONDS/.test(shotBlock);
+  const exitUses = (actorsSrc.match(/EXIT_SECONDS/g) || []).length;
+  const slidePresent = exitUses > 1 || /\binterpolate\b/.test(actorsSrc);
+  console.log(`Exit tail in Song: ${tailPresent}; slide-out in Actors: ${slidePresent}`);
+  assert.ok(!(tailPresent && !slidePresent), "shot actor windows must not overlap without a slide-out: drop the exit tail or restore the slide");
+  for (const week of ["w02", "w03", "w04", "w05", "w06", "w07"]) {
+    const spec = preparedSpec(week);
+    const list = shots(spec);
+    assert.ok(list.length > 0, `${week} must hold shots`);
+    list.forEach((shot, k) => {
+      const next = list[k + 1];
+      if (!next) {
+        assert.equal(shot.end, spec.duration, `${week} last shot must end at the song end`);
+        return;
+      }
+      assert.equal(shot.end, next.start, `${week} shot ${k + 1} actor window must end at the next shot start`);
+    });
+  }
 });
