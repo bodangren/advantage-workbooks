@@ -1,0 +1,75 @@
+Green Phase 2 round 7 log, role base 01f45859
+
+Phase 2 baseline: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Role base: 01f45859ab95fe88be073ab59aa0b7a545a7eecc (HEAD confirmed before edits)
+Product commit: 959dd2c521e9f75244d3755f7007e7a165df0008
+Review A finding: FAIL at d398c235 (measure/runs/storytime_song_video_20261022/review-a-p2-d398c235.json), blockers F1 and F2.
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. Committed files hold 0 Thai characters. `git status --porcelain content` is empty. The song-art handoff stayed read-only. render.mjs was never edited or staged. No test or fixture was edited. No push was made.
+
+Fixes (product commit 959dd2c5, three files: src/actorBoxes.ts, src/Song.tsx, src/Actors.tsx):
+- F1: a person figure box now carries the Figure aspect, so the drawn figure fills its box and its body centre lies inside it. The row height per cut is 246 px in the classroom and 200 px in the phone. The phone row is shorter, because the phone scene band is 607.5 px tall and the w04 family of five needs the room. The slot spacing follows the figure width, so no two actors collide.
+- F2: `Song.tsx` drops the 0.3 s exit tail, so each shot actor window ends at the next shot start. `EXIT_SECONDS` left `Actors.tsx`; the import left `Song.tsx`.
+- The week 1 output, the inset, the Forge classroom, and the intake are unchanged.
+
+Gates, each once through ONE heavy-run wrapper, no nesting:
+GREEN_TEST_COMMAND: exit 1 (38 tests, 37 pass, 1 fail)
+PROJECT_LINT (npm run lint): exit 0
+PROJECT_CHECKS (npx tsc --noEmit): exit 0
+PROJECT_TESTS (npm test): exit 1 (81 tests, 80 pass, 1 fail)
+The only failure is P2-F6, on the phone height floor. P2-F7, P2-F8 (the F1 proof), and P2-F9 (the F2 proof) pass.
+Gate outputs: green-p2-r7-green.txt, green-p2-r7-lint.txt, green-p2-r7-checks.txt, green-p2-r7-tests.txt.
+
+The P2-F6 conflict, with numbers:
+- P2-F6 asks for a phone actor box of at least 22 percent of the 1920 composition height, so at least 422.4 px high.
+- P2-F8 asks for a figure box at least as wide as the Figure aspect of that height, so at least 298.2 px wide.
+- The phone band keeps the actors off the rug, whose x range is 427.5 to 652.5. The box y range always meets the rug y range, because the feet sit between 405 and 495 and the rug top is 393.75. So every phone box stays inside one band of 427.5 px.
+- Two such boxes need 2 x 298.2 minus the overlap that the 15 percent rule allows, which is 539.6 px. That is wider than the 427.5 px band, so a band holds one figure box.
+- The phone cut therefore holds two figure boxes per line. The w04 lines 4, 8, 12 and 14 name five family members, so P2-F6 and P2-F8 cannot both hold in the phone cut.
+- The chosen layout keeps the P2-F8 aspect and the collision rules, and lowers the phone row to 200 px. The phone height share is then 0.104 against the 0.22 floor. A phone floor relative to the 607.5 px scene band gives 0.22 to 0.45 of the band, which the 200 px row passes.
+- The Mid Red ask: make the P2-F6 height floor cut-relative, or band-relative in the phone cut. No product change is needed for that.
+
+Week 1 evidence: green-p1-r2-w01-evidence.py rerun after the source change, through one heavy-run wrapper.
+same-toolchain pairs equal: 4 of 4; same-toolchain masked pairs equal: 4 of 4; Result: PASS.
+The approved w01 media files were not re-rendered and their sha256 values are unchanged.
+The regenerated green-p1-w01-compare.txt is byte-identical to the committed file.
+
+Re-render, one heavy-run wrapper per week, concurrency 2:
+w04 exit 0; w07 exit 0.
+w01, w02, w03, w05 and w06 were not rendered.
+Evidence: measure/runs/storytime_song_video_20261022/green-p2-r7-01f45859.txt, written by green-p2-r7-01f45859.py: 8 outputs with sha256 and ffprobe, the drawn boxes of every line in both cuts, the shot windows of both weeks, and 6 JPG frames.
+
+Frame review (I read the frames):
+- frames-p2r7-w04-phone-10.jpg: Dad stands inside the frame on the right and Lily on the left. The old cut had no Dad at all, because his figure left the 1080 px frame.
+- frames-p2r7-w04-classroom-13_48.jpg: the line "Mom, Dad, my family!" shows one Lily. The old cut showed two Lilies and the previous Dad, because the exit tail kept the old shot alive.
+- frames-p2r7-w04-classroom-10.jpg: Dad and Lily are clear of the rug, the lyric band, and the inset card.
+- frames-p2r7-w07-phone-10.jpg: May stands inside the frame, with the two prop placeholders clear of her.
+
+Guards before and after:
+- Song-art handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after.
+- `git status --porcelain content`: empty.
+- w01 media sha256: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a; song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e, unchanged.
+
+Known limit, not in scope: the w04 line 3 text "Mom, Dad, my family!" sits over the package picture that shows only Lily. The cast comes from the package image, so the line keeps its own picture. The review did not raise it.
+
+New files added: green-p2-r7-01f45859.py, green-p2-r7-01f45859.txt, the 6 frame JPGs, the gate outputs, and this log.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba
+role_base_sha: 01f45859
+head_sha: 959dd2c521e9f75244d3755f7007e7a165df0008
+commits: 959dd2c5 product; the evidence and plan commit that holds this log
+tasks_flipped: the boxes-round F1 and F2 sub-bullet is [x] at 959dd2c5; the boxes-round task stays [~]
+tasks_blocked: none
+gates: GREEN_TEST_COMMAND 1 (37 pass, 1 fail, P2-F6 phone height floor); PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 1 (80 pass, 1 fail); week 1 evidence 0 (4 of 4 masked pairs equal, Result: PASS)
+fixes: F1 the figure box carries the Figure aspect and the phone row is 200 px; F2 the 0.3 s exit tail is gone from Song.tsx
+rerender: w04 0; w07 0; other weeks not rendered
+frames: w04 phone 10 s shows Dad inside the frame; w04 13.48 s shows one Lily and no previous Dad
+guards: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after; `git status --porcelain content` empty; w01 media sha256 unchanged
+mid_red_ask: make the P2-F6 phone height floor cut-relative or band-relative; the P2-F8 aspect rule and the current floor cannot both hold in the phone cut
+status: green-complete
+dispositions: F1=FIX; F2=FIX; F3=DECLINE; F4=DECLINE; F5=DECLINE; F6=DECLINE
+END_MEASURE_AGENT_RESULT
