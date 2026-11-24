@@ -19,8 +19,8 @@ Phase headings used by the orchestrator gate (exact text):
 ## 2. Gate commands (orchestrator environment)
 
 ```bash
-RED_TEST_COMMAND='set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs'    # must fail before Green; files run serially because prepare() writes shared public/<week> output dirs
-GREEN_TEST_COMMAND='set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs'   # must pass after Green
+RED_TEST_COMMAND='set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs tests/phase2-security.test.mjs'    # must fail before Green; files run serially because prepare() writes shared public/<week> output dirs
+GREEN_TEST_COMMAND='set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs tests/phase2-security.test.mjs'   # must pass after Green
 PROJECT_LINT='set -o pipefail; cd video/storytime-song && npm run lint'          # runs eslint src && tsc
 PROJECT_CHECKS='set -o pipefail; cd video/storytime-song && npx tsc --noEmit'
 PROJECT_TESTS='set -o pipefail; cd video/storytime-song && npm test'             # node --test tests/*.test.mjs
@@ -32,7 +32,7 @@ Every gate command and every render runs through ONE heavy-run wrapper, never ne
 Substitute the real week for `l2/wNN` in `HEAVY_RENDER` (w02 to w07).
 Exit 75 from the wrapper means the pre-flight wait ended before memory was free. Retry once with the same command.
 Capture the wrapper exit code outside the wrapper when a piped capture needs the true code.
-Red authors the twelve named test files. If Red picks other names, the orchestrator updates this block and plan.md before Green.
+Red authors the thirteen named test files. If Red picks other names, the orchestrator updates this block and plan.md before Green.
 
 ### Immutable phase base
 

@@ -1,0 +1,15 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: 3c6a151d4ec332c22199d31549790447cd54c30b
+test_commit: 71c807fddd932ad0b4d225073f8d95e48be4247f
+red_kind: standard
+finding: Review B FAIL at 3c6a151d; no all-row preflight and the classroom copy runs before its row check
+tests: video/storytime-song/tests/phase2-security.test.mjs (P2-B1, P2-B2)
+red_command: exit 1, pass 0, fail 2; P2-B1 fails with Missing expected exception for a corrupted unused row (no preflight; metadata variant unreached); P2-B2 fails with no handoff-sourced copy may run for an unlisted file scenes/w04/classroom.png (symlink) (unlisted-regular variant unreached, same code path)
+guards: no product code edit; temp-root fixtures only, never the real handoff; `git status --porcelain content` empty; src untouched; render.mjs never staged; no render run; B3 and B4 nonblocking, no tests written
+files: video/storytime-song/tests/phase2-security.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/tracks/storytime_song_video_20261022/test-strategy.md
+remaining_failures: P2-B1; P2-B2
+END_MEASURE_AGENT_RESULT
