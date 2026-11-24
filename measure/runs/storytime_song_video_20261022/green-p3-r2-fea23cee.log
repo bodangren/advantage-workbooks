@@ -1,0 +1,47 @@
+Green Phase 3 round 2 log, role base fea23cee
+
+Phase 3 baseline: a7f1b55e403854de0d9596756ee10a2c371f4680
+Role base: fea23cee1783130fcdeef9e2b930f1bebdf42acb (HEAD confirmed before edits)
+Cause: Review C failed Phase 3 at fea23cee (review-c-p3-fea23cee.json): C-P3-1 (registries over 50 lines) and C-P3-2 (39 inherited Thai characters in lessons-learned.md).
+Rule used: measure/workflow.md line 279 says the registries are "pruned to <=50 lines" and has no archive rule. I moved entries unchanged to two archive files, as the brief ordered.
+No product, test, render, or content file was edited. render.mjs was not edited or staged. No push was made.
+
+Result:
+- measure/tech-debt.md: 91 to 50 lines; Thai characters 0.
+- measure/lessons-learned.md: 59 to 49 lines; Thai characters 0.
+- measure/tech-debt-archive.md (new): 19 oldest rows of other tracks, verbatim.
+- measure/lessons-learned-archive.md (new): 7 entries verbatim (3 hold Thai text; 4 are the oldest of other tracks).
+- This track: 30 rows merged into 12 rows. Every id, severity, and cell text is kept. The adversarial F3 row is first and its group keeps the order F3, F1, F2, N1, N2, N3. Phase 1 risks added: adversarial N1, adversarial N2, PA-N3, PA-N4 (text from phase-acceptance-p1-c26c72ba.json and adversarial-p1-c26c72ba.json).
+- Citations fixed: adversarial N3 cause Song.tsx:105-108; C-F4 render.mjs:43; F1 also prepare.mjs:479-488.
+- Review C nits handled in place: the open gates name the render inventory and the place for each result (C-P3-3); the two workflow lessons match contracts.md (C-P3-4); the Phase 1 risks have rows (C-P3-5). Review A N5: source pointers added to three lessons and to the push gate.
+- green-p3-a7f1b55e.log: head_sha is now fea23cee (the Phase 3 head); the sentence about task state names the one flip to [x].
+
+Verification script (python3 -I, outside the repo): every other-track row and entry of fea23cee is verbatim in exactly one of the live file or the archive (lost 0, duplicated 0); all 30 original ids of this track are present in the live file; all original cells are present (three cells only with the corrected citations); 7 lessons of this track are live; archive counts 19 rows and 7 entries.
+
+Gates, each once through ONE heavy-run wrapper, no nesting (no code change, so the expectation is exit 0):
+GREEN_TEST_COMMAND: exit 0 (38 tests, 38 pass, 0 fail)
+PROJECT_TESTS (npm test): exit 0 (98 tests, 90 pass, 0 fail, 8 skipped; the 8 skips are the accepted defects of tests/adversarial-p2-known-defects.test.mjs)
+Gate outputs: green-p3-r2-green.txt, green-p3-r2-project.txt.
+Guards: `git status --porcelain content` empty (0 lines); w01 media sha256 unchanged: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a; song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e.
+
+Commits: 45069196 (registries, archives, P3 log fix, gate outputs); the next commit holds this log and the plan evidence (a commit cannot name itself).
+Tasks: the Phase 3 task stays [x]. No task state changed in this round. No task is [b].
+New files: measure/tech-debt-archive.md, measure/lessons-learned-archive.md, green-p3-r2-green.txt, green-p3-r2-project.txt, this log.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 3: Hand-off
+baseline_sha: a7f1b55e403854de0d9596756ee10a2c371f4680
+role_base_sha: fea23cee1783130fcdeef9e2b930f1bebdf42acb
+head_sha: 450691961f6fdf1ca6b4c947c56e3d23bcfefbf4
+commits: 450691961f6fdf1ca6b4c947c56e3d23bcfefbf4 (registries and archives); the plan and log commit follows
+tasks_flipped: none
+tasks_blocked: none
+gates: GREEN_TEST_COMMAND 0 (38 pass, 0 fail); PROJECT_TESTS 0 (90 pass, 0 fail, 8 skipped)
+tech_debt: 50 lines, 0 Thai; 19 rows archived; 4 Phase 1 rows added
+lessons: 49 lines, 0 Thai; 7 entries archived
+guards: `git status --porcelain content` empty; w01 media sha256 unchanged
+dispositions: C-P3-1=FIX; C-P3-2=FIX; C-P3-3=FIX; C-P3-4=FIX; C-P3-5=FIX
+status: green-complete
+END_MEASURE_AGENT_RESULT
