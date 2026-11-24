@@ -1,0 +1,16 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: 748c95be705a59502c65c05a5d641f93b1cc7cb0
+test_commit: c23456a89732a6e7579442f7f43ac5a39f0afd71
+red_kind: standard
+finding: Review B r2 finding B5; the digest preflight reads non-asset rows before any path-class rejection
+tests: video/storytime-song/tests/phase2-security.test.mjs (P2-B5 added; P2-B1 and P2-B2 unchanged)
+red_command: exit 1, pass 2, fail 1; P2-B1 passes and P2-B2 passes (Green fixed both at role base); P2-B5 fails with `a dotfile manifest row must fail before any copy` (extension variant unreached, same code path); real manifest passes the path rule read-only with APPROVED_ASSET_EXT .json,.png,.txt
+harness_note: the first two P2-B5 runs failed with a ReferenceError from the inline fs-spy closure wiring, not the product code; the spy moved to a module-level helper and the test now fails for the designed missing-rejection reason
+guards: no product code edit; temp-root fixtures only; real handoff read-only; `git status --porcelain content` empty; src untouched; render.mjs never staged; no render run
+files: video/storytime-song/tests/phase2-security.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/runs/storytime_song_video_20261022/red-p2-r7-748c95be.log
+remaining_failures: P2-B5
+END_MEASURE_AGENT_RESULT
