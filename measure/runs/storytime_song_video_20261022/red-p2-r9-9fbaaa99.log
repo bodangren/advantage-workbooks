@@ -1,0 +1,16 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: 9fbaaa99668035f19c5def122a652e31e319580f
+test_commit: 3161ea4dad8303a0711c4063d8d662f755154a3b
+red_kind: standard
+finding: P2-F6 phone frame floor contradicts the P2-F8 Figure aspect; reconciled to a band-relative floor with no product change
+tests: video/storytime-song/tests/phase2-boxes.test.mjs (P2-F6 floor only; P2-F7, P2-F8, P2-F9 untouched)
+red_command: exit 0, pass 4, fail 0; P2-F6, P2-F7, P2-F8, P2-F9 all pass on the current product; W04 placeholder box count 36; W07 May box count 11; Figure box count 37; exit tail false and slide-out false
+floor_chosen: 0.22 to 0.45 of the 607.5 px phone scene band (133 to 273 px); the shipped 200 px row is 0.329 of the band, a larger relative share than the classroom 246 px row is of its frame, so the actor stays readable; 0.22 was not weakened, only re-anchored to the visual context of the cut
+guards: no product code edit; `git status --porcelain content` empty; src untouched; render.mjs never staged; no render run
+files: video/storytime-song/tests/phase2-boxes.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/tracks/storytime_song_video_20261022/test-strategy.md
+remaining_failures: none in this file
+END_MEASURE_AGENT_RESULT
