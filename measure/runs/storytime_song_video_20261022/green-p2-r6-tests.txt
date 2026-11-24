@@ -1,0 +1,197 @@
+
+> storytime-song@1.0.0 test
+> node --test --test-concurrency=1 tests/*.test.mjs
+
+✔ ADV-P1-1 bubble times honor half-open edges, overlap, repeats, and sung parentheses (2.488711ms)
+✔ ADV-P1-2a long unbroken bubble text wraps inside BUBBLE_BOX (0.308878ms)
+✔ ADV-P1-2b bubble boxes remain clear of the lyric and gesture areas in both cuts (0.183688ms)
+✔ ADV-P1-3 manifest adapter rejects traversal, absolute, missing, and duplicate rows (2.857279ms)
+✔ ADV-P1-4a manifest copy accepts an upper-case SHA-256 digest (792.285943ms)
+✔ ADV-P1-4b a wrong digest preserves the previous good week output (40.095368ms)
+✔ ADV-P1-4c a digest with surrounding spaces is rejected before creating output (35.578192ms)
+✔ ADV-P1-4e a failed first copy leaves no partial week output (40.223367ms)
+✔ ADV-P1-4f failed refresh cleanup cannot remove a path outside the project (36.536845ms)
+✔ ADV-P1-4g symlinked week output cannot redirect Forge replacement outside the project (34.62367ms)
+✔ ADV-P1-4h handoff symlinks cannot import bytes from outside the handoff root (34.924117ms)
+✔ ADV-P1-4i abandoned staging-name prefixes do not block the next refresh (694.517029ms)
+✔ ADV-P1-4m a failed staging rename preserves the previous Forge set (699.832909ms)
+✔ ADV-P1-4j week ids with Unicode or trailing newlines reject before filesystem changes (34.989246ms)
+✔ ADV-P1-4k manifest paths with dot segments or backslashes cannot silently drop cast art (0.699705ms)
+✔ ADV-P1-4l concurrent refreshes of one week leave a complete Forge file (726.590428ms)
+✔ ADV-P1-4d a successful refresh removes files from the previous manifest (678.551929ms)
+✔ ADV-P1-5 no cut-out reaches gestures or idle, and Lily never enters cast (607.213636ms)
+✔ ADV-P1-6 every prepared week 1 output equals the phase-base fixture with and without handoff (2853.734166ms)
+✔ ADV-P1-7 filtered week packages 1-7 contain no Thai in generated spec strings (16.689515ms)
+Bubble line count: 4
+Bubble count: 4
+Thai characters: 0
+Image prompt count: 50
+No-letters sentence match count: 50
+✔ T1.1 w06 bubbles come from the sound words of song.times (6.868388ms)
+✔ T1.2 no Thai in the spec strings or the bubble strings (2.957317ms)
+✔ T1.3 a bubble shows only in its word-time window (2.404492ms)
+✔ T1.4 the bubble has no letters image; prompts carry the no-letters sentence (11.546763ms)
+✔ T1.7 the bubble box stays clear of the lyric text and the inset (0.245248ms)
+W04 actor count: 6
+W04 uncovered actor count: 6
+ForgeArt path count: 15
+W02 forge cast count: 4
+W02 covered actor count: 4
+W02 copy file count: 4
+✔ A-F1 missing-cast actors fall back to placeholders with Forge art on (687.551032ms)
+✔ A-F2 the manifest adapter returns the ForgeArt shape with project paths (714.949215ms)
+✔ A-F3 the render path prepares weeks from the manifest (1552.02488ms)
+✔ A-F4 the intake copy runs into a temp project folder and skips Lily (674.396051ms)
+Inset frame count: 10
+✔ A-F5 the gesture inset keeps the approved Adventurer frames (663.269734ms)
+✔ the cast, the gesture frames, and the scene of the week map to files under public/ (1.23901ms)
+✔ the gesture box holds every frame of the inset (0.148229ms)
+✔ a cast member or a gesture with no cut-out is refused; a scene with no render keeps the placeholder (0.385287ms)
+✔ the phone cut shows the whole classroom scene at full width, at 16:9 (0.614305ms)
+✔ the parts of the portrait frame are in the frame, from the top, and do not overlap (0.168159ms)
+✔ the line text is larger in the phone cut than in the classroom cut, for the same frame width (0.139899ms)
+✔ the phone cut centres the actor row in the scene; the classroom cut keeps the inset side free (0.112699ms)
+✔ the frame is the picture pose of the gesture, else the last frame (the beat frame) (0.883813ms)
+✔ the crop is one square from above the head to below the belt, with every hand, in the frame (0.211328ms)
+✔ a crop outside the frame is an error (0.116749ms)
+✔ a week with its own Forge set uses it; another week uses the gesture library (0.462816ms)
+✔ a picture pose has its own crop: the whole figure with the raised foot, in the frame (0.194979ms)
+Manifest row count: 108
+Pat row count: 25
+Sam row count: 25
+Mia row count: 25
+May row count: 25
+W04 row count: 4
+W07 row count: 4
+Scene file comparison count: 4
+Cutout row count for pat: 25
+Cutout row count for sam: 25
+Cutout row count for mia: 25
+Cutout row count for may: 25
+Manifest covered actor count: 4
+W04 scene row count: 4
+W07 scene row count: 4
+l2/w02 actor count: 11
+l2/w02 covered actor count: 4
+l2/w02 scrapped actor count: 0
+l2/w03 actor count: 4
+l2/w03 covered actor count: 3
+l2/w03 scrapped actor count: 0
+l2/w04 actor count: 6
+l2/w04 covered actor count: 0
+l2/w04 scrapped actor count: 0
+l2/w05 actor count: 1
+l2/w05 covered actor count: 1
+l2/w05 scrapped actor count: 0
+l2/w06 actor count: 9
+l2/w06 covered actor count: 2
+l2/w06 scrapped actor count: 0
+l2/w07 actor count: 10
+l2/w07 covered actor count: 0
+l2/w07 scrapped actor count: 1
+Forge week count: 4
+Placeholder week count: 2
+✔ T2.1 the manifest lists 108 ready files with matching hashes (50.171062ms)
+✔ T2.2 the w04 and w07 scene sets match byte for byte (3.118846ms)
+✔ T2.3 an intake run never changes the read-only handoff (2.7306ms)
+✔ T2.4 the adapter maps the TSV to forgeSpec and falls back for Lily (648.431196ms)
+✔ T2.5 w07 has no stage file and uses the classroom scene (0.266278ms)
+✔ T2.6 every week 2-7 copies only its own files, with placeholders for the missing cast (8546.768876ms)
+W07 cast entry count: 0
+W07 week file count: 13
+May book page size: 900x675
+W07 May file count: 0
+May 2D folder: missing
+✔ P2-F4 w07 draws no 3D sprout art in either cut (1359.46098ms)
+✔ P2-F5 w07 May comes from verified 2D book art or the placeholder (1457.639441ms)
+W07 prop line count: 14
+W07 recognised prop count: 23
+W07 drawn prop count: 23
+w02 actor draw count: 0
+w02 bubble count: 0
+w03 actor draw count: 0
+w03 bubble count: 0
+w05 actor draw count: 0
+w05 bubble count: 0
+w06 actor draw count: 0
+w06 bubble count: 4
+w04 actor draw count: 40
+w07 actor draw count: 45
+✔ PA-F1 w07 prop lines draw their props with their characters in both cuts (8.195618ms)
+✔ PA-F2 Forge-video weeks draw no actor layer while w04 and w07 draw theirs, bubbles on top in both cuts (17.947435ms)
+W04 placeholder box count: 36
+W07 May box count: 11
+✔ P2-F6 w04 family placeholders stand on the Forge room floor, clear of rug, lyrics, inset, and each other (1399.138071ms)
+✔ P2-F7 w07 draws a visible May placeholder in both cuts, uncovered by prop boxes (1344.504873ms)
+Approved inset frame count: 10
+w02 Adventurer inset line count: 12
+w03 Adventurer inset line count: 12
+w04 Adventurer inset line count: 14
+w05 Adventurer inset line count: 16
+w06 Adventurer inset line count: 12
+w07 Adventurer inset line count: 14
+Adventurer inset line total: 80
+Inset line total: 80
+w04 Forge scene line count: 14
+w07 Forge scene line count: 14
+w02 bubble count: 0
+w03 bubble count: 0
+w05 bubble count: 0
+w06 bubble count: 4
+w02 gesture box: 1024x1200 on canvas 1024x1200
+w03 gesture box: 1024x1200 on canvas 1024x1200
+w04 gesture box: 1024x1200 on canvas 1024x1200
+w05 gesture box: 1024x1200 on canvas 1024x1200
+w06 gesture box: 1024x1200 on canvas 1024x1200
+w07 gesture box: 1024x1200 on canvas 1024x1200
+✔ P2-F1 every week 2-7 draws the approved Adventurer inset in both cuts (8662.335615ms)
+✔ P2-F2 w04 and w07 draw the Forge classroom picture while Forge-video weeks stay unchanged (8907.603297ms)
+✔ P2-F3 the Adventurer fills the inset card in both cuts with no top crop (8561.475054ms)
+Approved asset extension count: 3
+Approved asset extensions: .json,.png,.txt
+✔ P2-B1 prepare verifies every manifest sha256 before any copy into public or any write (48.577214ms)
+✔ P2-B2 the classroom copies only through a verified manifest row from a regular file inside the handoff root (41.882505ms)
+✔ P2-B5 the preflight rejects non-asset manifest rows before reading their bytes (39.375814ms)
+Bounce y at mid-beat 0.5: 8
+Bounce y at mid-beat 1.5: 8
+Bounce y at mid-beat 2.5: 8
+Placeholder week line count: 26
+✔ T1.5 placeholders come from the package prompts; unknown actors fall back (22.175453ms)
+✔ T1.6 placeholder animals and props bounce on the beat (4.090339ms)
+✔ A-F6 prepare works without the handoff and keeps week 1 approved (768.388703ms)
+✔ A-F7 the production copy verifies each file against its manifest row (3.796722ms)
+Snapshot spec line count: 15
+Snapshot fixture sha256: 83f45092cd3047d25ee58249b0677e3e5cf43045d496c2d545f052173b4d8487
+Full prepare fixture sha256: 31067c1580ad9a1f100314913b3e5758f25dda6016f280f745e61d5105ccd17a
+✔ A-note the week 1 guard covers prepare.mjs output, not only compositor sources (7.327475ms)
+✔ A-note2 prepare full week 1 output equals the phase base (1427.682307ms)
+✔ a sung repeat in parentheses is its own segment, with no parentheses (1.187341ms)
+✔ a line whose word count differs from its tokens is refused (0.207549ms)
+✔ the scene is the named place, else the setting of the week (1.068722ms)
+✔ week 1: every line has its picture, actors, and the times of the package (3.575373ms)
+✔ a Forge scene video must be 1920x1080, silent, and as long as the song (0.336418ms)
+Previous week file count: 3
+Outside week file count: 0
+✔ ADV-P1-F9 an audio or spec write failure after the Forge swap preserves the previous week output (678.205641ms)
+✔ ADV-P1-F8 prepare validates the week output path before its first write (36.778443ms)
+✔ lines with the same picture make one shot; the first shot starts at 0 and the last ends at the end (1.149601ms)
+✔ actors slide only inside one scene and only when the cast changes (0.243868ms)
+✔ in a gap the next line shows at most 1.2 s early, never before the last line ends (0.213788ms)
+✔ the gesture holds for the line and 0.5 s after it, else idle (0.156279ms)
+Approved frame hash count: 4
+Week 1 bubble count: 0
+Inset mask classroom: 1602 708 270 324
+Inset mask phone: 120 1032 840 856
+Same-toolchain masked pair count: 4
+Render exit classroom: 0
+Render exit phone: 0
+✔ T1.8 week 1 keeps approved media and matches source under one toolchain (7.235885ms)
+✔ T1.9 the week 1 evidence records exits and unchanged media (8.803794ms)
+ℹ tests 79
+ℹ suites 0
+ℹ pass 79
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 56851.168457

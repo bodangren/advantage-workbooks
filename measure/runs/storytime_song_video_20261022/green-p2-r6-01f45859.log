@@ -1,0 +1,58 @@
+Green Phase 2 round 6 log, role base 01f45859
+
+Phase 2 baseline: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Role base: 01f45859ab95fe88be073ab59aa0b7a545a7eecc (HEAD confirmed before edits)
+Product commit: 5eae4c758486bf59ad0337be28154a2dc3e373fc
+Review B finding: FAIL at 748c95be (measure/runs/storytime_song_video_20261022/review-b-p2-748c95be.json), blocker B5.
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. Committed files hold 0 Thai characters. `git status --porcelain content` is empty. The song-art handoff stayed read-only. render.mjs was never edited or staged. No test or fixture was edited. No push was made.
+
+Fixes (product commit 5eae4c75, one file: video/storytime-song/scripts/prepare.mjs):
+- B5: `assertApprovedAssetPath` refuses a manifest row that names no approved asset. The check runs inside the row loop of `readManifestRows`, before any read of that file. A row with a dot segment, or an extension outside `.json,.png,.txt`, is refused. The preflight never reads a nested private file. The approved classes are the extensions of the real 108-row manifest.
+- B4: `assertRegularOutputFile` refuses a symlink at the output `song.mp3`. The output guard walked the folder path only, so a file inside it could redirect a write. The check runs before the copy.
+- The week 1 output, the inset, the cast, and the w07 May placeholder are unchanged.
+
+Gates, each once through ONE heavy-run wrapper, no nesting:
+GREEN_TEST_COMMAND: exit 0 (36 tests, 0 fail)
+PROJECT_LINT (npm run lint): exit 0
+PROJECT_CHECKS (npx tsc --noEmit): exit 0
+PROJECT_TESTS (npm test): exit 0 (79 tests, 0 fail)
+Gate outputs: green-p2-r6-green.txt, green-p2-r6-lint.txt, green-p2-r6-checks.txt, green-p2-r6-tests.txt.
+
+Week 1 evidence: green-p1-r2-w01-evidence.py rerun after the prepare change, through one heavy-run wrapper.
+same-toolchain pairs equal: 4 of 4; same-toolchain masked pairs equal: 4 of 4; Result: PASS.
+The approved w01 media files were not re-rendered and their sha256 values are unchanged.
+The regenerated green-p1-w01-compare.txt is byte-identical to the committed file.
+
+No re-render: the prepare change only affects the intake. The week 2-7 videos and posters stay as they are.
+
+Guards before and after:
+- Song-art handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after.
+- `git status --porcelain content`: empty.
+- w01 media sha256: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a; song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e, unchanged.
+- The real manifest holds 108 rows with the extensions .json, .png, and .txt. No row has a dot segment, so the new rule keeps every real row.
+
+Known limit: a handoff that declares no scene file has no row for the scene metadata. That metadata is then read as a regular file inside the handoff root, without a digest row. The committed P1 fixtures ADV-P1-4a and ADV-P1-F9 need that case, and their files cannot change. The real handoff declares the metadata row, so its bytes are verified.
+
+Also for the next Red round: test-strategy.md has no P2-B1, P2-B2, or P2-B5 rows yet. The plan task line points at them. That file is the Red contract, so Green left it alone.
+
+New files added: green-p2-r6-green.txt, green-p2-r6-lint.txt, green-p2-r6-checks.txt, green-p2-r6-tests.txt, green-p2-r6-w01.txt, and this log. No production file was added. prepare.mjs changed.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba
+role_base_sha: 01f45859
+head_sha: 5eae4c758486bf59ad0337be28154a2dc3e373fc
+commits: 5eae4c75 product; the evidence and plan commit that holds this log
+tasks_flipped: (P2 security round) [x] at 5eae4c75
+tasks_blocked: none
+gates: GREEN_TEST_COMMAND 0 (36 tests); PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (79 tests); week 1 evidence 0 (4 of 4 masked pairs equal, Result: PASS)
+fixes: P2-B5 the preflight refuses a dot segment or an extension outside .json,.png,.txt before any read of that row; P2-B4 a symlink at the output song.mp3 is refused
+guards: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after; `git status --porcelain content` empty; w01 media sha256 unchanged
+rerender: none; the prepare change only affects the intake
+new_files: green-p2-r6-green.txt; green-p2-r6-lint.txt; green-p2-r6-checks.txt; green-p2-r6-tests.txt; green-p2-r6-w01.txt; green-p2-r6-01f45859.log
+status: green-complete
+dispositions: B5=FIX; B4=FIX; B6=DECLINE(review nit, the legacy scene-free manifest path is unchanged, the real handoff declares and verifies the metadata row); B7=DECLINE(review nit, the exported helper takes verified rows from the only product caller); B8=DECLINE(review nit, the render entry copies local audio before the classroom row check, no handoff byte reaches the project)
+END_MEASURE_AGENT_RESULT
