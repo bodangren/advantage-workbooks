@@ -102,6 +102,23 @@ function listFiles(root) {
   });
 }
 
+function spyFsReads(log) {
+  const realRead = fs.readFileSync;
+  const realStream = fs.createReadStream;
+  fs.readFileSync = (...args) => {
+    log.push(String(args[0]));
+    return realRead(...args);
+  };
+  fs.createReadStream = (...args) => {
+    log.push(String(args[0]));
+    return realStream(...args);
+  };
+  return () => {
+    fs.readFileSync = realRead;
+    fs.createReadStream = realStream;
+  };
+}
+
 test("P2-B1 prepare verifies every manifest sha256 before any copy into public or any write", async () => {
   const root = tempDir("song-p2-b1-");
   const art = path.join(root, "handoff");
@@ -197,5 +214,68 @@ test("P2-B2 the classroom copies only through a verified manifest row from a reg
   } finally {
     fs.copyFileSync = realCopy;
     fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("P2-B5 the preflight rejects non-asset manifest rows before reading their bytes", async () => {
+  const root = tempDir("song-p2-b5-");
+  const art = path.join(root, "handoff");
+  const sandbox = await isolatedPrepare(root);
+  const publicRoot = path.join(root, "video/storytime-song/public");
+  const realHandoff = path.join(os.homedir(), "Desktop/handoff/storytime-song-art");
+  try {
+  const realRows = fs.readFileSync(path.join(realHandoff, "MANIFEST.tsv"), "utf8")
+    .trim().split("\n").slice(1).map((ln) => ln.split("\t")[0]);
+  assert.ok(!THAI.test(realRows.join("\n")), "real manifest holds Thai");
+  const APPROVED_ASSET_EXT = new Set(realRows.map((file) => path.extname(file).toLowerCase()));
+  console.log(`Approved asset extension count: ${APPROVED_ASSET_EXT.size}`);
+  console.log(`Approved asset extensions: ${[...APPROVED_ASSET_EXT].sort().join(",")}`);
+  assert.ok(APPROVED_ASSET_EXT.size > 0, "the real manifest must declare asset extensions");
+  const badReal = realRows.filter((file) => file.split("/").some((part) => part.startsWith(".")) || !APPROVED_ASSET_EXT.has(path.extname(file).toLowerCase()));
+  assert.deepEqual(badReal, [], "every real manifest row must name an approved asset with no dot segment");
+  const good = (file, who, bytes) => ({ file, who, bytes, sha: hash(bytes) });
+  const base = (extra) => [
+    good("cutouts/pat/listen.png", "pat", Buffer.from("pat front")),
+    good("cutouts/sam/listen.png", "sam", Buffer.from("sam front")),
+    good("cutouts/mia/listen.png", "mia", Buffer.from("mia front")),
+    good("cutouts/may/listen.png", "may", Buffer.from("may front")),
+    extra,
+  ];
+  for (const [variant, forbidden] of [
+    ["dotfile", good("cutouts/pat/.hidden.png", "pat", Buffer.from("nested dotfile bytes"))],
+    ["extension", good("payload.bin", "w04", Buffer.from("non-asset bytes"))],
+  ]) {
+    handoffFixture(art, base(forbidden));
+    const reads = [];
+    const unspy = spyFsReads(reads);
+    try {
+      let threw = false;
+      let message = "";
+      try {
+        withArtDir(art, () => sandbox.prepareWithManifest("l2/w02", art));
+      } catch (error) {
+        threw = true;
+        message = String((error && error.message) || error);
+      }
+      const artAbs = path.resolve(art);
+      const forbiddenAbs = path.join(artAbs, forbidden.file);
+      const byteReads = reads.filter((file) => {
+        try {
+          return path.resolve(file) === forbiddenAbs;
+        } catch {
+          return false;
+        }
+      });
+      assert.ok(threw, `a ${variant} manifest row must fail before any copy`);
+      assert.match(message, /manifest|dotfile|asset|extension|forbidden|row|refus|non-asset/i,
+        `a ${variant} manifest row must fail with a manifest-integrity error, not ${message}`);
+      assert.deepEqual(byteReads, [], `the preflight must not read the bytes of a ${variant} row`);
+    } finally {
+      unspy();
+    }
+  }
+  assert.deepEqual(listFiles(publicRoot), [], "a refused non-asset row must leave no file under the public root");
+  } finally {
+    if (fs.existsSync(root)) fs.rmSync(root, { recursive: true, force: true });
   }
 });
