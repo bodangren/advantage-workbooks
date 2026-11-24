@@ -10,10 +10,6 @@ import type { ActorBox } from "./actorBoxes";
 import { Figure, LOOKS, NEUTRAL, Puppy } from "./art/Figure";
 import type { ForgeArt } from "./types";
 
-const EXIT = 0.3;
-/** The seconds that the actors of a shot stay after its end to slide out. */
-export const EXIT_SECONDS = EXIT;
-
 /**
  * A flat placeholder shape of an animal or a prop (no letters, not for release). It fills the box chosen by
  * actorBoxes, so the drawn box and the tested box are the same rectangle.

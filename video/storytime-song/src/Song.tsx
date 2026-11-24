@@ -2,7 +2,7 @@ import { Audio, Video } from "@remotion/media";
 import React from "react";
 import { AbsoluteFill, Sequence, staticFile, useVideoConfig } from "remotion";
 import { actorBoxes } from "./actorBoxes";
-import { Actors, EXIT_SECONDS } from "./Actors";
+import { Actors } from "./Actors";
 import { SceneBackground } from "./art/Scene";
 import { GestureInset } from "./GestureInset";
 import { PORTRAIT_SCENE_SCALE, SCENE } from "./layout";
@@ -104,7 +104,7 @@ export const SceneShots: React.FC<{ spec: Spec; portrait?: boolean }> = ({
             from={f(shot.start)}
             durationInFrames={Math.max(
               1,
-              f(shot.end) - f(shot.start) + (shot.exit ? f(EXIT_SECONDS) : 0),
+              f(shot.end) - f(shot.start),
             )}
           >
             <Actors
