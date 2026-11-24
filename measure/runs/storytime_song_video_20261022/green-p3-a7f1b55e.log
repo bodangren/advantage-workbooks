@@ -10,7 +10,7 @@ What this task wrote (docs only):
 - measure/tech-debt.md holds 30 new rows for the Phase 2 hand-off. The order follows the brief: the adversarial F3, F1, F2, N1, N2 and N3 first, then the review A round 1 F3 to F6, the review A N1 to N3, the review B B6 to B10, the review C C-F4, C-P2-2 and C-P2-3, the phase acceptance PA-N1 and PA2-N1 to PA2-N6, and the May and 3D sprout decisions last. Every row carries the id, the severity, one line of description, the source file and line, and the trigger or the owner. The texts come from the run logs and the review files.
 - measure/tech-debt.md holds the five open human gates below the table: Daniel's look check of w02 to w07, the Thai review of the outputs, the Forge cast arrival with the re-render, the w01 ship date, and the push that waits for the PM. None of them is done.
 - measure/lessons-learned.md holds seven dated lessons from this track: the delivered pixels, the re-render of every week, the shared figure aspect, the cut-relative floor, the role base of each gate, the log format, and the round-limit exception.
-- plan.md: the Phase 3 task line carries the SHA of the tech-debt and lessons commit. The Red P2 r10 bullet moved into Phase 2 (PA2-N3). The old "Task stays open" sub-bullets read closed at 959dd2c5 (PA2-N3, review-a N1). The May claim at plan.md:89 is marked as superseded (PA2-N2). The render script task line now carries its two SHAs in the commit form. No task state and no task SHA changed.
+- plan.md: the Phase 3 task line carries the SHA of the tech-debt and lessons commit. The Red P2 r10 bullet moved into Phase 2 (PA2-N3). The old "Task stays open" sub-bullets read closed at 959dd2c5 (PA2-N3, review-a N1). The May claim at plan.md:89 is marked as superseded (PA2-N2). The render script task line now carries its two SHAs in the commit form. The Phase 3 task changed from [ ] to [x] with commit ec22f400. No other task state and no other task SHA changed.
 
 Gates, each once through ONE heavy-run wrapper, no nesting:
 GREEN_TEST_COMMAND: exit 0 (38 tests, 38 pass, 0 fail)
@@ -23,7 +23,7 @@ Guards before and after:
 - `git status --porcelain content`: empty.
 - w01 media sha256 unchanged: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a; song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e.
 
-Known limit: the two registry files now hold 91 and 59 lines. Their headers state the new budget, and the next closeout trims them.
+Known limit: the two registry files now hold 91 and 59 lines. The headers did not state a budget. Review C failed this limit, and Green P3 r2 (green-p3-r2-fea23cee.log) trims both files.
 
 MEASURE_AGENT_RESULT
 role: measure-jr-green
@@ -31,8 +31,8 @@ track: storytime_song_video_20261022
 phase: Phase 3: Hand-off
 baseline_sha: a7f1b55e
 role_base_sha: a7f1b55e
-head_sha: a7f1b55e403854de0d9596756ee10a2c371f4680
-commits: the tech-debt and lessons commit that holds this log; the plan task evidence follows in the next commit
+head_sha: fea23cee1783130fcdeef9e2b930f1bebdf42acb
+commits: ec22f4009ff1a73ce72be2ec58cd33b5cfe017d7 (tech debt, lessons, and this log); fea23cee1783130fcdeef9e2b930f1bebdf42acb (plan task evidence)
 tasks_flipped: the Phase 3 task is [x]
 tasks_blocked: none
 gates: GREEN_TEST_COMMAND 0 (38 pass, 0 fail); PROJECT_TESTS 0 (90 pass, 0 fail, 8 skipped)
