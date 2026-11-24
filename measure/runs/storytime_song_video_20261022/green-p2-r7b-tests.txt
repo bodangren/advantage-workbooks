@@ -1,0 +1,16 @@
+Green Phase 2 round 7b gate rerun after Red P2 r9, role base e01b8308
+HEAD at the rerun: 64d0dce2a44205dec1a996736896ffba0cee1517
+Product commit under test: 959dd2c521e9f75244d3755f7007e7a165df0008
+Red P2 r9 commit: 3161ea4d (the P2-F6 phone height floor is band-relative)
+No product change in this round; only the plan and the log.
+Each command ran once through ONE heavy-run wrapper, never nested.
+
+GREEN_TEST_COMMAND exit: 0 (38 tests, 38 pass, 0 fail)
+  raw output: green-p2-r7b-green.txt
+PROJECT_TESTS exit: 0 (81 tests, 81 pass, 0 fail)
+  raw output: green-p2-r7b-project.txt
+
+The P2-F6 phone floor now reads the phone scene band as its reference, so the 200 px phone row passes with the
+P2-F8 figure aspect. All four tests of tests/phase2-boxes.test.mjs pass on the product commit 959dd2c5.
+
+Result: PASS

@@ -1,7 +1,7 @@
-Green Phase 2 round 7 log, role base 01f45859
+Green Phase 2 round 7 log, role base e01b8308
 
 Phase 2 baseline: c26c72ba3173b71194e50977a2b06c04e75e3df2
-Role base: 01f45859ab95fe88be073ab59aa0b7a545a7eecc (HEAD confirmed before edits)
+Role base: e01b83087d5b55a4baf56ffaace48a3b46b859c9 (HEAD confirmed before edits)
 Product commit: 959dd2c521e9f75244d3755f7007e7a165df0008
 Review A finding: FAIL at d398c235 (measure/runs/storytime_song_video_20261022/review-a-p2-d398c235.json), blockers F1 and F2.
 
@@ -27,7 +27,12 @@ The P2-F6 conflict, with numbers:
 - Two such boxes need 2 x 298.2 minus the overlap that the 15 percent rule allows, which is 539.6 px. That is wider than the 427.5 px band, so a band holds one figure box.
 - The phone cut therefore holds two figure boxes per line. The w04 lines 4, 8, 12 and 14 name five family members, so P2-F6 and P2-F8 cannot both hold in the phone cut.
 - The chosen layout keeps the P2-F8 aspect and the collision rules, and lowers the phone row to 200 px. The phone height share is then 0.104 against the 0.22 floor. A phone floor relative to the 607.5 px scene band gives 0.22 to 0.45 of the band, which the 200 px row passes.
-- The Mid Red ask: make the P2-F6 height floor cut-relative, or band-relative in the phone cut. No product change is needed for that.
+- Red P2 r9 (3161ea4d) reconciled the floor that way: the phone floor reads the phone scene band, and the classroom keeps the frame floor. No product change was needed.
+
+Round 7b gate rerun after Red P2 r9, each command once through ONE heavy-run wrapper, no nesting:
+GREEN_TEST_COMMAND: exit 0 (38 tests, 38 pass, 0 fail)
+PROJECT_TESTS (npm test): exit 0 (81 tests, 81 pass, 0 fail)
+Rerun outputs: green-p2-r7b-tests.txt, green-p2-r7b-green.txt, green-p2-r7b-project.txt.
 
 Week 1 evidence: green-p1-r2-w01-evidence.py rerun after the source change, through one heavy-run wrapper.
 same-toolchain pairs equal: 4 of 4; same-toolchain masked pairs equal: 4 of 4; Result: PASS.
@@ -54,22 +59,24 @@ Known limit, not in scope: the w04 line 3 text "Mom, Dad, my family!" sits over 
 
 New files added: green-p2-r7-01f45859.py, green-p2-r7-01f45859.txt, the 6 frame JPGs, the gate outputs, and this log.
 
+Round 7b repair (plan and log only, no product change): the role base above was wrong and is now e01b8308. The log file was renamed from green-p2-r7-e01f45859.log to green-p2-r7-e01b8308.log. The plan boxes-round task is now [x] with the product SHAs, and its Done-when names the passing tests. The gates were rerun after Red P2 r9 and both exit 0. New files of this round: green-p2-r7b-tests.txt, green-p2-r7b-green.txt, green-p2-r7b-project.txt.
+
 MEASURE_AGENT_RESULT
 role: measure-jr-green
 track: storytime_song_video_20261022
 phase: Phase 2: Forge art
 baseline_sha: c26c72ba
-role_base_sha: 01f45859
+role_base_sha: e01b8308
 head_sha: 959dd2c521e9f75244d3755f7007e7a165df0008
 commits: 959dd2c5 product; the evidence and plan commit that holds this log
-tasks_flipped: the boxes-round F1 and F2 sub-bullet is [x] at 959dd2c5; the boxes-round task stays [~]
+tasks_flipped: the boxes-round F1 and F2 sub-bullet is [x] at 959dd2c5; the boxes-round task is [x] at 959dd2c5
 tasks_blocked: none
-gates: GREEN_TEST_COMMAND 1 (37 pass, 1 fail, P2-F6 phone height floor); PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 1 (80 pass, 1 fail); week 1 evidence 0 (4 of 4 masked pairs equal, Result: PASS)
+gates: GREEN_TEST_COMMAND 0 (38 pass, 0 fail); PROJECT_TESTS 0 (81 pass, 0 fail); PROJECT_LINT 0; PROJECT_CHECKS 0; week 1 evidence 0 (4 of 4 masked pairs equal, Result: PASS)
 fixes: F1 the figure box carries the Figure aspect and the phone row is 200 px; F2 the 0.3 s exit tail is gone from Song.tsx
 rerender: w04 0; w07 0; other weeks not rendered
 frames: w04 phone 10 s shows Dad inside the frame; w04 13.48 s shows one Lily and no previous Dad
 guards: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after; `git status --porcelain content` empty; w01 media sha256 unchanged
-mid_red_ask: make the P2-F6 phone height floor cut-relative or band-relative; the P2-F8 aspect rule and the current floor cannot both hold in the phone cut
+mid_red_ask: answered by Red P2 r9 (3161ea4d); the P2-F6 phone floor is band-relative and the rerun exits 0
 status: green-complete
 dispositions: F1=FIX; F2=FIX; F3=DECLINE; F4=DECLINE; F5=DECLINE; F6=DECLINE
 END_MEASURE_AGENT_RESULT
