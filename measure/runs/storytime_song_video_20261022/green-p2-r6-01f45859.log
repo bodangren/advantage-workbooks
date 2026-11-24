@@ -38,6 +38,8 @@ Also for the next Red round: test-strategy.md has no P2-B1, P2-B2, or P2-B5 rows
 
 New files added: green-p2-r6-green.txt, green-p2-r6-lint.txt, green-p2-r6-checks.txt, green-p2-r6-tests.txt, green-p2-r6-w01.txt, and this log. No production file was added. prepare.mjs changed.
 
+Declined findings, with reasons: B6 keeps the legacy scene-free manifest path, and the real handoff declares and verifies the metadata row. B7 keeps the exported helper taking verified rows from the only product caller. B8 keeps the render entry copying local audio before the classroom row check; no handoff byte reaches the project.
+
 MEASURE_AGENT_RESULT
 role: measure-jr-green
 track: storytime_song_video_20261022
@@ -54,5 +56,5 @@ guards: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea1
 rerender: none; the prepare change only affects the intake
 new_files: green-p2-r6-green.txt; green-p2-r6-lint.txt; green-p2-r6-checks.txt; green-p2-r6-tests.txt; green-p2-r6-w01.txt; green-p2-r6-01f45859.log
 status: green-complete
-dispositions: B5=FIX; B4=FIX; B6=DECLINE(review nit, the legacy scene-free manifest path is unchanged, the real handoff declares and verifies the metadata row); B7=DECLINE(review nit, the exported helper takes verified rows from the only product caller); B8=DECLINE(review nit, the render entry copies local audio before the classroom row check, no handoff byte reaches the project)
+dispositions: B5=FIX; B4=FIX; B6=DECLINE; B7=DECLINE; B8=DECLINE
 END_MEASURE_AGENT_RESULT
