@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "role": "final-acceptance",
+  "track": "storytime_song_video_20261022",
+  "phase": "track review",
+  "baseline_sha": "e87ae40d8abf96a2647631c194f954f2d415c92a",
+  "track_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "e87ae40d8abf96a2647631c194f954f2d415c92a",
+  "audited_head_sha": "e87ae40d8abf96a2647631c194f954f2d415c92a",
+  "status": "fail",
+  "summary": "Phase 3 now covers the audited HEAD. Two closeout requirements still fail: the count of Phase 3 passing results and the Doctor exit gate. PM 2026-11-25: no third-family decision route; Phases 2 and 3 and Review A ran on Claude",
+  "blocking_findings": [
+    "FA-R3-1 [Blocker] phase result count: phase-acceptance-p3-d46b60eb.json and phase-acceptance-p3-e87ae40d.json both report pass for Phase 3. The final-acceptance role requires exactly one per plan phase.",
+    "FA-2 [Blocker] Doctor: bash measure/doctor.sh exits 127 because the script is absent. The final-acceptance role requires exit 0. The PM tooling decision does not change the role requirement."
+  ],
+  "nonblocking_findings": [
+    "FA-R2-1 is resolved. The latest Phase 3 result audits e87ae40d, and its mechanical phase gate exits 0.",
+    "FA-1 is a documented release deviation. spec.md:18, plan.md:26, and measure/tech-debt.md:39 record the decision, cause, rating, and follow-up.",
+    "PA3c-N1, PA3-N1, PA3-N2, and Review A N1 and N2 remain nonblocking closeout notes. The five human gates stay open."
+  ],
+  "evidence": [
+    "PM 2026-11-25: no third-family decision route; Phases 2 and 3 and Review A ran on Claude",
+    "git rev-parse HEAD 1ffd649b resolves e87ae40d8abf96a2647631c194f954f2d415c92a and 1ffd649b83df6f1f6625351d8da4afd5ee1ca513.",
+    "git diff --name-only e87ae40d HEAD: exit 0; empty output. Both this audit and the latest Phase 3 acceptance audit the current HEAD.",
+    "git diff --name-only a7f1b55e HEAD -- video/storytime-song content dashboard: exit 0; empty output.",
+    "git diff --cached --name-only -- video/storytime-song/scripts/render.mjs: exit 0; empty output.",
+    "git diff --name-only e4af9e53 HEAD: exit 0; output:\nmeasure/runs/storytime_song_video_20261022/adversarial-p3-d46b60eb.json\nmeasure/runs/storytime_song_video_20261022/adversarial-p3-d46b60eb.log\nmeasure/runs/storytime_song_video_20261022/final-acceptance-d46b60eb.json\nmeasure/runs/storytime_song_video_20261022/final-acceptance-d46b60eb.log\nmeasure/runs/storytime_song_video_20261022/final-acceptance-e4af9e53.json\nmeasure/runs/storytime_song_video_20261022/final-acceptance-e4af9e53.log\nmeasure/runs/storytime_song_video_20261022/green-p3-r4-e4af9e53.log\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-d46b60eb.json\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-d46b60eb.log\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-e4af9e53.json\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-e4af9e53.log\nmeasure/tech-debt.md",
+    "git diff --name-only d46b60eb HEAD: exit 0; output:\nmeasure/runs/storytime_song_video_20261022/adversarial-p3-d46b60eb.json\nmeasure/runs/storytime_song_video_20261022/adversarial-p3-d46b60eb.log\nmeasure/runs/storytime_song_video_20261022/build-fa1-d46b60eb.log\nmeasure/runs/storytime_song_video_20261022/final-acceptance-d46b60eb.json\nmeasure/runs/storytime_song_video_20261022/final-acceptance-d46b60eb.log\nmeasure/runs/storytime_song_video_20261022/final-acceptance-e4af9e53.json\nmeasure/runs/storytime_song_video_20261022/final-acceptance-e4af9e53.log\nmeasure/runs/storytime_song_video_20261022/green-p3-r4-e4af9e53.log\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-d46b60eb.json\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-d46b60eb.log\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-e4af9e53.json\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-e4af9e53.log\nmeasure/tech-debt-archive.md\nmeasure/tech-debt.md\nmeasure/tracks/storytime_song_video_20261022/plan.md\nmeasure/tracks/storytime_song_video_20261022/spec.md",
+    "Passing result counts by plan heading: P1 one (1ffd649b to c26c72ba), P2 one (c26c72ba to a7f1b55e), P3 two (a7f1b55e to d46b60eb and a7f1b55e to e87ae40d). The older P3 artifact is historical but still reports pass in the result set.",
+    "For every phase result, git merge-base --is-ancestor exits 0 from baseline and role base to audited HEAD and from audited HEAD to e87ae40d. The latest Phase 3 JSON and log exist.",
+    "The Doctor requirement is separate from the mechanical checker. /home/daniebo/.config/opencode/agents/measure-final-acceptance.md:148 states: `bash measure/doctor.sh` exits 0. Line 122 requires exactly one passing phase acceptance per phase.",
+    "The mechanical checker and contracts.md have zero Doctor references. git log --all --oneline -- measure/doctor.sh produces no output. The command exits 127; the passing tsc substitute does not make Doctor exit 0.",
+    "The final role-gate exits 1 only on the audit status check. Its npm run lint, npx tsc --noEmit, and npm test invocations each exit 0. The checker does not independently check Doctor or phase-result cardinality.",
+    "The original spec item 3 stays intact. Only plan.md:26 changes against d46b60eb and it appends PARTIAL. All 21 completed entries retain ancestor SHA evidence. Karaoke remains deferred.",
+    "measure/tech-debt.md has 50 lines and zero Thai characters. F3 stays first among the track rows. FA-1 names cause 2893b582 and the original Blocker rating. The cited round 1 result resolves with git cat-file at HEAD.",
+    "A5: the literal false-claim scan found zero hits and the PARTIAL note qualifies the slide claim. A6: the registry claims no adversarial resolution, and the eight skips match the recorded debt. A9: there are zero tests/*.sh files.",
+    "All 28 media SHA-256 values match green-p2-r8-rerender.txt before and after the gates. The week 1 MP4 hashes are 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a and 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e.",
+    "The Forge handoff holds 110 files before and after the gates. MANIFEST.tsv SHA-256 is f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759. T2.1 verifies all 108 row digests.",
+    "HEAD stays at e87ae40d. git status --porcelain -- content returns no paths. The render.mjs worktree SHA-256 stays 9a5fc7a2a526df933bca5632655103670e4e8a53cc32d225a80dd122a29aed26, with no staged change.",
+    "The five human gate records are unchanged at measure/tech-debt.md:42-50. Each video gate output has zero Thai characters. No week JSON or lessons archive text entered the audit context."
+  ],
+  "commands": [
+    "measure_interphase_checks.py role-gate --repo . --role final-acceptance --track storytime_song_video_20261022 --phase 'track review' --baseline e87ae40d8abf96a2647631c194f954f2d415c92a --result-file measure/runs/storytime_song_video_20261022/final-acceptance-e87ae40d.json --log-file measure/runs/storytime_song_video_20261022/final-acceptance-e87ae40d.log --runner /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh — exit 1 on the recorded audit status. Python runpy executes the installed CLI. The observer prints the captured wrapper output without changing the commands or results.",
+    "PROJECT_LINT via role-gate and heavy-run: set -o pipefail; cd video/storytime-song && npm run lint — exit 0.",
+    "PROJECT_CHECKS via role-gate and heavy-run: set -o pipefail; cd video/storytime-song && npx tsc --noEmit — exit 0.",
+    "PROJECT_TESTS via role-gate and heavy-run: set -o pipefail; cd video/storytime-song && npm test — exit 0; 98 total, 90 pass, 0 fail, 8 skipped.",
+    "GREEN_TEST_COMMAND via /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c: set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs tests/phase2-security.test.mjs — exit 0; 38 pass, 0 fail, 0 skipped.",
+    "measure_interphase_checks.py role-gate --role phase-acceptance for Phase 3 at e87ae40d with its JSON and log — exit 0.",
+    "bash measure/doctor.sh — exit 127; No such file or directory."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/final-acceptance-e87ae40d.json",
+    "measure/runs/storytime_song_video_20261022/final-acceptance-e87ae40d.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "create_remediation_track",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high"
+}

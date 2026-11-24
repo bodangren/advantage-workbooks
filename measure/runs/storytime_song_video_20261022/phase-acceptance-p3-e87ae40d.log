@@ -1,0 +1,50 @@
+Phase 3 acceptance round 3: PASS.
+
+Phase base: a7f1b55e403854de0d9596756ee10a2c371f4680
+Role base and audited HEAD: e87ae40d8abf96a2647631c194f954f2d415c92a
+Round 2 result: phase-acceptance-p3-e4af9e53.json (FAIL, one blocker F1). Green P3 r4 fixed it.
+
+Round 2 blocker F1: closed.
+The FA-1 row cited final-acceptance-d46b60eb.json, which git did not hold. Commit 0ad44426 now holds it and 9 more audit artifacts.
+I checked every citation with git cat-file -e at HEAD. 21 of 21 full-path measure/runs citations of this track resolve in the 7 track docs.
+20 bare run-file names in this track's rows were checked. 1 does not resolve: the accepted typo id adversarial-p2-f8c01d5.json.
+I excluded the literal placeholder and the bare names in rows of other tracks, as the brief allows.
+
+Diff e4af9e53..e87ae40d: measure/tech-debt.md (the FA-1 row and the FA-2 row only) and 11 run files (10 audit artifacts and the Green r4 log).
+0 files changed in measure/tracks, the archives, the lessons files, video, content, and dashboard. The product diff a7f1b55e..e87ae40d is 0 files.
+
+Registry: tech-debt.md has 50 lines and 0 Thai. Live 33 and archive 21 rows before and after. 0 rows lost, 0 duplicated. The adversarial F3 row is first among the 14 rows of this track.
+FA-1 (Medium, Open) is accurate: cause is commit 2893b582 (10 slide lines at c26c72ba, 0 at a7f1b55e), the timeline test checks flags only, the original rating was Blocker, PM ruling A makes it Medium.
+FA-2 (Low, Open) is accurate: measure/doctor.sh is absent. Phase 1 acceptance and the final audit both ran on openai/gpt-6.2-sol#high. The PM waived route independence for this final audit (2026-11-25).
+The five human gates (lines 42 to 50) are identical and 0 are marked done. w01 ships on 2026-11-25: no record of shipping exists, so the gate stays open. The branch is ahead 92, so no push occurred.
+The 11 new run files hold 0 Thai characters and 0 secret-pattern hits.
+
+GREEN exit 0: 38 tests, 38 pass, 0 fail.
+PROJECT_TESTS exit 0: 98 tests, 90 pass, 0 fail, 8 skipped.
+PROJECT_LINT exit 0. PROJECT_CHECKS exit 0.
+Each gate ran once in its own call through one heavy-run wrapper, in series.
+
+Week 1 song.mp4 4c88951f... and song-phone.mp4 74ccefed... are unchanged. 28 of 28 outputs match the Phase 2 render record. The handoff holds 110 files with the same manifest hash.
+A5 holds. A3, A4, A6, and A7 do not apply. UX browser review and runtime security do not apply to a documentation phase.
+
+Nonblocking findings of this audit:
+PA3c-N1 The FA-2 row says Review A ran on Claude. Review A of Phase 1 ran on openai/gpt-6-luna#high. The sentence holds for Phases 2 and 3 only.
+PA3c-N2 final-acceptance-e4af9e53.json still lists FA-2 as a Blocker, because the tsc substitute does not satisfy the Doctor gate. The registry row records the PM substitute. The PM and the final acceptance role settle this.
+PA3-N1 (carried, now lines 27 and 34): two rows exceed 2000 characters.
+PA3-N2, review-a N1, and review-a N2 are carried.
+Round 2 nits PA3b-N1 and PA3b-N2 are withdrawn: the FA-1 row names its cause and rating, and FA-3 has an entry in the FA-2 row.
+
+No render and no ffmpeg ran. render.mjs stays untouched (sha256 9a5fc7a2...). No Thai text was printed.
+
+MEASURE_AGENT_RESULT
+role: phase-acceptance
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 3: Hand-off
+commits: none
+tests_run: GREEN 0 (38 pass); PROJECT_TESTS 0 (90 pass, 8 skipped); PROJECT_LINT 0; PROJECT_CHECKS 0; citation check 21 of 21 resolve; registry census 0 rows lost; 28-output hash check 0
+files_changed: phase-acceptance-p3-e87ae40d.json, phase-acceptance-p3-e87ae40d.log
+plan_updates: none
+known_failures: none blocking; 2 new nits (PA3c-N1, PA3c-N2); carried risks as listed; 5 open human gates
+handoff: Accept Phase 3 at e87ae40d. Retry recommendation: none. Round 2 blocker F1 is closed. Settle the Doctor gate point (PA3c-N2) with the PM before the final acceptance rerun. Carry the 5 open human gates and the registry rows to the track closeout.
+END_MEASURE_AGENT_RESULT

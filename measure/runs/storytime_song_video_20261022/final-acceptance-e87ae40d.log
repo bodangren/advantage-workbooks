@@ -1,0 +1,18 @@
+PM 2026-11-25: no third-family decision route; Phases 2 and 3 and Review A ran on Claude
+Audit HEAD: e87ae40d8abf96a2647631c194f954f2d415c92a
+The latest Phase 3 acceptance covers HEAD, but two Phase 3 JSON results still report pass.
+The final-acceptance role requires `bash measure/doctor.sh` to exit 0 at /home/daniebo/.config/opencode/agents/measure-final-acceptance.md:148. It exits 127.
+All four video gates ran once in series through heavy-run and passed. The final role-gate rejects the recorded audit status and returns 1.
+
+MEASURE_AGENT_RESULT
+role: final-acceptance
+status: blocked
+track: storytime_song_video_20261022
+phase: track review
+commits: none
+tests_run: PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (90 pass, 8 skipped); GREEN_TEST_COMMAND 0 (38 pass); Phase 3 role-gate 0; final role-gate 1; bash measure/doctor.sh 127
+files_changed: measure/runs/storytime_song_video_20261022/final-acceptance-e87ae40d.json; measure/runs/storytime_song_video_20261022/final-acceptance-e87ae40d.log
+plan_updates: none
+known_failures: FA-R3-1 two passing Phase 3 results; FA-2 required Doctor command exits 127.
+handoff: Do not close the track. Preserve the historical Phase 3 evidence outside the active passing result set. Resolve the Doctor gate in remediation. Keep the five human gates open. retry_recommendation: create_remediation_track.
+END_MEASURE_AGENT_RESULT
