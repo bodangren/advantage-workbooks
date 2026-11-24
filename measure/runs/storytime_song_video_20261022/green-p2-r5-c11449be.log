@@ -1,0 +1,57 @@
+Green Phase 2 round 5 log, role base c11449be
+
+Phase 2 baseline: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Role base: c11449beea6b2f099a2ce56a7627313c5486d357 (HEAD confirmed before edits)
+Product commit: 41f61c8e5d61bb4cecfb8186ac2d0deecd27006d
+Review B finding: FAIL at 3c6a151d (measure/runs/storytime_song_video_20261022/review-b-p2-3c6a151d.json), blockers B1 and B2.
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. Committed files hold 0 Thai characters. `git status --porcelain content` is empty. The song-art handoff stayed read-only. render.mjs was never edited or staged. No test or fixture was edited. No push was made.
+
+Fixes (product commit 41f61c8e, one file: video/storytime-song/scripts/prepare.mjs):
+- B1: `verifiedManifest` reads the handoff manifest and checks the SHA-256 of every row against the bytes of its file. The preflight runs before the first copy or write into public/. It also runs before the adapter reads the scene metadata. The scene metadata is read only after its row is verified. A corrupted unused row now stops the week. No file lands under the public root when the preflight fails.
+- B2: the Forge classroom copies only through a verified manifest row. A missing row stops the week before any copy. The file is lstat-checked again right before the copy, so a symlink or an unlisted file fails with nothing copied.
+- B3: `readManifestRows` lstat-checks MANIFEST.tsv, so a symlinked manifest is refused. B4, a song.mp3 symlink in the output folder, stays nonblocking and unchanged.
+- `prepare` runs the preflight before its first write, and `prepareWithManifest` takes the verified rows from the caller.
+- The week 1 output, the inset, the cast, and the w07 May placeholder are unchanged.
+
+Gates, each once through ONE heavy-run wrapper, no nesting:
+GREEN_TEST_COMMAND: exit 0 (35 tests, 0 fail)
+PROJECT_LINT (npm run lint): exit 0
+PROJECT_CHECKS (npx tsc --noEmit): exit 0
+PROJECT_TESTS (npm test): exit 0 (78 tests, 0 fail)
+Gate outputs: green-p2-r5-green.txt, green-p2-r5-lint.txt, green-p2-r5-checks.txt, green-p2-r5-tests.txt.
+
+Week 1 evidence: green-p1-r2-w01-evidence.py rerun after the prepare change, through one heavy-run wrapper.
+same-toolchain pairs equal: 4 of 4; same-toolchain masked pairs equal: 4 of 4; Result: PASS.
+The approved w01 media files were not re-rendered and their sha256 values are unchanged.
+The regenerated green-p1-w01-compare.txt is byte-identical to the committed file.
+
+No re-render: the prepare change only affects the intake. The week 2-7 videos and posters stay as they are.
+
+Guards before and after:
+- Song-art handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after.
+- `git status --porcelain content`: empty.
+- w01 media sha256: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a; song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e, unchanged.
+
+Known limit: a handoff that declares no scene file has no row for the scene metadata. That metadata is then read as a regular file inside the handoff root, without a digest row. The committed P1 fixtures ADV-P1-4a and ADV-P1-F9 need that case, and their files cannot change. The real handoff declares the metadata row, so its bytes are verified.
+
+Also for the next Red round: test-strategy.md has no P2-B1 and P2-B2 rows yet. The plan task line points at them. That file is the Red contract, so Green left it alone.
+
+New files added: green-p2-r5-green.txt, green-p2-r5-lint.txt, green-p2-r5-checks.txt, green-p2-r5-tests.txt, green-p2-r5-w01.txt, and this log. No production file was added. prepare.mjs changed.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba
+role_base_sha: c11449be
+head_sha: 41f61c8e5d61bb4cecfb8186ac2d0deecd27006d
+commits: 41f61c8e product; the evidence and plan commit that holds this log
+gates: GREEN_TEST_COMMAND 0 (35 tests); PROJECT_LINT 0; PROJECT_CHECKS 0; PROJECT_TESTS 0 (78 tests)
+week1_evidence: 4 of 4 masked pairs equal; Result: PASS; approved w01 media sha256 unchanged
+rerender: none; the prepare change only affects the intake
+fixes: P2-B1 all-row digest preflight before any copy or write; P2-B2 classroom copy only through a verified manifest row; B3 MANIFEST.tsv lstat; B4 left nonblocking
+guards: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after; `git status --porcelain content` empty; w01 media sha256 unchanged
+known_limit: a handoff without any scene row has no digest row for the scene metadata
+status: green-complete
+END_MEASURE_AGENT_RESULT
