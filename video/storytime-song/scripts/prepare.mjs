@@ -319,9 +319,23 @@ function assertRegularHandoffFile(root, rel) {
 }
 
 /**
+ * Refuses a manifest row that names no approved asset. A dot segment or an extension outside the approved classes
+ * is refused before the file is read, so the preflight never reads a nested private file.
+ * @param {string} file The manifest-relative file path.
+ * @returns {void}
+ */
+function assertApprovedAssetPath(file) {
+  if (file.split("/").some((part) => part.startsWith(".")))
+    throw new Error(`forbidden dot segment in manifest path ${file}`);
+  if (!APPROVED_ASSET_EXT.has(path.extname(file).toLowerCase()))
+    throw new Error(`forbidden asset extension in manifest path ${file}`);
+}
+
+/**
  * Reads and validates the manifest of the read-only handoff (one row per ready file).
  * A row must name a canonical, existing regular file inside the handoff, appear once, and carry a bare hex digest.
- * The manifest itself must be a regular file inside the handoff root.
+ * The row must also name an approved asset class. The manifest itself must be a regular file inside the handoff
+ * root.
  * @param {string} handoffDir The handoff folder.
  * @returns {{file: string, who: string, commit: string, sha: string}[]} The rows of the TSV.
  */
@@ -339,6 +353,8 @@ function readManifestRows(handoffDir) {
       throw new Error(`noncanonical manifest path ${file}`);
     if (seen.has(file)) throw new Error(`duplicate manifest row ${file}`);
     seen.add(file);
+    // The asset class is checked before any read of the file, so a row cannot pull private bytes into the intake.
+    assertApprovedAssetPath(file);
     assertRegularHandoffFile(root, file);
     if (!/^[0-9a-fA-F]{64}$/.test(sha ?? ""))
       throw new Error(`invalid sha256 in manifest row ${file}`);
@@ -404,6 +420,9 @@ const SCENE_MANIFEST = "scenes/w04/manifest.json";
 
 /** The manifest-relative path of the Forge classroom picture that the w04 and w07 weeks draw. */
 const CLASSROOM_PICTURE = "scenes/w04/classroom.png";
+
+/** The file classes that the handoff may deliver: Forge cut-outs, scene pictures, and their side files. */
+const APPROVED_ASSET_EXT = new Set([".json", ".png", ".txt"]);
 
 /**
  * The pixel size of the approved Adventurer inset frames, read from the PNG header of the idle frame.
@@ -785,6 +804,24 @@ export function copyForge(rel, setDir) {
 const forgeDir = (rel) => path.join(CONTENT, rel.replace(/\/(w\d\d)$/, "/media/$1"), "forge");
 
 /**
+ * Refuses a symlink at an output file. The output guard walks the folder path only, so a file inside it can be a
+ * symlink that sends a write outside the video project.
+ * @param {string} file The output file.
+ * @returns {void}
+ */
+function assertRegularOutputFile(file) {
+  let stat;
+  try {
+    stat = fs.lstatSync(file);
+  } catch (error) {
+    if (error.code === "ENOENT") return;
+    throw error;
+  }
+  if (stat.isSymbolicLink())
+    throw new Error(`symlink refused in week output file ${file}`);
+}
+
+/**
  * Writes public/<rel>/spec.json and public/<rel>/song.mp3 for a week, and the Forge art of the week when its
  * media folder has a forge/manifest.json (else the video draws the placeholder art).
  * @param {string} rel The week, as "l2/w01".
@@ -806,7 +843,10 @@ export function prepare(rel) {
   const duration = probe(audio).duration;
   const spec = buildSpec(week, duration);
   fs.mkdirSync(out, { recursive: true });
-  fs.copyFileSync(audio, path.join(out, "song.mp3"));
+  // The output file itself can be a symlink, so the folder guard alone cannot keep the write inside the project.
+  const song = path.join(out, "song.mp3");
+  assertRegularOutputFile(song);
+  fs.copyFileSync(audio, song);
   spec.audio = `${rel}/song.mp3`;
   const art = forgeDir(rel);
   const covered = adapter
