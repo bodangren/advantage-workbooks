@@ -8,9 +8,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [ ] **Track: Storytime Advantage release-1 print: the Level 2 unit 1 student book, the teacher book, the 7 read-along and 7 decodable books, the covers, and the card kit as PDF/X-1a; week 1 first; Daniel's approval by 2026-11-24, print order 2026-11-25.** *(Created: 2026-10-25)*
   *Link: [./tracks/storytime_print_r1_20261025/](./tracks/storytime_print_r1_20261025/)*
 
-- [~] **Track: The Storytime song video compositor (Remotion): classroom, phone, poster, and karaoke cuts of each week from the package and the Forge renders; placeholder proof first, Forge art by 2026-11-25.** *(Created: 2026-10-22)*
-  *Link: [./tracks/storytime_song_video_20261022/](./tracks/storytime_song_video_20261022/)*
-
 - [ ] **Track: Origins 3.1 Teacher's Manual for the new Primary app: app text, a new app section, Thai fixes, and an A4 office-print PDF; draft 2026-10-23, final 2026-10-26.** *(Created: 2026-10-20)*
   *Link: [./tracks/teacher_manual_app_20261020/](./tracks/teacher_manual_app_20261020/)*
 
@@ -192,6 +189,11 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 
 ## Archived Tracks
+
+- [x] **Track: The Storytime song video compositor (Remotion): classroom, phone, poster, and karaoke cuts of each week from the package and the Forge renders; placeholder proof first, Forge art by 2026-11-25.** *(Completed: 2026-11-25)*
+  *Link: [./archive/storytime_song_video_20261022/](./archive/storytime_song_video_20261022/)*
+  *The Storytime song video compositor: a Remotion project that makes the song videos of a week (classroom 1080p, phone 720p, poster, karaoke cut) from the week package (song.lines, song.times, song.audio) and the Forge PNG renders.*
+  *Note: Final acceptance PASS at ff19e7a7 (2026-11-25), role gate exit 0 and audit result exit 0, retry_recommendation none. Phase 1 PASS at c26c72ba, Phase 2 PASS at a7f1b55e, Phase 3 PASS at b692a93d. The adversarial 8 known defects stay skipped as accepted tech debt; PA3 record nits and FA-2 are recorded in measure/tech-debt.md. FA-1 is an accepted Medium spec deviation, not a pass: slide motion for w04 and w07 waits for the Forge cast re-render. Five human gates stay open; no push by this role.*
 
 - [x] **Track: Dependency refresh of dashboard and storytime-song: every package to the latest version that works, all critical and high audit advisories fixed by 2026-11-23, and each remaining moderate or low advisory listed with its reason by 2026-11-25.** *(Completed: 2026-11-22)*
   *Link: [./archive/deps_refresh_20261121/](./archive/deps_refresh_20261121/)*

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "role": "closeout",
+  "track": "storytime_song_video_20261022",
+  "phase": "track review",
+  "baseline_sha": "ff19e7a7aae25938441af962a8379152bbee02b7",
+  "audited_head_sha": "ff19e7a7aae25938441af962a8379152bbee02b7",
+  "status": "pass",
+  "summary": "Closeout passes at ff19e7a7. Final acceptance passed with audited_head_sha equal to the pre-closeout HEAD. The track is archived, the registry carries the matching description, metadata is done with a completion date, and the closeout manifest is present.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "git rev-parse HEAD ff19e7a7aae25938441af962a8379152bbee02b7 equals the audited_head_sha of final-acceptance-ff19e7a7.json",
+    "final-acceptance-ff19e7a7.json status pass, blocking_findings empty, retry_recommendation none, role-gate and audit-result exits 0",
+    "The archived plan has no [~] or [ ] task; all [x] tasks carry commit SHA evidence",
+    "measure/tracks.md drops the active entry and holds an archived entry with a description equal to the collapsed metadata description",
+    "metadata.json status done, completed 2026-11-25",
+    "A5 and A6 scans have zero hits; A9 scan found no tests that hardcode the active track path"
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "grep marker scan of the archived plan",
+    "grep -rn fixed track path for the A9 scan",
+    "python3 measure_interphase_checks.py role-gate --role closeout --track storytime_song_video_20261022 --result-file closeout-ff19e7a7.json --log-file closeout-ff19e7a7.log",
+    "python3 measure_interphase_checks.py closeout --repo . --track storytime_song_video_20261022"
+  ],
+  "changed_files": [
+    "measure/archive/storytime_song_video_20261022/ (moved from measure/tracks/)",
+    "measure/tracks.md",
+    "measure/tech-debt.md",
+    "measure/lessons-learned.md",
+    "measure/runs/storytime_song_video_20261022/closeout-ff19e7a7.json",
+    "measure/runs/storytime_song_video_20261022/closeout-ff19e7a7.log",
+    "measure/archive/storytime_song_video_20261022/automation-supervisor-closeout-manifest.json"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high"
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "role": "final-acceptance",
+  "track": "storytime_song_video_20261022",
+  "phase": "track review",
+  "baseline_sha": "ff19e7a7aae25938441af962a8379152bbee02b7",
+  "track_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "ff19e7a7aae25938441af962a8379152bbee02b7",
+  "audited_head_sha": "ff19e7a7aae25938441af962a8379152bbee02b7",
+  "status": "pass",
+  "summary": "Final acceptance passes at ff19e7a7. Phase 3 covers the debt change, and only run evidence follows it. All four video gates and the mechanical final role gate pass. PM 2026-11-25: no third-family decision route; Phases 2 and 3 and Review A ran on Claude",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "FA-1 remains a PM-accepted release deviation. The record does not claim that the w04 and w07 slides shipped.",
+    "PA3-N1: Two debt rows exceed 2000 characters. PA3-N2: The Phase 1 Review C F3 item needs its own cross-reference.",
+    "PA3d-N1: The FA-2 row should cite the role file and line 148.",
+    "Review A N1 and N2: Correct the lessons citation and add the Thai filter warning to the lessons archive header at closeout.",
+    "The five human gates remain open. This acceptance does not approve a release or a push."
+  ],
+  "evidence": [
+    "PM 2026-11-25: no third-family decision route; Phases 2 and 3 and Review A ran on Claude",
+    "The waiver applies to this audit only. Phase 1 Review A used openai/gpt-6-luna#high. The debt row distinguishes it from Review A of Phases 2 and 3.",
+    "git rev-parse HEAD 1ffd649b resolves ff19e7a7aae25938441af962a8379152bbee02b7 and 1ffd649b83df6f1f6625351d8da4afd5ee1ca513.",
+    "git diff --name-only ff19e7a7 HEAD: exit 0; empty output.",
+    "git diff --name-only b692a93d HEAD: exit 0; output:\nmeasure/runs/storytime_song_video_20261022/final-acceptance-b692a93d.json\nmeasure/runs/storytime_song_video_20261022/final-acceptance-b692a93d.log\nmeasure/runs/storytime_song_video_20261022/green-p3-r6-b692a93d.log\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-b692a93d.json\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-b692a93d.log\nmeasure/runs/storytime_song_video_20261022/superseded/phase-acceptance-p3-e87ae40d.json\nmeasure/runs/storytime_song_video_20261022/superseded/phase-acceptance-p3-e87ae40d.log",
+    "The track scope scan of 1ffd649b..b692a93d found 92 track commits, zero other-track commits, and 286 paths touched. It used git rev-list, track tags in git show, and git diff-tree -r --root --cc --no-renames. The single later commit ff19e7a7 changes only track run evidence. It falls within the exception.",
+    "git diff --name-only a7f1b55e HEAD -- video/storytime-song content dashboard: exit 0; empty output.",
+    "git diff --cached --name-only -- video/storytime-song/scripts/render.mjs: exit 0; empty output.",
+    "Exactly one active pass exists per plan phase: P1 1ffd649b to c26c72ba, P2 c26c72ba to a7f1b55e, and P3 a7f1b55e to b692a93d. Each baseline and role base is an ancestor of its audited HEAD. Every active audited HEAD is an ancestor of ff19e7a7.",
+    "The passing Phase 3 JSON and log are tracked. The earlier passing results are under superseded/. The mechanical Phase 3 role gate exits 0. FA-R4-1 is closed.",
+    "Both files of the superseded e87ae40d acceptance are byte-identical to their copies at b692a93d. All 18 checked full run-path citations resolve in Git.",
+    "All 21 completed plan entries retain ancestor SHA evidence. Spec item 3 keeps its original text and adds the deviation at spec.md:18. plan.md:26 adds PARTIAL without changing the task marker or SHAs. Karaoke remains deferred.",
+    "measure/tech-debt.md has 50 lines, with F3 first among the track rows. FA-1 names the cause, original rating, and follow-up. FA-2 is Resolved. The accepted review and adversarial results contain no unresolved blocker.",
+    "A5: The exact false-claim scan has zero hits. The PARTIAL note qualifies the slide claim. The fresh counts match plan.md:113-114.",
+    "A6: The registry claims no adversarial resolution. The eight skips match the debt and strategy records.",
+    "A9: There are zero tests/*.sh files. None of the 24 video test files hardcodes the active track path.",
+    "The current role rule at /home/daniebo/.config/opencode/agents/measure-final-acceptance.md:148 requires Doctor only when present. git log --all --oneline -- measure/doctor.sh has empty output. This repository uses the configured project gates.",
+    "All 28 media SHA-256 values match green-p2-r8-rerender.txt before and after the gates. The week 1 MP4 hashes are 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a and 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e.",
+    "The handoff retains 110 files and MANIFEST.tsv SHA-256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759. T2.1 verifies all 108 row digests.",
+    "Post-gate HEAD remains ff19e7a7. The unstaged render.mjs worktree SHA-256 remains 9a5fc7a2a526df933bca5632655103670e4e8a53cc32d225a80dd122a29aed26. git status --porcelain -- content has empty output.",
+    "The human gate section at measure/tech-debt.md:42-50 is unchanged. The audit read no week JSON or lessons archive text. The text inputs and all four gate outputs had zero Thai characters."
+  ],
+  "commands": [
+    "Read-only Python probes checked scope, path coverage, phase results, ancestry, task evidence, review results, anti-patterns, and media hashes.",
+    "measure_interphase_checks.py role-gate --role phase-acceptance for Phase 3 at b692a93d — exit 0.",
+    "measure_interphase_checks.py role-gate --repo . --role final-acceptance --track storytime_song_video_20261022 --phase 'track review' --baseline ff19e7a7aae25938441af962a8379152bbee02b7 --result-file measure/runs/storytime_song_video_20261022/final-acceptance-ff19e7a7.json --log-file measure/runs/storytime_song_video_20261022/final-acceptance-ff19e7a7.log --runner /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh — exit 0; PASS: final-acceptance gate passed. Python runpy invokes the installed CLI and prints its captured wrapper outputs.",
+    "PROJECT_LINT via role-gate and one heavy-run call: set -o pipefail; cd video/storytime-song && npm run lint — exit 0.",
+    "PROJECT_CHECKS via role-gate and one heavy-run call: set -o pipefail; cd video/storytime-song && npx tsc --noEmit — exit 0.",
+    "PROJECT_TESTS via role-gate and one heavy-run call: set -o pipefail; cd video/storytime-song && npm test — exit 0; 98 total, 90 pass, 0 fail, 8 skipped.",
+    "GREEN_TEST_COMMAND via /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c: set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs tests/phase2-security.test.mjs — exit 0; 38 pass; no failures or skips; Thai count 0."
+  ],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/final-acceptance-ff19e7a7.json",
+    "measure/runs/storytime_song_video_20261022/final-acceptance-ff19e7a7.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high"
+}

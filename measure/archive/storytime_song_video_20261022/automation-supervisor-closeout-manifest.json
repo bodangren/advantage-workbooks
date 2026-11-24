@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "role": "measure-closeout",
+  "track": "storytime_song_video_20261022",
+  "closed_at": "2026-11-25T00:00:00+0700",
+  "timezone": "Asia/Bangkok",
+  "model": "opencode-go/hy4-flash-free#none",
+  "pre_closeout_head_sha": "ff19e7a7aae25938441af962a8379152bbee02b7",
+  "final_acceptance": {
+    "result_file": "measure/runs/storytime_song_video_20261022/final-acceptance-ff19e7a7.json",
+    "log_file": "measure/runs/storytime_song_video_20261022/final-acceptance-ff19e7a7.log",
+    "status": "pass",
+    "audited_head_sha": "ff19e7a7aae25938441af962a8379152bbee02b7",
+    "audited_head_equals_pre_closeout_head": true,
+    "role_gate_exit_code": 0,
+    "audit_result_exit_code": 0,
+    "retry_recommendation": "none",
+    "route": "openai/gpt-6.2-sol#high"
+  },
+  "phase_acceptances": [
+    {
+      "phase": "Phase 1: Compositor with placeholder art",
+      "result_file": "measure/runs/storytime_song_video_20261022/phase-acceptance-p1-c26c72ba.json",
+      "status": "pass",
+      "audited_head_sha": "c26c72ba"
+    },
+    {
+      "phase": "Phase 2: Forge art",
+      "result_file": "measure/runs/storytime_song_video_20261022/phase-acceptance-p2-a7f1b55e.json",
+      "status": "pass",
+      "audited_head_sha": "a7f1b55e"
+    },
+    {
+      "phase": "Phase 3: Hand-off",
+      "result_file": "measure/runs/storytime_song_video_20261022/phase-acceptance-p3-b692a93d.json",
+      "status": "pass",
+      "audited_head_sha": "b692a93d"
+    }
+  ],
+  "task_evidence": {
+    "in_progress_markers": 0,
+    "space_markers": 0,
+    "human_gated_markers": 0,
+    "completed_tasks_with_commit_sha": "all",
+    "plan_line_26_partial_text_kept": true,
+    "no_sha_invented": true
+  },
+  "record_edits": [
+    {
+      "id": "R1",
+      "finding": "FA-2 rule citation (PA3d-N1)",
+      "action": "Added the role-file citation to the FA-2 row of measure/tech-debt.md.",
+      "detail": "The Notes field now cites /home/daniebo/.config/opencode/agents/measure-final-acceptance.md:148, the rule that requires Doctor only when the repo has the file. FA-2 stays Resolved. FA-1 stays Medium Open with the spec deviation."
+    },
+    {
+      "id": "R2",
+      "finding": "Review A N1 lesson citation",
+      "action": "Corrected lesson 7 of measure/lessons-learned.md.",
+      "detail": "The wrong-result-exception citation now reads plan.md:94 (Review A N1) in place of plan.md:92. No other lesson text changed."
+    },
+    {
+      "id": "R3",
+      "finding": "Accepted risks and PA3 record nits",
+      "action": "Recorded PA3-N1, PA3-N2 and PA3d-N1 in the FA-2 row of measure/tech-debt.md.",
+      "detail": "The accepted risks stay in rows for the adversarial F3 first, then F1, F2, N1 to N3 with the 8 skipped tests, Review A B C items, PA-N1, PA2-N1 to PA2-N6, FA-1 Medium Open, MAY-1 and SCRAP-3D. The file holds 50 lines and 0 Thai characters."
+    },
+    {
+      "id": "R4",
+      "finding": "Open human gates",
+      "action": "Extended the Forge cast gate in measure/tech-debt.md.",
+      "detail": "The gate now states that the re-render adds the FA-1 slide motion for w04 and w07. Daniel's look check of w02 to w07, the Thai review, w01 shipping on 2026-11-25 and the push wait for the PM stay listed open."
+    },
+    {
+      "id": "R5",
+      "finding": "Registry and metadata",
+      "action": "Archived the track, removed the active registry entry, added an archived entry and set metadata status done.",
+      "detail": "metadata.json holds status done, completed 2026-11-25 and updated_at 2026-11-25. The registry description line equals the collapsed metadata description. The note states the true adversarial and human-gate state."
+    }
+  ],
+  "archive": {
+    "from": "measure/tracks/storytime_song_video_20261022",
+    "to": "measure/archive/storytime_song_video_20261022",
+    "command": "git mv measure/tracks/storytime_song_video_20261022 measure/archive/storytime_song_video_20261022",
+    "metadata_status": "done",
+    "metadata_completed": "2026-11-25",
+    "registry_active_entry_removed": true,
+    "registry_archive_entry_added": true,
+    "registry_description_equals_metadata": true
+  },
+  "audits": {
+    "A5": "pass: the exact false-claim scan of the archived plan and the registry has zero hits. plan.md:26 keeps PARTIAL for the w04 and w07 slide motion and FA-1 stays an accepted deviation in tech debt. No count claim is pinned in plan.md.",
+    "A6": "pass: the registry note claims no adversarial resolution. It records the 8 skipped known defects, the PA3 nits, the FA-1 deviation and the five open human gates.",
+    "A9": "pass: the pre-move repository grep found fixed active-track path references in video/storytime-song/README.md:3, measure/tech-debt.md rows 28, 30, 34 to 39 and historical run records. There are no tests/*.sh files and none of the 24 video test files hardcodes the active track path. No test change was needed. The orchestrator brief says no heavy project commands are needed, so no heavy-run project test gate was rerun in this role."
+  },
+  "a9_fixed_path_hits": {
+    "tests_or_scripts": [],
+    "other_references": [
+      "video/storytime-song/README.md:3 (a historical track link, not a test)",
+      "measure/tech-debt.md rows for the track (historical evidence citations, not tests)",
+      "measure/runs/storytime_song_video_20261022/*.log and *.json (historical audit records, not tests)"
+    ],
+    "test_references_fixed": []
+  },
+  "commands": [
+    "git rev-parse HEAD: ff19e7a7aae25938441af962a8379152bbee02b7, equal to the final acceptance audited_head_sha",
+    "grep marker scan of the plan: 0 [~], 0 [ ], 0 [b] lines; every [x] line holds a commit SHA",
+    "python3 Thai scan: measure/tech-debt.md 50 lines and 0 Thai; measure/lessons-learned.md 49 lines and 0 Thai",
+    "grep -rn fixed active track path across the repository: the hits are listed under a9_fixed_path_hits; no test file is among them",
+    "git mv measure/tracks/storytime_song_video_20261022 measure/archive/storytime_song_video_20261022: exit 0",
+    "python3 measure_interphase_checks.py role-gate --repo . --role closeout --track storytime_song_video_20261022 --phase 'track review' --baseline ff19e7a7 --result-file measure/runs/storytime_song_video_20261022/closeout-ff19e7a7.json --log-file measure/runs/storytime_song_video_20261022/closeout-ff19e7a7.log: see closeout_gates",
+    "python3 measure_interphase_checks.py closeout --repo . --track storytime_song_video_20261022: see closeout_gates"
+  ],
+  "closeout_gates": {
+    "role_gate": {
+      "command": "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py role-gate --repo /home/daniebo/Desktop/Workbooks --role closeout --track storytime_song_video_20261022 --phase 'track review' --baseline ff19e7a7aae25938441af962a8379152bbee02b7 --result-file measure/runs/storytime_song_video_20261022/closeout-ff19e7a7.json --log-file measure/runs/storytime_song_video_20261022/closeout-ff19e7a7.log",
+      "exit_code": 0,
+      "capture": "measure/runs/storytime_song_video_20261022/closeout-ff19e7a7.log"
+    },
+    "closeout_check": {
+      "command": "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py closeout --repo /home/daniebo/Desktop/Workbooks --track storytime_song_video_20261022",
+      "exit_code": 0
+    },
+    "audit_result": {
+      "command": "python3 /home/daniebo/.agents/skills/measure-orchestrator/scripts/measure_interphase_checks.py audit-result --file measure/runs/storytime_song_video_20261022/closeout-ff19e7a7.json --role closeout",
+      "exit_code": 0
+    }
+  },
+  "retained_evidence": "measure/runs/storytime_song_video_20261022/ keeps final-acceptance-ff19e7a7.json and .log, closeout-ff19e7a7.json and .log, all phase acceptances, reviews A B C, adversarial results, Red and Green logs, frame captures and render inventories. No run artifact was deleted.",
+  "artifact_cleanup": "No bulky artifact was deleted. The orchestrator identified none for deletion. The uncommitted files of other tracks under measure/runs/primary_v2_look_20261020/ and measure/runs/green-s5g7-manifest.txt, the uncommitted video/storytime-song/scripts/render.mjs, dashboard/, the root PNG and --help files and content/ were not staged or touched.",
+  "notes": "No push by this role. Staging used exact paths only. No week JSON or lessons archive text was read. No heavy project command ran, per the orchestrator brief."
+}
