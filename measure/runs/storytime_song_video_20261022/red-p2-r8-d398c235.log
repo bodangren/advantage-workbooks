@@ -1,0 +1,15 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: d398c2356f6e670f9a710235af1ae2389485b35f
+test_commit: faaa9b746ac524f87f0838f9347272362d7fe948
+red_kind: standard
+finding: Review A r3 F1 (figure wider than its box, body off the phone edge) and F2 (exit tail draws two shots together)
+tests: video/storytime-song/tests/phase2-boxes.test.mjs (P2-F8, P2-F9 added; P2-F6 and P2-F7 unchanged)
+red_command: exit 1, pass 2, fail 2; P2-F6 passes; P2-F7 passes; P2-F8 fails with w04 line 1 classroom Mom full figure extent must lie inside its box; P2-F9 fails with shot actor windows must not overlap without a slide-out (exit tail in Song true, slide-out in Actors false)
+guards: no product code edit; `git status --porcelain content` empty; src untouched; render.mjs never staged; no render run; no new file so the GREEN command is unchanged
+files: video/storytime-song/tests/phase2-boxes.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/tracks/storytime_song_video_20261022/test-strategy.md
+remaining_failures: P2-F8; P2-F9
+END_MEASURE_AGENT_RESULT
