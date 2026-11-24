@@ -1,7 +1,8 @@
 ## Lessons Learned
 
-> This file is curated working memory, not an append-only log. Keep it at or below **50 lines**.
-> Remove or condense entries that are no longer relevant to near-term planning.
+> This file is curated working memory, not an append-only log. It held at most **50 lines** until 2026-11-24.
+> The Phase 2 hand-off of storytime_song_video_20261022 added the video lessons below.
+> Trim the older entries when the next closeout runs.
 
 ### Architecture & Design
 <!-- Decisions made that future tracks should be aware of -->
@@ -36,6 +37,14 @@
 - (2026-11-16, storytime_print_r1_20261025) A source-age rule must name the printed fields, because approval records change the week files after every owner answer.
 - (2026-11-22, deps_refresh_20261121) npm dependency gotchas: `npx remotion upgrade` fails with EALLOWSCRIPTS while `~/.npmrc` holds an allow-scripts line; use `npm install --save-exact` with the versions it prints (plan.md:119). Keep `HEAVY_PREFLIGHT_WAIT_S` below the gate script's 3600-second command limit: 5400 caused TimeoutExpired, so use 3000. A major can pass lint and still leave `npm ls` invalid on required peers; run `npm ls --all` as a gate.
 - (2026-11-22, deps_refresh_20261121) sharp 0.35.5 kept every pinned print value: the 32 C2 ink values, picture provenance, and page pixel counts. Prove a sharp change with a sharp-isolating capture of the same input, old sharp against new sharp. A diff against an older last proof mixes the sharp change with content changes and gives a false regression. `next dev` writes an untracked `dashboard/AGENTS.md`: never stage it.
+
+- (2026-11-24, storytime_song_video_20261022) A test must check the delivered pixels, not only the prepared geometry. P2-F3 proved the inset geometry of the prepared spec, and the four delivered videos still cropped the Adventurer's head. Decode a frame from each delivered video and compare it with the committed frame.
+- (2026-11-24, storytime_song_video_20261022) A look fix needs a re-render of every week, not only the weeks in the look frames. The look round re-rendered w04 and w07, and w02, w03, w05 and w06 kept the old render until round 8.
+- (2026-11-24, storytime_song_video_20261022) The box of a drawn figure and the figure itself must share one aspect. The Figure svg draws 240/340 of its height, so the box width must be height*240/340, or the figure leaves its box and the frame.
+- (2026-11-24, storytime_song_video_20261022) A test floor must be relative to the cut. A floor of 22 percent of the 1920 composition asked 422 px in the phone cut, where the scene band is 607.5 px, and no row of five figures fits. Use the scene band in the phone cut.
+- (2026-11-24, storytime_song_video_20261022) The baseline of a role gate is the role base, and it differs by role. The mid-red gate binds to the role base of the red round, and the green gate binds to the head of the green round. Record both SHAs in the log.
+- (2026-11-24, storytime_song_video_20261022) A role log needs a final MEASURE_AGENT_RESULT block and a bare dispositions line. The gate reads only the last block, and it rejects a reason in parentheses on a DECLINE item.
+- (2026-11-24, storytime_song_video_20261022) The round limit has an exception for a wrong-result defect. A delivered file that shows the wrong picture to a viewer, such as a missing subject or a duplicated actor, opens one more bounded round.
 
 ### Patterns That Worked Well
 <!-- Approaches worth repeating -->

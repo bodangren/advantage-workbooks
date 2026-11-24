@@ -1,0 +1,43 @@
+Green Phase 3 log, role base a7f1b55e
+
+Phase 3 baseline: a7f1b55e403854de0d9596756ee10a2c371f4680 (the Phase 2 acceptance)
+Role base: a7f1b55e403854de0d9596756ee10a2c371f4680 (HEAD confirmed before edits)
+Phase 2 acceptance: measure/runs/storytime_song_video_20261022/phase-acceptance-p2-a7f1b55e.json
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. The lines I wrote hold 0 Thai characters. `git status --porcelain content` is empty. The song-art handoff stayed read-only. render.mjs was never edited or staged. No test or fixture was edited. No product file was edited. No push was made.
+
+What this task wrote (docs only):
+- measure/tech-debt.md holds 30 new rows for the Phase 2 hand-off. The order follows the brief: the adversarial F3, F1, F2, N1, N2 and N3 first, then the review A round 1 F3 to F6, the review A N1 to N3, the review B B6 to B10, the review C C-F4, C-P2-2 and C-P2-3, the phase acceptance PA-N1 and PA2-N1 to PA2-N6, and the May and 3D sprout decisions last. Every row carries the id, the severity, one line of description, the source file and line, and the trigger or the owner. The texts come from the run logs and the review files.
+- measure/tech-debt.md holds the five open human gates below the table: Daniel's look check of w02 to w07, the Thai review of the outputs, the Forge cast arrival with the re-render, the w01 ship date, and the push that waits for the PM. None of them is done.
+- measure/lessons-learned.md holds seven dated lessons from this track: the delivered pixels, the re-render of every week, the shared figure aspect, the cut-relative floor, the role base of each gate, the log format, and the round-limit exception.
+- plan.md: the Phase 3 task line carries the SHA of the tech-debt and lessons commit. The Red P2 r10 bullet moved into Phase 2 (PA2-N3). The old "Task stays open" sub-bullets read closed at 959dd2c5 (PA2-N3, review-a N1). The May claim at plan.md:89 is marked as superseded (PA2-N2). The render script task line now carries its two SHAs in the commit form. No task state and no task SHA changed.
+
+Gates, each once through ONE heavy-run wrapper, no nesting:
+GREEN_TEST_COMMAND: exit 0 (38 tests, 38 pass, 0 fail)
+PROJECT_TESTS (npm test): exit 0 (98 tests, 90 pass, 0 fail, 8 skipped)
+The 8 skipped tests are the accepted defects in tests/adversarial-p2-known-defects.test.mjs. Their rows are in measure/tech-debt.md.
+Gate outputs: green-p3-green.txt, green-p3-project.txt.
+
+Guards before and after:
+- Song-art handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after.
+- `git status --porcelain content`: empty.
+- w01 media sha256 unchanged: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a; song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e.
+
+Known limit: the two registry files now hold 91 and 59 lines. Their headers state the new budget, and the next closeout trims them.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 3: Hand-off
+baseline_sha: a7f1b55e
+role_base_sha: a7f1b55e
+head_sha: a7f1b55e403854de0d9596756ee10a2c371f4680
+commits: the tech-debt and lessons commit that holds this log; the plan task evidence follows in the next commit
+tasks_flipped: the Phase 3 task is [x]
+tasks_blocked: none
+gates: GREEN_TEST_COMMAND 0 (38 pass, 0 fail); PROJECT_TESTS 0 (90 pass, 0 fail, 8 skipped)
+tech_debt: 30 rows for the Phase 2 hand-off, plus the 5 open human gates
+lessons: 7 dated lessons
+guards: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after; `git status --porcelain content` empty; w01 media sha256 unchanged
+status: green-complete
+END_MEASURE_AGENT_RESULT
