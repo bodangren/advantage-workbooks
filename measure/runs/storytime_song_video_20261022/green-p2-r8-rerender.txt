@@ -1,0 +1,172 @@
+Phase 2 round 8 re-render evidence, role base b87ee87d (2026-11-24)
+Render command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node scripts/render.mjs l2/wNN --concurrency 2'
+One wrapper per week, serial, never nested. Only w02, w03, w05 and w06 were rendered.
+Week 1, w04 and w07 were not rendered; their outputs stay byte-identical.
+render.mjs in the working tree carries another owner's uncommitted --cut karaoke edit; the default cut path does not use the karaoke branch.
+
+week w02 render exit: 0
+week w03 render exit: 0
+week w05 render exit: 0
+week w06 render exit: 0
+
+w02 song.mp4 sha256 before: 332f29fdc00616dfe5575fb9f1601aec43cae88ce9a0c096caba17a62ab30ef7
+w02 song.mp4 sha256 after:  a1c947a03afc47ebbaedf1aed4d9315576129e809aaca08be016d02bfe4d887a
+w02 song.mp4 state: changed
+w02 song.mp4 ffprobe: codec=h264/aac size=1920x1080 fps=30/1 duration=80.853000 faststart=yes
+w02 song-phone.mp4 sha256 before: 2912abd02b9bb3d0b50314a6a75b63b3034a9461b209be4ffcd0e42d766151ec
+w02 song-phone.mp4 sha256 after:  6d22248ed74fe0771c2a9283ae048a44353e7254480e9aa704fa80b5439f7250
+w02 song-phone.mp4 state: changed
+w02 song-phone.mp4 ffprobe: codec=h264/aac size=720x1280 fps=30/1 duration=80.853000 faststart=yes
+w02 song-poster.jpg sha256 before: 4e82986f2f161f33edb11fda41a6c0e3574aed4a38c1d900d2f3734e4e67d809
+w02 song-poster.jpg sha256 after:  4e82986f2f161f33edb11fda41a6c0e3574aed4a38c1d900d2f3734e4e67d809
+w02 song-poster.jpg state: byte-identical
+w02 song-poster.jpg ffprobe: codec=mjpeg/none size=1280x720 fps=25/1 duration=0.040000 faststart=n/a
+w02 song-phone-poster.jpg sha256 before: b7f4270e707492ea9de02495e13d9cce8ad9cd692e834bfc572aacae0af5268a
+w02 song-phone-poster.jpg sha256 after:  b7f4270e707492ea9de02495e13d9cce8ad9cd692e834bfc572aacae0af5268a
+w02 song-phone-poster.jpg state: byte-identical
+w02 song-phone-poster.jpg ffprobe: codec=mjpeg/none size=720x1280 fps=25/1 duration=0.040000 faststart=n/a
+w03 song.mp4 sha256 before: 52a553a66bc8de61035b4b8d946d9ea8c113e06d77edf8e81b13cf39b475a347
+w03 song.mp4 sha256 after:  40d90593b3752e4fde1e7e8ebd8aba481f19fb7d597c76b7601cb6b3ce56fc28
+w03 song.mp4 state: changed
+w03 song.mp4 ffprobe: codec=h264/aac size=1920x1080 fps=30/1 duration=81.067000 faststart=yes
+w03 song-phone.mp4 sha256 before: 04b4077e1c1c47bed10213dc6987466449f03c6608261f599d0811ede00b8bd1
+w03 song-phone.mp4 sha256 after:  5c77bd738c11669d52a6bae1666c44ba126a2a3bd5b0a758fdec368b1161c475
+w03 song-phone.mp4 state: changed
+w03 song-phone.mp4 ffprobe: codec=h264/aac size=720x1280 fps=30/1 duration=81.066667 faststart=yes
+w03 song-poster.jpg sha256 before: 9db9cd1b760d9c4a23bd78f6ae2cba3a13f018c058a997f8fe07988b4167ad79
+w03 song-poster.jpg sha256 after:  9db9cd1b760d9c4a23bd78f6ae2cba3a13f018c058a997f8fe07988b4167ad79
+w03 song-poster.jpg state: byte-identical
+w03 song-poster.jpg ffprobe: codec=mjpeg/none size=1280x720 fps=25/1 duration=0.040000 faststart=n/a
+w03 song-phone-poster.jpg sha256 before: 490607dba510c6b266a9948da90ca44ce17f306b27c6c6077e5208c456ab1302
+w03 song-phone-poster.jpg sha256 after:  490607dba510c6b266a9948da90ca44ce17f306b27c6c6077e5208c456ab1302
+w03 song-phone-poster.jpg state: byte-identical
+w03 song-phone-poster.jpg ffprobe: codec=mjpeg/none size=720x1280 fps=25/1 duration=0.040000 faststart=n/a
+w04 song.mp4 sha256 before: 45f37855c5def197f20fbdf1544dc5566b681702567bd1898881a8be73fc6374
+w04 song.mp4 sha256 after:  45f37855c5def197f20fbdf1544dc5566b681702567bd1898881a8be73fc6374
+w04 song.mp4 state: byte-identical
+w04 song.mp4 ffprobe: codec=h264/aac size=1920x1080 fps=30/1 duration=81.600000 faststart=yes
+w04 song-phone.mp4 sha256 before: 5be2b63928456b3dd7c38a62464c08628ebaecf30d13f654a56a01facb524511
+w04 song-phone.mp4 sha256 after:  5be2b63928456b3dd7c38a62464c08628ebaecf30d13f654a56a01facb524511
+w04 song-phone.mp4 state: byte-identical
+w04 song-phone.mp4 ffprobe: codec=h264/aac size=720x1280 fps=30/1 duration=81.600000 faststart=yes
+w04 song-poster.jpg sha256 before: 4008e62b2ceeba7eb0fb8b1ed7982fc791f58c60f5f4be38bba4b9911888cbf7
+w04 song-poster.jpg sha256 after:  4008e62b2ceeba7eb0fb8b1ed7982fc791f58c60f5f4be38bba4b9911888cbf7
+w04 song-poster.jpg state: byte-identical
+w04 song-poster.jpg ffprobe: codec=mjpeg/none size=1280x720 fps=25/1 duration=0.040000 faststart=n/a
+w04 song-phone-poster.jpg sha256 before: d1bbaf48ffcd6a89ff383d548eba33269eb72835ef5bfe3eb5a10145a82915eb
+w04 song-phone-poster.jpg sha256 after:  d1bbaf48ffcd6a89ff383d548eba33269eb72835ef5bfe3eb5a10145a82915eb
+w04 song-phone-poster.jpg state: byte-identical
+w04 song-phone-poster.jpg ffprobe: codec=mjpeg/none size=720x1280 fps=25/1 duration=0.040000 faststart=n/a
+w05 song.mp4 sha256 before: acab4960d83560f355cfa5e841f46a2a057784b0a8a67194fd1ed3459b96a03d
+w05 song.mp4 sha256 after:  b67a22fe4b3b8a4b1d4f1055771ce2f24277f80245050dd5afc0b43df054c4e8
+w05 song.mp4 state: changed
+w05 song.mp4 ffprobe: codec=h264/aac size=1920x1080 fps=30/1 duration=81.344000 faststart=yes
+w05 song-phone.mp4 sha256 before: fd14d2a67e58cb98121e84414679c5937ac57d425258fd2722780151f573872c
+w05 song-phone.mp4 sha256 after:  9605c00fc57ac0ff15093e1bba876c67ff35a3b0c3e3faf4a82ff884ec651529
+w05 song-phone.mp4 state: changed
+w05 song-phone.mp4 ffprobe: codec=h264/aac size=720x1280 fps=30/1 duration=81.344000 faststart=yes
+w05 song-poster.jpg sha256 before: 26594129d6a499c7770fd446fec2c04850fa25a8182a7cffb803736c9b62f458
+w05 song-poster.jpg sha256 after:  26594129d6a499c7770fd446fec2c04850fa25a8182a7cffb803736c9b62f458
+w05 song-poster.jpg state: byte-identical
+w05 song-poster.jpg ffprobe: codec=mjpeg/none size=1280x720 fps=25/1 duration=0.040000 faststart=n/a
+w05 song-phone-poster.jpg sha256 before: d1e0391e7b92d95906d66f0a19c7c8047220d5f9d406f0ee25a4457430504ed0
+w05 song-phone-poster.jpg sha256 after:  d1e0391e7b92d95906d66f0a19c7c8047220d5f9d406f0ee25a4457430504ed0
+w05 song-phone-poster.jpg state: byte-identical
+w05 song-phone-poster.jpg ffprobe: codec=mjpeg/none size=720x1280 fps=25/1 duration=0.040000 faststart=n/a
+w06 song.mp4 sha256 before: 9fa9d380202470a11849a8f1745d7f3d83ad80e71dbcdde8686cb49d8fab17b3
+w06 song.mp4 sha256 after:  c395fef4029f457c742ab46cb34a2baa88c16e307e4e46469b54f4e048fc1f73
+w06 song.mp4 state: changed
+w06 song.mp4 ffprobe: codec=h264/aac size=1920x1080 fps=30/1 duration=80.149000 faststart=yes
+w06 song-phone.mp4 sha256 before: fc08660dfc4257a30cd17a4c5a632cdf657c311e6fb52effda30a92fcad32699
+w06 song-phone.mp4 sha256 after:  3de6327c5f950f1c69e031f82228194f80703a9a46b15965b647fc597d8027a2
+w06 song-phone.mp4 state: changed
+w06 song-phone.mp4 ffprobe: codec=h264/aac size=720x1280 fps=30/1 duration=80.149000 faststart=yes
+w06 song-poster.jpg sha256 before: ed27940ffa44ed306e7b126210f590d1a099b6d191e6de497561f46e07897f8c
+w06 song-poster.jpg sha256 after:  ed27940ffa44ed306e7b126210f590d1a099b6d191e6de497561f46e07897f8c
+w06 song-poster.jpg state: byte-identical
+w06 song-poster.jpg ffprobe: codec=mjpeg/none size=1280x720 fps=25/1 duration=0.040000 faststart=n/a
+w06 song-phone-poster.jpg sha256 before: b7e4b1d51657bac4d81a59383a4fb1f7e3d03db1461142206ee3e92830235bd4
+w06 song-phone-poster.jpg sha256 after:  b7e4b1d51657bac4d81a59383a4fb1f7e3d03db1461142206ee3e92830235bd4
+w06 song-phone-poster.jpg state: byte-identical
+w06 song-phone-poster.jpg ffprobe: codec=mjpeg/none size=720x1280 fps=25/1 duration=0.040000 faststart=n/a
+w07 song.mp4 sha256 before: 0dab43e5e58eecdf4dce2512256a1aadd9c0a564a3a67b7e398940177aa3f3ed
+w07 song.mp4 sha256 after:  0dab43e5e58eecdf4dce2512256a1aadd9c0a564a3a67b7e398940177aa3f3ed
+w07 song.mp4 state: byte-identical
+w07 song.mp4 ffprobe: codec=h264/aac size=1920x1080 fps=30/1 duration=78.741000 faststart=yes
+w07 song-phone.mp4 sha256 before: 2b4210aa89b6acd45a39bd8ffa4f7592196ba38e02b6dd34fca64ab6aa6a05f2
+w07 song-phone.mp4 sha256 after:  2b4210aa89b6acd45a39bd8ffa4f7592196ba38e02b6dd34fca64ab6aa6a05f2
+w07 song-phone.mp4 state: byte-identical
+w07 song-phone.mp4 ffprobe: codec=h264/aac size=720x1280 fps=30/1 duration=78.741000 faststart=yes
+w07 song-poster.jpg sha256 before: 6fa042449c0c1e70888d8c071f623c5287803ef6e267d777e6c7576bbdf7a8eb
+w07 song-poster.jpg sha256 after:  6fa042449c0c1e70888d8c071f623c5287803ef6e267d777e6c7576bbdf7a8eb
+w07 song-poster.jpg state: byte-identical
+w07 song-poster.jpg ffprobe: codec=mjpeg/none size=1280x720 fps=25/1 duration=0.040000 faststart=n/a
+w07 song-phone-poster.jpg sha256 before: dad3765371db856ba8fe11dce88ad411839beeb11c709811be0b8122c2030285
+w07 song-phone-poster.jpg sha256 after:  dad3765371db856ba8fe11dce88ad411839beeb11c709811be0b8122c2030285
+w07 song-phone-poster.jpg state: byte-identical
+w07 song-phone-poster.jpg ffprobe: codec=mjpeg/none size=720x1280 fps=25/1 duration=0.040000 faststart=n/a
+w01 song.mp4 sha256 before: 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a
+w01 song.mp4 sha256 after:  4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a
+w01 song.mp4 state: byte-identical
+w01 song-phone.mp4 sha256 before: 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e
+w01 song-phone.mp4 sha256 after:  74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e
+w01 song-phone.mp4 state: byte-identical
+w01 song-poster.jpg sha256 before: abef5e066eceabbd3bebab1851f5bdf1c2ac08dc220fe8e524466d68bca28b50
+w01 song-poster.jpg sha256 after:  abef5e066eceabbd3bebab1851f5bdf1c2ac08dc220fe8e524466d68bca28b50
+w01 song-poster.jpg state: byte-identical
+w01 song-phone-poster.jpg sha256 before: 47365f3136529fc2e97da40d92d727c74bb549212b1505ebdc8aeb5d58fa0a18
+w01 song-phone-poster.jpg sha256 after:  47365f3136529fc2e97da40d92d727c74bb549212b1505ebdc8aeb5d58fa0a18
+w01 song-phone-poster.jpg state: byte-identical
+
+delivered output count: 24
+changed output count: 8
+frame w02 classroom at 10 s: frames-p2r8-w02-classroom-10.jpg (different bytes from the old cropped frame)
+  first figure row 800, margin below the card inner top 84 px (old frame: 0 px)
+  head inside the card: yes
+frame w02 classroom at 40 s: frames-p2r8-w02-classroom-40.jpg (different bytes from the old cropped frame)
+  first figure row 800, margin below the card inner top 84 px (old frame: 0 px)
+  head inside the card: yes
+frame w02 phone at 10 s: frames-p2r8-w02-phone-10.jpg (different bytes from the old cropped frame)
+  first figure row 812, margin below the card inner top 118 px (old frame: 0 px)
+  head inside the card: yes
+frame w02 phone at 40 s: frames-p2r8-w02-phone-40.jpg (different bytes from the old cropped frame)
+  first figure row 812, margin below the card inner top 118 px (old frame: 0 px)
+  head inside the card: yes
+frame w03 classroom at 10 s: frames-p2r8-w03-classroom-10.jpg (different bytes from the old cropped frame)
+  first figure row 800, margin below the card inner top 84 px (old frame: 0 px)
+  head inside the card: yes
+frame w03 classroom at 40 s: frames-p2r8-w03-classroom-40.jpg (different bytes from the old cropped frame)
+  first figure row 800, margin below the card inner top 84 px (old frame: 0 px)
+  head inside the card: yes
+frame w03 phone at 10 s: frames-p2r8-w03-phone-10.jpg (different bytes from the old cropped frame)
+  first figure row 811, margin below the card inner top 117 px (old frame: 0 px)
+  head inside the card: yes
+frame w03 phone at 40 s: frames-p2r8-w03-phone-40.jpg (different bytes from the old cropped frame)
+  first figure row 812, margin below the card inner top 118 px (old frame: 0 px)
+  head inside the card: yes
+frame w05 classroom at 10 s: frames-p2r8-w05-classroom-10.jpg (different bytes from the old cropped frame)
+  first figure row 800, margin below the card inner top 84 px (old frame: 0 px)
+  head inside the card: yes
+frame w05 classroom at 40 s: frames-p2r8-w05-classroom-40.jpg (different bytes from the old cropped frame)
+  first figure row 800, margin below the card inner top 84 px (old frame: 0 px)
+  head inside the card: yes
+frame w05 phone at 10 s: frames-p2r8-w05-phone-10.jpg (different bytes from the old cropped frame)
+  first figure row 812, margin below the card inner top 118 px (old frame: 0 px)
+  head inside the card: yes
+frame w05 phone at 40 s: frames-p2r8-w05-phone-40.jpg (different bytes from the old cropped frame)
+  first figure row 810, margin below the card inner top 116 px (old frame: 0 px)
+  head inside the card: yes
+frame w06 classroom at 10 s: frames-p2r8-w06-classroom-10.jpg (different bytes from the old cropped frame)
+  first figure row 800, margin below the card inner top 84 px (old frame: 0 px)
+  head inside the card: yes
+frame w06 classroom at 40 s: frames-p2r8-w06-classroom-40.jpg (different bytes from the old cropped frame)
+  first figure row 800, margin below the card inner top 84 px (old frame: 0 px)
+  head inside the card: yes
+frame w06 phone at 10 s: frames-p2r8-w06-phone-10.jpg (different bytes from the old cropped frame)
+  first figure row 812, margin below the card inner top 118 px (old frame: 0 px)
+  head inside the card: yes
+frame w06 phone at 40 s: frames-p2r8-w06-phone-40.jpg (different bytes from the old cropped frame)
+  first figure row 812, margin below the card inner top 118 px (old frame: 0 px)
+  head inside the card: yes
+decoded frame count: 16
+Result: PASS

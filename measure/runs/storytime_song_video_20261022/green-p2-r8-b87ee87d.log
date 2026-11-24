@@ -1,0 +1,80 @@
+Green Phase 2 round 8 log, role base b87ee87d
+
+Phase 2 baseline: c26c72ba3173b71194e50977a2b06c04e75e3df2
+Role base: b87ee87d4c8086224df45d714459fc7723536f6b (HEAD confirmed before edits)
+Product commit: none; this round re-renders only
+Review C finding: FAIL at b87ee87d (measure/runs/storytime_song_video_20261022/review-c-p2-b87ee87d.json), blocker C-P2-1.
+
+Thai guard: the filter ran first before any read. Every content read and every command output went through the filter. Committed files hold 0 Thai characters. `git status --porcelain content` is empty. The song-art handoff stayed read-only. render.mjs was never edited or staged. No test or fixture was edited. No product, test, or plan task file was changed. No push was made.
+
+Fix (delivery only): the w02, w03, w05 and w06 videos were rendered at the phase base c26c72ba, before the look rounds fixed the inset (P2-F3). The four weeks were re-rendered with the current code, so the delivered videos carry the full Adventurer figure.
+
+Render command: HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=3000 bash heavy-run.sh -c 'set -o pipefail; cd video/storytime-song && node scripts/render.mjs l2/wNN --concurrency 2'
+One wrapper per week, serial, never nested:
+week w02 render exit: 0
+week w03 render exit: 0
+week w05 render exit: 0
+week w06 render exit: 0
+Week 1, w04 and w07 were not rendered. Their outputs stay byte-identical.
+render.mjs in the working tree carries another owner's uncommitted --cut karaoke edit; the default cut path does not use the karaoke branch.
+
+Outputs, sha256 before and after:
+w01 song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a unchanged
+w01 song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e unchanged
+w04 song.mp4, song-phone.mp4 and both posters unchanged
+w07 song.mp4, song-phone.mp4 and both posters unchanged
+The eight videos of w02, w03, w05 and w06 have new sha256 values. Their eight posters are byte-identical, because the poster is the title card and the inset does not appear in it.
+Every hash, probe, and exit is in measure/runs/storytime_song_video_20261022/green-p2-r8-rerender.txt.
+
+Inset measurement, one number per frame: the first row of figure pixels inside the inset card, and its margin below the card inner top (the classroom card is 1602, 708, 270, 324 and the phone panel is 120, 1032, 840, 856, both with an 8 px border). A margin of 0 means the figure is clipped by the card edge.
+The old delivered frames of w02, w03, w05 and w06 all measured a margin of 0 px, in both cuts. Every new frame measures a margin of 84 px in the classroom cut and 116 to 118 px in the phone cut.
+
+Frame review (I read all sixteen frames):
+- frames-p2r8-w02-classroom-10.jpg: head inside, margin 84 px; full figure down to the boots.
+- frames-p2r8-w02-classroom-40.jpg: head inside, margin 84 px; full figure.
+- frames-p2r8-w02-phone-10.jpg: head inside, margin 118 px; cap, hair, face, body and boots all inside the panel.
+- frames-p2r8-w02-phone-40.jpg: head inside, margin 118 px; full figure.
+- frames-p2r8-w03-classroom-10.jpg: head inside, margin 84 px; full figure.
+- frames-p2r8-w03-classroom-40.jpg: head inside, margin 84 px; full figure.
+- frames-p2r8-w03-phone-10.jpg: head inside, margin 117 px; full figure.
+- frames-p2r8-w03-phone-40.jpg: head inside, margin 118 px; full figure.
+- frames-p2r8-w05-classroom-10.jpg: head inside, margin 84 px; full figure.
+- frames-p2r8-w05-classroom-40.jpg: head inside, margin 84 px; full figure.
+- frames-p2r8-w05-phone-10.jpg: head inside, margin 118 px; full figure.
+- frames-p2r8-w05-phone-40.jpg: head inside, margin 116 px; full figure.
+- frames-p2r8-w06-classroom-10.jpg: head inside, margin 84 px; full figure.
+- frames-p2r8-w06-classroom-40.jpg: head inside, margin 84 px; full figure.
+- frames-p2r8-w06-phone-10.jpg: head inside, margin 118 px; full figure.
+- frames-p2r8-w06-phone-40.jpg: head inside, margin 118 px; full figure.
+No frame crops the head at the top. The Forge scenes, the lyrics, and the sound cards stay clear in every frame.
+
+Gates, each once through ONE heavy-run wrapper, no nesting:
+GREEN_TEST_COMMAND: exit 0 (38 tests, 38 pass, 0 fail)
+PROJECT_TESTS (npm test): exit 0 (81 tests, 81 pass, 0 fail)
+Gate outputs: green-p2-r8-green.txt, green-p2-r8-project.txt.
+
+Guards before and after:
+- Song-art handoff: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after.
+- `git status --porcelain content`: empty.
+- w01 media sha256 unchanged: song.mp4 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a; song-phone.mp4 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e.
+
+New files added: green-p2-r8-b87ee87d.py, green-p2-r8-inset-head-check.py, green-p2-r8-rerender.txt, the 4 render captures, the 2 gate outputs, the 16 frame JPGs, and this log.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba
+role_base_sha: b87ee87d
+head_sha: b87ee87d4c8086224df45d714459fc7723536f6b
+commits: the evidence commit that holds this log; no product commit in this round
+tasks_flipped: none; the plan task file is unchanged in this round
+tasks_blocked: none
+gates: GREEN_TEST_COMMAND 0 (38 pass, 0 fail); PROJECT_TESTS 0 (81 pass, 0 fail)
+rerender: w02 0; w03 0; w05 0; w06 0; week 1, w04 and w07 not rendered
+frames: 16 frames read; the head margin is 84 px in the classroom cut and 116 to 118 px in the phone cut; the old frames measured 0 px
+outputs: 24 delivered outputs recorded; 8 videos changed; the 8 posters of the four weeks and all 12 outputs of week 1, w04 and w07 are byte-identical
+guards: 110 files and MANIFEST.tsv sha256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759 before and after; `git status --porcelain content` empty; w01 media sha256 unchanged
+status: green-complete
+dispositions: C-P2-1=FIX; C-P2-2=DECLINE; C-P2-3=DECLINE
+END_MEASURE_AGENT_RESULT
