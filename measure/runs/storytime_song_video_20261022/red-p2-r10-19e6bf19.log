@@ -1,0 +1,16 @@
+MEASURE_AGENT_RESULT
+role: measure-mid-red
+track: storytime_song_video_20261022
+phase: Phase 2: Forge art
+baseline_sha: c26c72ba3173b71194e50977a2b06c04e75e3df2
+role_base_sha: 19e6bf19f3dd22bca97c0c068ec6b3894b4a737
+test_commit: 82073e7d766dd0e7e80c1a6fbfe549937bbb159e
+red_kind: gap_closing
+gaps: F3 ADV-P2-11 refresh replaces song.mp3 before the classroom row check fails; F1 ADV-P2-6 headerless and rowless manifests, ADV-P2-7 unlisted cast front drops Pat, ADV-P2-8 case-variant front resolves Pat to placeholder; F2 ADV-P2-10 week 1 prepare depends on a stale handoff; N1 ADV-P2-5 CRLF unsupported; N2 ADV-P2-14 seventh actor reuses a visible slot; N3 ADV-P2-16 zero-budget shots overlap on frame 0
+breakage_proof: adversarial-p2-f8c01d5.json records the round FAIL with these 8 failing; the moved tests are byte-identical bodies now registered skipped so they cannot pass vacuously in the gate suite
+tests: video/storytime-song/tests/adversarial-p2.test.mjs (9 pass), video/storytime-song/tests/adversarial-p2-known-defects.test.mjs (8 skipped)
+red_command: adversarial-p2.test.mjs exit 0 (9 pass, 0 fail); known-defects exit 0 (0 pass, 0 fail, 8 skipped); PROJECT_TESTS exit 0 (90 pass, 0 fail, 8 skipped)
+guards: no product code edit; no fixture or strategy-text change beyond section 4.7; `git status --porcelain content` empty; src untouched; render.mjs never staged; no render run; known-defects file not in GREEN command
+files: video/storytime-song/tests/adversarial-p2.test.mjs, video/storytime-song/tests/adversarial-p2-known-defects.test.mjs, measure/tracks/storytime_song_video_20261022/plan.md, measure/tracks/storytime_song_video_20261022/test-strategy.md
+remaining_failures: none in the gate suite; the 8 deferred tests stay skipped as tech debt
+END_MEASURE_AGENT_RESULT

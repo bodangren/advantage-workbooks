@@ -109,3 +109,4 @@ Hold lifted (PM relay, 2026-11-22): Daniel approved the week 1 classroom and pho
 ## Phase 3: Hand-off
 
 - [ ] Task: tech-debt and lessons-learned.
+  - Red P2 r10 (82073e7d): adversarial P2 round-4 deferral (PM ruling 2026-11-24). The 8 failing tests move unchanged in body to `tests/adversarial-p2-known-defects.test.mjs`, ordered F3 first (11, 6, 7, 8, 10, 5, 14, 16), each registered `{ skip: "tech debt: ..." }`; the new file exits 0 with 8 skipped. `tests/adversarial-p2.test.mjs` keeps 9 passing tests and exits 0. `PROJECT_TESTS` exits 0 (90 pass, 0 fail, 8 skipped). Contract in `test-strategy.md` 4.7.

@@ -142,6 +142,21 @@ Same rule as section 3.5. The manifest-intake file is red until Green. `PROJECT_
 
 T2.1 to T2.6 prove the input and the copy. They do not prove a video. T2.7 to T2.9 prove the rendered output. A green intake with a bad render is a failed phase.
 
+### 4.7 Tech-debt contract (adversarial P2 known defects)
+
+PM ruling 2026-11-24 moves the adversarial failures below to tech debt under the round-4 rule. They live in `tests/adversarial-p2-known-defects.test.mjs` with their bodies unchanged, each registered `{ skip: "tech debt: ..." }`. Skipped tests exit 0, so the file never breaks `PROJECT_TESTS` and is not in the GREEN command. Order F3 first: a refused w04 refresh can replace `song.mp3` before the classroom row check fails, which only bites on a w04 refresh with a missing row.
+
+| ID | Test and reason |
+|---|---|
+| F3 | `ADV-P2-11 refusing a refresh preserves the previous audio and spec`: the refresh can replace `song.mp3` before the missing classroom row fails. |
+| F1 | `ADV-P2-6 rejects a manifest without the required header and data`: headerless and rowless manifests need explicit rejection. |
+| F1 | `ADV-P2-7 refuses an unlisted cast front instead of dropping a covered actor`: an unlisted front silently drops Pat from Forge art. |
+| F1 | `ADV-P2-8 a case variant of a cast front resolves or fails explicitly`: a case-variant front resolves Pat to a placeholder. |
+| F2 | `ADV-P2-10 week 1 prepare is independent of a stale Phase 2 handoff`: a changed w04 digest blocks the approved week 1 spec. |
+| N1 | `ADV-P2-5 equivalent LF and CRLF manifests select the same art`: CRLF unsupported; the release handoff uses LF. |
+| N2 | `ADV-P2-14 a seventh actor must not reuse a visible actor's slot`: the seventh actor reuses a visible slot; release shots use at most six. |
+| N3 | `ADV-P2-16 shots with no frame budget must not overlap the next shot`: zero-budget shots overlap on frame 0; release windows span 79 plus frames. |
+
 ## 5. Phase 3: Hand-off
 
 Risk: **low**. Documentation only.
