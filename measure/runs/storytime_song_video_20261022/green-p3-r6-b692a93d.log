@@ -1,0 +1,27 @@
+Green Phase 3 round 6 log, role base b692a93d
+
+Phase 3 baseline: a7f1b55e403854de0d9596756ee10a2c371f4680
+Role base: b692a93dc460b1ee48e063b9fd3aaf565709c41d (HEAD confirmed before edits)
+Cause: the active folder held two passing Phase 3 acceptance results (e87ae40d and b692a93d). Final acceptance wants one.
+What I did, in one commit that touches only measure/runs/storytime_song_video_20261022/:
+- git mv of phase-acceptance-p3-e87ae40d.json and .log into superseded/ (names and content unchanged). The failing e4af9e53 result stays in place. The b692a93d result stays in place.
+- Added by exact path: phase-acceptance-p3-b692a93d.{json,log}, final-acceptance-b692a93d.{json,log}, and this log. A script found 0 Thai characters, 0 secret-pattern hits, no binary in the four artifacts.
+No product, test, render, content, registry, plan, or spec edit. No heavy command. No push. The commit SHA is the HEAD that holds this log; a commit cannot name itself.
+
+MEASURE_AGENT_RESULT
+role: measure-jr-green
+track: storytime_song_video_20261022
+phase: Phase 3: Hand-off
+baseline_sha: a7f1b55e403854de0d9596756ee10a2c371f4680
+role_base_sha: b692a93dc460b1ee48e063b9fd3aaf565709c41d
+head_sha: b692a93dc460b1ee48e063b9fd3aaf565709c41d
+commits: one evidence-move commit that holds this log (it follows head_sha)
+tasks_flipped: none
+tasks_blocked: none
+gates: not run (evidence move only)
+tech_debt: no change
+lessons: no change
+guards: 0 Thai, 0 secret hits in the added artifacts; render.mjs and content/ untouched
+dispositions: none
+status: green-complete
+END_MEASURE_AGENT_RESULT

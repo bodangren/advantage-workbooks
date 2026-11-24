@@ -1,0 +1,49 @@
+Phase 3 acceptance round 4: PASS.
+
+Phase base: a7f1b55e403854de0d9596756ee10a2c371f4680
+Role base and audited HEAD: b692a93dc460b1ee48e063b9fd3aaf565709c41d
+Round 3 result: phase-acceptance-p3-e87ae40d.json (PASS at e87ae40d). It does not cover the Green P3 r5 commits.
+
+Diff e87ae40d..b692a93d:
+- measure/tech-debt.md: 1 insertion and 1 deletion, line 40, the FA-2 row only.
+- 5 added run files: final-acceptance-e87ae40d (json, log), phase-acceptance-p3-e87ae40d (json, log), green-p3-r5-e87ae40d.log.
+- 2 renames at 100 percent similarity: phase-acceptance-p3-d46b60eb (json, log) into superseded/. The moved files are byte-identical and the old paths are gone.
+- 0 files in measure/tracks, the archives, the lessons files, video, content, and dashboard. The product diff a7f1b55e..b692a93d is 0 files.
+
+Registry: tech-debt.md has 50 lines, 0 Thai, 33 live rows and 21 archive rows before and after. Only the FA-2 row changed. 0 rows lost. The adversarial F3 row is first among the 14 rows of this track.
+FA-1 is Medium and Open. FA-2 is Low and Resolved.
+FA-2 row is accurate: measure/doctor.sh is absent. The rule change exists in /home/daniebo/.config/opencode/agents/measure-final-acceptance.md line 148 (PM 2026-11-25): doctor.sh must exit 0 only when the repo has that file. That line is the only difference from the backup file. Item (2) is correct: both routes are openai/gpt-6.2-sol#high. Review A of Phases 2 and 3 ran on claude-agent/opus#high. Review A of Phase 1 ran on openai/gpt-6-luna#high.
+Round 3 nits PA3c-N1 and PA3c-N2 are withdrawn.
+Citations: all 18 distinct full-path measure/runs citations of this track resolve with git cat-file -e at HEAD. One bare name does not resolve: the accepted typo id adversarial-p2-f8c01d5.json.
+The five human gates (lines 42 to 50) are identical and 0 are marked done. The branch is ahead 95, so no push occurred.
+The 7 added or renamed run files hold 0 Thai characters and 0 secret-pattern hits.
+
+GREEN exit 0: 38 tests, 38 pass, 0 fail.
+PROJECT_TESTS exit 0: 98 tests, 90 pass, 0 fail, 8 skipped.
+PROJECT_LINT exit 0. PROJECT_CHECKS exit 0.
+Each gate ran once in its own call through one heavy-run wrapper, in series.
+
+Week 1 song.mp4 4c88951f... and song-phone.mp4 74ccefed... are unchanged. 28 of 28 outputs match the Phase 2 render record. The handoff holds 110 files with the same manifest hash.
+A5 holds. A3, A4, and A7 do not apply. A6 does not apply to measure/tracks.md (0 changes); I still checked the new Resolved claim against reality. UX browser review and runtime security do not apply.
+
+Nonblocking findings of this audit:
+PA3d-N1 The FA-2 Resolved status rests on a file outside the repository. The row does not cite it. Add the path and line 148 at the next edit.
+PA3-N1 (carried): two rows exceed 2000 characters (tech-debt.md lines 27 and 34).
+PA3-N2, review-a N1, and review-a N2 are carried.
+
+Result count: after this result, the active run folder holds two passing Phase 3 results (e87ae40d and b692a93d). The final acceptance role requires one. The orchestrator moves the e87ae40d result to superseded/ before the next final acceptance. I did not move or edit it.
+
+No render and no ffmpeg ran. render.mjs stays untouched (sha256 9a5fc7a2...). No Thai text was printed.
+
+MEASURE_AGENT_RESULT
+role: phase-acceptance
+status: complete
+track: storytime_song_video_20261022
+phase: Phase 3: Hand-off
+commits: none
+tests_run: GREEN 0 (38 pass); PROJECT_TESTS 0 (90 pass, 8 skipped); PROJECT_LINT 0; PROJECT_CHECKS 0; citation check 18 of 18 resolve; registry census 0 rows lost; 28-output hash check 0
+files_changed: phase-acceptance-p3-b692a93d.json, phase-acceptance-p3-b692a93d.log
+plan_updates: none
+known_failures: none blocking; 1 new nit (PA3d-N1); carried risks as listed; 5 open human gates
+handoff: Accept Phase 3 at b692a93d. Retry recommendation: none. Move phase-acceptance-p3-e87ae40d.json and .log to superseded/ before the final acceptance rerun, so that one passing Phase 3 result remains. Carry the 5 open human gates and the registry rows to the track closeout.
+END_MEASURE_AGENT_RESULT

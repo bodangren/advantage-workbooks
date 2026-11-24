@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "role": "final-acceptance",
+  "track": "storytime_song_video_20261022",
+  "phase": "track review",
+  "baseline_sha": "b692a93dc460b1ee48e063b9fd3aaf565709c41d",
+  "track_base_sha": "1ffd649b83df6f1f6625351d8da4afd5ee1ca513",
+  "role_base_sha": "b692a93dc460b1ee48e063b9fd3aaf565709c41d",
+  "audited_head_sha": "b692a93dc460b1ee48e063b9fd3aaf565709c41d",
+  "status": "fail",
+  "summary": "All four video gates passed. The latest Phase 3 acceptance does not cover the later change to measure/tech-debt.md. The duplicate result and Doctor findings are resolved. PM 2026-11-25: no third-family decision route; Phases 2 and 3 and Review A ran on Claude",
+  "blocking_findings": [
+    "FA-R4-1 [Blocker] phase coverage: Phase 3 audited e87ae40d. Commit 8c552a27 changes measure/tech-debt.md, a track path outside the plan and evidence exception."
+  ],
+  "nonblocking_findings": [
+    "FA-R3-1 is resolved. The old passing Phase 3 result is preserved under superseded/. Each phase has exactly one active pass.",
+    "FA-2 is resolved by the updated Doctor rule, without a waiver. This repository has no Doctor script.",
+    "FA-1 remains an accepted release deviation. The spec, plan, and debt row accurately record the scope, cause, rating, and follow-up.",
+    "PA3-N1, PA3-N2, and Review A N1 and N2 remain nonblocking closeout notes. The five human gates stay open."
+  ],
+  "evidence": [
+    "PM 2026-11-25: no third-family decision route; Phases 2 and 3 and Review A ran on Claude",
+    "git rev-parse HEAD 1ffd649b: b692a93dc460b1ee48e063b9fd3aaf565709c41d and 1ffd649b83df6f1f6625351d8da4afd5ee1ca513.",
+    "git diff --name-only b692a93d HEAD: exit 0; empty output.",
+    "git diff --name-only e87ae40d HEAD: exit 0; output:\nmeasure/runs/storytime_song_video_20261022/final-acceptance-e87ae40d.json\nmeasure/runs/storytime_song_video_20261022/final-acceptance-e87ae40d.log\nmeasure/runs/storytime_song_video_20261022/green-p3-r5-e87ae40d.log\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-e87ae40d.json\nmeasure/runs/storytime_song_video_20261022/phase-acceptance-p3-e87ae40d.log\nmeasure/runs/storytime_song_video_20261022/superseded/phase-acceptance-p3-d46b60eb.json\nmeasure/runs/storytime_song_video_20261022/superseded/phase-acceptance-p3-d46b60eb.log\nmeasure/tech-debt.md",
+    "git diff --name-only a7f1b55e HEAD -- video/storytime-song content dashboard: exit 0; empty output.",
+    "git diff --cached --name-only -- video/storytime-song/scripts/render.mjs: exit 0; empty output.",
+    "The Track scope scan of 1ffd649b..e87ae40d found 89 track commits, zero other-track commits, and 279 paths touched. It used git rev-list, the track tags in git show, and git diff-tree -r --root --cc --no-renames. The only uncovered path in the later diff is measure/tech-debt.md. Commit 8c552a27 replaces its FA-2 row.",
+    "The active Phase 1, 2, and 3 passes audit c26c72ba, a7f1b55e, and e87ae40d. The baseline and role base of each result are ancestors of its audited HEAD. Each audited HEAD is an ancestor of b692a93d. The latest Phase 3 JSON and log are tracked. Its mechanical phase gate exits 0 but does not check later path coverage.",
+    "/home/daniebo/.config/opencode/agents/measure-final-acceptance.md:148 requires Doctor only if present. git log --all --oneline -- measure/doctor.sh has empty output. No Doctor script exists, so the configured gates apply.",
+    "spec.md:18 retains the original requirement and adds the PM deviation. plan.md:26 appends PARTIAL and changes no task marker or SHA. All 21 completed entries retain ancestor SHA evidence. Karaoke remains deferred.",
+    "measure/tech-debt.md:39 records FA-1 as Medium and Open with the cause, original Blocker rating, and follow-up. Line 40 records FA-2 as Resolved and clarifies the Review A route wording. The file has 50 lines and zero Thai characters. F3 remains first.",
+    "A5: The literal false-claim scan has zero hits, and the PARTIAL note qualifies the slide claim. A6: The registry makes no adversarial pass claim, and the eight skips match the recorded debt. A9: There are zero tests/*.sh files.",
+    "The read-only probe matched all 28 media hashes in green-p2-r8-rerender.txt before and after the gates. Week 1 MP4 SHA-256 values are 4c88951f3407c8e15a3ab5ccc529522e994dde102f816f84cc96ae05428f0d7a and 74ccefed722d3a97a3c6a9b0485305a7eca28e5956f6b9948d03f60f98c7148e.",
+    "The handoff retains 110 files and MANIFEST.tsv SHA-256 f16560ba35c86b0f8e63140fbda9235ae32ea176af8240e05b5b3aea5513b759. The unstaged render.mjs worktree SHA-256 stays 9a5fc7a2a526df933bca5632655103670e4e8a53cc32d225a80dd122a29aed26.",
+    "HEAD stays at b692a93d. git status --porcelain -- content has empty output. All four video gate outputs contain zero Thai characters.",
+    "The five human gates in measure/tech-debt.md:42-50 remain unchanged. All 18 full track run citations in the checked docs resolve at HEAD. The audit read no week JSON or lessons archive text."
+  ],
+  "commands": [
+    "Read-only Python probes checked the phase result count, Git ancestry, track scope, revision diff, plan, debt, output hashes, and handoff inventory.",
+    "measure_interphase_checks.py role-gate --role phase-acceptance for Phase 3 at e87ae40d with the tracked result JSON and log — exit 0.",
+    "measure_interphase_checks.py role-gate --repo . --role final-acceptance --track storytime_song_video_20261022 --phase 'track review' --baseline b692a93dc460b1ee48e063b9fd3aaf565709c41d --result-file measure/runs/storytime_song_video_20261022/final-acceptance-b692a93d.json --log-file measure/runs/storytime_song_video_20261022/final-acceptance-b692a93d.log --runner /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh — exit 1 on audit status only. Python runpy invokes the installed CLI and prints its captured wrapper outputs.",
+    "PROJECT_LINT via role-gate and one heavy-run call: set -o pipefail; cd video/storytime-song && npm run lint — exit 0.",
+    "PROJECT_CHECKS via role-gate and one heavy-run call: set -o pipefail; cd video/storytime-song && npx tsc --noEmit — exit 0.",
+    "PROJECT_TESTS via role-gate and one heavy-run call: set -o pipefail; cd video/storytime-song && npm test — exit 0; 98 total, 90 pass, 0 fail, 8 skipped.",
+    "GREEN_TEST_COMMAND via /home/daniebo/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c: set -o pipefail; cd video/storytime-song && node --test --test-concurrency=1 tests/bubbles.test.mjs tests/placeholders.test.mjs tests/manifest-intake.test.mjs tests/forge-contracts.test.mjs tests/prepare-snapshot.test.mjs tests/forge-inset.test.mjs tests/prepare-robustness.test.mjs tests/review-a-r5.test.mjs tests/phase-acceptance-p1.test.mjs tests/phase2-look.test.mjs tests/may-2d.test.mjs tests/phase2-boxes.test.mjs tests/phase2-security.test.mjs — exit 0; 38 pass, 0 fail, 0 skipped; Thai count 0."
+  ],
+  "commands": [],
+  "changed_files": [
+    "measure/runs/storytime_song_video_20261022/final-acceptance-b692a93d.json",
+    "measure/runs/storytime_song_video_20261022/final-acceptance-b692a93d.log"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_audit",
+  "confidence": "high",
+  "route": "openai/gpt-6.2-sol#high"
+}
