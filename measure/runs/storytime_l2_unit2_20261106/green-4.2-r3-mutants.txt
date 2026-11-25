@@ -1,0 +1,7 @@
+F2 CAUGHT rc=1 restored_sha256=07a099d59bd9e3606276d0a439ed24dc9aeb2f59e273b47dcaa4c816b4df7080 test=strict mode with only the 193 book jobs fails and names the 36 missing card rows
+F3 CAUGHT rc=1 restored_sha256=ebef584e859d293fe1cd6311d0c87a7d42a69690e2805e2fa1a34620a109ce1d test=a word card with a distractor-only word fails
+F4 CAUGHT rc=1 restored_sha256=ebef584e859d293fe1cd6311d0c87a7d42a69690e2805e2fa1a34620a109ce1d test=phone has last sound /n/: the single match passes
+F10 CAUGHT rc=1 restored_sha256=965d3db096472af5c610e8fac42316c3f88f34ac892089a0ceef6e08533d8b80 test=unit 3 reads units 1 and 3 with an absent middle file as an empty list
+F13 CAUGHT rc=1 restored_sha256=1dc6364a73c92013e0d1b1e9c3ec538142de0ce1f29445a32a1669965428f9a3 test=an empty unit 2 card file writes no card rows
+F14 CAUGHT rc=1 restored_sha256=abd62a5bfa1ee61660dede3e8101dbc0902e5e11a6b60ed25303893f5f400c19 test=week 9 takes its rows from l2/print/u2/pictures.json on a temp root copy
+THAI_COUNT=0

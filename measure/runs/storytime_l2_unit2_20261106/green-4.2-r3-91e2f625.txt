@@ -1,0 +1,30 @@
+Task 4.2 round 3 Green evidence (storytime_l2_unit2_20261106)
+phase_base_sha: 35729287dc615dd9688cb7ddb6179786c23b3f01
+role_base_sha: 21aa472af0e9e16cacc61cfa1c341e960a2b999d
+implementation_shas: 90172c1612df321a2cac35b441abf74e3cb7534d, 91e2f625f5dae9392f7d8da033dc97656bb945fa
+
+RED_TEST_COMMAND (role start, before the fixes): exit 1, 15 failed, 142 passed, 157 total.
+RED_TEST_COMMAND after Red retry 6 (orchestrator, with the uncommitted fixes): exit 0, 157 passed, 157 total.
+RED_TEST_COMMAND after the implementation commits: exit 0, 5 files passed, 157 tests passed, 157 total.
+Command: cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-*.test.ts
+
+One heavy-run wrapper ran all three project gates. Wrapper exit 0.
+PROJECT_TESTS exit 0: 78 files passed, 1987 tests passed, 1987 total.
+  Command: cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts
+PROJECT_LINT exit 0: eslint output 0 lines.
+  Command: cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-unit2-*.test.ts --no-error-on-unmatched-pattern
+PROJECT_CHECKS exit 0: 16 packages, 0 failed checks, 40 warnings; tsc output 0 lines.
+  Command: cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit
+
+Makers from dashboard/:
+  npx tsx scripts/storytime/print-pictures.ts --level 2: exit 0; 227 unit 1 rows and 229 unit 2 rows.
+  npx tsx scripts/storytime/make-step-map.ts --level 2: exit 0; 16 files written.
+  git status --porcelain content/ after both makers: 0 lines.
+
+Mutants: 6 of 6 caught, each by a named test, each restored from a saved copy and compared by SHA-256.
+  Detail: measure/runs/storytime_l2_unit2_20261106/green-4.2-r3-mutants.txt
+  F2 strict all-rows selection; F3 kind-specific review facts; F4 position-specific sound facts;
+  F10 unit-order card picture rows; F13 selected-root card entries; F14 unit 2 row file.
+
+Thai count in added lines of the six implementation files: 0.
+Thai count in the mutants file and this evidence file: 0.
