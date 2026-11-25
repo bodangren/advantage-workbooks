@@ -112,7 +112,9 @@ function mirrorStorytimeToTemp(): string {
     mirror(storytimeRoot, path.join(root, 'content', 'storytime'));
     fs.rmSync(path.join(root, 'content', 'storytime', 'l2', 'print', 'pictures.json'), { force: true });
     fs.rmSync(path.join(root, 'content', 'storytime', 'l2', 'print', 'pictures.md'), { force: true });
-    fs.rmSync(path.join(root, 'content', 'storytime', 'l2', 'print', 'u2'), { recursive: true, force: true });
+    // Keep the unit 2 card input (a read-only link); remove only the outputs of the maker (Review A F13).
+    fs.rmSync(path.join(root, 'content', 'storytime', 'l2', 'print', 'u2', 'pictures.json'), { force: true });
+    fs.rmSync(path.join(root, 'content', 'storytime', 'l2', 'print', 'u2', 'pictures.md'), { force: true });
     fs.rmSync(path.join(root, 'content', 'storytime', 'l2', 'step-map-u1.json'), { force: true });
     fs.rmSync(path.join(root, 'content', 'storytime', 'l2', 'step-map-u2.json'), { force: true });
     return root;

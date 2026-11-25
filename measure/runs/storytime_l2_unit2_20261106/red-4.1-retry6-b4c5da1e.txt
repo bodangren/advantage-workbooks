@@ -1,0 +1,4 @@
+Red retry 6 (orchestrator, claude-code/claude-opus-5-5), role base b4c5da1e, 2026-11-26.
+Cause: Green round 3 (blocked) found that the phase4 F1 test removed the whole l2/print/u2 folder of its temp root, so it needed the live-root card fallback that the r5 F13 test forbids (Review A round 2 F13 names the same test line).
+Change: mirrorStorytimeToTemp keeps l2/print/u2/card-pictures.json (a read-only link) and removes only the maker outputs u2/pictures.json and u2/pictures.md. The F1 assertions do not change.
+One heavy-run with the uncommitted Green round 3 code in the tree: RED_TEST_COMMAND exit 0, 157 passed of 157; npx tsc --noEmit exit 0; eslint on the file exit 0. Thai characters in the test file: 0.
