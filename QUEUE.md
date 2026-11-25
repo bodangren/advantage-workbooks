@@ -1,8 +1,8 @@
 - [ ] Storytime L2 unit 1 week 1 (w01): confirm it is live for customers (ship 2026-11-25)
 - [x] Storytime L2 unit 1 release-1 print files: student book, teacher book, readers, covers, card kit (PDF/X-1a) ready for the print order
-- [ ] Storytime L2 unit 2 (weeks 9 to 16): week texts, picture list, print-ready 2026-12-08
-- [ ] Storytime song videos w02 to w07: Forge cast re-render with slide motion for w04 and w07
-- [ ] Primary levels 5-9 workbook lessons (Quest 5, 6.1, 6.2, Adventure 7.1-9.3) and 50-article online banks per book
+- [ ] Storytime L2 unit 2 (weeks 9 to 16): week texts, picture list, print-ready 2026-12-08 (waits: Daniel Thai check, Task dVJTeTd4amN6cjZ6VnFFcA)
+- [ ] Storytime song videos w02 to w07: Forge cast re-render with slide motion for w04 and w07 (waits: Forge cast art)
+- [ ] Primary levels 5-9 workbook lessons (Quest 5, 6.1, 6.2, Adventure 7.1-9.3) and 50-article online banks per book (waits: Daniel level approval, Drive package sent)
 - [ ] Primary injector: lesson packages verified in the live Primary database (task C10)
 - [ ] Origins 3.1 Teacher's Manual for the new Primary app, A4 PDF
 - [ ] Book covers from data: cover kit, web PNGs and PDF/X-1a print files
