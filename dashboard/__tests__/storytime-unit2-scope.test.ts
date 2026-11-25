@@ -288,35 +288,42 @@ describe('FR-6.6: review strips and check items', () => {
     });
 
     it('published weeks 1 to 8 give pass on the two rules, with each row present', async () => {
-        const { checkStorytimeWeek } = await import('../lib/storytime/checks');
+        const { checkStorytimeWeek, taughtTo } = await import('../lib/storytime/checks');
+        const weeks = [...unit1Weeks(), ...unit2Weeks()];
         for (let week = 1; week <= 8; week++) {
             const raw = readJson(path.join(storytimeRoot, 'l2', `w${String(week).padStart(2, '0')}.json`));
-            const report = checkStorytimeWeek(raw);
-            for (const id of ['review', 'check-answers']) {
-                const row = report.checks.find((c) => c.id === id);
-                if (raw.meta.kind === 'review') {
-                    expect(row === undefined || row.status === 'pass', `st2/${week} ${id}`).toBe(true);
-                    continue;
-                }
-                expect(row, `st2/${week} ${id} is present`).toBeDefined();
-                expect(row?.status, `st2/${week} ${id}`).toBe('pass');
+            const target = weeks.find((w) => w.meta.week === week) as (typeof weeks)[number];
+            const report = checkStorytimeWeek(raw, taughtTo(weeks, target), undefined, weeks);
+            const review = report.checks.find((c) => c.id === 'review');
+            expect(review, `st2/${week} review is present`).toBeDefined();
+            expect(review?.status, `st2/${week} review`).toBe('pass');
+            const answers = report.checks.find((c) => c.id === 'check-answers');
+            if (raw.meta.kind === 'review') {
+                expect(answers === undefined || answers.status === 'pass', `st2/${week} check-answers`).toBe(true);
+                continue;
             }
+            expect(answers, `st2/${week} check-answers is present`).toBeDefined();
+            expect(answers?.status, `st2/${week} check-answers`).toBe('pass');
         }
     });
 
     it('published weeks 9 to 16 give pass on the two rules, with each row present', async () => {
-        const { checkStorytimeWeek } = await import('../lib/storytime/checks');
+        const { checkStorytimeWeek, taughtTo } = await import('../lib/storytime/checks');
+        const weeks = [...unit1Weeks(), ...unit2Weeks()];
         for (let week = 9; week <= 16; week++) {
-            const report = checkStorytimeWeek(readJson(path.join(storytimeRoot, 'l2', `w${String(week).padStart(2, '0')}.json`)));
-            for (const id of ['review', 'check-answers']) {
-                const row = report.checks.find((c) => c.id === id);
-                if (week === 16 && id === 'check-answers') {
-                    expect(row === undefined || row.status === 'pass', `st2/${week} ${id}`).toBe(true);
-                    continue;
-                }
-                expect(row, `st2/${week} ${id} is present`).toBeDefined();
-                expect(row?.status, `st2/${week} ${id}`).toBe('pass');
+            const raw = readJson(path.join(storytimeRoot, 'l2', `w${String(week).padStart(2, '0')}.json`));
+            const target = weeks.find((w) => w.meta.week === week) as (typeof weeks)[number];
+            const report = checkStorytimeWeek(raw, taughtTo(weeks, target), undefined, weeks);
+            const review = report.checks.find((c) => c.id === 'review');
+            expect(review, `st2/${week} review is present`).toBeDefined();
+            expect(review?.status, `st2/${week} review`).toBe('pass');
+            const answers = report.checks.find((c) => c.id === 'check-answers');
+            if (week === 16) {
+                expect(answers === undefined || answers.status === 'pass', `st2/${week} check-answers`).toBe(true);
+                continue;
             }
+            expect(answers, `st2/${week} check-answers is present`).toBeDefined();
+            expect(answers?.status, `st2/${week} check-answers`).toBe('pass');
         }
     });
 });

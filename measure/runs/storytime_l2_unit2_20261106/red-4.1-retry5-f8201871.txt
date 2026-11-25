@@ -1,0 +1,34 @@
+Task 4.1 retry 5 Red evidence (measure-mid-red, 2026-11-26)
+Track: storytime_l2_unit2_20261106. Task 4.1 (Red, spec FR-6).
+Role base: f8201871 (= HEAD before this commit). Phase base: 35729287.
+Review: measure/runs/storytime_l2_unit2_20261106/review-a-p134-r2-7c2f6cba.json plus orchestrator finding F14.
+HEAD before commit: f8201871d37ba1136ed2ca40642a826350367cc5.
+Production files: unchanged. The commit holds only the 2 test files below plus this evidence.
+
+New/edited tests:
+- dashboard/__tests__/storytime-unit2-r5.test.ts (new, 23 tests: F2, F3, F4, F8, F10, F9, F13, F14)
+- dashboard/__tests__/storytime-unit2-scope.test.ts (edit kept from the prior session: F11 week-8/16 precision plus the production call form)
+
+Gates, each in one heavy-run:
+- RED_TEST_COMMAND (cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-*.test.ts): exit 1. 15 failed | 142 passed of 157. All 15 failures are in storytime-unit2-r5.test.ts (15 of its 23); the other 4 files pass, including the edited scope file. Capture: /tmp/red49-red.txt.
+- npx tsc --noEmit (dashboard): exit 0. Capture: /tmp/red49-tsc.txt.
+- npx eslint __tests__/storytime-unit2-r5.test.ts __tests__/storytime-unit2-scope.test.ts: exit 0. Capture: /tmp/red49-lint.txt.
+- PROJECT_TESTS (storytime-*, covers-*, print-pdfx): exit 1. 15 failed | 1972 passed of 1987. All 15 are the same r5 cases; no other file fails. Capture: /tmp/red49-project.txt.
+
+Failing tests by finding (each fails for the stated review reason):
+- F2 (1 test): 'strict mode with only the 193 book jobs fails and names the 36 missing card rows' exits 2 (unknown argument --all-rows) instead of 1: the strict mode is absent. Guard 'the default partial-batch contract stays' passes.
+- F3 (5 tests): word/sound/tricky/frame distractor-kind cases plus the missing-week case return pass instead of fail: kind-specific taught facts and fail-closed missing data are absent. Guards (real weeks 1 to 16, lone week-9 check) pass.
+- F4 (5 tests): city-first-/k/ and phone-last-/f/ pass instead of fail (position-blind matcher); phone-last-/n/ and knight-first-/n/ fail instead of pass (false negatives on correct matches); the unknown word passes instead of fail (guessing). Guards (phone-first-/f/, all real circle items) pass.
+- F10 (2 tests): 'unit 3 reads units 1 and 3 with an absent middle file as an empty list' and 'unit 4 reads every earlier unit list in order' fail at 'the card kit maker exposes its row loader for units 1 to N: expected undefined to be function'. readPictureRows is private to make-card-kit-pdf.ts and reads only unit 1 plus the requested unit. After Green exports it and loops 1 to N, the order assertions execute.
+- F13 (1 test): 'an empty unit 2 card file writes no card rows' writes 229 rows instead of 193: print-pictures.ts falls back to the live card entries.
+- F14 (1 test): 'week 9 takes its rows from l2/print/u2/pictures.json on a temp root copy' exits 1 with 'picture match: cover "Yum!" has 1 pictures and 0 rows': set-book-pictures.ts reads only the unit 1 picture list.
+
+Passing guards (pass at HEAD; Green keeps them):
+- F8: the later-unit card match covers every picture-type row on a temp root (193 book plus 36 card rows, 0 none); the maker --dry-run exits 0 on the temp root with 4 outputs.
+- F9: the enriched unit 1 snapshot hashes the production inputs (weeks 1..8, badge yes, pagesMatter yes, picturesMatter yes, deterministic). Size corrected A5 to A6 during this round: A5 cards are sound/frame only, so pictureOf never fires on A5; A6 holds the picture cards.
+- F11 (scope edit): weeks 1 to 8 and 9 to 16 review/check-answers rows pass under the production call form, with the week-8 review row required and only the week-16 check-answers row optional.
+
+Harness note: the 5 predecessor tests that spawned out-of-tree tsx drivers or a git worktree never dispatched (vitest JSON status pending in 4 consecutive runs while all other counts stayed exact). They are replaced with in-process equivalents (parameter-root library calls, repository-script children, dynamic imports with a redirected root). All 23 tests now report: 15 failed | 8 passed.
+
+Counts: r5 file 23 tests (15 fail, 8 pass). RED_TEST_COMMAND 15 failed | 142 passed of 157. PROJECT_TESTS 15 failed | 1972 passed of 1987.
+Thai: 0 characters in both test files (grep -cP U+0E00-U+0E7F gives 0 and 0). No test holds a Thai literal; only statuses, ids, and counts are asserted; no Thai line was printed (all output captured to files and filtered).
