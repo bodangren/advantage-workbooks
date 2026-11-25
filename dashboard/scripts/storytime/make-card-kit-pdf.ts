@@ -44,24 +44,20 @@ import { checkRequestedWeeks, checkStorytimeOutputContainment } from '../../lib/
  * paid run.
  */
 
-/**
- * The unit of the kit. Release 1 is unit 1 only (spec P11), and the unit marker of the file stem
- * comes from here (Review C, C-P8-1).
- */
-const CARD_KIT_UNIT = 1;
-
 const USAGE = `Builds the PDF/X-1a print files of the Storytime Advantage card kit (spec FR-7): the A5
 cards, the A6 cards, and the sticker sheet, each through make-pdfx.ts --keep-fonts (color, CMYK).
 Run it under the heavy-job lock (plan rule 12).
 
-Usage: npx tsx scripts/storytime/make-card-kit-pdf.ts --level <n> --weeks <list> [--out <folder>] [--version <n>]
+Usage: npx tsx scripts/storytime/make-card-kit-pdf.ts --level <n> --weeks <list> [--out <folder>] [--version <n>] [--dry-run]
 
   --level   The Storytime level, a whole number from 1 to 4, e.g. 2
   --weeks   The weeks of the kit, each a whole number from 1 to 32, comma separated, e.g. 1,2,3,4,5,6,7,8
   --out     The output folder, an absolute path strictly inside <home>/Desktop/print-ready/storytime/
             (default ~/Desktop/print-ready/storytime/card-kit-v<n>/)
   --version The version in the file names, a whole number of 1 or more (rule 12.2; default 1)
+  --dry-run Print the resolved output names and stop before any file is written
 
+The unit of the kit comes from the requested weeks; one request holds weeks of one unit only.
 Files: Storytime-Advantage-L<level>-U1-Card-Kit-A5-v<n>_PDFX-1a.pdf,
 Storytime-Advantage-L<level>-U1-Card-Kit-A6-v<n>_PDFX-1a.pdf,
 Storytime-Advantage-L<level>-U1-Card-Kit-Stickers-v<n>_PDFX-1a.pdf, and card-picture-match.txt
@@ -130,15 +126,8 @@ async function main(argv: string[]): Promise<number> {
         return argv.length === 0 ? 2 : 0;
     }
     let args: StorytimeCardKitArgs;
-    let names: StorytimeCardKitFileNames;
     try {
         args = parseStorytimeCardKitArgs(argv, os.homedir());
-        names = storytimeCardKitFileNames(args.level, CARD_KIT_UNIT, args.version);
-        // The output folder must stay inside the print folder through its filesystem links too;
-        // an output error is an argument error, so it exits 2 with the usage text (Review B, B-P8-2).
-        for (const name of [names.a5, names.a6, names.stickers, names.match]) {
-            checkStorytimeOutputContainment(path.join(args.outDir, name), os.homedir());
-        }
     } catch (error) {
         console.error(`${error instanceof Error ? error.message : String(error)}\n\n${USAGE}`);
         return 2;
@@ -156,7 +145,31 @@ async function main(argv: string[]): Promise<number> {
         return 1;
     }
     const parsed = read.map((entry) => entry.week as StorytimeWeek);
-    const unit = parsed[0].meta.unit;
+    // Every output name carries the unit of the requested weeks, not a fixed release 1 marker.
+    // A kit that would mix two units is refused before it can overwrite another unit's files
+    // (Review A F6).
+    const units = [...new Set(parsed.map((week) => week.meta.unit))].sort((a, b) => a - b);
+    if (units.length !== 1) {
+        console.error(`A card kit holds one unit; the request is mixed-unit: weeks of units ${units.join(' and ')}`);
+        return 1;
+    }
+    const unit = units[0];
+    let names: StorytimeCardKitFileNames;
+    try {
+        names = storytimeCardKitFileNames(level, unit, args.version);
+        // The output folder must stay inside the print folder through its filesystem links too;
+        // an output error is an argument error, so it exits 2 with the usage text (Review B, B-P8-2).
+        for (const name of [names.a5, names.a6, names.stickers, names.match]) {
+            checkStorytimeOutputContainment(path.join(args.outDir, name), os.homedir());
+        }
+    } catch (error) {
+        console.error(`${error instanceof Error ? error.message : String(error)}\n\n${USAGE}`);
+        return 2;
+    }
+    if (args.dryRun) {
+        for (const name of [names.a5, names.a6, names.stickers, names.match]) console.log(path.join(outDir, name));
+        return 0;
+    }
     const kit = storytimeCardKit(parsed);
     const pictureFolder = path.join(STORYTIME_ROOT, `l${level}`, 'print', 'pictures');
     const rows = readPictureRows(level, unit);

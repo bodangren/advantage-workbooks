@@ -1,5 +1,5 @@
 import path from 'path';
-import { readLevelCardPictures, readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
+import { readCardPicturesThrough, readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { checkStorytimePictureBatch, readStorytimePictureManifest } from '../../lib/storytime/print/picture-check';
 import { storytimeCardPictureRows, storytimePrintPictures } from '../../lib/storytime/print/pictures';
 import { checkRequestedWeeks } from '../../lib/storytime/print/student-book-cli';
@@ -129,7 +129,10 @@ async function main(argv: string[]): Promise<number> {
     // Version 7: the card rows of the card kit follow the book rows, so the check measures the
     // size, the color mode, the alpha, the gray fill, and the pixel size of the card pictures too
     // (A-P8-7).
-    const cardRows = storytimeCardPictureRows(readLevelCardPictures(STORYTIME_ROOT, args.level), args.level)
+    // The card pictures of every requested unit are part of the delivery gate: a batch with the
+    // book rows of unit 2 and a missing unit 2 card row must report that row (Review A F2).
+    const requestedUnits = [...new Set(read.map((r) => (r.raw as { meta?: { unit?: number } }).meta?.unit ?? 1))];
+    const cardRows = storytimeCardPictureRows(readCardPicturesThrough(STORYTIME_ROOT, args.level, Math.max(0, ...requestedUnits)), args.level)
         .filter((row) => args.weeks.includes(row.week));
     // Review round 5 (A-P8-16): each row class of each requested week is selected on its own. The
     // book rows of week N are requested when the manifest holds a job for a book row of week N,

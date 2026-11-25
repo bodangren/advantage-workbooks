@@ -169,6 +169,24 @@ export function readUnitCardPictures(root: string, level: number, unit: number):
 }
 
 /**
+ * Reads the card picture entries of every unit from 1 through `unit`, in unit order. A unit
+ * without a card file contributes an empty list: a card match of unit 3 reuses the lists of
+ * units 1 and 2, and a missing middle file must not stop the match (Review A F10).
+ * @param root The Storytime content folder.
+ * @param level The Storytime level.
+ * @param unit The highest unit to read, from `meta.unit`.
+ * @returns The entries of units 1 to `unit`, in unit order and then in file order.
+ * @throws Error When a file that exists is not a valid list or holds an invalid entry.
+ */
+export function readCardPicturesThrough(root: string, level: number, unit: number): StorytimeCardPictureEntry[] {
+    const entries: StorytimeCardPictureEntry[] = [];
+    for (let number = 1; number <= unit; number++) {
+        entries.push(...readCardPictureFile(storytimeCardPicturesFile(root, level, number)));
+    }
+    return entries;
+}
+
+/**
  * Reads the parsed week files of one unit of a level, in week order. Files that do not parse are
  * left out. Use `readLevelWeeks` when a broken week must be reported.
  * @param root The Storytime content folder.

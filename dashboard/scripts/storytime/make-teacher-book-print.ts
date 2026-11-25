@@ -5,7 +5,7 @@ import path from 'path';
 import { execFileSync } from 'child_process';
 import { parsePdffonts, parsePdfinfo } from '../../lib/print/pdfx';
 import { renderPagedPdf, run } from '../../lib/print/render';
-import { readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
+import { readLevelWeeks, readUnitWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { checkRequestedWeeks, checkStorytimeOutputContainment } from '../../lib/storytime/print/student-book-cli';
 import { diffPrintText, teacherBookPrintFileName, type PrintTextDifference } from '../../lib/storytime/print/text-diff';
 import {
@@ -187,7 +187,7 @@ async function main(argv: string[]): Promise<number> {
         return 1;
     }
     // The steps name the printed pages of the student book of the whole unit (A-48 U8), not of the requested weeks only.
-    const unitWeeks = readLevelWeeks(STORYTIME_ROOT, level).flatMap((r) => (r.week ? [r.week] : [])).filter((week) => week.meta.unit === units[0]);
+    const unitWeeks = readUnitWeeks(STORYTIME_ROOT, level, units[0]);
     const studentBookPages = storytimeStudentBookPages(unitWeeks);
     const draftOf = (week: number) => path.join(drafts, `Storytime-L${level}-W${String(week).padStart(2, '0')}-Teachers-Book-TH-draft.pdf`);
     const missing = weeks.map(draftOf).filter((file) => !fs.existsSync(file));

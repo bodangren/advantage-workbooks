@@ -143,22 +143,38 @@ const REVIEW_FRAMES: readonly string[] = [
     'Put on your ___.', 'Where is ___? In/On/Under.', 'Open your book.', 'I can ___.', 'Look, a ___!',
 ];
 
+/** The teaching facts of one week, used by the review-strip rule (Review A F3). */
+interface ReviewFacts {
+    graphemes: string[];
+    tricky: string[];
+    frames: string[];
+    words: string[];
+}
+
 /**
- * Tells whether a review card item was taught. The `week` field of a card is a label only; the rule
- * compares the item text with the taught graphemes and tricky words, with the English of the week,
- * and with the design frames. A card from a week that the book has not taught gets no pass.
- * @param text The card text.
- * @param w The week of the package.
- * @param taught The graphemes and tricky words taught to the week, when the level is read.
- * @returns True when the item was taught.
+ * The decodable and check words that a week teaches. Only these words count as a taught word
+ * card: incidental words in instructions and distractors do not (Review A F3).
+ * @param w The parsed week.
+ * @returns The words, lower case and stemmed.
  */
-function reviewCardTaught(text: string, w: StorytimeWeek, taught?: TaughtSet): boolean {
-    const item = stem(text);
-    if (!item) return true;
-    if (text.includes('___') || REVIEW_FRAMES.includes(text)) return true;
-    const taughtWords = new Set([...LEVEL2_TAUGHT, ...(w.focus.element?.graphemes ?? []), ...w.focus.trickyWords,
-        ...(taught?.graphemes ?? []), ...(taught?.tricky ?? [])].map(stem));
-    if (taughtWords.has(item)) return true;
+function taughtWeekWords(w: StorytimeWeek): string[] {
+    const items = w.check?.items ?? [];
+    return [
+        ...items.flatMap((item) => [
+            ...(item.kind === 'circle-picture' ? item.pictures : item.kind === 'circle-word' ? item.words : []),
+            ...(typeof (item as { answer?: unknown }).answer === 'string' ? [(item as { answer: string }).answer] : []),
+        ]),
+        ...(w.print?.practice ?? []).flatMap((line) => [line.pictureWord, ...(line.extraPictureWords ?? [])]),
+    ].map(stem);
+}
+
+/**
+ * The English words of a week, for a lone check that reads no other week. The old standalone
+ * behavior stays available here, so checking one published week alone still passes its review.
+ * @param w The parsed week.
+ * @returns The words, lower case and stemmed.
+ */
+function incidentalWeekWords(w: StorytimeWeek): string[] {
     const english: string[] = [];
     const visit = (value: unknown): void => {
         if (typeof value === 'string') english.push(value);
@@ -168,8 +184,63 @@ function reviewCardTaught(text: string, w: StorytimeWeek, taught?: TaughtSet): b
         }
     };
     visit([w.scripts, w.focus, w.check, w.home]);
-    const words = new Set(english.join(' ').match(/[a-z0-9]+/g) ?? []);
-    return item.split(' ').every((word) => words.has(word));
+    return [...taughtWeekWords(w), ...(english.join(' ').match(/[a-z0-9]+/g) ?? [])];
+}
+
+/**
+ * Tells whether a review card item was taught by its own week. A card is one of four kinds: a
+ * letter, a tricky word, a taught decodable/check word, or an exact design frame. A `___` is a
+ * frame placeholder and passes only when the whole text matches a frame taught by that week
+ * (Review A F3).
+ * @param text The card text.
+ * @param facts The teaching facts of the card's week.
+ * @returns True when the card was taught by its week.
+ */
+function reviewCardTaught(text: string, facts: ReviewFacts): boolean {
+    const item = stem(text);
+    if (!item) return true;
+    const graphemes = new Set(facts.graphemes.map(stem));
+    const tricky = new Set(facts.tricky.map(stem));
+    const frames = new Set(facts.frames.map(stem));
+    const words = new Set(facts.words.map(stem));
+    if (text.includes('___')) return frames.has(item);
+    return graphemes.has(item) || tricky.has(item) || words.has(item) || frames.has(item);
+}
+
+/**
+ * The teaching facts of the week that a review card names. When the other weeks of the level are
+ * given, the facts are cumulative to that week, not to the week of the package. Without them the
+ * taught set of the package is used for its own cards, and a static fallback keeps a lone check
+ * of a published week meaningful (Review A F3).
+ * @param weekNo The card's teaching week.
+ * @param level The level of the package.
+ * @param w The week of the package.
+ * @param taught The taught set of the package, when given.
+ * @param others The other weeks of the level, when given.
+ * @returns The facts to check the card against.
+ */
+function reviewFactsFor(weekNo: number, level: number, w: StorytimeWeek, taught?: TaughtSet, others?: StorytimeWeek[]): ReviewFacts {
+    const known = [...(others ?? []), w];
+    const target = known.find((x) => x.meta.level === level && x.meta.week === weekNo);
+    if (!target) {
+        return {
+            graphemes: taught?.graphemes ?? LEVEL2_TAUGHT,
+            tricky: taught?.tricky ?? LEVEL2_TAUGHT,
+            frames: REVIEW_FRAMES.map(stem),
+            words: taught ? [] : incidentalWeekWords(w),
+        };
+    }
+    const taughtAt = taughtTo(known, target);
+    const before = known.filter((x) => x.meta.level >= 2 && (x.meta.level < level || (x.meta.level === level && x.meta.week <= weekNo)));
+    return {
+        graphemes: taughtAt.graphemes,
+        tricky: taughtAt.tricky,
+        frames: [...new Set(before.flatMap((x) => {
+            const frame = x.focus.frame ?? '';
+            return x.meta.kind === 'review' ? frame.split(' / ') : [frame];
+        }).map(stem))],
+        words: [...new Set(before.flatMap(taughtWeekWords))],
+    };
 }
 
 /**
@@ -376,11 +447,13 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
     const days = new Set(w.review.map((s) => s.day));
     if (days.size !== w.review.length) reviewProblems.push('a day has two strips');
     for (let d = 1; d <= 5; d++) if (!days.has(d)) reviewProblems.push(`no strip for day ${d}`);
+    const factsByWeek = new Map<number, ReviewFacts>();
     for (const s of w.review) {
         if (s.cards.length > 18) reviewProblems.push(`day ${s.day}: ${s.cards.length} cards`);
         for (const c of s.cards) {
             if (c.week > week) reviewProblems.push(`day ${s.day}: "${c.text}" is from week ${c.week}`);
-            if (!reviewCardTaught(c.text, w, taught)) reviewProblems.push(`day ${s.day}: "${c.text}" was not taught to this week`);
+            if (!factsByWeek.has(c.week)) factsByWeek.set(c.week, reviewFactsFor(c.week, level, w, taught, others));
+            if (!reviewCardTaught(c.text, factsByWeek.get(c.week)!)) reviewProblems.push(`day ${s.day}: "${c.text}" was not taught to week ${c.week}`);
         }
     }
     checks.push(check('review', 'Review strips', reviewProblems));
@@ -658,9 +731,23 @@ function shareCheck(w: StorytimeWeek): PackageCheck {
 }
 
 /** The circle items whose answer is not one of their choices, and the sorts with a picture in two columns, as "item n: ..." lines. */
+/** The spellings that realize each level 2 phoneme. A sound in slashes names a phoneme, not a letter. */
+const PHONEME_SPELLINGS: Record<string, readonly string[]> = {
+    a: ['a'], d: ['d'], e: ['e'], f: ['f', 'ph', 'ff'], g: ['g'], h: ['h'],
+    k: ['c', 'k', 'ck'], m: ['m'], n: ['n'], o: ['o'], p: ['p'], s: ['s', 'ss'],
+    t: ['t'], z: ['z'],
+};
+
+/** Explicit sound exceptions: a word whose sound is not its plain spelling (Review A F4). */
+const SOUND_EXCEPTIONS: Record<string, Record<string, boolean>> = {
+    phone: { f: true },
+    knight: { k: false },
+};
+
 /**
  * Tells whether a picture word has the sound that a circle-picture item asks at its position.
- * A sound in slashes is a letter spelling; a sound with a leading dash is a rime.
+ * A sound in slashes names a phoneme and is matched through its spellings and the explicit
+ * exceptions; a sound with a leading dash is a rime.
  * @param word The picture word.
  * @param sound The sound of the item.
  * @param position Where the word must hold the sound.
@@ -669,11 +756,25 @@ function shareCheck(w: StorytimeWeek): PackageCheck {
 function pictureHasSound(word: string, sound: string, position: 'first' | 'middle' | 'last'): boolean {
     const token = sound.trim().replace(/^\/+|\/+$/g, '').toLowerCase();
     if (!token) return false;
-    const text = word.toLowerCase();
-    const rime = token.startsWith('-') ? token.slice(1) : token;
-    if (position === 'last') return text.endsWith(rime);
-    if (position === 'first') return text.startsWith(rime);
-    return text.includes(rime) && !text.startsWith(rime) && !text.endsWith(rime);
+    const text = word.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    if (!text) return false;
+    const exception = SOUND_EXCEPTIONS[text]?.[token];
+    if (exception !== undefined) return exception;
+    if (token.startsWith('-')) {
+        const rime = token.slice(1);
+        if (!rime) return false;
+        if (position === 'last') return text.endsWith(rime);
+        if (position === 'first') return text.startsWith(rime);
+        return text.includes(rime) && !text.startsWith(rime) && !text.endsWith(rime);
+    }
+    const spellings = PHONEME_SPELLINGS[token] ?? [token];
+    if (position === 'last') return spellings.some((g) => text.endsWith(g));
+    if (position === 'first') {
+        // A silent-k word does not start with /k/, whatever its first letter spells.
+        if (token === 'k' && text.startsWith('kn')) return false;
+        return spellings.some((g) => text.startsWith(g));
+    }
+    return spellings.some((g) => text.includes(g) && !text.startsWith(g) && !text.endsWith(g));
 }
 
 function wrongAnswers(items: StorytimeCheckItem[]): string[] {
@@ -690,6 +791,9 @@ function wrongAnswers(items: StorytimeCheckItem[]): string[] {
             const position = item.position ?? 'first';
             const right = item.pictures.filter((word) => pictureHasSound(word, item.sound, position));
             if (right.length !== 1) problems.push(`item ${i + 1}: ${right.length} pictures have ${item.sound} at the ${position}`);
+            else if (right[0].toLowerCase() !== item.answer.toLowerCase()) {
+                problems.push(`item ${i + 1}: the answer "${item.answer}" is not the picture with ${item.sound} at the ${position} ("${right[0]}")`);
+            }
         }
         return problems;
     });

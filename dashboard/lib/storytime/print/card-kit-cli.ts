@@ -19,6 +19,8 @@ export interface StorytimeCardKitArgs {
     outDir: string;
     /** The version in the file names. */
     version: number;
+    /** Print the resolved names and stop before any file is written. */
+    dryRun: boolean;
 }
 
 /** The file names of one build. */
@@ -88,12 +90,14 @@ export function parseStorytimeCardKitArgs(argv: string[], home: string): Storyti
     let weeks: number[] | undefined;
     let out: string | undefined;
     let version = 1;
+    let dryRun = false;
     for (let index = 0; index < argv.length; index++) {
         const arg = argv[index];
         if (arg === '--level') level = safeInt(argv[++index], '--level', MIN_LEVEL, MAX_LEVEL);
         else if (arg === '--weeks') {
             weeks = String(argv[++index]).split(',').map((week) => safeInt(week, `--weeks "${week}"`, MIN_WEEK, MAX_WEEK));
         } else if (arg === '--version') version = safeInt(argv[++index], '--version', MIN_VERSION, MAX_VERSION);
+        else if (arg === '--dry-run') dryRun = true;
         else if (arg === '--out') {
             out = argv[++index];
             if (!out || !path.isAbsolute(out)) throw new Error(`--out must be an absolute folder inside the print-ready Storytime folder, got "${String(out)}"`);
@@ -113,7 +117,7 @@ export function parseStorytimeCardKitArgs(argv: string[], home: string): Storyti
     } else {
         outDir = defaultOutDir(home, version);
     }
-    return { level, weeks, outDir, version };
+    return { level, weeks, outDir, version, dryRun };
 }
 
 /**

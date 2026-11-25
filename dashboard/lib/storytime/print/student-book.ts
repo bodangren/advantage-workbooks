@@ -1,7 +1,7 @@
 import path from 'path';
 import { pathToFileURL } from 'node:url';
 import { generateQRCode } from '../../qr-generator';
-import { STORYTIME_ROOT, storytimeQrUrl } from '../files';
+import { readLevelWeeks, STORYTIME_ROOT, storytimeQrUrl } from '../files';
 import type { StorytimeCheckItem, StorytimeWeek } from '../schema';
 import { storytimePrintPictures, storytimePrintPracticePicture, storytimePrintPromptPicture, type StorytimePictureRow } from './pictures';
 import { resolveStorytimePictureFiles, type StorytimePictureFile } from './picture-check';
@@ -826,7 +826,19 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
     // row of the compiled weeks through the folder manifest, in list order, so the first problem
     // names its row before any page renders (R44). Proof mode prints placeholders instead.
     const pictureFiles = new Map<string, StorytimePictureFile>();
-    const allPictureRows = storytimePrintPictures(weeks);
+    // The reuse rule needs the earlier weeks of the level: a unit 2 review word that unit 1 holds
+    // resolves to the unit 1 row, not to a new unit 2 row (Review A F1). Unit 1 keeps its byte
+    // output, so its rows come from the weeks passed to the compiler only.
+    const first = weeks[0];
+    let rowWeeks = weeks;
+    if (first.meta.unit !== 1) {
+        const earlier = readLevelWeeks(STORYTIME_ROOT, first.meta.level)
+            .flatMap((read) => (read.week ? [read.week] : []))
+            .filter((week) => week.meta.week < first.meta.week)
+            .sort((a, b) => a.meta.week - b.meta.week);
+        rowWeeks = [...earlier, ...weeks];
+    }
+    const allPictureRows = storytimePrintPictures(rowWeeks);
     const pending = new Set(o.pendingPictures ?? []);
     const unknownPending = [...pending].filter((id) => !allPictureRows.some((row) => row.id === id));
     if (unknownPending.length) throw new Error(`pending picture row not found: ${unknownPending.join(', ')}`);
@@ -848,7 +860,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
             continue;
         }
         if (!week.print) throw new Error(`student book: week ${week.meta.week} has no print block`);
-        const rows = storytimePrintPictures([week]);
+        const rows = allPictureRows.filter((row) => row.week === week.meta.week);
         const weekPages: PageSpec[] = [
             practicePage(week, allPictureRows, o, pictureFiles),
             writingPage(week, allPictureRows, o, pictureFiles),
@@ -864,7 +876,15 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         specs.push(...weekPages);
     }
     const reviewWeek = weeks.find((week) => week.meta.kind === 'review');
-    specs[1] = bookMapPage(pageOf, weeks[0].meta.unit, reviewWeek ? pageOf.get(reviewWeek.meta.week) : undefined);
+    // The place number of the map is the order of the teaching weeks of this unit, not an absolute
+    // week number: unit 2's first place is week 9 and its unit place is week 16 (Review A F5).
+    const teachWeeks = weeks.filter((week) => week.meta.kind === 'teach').sort((a, b) => a.meta.week - b.meta.week);
+    const mapPageOf = new Map<number, number>();
+    teachWeeks.forEach((week, index) => {
+        const page = pageOf.get(week.meta.week);
+        if (page !== undefined) mapPageOf.set(index + 1, page);
+    });
+    specs[1] = bookMapPage(mapPageOf, weeks[0].meta.unit, reviewWeek ? pageOf.get(reviewWeek.meta.week) : undefined);
     while (specs.length % o.profile.bindingPageMultiple !== 0) specs.push(blankPage());
     const readerMeta = weeks.flatMap((week) => storytimeReaderLeafSides(week, { profile: o.profile, mode: 'proof', output: 'workbook' }))
         .map(({ kind, title, leaf, side }) => ({ kind, title, leaf, side }));

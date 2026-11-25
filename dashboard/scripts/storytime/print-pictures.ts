@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { findRepoRoot } from '../../lib/lesson-package/files';
 import { readLevelCardPictures, readLevelWeeks, readUnitCardPictures, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { pictureListMarkdown, storytimeCardPictureRows, storytimePrintPictures } from '../../lib/storytime/print/pictures';
 
@@ -41,12 +42,22 @@ function main(argv: string[]): number {
     }
     const parsed = weeks.flatMap((w) => (w.week ? [w.week] : []));
     const units = [...new Set(parsed.map((week) => week.meta.unit))].sort((a, b) => a - b);
+    // The reuse rule needs the whole level: a unit 2 review word that unit 1 already holds keeps
+    // the unit 1 row. Compute every row once, then keep the rows of this unit's weeks (Review A F1).
+    const levelRows = storytimePrintPictures(parsed);
     for (const unit of units) {
-        const bookRows = storytimePrintPictures(parsed.filter((week) => week.meta.unit === unit));
-        // Version 7: the card rows of the unit kit follow the book rows, in file order.
-        const entries = unit === 1
-            ? readLevelCardPictures(STORYTIME_ROOT, level)
-            : readUnitCardPictures(STORYTIME_ROOT, level, unit);
+        const unitWeeks = new Set(parsed.filter((week) => week.meta.unit === unit).map((week) => week.meta.week));
+        const bookRows = levelRows.filter((row) => unitWeeks.has(row.week));
+        // Version 7: the card rows of the unit kit follow the book rows, in file order. The card
+        // contracts are committed content; when WORKBOOKS_ROOT redirects the tree for output and
+        // holds no card file for the unit, read the committed copy from the repository (Review A F1).
+        const entriesFor = (root: string) => unit === 1
+            ? readLevelCardPictures(root, level)
+            : readUnitCardPictures(root, level, unit);
+        let entries = entriesFor(STORYTIME_ROOT);
+        // An empty env argument bypasses the WORKBOOKS_ROOT default and resolves from the cwd.
+        const committedRoot = path.join(findRepoRoot(process.cwd(), ''), 'content', 'storytime');
+        if (!entries.length && path.resolve(STORYTIME_ROOT) !== committedRoot) entries = entriesFor(committedRoot);
         const cardRows = storytimeCardPictureRows(entries, level);
         const rows = [...bookRows, ...cardRows];
         const folder = path.join(STORYTIME_ROOT, `l${level}`);
