@@ -40,7 +40,8 @@ const load = async (): Promise<Mod> => {
 
 let cachedWeeks: StorytimeWeek[] | undefined;
 const weeks = (): StorytimeWeek[] => {
-    cachedWeeks ??= readLevelWeeks(STORYTIME_ROOT, 2).flatMap((entry) => (entry.week ? [entry.week] : []));
+    cachedWeeks ??= readLevelWeeks(STORYTIME_ROOT, 2).flatMap((entry) => (entry.week ? [entry.week] : []))
+        .filter((week) => week.meta.unit === 1);
     expect(cachedWeeks).toHaveLength(8);
     return cachedWeeks;
 };

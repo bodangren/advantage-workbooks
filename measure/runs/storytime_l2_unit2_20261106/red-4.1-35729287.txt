@@ -1,0 +1,753 @@
+Red 4.1 evidence (Task 4.1, spec FR-6), role measure-mid-red
+role base: 35729287 (commit 35729287dc615dd9688cb7ddb6179786c23b3f01)
+phase base: 35729287 (same commit; HEAD at Red time)
+Thai filter: first command filtered w01..w08 and drafts w09..w16 to ~/tmp-red41-*/filtered,
+dropping every `th` key and every U+0E00..U+0E7F string; TOTAL_THAI_LEFT=0.
+Every file written or committed in this round holds 0 Thai characters
+(grep -cP '[\x{0E00}-\x{0E7F}]' prints 0 for each).
+
+RED_TEST_COMMAND (3 unit2 files, verbose): exit 1.
+Test Files: 1 failed, 2 passed (3). Tests: 19 failed, 93 passed (112).
+Only the new storytime-unit2-scope.test.ts fails; storytime-unit2-word-keys and
+storytime-unit2-sound-stage pass. Raw verbose log follows this header.
+
+Cases (29 tests: 19 fail now, 10 pass):
+1. FR-6.2 unit from meta.unit (9 tests): the 5 book-compile tests (title, map
+   sticker unit-2, song line unit 2, Benchmark 2, step-map-u2.json) fail now with
+   `no stroke data for the letter "d"`: the unit 2 book cannot build until the
+   FR-6.5 guides land; after Green adds them these reach the unit assertions.
+   cardKitTitle fails (no export storytimeCardKitTitle in card-kit.ts; Green
+   creates storytimeCardKitTitle(level, unit, size)). Teacher-book unitWeeks
+   fails (make-teacher-book-print.ts:190 reads every week of the level).
+   print-pictures fails (no print/u2 path). Pin: the file-name args with unit 2
+   give a U2 path (passes now).
+2. FR-6.3 (2 tests): temp l2/ with 16 files reads 16, unit 1 filter gives weeks
+   1..8 (pin, passes); readUnitWeeks(temp, 2, 1) fails (no such export; Green
+   creates the unit read used by the unit 1 makers).
+3. FR-6.4 (2 tests): readUnitCardPictures(temp, 2, 2) fails (no such export;
+   Green reads l2/print/u2/card-pictures.json). Pin passes: the unit 2 kit
+   matched against the combined level rows gives 0 none lines.
+4. FR-6.5 (5 tests, one per letter d/e/h/f/g): LETTER_STROKES has no entry;
+   each fails. Form follows the unit 1 letter tests (stroke data with dots).
+5. FR-6.6 (4 tests): synthetic review strip with an untaught card fails now
+   with status pass (rule absent); synthetic check item with two right pictures
+   fails now with status pass (rule absent). Pins pass: shipped w01..w08 and
+   staged w09..w16 give no FAIL on review/check-answers.
+6. FR-6.9/D15 (4 tests): st2/12 with 7 frame lines fails now (no exception in
+   checks.ts); st2/12 with 6 fails as required (pin); another week with 7
+   fails as required (pin); st2/12 with 8 passes with normal text (pin).
+7. plan Add 2026-11-10 (1 test): fails now; check-storytime-pictures.ts reads
+   only the requested weeks before the reuse rule (:110 has the .filter), so
+   the 9 unit 1 reuse ids are requested.
+8. FR-6.7 snapshot (1 test): PASSES NOW. Method: at base 35729287, compile the
+   7 unit 1 outputs from weeks 1..8 without Chrome (student book HTML, teacher
+   book print HTML th+loops, readers HTML workbook of weeks 1..7, card kit
+   HTML, step-map-u1.json text, pictures.json rows, pictures.md) and store
+   SHA-256 in __tests__/fixtures/storytime-unit2-snapshot-base.json; the test
+   recompiles with the unit 2 weeks present in the temp l2/ folder (unit 1
+   filter in-test) and requires equal hashes.
+Harness (1 test): git status --porcelain content/ is empty (passes).
+
+FR-6.3 existing-test edits (unit 1 reads weeks 1..8 only):
+- storytime-print-h1-classes.test.ts: weeks() now filters meta.unit === 1
+  (was: length 8 but got 16 on the 16-week stage root; proven by stage run).
+- storytime-loops-book-pages.test.ts: unitPages() now filters meta.unit === 1
+  (B2 unit page list; failed on the 16-week stage root).
+- storytime-print-card-kit-adversarial-r2.test.ts and -r3.test.ts: week<=8
+  filter changed to meta.unit === 1 (same set; FR-6.3 form).
+Not edited (classified with stage evidence):
+- CLI/script-driven week-count effects are Green 4.2 code work, not test
+  edits: make-teacher-book-print.ts:190 unitWeeks, check-share-captions.ts:201
+  level read, make-manual-pdf.ts:50 book pages, teacher-book B-P3-01 crash on
+  letter d, share-captions X1/X2/X4 row counts, teacher-book-adversarial week
+  gap/missing draft stops, check-storytime-pictures reuse ids.
+- Env/harness artifacts, same on any content: git-show baselines
+  (loops-content, loops-share-content, f3-script-order, review-more, v15),
+  git check-ignore/ls-files in a non-repo stage root (readers-adversarial-r2,
+  print-readers R-P4-34), word-keys stage roots built from a symlinked stage,
+  Chrome/load flakes in the full-suite stage run (covers builds).
+Stage method: REAL cp -a of content/storytime to ~/tmp-red41-u241-*/stage with
+symlinked repo shell (dashboard, measure, docs, primary, covers), staged
+w09..w16 copied into stage l2/, PROJECT_TESTS with WORKBOOKS_ROOT on the
+stage; stage copy deleted after. Full-stage failures recorded (sanitized) in
+fr63-discovery.txt.
+
+Other gates on the real repo:
+- PROJECT_TESTS minus the new file: exit 0, 75 files, 1908 passed
+  (red-4.1-project-tests-minus-new.txt, sanitized to 0 Thai).
+- ESLint on the new and edited test files: exit 0, 0 warnings.
+
+=== raw RED_TEST_COMMAND log ===
+
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the hyphen word key (D-U2-K2, D-U2-K10) > gives the lower-case key with each inner hyphen 1ms
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the hyphen word key (D-U2-K2, D-U2-K10) > keeps the hyphen in the stem, the written TTS text, and the clip path 0ms
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the hyphen word key (D-U2-K2, D-U2-K10) > refuses a run of two hyphens and keeps a hyphen next to an apostrophe group 1ms
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the hyphen word key (D-U2-K2, D-U2-K10) > still throws for a digit or an accent inside the text 1ms
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the heard check of a hyphen key (D-U2-K2, D-U2-K11) > holds the two raw forms of t-shirt in the variant bank 1ms
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the heard check of a hyphen key (D-U2-K2, D-U2-K11) > passes each of the three raw heard forms 0ms
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the heard check of a hyphen key (D-U2-K2, D-U2-K11) > passes the heard text, which removes the space and the hyphen 0ms
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one practice-clips FAIL row, a Summary, exit 1, and no stack frame 323ms
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one practice-clips FAIL row for an opening line with no word form 323ms
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one FAIL row for each of two bad family words, and counts both 320ms
+ ✓ __tests__/storytime-unit2-word-keys.test.ts > the unit 1 rows do not change (D-U2-K4, plan F11) > equals the baseline capture at 0dcb45d4 309ms
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > student book title names unit 2 for the unit 2 weeks 173ms
+   → no stroke data for the letter "d"
+ ✓ __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > student book file name names unit 2 for the unit 2 weeks 4ms
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > book map sticker names unit 2 for the unit 2 weeks 17ms
+   → no stroke data for the letter "d"
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > map song line names the songs of unit 2 for the review week 16 11ms
+   → no stroke data for the letter "d"
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > benchmark label names Benchmark 2 for the review week 16 12ms
+   → no stroke data for the letter "d"
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > card kit title names the unit: storytimeCardKitTitle(2, 2, size) 13ms
+   → Missing export: storytimeCardKitTitle(level, unit, size): expected 'undefined' to be 'function' // Object.is equality
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > teacher book unit weeks read the unit weeks only 1ms
+   → expected false to be true // Object.is equality
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > step map file of unit 2 is step-map-u2.json 15ms
+   → no stroke data for the letter "d"
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > picture list maker writes the unit 2 list under l2/print/u2/ 2ms
+   → expected 'import fs from \'fs\';\nimport path f…' to contain 'print/u2'
+ ✓ __tests__/storytime-unit2-scope.test.ts > FR-6.3: unit 1 reads see weeks 1 to 8 only > temp l2/ holds 16 week files and unit 1 is weeks 1 to 8 29ms
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.3: unit 1 reads see weeks 1 to 8 only > readUnitWeeks(temp, 2, 1) reads weeks 1 to 8 only 3ms
+   → Missing export: readUnitWeeks(root, level, unit): expected 'undefined' to be 'function' // Object.is equality
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.4: the unit 2 card entries and the level match > readUnitCardPictures(temp, 2, 2) gives the unit 2 card rows 2ms
+   → Missing export: readUnitCardPictures(root, level, unit): expected 'undefined' to be 'function' // Object.is equality
+ ✓ __tests__/storytime-unit2-scope.test.ts > FR-6.4: the unit 2 card entries and the level match > unit 2 card match covers every row of the level, so a unit 1 picture matches 44ms
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.5: tracing guide of d > letter-stroke data exists and starts its dots on stroke 1 0ms
+   → Missing LETTER_STROKES entry: d: expected undefined to be defined
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.5: tracing guide of e > letter-stroke data exists and starts its dots on stroke 1 0ms
+   → Missing LETTER_STROKES entry: e: expected undefined to be defined
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.5: tracing guide of h > letter-stroke data exists and starts its dots on stroke 1 0ms
+   → Missing LETTER_STROKES entry: h: expected undefined to be defined
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.5: tracing guide of f > letter-stroke data exists and starts its dots on stroke 1 0ms
+   → Missing LETTER_STROKES entry: f: expected undefined to be defined
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.5: tracing guide of g > letter-stroke data exists and starts its dots on stroke 1 0ms
+   → Missing LETTER_STROKES entry: g: expected undefined to be defined
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.6: review strips and check items > a review strip card with an item that its week has not taught fails 38ms
+   → expected 'pass' to be 'fail' // Object.is equality
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.6: review strips and check items > a check item with two right pictures fails 3ms
+   → expected 'pass' to be 'fail' // Object.is equality
+ ✓ __tests__/storytime-unit2-scope.test.ts > FR-6.6: review strips and check items > shipped weeks 1 to 8 give no FAIL on the two rules 27ms
+ ✓ __tests__/storytime-unit2-scope.test.ts > FR-6.6: review strips and check items > staged weeks 9 to 16 give no FAIL on the two rules 17ms
+ × __tests__/storytime-unit2-scope.test.ts > FR-6.9: the song-frame exception of st2/12 (D15) > st2/12 with 7 frame lines passes and names the exception and the PM decision 3ms
+   → expected 'fail' to be 'pass' // Object.is equality
+ ✓ __tests__/storytime-unit2-scope.test.ts > FR-6.9: the song-frame exception of st2/12 (D15) > st2/12 with 6 frame lines fails 3ms
+ ✓ __tests__/storytime-unit2-scope.test.ts > FR-6.9: the song-frame exception of st2/12 (D15) > another week with 7 frame lines fails 3ms
+ ✓ __tests__/storytime-unit2-scope.test.ts > FR-6.9: the song-frame exception of st2/12 (D15) > st2/12 with 8 frame lines passes with the normal text 2ms
+ × __tests__/storytime-unit2-scope.test.ts > plan Add 2026-11-10: the 9 unit 1 reuse ids > weeks 9 to 16 ask for none of the 9 unit 1 reuse ids 0ms
+   → expected 'import path from \'path\';\nimport { …' to match /readLevelWeeks\(STORYTIME_ROOT, args\…/
+ ✓ __tests__/storytime-unit2-scope.test.ts > FR-6.7: the unit 1 output snapshot > unit 1 outputs with the unit 2 weeks present give the base hashes 286ms
+ ✓ __tests__/storytime-unit2-scope.test.ts > scope harness > the repository content folder is unchanged 24ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > R14-3 plan row passes 3ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > R14-1 mix row passes 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > R14-2 day-1 row passes 9ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > focus.paStage is stage 2 with the first and last positions 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > each unit asks at most one position 2ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > the week asks the first and the last position across its units 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > opening.pa holds exactly 5 entries 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > opening.audio holds exactly 5 lists 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 9 sound stages > week 9 teaches the final-sound tag 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > R14-3 plan row passes 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > R14-1 mix row passes 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > R14-2 day-1 row passes 9ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > focus.paStage is stage 2 with the first and last positions 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > each unit asks at most one position 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > the week asks the first and the last position across its units 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > opening.pa holds exactly 5 entries 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 10 sound stages > opening.audio holds exactly 5 lists 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > R14-3 plan row passes 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > R14-1 mix row passes 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > R14-2 day-1 row passes 10ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > focus.paStage is stage 2 with the first and last positions 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > each unit asks at most one position 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > the week asks the first and the last position across its units 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > opening.pa holds exactly 5 entries 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > opening.audio holds exactly 5 lists 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 11 sound stages > w11 holds no medial-vowel tag 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 12 sound stages > R14-3 plan row passes 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 12 sound stages > R14-1 mix row passes 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 12 sound stages > R14-2 day-1 row passes 15ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 12 sound stages > focus.paStage is stage 2 with the first and last positions 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 12 sound stages > each unit asks at most one position 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 12 sound stages > the week asks the first and the last position across its units 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 12 sound stages > opening.pa holds exactly 5 entries 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 12 sound stages > opening.audio holds exactly 5 lists 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > R14-3 plan row passes 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > R14-1 mix row passes 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > R14-2 day-1 row passes 10ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > focus.paStage is stage 2 with the first and last positions 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > each unit asks at most one position 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > the week asks the first and the last position across its units 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > opening.pa holds exactly 5 entries 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 13 sound stages > opening.audio holds exactly 5 lists 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > R14-3 plan row passes 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > R14-1 mix row passes 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > R14-2 day-1 row passes 11ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > focus.paStage is stage 2 with the first and last positions 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > each unit asks at most one position 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > the week asks the first and the last position across its units 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > opening.pa holds exactly 5 entries 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 14 sound stages > opening.audio holds exactly 5 lists 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > R14-3 plan row passes 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > R14-1 mix row passes 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > R14-2 day-1 row passes 12ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > focus.paStage is stage 2 with the first and last positions 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > each unit asks at most one position 1ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > the week asks the first and the last position across its units 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > opening.pa holds exactly 5 entries 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 15 sound stages > opening.audio holds exactly 5 lists 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > R14-3 plan row passes 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > R14-1 mix row passes 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > R14-2 day-1 row passes 13ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > focus.paStage is stage 2 with the first and last positions 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > each unit asks at most one position 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > the week asks the first and the last position across its units 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > opening.pa holds exactly 5 entries 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 week 16 sound stages > opening.audio holds exactly 5 lists 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > unit 2 day-1 lines of w09 to w16 > the day-1 English lines of w09 to w16 are 8 different strings 7ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > sound stage mutations on a synthetic week 9 > a: the base week passes all three rows 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > sound stage mutations on a synthetic week 9 > b: no paStage fails the plan row with a no paStage detail 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > sound stage mutations on a synthetic week 9 > c: a first-and-last line fails the mix row and names the unit 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > sound stage mutations on a synthetic week 9 > d: a day-1 line that names the new sound fails the day-1 row 0ms
+ ✓ __tests__/storytime-unit2-sound-stage.test.ts > sound stage mutations on a synthetic week 9 > e: a day-1 line that asks the last sound fails with a position detail 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 19 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > student book title names unit 2 for the unit 2 weeks
+Error: no stroke data for the letter "d"
+ ❯ letterStrokeData lib/storytime/print/letter-strokes.ts:122:22
+    120| export function letterStrokeData(letter: string): LetterStrokeData {
+    121|     const data = LETTER_STROKES[letter];
+    122|     if (!data) throw new Error(`no stroke data for the letter "${lette…
+       |                      ^
+    123|     return data;
+    124| }
+ ❯ formationCells lib/storytime/print/student-book.ts:357:18
+ ❯ practicePage lib/storytime/print/student-book.ts:433:5
+ ❯ compileStorytimeStudentBook lib/storytime/print/student-book.ts:850:13
+ ❯ __tests__/storytime-unit2-scope.test.ts:122:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > book map sticker names unit 2 for the unit 2 weeks
+Error: no stroke data for the letter "d"
+ ❯ letterStrokeData lib/storytime/print/letter-strokes.ts:122:22
+    120| export function letterStrokeData(letter: string): LetterStrokeData {
+    121|     const data = LETTER_STROKES[letter];
+    122|     if (!data) throw new Error(`no stroke data for the letter "${lette…
+       |                      ^
+    123|     return data;
+    124| }
+ ❯ formationCells lib/storytime/print/student-book.ts:357:18
+ ❯ practicePage lib/storytime/print/student-book.ts:433:5
+ ❯ compileStorytimeStudentBook lib/storytime/print/student-book.ts:850:13
+ ❯ __tests__/storytime-unit2-scope.test.ts:140:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > map song line names the songs of unit 2 for the review week 16
+Error: no stroke data for the letter "d"
+ ❯ letterStrokeData lib/storytime/print/letter-strokes.ts:122:22
+    120| export function letterStrokeData(letter: string): LetterStrokeData {
+    121|     const data = LETTER_STROKES[letter];
+    122|     if (!data) throw new Error(`no stroke data for the letter "${lette…
+       |                      ^
+    123|     return data;
+    124| }
+ ❯ formationCells lib/storytime/print/student-book.ts:357:18
+ ❯ practicePage lib/storytime/print/student-book.ts:433:5
+ ❯ compileStorytimeStudentBook lib/storytime/print/student-book.ts:850:13
+ ❯ __tests__/storytime-unit2-scope.test.ts:151:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > benchmark label names Benchmark 2 for the review week 16
+Error: no stroke data for the letter "d"
+ ❯ letterStrokeData lib/storytime/print/letter-strokes.ts:122:22
+    120| export function letterStrokeData(letter: string): LetterStrokeData {
+    121|     const data = LETTER_STROKES[letter];
+    122|     if (!data) throw new Error(`no stroke data for the letter "${lette…
+       |                      ^
+    123|     return data;
+    124| }
+ ❯ formationCells lib/storytime/print/student-book.ts:357:18
+ ❯ practicePage lib/storytime/print/student-book.ts:433:5
+ ❯ compileStorytimeStudentBook lib/storytime/print/student-book.ts:850:13
+ ❯ __tests__/storytime-unit2-scope.test.ts:161:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > card kit title names the unit: storytimeCardKitTitle(2, 2, size)
+AssertionError: Missing export: storytimeCardKitTitle(level, unit, size): expected 'undefined' to be 'function' // Object.is equality
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:171:113
+    169|     it('card kit title names the unit: storytimeCardKitTitle(2, 2, siz…
+    170|         const mod = (await import('../lib/storytime/print/card-kit')) …
+    171|         expect(typeof mod['storytimeCardKitTitle'], 'Missing export: s…
+       |                                                                                                                 ^
+    172|         const title = (mod['storytimeCardKitTitle'] as (level: number,…
+    173|         expect(title).toBe('Storytime Advantage, Level 2, Unit 2 Card …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > teacher book unit weeks read the unit weeks only
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:183:104
+    181|         const unitWeeksLines = src.split('\n').filter((line) => line.i…
+    182|         expect(unitWeeksLines.length).toBeGreaterThan(0);
+    183|         expect(unitWeeksLines.some((line) => line.includes('meta.unit'…
+       |                                                                                                        ^
+    184|     });
+    185|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > step map file of unit 2 is step-map-u2.json
+Error: no stroke data for the letter "d"
+ ❯ letterStrokeData lib/storytime/print/letter-strokes.ts:122:22
+    120| export function letterStrokeData(letter: string): LetterStrokeData {
+    121|     const data = LETTER_STROKES[letter];
+    122|     if (!data) throw new Error(`no stroke data for the letter "${lette…
+       |                      ^
+    123|     return data;
+    124| }
+ ❯ formationCells lib/storytime/print/student-book.ts:357:18
+ ❯ practicePage lib/storytime/print/student-book.ts:433:5
+ ❯ compileStorytimeStudentBook lib/storytime/print/student-book.ts:850:13
+ ❯ storytimeStudentBookPages lib/storytime/print/step-pages.ts:51:22
+ ❯ storytimeStepMapRows lib/storytime/print/step-pages.ts:106:91
+ ❯ storytimeStepMapFiles lib/storytime/print/step-pages.ts:139:72
+ ❯ __tests__/storytime-unit2-scope.test.ts:188:23
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > picture list maker writes the unit 2 list under l2/print/u2/
+AssertionError: expected 'import fs from \'fs\';\nimport path f…' to contain 'print/u2'
+
+- Expected
++ Received
+
+- print/u2
++ import fs from 'fs';
++ import path from 'path';
++ import { readLevelCardPictures, readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
++ import { pictureListMarkdown, storytimeCardPictureRows, storytimePrintPictures } from '../../lib/storytime/print/pictures';
++
++ const USAGE = `Writes the print picture list of a level (spec FR-2) to content/storytime/l<n>/print/.
++
++ Usage: npx tsx scripts/storytime/print-pictures.ts --level <n>
++
++ The level is an integer from 1 to 4; the script writes only under content/storytime/l<n>/print/.
++ Regenerate the list whenever a week package changes: the contract test keeps the committed list
++ equal to the output. Exit code 1 when a week does not parse, 2 when the arguments are wrong.`;
++
++ function main(argv: string[]): number {
++     if (argv.includes('--help')) {
++         console.log(USAGE);
++         return 0;
++     }
++     const at = argv.indexOf('--level');
++     const raw = at >= 0 ? argv[at + 1] : '';
++     // The level is a plain integer: a path or a missing value must not reach the folder name.
++     if (!/^\d+$/.test(raw ?? '')) {
++         console.log(USAGE);
++         return 2;
++     }
++     const level = Number(raw);
++     if (!(level >= 1 && level <= 4)) {
++         console.log(USAGE);
++         return 2;
++     }
++     const weeks = readLevelWeeks(STORYTIME_ROOT, level);
++     if (!weeks.length) {
++         console.error(`no week files for level ${level} under ${STORYTIME_ROOT}`);
++         return 1;
++     }
++     const broken = weeks.filter((w) => !w.week);
++     if (broken.length) {
++         for (const w of broken) console.error(`${path.relative(process.cwd(), w.file)}: ${w.error}`);
++         return 1;
++     }
++     const bookRows = storytimePrintPictures(weeks.flatMap((w) => (w.week ? [w.week] : [])));
++     // Version 7: the 31 card rows of the card kit follow the book rows, in file order.
++     const cardRows = storytimeCardPictureRows(readLevelCardPictures(STORYTIME_ROOT, level), level);
++     const rows = [...bookRows, ...cardRows];
++     const dir = path.join(STORYTIME_ROOT, `l${level}`, 'print');
++     fs.mkdirSync(dir, { recursive: true });
++     fs.writeFileSync(path.join(dir, 'pictures.json'), JSON.stringify(rows, null, 2) + '\n');
++     fs.writeFileSync(path.join(dir, 'pictures.md'), pictureListMarkdown(rows, level));
++     console.log(`wrote ${rows.length} picture rows (${bookRows.length} book rows and ${cardRows.length} card rows) to ${path.relative(process.cwd(), dir)}${path.sep}pictures.json and pictures.md`);
++     return 0;
++ }
++
++ process.exitCode = main(process.argv.slice(2));
++
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:197:21
+    195|             'utf8',
+    196|         );
+    197|         expect(src).toContain('print/u2');
+       |                     ^
+    198|     });
+    199| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.3: unit 1 reads see weeks 1 to 8 only > readUnitWeeks(temp, 2, 1) reads weeks 1 to 8 only
+AssertionError: Missing export: readUnitWeeks(root, level, unit): expected 'undefined' to be 'function' // Object.is equality
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:214:97
+    212|         const temp = tempStorytimeRoot();
+    213|         const mod = (await import('../lib/storytime/files')) as unknow…
+    214|         expect(typeof mod['readUnitWeeks'], 'Missing export: readUnitW…
+       |                                                                                                 ^
+    215|         const weeks = (mod['readUnitWeeks'] as (root: string, level: n…
+    216|         expect(weeks.map((w) => w.meta.week)).toEqual([1, 2, 3, 4, 5, …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.4: the unit 2 card entries and the level match > readUnitCardPictures(temp, 2, 2) gives the unit 2 card rows
+AssertionError: Missing export: readUnitCardPictures(root, level, unit): expected 'undefined' to be 'function' // Object.is equality
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:229:111
+    227|         );
+    228|         const mod = (await import('../lib/storytime/files')) as unknow…
+    229|         expect(typeof mod['readUnitCardPictures'], 'Missing export: re…
+       |                                                                                                               ^
+    230|         const entries = (mod['readUnitCardPictures'] as (root: string,…
+    231|         const staged = readJson(path.join(draftsRoot, 'print', 'card-p…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.5: tracing guide of d > letter-stroke data exists and starts its dots on stroke 1
+AssertionError: Missing LETTER_STROKES entry: d: expected undefined to be defined
+ ❯ __tests__/storytime-unit2-scope.test.ts:259:65
+    257|         const { LETTER_STROKES, letterStrokeData } = await import('../…
+    258|         const data = LETTER_STROKES[letter];
+    259|         expect(data, `Missing LETTER_STROKES entry: ${letter}`).toBeDe…
+       |                                                                 ^
+    260|         expect(letterStrokeData(letter).strokes.length).toBeGreaterTha…
+    261|         const again = letterStrokeData(letter);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.5: tracing guide of e > letter-stroke data exists and starts its dots on stroke 1
+AssertionError: Missing LETTER_STROKES entry: e: expected undefined to be defined
+ ❯ __tests__/storytime-unit2-scope.test.ts:259:65
+    257|         const { LETTER_STROKES, letterStrokeData } = await import('../…
+    258|         const data = LETTER_STROKES[letter];
+    259|         expect(data, `Missing LETTER_STROKES entry: ${letter}`).toBeDe…
+       |                                                                 ^
+    260|         expect(letterStrokeData(letter).strokes.length).toBeGreaterTha…
+    261|         const again = letterStrokeData(letter);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.5: tracing guide of h > letter-stroke data exists and starts its dots on stroke 1
+AssertionError: Missing LETTER_STROKES entry: h: expected undefined to be defined
+ ❯ __tests__/storytime-unit2-scope.test.ts:259:65
+    257|         const { LETTER_STROKES, letterStrokeData } = await import('../…
+    258|         const data = LETTER_STROKES[letter];
+    259|         expect(data, `Missing LETTER_STROKES entry: ${letter}`).toBeDe…
+       |                                                                 ^
+    260|         expect(letterStrokeData(letter).strokes.length).toBeGreaterTha…
+    261|         const again = letterStrokeData(letter);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.5: tracing guide of f > letter-stroke data exists and starts its dots on stroke 1
+AssertionError: Missing LETTER_STROKES entry: f: expected undefined to be defined
+ ❯ __tests__/storytime-unit2-scope.test.ts:259:65
+    257|         const { LETTER_STROKES, letterStrokeData } = await import('../…
+    258|         const data = LETTER_STROKES[letter];
+    259|         expect(data, `Missing LETTER_STROKES entry: ${letter}`).toBeDe…
+       |                                                                 ^
+    260|         expect(letterStrokeData(letter).strokes.length).toBeGreaterTha…
+    261|         const again = letterStrokeData(letter);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.5: tracing guide of g > letter-stroke data exists and starts its dots on stroke 1
+AssertionError: Missing LETTER_STROKES entry: g: expected undefined to be defined
+ ❯ __tests__/storytime-unit2-scope.test.ts:259:65
+    257|         const { LETTER_STROKES, letterStrokeData } = await import('../…
+    258|         const data = LETTER_STROKES[letter];
+    259|         expect(data, `Missing LETTER_STROKES entry: ${letter}`).toBeDe…
+       |                                                                 ^
+    260|         expect(letterStrokeData(letter).strokes.length).toBeGreaterTha…
+    261|         const again = letterStrokeData(letter);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.6: review strips and check items > a review strip card with an item that its week has not taught fails
+AssertionError: expected 'pass' to be 'fail' // Object.is equality
+
+Expected: "fail"
+Received: "pass"
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:276:32
+    274|         const report = checkStorytimeWeek(raw);
+    275|         const review = report.checks.find((c) => c.id === 'review');
+    276|         expect(review?.status).toBe('fail');
+       |                                ^
+    277|     });
+    278|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.6: review strips and check items > a check item with two right pictures fails
+AssertionError: expected 'pass' to be 'fail' // Object.is equality
+
+Expected: "fail"
+Received: "pass"
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:289:33
+    287|         const report = checkStorytimeWeek(raw);
+    288|         const answers = report.checks.find((c) => c.id === 'check-answ…
+    289|         expect(answers?.status).toBe('fail');
+       |                                 ^
+    290|     });
+    291|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.9: the song-frame exception of st2/12 (D15) > st2/12 with 7 frame lines passes and names the exception and the PM decision
+AssertionError: expected 'fail' to be 'pass' // Object.is equality
+
+Expected: "pass"
+Received: "fail"
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:336:31
+    334|         const report = checkStorytimeWeek(songHookCopy(path.join(draft…
+    335|         const frame = report.checks.find((c) => c.id === 'song-frame');
+    336|         expect(frame?.status).toBe('pass');
+       |                               ^
+    337|         expect(frame?.detail ?? '').toMatch(/exception/i);
+    338|         expect(frame?.detail ?? '').toContain('2026-11-09');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/19]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > plan Add 2026-11-10: the 9 unit 1 reuse ids > weeks 9 to 16 ask for none of the 9 unit 1 reuse ids
+AssertionError: expected 'import path from \'path\';\nimport { …' to match /readLevelWeeks\(STORYTIME_ROOT, args\…/
+
+- Expected:
+/readLevelWeeks\(STORYTIME_ROOT, args\.level\)(?!\.filter)/
+
++ Received:
+"import path from 'path';
+import { readLevelCardPictures, readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
+import { checkStorytimePictureBatch, readStorytimePictureManifest } from '../../lib/storytime/print/picture-check';
+import { storytimeCardPictureRows, storytimePrintPictures } from '../../lib/storytime/print/pictures';
+import { checkRequestedWeeks } from '../../lib/storytime/print/student-book-cli';
+
+const USAGE = `Runs stage 1 of the picture stages on a Forge batch (spec FR-9, strategy 5.1): the size,
+the color mode, the alpha, the gray fill, the file name, the SHA-256, and the pixel size of the
+color file and of the line art of each row, against the row of the picture list and the Forge
+manifest.json.
+
+A Forge job matches a picture-list row by its job.id = the row id. The color file name is
+<row id>-v<N>.png and the line-art name is <row id>-line-v<N>.png. N is a positive number with
+no leading zero, and N equals the selectedVersion of the job. The manifest holds one job for
+each row id; a duplicate row id fails the row.
+
+Usage: npx tsx scripts/storytime/check-storytime-pictures.ts --batch <folder> [--level <n>] [--weeks <list>]
+
+  --batch   The Forge batch folder; it must hold manifest.json and the picture files, and each
+            manifest path must stay inside that folder
+  --level   The Storytime level, a whole number from 1 to 4 (default 2)
+  --weeks   The weeks to check, each a whole number from 1 to 32, comma separated (default 1);
+            every requested week must load exactly once (checkRequestedWeeks)
+
+The command prints one line for each requested picture-list row and a summary line. The card
+rows of the card kit follow the book rows. Each row class of a week is requested on its own. The
+book rows of week N are requested when the batch holds a job for a book row of week N. They are
+requested too when the batch holds no job for any row of week N. The card rows of week N follow
+the same rule with the card rows. Every requested row with no job fails. A class of a week that
+the batch does not request prints one skip line before the summary line. The skip line reads
+\"skip  <class> rows of week <N>: the batch holds no job for them\".
+Skipped rows do not count in the summary. A skip line does not change the exit code.
+Stage 1 is a measurement, never an approval (spec P7); it writes no file.
+
+Exit code 0 when every row passes, 1 when a row fails or a requested week does not load exactly
+once. Exit code 2 on an argument error, on a batch folder without a manifest.json, and on a
+manifest.json that does not parse.`;
+
+/** One command run: the batch folder, the level, and the weeks. */
+interface Args {
+    batch: string;
+    level: number;
+    weeks: number[];
+}
+
+/** Parses one whole-number value; throws on a value that is not a safe integer in range. */
+function wholeNumber(value: string | undefined, name: string, min: number, max: number): number {
+    const parsed = Number(value);
+    if (!Number.isSafeInteger(parsed) || parsed < min || parsed > max) throw new Error(`${name} must be a whole number from ${min} to ${max}, got \"${value}\"`);
+    return parsed;
+}
+
+/** Parses the arguments; throws an argument error (exit code 2). */
+function parseArgs(argv: string[]): Args {
+    let batch: string | undefined;
+    let level = 2;
+    let weeks = [1];
+    for (let i = 0; i < argv.length; i++) {
+        const arg = argv[i];
+        if (arg === '--batch') batch = argv[++i];
+        else if (arg === '--level') level = wholeNumber(argv[++i], '--level', 1, 4);
+        else if (arg === '--weeks') weeks = String(argv[++i] ?? '').split(',').map((week) => wholeNumber(week, `--weeks \"${week}\"`, 1, 32));
+        else throw new Error(`unknown argument: ${arg}`);
+    }
+    if (!batch) throw new Error('a --batch folder is required');
+    return { batch: path.resolve(batch), level, weeks };
+}
+
+/**
+ * The row ids that the manifest of a batch holds a job for. The manifest holds one job for each
+ * delivered row, and the id of the job is the row id.
+ * @param manifest The parsed manifest of the batch.
+ * @returns The row ids of the jobs, empty for a manifest with no jobs list.
+ */
+function manifestJobIds(manifest: unknown): Set<string> {
+    const ids = new Set<string>();
+    if (!manifest || typeof manifest !== 'object') return ids;
+    const jobs = (manifest as { jobs?: unknown }).jobs;
+    if (!Array.isArray(jobs)) return ids;
+    for (const job of jobs) {
+        if (!job || typeof job !== 'object') continue;
+        const id = (job as { id?: unknown }).id;
+        if (typeof id === 'string') ids.add(id);
+    }
+    return ids;
+}
+
+async function main(argv: string[]): Promise<number> {
+    if (argv.includes('--help') || argv.includes('-h')) {
+        console.log(USAGE);
+        return 0;
+    }
+    let args: Args;
+    try {
+        args = parseArgs(argv);
+    } catch (e) {
+        console.error(`${e instanceof Error ? e.message : String(e)}\\n\\n${USAGE}`);
+        return 2;
+    }
+    // A batch folder without a manifest.json and a manifest.json that does not parse are batch
+    // problems of the same class (C-P4-10): the command names either one before any row and
+    // gives exit 2.
+    let manifest: unknown = undefined;
+    try {
+        manifest = readStorytimePictureManifest(args.batch);
+    } catch (e) {
+        console.error(e instanceof Error ? e.message : String(e));
+        return 2;
+    }
+    const read = readLevelWeeks(STORYTIME_ROOT, args.level).filter((r) => args.weeks.includes((r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
+    // The same --weeks contract as make-readers-pdf.ts (C-P4-9): a week that the level does not
+    // load, and a duplicate week, stop the command before the batch, so it never reports a pass
+    // for a week it did not check.
+    checkRequestedWeeks(args.weeks, read.map((r) => (r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
+    const broken = read.filter((r) => !r.week);
+    if (broken.length) {
+        console.error(`Not parsed: ${broken.map((r) => `${r.file} (${r.error})`).join('; ')}`);
+        return 1;
+    }
+    const weeks = read.flatMap((r) => (r.week ? [r.week] : [])).sort((a, b) => a.meta.week - b.meta.week);
+    if (!weeks.length) {
+        console.error(`no week files for level ${args.level} and weeks ${args.weeks.join(', ')} under ${STORYTIME_ROOT}`);
+        return 1;
+    }
+    const bookRows = storytimePrintPictures(weeks).filter((row) => args.weeks.includes(row.week));
+    // Version 7: the card rows of the card kit follow the book rows, so the check measures the
+    // size, the color mode, the alpha, the gray fill, and the pixel size of the card pictures too
+    // (A-P8-7).
+    const cardRows = storytimeCardPictureRows(readLevelCardPictures(STORYTIME_ROOT, args.level), args.level)
+        .filter((row) => args.weeks.includes(row.week));
+    // Review round 5 (A-P8-16): each row class of each requested week is selected on its own. The
+    // book rows of week N are requested when the manifest holds a job for a book row of week N,
+    // or when the manifest holds no job for any row of week N. The card rows of week N follow the
+    // same rule with the card rows. A batch that delivers only the card rows of a week therefore
+    // passes without the book rows, and a batch that delivers only the book rows passes without
+    // the card rows. Every requested row with no job fails (R-P4-28, R-P8-F20, R-P8-F32).
+    const jobIds = manifestJobIds(manifest);
+    const bookJobWeeks = new Set<number>();
+    const cardJobWeeks = new Set<number>();
+    for (const row of bookRows) if (jobIds.has(row.id)) bookJobWeeks.add(row.week);
+    for (const row of cardRows) if (jobIds.has(row.id)) cardJobWeeks.add(row.week);
+    const jobWeeks = new Set<number>([...bookJobWeeks, ...cardJobWeeks]);
+    const requestedBookRows = bookRows.filter((row) => bookJobWeeks.has(row.week) || !jobWeeks.has(row.week));
+    const requestedCardRows = cardRows.filter((row) => cardJobWeeks.has(row.week) || !jobWeeks.has(row.week));
+    const rows = [...requestedBookRows, ...requestedCardRows];
+    if (!rows.length) {
+        console.error(`no picture rows for level ${args.level} and weeks ${args.weeks.join(', ')}`);
+        return 1;
+    }
+    const report = await checkStorytimePictureBatch(rows, args.batch);
+    for (const result of report.results) {
+        console.log(result.status === 'pass' ? `pass  ${result.rowId}` : `fail  ${result.rowId}: ${result.reason ?? 'no reason'}`);
+    }
+    // A class of a week that the batch does not request prints one skip line, so that no skip is
+    // silent. A week with no row of that class prints no line. The summary counts the requested
+    // rows only.
+    const rowWeeks = [...new Set([...bookRows, ...cardRows].map((row) => row.week))].sort((a, b) => a - b);
+    for (const week of rowWeeks) {
+        if (bookRows.some((row) => row.week === week) && !requestedBookRows.some((row) => row.week === week)) {
+            console.log(`skip  book rows of week ${week}: the batch holds no job for them`);
+        }
+        if (cardRows.some((row) => row.week === week) && !requestedCardRows.some((row) => row.week === week)) {
+            console.log(`skip  card rows of week ${week}: the batch holds no job for them`);
+        }
+    }
+    const failed = report.results.filter((result) => result.status === 'fail').length;
+    console.log(`${report.results.length - failed} of ${report.results.length} rows pass stage 1 (${args.batch})`);
+    return report.exitCode;
+}
+
+main(process.argv.slice(2)).then(
+    (code) => (process.exitCode = code),
+    (e) => {
+        console.error(e instanceof Error ? e.message : e);
+        process.exitCode = 1;
+    },
+);
+"
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:369:21
+    367|             'utf8',
+    368|         );
+    369|         expect(src).toMatch(/readLevelWeeks\(STORYTIME_ROOT, args\.lev…
+       |                     ^
+    370|         const { storytimePrintPictures } = await import('../lib/storyt…
+    371|         const fullRows = storytimePrintPictures([...unit1Weeks(), ...u…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/19]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  19 failed | 93 passed (112)
+   Start at  20:15:10
+   Duration  3.18s (transform 290ms, setup 103ms, import 323ms, tests 2.18s, environment 299ms)
+

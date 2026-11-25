@@ -151,7 +151,7 @@ describe('the shipped match report', () => {
     // The counts follow the gitignored picture folder of this machine. The A6 v3 part 1 merge of 2026-11-08 set them.
     it('R3-3 counts the 106 cards of weeks 1 to 8 as picture 89, patch 8, dots 9, and none 0', () => {
         const weeks = readLevelWeeks(STORYTIME_ROOT, 2).flatMap((entry) => (entry.week ? [entry.week] : []))
-            .filter((week) => week.meta.week <= 8);
+            .filter((week) => week.meta.unit === 1);
         expect(weeks.length, 'the shipped weeks 1 to 8 parse').toBe(8);
         const kit = storytimeCardKit(weeks);
         const rows = JSON.parse(fs.readFileSync(path.join(STORYTIME_ROOT, 'l2', 'print', 'pictures.json'), 'utf8')) as StorytimePictureRow[];

@@ -50,8 +50,8 @@ const MANUAL_CLI = path.join(DASHBOARD, 'scripts/storytime/make-manual-pdf.ts');
 /** The shipped week n of Level 2, parsed. */
 const shipped = (n: number): StorytimeWeek => StorytimeWeekSchema.parse(JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT, 2, n), 'utf8')) as Raw);
 
-/** The unit page list, built as `make-teacher-book-print.ts` builds it: every week of the level. */
-const unitPages = () => storytimeStudentBookPages(readLevelWeeks(STORYTIME_ROOT, 2).flatMap((r) => (r.week ? [r.week] : [])));
+/** The unit 1 page list, built as `make-teacher-book-print.ts` builds it: the unit 1 weeks of the level. */
+const unitPages = () => storytimeStudentBookPages(readLevelWeeks(STORYTIME_ROOT, 2).flatMap((r) => (r.week ? [r.week] : [])).filter((w) => w.meta.unit === 1));
 
 /** The HTML of the book path: `compileStorytimeManual` with the options of the print build. */
 const bookHtml = (week: StorytimeWeek, pages: ReturnType<typeof unitPages>): string =>

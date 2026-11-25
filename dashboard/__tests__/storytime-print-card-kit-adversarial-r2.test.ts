@@ -315,7 +315,7 @@ describe('the match counts', () => {
 
     it('R2-8 counts the lines of the shipped kit by source and the four counts add up', () => {
         const weeks = readLevelWeeks(STORYTIME_ROOT, 2).flatMap((entry) => (entry.week ? [entry.week] : []))
-            .filter((week) => week.meta.week <= 8);
+            .filter((week) => week.meta.unit === 1);
         expect(weeks.length, 'the shipped weeks 1 to 8 parse').toBe(8);
         const kit = storytimeCardKit(weeks);
         const rows = shippedRows() as unknown as StorytimePictureRow[];

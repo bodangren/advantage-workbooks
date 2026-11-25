@@ -1,0 +1,86 @@
+FR-6.3 discovery r2 at base 35729287; WORKBOOKS_ROOT=/home/daniebo/tmp-red41-u241-2357248/stage (16 weeks in stage l2/); exit=1
+---failing files (excluding the new Red file, whose failures are recorded in red-4.1-35729287.txt)---
+ × __tests__/storytime-loops-book-pages.test.ts > B2 equality: the draft path with --book-pages builds the HTML of the print path > B2 equality w01: manualPdfHtml with bookPages equals compileStorytimeManual with the unit page list 439ms
+ × __tests__/storytime-loops-book-pages.test.ts > B2 equality: the draft path with --book-pages builds the HTML of the print path > B2 equality w08: manualPdfHtml with bookPages equals compileStorytimeManual with the unit page list 75ms
+ ✓ __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-1 lays out each shipped reader as 12 landscape pages at the 198 × 148.5 mm trim (spec FR-5.1, P15 default) 164ms
+ ✓ __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-2a puts 2 landscape pages of 198 × 148.5 mm on the 198 × 297 mm torn leaf after the 12 mm tear (spec FR-5.1, P15 default) 0ms
+ ✓ __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-2d fails on a wrong imposition, a missing fold line, a missing or wrong mark, a front page not turned, a back page turned, the 90 degree turn, a portrait page, and a 99 × 140 mm page (mutants on a copy; spec FR-5.1) 1363ms
+ ✓ __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P4-4a scales each color A3 reader page to 2.0 (396 × 297 mm) on an A3 landscape page, centered, with 12 mm of white at the left and the right (spec FR-5.8) 45ms
+ ✓ __tests__/storytime-print-readers.test.ts > Storytime readers: shipped week 1, P15 default > R-P6-F3d: the color A3 page is 420 × 297 mm in the browser, and the scaled reader page has 12 mm of white at the left and at the right (spec FR-5.8) 254ms
+ × __tests__/storytime-print-readers.test.ts > Storytime readers: final-mode picture folder (Red 4g, orchestrator decision of 2026-11-02) > R-P4-34 the root .gitignore ignores the Forge picture folder and keeps pictures.json and pictures.md tracked 22ms
+ × __tests__/storytime-print-teacher-book-adversarial.test.ts > Storytime teacher-book adversarial: the CLI stops bad input before Chrome > passes a week gap through week validation and stops at the missing drafts 379ms
+ × __tests__/storytime-print-teacher-book-adversarial.test.ts > Storytime teacher-book adversarial: the CLI stops bad input before Chrome > stops at a missing draft with exit 1 before the folder is made 363ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-minutes: the A1 badge and minutes line is an A-42 routine; the reason names the badge and the minutes 60ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-minutes-down: the A4 line, where the loop minutes are fewer, is an A-42 routine too 1ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-badge: the A3 line, where only the badge changes, is an A-48 badge 1ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-badge-tricky: the D2 line, where the badge is the code of the step map, is an A-48 badge 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-page: the A3 materials line with a page reference is a page reference 1ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-page-wrong: a page reference line with another word is a word change 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-loop: a soundLoop line of week 1 is an A-42 routine, with and without its outer quotes 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-loop-labels: the fixed loop labels and the seconds line are A-42 routines 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-d3: the question lines of the read-along of week 1 and the D3 label are D3 questions 1ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-word: the Start at the top line is a word change 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-other: an added line that no rule knows is other, with the reason "added line" 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-reflow: a removed line whose text stands in the new week text is other, with the reflow reason 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the six classes > H1-removed: a removed line that is not in the new week text is other, with the reason "removed line" 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the report > H1-sum: the class counts add up to the count of the report, and a lost or added row is a problem 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the report > H1-markdown: the list has the source report, its SHA-256, a summary whose total equals the count, and one row for each difference 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-block-added: an added line under the heading B7 is an A-42 routine of LP-26 class B; under another heading it stays other 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-block-d6: the heading D6 gives the same class as B7 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-block-removed: a removed line under B7 in the draft is an A-42 routine, the old place of the song step, also when its text stands in the new text 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-recall: the recall label, its ask lines, and its cards line are A-42 routines with the recall reason 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-recall-first: a recall line under the heading B7 is a recall line, not a song line 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-wrapped: a part of a printed loop line takes the class of the whole line; a short part does not 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-pair-recall: the A1 title paired with the recall label is a position pair with the class of the recall 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-pair-song: the B7 title paired with the C1 title is a position pair; the expected side is the old place of the song step 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-pair-wrapped: a materials line whose expected text stands in the new text is a position pair of the class other 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1 r2: block context, recall, wrapped parts, position pairs > H1r2-edit: a real edit stays a word change, with the same step code or no code and an expected text that is not in the new text 0ms
+ × __tests__/storytime-print-h1-classes.test.ts > A-48 H1: the scripts > H1-build: the teacher-book build has the h1 list in its output list, and a link at that path stops the build before it writes outside 373ms
+ × __tests__/storytime-print-teacher-book.test.ts > Storytime teacher-book print: Thai week 1 > B-P3-01: rejects a dangling link at the derived Chrome PDF path before writing outside 369ms
+ × __tests__/storytime-print-teacher-book.test.ts > Storytime teacher-book print: Thai week 1 > B-P3-01: rejects a dangling link at the derived text-gate report path before writing outside 376ms
+ × __tests__/storytime-print-review-more.test.ts > RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-stable: the reader sides keep the pages of P9-A9 and the pages 1 to 131 keep their kind and number 8ms
+ × __tests__/storytime-print-review-more.test.ts > RM: the four review pages of week 8 (P9-B8 to P9-B13) > RM-no-picture: the print list keeps the rows it has, and no review page adds a row 16ms
+ × __tests__/storytime-print-readers-adversarial-r2.test.ts > Storytime picture folder in the public repository: the ignore rule for every level > ADV-P4-R2-GITIGNORE-LEVELS the picture folder of level 1, 3, 4, 9, and 10 is ignored at any depth; the picture list and week files of those levels are not 9ms
+ × __tests__/storytime-print-readers-adversarial-r2.test.ts > Storytime picture folder in the public repository: the ignore rule for every level > ADV-P4-R2-GITIGNORE-TRACKED no file of any picture folder is tracked in git 4ms
+ × __tests__/storytime-print-covers-16books-adversarial.test.ts > Storytime covers adversarial Phase 2 round 2 > ADV-P2-DEFAULT: a version 3 --print build without --out exits 0 and writes the whole print set into print-v3/l2u1 only 14629ms
+ × __tests__/storytime-print-covers-16books-adversarial.test.ts > Storytime covers adversarial Phase 2 round 2 > ADV-P2-DEFAULT: a version 4 --print build without --out writes print-v4/l2u1 and leaves print-v3 and proof-v3 unchanged 14477ms
+ × __tests__/storytime-loops-content.test.ts > the content test itself > compares the baseline with itself and finds a real change (falsifiers on copies) 8ms
+ × __tests__/storytime-loops-content.test.ts > the content test itself > ignores the share moment in the compare, and still sees a change next to a share 3ms
+ × __tests__/storytime-loops-content.test.ts > w01 content > w01 adds only the FR-1 fields to its baseline file (additive, spec D10) 26ms
+ × __tests__/storytime-loops-content.test.ts > w01 content > w01 fills each day to the period with loopMinutes, and only the seven loop steps change 3ms
+ × __tests__/storytime-loops-content.test.ts > w02 content > w02 adds only the FR-1 fields to its baseline file (additive, spec D10) 7ms
+ × __tests__/storytime-loops-content.test.ts > w02 content > w02 fills each day to the period with loopMinutes, and only the seven loop steps change 3ms
+ × __tests__/storytime-loops-content.test.ts > w03 content > w03 adds only the FR-1 fields to its baseline file (additive, spec D10) 9ms
+ × __tests__/storytime-loops-content.test.ts > w03 content > w03 fills each day to the period with loopMinutes, and only the seven loop steps change 3ms
+ × __tests__/storytime-loops-content.test.ts > w04 content > w04 adds only the FR-1 fields to its baseline file (additive, spec D10) 7ms
+ × __tests__/storytime-loops-content.test.ts > w04 content > w04 fills each day to the period with loopMinutes, and only the seven loop steps change 3ms
+ × __tests__/storytime-loops-content.test.ts > w05 content > w05 adds only the FR-1 fields to its baseline file (additive, spec D10) 9ms
+ × __tests__/storytime-loops-content.test.ts > w05 content > w05 fills each day to the period with loopMinutes, and only the seven loop steps change 3ms
+ × __tests__/storytime-loops-content.test.ts > w06 content > w06 adds only the FR-1 fields to its baseline file (additive, spec D10) 7ms
+ × __tests__/storytime-loops-content.test.ts > w06 content > w06 fills each day to the period with loopMinutes, and only the seven loop steps change 3ms
+ × __tests__/storytime-loops-content.test.ts > w07 content > w07 adds only the FR-1 fields to its baseline file (additive, spec D10) 10ms
+ × __tests__/storytime-loops-content.test.ts > w07 content > w07 fills each day to the period with loopMinutes, and only the seven loop steps change 3ms
+ × __tests__/storytime-loops-content.test.ts > w08 content > w08 adds only the FR-1 fields to its baseline file (additive, spec D10) 6ms
+ × __tests__/storytime-loops-content.test.ts > w08 content > w08 fills each day to the period with loopMinutes, and only the seven loop steps change 3ms
+ × __tests__/storytime-print-covers-16books.test.ts > Storytime 16-book covers > R14: --print writes a PDF/X file, checkPdfx passes, and the fonts remain 14057ms
+ × __tests__/storytime-print-covers-16books.test.ts > Storytime 16-book covers > R15: this phase does not change the Primary cover contract 23ms
+ × __tests__/storytime-print-covers-16books.test.ts > Storytime 16-book covers > R17: front level-card text is visible in the PNG and PDF/X raster; back panel text remains visible 14066ms
+ × __tests__/storytime-loops-share-captions.test.ts > X1 to X4 command line: the exit codes (G5) > X1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems 238ms
+ × __tests__/storytime-loops-share-captions.test.ts > X1 to X4 command line: the exit codes (G5) > X2 command line: one Thai caption plus one ASCII character exits 1 with one problem line that starts with the row id 235ms
+ × __tests__/storytime-loops-share-captions.test.ts > X1 to X4 command line: the exit codes (G5) > X4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id 232ms
+ × __tests__/storytime-print-f3-script-order.test.ts > F3: the D4 teacher script follows the page (P9-B6) > F3-scope: only the four English keys of the D4 step and their th twins differ from the Red baseline 8ms
+ × __tests__/storytime-print-f3-script-order.test.ts > F3: the D4 teacher script follows the page (P9-B6) > F3-mutants: the old order, a Thai line moved alone, and a change outside the keys each fail 4ms
+ × __tests__/storytime-print-v15.test.ts > v15 E46: the pronunciation note stays in the line, not in the activity > E46-line: home.line.th of weeks 1 to 7 is the same as at the base commit 19ms
+ × __tests__/storytime-print-v15.test.ts > v15 E48: the lyric sheet is the text of song.lines > E48-tags: the [tag] lines of each sheet are the same as at the base commit 15ms
+ × __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one practice-clips FAIL row, a Summary, exit 1, and no stack frame 189ms
+ × __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one practice-clips FAIL row for an opening line with no word form 188ms
+ × __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one FAIL row for each of two bad family words, and counts both 180ms
+ × __tests__/storytime-unit2-word-keys.test.ts > the unit 1 rows do not change (D-U2-K4, plan F11) > equals the baseline capture at 0dcb45d4 186ms
+ × __tests__/storytime-loops-share-content.test.ts > the share compare itself > compare falsifier: one changed character in an existing Thai line fails the compare 8ms
+ × __tests__/storytime-loops-share-content.test.ts > the share compare itself > compare falsifier: one deleted existing line fails the compare 3ms
+ × __tests__/storytime-loops-share-content.test.ts > the share compare itself > compare falsifier: one changed minutes value fails the compare 3ms
+ × __tests__/storytime-loops-share-content.test.ts > the share compare itself > compare falsifier: two steps reordered fail the compare 3ms
+---counts---
+⎯⎯⎯⎯⎯⎯ Failed Tests 109 ⎯⎯⎯⎯⎯⎯
+ Test Files  17 failed | 59 passed (76)
+      Tests  109 failed | 1828 passed (1937)
