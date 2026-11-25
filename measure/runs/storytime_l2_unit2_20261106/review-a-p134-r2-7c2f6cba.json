@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "phase": "P1/P3/P4",
+  "phase_base_sha": "35729287dc615dd9688cb7ddb6179786c23b3f01",
+  "role_base_sha": "7c2f6cba6b2f1c9714b799ff6561b788041c61f8",
+  "audited_head_sha": "7c2f6cba6b2f1c9714b799ff6561b788041c61f8",
+  "status": "fail",
+  "summary": "Round 2 closes F1, F5, F6, F7, and F12. F2, F3, F4, F8, F9, and F11 are partly closed. F10 remains open. New F13 concerns the picture maker's source fallback. The review is bound to the requested commit, not the later concurrent commits.",
+  "blocking_findings": [
+    "F2 [Blocker] partly closed | dashboard/scripts/storytime/check-storytime-pictures.ts:135,149-150: The checker finds the split card files, but the class selection skips all cards when a manifest names only book jobs. A probe with the committed 193 book IDs selects zero of the 36 card rows. The new test omits one card, not the whole class. Fix: give the combined delivery gate a strict mode that requires all expected rows. Preserve the existing partial-batch contract separately.",
+    "F3 [Blocker] partly closed | dashboard/lib/storytime/checks.ts:160-168,199-243: Complete level checks reject a future letter, but they still accept distractors and ignore card kind. The actual functions accept cat as a word taught in week 1, where cat is a wrong picture. The standalone fallback accepts g on a week 15 card labeled week 1. It also rejects man on a real week 11 card labeled week 10 when given the package taught set but no other weeks. make-manual-pdf.ts:106 uses that call form. Fix: use kind-specific facts for the card's week and pass the known weeks to every production caller. Do not treat missing teaching data as permission to pass.",
+    "F4 [Blocker] partly closed | dashboard/lib/storytime/checks.ts:735-777,794-795: The unique match must now equal the answer. The sound matcher still accepts city as the only /k/ picture and treats phone as ending in /f/. The latter occurs because the exception ignores position. The actual wrongAnswers function returns no problem for city, dog, net with answer city and first sound /k/. The 58 real circle items yield zero problems, and the real choices have the correct sounds. Fix: use position-specific phoneme data and reject unknown or ambiguous matches. Test soft c, silent letters, and exceptions in each position."
+  ],
+  "nonblocking_findings": [
+    "F8 [Major] partly closed | dashboard/__tests__/storytime-unit2-phase4.test.ts:242-297,433-449,477-528: The new tests run the picture and step-map makers and the delivery checker. The later-unit card match and teacher-book cases still exercise helpers, not their maker commands. F10 remains a concrete example of missing production wiring. Fix: exercise the actual card match and teacher page output through their production seams.",
+    "F9 [Major] partly closed | dashboard/__tests__/storytime-unit2-phase4.test.ts:155-164,454-470: The base worktree now establishes nine independent hashes, and tests compare the actual picture list and step map. The teacher hash still omits studentBookPages. The card hashes use fixed titles and no pictureOf callback. Thus the snapshot cannot detect changed teacher page references or changed resolved card pictures. Fix: hash the actual production inputs to the renderer and the actual maker filenames. The committed unit 1 picture list and step map are byte-equal to the phase base.",
+    "F10 [Major] open | dashboard/scripts/storytime/make-card-kit-pdf.ts:84-88,175: readPictureRows still reads only unit 1 and the requested unit. The new readCardPicturesThrough helper is called by the delivery checker, not the card kit maker. Unit 3 still cannot match an earlier unit 2 picture. The mutant changes the helper rather than the affected maker. Fix: read all applicable picture lists in order in the actual card kit path, with an absent intermediate file and units 3 and 4 tested.",
+    "F11 [Major] partly closed | dashboard/__tests__/storytime-unit2-scope.test.ts:290-319: The teaching-week tests now require explicit pass rows. The week 8 branch permits undefined for both review and check-answers; review is a required row for week 8. The week 16 branch correctly permits absence only for check-answers. Fix: apply the same precise exception to week 8.",
+    "F13 [Major] new | dashboard/scripts/storytime/print-pictures.ts:54-57: An empty redirected card file or a missing card file causes the maker to substitute entries from the live repository. This changes the contract of a unit with no card file and can add unexpected rows to a separate stage root. The test at storytime-unit2-phase4.test.ts:115 removes the entire u2 folder instead of only generated files, so it requires this fallback. Fix: retain the card input in the test root and read only the explicitly selected root in production."
+  ],
+  "evidence": [
+    "F1 closed: print-pictures.ts:45-48 calculates the full level rows and partitions them by week. student-book.ts:833-845 includes earlier weeks. The committed unit 2 list equals the Phase 2 contract, with 193 book and 36 card rows. The targeted F1 tests passed and no excluded reuse ID renders.",
+    "F2 partly closed: the unit card file is read, and the missing-one-card test passes. The committed list has book rows in every week with card rows. With only book jobs, the unchanged selection at lines 149-150 omits all 36 cards.",
+    "F3 partly closed: an ES2022 probe of the actual functions on filtered committed weeks gave week1DistractorCat=true, week15EarlierLabelGStandalone=true, week15EarlierLabelGComplete=false, week11EarlierManStandalone=false, and week11EarlierManComplete=true. All real review cards pass when the complete level is supplied.",
+    "F4 partly closed: the same probe gave phoneLast=true and cityFirstK=true. The wrongAnswers result for the city example is an empty list. There were 58 real circle items and zero wrong-answer problems, including the two benchmarks.",
+    "F5 closed: student-book.ts:879-885 maps each teaching week to its place in unit order. The eight distinct ordered page numbers of unit 2 and the eight unit 1 page numbers pass their targeted tests.",
+    "F6 closed for the three PDFs: make-card-kit-pdf.ts:151-170 derives the unit and rejects mixed requests. The unit 1 dry run names the exact three original paths, plus card-picture-match.txt. The unchanged file-name function at phase base and HEAD confirms this. The match report still shares a path between builds that use the same output folder.",
+    "F7 closed: the four repaired tests read published week paths. The round 2 project test record reports 77 files and 1964 passed at 1a2c2eda. The move is present as nine R100 renames.",
+    "F8 partly closed: the picture and step-map commands run on real temporary trees. The helper-only cases at lines 477-528 do not execute the corresponding production maker behavior.",
+    "F9 partly closed: the baseline worktree uses commit 35729287. The recorded snapshot passes for nine compiler outputs. The git diff for the unit 1 pictures.json, pictures.md and step-map-u1.json is empty. The snapshot still omits the teacher page-map option and picture resolution for cards.",
+    "F10 open: git grep shows readCardPicturesThrough only in files.ts and check-storytime-pictures.ts. The actual card match still calls readPictureRows, whose implementation includes only unit 1 and the requested unit.",
+    "F11 partly closed: week 8 has the broad undefined allowance at lines 297-299. The week 16 branch at lines 313-319 narrows the exception correctly.",
+    "F12 closed: make-teacher-book-print.ts:190 calls readUnitWeeks. The targeted test confirms the helper returns weeks 9 to 16.",
+    "F13 new: the test deletes u2 at line 115, including card-pictures.json. Green adds the fallback to the committed root at print-pictures.ts:57. The maker thereby changes the explicit-root read contract.",
+    "The independent heavy-run command gives one passed test file, 20 passed cases and two skipped cases. The command also gives 16 packages, zero failed checks and 33 warnings, and prints the four unit 1 dry-run paths.",
+    "The Red retry 4 record gives tsc exit 0, 22 passed cases, and lint exit 0. The Green record gives 134 passed targeted cases, 1964 passed project cases, and exit 0 for lint and checks. The project run precedes the readonly type fix. The mutant control failed the clean-content harness before the generated files were committed; all eight named mutations were caught.",
+    "The exact phase diff has 13 production files and the stated tests and generated outputs. The four unit 1 filters, the added letter guides, and the song-frame exception remain unchanged from the first review. No framework-wide scripts or registry changed.",
+    "The graph database returned no matches for the changed symbols. Git grep confirms the production callers. There is no track test-strategy.md; the plan defines the gates.",
+    "HEAD equaled 7c2f6cba at role start. During the review, concurrent commits advanced HEAD to 1cf780f1 with song audio, seven week files, and plan/evidence changes. The code and findings above use the exact requested commit. No acceptance is claimed for the newer head.",
+    "The week-data probes drop th keys and Thai strings and assert zero Thai characters before output. The sound-stage change-list files were not opened."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse 7c2f6cba; git diff --name-status 35729287..7c2f6cba",
+    "git diff 7b0ab12c..7c2f6cba -- dashboard/lib dashboard/scripts; git show 7c2f6cba:<tests and evidence>",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-phase4.test.ts -t \"F1|F2|F3|F4|F5|F6|F10|F12\" && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsx scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks 1,2,3,4,5,6,7,8 --dry-run' (exit 0; Thai-filtered output)",
+    "Python recursive Thai filter on git show 7c2f6cba:<week>, piped to tsx -e; ES2022 transpilation of the actual reviewFactsFor, reviewCardTaught, pictureHasSound and wrongAnswers functions",
+    "Python JSON comparison of the committed unit 2 picture list to the Phase 2 contract, and calculation of requested card rows with only book jobs",
+    "git diff --name-only 35729287..7c2f6cba -- content/storytime/l2/print/pictures.json content/storytime/l2/print/pictures.md content/storytime/l2/step-map-u1.json (no paths)",
+    "repo-graph callers graph.db for the changed symbols; git grep for actual call sites",
+    "git rev-parse HEAD; git diff --name-status 7c2f6cba..HEAD"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/review-a-p134-r2-7c2f6cba.json"
+  ],
+  "test_strategy_violations": [
+    "F8/F10: the helper tests do not establish the production card match and teacher page path.",
+    "F9: the snapshot does not cover the complete renderer inputs.",
+    "F11: the week 8 positive review test can pass with the review row absent."
+  ],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [
+    "F2: a book-only manifest skips the complete card class in the combined delivery gate.",
+    "F3: make-manual-pdf.ts does not supply the known weeks to the new review check.",
+    "F10: the card kit maker does not use the earlier unit picture lists."
+  ],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "unknown",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "The filtered actual-function probe passes all 58 real items but accepts city as a first /k/ answer."},
+    {"axis": "test_meaning", "score": 3, "evidence": "storytime-unit2-phase4.test.ts:242-297 runs makers, but the F10 cases at lines 477-508 test the wrong seam."},
+    {"axis": "scope_discipline", "score": 4, "evidence": "The round 2 changes address the findings, but print-pictures.ts:57 adds an unplanned live-root fallback."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "The targeted heavy-run passes 20 cases, and the exact committed data probe confirms three remaining correctness defects."}
+  ]
+}
