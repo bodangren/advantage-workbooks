@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "phase": "P1/P3/P4",
+  "phase_base_sha": "35729287dc615dd9688cb7ddb6179786c23b3f01",
+  "role_base_sha": "a5c5794cac0d439d3bc05f9fad0de8b015101d4d",
+  "audited_head_sha": "a5c5794cac0d439d3bc05f9fad0de8b015101d4d",
+  "status": "fail",
+  "summary": "F3 closes for the routed missing-context call. F4, F8, F9, and F16 remain partly closed. The 12 new tests pass, but the sound table lacks five required middle facts. The mixed-unit manual loses page references. Two earlier test coverage gaps remain.",
+  "blocking_findings": [
+    "F4 [Blocker] partly closed | dashboard/lib/storytime/checks.ts:778-830,857: The table now covers all 49 real picture words and rejects inherited keys. However, it adds middle facts for cat, dog, and net only. The actual week 16 middle-sound sort also asks for hat, bag, ten, pen, and bed; each returns false for its correct middle sound. The Red test at storytime-unit2-r7.test.ts:182-185 uses only cat, dog, and net. A valid middle-sound circle item using the other five words can therefore fail. Fix: complete the position facts for the actual group words and test the six real middle-sound words.",
+    "F16 [Blocker] partly closed | dashboard/scripts/storytime/make-manual-pdf.ts:50-53,92-98: Single-unit week 9 now gets page 4. The changed line always takes the unit of the first requested week. The documented --level 2 and repeated --file modes can contain both units, so the later unit loses its page map. An independent English rendering probe of weeks 1 and 9 gives eight page references each separately but only nine combined; the remaining week 9 reference is page 2. Fix: supply the appropriate page map for each unit or reject a mixed-unit request with --book-pages before rendering."
+  ],
+  "nonblocking_findings": [
+    "F8 [Major] partly closed | dashboard/__tests__/storytime-unit2-r7.test.ts:197-207: The new dry runs execute the actual card match and teacher page-map paths. However, the tests assert only the two output labels. Incorrect counts and an incorrect page map still satisfy the assertions. The F8 mutant removes the label rather than changing the result. Fix: assert the actual counts and compare the page map with the expected unit page values. The independent dry run confirms correct current values.",
+    "F9 [Major] partly closed | dashboard/__tests__/storytime-unit2-r7.test.ts:8-21,211-253: The worktree supplies the phase-base content, but enrichedHash invokes the statically imported HEAD functions for both roots. The base code never runs. A change in the current renderer or card title affects both hashes and still passes. The previous simple snapshot runs both revisions, but omits the enriched inputs. Fix: execute the enriched hash with each revision's own modules and the same production-equivalent options.",
+    "F17 [Minor] late, debt | dashboard/lib/storytime/checks.ts:249-255: The existing no-context fallback still accepts a future sound when no taught set or known weeks are provided. The routed F3 case with a supplied taught set now fails, and both production callers supply known weeks. Document the standalone fallback as a partial check or replace it with an explicit unverified status in a later task."
+  ],
+  "evidence": [
+    "F3 closed for the routed case: reviewFactsFor at checks.ts:246 fails when the required earlier week is absent and the caller supplies taught or others. The exact-input probe gives standaloneWithTaught=false and completeFutureLetter=false. All 941 real review cards pass with complete level facts. Both production callers supply known weeks.",
+    "F4 partly closed: the exact-commit probe gives 58 circle items, 10 picture sorts, 49 distinct words, zero missing words and zero wrong-answer problems. The unknown constructor and ordinary unknown distractor each give a named error. The same probe finds five missing correct middle facts: hat, bag, ten, pen, and bed. The inherited-key and moon fixes are effective.",
+    "F8 partly closed: the actual unit 2 card dry run reports 99 picture cards, picture 99, patch 0, dots 0, none 0. The teacher dry run reports page 4 for week 9 practice, page 22 for week 10, and page 130 for the week 16 benchmark. Current behavior is correct. The persistent tests check only the labels, so they do not prove the values.",
+    "F9 partly closed: the new enriched fixture creates a phase-base worktree, but both calls to enrichedHash use the imports at lines 8-21. Only the data root differs. The recorded test passes even before Green, and no F9 mutant is reported. The older nine-output snapshot and committed unit 1 file comparisons remain valid for their narrower scope.",
+    "F16 partly closed: the R7 single-week test passes for units 1 and 2. A Thai-filtered probe of actual manualPdfHtml, with neutral placeholders for removed translation fields, gives unit1Badges=8, unit2Badges=8, mixedBadges=9, expectedMixed=16, unit2PageFirst=4, and mixedHasUnit2=[2]. No HTML was printed. The documented --level mode selects every week of the level and calls this same function.",
+    "The independent heavy-run at the review head gives 12 passed R7 tests and zero failed checks across 16 packages. The command also executes both real dry runs and reports their values above.",
+    "The committed Green record reports 169 targeted tests, 1999 project tests, lint exit 0, checks exit 0, and four caught mutations. The Red record reports seven failures in R7. These records agree on the named cases. The F9 test was a passing guard, not a failing-first comparison of revision code.",
+    "The phase-base git diff has no changes to unit 1 weeks, pictures.json, pictures.md, or step-map-u1.json. The code-level unit 1 snapshot in the older phase4 test remains present and passes in the committed Green run.",
+    "The exact phase diff and round 4 production diff were inspected. Four production files change in this round. The metadata escalation key permits this last remediation round. No framework-wide orchestration script changed.",
+    "The graph database returned no matches for the changed symbols. Git grep confirmed the manual and review-check caller contracts. The track has no test-strategy.md; its plan defines the gates.",
+    "HEAD equaled a5c5794c at role start. It advanced to 9fd68a04 during review with a plan-only commit. Dashboard code and content remain equal to the audited commit. This artifact is bound to a5c5794c.",
+    "The first command verified the Thai filter. The week probes dropped th keys and Thai strings before inspection. The artifact holds zero Thai characters. No teacher HTML or sound-stage change-list file was opened."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse a5c5794c; git diff --stat 35729287..a5c5794c -- dashboard/lib dashboard/scripts dashboard/__tests__",
+    "git diff f33a4911..a5c5794c -- dashboard/lib dashboard/scripts; git show a5c5794c:<R7 tests, metadata, plan, evidence>",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-r7.test.ts && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsx scripts/storytime/make-card-kit-pdf.ts --level 2 --weeks 9,10,11,12,13,14,15,16 --dry-run && npx tsx scripts/storytime/make-teacher-book-print.ts --level 2 --weeks 9,10,11,12,13,14,15,16 --lang th --dry-run' (exit 0; Thai-filtered output)",
+    "Recursive Thai-filtered committed week JSON piped to tsx with the actual review and picture-sound functions transpiled to ES2022; counted all words and cards and checked the real sort positions",
+    "Thai-filtered week 1 and 9 data piped to tsx in dashboard; parsed with neutral placeholders and called manualPdfHtml separately and together; printed only page-reference counts",
+    "git diff --name-only 35729287..a5c5794c -- unit 1 week files and committed print outputs (no paths)",
+    "repo-graph callers graph.db and git grep for the changed production callers; git diff --name-status a5c5794c..HEAD"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/review-a-p134-r4-a5c5794c.json"
+  ],
+  "test_strategy_violations": [
+    "F8: the two dry-run assertions require labels but not their values.",
+    "F9: the enriched snapshot executes HEAD code twice rather than comparing the two revisions."
+  ],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [
+    "F16: a mixed-unit manual call passes only the first unit's page map to the compiler."
+  ],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "unknown",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "The exact-commit probe finds five missing middle facts and a mixed manual with nine of sixteen page references."},
+    {"axis": "test_meaning", "score": 3, "evidence": "R7 lines 211-253 use HEAD imports for both enriched hashes."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The round 4 production diff changes the four named files only."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "The independent heavy-run passes 12 tests and exposes the actual dry-run values, while filtered probes show the remaining wrong behavior."}
+  ]
+}
