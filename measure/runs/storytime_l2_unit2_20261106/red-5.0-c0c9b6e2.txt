@@ -1,0 +1,31 @@
+Red 5.0 (keep-with-next), track storytime_l2_unit2_20261106, Task 5.0
+Role: measure-mid-red. Role base: c0c9b6e2220a7cc2e4ba4911bed219e69b1b58c9. Phase base: c0c9b6e2220a7cc2e4ba4911bed219e69b1b58c9 (HEAD at role start).
+Date: 2026-11-26. Thai filter first: week files w09..w16 copied to a temp folder
+outside the repo with every `th` key dropped and every U+0E00..U+0E7F char
+removed; Thai count in copies 0. No week file printed; outputs filtered.
+
+Production path (scripts/storytime/make-teacher-book-print.ts):
+compileStorytimeManual with loops, share, and the unit studentBookPages
+(readUnitWeeks + storytimeStudentBookPages), rendered in system Chrome with
+Paged.js from node_modules, per-page DOM-class check
+(h3.st-day-title + div.st-prep present, div.st-opening and div.st-step absent).
+
+Probe (heavy-run, before writing the test):
+- UNIT 2 (weeks 9..16, loops+share): totalPages=238, orphanCount=4:
+  page 85 (week-11-day-5), page 116 (week-12-day-5),
+  page 176 (week-14-day-5), page 207 (week-15-day-5).
+  Matches the 2026-11-26 trial PDF pages 85, 116, 176, 207.
+- UNIT 1 (weeks 1..8, loops+share): totalPages=224, orphanCount=0.
+
+New test: dashboard/__tests__/storytime-teacher-keep-with-next.test.ts (3 tests).
+- New-file run (heavy-run): 1 failed, 2 passed. The failing test is
+  "unit 2 (weeks 9 to 16)" with exactly the 4 orphan pages above, named by
+  page number and section id. The maker-path pin and the unit 1 guard pass.
+- tsc --noEmit (heavy-run): exit 0.
+- ESLint on the new file: exit 0, 0 warnings.
+- PROJECT_TESTS (heavy-run, plan line 32): 80 files, 2002 tests;
+  1 failed, 2001 passed. The only failure is the new file (the 4 pages).
+- Thai count in the new test file and in this file: 0.
+
+No change under dashboard/lib, dashboard/scripts, or content/.
+plan.md untouched (Task 5.0 already [~]; spawn order: do not edit plan.md).
