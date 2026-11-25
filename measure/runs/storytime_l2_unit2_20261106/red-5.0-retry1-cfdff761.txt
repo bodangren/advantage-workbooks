@@ -1,0 +1,35 @@
+Red 5.0 retry 1 (keep-with-next), track storytime_l2_unit2_20261106, Task 5.0
+Role: measure-mid-red. Role base (HEAD at start): cfdff761aea7a74729afed5628bbbcb774f2bbf9
+(includes Green 41079153). Phase base: c0c9b6e2220a7cc2e4ba4911bed219e69b1b58c9.
+Date: 2026-11-26. Thai filter first: weeks w09..w16 copied to a temp folder
+outside the repo with every `th` key dropped and every U+0E00..U+0E7F char
+removed; Thai count in copies 0. Outputs filtered for Thai.
+
+Why a retry: the Green fix (`break-after: avoid` on the day title and the
+lesson-start box, manual.ts) moved the lesson-start box to the next page,
+leaving pages 85, 116, 176, 207 of the proof Chrome PDF holding ONLY the day
+heading (2 text lines: heading and page number). The round 1 test passed,
+because it asked only for heading AND lesson-start box on one page.
+
+Tightened rule (intent): no page holds only a day heading, alone or with the
+lesson-start box; the page of a day heading also holds the start of the first
+content box after the lesson-start box (the opening box or the first step).
+Orphan = an h3.st-day-title of a section.st-day with no div.st-opening and no
+div.st-step on the same rendered page (DOM classes, not text). Benchmark,
+song, and record titles are excluded by the section.st-day scope.
+
+Production path unchanged (make-teacher-book-print.ts): compileStorytimeManual
+with loops, share, and the unit studentBookPages, rendered in system Chrome
+with Paged.js from node_modules.
+
+New test: dashboard/__tests__/storytime-teacher-keep-with-next.test.ts (3 tests).
+- File run in one heavy-run: 1 failed, 2 passed. The failing test is
+  "unit 2 (weeks 9 to 16)" with exactly: page 85 (week-11-day-5),
+  page 116 (week-12-day-5), page 176 (week-14-day-5),
+  page 207 (week-15-day-5). The maker-path pin and the unit 1 guard pass.
+- tsc --noEmit in the same heavy-run: exit 0.
+- ESLint on the new file in the same heavy-run: exit 0, 0 warnings.
+- Thai count in the new test file and in this file: 0.
+
+No change under dashboard/lib, dashboard/scripts, or content/.
+plan.md untouched (spawn order: do not edit plan.md).

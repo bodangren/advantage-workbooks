@@ -9,14 +9,20 @@ import { storytimeStudentBookPages } from '../lib/storytime/print/step-pages';
  * Task 5.0 (keep-with-next): in the unit 2 teacher book print build, a day
  * heading and the lesson-start box keep with the next box, so no page holds
  * only those 2. The trial build of 2026-11-26 holds 4 such pages: 85, 116,
- * 176, and 207 (the day 5 headings of weeks 11, 12, 14, and 15).
+ * 176, and 207 (the day 5 headings of weeks 11, 12, 14, and 15). Retry 1:
+ * the Green fix moved the lesson-start box but left the day heading alone,
+ * so the rule is tightened to its intent: no page holds only a day heading,
+ * alone or with the lesson-start box. The page of a day heading also holds
+ * the start of the first content box after the lesson-start box (the opening
+ * box or the first step).
  *
  * The build below follows the production path of
  * `scripts/storytime/make-teacher-book-print.ts`: `compileStorytimeManual`
  * with loops, share, and the unit `studentBookPages`, rendered in system
- * Chrome with Paged.js. An orphan page holds an `h3.st-day-title` and a
- * `div.st-prep` but no `div.st-opening` and no `div.st-step` (DOM classes,
- * not text). Failure messages name pages by number and section id only.
+ * Chrome with Paged.js. An orphan page holds an `h3.st-day-title` of a
+ * day section (`section.st-day`) but no `div.st-opening` and no `div.st-step`
+ * (DOM classes, not text). Failure messages name pages by number and section
+ * id only.
  */
 
 interface OrphanPage {
@@ -92,12 +98,12 @@ async function renderUnitOnce(unit: number, weeks: number[]): Promise<RenderedUn
             const orphans: OrphanPage[] = [];
             pages.forEach((paged, index) => {
                 const content = paged.querySelector('.pagedjs_page_content') ?? paged;
-                const hasTitle = content.querySelectorAll('h3.st-day-title').length;
-                const hasPrep = content.querySelectorAll('div.st-prep').length;
+                const dayTitles = Array.from(content.querySelectorAll('h3.st-day-title')).filter((title) =>
+                    (title as Element).closest('section.st-day'));
                 const hasOpening = content.querySelectorAll('div.st-opening').length;
                 const hasStep = content.querySelectorAll('div.st-step').length;
-                if (hasTitle > 0 && hasPrep > 0 && hasOpening === 0 && hasStep === 0) {
-                    const sections = Array.from(content.querySelectorAll('h3.st-day-title')).map((title) => {
+                if (dayTitles.length > 0 && hasOpening === 0 && hasStep === 0) {
+                    const sections = dayTitles.map((title) => {
                         const section = (title as Element).closest('section');
                         return section && section.id ? section.id : 'unknown';
                     });
@@ -124,7 +130,7 @@ describe('Storytime teacher book keep-with-next (Task 5.0)', () => {
         expect(maker, 'the maker passes the unit student-book pages').toContain('studentBookPages');
     });
 
-    it('unit 2 (weeks 9 to 16): no page holds only a day heading and the lesson-start box', async () => {
+    it('unit 2 (weeks 9 to 16): no page holds only a day heading, alone or with the lesson-start box', async () => {
         const rendered = await renderUnit(2, [9, 10, 11, 12, 13, 14, 15, 16]);
         expect(rendered.totalPages, 'unit 2 teacher book page count').toBeGreaterThan(200);
         const names = orphanNames(rendered.orphans);
