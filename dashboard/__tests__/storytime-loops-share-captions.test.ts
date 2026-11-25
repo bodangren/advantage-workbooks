@@ -57,10 +57,15 @@ const copy = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 const shareOf = (script: unknown): Raw => (script as Raw).share;
 
 let weeksCache: StorytimeWeek[] | undefined;
-/** The eight shipped weeks, parsed. Each call returns a fresh copy. */
+/** The eight unit 1 weeks, parsed. Each call returns a fresh copy. */
 function weeks(): StorytimeWeek[] {
     weeksCache ??= WEEK_NUMBERS.map((n) => StorytimeWeekSchema.parse(JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT, 2, n), 'utf8'))));
     return copy(weeksCache);
+}
+
+/** The sixteen weeks of the level, parsed. Each call returns a fresh copy. */
+function weeks16(): StorytimeWeek[] {
+    return Array.from({ length: 16 }, (_v, i) => StorytimeWeekSchema.parse(JSON.parse(fs.readFileSync(storytimeWeekFile(STORYTIME_ROOT, 2, i + 1), 'utf8'))));
 }
 
 /** The two label sets that the function gets: the real labels with the share labels replaced by the synthetic ones. */
@@ -285,7 +290,8 @@ describe('X1 to X4 command line: the exit codes (G5)', () => {
         fs.writeFileSync(file, listText(rows));
         return file;
     };
-    const realRows = () => [...scRows(weeks()), ...slRows(realLabels())];
+    /** The rows of the command-line cases: the 16 weeks of the level and the 4 labels. */
+    const realRows = () => [...scRows(weeks16()), ...slRows(realLabels())];
 
     const run = (args: string[]) => {
         const result = spawnSync(process.execPath, ['--import', 'tsx', SCRIPT, ...args], {
@@ -304,11 +310,11 @@ describe('X1 to X4 command line: the exit codes (G5)', () => {
         };
     };
 
-    it('X1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems', () => {
+    it('X1 command line: a list written from the 16 weeks and the 4 labels exits 0 with 84 rows and 0 problems', () => {
         const result = run(['--level', '2', '--list', list(realRows())]);
         expect(result.status).toBe(0);
-        expect(result.last).toBe('share captions: 44 rows, 0 problems');
-        expect({ rows: result.rows, problems: result.problems }).toEqual({ rows: 44, problems: 0 });
+        expect(result.last).toBe('share captions: 84 rows, 0 problems');
+        expect({ rows: result.rows, problems: result.problems }).toEqual({ rows: 84, problems: 0 });
         expect(result.problemLines).toEqual([]);
     }, 90_000);
 
@@ -317,15 +323,15 @@ describe('X1 to X4 command line: the exit codes (G5)', () => {
         expect(result.status).toBe(1);
         expect(result.problemLines.length).toBe(1);
         expect(result.problemLines[0].startsWith('SC-w05-d3: ')).toBe(true);
-        expect(result.last).toBe('share captions: 44 rows, 1 problems');
+        expect(result.last).toBe('share captions: 84 rows, 1 problems');
     }, 90_000);
 
-    it('X4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id', () => {
+    it('X4 command line: a list with one missing SC row exits 1 with 83 rows and one problem line of that id', () => {
         const result = run(['--level', '2', '--list', list(realRows().filter((row) => row.id !== 'SC-w02-d4'))]);
         expect(result.status).toBe(1);
         expect(result.problemLines.length).toBe(1);
         expect(result.problemLines[0].startsWith('SC-w02-d4: ')).toBe(true);
-        expect(result.last).toBe('share captions: 43 rows, 1 problems');
+        expect(result.last).toBe('share captions: 83 rows, 1 problems');
     }, 90_000);
 
     it.each([

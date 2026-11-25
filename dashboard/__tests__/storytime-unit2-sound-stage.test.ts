@@ -23,7 +23,6 @@ const LABEL_MIX = 'No activity asks two sound positions (first, last, middle)';
 const LABEL_DAY1 = 'The day-1 sound game holds no new sound and asks only a skill of an earlier stage';
 const MEDIAL_VOWEL_TAG = 'english.phonics.pa.medial-vowel.identify';
 
-const draftPath = (n: number) => path.join(ROOT, `content/storytime/drafts/l2/w${String(n).padStart(2, '0')}.json`);
 const publishedPath = (n: number) => path.join(ROOT, `content/storytime/l2/w${String(n).padStart(2, '0')}.json`);
 const load = (p: string) => JSON.parse(fs.readFileSync(p, 'utf-8')) as any;
 
@@ -35,14 +34,14 @@ function earlierSounds(n: number): string[] {
         if (typeof s === 'string') sounds.push(s);
     }
     for (let w = 9; w < n; w++) {
-        const s = load(draftPath(w))?.focus?.element?.sound;
+        const s = load(publishedPath(w))?.focus?.element?.sound;
         if (typeof s === 'string') sounds.push(s);
     }
     return sounds;
 }
 
 describe.each(WEEKS)('unit 2 week %i sound stages', (n) => {
-    const week = load(draftPath(n));
+    const week = load(publishedPath(n));
 
     it('R14-3 plan row passes', () => {
         expect(checkSoundStagePlan(week)).toEqual({ id: 'sound-stage-plan', label: LABEL_PLAN, status: 'pass' });
@@ -95,7 +94,7 @@ describe.each(WEEKS)('unit 2 week %i sound stages', (n) => {
 
 describe('unit 2 day-1 lines of w09 to w16', () => {
     it('the day-1 English lines of w09 to w16 are 8 different strings', () => {
-        const lines = WEEKS.map((n) => load(draftPath(n))?.opening?.pa?.[0]?.en);
+        const lines = WEEKS.map((n) => load(publishedPath(n))?.opening?.pa?.[0]?.en);
         expect(new Set(lines).size).toBe(8);
     });
 });

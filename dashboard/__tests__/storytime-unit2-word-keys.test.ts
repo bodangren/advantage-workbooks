@@ -34,8 +34,8 @@ const repoRoot = path.resolve(dashboardRoot, '..');
 /** The week check script. */
 const checkWeeksScript = path.join(dashboardRoot, 'scripts/storytime/check-weeks.ts');
 
-/** The staged week 10 file. */
-const stagedW10 = path.join(STORYTIME_ROOT, 'drafts/l2/w10.json');
+/** The published week 10 file. */
+const stagedW10 = path.join(STORYTIME_ROOT, 'l2/w10.json');
 
 /** The baseline of the unit 1 rows at 0dcb45d4. */
 const baselineFile = path.join(repoRoot, 'measure/runs/storytime_l2_unit2_20261106/p1-baseline-rows-0dcb45d4.txt');
@@ -113,12 +113,25 @@ function normalize(text: string): string {
 }
 
 /**
- * The report without the `published` rows, one row per published week.
+ * Keeps the package sections of the unit 1 weeks (st2/1 to st2/8) of a check
+ * report and drops the Summary line. The stage root now holds 16 weeks, so the
+ * unit 2 sections and the 16-week totals are dropped; the `published` rows are
+ * dropped on both sides because that check came after the baseline capture.
+ * The unit 1 rows still compare exactly.
  * @param text A check report.
- * @returns The report without the published rows.
+ * @returns The unit 1 sections without the Summary line.
  */
-function dropPublishedRows(text: string): string {
-    return text.split('\n').filter((line) => !/^\s+PASS\s+published\b/.test(line)).join('\n');
+function unit1Sections(text: string): string {
+    const kept: string[] = [];
+    let keep = true;
+    for (const line of text.split('\n')) {
+        const head = /^st2\/(\d+)\b/.exec(line);
+        if (head) keep = Number(head[1]) <= 8;
+        if (line.startsWith('Summary:')) continue;
+        if (/^\s+PASS\s+published\b/.test(line)) continue;
+        if (keep) kept.push(line);
+    }
+    return kept.join('\n').trimEnd();
 }
 
 /**
@@ -225,6 +238,7 @@ describe('the unit 1 rows do not change (D-U2-K4, plan F11)', () => {
         const run = runCheck(stageRoot());
         expect(run.status, 'the exit code').toBe(0);
         // changed 2026-11-18 (publish of weeks 2 to 7, PM order): Daniel approved audio, song, and scripts of weeks 2 to 7 ("1. Ok", Google Tasks 2026-11-18 05:36 ICT); owner approval records and meta.status are not content.
-        expect(dropPublishedRows(normalize(run.stdout)), 'the st2/1 to st2/8 rows').toBe(dropPublishedRows(expected));
+        // changed 2026-11-25 (unit 2 move): the stage root holds 16 weeks, so only the st2/1 to st2/8 sections compare.
+        expect(unit1Sections(normalize(run.stdout)), 'the st2/1 to st2/8 rows').toBe(unit1Sections(expected));
     });
 });
