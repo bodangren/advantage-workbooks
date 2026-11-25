@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "storytime_l2_unit2_20261106",
+  "phase": "P1 and P3",
+  "phase_base_sha": {
+    "P1": "f1c041ec",
+    "P3": "4e32c3f6"
+  },
+  "role_base_sha": "34d755623080f7a6ef1ad326f23a05f1f4b80f06",
+  "audited_head_sha": "d41d887b8f37970a1286eaedfae9641c01896305",
+  "status": "fail",
+  "verdict": "fail",
+  "phase_verdicts": {
+    "P1": "fail",
+    "P3": "fail"
+  },
+  "summary": "The review of Phases 1 and 3 precedes the move, media updates, and production code changes. The current HEAD has no matching Review A result.",
+  "blocking_findings": [
+    "F1 [Blocker] P1: Review A targets b1340f8c. Commits b14d15ee, f32de984 and a786df6a change the staged week files after that review. The test-only exception does not apply. | CONTEST kept: Round 1 at 7b0ab12c reviews those changes, but c72e98ef, 3dd18358, 47f37ef4 and 1fed07d8 subsequently change the published content. Even the latest Review A at a5c5794c precedes production changes 41079153 and bd4c687a. Neither review targets d41d887b. The test-only exception cannot apply to either range. This prerequisite affects both phases."
+  ],
+  "nonblocking_findings": [],
+  "evidence": [
+    "F2 withdrawn: plan.md line 267 records the risk-based exclusion of Review B, Review C and adversarial testing for Phases 1 and 3 only. UX_REQUIRED=never.",
+    "F3 withdrawn: plan.md line 196 now explicitly corrects the 21 accepted rows claim and identifies st2/12 song-frame as the only accepted row.",
+    "N1 withdrawn as an acceptance concern: the prior result verifies the separate before and after captures. Plan.md discloses the limitations of the apply check.",
+    "Review A round 1 at 7b0ab12c explicitly passes Phases 1 and 3 structurally. Its overall failure concerns Phase 4. Rounds 2 through 4 address Phase 4 findings.",
+    "git rev-parse HEAD first returned 34d75562 and subsequently returned d41d887b. Both phase base references are ancestors of d41d887b.",
+    "git log 7b0ab12c..d41d887b on the published weeks identifies the move and three media commits. git log a5c5794c..d41d887b on dashboard/lib and dashboard/scripts identifies two production commits.",
+    "The recursive Thai filter confirms all eight published week files have approval.thai status approved, date 2026-11-25 and words Ok at d41d887b.",
+    "STAGE_CHECKS does not apply after the move. A future live acceptance must use PROJECT_CHECKS for the published weeks.",
+    "No live test command ran because the exact-HEAD review prerequisite is unmet."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git merge-base --is-ancestor f1c041ec d41d887b",
+    "git merge-base --is-ancestor 4e32c3f6 d41d887b",
+    "git log --oneline 7b0ab12c..d41d887b -- content/storytime/l2/w09.json through w16.json",
+    "git log --oneline a5c5794c..d41d887b -- dashboard/lib dashboard/scripts",
+    "git show d41d887b:<published week path> through a recursive Thai filter"
+  ],
+  "gates": {
+    "RED_TEST_COMMAND_U2K": {"exit_code": null, "capture_path": null},
+    "RED_TEST_COMMAND_U2S": {"exit_code": null, "capture_path": null},
+    "PROJECT_TESTS": {"exit_code": null, "capture_path": null},
+    "PROJECT_LINT": {"exit_code": null, "capture_path": null},
+    "PROJECT_CHECKS": {"exit_code": null, "capture_path": null},
+    "STAGE_CHECKS": {"applicable": false, "reason": "The published weeks replace the staged weeks."}
+  },
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/phase-acceptance-p1p3-r2-d41d887b.json"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "unknown"
+}
