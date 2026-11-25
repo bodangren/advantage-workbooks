@@ -1,0 +1,73 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ❯ __tests__/storytime-unit2-scope.test.ts (29 tests | 1 failed | 27 skipped) 199ms
+     × readUnitCardPictures(temp, 2, 2) gives the unit 2 card rows 76ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.4: the unit 2 card entries and the level match > readUnitCardPictures(temp, 2, 2) gives the unit 2 card rows
+AssertionError: expected [] to deeply equal [ 'nod', 'dinosaur', 'rice', …(33) ]
+
+- Expected
++ Received
+
+- [
+-   "nod",
+-   "dinosaur",
+-   "rice",
+-   "banana",
+-   "bread",
+-   "juice",
+-   "pad",
+-   "skirt",
+-   "T-shirt",
+-   "trousers",
+-   "socks",
+-   "shoes",
+-   "jacket",
+-   "elbow",
+-   "envelope",
+-   "door",
+-   "window",
+-   "hop",
+-   "hippo",
+-   "crayon",
+-   "eraser",
+-   "ruler",
+-   "run",
+-   "walk",
+-   "clap",
+-   "kick",
+-   "throw",
+-   "catch",
+-   "sunny",
+-   "cloudy",
+-   "windy",
+-   "rainy",
+-   "hot",
+-   "cold",
+-   "garden",
+-   "helicopter",
+- ]
++ []
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:232:44
+    230|         const entries = (mod['readUnitCardPictures'] as (root: string,…
+    231|         const staged = readJson(path.join(draftsRoot, 'print', 'card-p…
+    232|         expect(entries.map((e) => e.word)).toEqual(staged.map((e) => e…
+       |                                            ^
+    233|         expect(entries.length).toBe(36);
+    234|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed | 27 skipped (29)
+   Start at  21:23:53
+   Duration  522ms (transform 197ms, setup 41ms, import 172ms, tests 199ms, environment 0ms)
+

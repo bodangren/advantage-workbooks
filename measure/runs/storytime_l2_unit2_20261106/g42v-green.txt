@@ -1,0 +1,12 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+
+ Test Files  3 passed (3)
+      Tests  112 passed (112)
+   Start at  21:24:05
+   Duration  3.77s (transform 441ms, setup 101ms, import 360ms, tests 2.73s, environment 306ms)
+
