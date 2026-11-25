@@ -1,0 +1,63 @@
+Green Task 4.2 round 2 mutants. One mutant per Review A rule F1, F2, F3, F4, F5, F6, F10, F12.
+One heavy-run for the control and all eight mutants. Each mutation was applied to a saved copy
+and the source file was restored and compared byte for byte after its stopped run.
+
+phase_base_sha: 35729287dc615dd9688cb7ddb6179786c23b3f01
+role_base_sha:  50148a96 (Red retry 4 typed the two F3 callbacks)
+implementation: 1a2c2eda and 5dd32532
+
+Command run for the control and for every mutant (inside one heavy-run wrapper):
+  cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-phase4.test.ts __tests__/storytime-unit2-scope.test.ts --reporter=json --outputFile=<label>.json
+
+CONTROL exit=1, failed=1: scope harness > the repository content folder is unchanged.
+That one failure is expected before the step 5 commit: the three generated unit 2 files are still
+untracked under content/storytime/l2/. A mutant counts as caught only when a named test that was
+passing in the control fails under the mutation.
+
+F1  dashboard/scripts/storytime/print-pictures.ts
+    Mutation: bookRows = storytimePrintPictures(parsed.filter(week.meta.unit === unit)), the old
+    per-unit reuse computation, in place of the levelRows filter.
+    exit=1, named_caught=True, restore_equal=True. Named failing test:
+    "print-pictures on a temp root writes the Phase 2 contract list (229 rows, the 9 reuse ids absent)"
+
+F2  dashboard/scripts/storytime/check-storytime-pictures.ts
+    Mutation: readCardPicturesThrough(..., 1) in place of the requested maximum unit.
+    exit=1, named_caught=True, restore_equal=True. Named failing test:
+    "a manifest that lacks one unit 2 card row reports that row"
+
+F3  dashboard/lib/storytime/checks.ts
+    Mutation: reviewCardTaught reads the fixed LEVEL2_TAUGHT graphemes, ignoring the teaching week.
+    exit=1, named_caught=True, restore_equal=True. Named failing test:
+    "a week 1 card with a letter taught only in a later week fails"
+
+F4  dashboard/lib/storytime/checks.ts
+    Mutation: the answer comparison after the single-match check is disabled.
+    exit=1, named_caught=True, restore_equal=True. Named failing test:
+    "one match that is not the answer fails"
+    (Also caught "knight does not start with /k/ and fails as the answer".)
+
+F5  dashboard/lib/storytime/print/student-book.ts
+    Mutation: bookMapPage(pageOf, ...) in place of the renumbered mapPageOf.
+    exit=1, named_caught=True, restore_equal=True. Named failing test:
+    "the 7 decodable places print the pages of weeks 9 to 15, and the unit place the page of week 16"
+
+F6  dashboard/scripts/storytime/make-card-kit-pdf.ts
+    Mutation: storytimeCardKitFileNames(level, 1, args.version) in place of the parsed unit.
+    exit=1, named_caught=True, restore_equal=True. Named failing test:
+    "a unit 2 request names the unit 2 files"
+
+F10 dashboard/lib/storytime/files.ts
+    Mutation: readCardPicturesThrough starts its loop at the requested unit, skipping earlier units.
+    exit=1, named_caught=True, restore_equal=True. Named failing test:
+    "units 3 and 4 include every earlier unit list in order"
+    (Also caught "reads units 1 and 3 with a missing middle file as an empty list, not an error".)
+
+F12 dashboard/lib/storytime/files.ts
+    Mutation: readUnitWeeks filters for unit 1 instead of the requested unit.
+    exit=1, named_caught=True, restore_equal=True. Named failing test:
+    "a unit 2 request gives the unit 2 student-book pages"
+    (Also caught the scope case "teacher book unit weeks read the unit weeks only".)
+
+FINAL_TREE_EQUAL=True ALL_MUTANTS_CAUGHT=True. Mutants caught: 8 of 8.
+The captured JSON results are in /tmp/opencode/g42r2-mutant-*.json; the human-readable driver
+output is /tmp/opencode/g42r2-mutants-summary.txt. The Thai count of this file is 0.

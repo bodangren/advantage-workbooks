@@ -1,0 +1,63 @@
+Green Task 4.2 round 2 evidence, implementation commit 1a2c2eda.
+
+phase_base_sha: 35729287dc615dd9688cb7ddb6179786c23b3f01
+role_base_sha at implementation: b0d5002b46a8b70c53783bae50d3f6a9c670eee8
+role_base_sha at final gate: 50148a96 (Red retry 4 typed the two F3 callbacks)
+Both base commits are ancestors of HEAD; the committed Red change is inside phase_base_sha..HEAD.
+
+Implementation commits:
+  1a2c2eda  eight code files: full-level picture reuse, unit card checks, taught review cards,
+            one right picture, unit book map, unit card kit names (225 insertions, 52 deletions)
+  5dd32532  copy readonly taught sets into mutable review facts (a tsc fix in production code)
+
+GATES (each in one heavy-run wrapper, output captured and filtered for Thai before display):
+
+GREEN_TEST_COMMAND
+  cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-*.test.ts
+  exit 0; Test Files 4 passed (4); Tests 134 passed (134); Duration 17.46s.
+
+PROJECT_TESTS
+  cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts
+  exit 0; Test Files 77 passed (77); Tests 1964 passed (1964); Duration 329.86s.
+  Run at commit 1a2c2eda, before the type-only readonly-copy fix of 5dd32532.
+
+PROJECT_LINT
+  cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-unit2-*.test.ts --no-error-on-unmatched-pattern
+  exit 0.
+
+PROJECT_CHECKS
+  cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit
+  exit 0 at role base 50148a96; Summary: 16 package(s), 0 failed check(s), 33 warning(s);
+  npx tsc --noEmit exit 0.
+  First run at role base b0d5002b exited 2 on two TS7006 errors in the immutable Red test file;
+  Red retry 4 typed the two callbacks and the orchestrator confirmed tsc exit 0 before this run.
+
+MAKERS (run in dashboard/, both exit 0):
+  npx tsx scripts/storytime/print-pictures.ts --level 2
+    wrote 227 picture rows (196 book rows and 31 card rows) to ../content/storytime/l2/print/pictures.json and pictures.md
+    wrote 229 picture rows (193 book rows and 36 card rows) to ../content/storytime/l2/print/u2/pictures.json and pictures.md
+  npx tsx scripts/storytime/make-step-map.ts --level 2
+    wrote 16 files to ../content/storytime/l2/: step-map-u1.json, step-icon-ear.svg, step-icon-mouth.svg,
+    step-icon-read.svg, step-icon-pencil.svg, step-icon-circle.svg, step-icon-book.svg, step-icon-star.svg,
+    step-map-u2.json, and the seven u2 step icons.
+
+OUTPUT CHECKS:
+  git diff --stat -- content/storytime/l2/print/pictures.json content/storytime/l2/print/pictures.md content/storytime/l2/step-map-u1.json
+  is empty: the unit 1 outputs stay byte-equal.
+  JSON compare: content/storytime/l2/print/u2/pictures.json has 229 rows;
+  content/storytime/drafts/l2/print/pictures-u2.json has 229 rows; equal-as-JSON True.
+  New files: content/storytime/l2/print/u2/pictures.json, content/storytime/l2/print/u2/pictures.md,
+  content/storytime/l2/step-map-u2.json. No other content file changed.
+
+MUTANTS:
+  One heavy-run, control plus eight mutations (F1, F2, F3, F4, F5, F6, F10, F12).
+  Mutants caught 8 of 8, each by a named test; every source file restored byte equal.
+  Control exit 1 on one test only: scope harness > the repository content folder is unchanged,
+  caused by the three generated files being untracked before the step 5 commit.
+  Full record: measure/runs/storytime_l2_unit2_20261106/green-4.2-r2-mutants.txt.
+
+THAI:
+  First command wrote Thai-free copies of content/storytime/l2/w01.json to w16.json in
+  /tmp/opencode/thai-free (every th key and every U+0E00 to U+0E7F string dropped) and printed
+  0 Thai characters in 16 files. Every gate, maker, and mutant output was filtered with
+  grep -vP before display; 0 Thai lines were seen. Only English and ids are written here.
