@@ -320,6 +320,19 @@ function teachingOrderOf(teaching: StorytimeWeek[]): string[] {
 }
 
 /**
+ * The printed title of one card kit part. The size names a card size, or the sticker sheet part.
+ * @param level The level of the book.
+ * @param unit The unit of the book, from `meta.unit`.
+ * @param size The card size, or `sticker sheet` for the sticker sheet part.
+ * @returns The title.
+ */
+export function storytimeCardKitTitle(level: number, unit: number, size: string): string {
+    return size === 'sticker sheet'
+        ? `Storytime Advantage, Level ${level}, Unit ${unit} Card Kit, sticker sheet`
+        : `Storytime Advantage, Level ${level}, Unit ${unit} Card Kit, ${size} cards`;
+}
+
+/**
  * The kit of one unit (plan lines 950 to 965). The function is pure: it reads the parsed weeks and
  * no file.
  * @param weeks The parsed weeks of one unit, in week order; the review week supplies the letter

@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { readLevelCardPictures, readLevelWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
+import { readLevelCardPictures, readLevelWeeks, readUnitCardPictures, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { pictureListMarkdown, storytimeCardPictureRows, storytimePrintPictures } from '../../lib/storytime/print/pictures';
 
-const USAGE = `Writes the print picture list of a level (spec FR-2) to content/storytime/l<n>/print/.
+const USAGE = `Writes the print picture list of each unit of a level (spec FR-2) to content/storytime/l<n>/print/.
+Unit 1 keeps pictures.json and pictures.md in that folder. Unit 2 writes them under print/u2/.
 
 Usage: npx tsx scripts/storytime/print-pictures.ts --level <n>
 
@@ -38,15 +39,23 @@ function main(argv: string[]): number {
         for (const w of broken) console.error(`${path.relative(process.cwd(), w.file)}: ${w.error}`);
         return 1;
     }
-    const bookRows = storytimePrintPictures(weeks.flatMap((w) => (w.week ? [w.week] : [])));
-    // Version 7: the 31 card rows of the card kit follow the book rows, in file order.
-    const cardRows = storytimeCardPictureRows(readLevelCardPictures(STORYTIME_ROOT, level), level);
-    const rows = [...bookRows, ...cardRows];
-    const dir = path.join(STORYTIME_ROOT, `l${level}`, 'print');
-    fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, 'pictures.json'), JSON.stringify(rows, null, 2) + '\n');
-    fs.writeFileSync(path.join(dir, 'pictures.md'), pictureListMarkdown(rows, level));
-    console.log(`wrote ${rows.length} picture rows (${bookRows.length} book rows and ${cardRows.length} card rows) to ${path.relative(process.cwd(), dir)}${path.sep}pictures.json and pictures.md`);
+    const parsed = weeks.flatMap((w) => (w.week ? [w.week] : []));
+    const units = [...new Set(parsed.map((week) => week.meta.unit))].sort((a, b) => a - b);
+    for (const unit of units) {
+        const bookRows = storytimePrintPictures(parsed.filter((week) => week.meta.unit === unit));
+        // Version 7: the card rows of the unit kit follow the book rows, in file order.
+        const entries = unit === 1
+            ? readLevelCardPictures(STORYTIME_ROOT, level)
+            : readUnitCardPictures(STORYTIME_ROOT, level, unit);
+        const cardRows = storytimeCardPictureRows(entries, level);
+        const rows = [...bookRows, ...cardRows];
+        const folder = path.join(STORYTIME_ROOT, `l${level}`);
+        const dir = path.join(folder, unit === 1 ? 'print' : unit === 2 ? 'print/u2' : `print/u${unit}`);
+        fs.mkdirSync(dir, { recursive: true });
+        fs.writeFileSync(path.join(dir, 'pictures.json'), JSON.stringify(rows, null, 2) + '\n');
+        fs.writeFileSync(path.join(dir, 'pictures.md'), pictureListMarkdown(rows, level));
+        console.log(`wrote ${rows.length} picture rows (${bookRows.length} book rows and ${cardRows.length} card rows) to ${path.relative(process.cwd(), dir)}${path.sep}pictures.json and pictures.md`);
+    }
     return 0;
 }
 

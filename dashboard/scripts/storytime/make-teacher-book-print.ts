@@ -187,7 +187,7 @@ async function main(argv: string[]): Promise<number> {
         return 1;
     }
     // The steps name the printed pages of the student book of the whole unit (A-48 U8), not of the requested weeks only.
-    const unitWeeks = readLevelWeeks(STORYTIME_ROOT, level).flatMap((r) => (r.week ? [r.week] : []));
+    const unitWeeks = readLevelWeeks(STORYTIME_ROOT, level).flatMap((r) => (r.week ? [r.week] : [])).filter((week) => week.meta.unit === units[0]);
     const studentBookPages = storytimeStudentBookPages(unitWeeks);
     const draftOf = (week: number) => path.join(drafts, `Storytime-L${level}-W${String(week).padStart(2, '0')}-Teachers-Book-TH-draft.pdf`);
     const missing = weeks.map(draftOf).filter((file) => !fs.existsSync(file));

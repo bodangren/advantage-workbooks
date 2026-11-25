@@ -136,7 +136,8 @@ export function storytimeStepMapRows(weeks: StorytimeWeek[], pages: StorytimeBoo
  * @returns The file names (relative to the unit folder) with their text.
  */
 export function storytimeStepMapFiles(weeks: StorytimeWeek[]): { name: string; text: string }[] {
-    const files = [{ name: 'step-map-u1.json', text: `${JSON.stringify(storytimeStepMapRows(weeks), null, 1)}\n` }];
+    const unit = weeks[0]?.meta.unit ?? 1;
+    const files = [{ name: `step-map-u${unit}.json`, text: `${JSON.stringify(storytimeStepMapRows(weeks), null, 1)}\n` }];
     for (const icon of STORYTIME_ICONS) files.push({ name: `step-icon-${icon}.svg`, text: iconSvgFile(icon) });
     return files;
 }

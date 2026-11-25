@@ -38,6 +38,23 @@ export function frameCount(frame: string, lines: string[]): number {
     return lines.filter((l) => re.test(stem(l))).length;
 }
 
+/** One recorded song-frame exception (D15): a week key, an exact count, and the decision and source. */
+interface SongFrameException {
+    weekKey: string;
+    lines: number;
+    source: string;
+    date: string;
+}
+
+/**
+ * The fixed song-frame exceptions, beside the song-frame check. The week file has no field for
+ * them, because the app package goes to Monorepo. The only entry is the PM decision of 2026-11-09
+ * for week 12: Daniel's pick sings 10 of the 12 lines, so the frame stands on 7 lines.
+ */
+const SONG_FRAME_EXCEPTIONS: readonly SongFrameException[] = [
+    { weekKey: 'st2/12', lines: 7, source: 'PM decision', date: '2026-11-09' },
+];
+
 /** The letters and the tricky words that the books of a week can use. */
 export interface TaughtSet {
     /** The graphemes of the elements taught to date (the letter spelling, when no phonics graph is given). */
@@ -108,6 +125,51 @@ export function decodability(text: string, taught: TaughtSet, names: string[] = 
     }
     if (words.length) result.ratio = (result.decodable + result.tricky) / words.length;
     return result;
+}
+
+/** The graphemes and tricky words that level 2 teaches, for a week read without the level. */
+const LEVEL2_TAUGHT: readonly string[] = [
+    'n', 'a', 'p', 'm', 's', 't', 'o', 'd', 'e', 'h', 'f', 'g',
+    'and', 'can', 'I', 'on', 'in', 'the', 'get', 'is', 'this', 'off', 'saw', 'with',
+    'he', 'put', 'see', 'from', 'run', 'up', 'are', 'has', 'cannot', 'they', 'too',
+    'were', 'me', 'of', 'it', 'said', 'that', 'do', 'for', 'like', 'you', 'goes',
+    'his', 'no', 'my',
+];
+
+/** The design frames that a review strip may recall, in every level 2 week (D2, D6). */
+const REVIEW_FRAMES: readonly string[] = [
+    'Hello, I am ___.', 'How many? One, two...', 'It is ___.', 'This is my ___.',
+    'I have two ___.', 'I can see a ___.', 'Is it a ___? Yes/No.', 'I like ___. Yum!',
+    'Put on your ___.', 'Where is ___? In/On/Under.', 'Open your book.', 'I can ___.', 'Look, a ___!',
+];
+
+/**
+ * Tells whether a review card item was taught. The `week` field of a card is a label only; the rule
+ * compares the item text with the taught graphemes and tricky words, with the English of the week,
+ * and with the design frames. A card from a week that the book has not taught gets no pass.
+ * @param text The card text.
+ * @param w The week of the package.
+ * @param taught The graphemes and tricky words taught to the week, when the level is read.
+ * @returns True when the item was taught.
+ */
+function reviewCardTaught(text: string, w: StorytimeWeek, taught?: TaughtSet): boolean {
+    const item = stem(text);
+    if (!item) return true;
+    if (text.includes('___') || REVIEW_FRAMES.includes(text)) return true;
+    const taughtWords = new Set([...LEVEL2_TAUGHT, ...(w.focus.element?.graphemes ?? []), ...w.focus.trickyWords,
+        ...(taught?.graphemes ?? []), ...(taught?.tricky ?? [])].map(stem));
+    if (taughtWords.has(item)) return true;
+    const english: string[] = [];
+    const visit = (value: unknown): void => {
+        if (typeof value === 'string') english.push(value);
+        else if (Array.isArray(value)) value.forEach(visit);
+        else if (value && typeof value === 'object') {
+            for (const [key, nested] of Object.entries(value)) if (key !== 'th') visit(nested);
+        }
+    };
+    visit([w.scripts, w.focus, w.check, w.home]);
+    const words = new Set(english.join(' ').match(/[a-z0-9]+/g) ?? []);
+    return item.split(' ').every((word) => words.has(word));
 }
 
 /**
@@ -230,11 +292,22 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
         }
     }
 
-    // Song.
+    // Song. An exact week-key and count match takes the recorded exception; every other count
+    // and every other week keeps the rule of 8 or more.
     if (teach) {
         const lines = w.song?.lines.map((l) => l.text) ?? [];
         const n = frameCount(w.focus.frame, lines);
-        checks.push(check('song-frame', 'The frame 8 or more times in the song', !w.song ? ['no song'] : n < 8 ? [`${n} times`] : []));
+        const exception = SONG_FRAME_EXCEPTIONS.find((item) => item.weekKey === key && item.lines === n);
+        if (exception && w.song) {
+            checks.push({
+                id: 'song-frame',
+                label: 'The frame 8 or more times in the song',
+                status: 'pass',
+                detail: `exception: ${key}, ${n} lines, ${exception.source} ${exception.date}`,
+            });
+        } else {
+            checks.push(check('song-frame', 'The frame 8 or more times in the song', !w.song ? ['no song'] : n < 8 ? [`${n} times`] : []));
+        }
     }
     if (w.song) {
         // A part in parentheses is how the line is sung (claps, an echo), so it can differ from the sheet.
@@ -305,7 +378,10 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
     for (let d = 1; d <= 5; d++) if (!days.has(d)) reviewProblems.push(`no strip for day ${d}`);
     for (const s of w.review) {
         if (s.cards.length > 18) reviewProblems.push(`day ${s.day}: ${s.cards.length} cards`);
-        for (const c of s.cards) if (c.week > week) reviewProblems.push(`day ${s.day}: "${c.text}" is from week ${c.week}`);
+        for (const c of s.cards) {
+            if (c.week > week) reviewProblems.push(`day ${s.day}: "${c.text}" is from week ${c.week}`);
+            if (!reviewCardTaught(c.text, w, taught)) reviewProblems.push(`day ${s.day}: "${c.text}" was not taught to this week`);
+        }
     }
     checks.push(check('review', 'Review strips', reviewProblems));
 
@@ -582,6 +658,24 @@ function shareCheck(w: StorytimeWeek): PackageCheck {
 }
 
 /** The circle items whose answer is not one of their choices, and the sorts with a picture in two columns, as "item n: ..." lines. */
+/**
+ * Tells whether a picture word has the sound that a circle-picture item asks at its position.
+ * A sound in slashes is a letter spelling; a sound with a leading dash is a rime.
+ * @param word The picture word.
+ * @param sound The sound of the item.
+ * @param position Where the word must hold the sound.
+ * @returns True when the word holds the sound at the position.
+ */
+function pictureHasSound(word: string, sound: string, position: 'first' | 'middle' | 'last'): boolean {
+    const token = sound.trim().replace(/^\/+|\/+$/g, '').toLowerCase();
+    if (!token) return false;
+    const text = word.toLowerCase();
+    const rime = token.startsWith('-') ? token.slice(1) : token;
+    if (position === 'last') return text.endsWith(rime);
+    if (position === 'first') return text.startsWith(rime);
+    return text.includes(rime) && !text.startsWith(rime) && !text.endsWith(rime);
+}
+
 function wrongAnswers(items: StorytimeCheckItem[]): string[] {
     return items.flatMap((item, i) => {
         if (item.kind === 'picture-sort') {
@@ -591,7 +685,13 @@ function wrongAnswers(items: StorytimeCheckItem[]): string[] {
         }
         if (item.kind !== 'circle-picture' && item.kind !== 'circle-word') return [];
         const choices = item.kind === 'circle-picture' ? item.pictures : item.words;
-        return choices.includes(item.answer) ? [] : [`item ${i + 1}: "${item.answer}" is not one of ${choices.join(', ')}`];
+        const problems = choices.includes(item.answer) ? [] : [`item ${i + 1}: "${item.answer}" is not one of ${choices.join(', ')}`];
+        if (item.kind === 'circle-picture') {
+            const position = item.position ?? 'first';
+            const right = item.pictures.filter((word) => pictureHasSound(word, item.sound, position));
+            if (right.length !== 1) problems.push(`item ${i + 1}: ${right.length} pictures have ${item.sound} at the ${position}`);
+        }
+        return problems;
     });
 }
 

@@ -107,7 +107,10 @@ async function main(argv: string[]): Promise<number> {
         console.error(e instanceof Error ? e.message : String(e));
         return 2;
     }
-    const read = readLevelWeeks(STORYTIME_ROOT, args.level).filter((r) => args.weeks.includes((r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
+    // The reuse rule needs every week of the level: a unit 2 row that reuses a unit 1 picture must
+    // keep the unit 1 row id. Select the requested weeks only after the full level is read.
+    const levelRead = readLevelWeeks(STORYTIME_ROOT, args.level);
+    const read = levelRead.filter((r) => args.weeks.includes((r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
     // The same --weeks contract as make-readers-pdf.ts (C-P4-9): a week that the level does not
     // load, and a duplicate week, stop the command before the batch, so it never reports a pass
     // for a week it did not check.
@@ -117,7 +120,7 @@ async function main(argv: string[]): Promise<number> {
         console.error(`Not parsed: ${broken.map((r) => `${r.file} (${r.error})`).join('; ')}`);
         return 1;
     }
-    const weeks = read.flatMap((r) => (r.week ? [r.week] : [])).sort((a, b) => a.meta.week - b.meta.week);
+    const weeks = levelRead.flatMap((r) => (r.week ? [r.week] : [])).sort((a, b) => a.meta.week - b.meta.week);
     if (!weeks.length) {
         console.error(`no week files for level ${args.level} and weeks ${args.weeks.join(', ')} under ${STORYTIME_ROOT}`);
         return 1;

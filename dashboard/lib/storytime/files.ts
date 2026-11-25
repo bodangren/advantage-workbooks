@@ -106,17 +106,26 @@ export interface StorytimeCardPictureEntry {
 }
 
 /**
- * Reads the card picture file of a level: `<root>/l<level>/print/card-pictures.json`.
- * A level without that file gives an empty list. A file that is not an array, or that holds an
- * entry without a word, a week of 1 or more, or a prompt, throws. A broken file never reaches the
- * picture list.
+ * The card picture file of one unit. Unit 1 keeps the level folder; later units use `print/u<unit>`.
  * @param root The Storytime content folder.
  * @param level The Storytime level.
+ * @param unit The unit of the level, from `meta.unit`.
+ * @returns The file path.
+ */
+export function storytimeCardPicturesFile(root: string, level: number, unit: number): string {
+    const folder = path.join(root, `l${level}`, 'print');
+    return unit === 1
+        ? path.join(folder, 'card-pictures.json')
+        : path.join(folder, `u${unit}`, 'card-pictures.json');
+}
+
+/**
+ * Reads the card picture entries of one file, in file order.
+ * @param file The card picture file.
  * @returns The entries in file order.
  * @throws Error When the file is not valid JSON, is not an array, or holds an invalid entry.
  */
-export function readLevelCardPictures(root: string, level: number): StorytimeCardPictureEntry[] {
-    const file = path.join(root, `l${level}`, 'print', 'card-pictures.json');
+function readCardPictureFile(file: string): StorytimeCardPictureEntry[] {
     if (!fs.existsSync(file)) return [];
     const raw: unknown = JSON.parse(fs.readFileSync(file, 'utf8'));
     if (!Array.isArray(raw)) throw new Error(`not a card picture list: ${file}`);
@@ -130,6 +139,47 @@ export function readLevelCardPictures(root: string, level: number): StorytimeCar
         }
         return { word, week, prompt };
     });
+}
+
+/**
+ * Reads the card picture file of a level: `<root>/l<level>/print/card-pictures.json`.
+ * A level without that file gives an empty list. A file that is not an array, or that holds an
+ * entry without a word, a week of 1 or more, or a prompt, throws. A broken file never reaches the
+ * picture list.
+ * @param root The Storytime content folder.
+ * @param level The Storytime level.
+ * @returns The entries in file order.
+ * @throws Error When the file is not valid JSON, is not an array, or holds an invalid entry.
+ */
+export function readLevelCardPictures(root: string, level: number): StorytimeCardPictureEntry[] {
+    return readCardPictureFile(storytimeCardPicturesFile(root, level, 1));
+}
+
+/**
+ * Reads the card picture entries of one unit: unit 1 from the level folder, later units from
+ * `print/u<unit>/`. A unit without that file gives an empty list.
+ * @param root The Storytime content folder.
+ * @param level The Storytime level.
+ * @param unit The unit of the level, from `meta.unit`.
+ * @returns The entries in file order.
+ * @throws Error When the file is not valid JSON, is not an array, or holds an invalid entry.
+ */
+export function readUnitCardPictures(root: string, level: number, unit: number): StorytimeCardPictureEntry[] {
+    return readCardPictureFile(storytimeCardPicturesFile(root, level, unit));
+}
+
+/**
+ * Reads the parsed week files of one unit of a level, in week order. Files that do not parse are
+ * left out. Use `readLevelWeeks` when a broken week must be reported.
+ * @param root The Storytime content folder.
+ * @param level The Storytime level.
+ * @param unit The unit of the level, from `meta.unit`.
+ * @returns The weeks of the unit, in week order.
+ */
+export function readUnitWeeks(root: string, level: number, unit: number): StorytimeWeek[] {
+    return readLevelWeeks(root, level)
+        .flatMap((read) => (read.week && read.week.meta.unit === unit ? [read.week] : []))
+        .sort((a, b) => a.meta.week - b.meta.week);
 }
 
 /**

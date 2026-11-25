@@ -1,0 +1,10 @@
+Task 4.2 Green evidence. Phase base 35729287, Red 8e738876, Red retry 66f728d2, role base 66f728d2, Green code base 1d27cf79.
+GREEN_TEST_COMMAND: exit 0; 3 files, 112 passed, 0 failed.
+PROJECT_TESTS: exit 0; 76 files, 1942 tests passed, 0 failed.
+PROJECT_LINT: exit 0, no errors.
+PROJECT_CHECKS: exit 0; check-weeks 0 FAIL lines, tsc clean.
+STAGE_CHECKS: exit 0; 0 FAIL lines; song-frame detail: exception: st2/12, 7 lines, PM decision 2026-11-09.
+Design note: the book map song line prints for units after 1 only. FR-6.7 freezes every unit 1 output byte for byte; a line added to the unit 1 map would break the snapshot.
+Design note: the pinned TRACE_START_EM keeps its 32 letters; capitals of unit 2 trace words sit in TRACE_START_EM_UNIT2 and are passed only by the book renderer.
+Mutants: 18 run, 17 caught, 1 not caught (M18 unit-2 card-picture path: test gap, Red retry needed).
+Thai proof: 0 Thai characters in this file and in the evidence set. First command wrote 16 Thai-free week copies with TOTAL_THAI=0.

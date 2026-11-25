@@ -39,12 +39,14 @@ export const LETTER_CELL_MM = { width: 24, height: 28.8 } as const;
 export const LETTER_GUIDE = { strokeWidth: 2, modelDotRadius: 3.5, traceDotRadius: 4.4, numberSize: 12 } as const;
 
 /**
- * The stroke guides of the seven letters of unit 1. The paths were measured on the Andika regular
+ * The stroke guides of the letters of units 1 and 2. The paths were measured on the Andika regular
  * glyph: each stem is the center of the stem ink, and each curve is the skeleton (the middle line)
  * of the glyph ink, smoothed. Each path stays inside the glyph ink. The strokes follow the formation
  * words of the weeks: n down, then up over the hill and down; a round the bowl, then down the stem;
  * p down, then up and round the bowl; m down, then two hills; s one curve; t down with the foot,
- * then across; o one round. The table stays in code, not in the week files.
+ * then across; o one round; d round the bowl, then down the stem; e across, then round and back;
+ * h down, then up over the hill and down; f round the hook, then down and across; g round the bowl,
+ * then down and into the tail. The table stays in code, not in the week files.
  */
 export const LETTER_STROKES: Readonly<Record<string, LetterStrokeData>> = {
     n: {
@@ -108,6 +110,50 @@ export const LETTER_STROKES: Readonly<Record<string, LetterStrokeData>> = {
         modelDot: { x: 50, y: 32.4 },
         traceDot: { x: 50, y: 32.4 },
         dotOnlyDot: { x: 50, y: 32.4 },
+    },
+    d: {
+        strokes: [
+            { d: 'M66.7 35.5 C65.6 35.5 63.1 35.8 59.9 35.3 C56.7 34.8 51.6 32.4 47.7 32.8 C43.8 33.2 39.1 36.0 36.7 37.5 C34.3 39.0 34.1 40.3 33.1 41.8 C32.1 43.3 31.3 44.1 30.6 46.6 C29.9 49.1 28.9 53.1 28.7 56.5 C28.5 59.9 29.0 64.2 29.5 66.9 C30.0 69.6 30.6 70.7 31.6 72.5 C32.6 74.3 32.8 76.1 35.5 77.5 C38.2 78.9 43.8 81.3 47.7 81.0 C51.6 80.7 55.4 76.4 58.7 75.6 C62.0 74.8 66.0 77.6 67.6 76.4 C69.2 75.2 68.3 71.7 68.4 68.4 C68.6 65.1 68.5 60.5 68.5 56.5 C68.5 52.5 68.6 47.6 68.4 44.5 C68.2 41.4 67.4 39.1 67.2 38.0', number: { x: 72, y: 30 } },
+            { d: 'M68.2 1.0 C68.2 4.2 68.4 12.7 68.4 20.0 C68.5 27.3 68.5 38.0 68.5 45.0 C68.5 52.0 68.5 57.5 68.6 62.0 C68.6 66.5 68.7 68.7 68.8 72.0 C68.9 75.3 69.3 80.3 69.4 82.0', number: { x: 61, y: 4 } },
+        ],
+        modelDot: { x: 66.7, y: 35.5 },
+        traceDot: { x: 66.7, y: 35.5 },
+        dotOnlyDot: { x: 66.7, y: 35.5 },
+    },
+    e: {
+        strokes: [
+            { d: 'M31.5 56.0 C35.0 56.0 38.4 56.2 42.0 56.0 C46.6 55.8 51.1 55.3 56.0 55.0 C60.9 54.7 69.2 55.2 71.5 54.0 C73.8 52.8 70.9 50.2 70.0 48.0 C69.1 45.8 67.7 43.0 66.0 41.0 C64.3 39.0 62.0 37.7 60.0 36.0 C58.0 34.3 56.3 32.0 54.0 31.0 C51.7 30.0 48.5 29.3 46.0 30.0 C43.5 30.7 41.2 33.3 39.0 35.0 C36.8 36.7 34.5 37.8 33.0 40.0 C31.5 42.2 30.3 45.0 30.0 48.0 C29.7 51.0 30.8 54.7 31.0 58.0 C31.3 61.3 30.8 65.3 31.5 68.0 C32.2 70.7 33.3 72.3 35.0 74.0 C36.8 75.7 39.7 76.7 42.0 78.0 C44.3 79.3 46.3 81.3 49.0 82.0 C51.7 82.7 55.3 82.5 58.0 82.0 C60.7 81.5 63.0 79.8 65.0 79.0 C67.0 78.2 68.8 78.0 70.0 77.0 C71.2 76.0 71.7 73.7 72.0 73.0', number: { x: 23, y: 52 } },
+        ],
+        modelDot: { x: 31.5, y: 56.0 },
+        traceDot: { x: 31.5, y: 56.0 },
+        dotOnlyDot: { x: 31.5, y: 56.0 },
+    },
+    h: {
+        strokes: [
+            { d: 'M31.2 1.5 C31.2 6.3 31.2 20.3 31.2 30.0 C31.2 39.8 31.2 51.3 31.2 60.0 C31.2 68.7 31.2 78.3 31.2 82.0', number: { x: 22, y: 5 } },
+            { d: 'M31.2 45.4 C32.3 44.5 35.7 41.8 38.0 40.0 C40.3 38.2 42.5 35.9 45.2 34.7 C47.9 33.5 51.0 32.7 54.0 32.8 C57.0 32.9 60.8 33.6 63.1 35.2 C65.5 36.8 67.1 39.8 68.1 42.5 C69.1 45.2 69.0 47.8 69.2 51.5 C69.4 55.3 69.2 60.6 69.2 65.0 C69.2 69.4 69.2 75.8 69.2 78.0', number: { x: 40, y: 57 } },
+        ],
+        modelDot: { x: 31.2, y: 1.5 },
+        traceDot: { x: 31.2, y: 1.5 },
+        dotOnlyDot: { x: 31.2, y: 1.5 },
+    },
+    f: {
+        strokes: [
+            { d: 'M62.0 1.0 C65.0 0.5 68.0 1.0 70.0 3.0 C71.5 4.5 71.0 5.8 69.0 6.0 C66.0 6.0 62.0 5.5 58.0 5.5 C53.0 5.5 49.5 8.0 48.4 14.0 C47.8 20.0 47.8 55.0 47.8 84.0', number: { x: 69, y: -3 } },
+            { d: 'M33.0 34.5 C38.6 34.5 60.9 34.5 66.5 34.5', number: { x: 26, y: 39 } },
+        ],
+        modelDot: { x: 62.0, y: 1.0 },
+        traceDot: { x: 62.0, y: 1.0 },
+        dotOnlyDot: { x: 62.0, y: 1.0 },
+    },
+    g: {
+        strokes: [
+            { d: 'M66.0 35.5 C64.9 35.1 62.9 33.8 59.6 33.4 C56.3 33.0 50.2 32.4 46.4 33.4 C42.6 34.4 38.9 37.8 36.8 39.5 C34.7 41.2 34.8 42.4 34.0 43.8 C33.2 45.2 32.7 45.9 32.1 48.0 C31.5 50.1 30.7 53.3 30.5 56.2 C30.3 59.1 30.4 62.9 30.7 65.3 C31.0 67.7 31.4 68.8 32.2 70.5 C33.0 72.2 32.9 74.0 35.3 75.5 C37.7 77.0 42.8 79.8 46.4 79.7 C50.0 79.6 53.9 75.5 57.1 74.8 C60.3 74.1 64.1 76.8 65.8 75.7 C67.5 74.6 66.9 71.5 67.3 68.3 C67.7 65.0 68.0 60.3 68.1 56.2 C68.2 52.1 68.3 46.8 68.0 43.8 C67.7 40.8 66.8 39.0 66.5 38.0', number: { x: 72, y: 30 } },
+            { d: 'M67.5 44.0 C67.6 46.7 67.9 54.8 68.0 60.0 C68.1 65.2 68.0 71.0 68.0 75.0 C68.0 79.0 68.0 80.5 68.0 84.0 C68.0 87.5 69.7 92.5 68.0 96.0 C66.3 99.5 61.7 103.2 58.0 104.7 C54.3 106.2 50.0 105.5 46.0 104.8 C42.0 104.1 36.6 100.8 34.0 100.4 C31.4 100.0 31.1 102.1 30.5 102.4', number: { x: 75, y: 62 } },
+        ],
+        modelDot: { x: 66.0, y: 35.5 },
+        traceDot: { x: 66.0, y: 35.5 },
+        dotOnlyDot: { x: 66.0, y: 35.5 },
     },
 };
 

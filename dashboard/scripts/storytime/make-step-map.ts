@@ -37,7 +37,9 @@ function main(argv: string[]): number {
         return 1;
     }
     const dir = path.join(STORYTIME_ROOT, `l${level}`);
-    const files = storytimeStepMapFiles(weeks.flatMap((w) => (w.week ? [w.week] : [])));
+    const parsed = weeks.flatMap((w) => (w.week ? [w.week] : []));
+    const units = [...new Set(parsed.map((week) => week.meta.unit))].sort((a, b) => a - b);
+    const files = units.flatMap((unit) => storytimeStepMapFiles(parsed.filter((week) => week.meta.unit === unit)));
     for (const file of files) fs.writeFileSync(path.join(dir, file.name), file.text);
     console.log(`wrote ${files.length} files to ${path.relative(process.cwd(), dir)}${path.sep}: ${files.map((f) => f.name).join(', ')}`);
     return 0;

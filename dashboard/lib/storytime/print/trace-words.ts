@@ -71,6 +71,22 @@ export const TRACE_START_EM: Readonly<Record<string, { x: number; y: number }>> 
 };
 
 /**
+ * The start of the first stroke of a capital letter that a unit 2 trace word can begin with. The
+ * pinned `TRACE_START_EM` keeps its 32 letters of P9-B3, so the later capital sits beside it. The
+ * point of D is measured on the Andika regular stem ink: x from the left of the capital advance,
+ * y up from the baseline. It is not the point of the lower case d, which lies in the capital's
+ * counter.
+ */
+export const TRACE_START_EM_UNIT2: Readonly<Record<string, { x: number; y: number }>> = {
+    A: { x: 0.28, y: 0.6764 },
+    D: { x: 0.1315, y: 0.6764 },
+    L: { x: 0.13, y: 0.6764 },
+    O: { x: 0.5, y: 0.68 },
+    W: { x: 0.13, y: 0.6764 },
+    Y: { x: 0.13, y: 0.6764 },
+};
+
+/**
  * The geometry of a trace line in millimeters: the SVG user unit is 1 mm, the font size is 22 pt,
  * and the baseline sits at `baselineMm` from the top. `baselineMm` equals `heightMm`, so that the rule
  * line (the bottom border of the wrapper) lies on the baseline of every trace word (A-48 F1); a tail
@@ -95,15 +111,16 @@ const advanceEm = (ch: string): number => ANDIKA_ADVANCE_EM[ch] ?? 0.55;
  * Lays out a trace text as words on one line.
  * @param text The text; words are separated by spaces.
  * @param fontSize The font size in any unit; the result uses the same unit.
+ * @param extraStarts Further start points, for the capitals of later units; the pinned table never changes.
  * @returns The words with their x and start dot, and the width of the line.
- * @throws Error When a word starts with a letter that has no start point in the table.
+ * @throws Error When a word starts with a letter that has no start point in the tables.
  */
-export function traceLineLayout(text: string, fontSize: number): { words: TraceWord[]; width: number } {
+export function traceLineLayout(text: string, fontSize: number, extraStarts?: Readonly<Record<string, { x: number; y: number }>>): { words: TraceWord[]; width: number } {
     const words: TraceWord[] = [];
     let x = 0;
     for (const word of text.split(/\s+/).filter(Boolean)) {
         const first = word[0];
-        const start = TRACE_START_EM[first];
+        const start = TRACE_START_EM[first] ?? extraStarts?.[first];
         if (!start && /\p{L}/u.test(first)) throw new Error(`no trace start point for the letter "${first}" in "${word}"`);
         words.push({ text: word, x, ...(start ? { dot: { x: start.x * fontSize, y: start.y * fontSize } } : {}) });
         x += Array.from(word).reduce((sum, ch) => sum + advanceEm(ch), 0) * fontSize + advanceEm(' ') * fontSize;

@@ -1,0 +1,23 @@
+Task 4.2 Green mutants. Phase base 35729287, role base 66f728d2, Green base 1d27cf79.
+Each mutant was applied in place, the scope test file was run, and the file was restored and compared with its backup. 0 restore mismatches.
+M01-sticker: caught - book map sticker names unit 2 for the unit 2 weeks
+M02-unitweeks: caught - teacher book unit weeks read the unit weeks only
+M03-stepmap: caught - step map file of unit 2 is step-map-u2.json
+M04-u2path: caught - picture list maker writes the unit 2 list under l2/print/u2/
+M05-cardmatch: caught - unit 2 card match covers every row of the level, so a unit 1 picture matches
+M06-letter-d: caught - FR-6.5 tracing guide of d
+M07-letter-e: caught - FR-6.5 tracing guide of e
+M08-letter-h: caught - FR-6.5 tracing guide of h
+M09-letter-f: caught - FR-6.5 tracing guide of f
+M10-letter-g: caught - FR-6.5 tracing guide of g
+M11-review: caught - a review strip card with an item that its week has not taught fails
+M12-onepic: caught - a check item with two right pictures fails
+M13-songexc: caught - st2/12 with 7 frame lines passes and names the exception and the PM decision
+M14-reuse first attempt: not caught (regex still matched a second bare load)
+M14-redo: caught - weeks 9 to 16 ask for none of the 9 unit 1 reuse ids. Replacement printed: const levelRead = readLevelWeeks(STORYTIME_ROOT, args.level).filter(...)
+M15-benchmark: caught - benchmark label names Benchmark 2
+M16-songline: caught - map song line names the songs of unit 2
+M17-cardtitle: caught - card kit title names the unit
+M18-u2card: not caught: test gap, Red retry needed. Runtime path changed and printed: path.join(folder, 'card-pictures.json') for unit 2; scope test readUnitCardPictures still exited 0.
+Totals: 18 mutants, 17 caught, 1 not caught (M18 test gap).
+Thai proof: grep -cP [U+0E00-U+0E7F] on this file = 0

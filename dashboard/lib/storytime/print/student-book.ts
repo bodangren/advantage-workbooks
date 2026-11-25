@@ -13,7 +13,7 @@ import { readerFoldLabelsHtml, readerLeafMarkCss, readerPageCss, readerTearOutHt
 import { storytimeReviewSoundRows } from './review-rows';
 import type { StorytimePrintProfile } from './profile';
 import { STORYTIME_CHECK_ROW_TYPES, STORYTIME_DAY_KEY, STORYTIME_ICON_KEY, storytimeStep, type StorytimeIcon } from './step-map';
-import { TRACE_LINE, traceLineLayout } from './trace-words';
+import { TRACE_LINE, TRACE_START_EM_UNIT2, traceLineLayout } from './trace-words';
 
 /**
  * The student workbook template (spec FR-3, design §8): one black-and-white A4 book per unit,
@@ -312,16 +312,19 @@ ${iconKeyHtml()}`;
  * The book map: one sticker place for each decodable reader and one for the unit (FR-3). Each place
  * shows its number (the unit place shows the star) and the printed page of its week (B19, B24).
  * @param pageOf The printed page number of the first page of each week, by week number.
+ * @param unit The unit of the book, from `meta.unit`.
  * @param unitPage The printed page where the unit sticker belongs, if the book holds that page.
  */
-function bookMapPage(pageOf: ReadonlyMap<number, number>, unitPage?: number): PageSpec {
+function bookMapPage(pageOf: ReadonlyMap<number, number>, unit: number, unitPage?: number): PageSpec {
     const pageLine = (page?: number): string => `<span class="map-page" data-part="map-page">${page === undefined ? '' : `page ${page}`}</span>`;
     const places = Array.from({ length: DECODABLE_WEEKS_PER_UNIT }, (_v, i) =>
         `<div class="map-place" data-sticker="decodable-${i + 1}"><span class="map-number" data-part="map-number">${i + 1}</span>${pageLine(pageOf.get(i + 1))}</div>`);
-    places.push(`<div class="map-place map-place-unit" data-sticker="unit-1"><span class="map-star">${iconSvg('star', 'row-icon', 'row-icon')}</span><span class="map-number" data-part="map-number">Unit 1</span>${pageLine(unitPage)}</div>`);
+    places.push(`<div class="map-place map-place-unit" data-sticker="unit-${unit}"><span class="map-star">${iconSvg('star', 'row-icon', 'row-icon')}</span><span class="map-number" data-part="map-number">Unit ${unit}</span>${pageLine(unitPage)}</div>`);
+    // FR-6.7 freezes the unit 1 book byte for byte, so the new unit line prints in later books only.
+    const songLine = unit === 1 ? '' : `\n<p class="map-song-line" data-part="map-song-line">The songs of unit ${unit}</p>`;
     const body = `<h2 class="page-title">My book map</h2>
 <p class="map-line" data-part="map-line">Put the sticker on the number.</p>
-<div class="map-grid">${places.join('')}</div>`;
+<div class="map-grid">${places.join('')}</div>${songLine}`;
     return { kind: 'book-map', body };
 }
 
@@ -463,7 +466,7 @@ const PROMPT_ACTIONS = {
  */
 function traceLineHtml(text: string, part: string): string {
     const { fontSizeMm, baselineMm, heightMm, padMm, dotRadiusMm } = TRACE_LINE;
-    const layout = traceLineLayout(text, fontSizeMm);
+    const layout = traceLineLayout(text, fontSizeMm, TRACE_START_EM_UNIT2);
     const width = Number((layout.width + 2 * padMm).toFixed(3));
     const round = (value: number): number => Number(value.toFixed(3));
     const words = layout.words.map((word) => `<text x="${round(padMm + word.x)}" y="${baselineMm}" font-size="${fontSizeMm}">${esc(word.text)}</text>`).join(' ');
@@ -611,7 +614,7 @@ function firstRowByWord(rows: StorytimePictureRow[]): Map<string, StorytimePictu
 }
 
 /**
- * The two Benchmark 1 pages (step A1, B22, E43): page 1 holds rows 1 to 8 (3 pictures each, the first-sound mark
+ * The two benchmark pages (step A1, B22, E43): page 1 holds rows 1 to 8 (3 pictures each, the first-sound mark
  * on rows 1 to 4 and the last-sound mark on rows 5 to 8), and page 2 holds boxes 9 to 15 (the letters from the
  * sound). The numbers run 1 to 15 through the two pages, and no answer is marked.
  */
@@ -636,8 +639,8 @@ function benchmarkPages(week: StorytimeWeek, rows: StorytimePictureRow[], o: Sto
     const boxes = letters.map(() => `<span class="benchmark-box" data-part="benchmark-box"><span class="row-number" data-part="row-number">${++number}</span><span class="check-write-letter" data-part="check-write-letter" data-student-work></span></span>`).join('');
     const pictureCount = itemsOfKind(items, 'circle-picture').length;
     return [
-        { kind: 'benchmark', numbered: true, body: `${weekEightHead(week, 'Benchmark 1', 'A1')}\n${rowHtml}\n${scoreStrip(pictureCount)}` },
-        { kind: 'benchmark', numbered: true, body: `${weekEightHead(week, 'Benchmark 1', 'A1')}\n${groupHead(STORYTIME_CHECK_ROW_TYPES['write-letter'].icons, STORYTIME_CHECK_ROW_TYPES['write-letter'].label)}\n<div class="benchmark-boxes" data-part="benchmark-boxes">${boxes}</div>\n${scoreStrip(letters.length)}` },
+        { kind: 'benchmark', numbered: true, body: `${weekEightHead(week, `Benchmark ${week.meta.unit}`, 'A1')}\n${rowHtml}\n${scoreStrip(pictureCount)}` },
+        { kind: 'benchmark', numbered: true, body: `${weekEightHead(week, `Benchmark ${week.meta.unit}`, 'A1')}\n${groupHead(STORYTIME_CHECK_ROW_TYPES['write-letter'].icons, STORYTIME_CHECK_ROW_TYPES['write-letter'].label)}\n<div class="benchmark-boxes" data-part="benchmark-boxes">${boxes}</div>\n${scoreStrip(letters.length)}` },
     ];
 }
 
@@ -775,7 +778,7 @@ ${weekLine}
 ${mode === 'proof' ? '<p class="qr-note">QR target answers after the deploy (monorepo task 7.4)</p>' : ''}`;
     const songLines = week.song
         ? week.song.lines.map((line) => `<p data-part="song-line">${esc(line.text)}</p>`).join('')
-        : '<p data-part="song-line">The songs of unit 1</p>';
+        : `<p data-part="song-line">The songs of unit ${week.meta.unit}</p>`;
     const back = `<h2 class="home-card-title">Storytime Advantage</h2>
 ${weekLine}
 <p class="home-line" data-part="home-line">${esc(home.line.en)}</p>
@@ -832,7 +835,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         const dir = path.join(STORYTIME_ROOT, `l${weeks[0].meta.level}`, 'print', 'pictures');
         for (const entry of resolveStorytimePictureFiles(dir, allPictureRows.filter((row) => !pending.has(row.id)), 'line')) pictureFiles.set(entry.rowId, entry);
     }
-    const specs: PageSpec[] = [namePage(weeks[0]), bookMapPage(new Map())];
+    const specs: PageSpec[] = [namePage(weeks[0]), bookMapPage(new Map(), weeks[0].meta.unit)];
     const pageOf = new Map<number, number>();
     for (const week of weeks) {
         if (week.meta.kind === 'review') {
@@ -861,7 +864,7 @@ export function compileStorytimeStudentBook(weeks: StorytimeWeek[], o: Storytime
         specs.push(...weekPages);
     }
     const reviewWeek = weeks.find((week) => week.meta.kind === 'review');
-    specs[1] = bookMapPage(pageOf, reviewWeek ? pageOf.get(reviewWeek.meta.week) : undefined);
+    specs[1] = bookMapPage(pageOf, weeks[0].meta.unit, reviewWeek ? pageOf.get(reviewWeek.meta.week) : undefined);
     while (specs.length % o.profile.bindingPageMultiple !== 0) specs.push(blankPage());
     const readerMeta = weeks.flatMap((week) => storytimeReaderLeafSides(week, { profile: o.profile, mode: 'proof', output: 'workbook' }))
         .map(({ kind, title, leaf, side }) => ({ kind, title, leaf, side }));

@@ -17,6 +17,7 @@ import {
     storytimeCardPagePlan,
     storytimeCardPictureMatchLines,
     storytimeCardPictureRow,
+    storytimeCardKitTitle,
     storytimeDeliveredPictures,
     STORYTIME_CARD_KIT_SPEC,
     STORYTIME_CARD_PICTURE_KINDS,
@@ -77,10 +78,18 @@ not parse, a page count misses the plan, or the PDF/X check fails.`;
  * @param level The Storytime level.
  * @returns The rows of `pictures.json`.
  */
-function readPictureRows(level: number): StorytimePictureRow[] {
-    const file = path.join(STORYTIME_ROOT, `l${level}`, 'print', 'pictures.json');
-    if (!fs.existsSync(file)) return [];
-    return JSON.parse(fs.readFileSync(file, 'utf8')) as StorytimePictureRow[];
+/**
+ * The picture rows of the level: unit 1 from `print/pictures.json`, and later units from their
+ * own list under `print/u<unit>/`.
+ * @param level The Storytime level.
+ * @param unit The unit of the kit, from `meta.unit`.
+ * @returns The rows of the level, unit 1 first.
+ */
+function readPictureRows(level: number, unit: number): StorytimePictureRow[] {
+    const folder = path.join(STORYTIME_ROOT, `l${level}`, 'print');
+    const files = [path.join(folder, 'pictures.json')];
+    if (unit !== 1) files.push(path.join(folder, `u${unit}`, 'pictures.json'));
+    return files.flatMap((file) => (fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) as StorytimePictureRow[] : []));
 }
 
 /**
@@ -147,9 +156,10 @@ async function main(argv: string[]): Promise<number> {
         return 1;
     }
     const parsed = read.map((entry) => entry.week as StorytimeWeek);
+    const unit = parsed[0].meta.unit;
     const kit = storytimeCardKit(parsed);
     const pictureFolder = path.join(STORYTIME_ROOT, `l${level}`, 'print', 'pictures');
-    const rows = readPictureRows(level);
+    const rows = readPictureRows(level, unit);
     const { delivered, files, reasons } = storytimeDeliveredPictures(pictureFolder, rows);
 
     const a5Plan = storytimeCardPagePlan(kit.cards, 'A5');
@@ -197,7 +207,7 @@ async function main(argv: string[]): Promise<number> {
         browser = await chromium.launch({ channel: 'chrome' });
         const parts: { name: string; out: string; html: string; sheets: number }[] = [];
         for (const size of ['A5', 'A6'] as StorytimeCardSize[]) {
-            const title = `Storytime Advantage, Level ${level}, Unit 1 Card Kit, ${size} cards`;
+            const title = storytimeCardKitTitle(level, unit, size);
             const body = compileStorytimeCardSheet(kit.cards, size, { pictureOf: pictureOfCard, title });
             parts.push({
                 name: size === 'A5' ? names.a5 : names.a6,
@@ -206,7 +216,7 @@ async function main(argv: string[]): Promise<number> {
                 sheets: body.sheets,
             });
         }
-        const stickerTitle = `Storytime Advantage, Level ${level}, Unit 1 Card Kit, sticker sheet`;
+        const stickerTitle = storytimeCardKitTitle(level, unit, 'sticker sheet');
         const stickers = compileStorytimeStickerSheet(kit.items, { pictureOf: pictureOfSticker, title: stickerTitle });
         parts.push({ name: names.stickers, out: path.join(outDir, names.stickers), html: stickers.html, sheets: stickers.sheets });
 
