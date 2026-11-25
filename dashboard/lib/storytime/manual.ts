@@ -95,6 +95,16 @@ const SHARE_CSS = `
     .st-share-consent { border: 1px solid #000; padding: 2px 6px; margin: 4px 0; font-size: 9pt; break-inside: avoid; }
     .st-share-consent p { margin: 2px 0; }`;
 
+/**
+ * Keep the day heading and the lesson-start box with the first teaching box
+ * (Task 5.0). Without this rule an opening box that does not fit after them
+ * moves to the next page and leaves a page with only the heading and the box.
+ * Only later units take the rule, so the approved unit 1 HTML stays byte-equal
+ * (FR-6.7).
+ */
+const KEEP_WITH_NEXT_CSS = `
+    .st-day-title, .st-prep { break-after: avoid; }`;
+
 
 /** The Thai of a text in the Thai book when Daniel has written it, else the English. */
 const pick = (t: BiText, lang: SupportedLanguage) => (lang === 'th' && t.th ? t.th : t.en);
@@ -481,6 +491,8 @@ export function compileStorytimeManual(weeks: StorytimeWeek[], options: Storytim
         ? `${fontFaceCss(PRINT_FONT_FACES.filter((f) => f.family === 'Sarabun'))}\n    body, body * { font-family: 'Open Sans', 'Sarabun', sans-serif; }`
         : '';
     // In the head, not the body: Paged.js reads its page breaks only from the head styles. The share style is
-    // added only with the share option, so every earlier build stays byte-equal (D21).
-    return { html: html.replace('</head>', `<style>${CSS}${options.studentBookPages ? BADGE_CSS : ''}${options.share ? SHARE_CSS : ''}${thaiInEnglish}</style>\n</head>`), weekCount: weeks.length };
+    // added only with the share option, so every earlier build stays byte-equal (D21). The keep-with-next
+    // style is added only for later units, so the unit 1 snapshot hashes do not change (FR-6.7, Task 5.0).
+    const keepWithNext = weeks.some((w) => w.meta.unit > 1) ? KEEP_WITH_NEXT_CSS : '';
+    return { html: html.replace('</head>', `<style>${CSS}${options.studentBookPages ? BADGE_CSS : ''}${options.share ? SHARE_CSS : ''}${keepWithNext}${thaiInEnglish}</style>\n</head>`), weekCount: weeks.length };
 }
