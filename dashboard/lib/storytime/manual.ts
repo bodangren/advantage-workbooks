@@ -96,14 +96,15 @@ const SHARE_CSS = `
     .st-share-consent p { margin: 2px 0; }`;
 
 /**
- * Keep the day heading and the lesson-start box with the first teaching box
- * (Task 5.0). Without this rule an opening box that does not fit after them
- * moves to the next page and leaves a page with only the heading and the box.
+ * Keep the day heading, the lesson-start box, and the start of the opening box
+ * on one page (Task 5.0). The heading and the box stay with the next box, and
+ * a tall opening box may break so its first lines stay on the heading page.
  * Only later units take the rule, so the approved unit 1 HTML stays byte-equal
  * (FR-6.7).
  */
 const KEEP_WITH_NEXT_CSS = `
-    .st-day-title, .st-prep { break-after: avoid; }`;
+    .st-day-title, .st-prep { break-after: avoid; }
+    .st-opening { break-inside: auto; }`;
 
 
 /** The Thai of a text in the Thai book when Daniel has written it, else the English. */
