@@ -248,10 +248,10 @@ function reviewFactsFor(weekNo: number, level: number, w: StorytimeWeek, taught?
             return { graphemes: [], tricky: [], frames: [], words: [], known: false };
         }
         return {
-            graphemes: [...(taught?.graphemes ?? LEVEL2_TAUGHT)],
-            tricky: [...(taught?.tricky ?? LEVEL2_TAUGHT)],
+            graphemes: [...LEVEL2_TAUGHT],
+            tricky: [...LEVEL2_TAUGHT],
             frames: REVIEW_FRAMES.map(stem),
-            words: taught ? [] : incidentalWeekWords(w),
+            words: incidentalWeekWords(w),
             known: true,
         };
     }
