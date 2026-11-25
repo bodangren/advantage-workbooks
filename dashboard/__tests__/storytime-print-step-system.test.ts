@@ -28,8 +28,8 @@ const textCheckModule = path.join(printDir, 'text-check.ts');
 const font = parseFont(path.join(dashboardRoot, 'assets/print-fonts/andika-regular.ttf'));
 const temporaryFolders: string[] = [];
 
-/** The seven letters of unit 1 with the stroke count of each (the formation words of its week). */
-const LETTERS: [string, number][] = [['n', 2], ['a', 2], ['p', 2], ['m', 3], ['s', 1], ['t', 2], ['o', 1]];
+/** The seven letters of unit 1 with the stroke count of each (the formation words of its week), then the five letters of unit 2 (FR-6.5). */
+const LETTERS: [string, number][] = [['n', 2], ['a', 2], ['p', 2], ['m', 3], ['s', 1], ['t', 2], ['o', 1], ['d', 2], ['e', 1], ['h', 2], ['f', 2], ['g', 2]];
 /** The R41 tolerance for guide ink outside the letter. */
 const GUIDE_TOLERANCE_MM = 0.5;
 /** The most that any ink point of a letter may lie from a stroke centerline, in box units. */
