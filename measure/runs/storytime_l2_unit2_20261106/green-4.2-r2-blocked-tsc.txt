@@ -1,0 +1,34 @@
+Green Task 4.2 round 2, blocked: Mid Red retry needed for two tsc errors in the committed Red test.
+
+phase_base_sha: 35729287dc615dd9688cb7ddb6179786c23b3f01
+role_base_sha:  b0d5002b46a8b70c53783bae50d3f6a9c670eee8
+Both are ancestors of HEAD; the committed Red retry 3 change is inside phase_base_sha..HEAD.
+
+Implementation commits:
+  1a2c2eda  eight code files of Review A fixes (Task 4.2 round 2)
+  5dd32532  copy readonly taught sets into mutable review facts (tsc fix in production code)
+
+Targeted GREEN_TEST_COMMAND (one heavy-run):
+  cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-*.test.ts
+  exit 0; 4 test files passed, 134 of 134 tests passed.
+
+Gate results (each in one heavy-run):
+  PROJECT_TESTS   exit 0; 77 files, 1964 of 1964 tests passed.
+  PROJECT_LINT    exit 0.
+  PROJECT_CHECKS  exit 2. check-weeks.ts --level 2 exits 0: 16 package(s), 0 failed check(s), 33 warning(s). npx tsc --noEmit exits 2 with two errors.
+
+The two tsc errors are in the immutable committed Red test file:
+  __tests__/storytime-unit2-phase4.test.ts(304,43): error TS7006: Parameter 's' implicitly has an 'any' type.
+  __tests__/storytime-unit2-phase4.test.ts(314,43): error TS7006: Parameter 's' implicitly has an 'any' type.
+
+Both lines are in the F3 cases that Red retry 3 (b0d5002b) changed:
+  const template = raw.review.find((s) => s.cards.length)?.cards[0];
+The helper readJson is defined in that test file at line 73 and returns `any`, so raw.review is `any` and the callback parameter s has no contextual type. No production change can type it. dashboard/tsconfig.json sets strict: true and includes __tests__/**/*.ts, so tsc reports the errors. Green must not edit a committed Red test.
+
+Request: Mid Red retry 4 adds an explicit type to the two callback parameters, for example
+  raw.review.find((s: { cards: unknown[] }) => s.cards.length)?.cards[0],
+and keeps the committed Red tests immutable for the next Green round. Then Green reruns the gates and completes steps 3 to 5 (makers, mutants, evidence).
+
+Steps not done because the gate failed: maker outputs under content/storytime/l2/, the mutant run, and the final evidence commit. No test, fixture, or content file was changed by Green.
+
+Thai count: the first command filtered content/storytime/l2/w01..w16.json to /tmp/opencode/thai-free and printed 0 Thai characters in 16 files. Every captured gate output was filtered with grep -vP before display; 0 Thai lines were seen.

@@ -301,7 +301,7 @@ describe('F3: a review strip card keeps the teaching week of its item', () => {
     it('a week 1 card with a letter taught only in a later week fails', () => {
         const weeks = [...publishedWeeks(1, 8), ...publishedWeeks(9, 16)];
         const raw = readJson(path.join(storytimeRoot, 'l2', 'w01.json'));
-        const template = raw.review.find((s) => s.cards.length)?.cards[0];
+        const template = raw.review.find((s: { cards: unknown[] }) => s.cards.length)?.cards[0];
         expect(template, 'a review card template exists').toBeDefined();
         raw.review = [1, 2, 3, 4, 5].map((day) => ({ day, cards: [{ ...template, text: 'g', week: 1 }] }));
         const report = checkStorytimeWeek(raw, taughtTo(weeks, weeks[0]));
@@ -311,7 +311,7 @@ describe('F3: a review strip card keeps the teaching week of its item', () => {
     it("a card text with ___ that matches no taught frame fails", () => {
         const weeks = [...publishedWeeks(1, 8), ...publishedWeeks(9, 16)];
         const raw = readJson(path.join(storytimeRoot, 'l2', 'w01.json'));
-        const template = raw.review.find((s) => s.cards.length)?.cards[0];
+        const template = raw.review.find((s: { cards: unknown[] }) => s.cards.length)?.cards[0];
         expect(template, 'a review card template exists').toBeDefined();
         raw.review = [1, 2, 3, 4, 5].map((day) => ({ day, cards: [{ ...template, text: 'The ___ ran away', week: 1 }] }));
         const report = checkStorytimeWeek(raw, taughtTo(weeks, weeks[0]));

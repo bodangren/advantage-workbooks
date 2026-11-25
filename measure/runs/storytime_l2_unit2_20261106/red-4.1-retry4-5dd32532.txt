@@ -1,0 +1,4 @@
+Red retry 4 (orchestrator, claude-code/claude-opus-5-5), role base 5dd32532, 2026-11-25.
+Cause: Green round 2 reported TS7006 at dashboard/__tests__/storytime-unit2-phase4.test.ts lines 304 and 314 (green-4.2-r2-blocked-tsc.txt): the parameter s of raw.review.find had no type.
+Change: type-only, (s) became (s: { cards: unknown[] }) on both lines. The test intent and assertions are unchanged.
+One heavy-run: npx tsc --noEmit exit 0; vitest storytime-unit2-phase4.test.ts exit 0, 22 passed of 22; eslint on the file exit 0. Thai characters in the test file: 0.

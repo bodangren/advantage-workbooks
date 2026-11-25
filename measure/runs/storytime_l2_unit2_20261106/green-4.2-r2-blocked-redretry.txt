@@ -1,0 +1,41 @@
+Green Task 4.2 round 2, blocked: Mid Red retry needed for two F3 cases.
+
+phase_base_sha: 35729287dc615dd9688cb7ddb6179786c23b3f01
+role_base_sha:  a4a97eb5ff7d8d0418020b33d6b3bc5d8abbac3b
+Green round 1: 3f38cc10719649e5e9fe7c730efb74c7bb9c936e
+Red commit a4a97eb5 is inside 35729287..HEAD; confirmed ancestor.
+
+Targeted command (one heavy-run):
+  HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-*.test.ts'
+Result at Red retry 2: exit 1, 13 failed / 121 passed of 134.
+Result after implementation: exit 1, 2 failed / 132 passed of 134.
+
+The two remaining failures are test defects in dashboard/__tests__/storytime-unit2-phase4.test.ts:
+  F3 case "a week 1 card with a letter taught only in a later week fails" (lines 301-309)
+  F3 case "a card text with ___ that matches no taught frame fails" (lines 311-318)
+Both take their card template from raw.review[0].cards[0] of content/storytime/l2/w01.json.
+That week holds zero cards on day 1 (counts 0,4,5,0,0), so the template is undefined.
+Case 1 fails on its own assertion "a review card template exists" before production code runs.
+Case 2 spreads the undefined template into a card without the required kind/audio fields,
+so schema validation fails the week and the report has no review row to assert.
+
+Production rule is implemented and correct. With a valid template taken from a week 1 card:
+  future letter g at week 1 -> review row fail
+  arbitrary placeholder "The ___ ran away" at week 1 -> review row fail
+  all 16 real weeks with cumulative level data -> review row pass
+Probe capture: /tmp/opencode/g42-f3-proof.txt
+
+Request: Mid Red retry repairs the two cases to take a valid card template from a day that
+holds cards (for example raw.review.find(s => s.cards.length)?.cards[0]) before setting text/week,
+and keeps the committed Red tests immutable for the next Green round.
+
+No commit was made. Implementation is in the working tree across these files:
+  dashboard/lib/storytime/checks.ts
+  dashboard/lib/storytime/files.ts
+  dashboard/lib/storytime/print/card-kit-cli.ts
+  dashboard/lib/storytime/print/student-book.ts
+  dashboard/scripts/storytime/check-storytime-pictures.ts
+  dashboard/scripts/storytime/make-card-kit-pdf.ts
+  dashboard/scripts/storytime/make-teacher-book-print.ts
+  dashboard/scripts/storytime/print-pictures.ts
+No test, fixture, or content file was changed. Thai count of this file: 0.
