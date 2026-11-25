@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "track": "storytime_l2_unit2_20261106",
+  "phase": "P4",
+  "phase_base_sha": "35729287dc615dd9688cb7ddb6179786c23b3f01",
+  "role_base_sha": "0fc6fccfd298b364bc1d2a0e385d3949c9105bea",
+  "audited_head_sha": "0fc6fccfd298b364bc1d2a0e385d3949c9105bea",
+  "status": "pass",
+  "verdict": "pass",
+  "phase_verdicts": {
+    "P4": "pass"
+  },
+  "summary": "Phase 4 passes at the exact requested HEAD. The PM decision places the four remaining findings in tech debt. The subsequent print CSS change preserves the unit 1 output and does not change the Phase 4 rules. No open Blockers or Majors remain in the acceptance scope.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD at role start and end equals 0fc6fccfd298b364bc1d2a0e385d3949c9105bea. The original Phase 4 base is 35729287dc615dd9688cb7ddb6179786c23b3f01.",
+    "The round 4 result at a5c5794c closed F3 and retained F4, F8, F9, and F16. All other routed findings were previously closed. F15 and F17 were late Minor findings assigned to tech debt.",
+    "The PM decision under Task 4.3 names F4, F8, F9, and F16 and states that they do not block Phase 4 acceptance. Each finding has its own Late finding: tech-debt line. The track row of measure/tech-debt.md names all four defects and their proposed fixes. The file has 50 lines.",
+    "The four findings are deferred by the recorded PM decision, not fixed. F4 still concerns five middle-sound facts; F8 concerns value assertions; F9 concerns the per-revision snapshot; F16 concerns mixed-unit manual page maps. This result does not claim that these defects have disappeared.",
+    "The production diff a5c5794c..0fc6fccf contains only dashboard/lib/storytime/manual.ts. The only added test is storytime-teacher-keep-with-next.test.ts. No Phase 4 maker, check, letter guide, or path-selection implementation changes.",
+    "manual.ts:105-107 defines the new print break rules. Lines 497-498 add the CSS only when a requested week has meta.unit greater than 1. For a unit 1 build, the added string is empty, preserving the previous HTML construction.",
+    "The exact Phase 4 diff has no changes to the eight unit 1 week files, pictures.json, pictures.md, or step-map-u1.json. The unit 1 scope snapshot passes at HEAD. The Green 5.0 retry snapshot record reports 86 passed tests, and the project record reports 2002 passed tests.",
+    "The independent heavy-run at the audited head passes both the teacher keep-with-next and unit 2 scope files: 32 tests pass. The published-week check gives 16 packages, zero failed checks, and 40 warnings. The wrapper exits 0.",
+    "The committed unit 2 picture list remains equal to the Phase 2 contract. It contains 229 rows, including 36 card rows. The Task 4.3 copy record reports zero problems and 458 copied files.",
+    "The prior exact-HEAD P1 and P3 review at 71721e0d verifies that the media commits change only their intended media fields. The range 71721e0d..0fc6fccf contains records and plan or queue changes only.",
+    "The graph database returned no matches for the changed compiler symbol. Git grep confirms the manual and teacher-print callers. The plan defines the tests; no track test-strategy.md exists.",
+    "The Thai filter ran first. Every displayed diff and test output passed the Thai filter. The result contains no Thai characters. No week data or teacher HTML was printed."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse 0fc6fccf; git diff --name-status 35729287..0fc6fccf -- dashboard/lib dashboard/scripts dashboard/__tests__",
+    "git diff a5c5794c..0fc6fccf -- dashboard/lib dashboard/scripts dashboard/__tests__; git diff a5c5794c..0fc6fccf -- dashboard/lib/storytime/manual.ts",
+    "git show 0fc6fccf:measure/tracks/storytime_l2_unit2_20261106/plan.md and measure/tech-debt.md, filtered for the PM decision and each Late finding line",
+    "git show 0fc6fccf:<Green 5.0 retry snapshot, checks, and project-test evidence>; git diff --name-only 35729287..0fc6fccf -- unit 1 week files and committed print lists",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-teacher-keep-with-next.test.ts __tests__/storytime-unit2-scope.test.ts && npx tsx scripts/storytime/check-weeks.ts --level 2' (exit 0; Thai-filtered output)",
+    "Python committed JSON comparison of the unit 2 picture list to the Phase 2 contract, plus debt-row and line-count checks",
+    "git diff --name-status 71721e0d..0fc6fccf; git show 0fc6fccf:measure/runs/storytime_l2_unit2_20261106/t43-picture-copy.txt; repo-graph callers graph.db; git grep compileStorytimeManual; git rev-parse HEAD"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/review-a-p4-0fc6fccf.json"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "unknown",
+  "ratings": [
+    {"axis": "correctness", "score": 4, "evidence": "The current scope tests pass, while the PM decision explicitly defers the four known defects."},
+    {"axis": "test_meaning", "score": 4, "evidence": "The independent 32-test run passes; the enriched snapshot and dry-run assertion gaps remain recorded as debt."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The production diff after a5c5794c contains manual.ts only."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The exact-HEAD test run, committed list comparison, and named debt records establish the acceptance scope."}
+  ]
+}
