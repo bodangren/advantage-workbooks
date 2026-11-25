@@ -7,7 +7,7 @@ import { formatPackageReports } from '../../lib/lesson-package/report';
 import { parsePdffonts, parsePdfinfo } from '../../lib/print/pdfx';
 import { renderPagedPdf, run } from '../../lib/print/render';
 import { checkStorytimeWeek, taughtTo } from '../../lib/storytime/checks';
-import { readLevelWeeks, readPhonicsGraph, STORYTIME_ROOT } from '../../lib/storytime/files';
+import { readLevelWeeks, readPhonicsGraph, readUnitWeeks, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { compileStorytimeManual } from '../../lib/storytime/manual';
 import { storytimeStudentBookPages } from '../../lib/storytime/print/step-pages';
 import { StorytimeWeekSchema, type StorytimeWeek } from '../../lib/storytime/schema';
@@ -45,9 +45,10 @@ export function manualPdfHtml(
     options: { lang: SupportedLanguage; loops?: boolean; share?: boolean; bookPages?: boolean },
 ): string {
     const { lang, loops, share, bookPages } = options;
-    // The printed pages belong to the whole unit: every week of the level of the first week (A-48 U8).
+    // The printed pages belong to the unit of the requested weeks, not to the whole level (F16).
+    // The teacher-book build takes the same unit page list for its steps.
     const studentBookPages = bookPages
-        ? storytimeStudentBookPages(readLevelWeeks(STORYTIME_ROOT, weeks[0].meta.level).flatMap((r) => (r.week ? [r.week] : [])))
+        ? storytimeStudentBookPages(readUnitWeeks(STORYTIME_ROOT, weeks[0].meta.level, weeks[0].meta.unit))
         : undefined;
     return compileStorytimeManual(weeks, { lang, paper: 'a4', loops, share, studentBookPages }).html;
 }

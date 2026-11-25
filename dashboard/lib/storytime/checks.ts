@@ -227,9 +227,10 @@ function reviewCardTaught(text: string, facts: ReviewFacts, kind: string): boole
 
 /**
  * The teaching facts of the week that a review card names. When the other weeks of the level are
- * given, the facts are cumulative to that week, not to the week of the package. Without them the
- * taught set of the package is used for its own cards, and a static fallback keeps a lone check
- * of a published week meaningful (Review A F3).
+ * given, the facts are cumulative to that week, not to the week of the package. A lone check with
+ * no taught set keeps its static fallback, so checking one published week alone still passes its
+ * review. Once a taught set is supplied, a card from another week cannot be verified without that
+ * week, so the row fails rather than passing on the package's cumulative facts (F3).
  * @param weekNo The card's teaching week.
  * @param level The level of the package.
  * @param w The week of the package.
@@ -241,9 +242,9 @@ function reviewFactsFor(weekNo: number, level: number, w: StorytimeWeek, taught?
     const known = [...(others ?? []), w];
     const target = known.find((x) => x.meta.level === level && x.meta.week === weekNo);
     if (!target) {
-        // When the level is known, a missing teaching week is a data error, not permission to
-        // pass. Without other weeks, the static fallback keeps a lone check meaningful (F3).
-        if (others) {
+        // A missing teaching week is a data error, not permission to pass. The static fallback
+        // applies only to a lone check that supplies no taught set (F3).
+        if (others || taught) {
             return { graphemes: [], tricky: [], frames: [], words: [], known: false };
         }
         return {
@@ -777,11 +778,11 @@ const PICTURE_SOUNDS: Record<string, PictureSoundFacts> = {
     bag: { first: 'b', last: 'g' },
     bed: { first: 'b', last: 'd' },
     bus: { first: 'b', last: 's' },
-    cat: { first: 'k', last: 't' },
+    cat: { first: 'k', last: 't', middle: 'a' },
     city: { first: 's', last: 'i' },
     cup: { first: 'k', last: 'p' },
     dad: { first: 'd', last: 'd', rime: 'ad' },
-    dog: { first: 'd', last: 'g' },
+    dog: { first: 'd', last: 'g', middle: 'o' },
     doll: { first: 'd', last: 'l' },
     dot: { first: 'd', last: 't', rime: 'ot' },
     drum: { first: 'd', last: 'm' },
@@ -801,10 +802,11 @@ const PICTURE_SOUNDS: Record<string, PictureSoundFacts> = {
     mango: { first: 'm', last: 'o' },
     milk: { first: 'm', last: 'k' },
     monkey: { first: 'm', last: 'i' },
+    moon: { first: 'm', last: 'n' },
     mop: { first: 'm', last: 'p', rime: 'op' },
     mouse: { first: 'm', last: 's' },
     nest: { first: 'n', last: 't' },
-    net: { first: 'n', last: 't' },
+    net: { first: 'n', last: 't', middle: 'e' },
     nose: { first: 'n', last: 'z' },
     octopus: { first: 'o', last: 's' },
     ostrich: { first: 'o', last: 'ch' },
@@ -828,7 +830,10 @@ const PICTURE_SOUNDS: Record<string, PictureSoundFacts> = {
 
 /** The sound facts of one picture word, or undefined when the word is unknown. */
 function pictureSoundFacts(word: string): PictureSoundFacts | undefined {
-    return PICTURE_SOUNDS[word.toLowerCase().replace(/[^a-z]+/g, '')];
+    const key = word.toLowerCase().replace(/[^a-z]+/g, '');
+    // Only own entries of the word table are facts. A plain object also answers to inherited
+    // keys such as constructor, which are not picture words (F4).
+    return Object.hasOwn(PICTURE_SOUNDS, key) ? PICTURE_SOUNDS[key] : undefined;
 }
 
 /**

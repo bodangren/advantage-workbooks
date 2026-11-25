@@ -55,7 +55,7 @@ Usage: npx tsx scripts/storytime/make-card-kit-pdf.ts --level <n> --weeks <list>
   --out     The output folder, an absolute path strictly inside <home>/Desktop/print-ready/storytime/
             (default ~/Desktop/print-ready/storytime/card-kit-v<n>/)
   --version The version in the file names, a whole number of 1 or more (rule 12.2; default 1)
-  --dry-run Print the resolved output names and stop before any file is written
+  --dry-run Print the resolved output names with the wired match counts and stop before any file is written
 
 The unit of the kit comes from the requested weeks; one request holds weeks of one unit only.
 Files: Storytime-Advantage-L<level>-U1-Card-Kit-A5-v<n>_PDFX-1a.pdf,
@@ -165,26 +165,33 @@ async function main(argv: string[]): Promise<number> {
         console.error(`${error instanceof Error ? error.message : String(error)}\n\n${USAGE}`);
         return 2;
     }
-    if (args.dryRun) {
-        for (const name of [names.a5, names.a6, names.stickers, names.match]) console.log(path.join(outDir, name));
-        return 0;
-    }
     const kit = storytimeCardKit(parsed);
     const pictureFolder = path.join(STORYTIME_ROOT, `l${level}`, 'print', 'pictures');
     const rows = readPictureRows(STORYTIME_ROOT, level, unit);
     const { delivered, files, reasons } = storytimeDeliveredPictures(pictureFolder, rows);
+    const matchLines = storytimeCardPictureMatchLines(kit.cards, rows, delivered, reasons);
+    const pictureCards = kit.cards.filter((card) => STORYTIME_CARD_PICTURE_KINDS.includes(card.kind));
+    // The counts come from the match report, so the patch and the dot cards are not counted as
+    // "no match" (A-P8-9). The same counts serve the dry run and the build (F8).
+    const matchCounts = storytimeCardMatchCounts(matchLines);
+    const matchSummary = `picture cards: ${pictureCards.length}, picture ${matchCounts.picture}, patch ${matchCounts.patch}, dots ${matchCounts.dots}, none ${matchCounts.none}`;
+
+    if (args.dryRun) {
+        // The dry run still prints the four resolved output names. The match counts travel with
+        // the report name, so a caller sees the report it would use without a file being written.
+        console.log(path.join(outDir, names.a5));
+        console.log(path.join(outDir, names.a6));
+        console.log(path.join(outDir, names.stickers));
+        console.log(`${path.join(outDir, names.match)}\t${matchSummary}`);
+        return 0;
+    }
 
     const a5Plan = storytimeCardPagePlan(kit.cards, 'A5');
     const a6Plan = storytimeCardPagePlan(kit.cards, 'A6');
 
     fs.mkdirSync(outDir, { recursive: true });
-    const matchLines = storytimeCardPictureMatchLines(kit.cards, rows, delivered, reasons);
     fs.writeFileSync(path.join(outDir, names.match), `${matchLines.join('\n')}\n`);
-    const pictureCards = kit.cards.filter((card) => STORYTIME_CARD_PICTURE_KINDS.includes(card.kind));
-    // The counts come from the match report, so the patch and the dot cards are not counted as
-    // "no match" (A-P8-9).
-    const matchCounts = storytimeCardMatchCounts(matchLines);
-    console.log(`picture cards: ${pictureCards.length}, picture ${matchCounts.picture}, patch ${matchCounts.patch}, dots ${matchCounts.dots}, none ${matchCounts.none}`);
+    console.log(matchSummary);
     // One word can name two cards, so the first line of the word gives the source of the word.
     const wordSources = new Map<string, 'picture' | 'patch' | 'dots' | 'none'>();
     for (const line of matchLines) {

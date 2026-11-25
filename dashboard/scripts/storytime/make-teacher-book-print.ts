@@ -50,6 +50,7 @@ Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks 
   --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
   --loops     Print the draft teaching routines
   --share     Print the draft parent-share moments
+  --dry-run   Print the student-book page map the build would pass and stop before it writes
 
 Output files in the folder:
   Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
@@ -83,6 +84,7 @@ interface Args {
     drafts: string;
     loops: boolean;
     share: boolean;
+    dryRun: boolean;
 }
 
 /** Parses one whole-number flag value; throws on a value that is not a safe integer in range. */
@@ -103,9 +105,11 @@ function parseArgs(argv: string[], home: string): Args {
     let drafts = path.join(home, 'Desktop', 'primary-parity-progress', 'storytime');
     let loops = false;
     let share = false;
+    let dryRun = false;
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
-        if (a === '--level') level = wholeNumber(argv[++i], '--level', 1, 4);
+        if (a === '--dry-run') dryRun = true;
+        else if (a === '--level') level = wholeNumber(argv[++i], '--level', 1, 4);
         else if (a === '--weeks') weeks = String(argv[++i]).split(',').map((w) => wholeNumber(w, '--weeks', 1, 32));
         else if (a === '--lang') lang = argv[++i];
         else if (a === '--version') version = wholeNumber(argv[++i], '--version', 1, Number.MAX_SAFE_INTEGER);
@@ -119,7 +123,7 @@ function parseArgs(argv: string[], home: string): Args {
     if (!weeks?.length) throw new Error('a --weeks list is required');
     if (lang !== 'th') throw new Error(`the teacher book is Thai only (spec P6): --lang must be th, got "${lang ?? ''}"`);
     if (folder !== printReady && !folder.startsWith(printReady + path.sep)) throw new Error(`--out must be a folder inside ${printReady}, got "${folder}"`);
-    return { level, weeks, version, folder, drafts, loops, share };
+    return { level, weeks, version, folder, drafts, loops, share, dryRun };
 }
 
 /** The `pdftotext -layout` text of a PDF file. */
@@ -172,7 +176,7 @@ async function main(argv: string[]): Promise<number> {
         console.error(`${e instanceof Error ? e.message : String(e)}\n\n${USAGE}`);
         return 2;
     }
-    const { level, weeks, version, folder, drafts, loops, share } = args;
+    const { level, weeks, version, folder, drafts, loops, share, dryRun } = args;
     const read = readLevelWeeks(STORYTIME_ROOT, level).filter((r) => weeks.includes((r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
     checkRequestedWeeks(weeks, read.map((r) => (r.raw as { meta?: { week?: number } }).meta?.week ?? -1));
     const broken = read.filter((r) => !r.week);
@@ -189,6 +193,12 @@ async function main(argv: string[]): Promise<number> {
     // The steps name the printed pages of the student book of the whole unit (A-48 U8), not of the requested weeks only.
     const unitWeeks = readUnitWeeks(STORYTIME_ROOT, level, units[0]);
     const studentBookPages = storytimeStudentBookPages(unitWeeks);
+    if (dryRun) {
+        // The dry run returns the page map the build would pass to the manual, before it reads a
+        // draft or writes an output file (F8).
+        console.log(`student-book pages: ${studentBookPages.map((page) => `${page.kind}:${page.page}${page.week ? `:w${page.week}` : ''}`).join(' ')}`);
+        return 0;
+    }
     const draftOf = (week: number) => path.join(drafts, `Storytime-L${level}-W${String(week).padStart(2, '0')}-Teachers-Book-TH-draft.pdf`);
     const missing = weeks.map(draftOf).filter((file) => !fs.existsSync(file));
     if (missing.length) {
