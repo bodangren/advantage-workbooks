@@ -1,6 +1,6 @@
 - [ ] Storytime L2 unit 1 week 1 (w01): confirm it is live for customers (ship 2026-11-25)
 - [x] Storytime L2 unit 1 release-1 print files: student book, teacher book, readers, covers, card kit (PDF/X-1a) ready for the print order
-- [ ] Storytime L2 unit 2 (weeks 9 to 16): week texts, picture list, print-ready 2026-12-08 (Thai approved 11-25; proof v1 built; waits: PM print audit of proof v1, Daniel's proof approval and cover go, PM decision on 4 escalated Phase 4 review findings)
+- [ ] Storytime L2 unit 2 (weeks 9 to 16): week texts, picture list, print-ready 2026-12-08 (Thai approved 11-25; proof v1 built; waits: PM print audit of proof v1, Daniel's proof approval, cover go, audio listen check, app clip go)
 - [ ] Storytime song videos w02 to w07: Forge cast re-render with slide motion for w04 and w07 (waits: Forge cast art)
 - [ ] Primary levels 5-9 workbook lessons (Quest 5, 6.1, 6.2, Adventure 7.1-9.3) and 50-article online banks per book (waits: Daniel level approval, Drive package sent)
 - [ ] Primary injector: lesson packages verified in the live Primary database (task C10) (waits: Daniel production database credential, read-only check)

@@ -16,7 +16,7 @@ Date: 2026-11-26. Author: the Workbooks orchestrator session. Plan: `measure/tra
 - Daniel's go for the unit 2 student book cover (Task 5.3), then the cover build (Task 5.4).
 - Daniel's listen check of the book audio (Task 6.2): `~/Desktop/handoff/storytime-l2u2-book-audio-listen-2026-11-25/`.
 - Daniel's go for the app word and sentence clips (about 2,150 characters, 0.27 USD at the list price, 0 USD on the MiniMax plan), then the app packages for Monorepo (Task 6.4) and the QR scan on the live host (Task 6.5).
-- The PM decision on the escalated Review A findings of Phase 4 (F4, F8, F9, F16; default: tech debt; no delivered output changes), then the Phase 4 acceptance.
+- Phases 1 to 4 are accepted (Phase 4 at 0fc6fccf, after the PM decision that sends F4, F8, F9, and F16 to tech debt).
 
 ## Facts changed
 
