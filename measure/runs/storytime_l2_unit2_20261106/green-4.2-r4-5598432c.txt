@@ -1,0 +1,29 @@
+Green Task 4.2 round 4 evidence (track storytime_l2_unit2_20261106)
+Immutable phase base: 35729287dc615dd9688cb7ddb6179786c23b3f01
+Separate role base: ff9f6593 (current HEAD at role start: 076d8b68, plan-only commit)
+Immutable Red retry 7: ff9f6593, dashboard/__tests__/storytime-unit2-r7.test.ts
+Implementation commits: 80d4a1bc, 5598432c. Final Green HEAD: 5598432c
+
+Targeted Red rerun before implementation (heavy-run):
+  command: cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-r7.test.ts
+  exit 1; Test Files 1 failed (1); Tests 7 failed | 5 passed (12)
+  the 7 failures: F3 x1, F4 x3, F8 x2, F16 x1
+
+Targeted rerun after implementation (heavy-run): exit 0; Test Files 1 passed (1); Tests 12 passed (12)
+RED_TEST_COMMAND (plan line 28): cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-*.test.ts
+  exit 0; Test Files 6 passed (6); Tests 169 passed (169)
+
+Final heavy-run (one wrapper, no nesting): PROJECT_TESTS, PROJECT_LINT, PROJECT_CHECKS
+  PROJECT_TESTS: exit 0; Test Files 79 passed (79); Tests 1999 passed (1999)
+  PROJECT_LINT: exit 0
+  check-weeks.ts --level 2: exit 0; tsc --noEmit: exit 0; PROJECT_CHECKS: exit 0
+  heavy-run wrapper exit 0
+
+Mutants (see green-4.2-r4-mutants.txt): 4 attempted, 4 caught by the named r7 test, 4 restored byte-equal.
+  M-F3, M-F4, M-F8, M-F16 each produced one failed named test and 11 skipped tests.
+
+Files added in this round: none under content/ or test directories.
+Files changed: dashboard/lib/storytime/checks.ts, dashboard/scripts/storytime/make-card-kit-pdf.ts,
+  dashboard/scripts/storytime/make-manual-pdf.ts, dashboard/scripts/storytime/make-teacher-book-print.ts.
+Unrelated tracked modifications (primary_v2 runs, video/storytime-song/scripts/render.mjs) were left untouched and unstaged.
+

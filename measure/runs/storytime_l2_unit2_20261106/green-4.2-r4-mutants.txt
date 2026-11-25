@@ -1,0 +1,45 @@
+Green Task 4.2 round 4: mutant record (track storytime_l2_unit2_20261106)
+Code HEAD: 5598432c. Implementation commits: 80d4a1bc, 5598432c.
+Immutable phase base: 35729287dc615dd9688cb7ddb6179786c23b3f01. Role base: ff9f6593.
+Immutable Red retry 7: ff9f6593, dashboard/__tests__/storytime-unit2-r7.test.ts.
+
+Method: copy each source file to /tmp/opencode/u2-r4-mutants/<id>.orig, apply one exact in-place replacement, run the one named test with CI=true npx vitest run __tests__/storytime-unit2-r7.test.ts -t <name> inside one heavy-run wrapper, restore from the backup, and compare bytes with cmp -s.
+
+M-F3
+  file: dashboard/lib/storytime/checks.ts
+  mutation: if (others || taught) -> if (others)
+  named test: F3: the standalone review check never passes a card it cannot verify > a sound card g labeled week 1 in a week 15 package fails without the earlier weeks
+  caught: expected 'pass' to be 'fail'
+  test exit: 1 (one failed, others skipped)
+  restored backup sha256: 651ac6639c79dba442fd6215b46795d9be234ccad7f76f91cc8e369583bcb790
+  restored file sha256:  651ac6639c79dba442fd6215b46795d9be234ccad7f76f91cc8e369583bcb790
+
+M-F4
+  file: dashboard/lib/storytime/checks.ts
+  mutation: Object.hasOwn(PICTURE_SOUNDS, key) guard removed -> plain table indexing
+  named test: F4: the sound table answers from its own entries only > constructor is an unknown picture word
+  caught: expected 'pass' to be 'fail'
+  test exit: 1 (one failed, others skipped)
+  restored backup sha256: 651ac6639c79dba442fd6215b46795d9be234ccad7f76f91cc8e369583bcb790
+  restored file sha256:  651ac6639c79dba442fd6215b46795d9be234ccad7f76f91cc8e369583bcb790
+
+M-F8
+  file: dashboard/scripts/storytime/make-card-kit-pdf.ts
+  mutation: dry-run match line no longer carries picture cards: counts
+  named test: F8: the card match report and the teacher-book page map come from the makers > the card kit dry run returns the wired match report
+  caught: expected path to contain 'picture cards:'
+  test exit: 1 (one failed, others skipped)
+  restored backup sha256: 33d4247310afe4f871f7b440c13242950e5bd3d90c6a9563794c1e48b3ebd822
+  restored file sha256:  33d4247310afe4f871f7b440c13242950e5bd3d90c6a9563794c1e48b3ebd822
+
+M-F16
+  file: dashboard/scripts/storytime/make-manual-pdf.ts
+  mutation: readUnitWeeks(...) -> readLevelWeeks(...) whole level
+  named test: F16: the manual maker uses the page list of the unit of the requested weeks > week 9 uses the unit 2 page list, and week 1 keeps the unit 1 page list
+  caught: unit 2 page list expected, whole-level page list received
+  test exit: 1 (one failed, others skipped)
+  restored backup sha256: 3a78345bef57df6d4707599136f824007266f1ac898365ea0b4fdf21fc1bb408
+  restored file sha256:  3a78345bef57df6d4707599136f824007266f1ac898365ea0b4fdf21fc1bb408
+
+Mutant count: 4 attempted, 4 caught by the named test, 4 restored byte-equal.
+No committed Red test, fixture, or content file was edited.
