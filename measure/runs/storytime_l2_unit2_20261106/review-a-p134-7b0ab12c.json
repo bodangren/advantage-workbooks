@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "phase": "P1/P3/P4",
+  "phase_base_sha": "35729287dc615dd9688cb7ddb6179786c23b3f01",
+  "role_base_sha": "7b0ab12c92ed6c6561a0ef1bbda5f81018193d75",
+  "audited_head_sha": "7b0ab12c92ed6c6561a0ef1bbda5f81018193d75",
+  "status": "fail",
+  "summary": "Phases 1 and 3 pass the requested structural review. Phase 4 has incorrect picture reuse, unchecked card pictures, incorrect card kit names, missing map page numbers, and incorrect teaching checks.",
+  "blocking_findings": [
+    "F1 [Blocker] dashboard/scripts/storytime/print-pictures.ts:45 and dashboard/lib/storytime/print/student-book.ts:829: Both makers calculate picture reuse from unit 2 alone, unlike the delivery check at check-storytime-pictures.ts:128. A probe on the committed weeks gives 202 unit-only book rows versus 193 full-level unit 2 rows, with exactly the nine excluded reuse IDs. The unit 2 list requests undelivered pictures, and the final student book cannot resolve their line art. Fix: calculate the full level rows once, partition the list by week, and resolve student book pictures against the same level rows. Test the actual list and final resolution against the Phase 2 contract.",
+    "F2 [Blocker] dashboard/scripts/storytime/check-storytime-pictures.ts:132: The check still reads only the unit 1 card file after the split. It omits all 36 unit 2 card entries from the batch check. A batch with valid book pictures and missing or damaged unit 2 card pictures can pass without reporting them. Fix: read card entries from each requested unit and require the expected card rows in the combined delivery gate. Test the split paths with missing card media.",
+    "F3 [Blocker] dashboard/lib/storytime/checks.ts:155-172: The review check ignores the teaching week for the fixed vocabulary and frames. For example, a week 1 card with text 'g' and week 1 passes although week 15 teaches g. Any text with '___' also passes. Incidental words in teacher instructions and distractors count as taught words. Fix: use the cumulative teaching data of the actual level and week, with explicit card-kind rules and exact frame matching. Test future letters, future frames, arbitrary placeholders, and valid earlier cards.",
+    "F4 [Blocker] dashboard/lib/storytime/checks.ts:669-692: The one-right-picture check does not verify that the sole matching picture is the stated answer. For /d/ with pictures dog, cat, net and answer cat, both existing conditions pass. The spelling heuristic also rejects correct sounds in words such as phone for /f/ and accepts wrong sounds such as knight for /k/. Fix: check the answer against the unique phonetic match using a sound mapping with explicit exceptions. Test zero, one, multiple, and incorrectly keyed matches.",
+    "F5 [Blocker] dashboard/lib/storytime/print/student-book.ts:320-321,862: The map uses absolute week keys 1 to 7, but the unit 2 book stores keys 9 to 15. All seven decodable page labels are empty. Fix: map each sticker to its actual teaching week, and assert the printed page numbers against the week pages for units 1 and 2.",
+    "F6 [Blocker] dashboard/scripts/storytime/make-card-kit-pdf.ts:51,136,159: The card kit title uses the unit from the data, but every PDF file name still uses CARD_KIT_UNIT = 1. Unit 2 can overwrite the unit 1 PDFs when both use the default output folder and version. Fix: derive the unit before generating names and running containment checks. Reject mixed-unit requests. Test real output names and the unit 1 collision case.",
+    "F7 [Blocker] dashboard/__tests__/storytime-unit2-scope.test.ts:35,75,94,225 and dashboard/__tests__/storytime-unit2-sound-stage.test.ts:26,45: The new tests load only the staged paths. The planned move removes them, so PROJECT_TESTS cannot pass after Task 4.3. Fix: support the published path after the move, and test the full suite with both units in the level folder. The scope harness at line 407 also fails while the move is staged."
+  ],
+  "nonblocking_findings": [
+    "F8 [Major] dashboard/__tests__/storytime-unit2-scope.test.ts:176-198,236-251,364-374: The tests inspect source strings or assemble expected inputs themselves instead of exercising the maker commands. A wrong runtime picture list or card match can pass. The M02, M04, M05, and M14 mutants do not establish production wiring. Fix: exercise the commands on temporary roots and assert generated files and rows.",
+    "F9 [Major] dashboard/__tests__/storytime-unit2-scope.test.ts:392-401: The unit 1 snapshot hashes filtered library inputs rather than the output of the makers. The teacher hash omits the page map used by the print command. The card hash omits the A6 and sticker sheets, the production title and resolved pictures. The picture hashes omit the card rows and use different JSON indentation. Fix: compare normalized actual maker outputs at the base and Green, including both units present.",
+    "F10 [Major] dashboard/scripts/storytime/make-card-kit-pdf.ts:88-92: Units 3 and 4 read unit 1 and the current unit only. They cannot reuse a picture from an intermediate unit. Fix: read all earlier unit lists in order and the current unit, with tests for a missing card file and units 3 and 4.",
+    "F11 [Major] dashboard/__tests__/storytime-unit2-scope.test.ts:292-309: The positive check assertions accept an absent check row because undefined is not equal to fail. The review week may legitimately omit check-answers, but teaching weeks must return pass. Fix: require the expected row and its exact status on every applicable week.",
+    "F12 [Minor] dashboard/lib/storytime/files.ts:179 and dashboard/scripts/storytime/make-teacher-book-print.ts:190: The newly exported readUnitWeeks has no production caller. The teacher maker repeats its filter. Fix: use the shared helper or remove the unused export."
+  ],
+  "evidence": [
+    "HEAD at role start and end equals 7b0ab12c92ed6c6561a0ef1bbda5f81018193d75. Phase 4 base is 35729287dc615dd9688cb7ddb6179786c23b3f01.",
+    "The Phase 4 range contains the Red tests, the 12 Green production files, evidence, and the plan. The production diff to HEAD equals the requested range ending at 3f38cc10.",
+    "The Phase 1 and 3 supplemental scope is the five named commits after prior Review A at b1340f8c. The two test-only commits change no production code.",
+    "A filtered JSON probe at b14d15ee, f32de984, a786df6a and the audited head confirms stage 2, positions first and last, five opening entries and five audio lists in each week. The distinct day-1 count changes from two to eight at f32de984 and stays eight. Week 9 has the final-sound tag and week 11 has no reviewed medial-vowel tag at HEAD.",
+    "All eight drafts at HEAD hold approved text and Thai records. Each Thai record names Daniel's words 'Ok', date 2026-11-25, and the same source. The owner approved the text; this review does not assess it.",
+    "The four FR-6.3 changes filter meta.unit === 1. The step-system LETTERS list adds the five new letters and retains the existing seven.",
+    "The song exception matches the computed level/week key and exact count 7; the normal threshold remains 8. The four tests assert exact statuses and the exception text.",
+    "The unit-only/full-level picture probe found extra IDs l2-w10-d4-prompt-hat, l2-w16-check-row-nest, l2-w16-check-row-nose, l2-w16-check-row-net, l2-w16-check-row-bag, l2-w16-check-row-octopus, l2-w16-check-row-ox, l2-w16-check-row-ostrich and l2-w16-check-row-apple.",
+    "The committed gate captures support the Task 4.2 numeric claims: g42v-green.txt has 112 passed; g42v-project-tests.txt has 76 files and 1942 passed. g42v-checks.txt has 8 packages and 0 failed checks. g42v-stage.txt has 16 packages, 0 failed checks, and 33 warnings.",
+    "green-4.2-mutants.txt records 17 caught and M18 not caught. g42v-m18-orchestrator.txt records the corrected M18 run with one failed test at line 232. The plan expressly distinguishes these runs. No false claim of 18 caught in the first run.",
+    "The snapshot fixture is read with readFileSync and no fallback; absence fails by ENOENT. No framework-wide marker or count checks changed in this phase.",
+    "The graph database is dated 2026-11-20. repo-graph callers returned no matches, so git grep established the caller list. The track has no test-strategy.md at HEAD; the plan defines the tests and gate method.",
+    "The working tree already contains staged moves of the eight week files and the card file. Tests that read live content would not exercise the audited HEAD. The review uses committed gate captures, source inspection, and a read-only picture calculation on filtered HEAD data.",
+    "The first commands established the Thai filter. All week data used in the probes passed through a recursive filter that drops th keys and Thai strings, with a zero-Thai assertion on output. The change-list files were not opened."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse 35729287; git rev-parse 3f38cc10; git status --short --untracked-files=no",
+    "git diff --name-status 35729287..7b0ab12c; git diff 35729287..7b0ab12c -- dashboard/lib dashboard/scripts; git diff 35729287..7b0ab12c -- dashboard/__tests__",
+    "git show bd2f8e32 and 564e20e4 -- dashboard/__tests__; git show --name-status b14d15ee, f32de984, a786df6a",
+    "git show 7b0ab12c:<track plan, spec, prior review, gate captures, source files>",
+    "repo-graph callers graph.db for changed symbols; git grep for the callers",
+    "Python JSON Thai filter on git show <commit>:<week>; structural counts and approval status",
+    "Filtered committed week JSON piped to dashboard/node_modules/.bin/tsx -e with storytimePrintPictures; full-level 193, unit-only 202, nine extra IDs"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/review-a-p134-7b0ab12c.json"
+  ],
+  "test_strategy_violations": [
+    "FR-6.7: the snapshot does not cover actual maker outputs.",
+    "FR-6.6: positive cases do not require the check rows and do not cover false passes.",
+    "FR-6.2 and FR-6.4: the source-string tests do not establish production wiring."
+  ],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [
+    "F1: the picture list and student book do not share the delivery check's level reuse rule.",
+    "F2: the picture check omits the unit 2 card file.",
+    "F6: the card kit output name ignores the unit."
+  ],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "unknown",
+  "ratings": [
+    {"axis": "correctness", "score": 2, "evidence": "The full-level picture probe yields nine fewer rows than the unit-only makers."},
+    {"axis": "test_meaning", "score": 2, "evidence": "storytime-unit2-scope.test.ts:176-198 checks source text rather than maker behavior."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The Green production diff changes 12 files within the planned dashboard scope."},
+    {"axis": "evidence_quality", "score": 3, "evidence": "The g42v gate captures match the plan, but the snapshot does not cover actual maker outputs."}
+  ]
+}

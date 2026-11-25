@@ -1,0 +1,1190 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--unit must be a unit of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Unknown argument: --bogus
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "story" has no data from the approved sources (D12); the print build stops.
+The output folder "/tmp/opencode/storytime-covers-adv-RlPxzU/Desktop/print-ready/storytime/proof-v3/l2u1" is inside "proof-v3" (version 3). A version 4 build writes to "/tmp/opencode/storytime-covers-adv-RlPxzU/Desktop/print-ready/storytime/proof-v4" or to another folder.
+The output folder "/tmp/opencode/storytime-covers-adv-RlPxzU/Desktop/print-ready/storytime/proof-v2/l2u1" is inside "proof-v2" (version 2). A version 3 build writes to "/tmp/opencode/storytime-covers-adv-RlPxzU/Desktop/print-ready/storytime/proof-v3" or to another folder.
+The output folder "/tmp/opencode/storytime-covers-adv-RlPxzU/Desktop/print-ready/storytime/proof/l2u1" is inside "proof" (version 1). A version 3 build writes to "/tmp/opencode/storytime-covers-adv-RlPxzU/Desktop/print-ready/storytime/proof-v3" or to another folder.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+The output folder "/tmp/opencode/storytime-covers-6IT3ly/Desktop/print-ready/storytime/proof/l2u1" is inside "proof" (version 1). A version 3 build writes to "/tmp/opencode/storytime-covers-6IT3ly/Desktop/print-ready/storytime/proof-v3" or to another folder.
+Storytime Advantage, Level 1, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+Storytime Advantage, Level 2, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+ ❯ __tests__/storytime-loops-share-captions.test.ts (34 tests | 3 failed) 2538ms
+     × X1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems 267ms
+     × X2 command line: one Thai caption plus one ASCII character exits 1 with one problem line that starts with the row id 252ms
+     × X4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id 248ms
+the requested weeks contain a duplicate
+No approved draft: /tmp/storytime-adv-p3-Tddi1W/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf; /tmp/storytime-adv-p3-Tddi1W/drafts/Storytime-L2-W03-Teachers-Book-TH-draft.pdf
+requested week 30 is not loaded exactly once (loaded 0 of the level)
+--weeks must be a whole number from 1 to 32, got "../x"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--version must be a whole number from 1 to 9007199254740991, got "0"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+the teacher book is Thai only (spec P6): --lang must be th, got "en"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--out must be a folder inside /tmp/storytime-adv-p3-9bLVWN/Desktop/print-ready/storytime, got "/tmp/storytime-adv-p3-9bLVWN/elsewhere"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+No approved draft: /tmp/storytime-adv-p3-c64D8l/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf
+ ❯ __tests__/storytime-unit2-word-keys.test.ts (11 tests | 4 failed) 475ms
+     × gives one practice-clips FAIL row, a Summary, exit 1, and no stack frame 3ms
+     × gives one practice-clips FAIL row for an opening line with no word form 0ms
+     × gives one FAIL row for each of two bad family words, and counts both 0ms
+     × equals the baseline capture at 0dcb45d4 452ms
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops] [--share] [--book-pages]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+  --share   Print the draft parent-share moments
+  --book-pages   Print the unit page list of the student book, as the teacher-book build does (default off)
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-TDICYH/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-zZuPlN/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+ ❯ __tests__/storytime-unit2-scope.test.ts (29 tests | 19 failed) 184ms
+     × student book title names unit 2 for the unit 2 weeks 34ms
+     × book map sticker names unit 2 for the unit 2 weeks 1ms
+     × map song line names the songs of unit 2 for the review week 16 0ms
+     × benchmark label names Benchmark 2 for the review week 16 0ms
+     × step map file of unit 2 is step-map-u2.json 1ms
+     × temp l2/ holds 16 week files and unit 1 is weeks 1 to 8 2ms
+     × readUnitWeeks(temp, 2, 1) reads weeks 1 to 8 only 1ms
+     × readUnitCardPictures(temp, 2, 2) gives the unit 2 card rows 1ms
+     × unit 2 card match covers every row of the level, so a unit 1 picture matches 0ms
+     × a review strip card with an item that its week has not taught fails 4ms
+     × a check item with two right pictures fails 0ms
+     × staged weeks 9 to 16 give no FAIL on the two rules 0ms
+     × st2/12 with 7 frame lines passes and names the exception and the PM decision 0ms
+     × st2/12 with 6 frame lines fails 0ms
+     × another week with 7 frame lines fails 0ms
+     × st2/12 with 8 frame lines passes with the normal text 0ms
+     × weeks 9 to 16 ask for none of the 9 unit 1 reuse ids 15ms
+     × unit 1 outputs with the unit 2 weeks present give the base hashes 2ms
+     × the repository content folder is unchanged 36ms
+ ❯ __tests__/storytime-loops-share.test.ts (23 tests | 1 failed) 902ms
+     × J18: the week files keep their hash, and the test writes nothing into the content folder 17ms
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-unit2-sound-stage.test.ts [ __tests__/storytime-unit2-sound-stage.test.ts ]
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json'
+ ❯ load __tests__/storytime-unit2-sound-stage.test.ts:28:43
+     26| const draftPath = (n: number) => path.join(ROOT, `content/storytime/dr…
+     27| const publishedPath = (n: number) => path.join(ROOT, `content/storytim…
+     28| const load = (p: string) => JSON.parse(fs.readFileSync(p, 'utf-8')) as…
+       |                                           ^
+     29|
+     30| /** The focus.element.sound of the earlier weeks of level 2, in week o…
+ ❯ __tests__/storytime-unit2-sound-stage.test.ts:45:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/28]⎯
+
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 27 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-loops-share-captions.test.ts > X1 to X4 command line: the exit codes (G5) > X1 command line: a list written from the shipped w01 to w08 and the 4 labels exits 0 with 44 rows and 0 problems
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ __tests__/storytime-loops-share-captions.test.ts:309:31
+    307|     it('X1 command line: a list written from the shipped w01 to w08 an…
+    308|         const result = run(['--level', '2', '--list', list(realRows())…
+    309|         expect(result.status).toBe(0);
+       |                               ^
+    310|         expect(result.last).toBe('share captions: 44 rows, 0 problems'…
+    311|         expect({ rows: result.rows, problems: result.problems }).toEqu…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/28]⎯
+
+ FAIL  __tests__/storytime-loops-share-captions.test.ts > X1 to X4 command line: the exit codes (G5) > X2 command line: one Thai caption plus one ASCII character exits 1 with one problem line that starts with the row id
+AssertionError: expected 41 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 41
+
+ ❯ __tests__/storytime-loops-share-captions.test.ts:318:44
+    316|         const result = run(['--level', '2', '--list', list(change(real…
+    317|         expect(result.status).toBe(1);
+    318|         expect(result.problemLines.length).toBe(1);
+       |                                            ^
+    319|         expect(result.problemLines[0].startsWith('SC-w05-d3: ')).toBe(…
+    320|         expect(result.last).toBe('share captions: 44 rows, 1 problems'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/28]⎯
+
+ FAIL  __tests__/storytime-loops-share-captions.test.ts > X1 to X4 command line: the exit codes (G5) > X4 command line: a list with one missing SC row exits 1 with 43 rows and one problem line of that id
+AssertionError: expected 41 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 41
+
+ ❯ __tests__/storytime-loops-share-captions.test.ts:326:44
+    324|         const result = run(['--level', '2', '--list', list(realRows().…
+    325|         expect(result.status).toBe(1);
+    326|         expect(result.problemLines.length).toBe(1);
+       |                                            ^
+    327|         expect(result.problemLines[0].startsWith('SC-w02-d4: ')).toBe(…
+    328|         expect(result.last).toBe('share captions: 43 rows, 1 problems'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/28]⎯
+
+ FAIL  __tests__/storytime-loops-share.test.ts > the shipped week files > J18: the week files keep their hash, and the test writes nothing into the content folder
+AssertionError: the content folder is clean: expected 'R  content/storytime/drafts/l2/print/…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ R  content/storytime/drafts/l2/print/card-pictures-u2.json -> content/storytime/l2/print/u2/card-pictures.json
++ R  content/storytime/drafts/l2/w09.json -> content/storytime/l2/w09.json
++ R  content/storytime/drafts/l2/w10.json -> content/storytime/l2/w10.json
++ R  content/storytime/drafts/l2/w11.json -> content/storytime/l2/w11.json
++ R  content/storytime/drafts/l2/w12.json -> content/storytime/l2/w12.json
++ R  content/storytime/drafts/l2/w13.json -> content/storytime/l2/w13.json
++ R  content/storytime/drafts/l2/w14.json -> content/storytime/l2/w14.json
++ R  content/storytime/drafts/l2/w15.json -> content/storytime/l2/w15.json
++ R  content/storytime/drafts/l2/w16.json -> content/storytime/l2/w16.json
++ ?? content/storytime/l2/print/u2/pictures.json
++ ?? content/storytime/l2/print/u2/pictures.md
++ ?? content/storytime/l2/step-map-u2.json
++
+
+ ❯ __tests__/storytime-loops-share.test.ts:582:64
+    580|             expect(hash, `the hash of w0${week}`).toBe(SHIPPED_HASHES.…
+    581|         }
+    582|         expect(contentStatus(), 'the content folder is clean').toBe(''…
+       |                                                                ^
+    583|     });
+    584| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > student book title names unit 2 for the unit 2 weeks
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ parseWeek __tests__/storytime-unit2-scope.test.ts:60:38
+ ❯ __tests__/storytime-unit2-scope.test.ts:75:24
+ ❯ unit2Weeks __tests__/storytime-unit2-scope.test.ts:73:18
+ ❯ __tests__/storytime-unit2-scope.test.ts:122:54
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > book map sticker names unit 2 for the unit 2 weeks
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ parseWeek __tests__/storytime-unit2-scope.test.ts:60:38
+ ❯ __tests__/storytime-unit2-scope.test.ts:75:24
+ ❯ unit2Weeks __tests__/storytime-unit2-scope.test.ts:73:18
+ ❯ __tests__/storytime-unit2-scope.test.ts:140:54
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > map song line names the songs of unit 2 for the review week 16
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ parseWeek __tests__/storytime-unit2-scope.test.ts:60:38
+ ❯ __tests__/storytime-unit2-scope.test.ts:75:24
+ ❯ unit2Weeks __tests__/storytime-unit2-scope.test.ts:73:18
+ ❯ __tests__/storytime-unit2-scope.test.ts:151:54
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > benchmark label names Benchmark 2 for the review week 16
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ parseWeek __tests__/storytime-unit2-scope.test.ts:60:38
+ ❯ __tests__/storytime-unit2-scope.test.ts:75:24
+ ❯ unit2Weeks __tests__/storytime-unit2-scope.test.ts:73:18
+ ❯ __tests__/storytime-unit2-scope.test.ts:161:54
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.2: the makers take the unit from meta.unit > step map file of unit 2 is step-map-u2.json
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ parseWeek __tests__/storytime-unit2-scope.test.ts:60:38
+ ❯ __tests__/storytime-unit2-scope.test.ts:75:24
+ ❯ unit2Weeks __tests__/storytime-unit2-scope.test.ts:73:18
+ ❯ __tests__/storytime-unit2-scope.test.ts:188:45
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.3: unit 1 reads see weeks 1 to 8 only > temp l2/ holds 16 week files and unit 1 is weeks 1 to 8
+Error: ENOENT: no such file or directory, copyfile '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json' -> '/tmp/u2scope-pb2sIY/content/storytime/l2/w09.json'
+ ❯ tempStorytimeRoot __tests__/storytime-unit2-scope.test.ts:95:12
+     93|     for (let week = 9; week <= 16; week++) {
+     94|         const name = `w${String(week).padStart(2, '0')}.json`;
+     95|         fs.copyFileSync(path.join(draftsRoot, name), path.join(l2, nam…
+       |            ^
+     96|     }
+     97|     return path.join(root, 'content', 'storytime');
+ ❯ __tests__/storytime-unit2-scope.test.ts:203:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.3: unit 1 reads see weeks 1 to 8 only > readUnitWeeks(temp, 2, 1) reads weeks 1 to 8 only
+Error: ENOENT: no such file or directory, copyfile '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json' -> '/tmp/u2scope-ETzvCo/content/storytime/l2/w09.json'
+ ❯ tempStorytimeRoot __tests__/storytime-unit2-scope.test.ts:95:12
+     93|     for (let week = 9; week <= 16; week++) {
+     94|         const name = `w${String(week).padStart(2, '0')}.json`;
+     95|         fs.copyFileSync(path.join(draftsRoot, name), path.join(l2, nam…
+       |            ^
+     96|     }
+     97|     return path.join(root, 'content', 'storytime');
+ ❯ __tests__/storytime-unit2-scope.test.ts:212:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.4: the unit 2 card entries and the level match > readUnitCardPictures(temp, 2, 2) gives the unit 2 card rows
+Error: ENOENT: no such file or directory, copyfile '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json' -> '/tmp/u2scope-MMsAlB/content/storytime/l2/w09.json'
+ ❯ tempStorytimeRoot __tests__/storytime-unit2-scope.test.ts:95:12
+     93|     for (let week = 9; week <= 16; week++) {
+     94|         const name = `w${String(week).padStart(2, '0')}.json`;
+     95|         fs.copyFileSync(path.join(draftsRoot, name), path.join(l2, nam…
+       |            ^
+     96|     }
+     97|     return path.join(root, 'content', 'storytime');
+ ❯ __tests__/storytime-unit2-scope.test.ts:222:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.4: the unit 2 card entries and the level match > unit 2 card match covers every row of the level, so a unit 1 picture matches
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/print/card-pictures-u2.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ __tests__/storytime-unit2-scope.test.ts:240:31
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.6: review strips and check items > a review strip card with an item that its week has not taught fails
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w10.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ __tests__/storytime-unit2-scope.test.ts:271:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.6: review strips and check items > a check item with two right pictures fails
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ __tests__/storytime-unit2-scope.test.ts:281:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.6: review strips and check items > staged weeks 9 to 16 give no FAIL on the two rules
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ __tests__/storytime-unit2-scope.test.ts:305:47
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.9: the song-frame exception of st2/12 (D15) > st2/12 with 7 frame lines passes and names the exception and the PM decision
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w12.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ songHookCopy __tests__/storytime-unit2-scope.test.ts:316:21
+ ❯ __tests__/storytime-unit2-scope.test.ts:334:43
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.9: the song-frame exception of st2/12 (D15) > st2/12 with 6 frame lines fails
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w12.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ songHookCopy __tests__/storytime-unit2-scope.test.ts:316:21
+ ❯ __tests__/storytime-unit2-scope.test.ts:344:43
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.9: the song-frame exception of st2/12 (D15) > another week with 7 frame lines fails
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w11.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ songHookCopy __tests__/storytime-unit2-scope.test.ts:316:21
+ ❯ __tests__/storytime-unit2-scope.test.ts:350:43
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.9: the song-frame exception of st2/12 (D15) > st2/12 with 8 frame lines passes with the normal text
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w12.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ songHookCopy __tests__/storytime-unit2-scope.test.ts:316:21
+ ❯ __tests__/storytime-unit2-scope.test.ts:356:43
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > plan Add 2026-11-10: the 9 unit 1 reuse ids > weeks 9 to 16 ask for none of the 9 unit 1 reuse ids
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json'
+ ❯ readJson __tests__/storytime-unit2-scope.test.ts:55:26
+     53| /** Reads and parses one JSON file. */
+     54| function readJson(file: string): any {
+     55|     return JSON.parse(fs.readFileSync(file, 'utf8'));
+       |                          ^
+     56| }
+     57|
+ ❯ parseWeek __tests__/storytime-unit2-scope.test.ts:60:38
+ ❯ __tests__/storytime-unit2-scope.test.ts:75:24
+ ❯ unit2Weeks __tests__/storytime-unit2-scope.test.ts:73:18
+ ❯ __tests__/storytime-unit2-scope.test.ts:371:70
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > FR-6.7: the unit 1 output snapshot > unit 1 outputs with the unit 2 weeks present give the base hashes
+Error: ENOENT: no such file or directory, copyfile '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w09.json' -> '/tmp/u2scope-OLGGWA/content/storytime/l2/w09.json'
+ ❯ tempStorytimeRoot __tests__/storytime-unit2-scope.test.ts:95:12
+     93|     for (let week = 9; week <= 16; week++) {
+     94|         const name = `w${String(week).padStart(2, '0')}.json`;
+     95|         fs.copyFileSync(path.join(draftsRoot, name), path.join(l2, nam…
+       |            ^
+     96|     }
+     97|     return path.join(root, 'content', 'storytime');
+ ❯ __tests__/storytime-unit2-scope.test.ts:380:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/28]⎯
+
+ FAIL  __tests__/storytime-unit2-scope.test.ts > scope harness > the repository content folder is unchanged
+AssertionError: expected 'R  content/storytime/drafts/l2/print/…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ R  content/storytime/drafts/l2/print/card-pictures-u2.json -> content/storytime/l2/print/u2/card-pictures.json
++ R  content/storytime/drafts/l2/w09.json -> content/storytime/l2/w09.json
++ R  content/storytime/drafts/l2/w10.json -> content/storytime/l2/w10.json
++ R  content/storytime/drafts/l2/w11.json -> content/storytime/l2/w11.json
++ R  content/storytime/drafts/l2/w12.json -> content/storytime/l2/w12.json
++ R  content/storytime/drafts/l2/w13.json -> content/storytime/l2/w13.json
++ R  content/storytime/drafts/l2/w14.json -> content/storytime/l2/w14.json
++ R  content/storytime/drafts/l2/w15.json -> content/storytime/l2/w15.json
++ R  content/storytime/drafts/l2/w16.json -> content/storytime/l2/w16.json
++ ?? content/storytime/l2/print/u2/pictures.json
++ ?? content/storytime/l2/print/u2/pictures.md
++ ?? content/storytime/l2/step-map-u2.json
++
+
+ ❯ __tests__/storytime-unit2-scope.test.ts:408:21
+    406|     it('the repository content folder is unchanged', () => {
+    407|         const out = execFileSync('git', ['status', '--porcelain', 'con…
+    408|         expect(out).toBe('');
+       |                     ^
+    409|     });
+    410| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/28]⎯
+
+ FAIL  __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one practice-clips FAIL row, a Summary, exit 1, and no stack frame
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w10.json'
+ ❯ week10Copy __tests__/storytime-unit2-word-keys.test.ts:65:32
+     63|  */
+     64| function week10Copy(mutate: (week: any) => void): string {
+     65|     const week = JSON.parse(fs.readFileSync(stagedW10, 'utf8'));
+       |                                ^
+     66|     mutate(week);
+     67|     const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'u2wk-copy-')…
+ ❯ __tests__/storytime-unit2-word-keys.test.ts:183:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/28]⎯
+
+ FAIL  __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one practice-clips FAIL row for an opening line with no word form
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w10.json'
+ ❯ week10Copy __tests__/storytime-unit2-word-keys.test.ts:65:32
+     63|  */
+     64| function week10Copy(mutate: (week: any) => void): string {
+     65|     const week = JSON.parse(fs.readFileSync(stagedW10, 'utf8'));
+       |                                ^
+     66|     mutate(week);
+     67|     const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'u2wk-copy-')…
+ ❯ __tests__/storytime-unit2-word-keys.test.ts:193:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/28]⎯
+
+ FAIL  __tests__/storytime-unit2-word-keys.test.ts > the check that reports a bad word (D-U2-K3, D-U2-K8, D-U2-K9, D-U2-K12) > gives one FAIL row for each of two bad family words, and counts both
+Error: ENOENT: no such file or directory, open '/home/daniebo/Desktop/Workbooks/content/storytime/drafts/l2/w10.json'
+ ❯ week10Copy __tests__/storytime-unit2-word-keys.test.ts:65:32
+     63|  */
+     64| function week10Copy(mutate: (week: any) => void): string {
+     65|     const week = JSON.parse(fs.readFileSync(stagedW10, 'utf8'));
+       |                                ^
+     66|     mutate(week);
+     67|     const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'u2wk-copy-')…
+ ❯ __tests__/storytime-unit2-word-keys.test.ts:205:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/28]⎯
+
+ FAIL  __tests__/storytime-unit2-word-keys.test.ts > the unit 1 rows do not change (D-U2-K4, plan F11) > equals the baseline capture at 0dcb45d4
+AssertionError: the st2/1 to st2/8 rows: expected 'st2/1 — Hello!   []\n  PASS    schema…' to be 'st2/1 — Hello!   []\n  PASS    schema…' // Object.is equality
+
+- Expected
++ Received
+
+@@ -378,6 +378,374 @@
+    PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+    PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+    PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+    PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+- Summary: 8 package(s), 0 failed check(s), 1 warning(s).
++ st2/9 — Yum!   []
++   PASS    schema          Package schema
++   PASS    key             URL key
++   PASS    scripts         Five scripts, one a day
++   PASS    minutes         Opening and steps fill the period
++   PASS    step-ids        Step ids
++   PASS    step-minutes    Every step in the period has minutes
++   PASS    moved           Steps moved to the next opening only in a 30-minute period
++   PASS    family          Family of 6 to 8 picture words
++   PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
++   PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
++   PASS    books           Books
++   PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 41; names: Pip)
++   PASS    song-frame      The frame 8 or more times in the song
++   PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
++   PASS    song-gestures   A gesture of the 24 on every song line
++   PASS    song-picture-refs imageOf names an earlier line with a picture
++   PASS    song-pictures   A picture for every song line (S9)
++   PASS    thai-lines      Thai notes have the English line counts
++   PASS    thai            Thai written (Daniel checks it)
++   PASS    review          Review strips
++   PASS    check           Friday check (E5)
++   PASS    check-answers   Friday check: each answer is one of the choices
++   PASS    home            Home card with 3 words
++   PASS    print-formation Letter box: the letter and the formation words of step A3
++   PASS    print-practice  Practice sheet: the exact words that step A7 reads
++   PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
++   PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
++   PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
++   PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
++   PASS    print-check     Friday check: the rows and the written letters of step E5
++   PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
++   PASS    loops-sound     A1, A2, and A3 have a sound loop
++   PASS    loops-sight     A6 and D2 have the sight words of the week, in order
++   PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
++   PASS    loops-recall    Each day has 5 recall items, all taught to date
++   PASS    loops-minutes   The loop minutes fill the period; only loop steps change
++   PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
++   PASS    song-media      The song files named in the package exist
++   WARN    family-pictures The family-word pictures named in the package exist — no file: rice, egg, milk, banana, bread, juice, cake
++   PASS    word-clips      The book word clips named in the package exist and match the word bank
++   WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: dad, doll, dot, duck, mad, nod, octopus, pad, sad, tiger, banana, bread, cake, egg, juice, milk, rice, are, cannot, has
++   WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
++   WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
++   PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
++   PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
++   PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
++   PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
++
++ st2/10 — Dress Up!   []
++   PASS    schema          Package schema
++   PASS    key             URL key
++   PASS    scripts         Five scripts, one a day
++   PASS    minutes         Opening and steps fill the period
++   PASS    step-ids        Step ids
++   PASS    step-minutes    Every step in the period has minutes
++   PASS    moved           Steps moved to the next opening only in a 30-minute period
++   PASS    family          Family of 6 to 8 picture words
++   PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
++   PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
++   PASS    books           Books
++   PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 42)
++   PASS    song-frame      The frame 8 or more times in the song
++   PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
++   PASS    song-gestures   A gesture of the 24 on every song line
++   PASS    song-picture-refs imageOf names an earlier line with a picture
++   PASS    song-pictures   A picture for every song line (S9)
++   PASS    thai-lines      Thai notes have the English line counts
++   PASS    thai            Thai written (Daniel checks it)
++   PASS    review          Review strips
++   PASS    check           Friday check (E5)
++   PASS    check-answers   Friday check: each answer is one of the choices
++   PASS    home            Home card with 3 words
++   PASS    print-formation Letter box: the letter and the formation words of step A3
++   PASS    print-practice  Practice sheet: the exact words that step A7 reads
++   PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
++   PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
++   PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
++   PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
++   PASS    print-check     Friday check: the rows and the written letters of step E5
++   PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
++   PASS    loops-sound     A1, A2, and A3 have a sound loop
++   PASS    loops-sight     A6 and D2 have the sight words of the week, in order
++   PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
++   PASS    loops-recall    Each day has 5 recall items, all taught to date
++   PASS    loops-minutes   The loop minutes fill the period; only loop steps change
++   PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
++   PASS    song-media      The song files named in the package exist
++   WARN    family-pictures The family-word pictures named in the package exist — no file: dress, skirt, T-shirt, trousers, socks, shoes, jacket, hat
++   PASS    word-clips      The book word clips named in the package exist and match the word bank
++   WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: dad, man, pad, pan, sad, tan, dress, hat, jacket, shoes, skirt, socks, t-shirt, trousers, they, too, were
++   WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
++   WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
++   PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
++   PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
++   PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
++   PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
++
++ st2/11 — Where Is Pip?   []
++   PASS    schema          Package schema
++   PASS    key             URL key
++   PASS    scripts         Five scripts, one a day
++   PASS    minutes         Opening and steps fill the period
++   PASS    step-ids        Step ids
++   PASS    step-minutes    Every step in the period has minutes
++   PASS    moved           Steps moved to the next opening only in a 30-minute period
++   PASS    family          Family of 6 to 8 picture words
++   PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
++   PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
++   PASS    books           Books
++   PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 43; names: Pip)
++   PASS    song-frame      The frame 8 or more times in the song
++   PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
++   PASS    song-gestures   A gesture of the 24 on every song line
++   PASS    song-picture-refs imageOf names an earlier line with a picture
++   PASS    song-pictures   A picture for every song line (S9)
++   PASS    thai-lines      Thai notes have the English line counts
++   PASS    thai            Thai written (Daniel checks it)
++   PASS    review          Review strips
++   PASS    check           Friday check (E5)
++   PASS    check-answers   Friday check: each answer is one of the choices
++   PASS    home            Home card with 3 words
++   PASS    print-formation Letter box: the letter and the formation words of step A3
++   PASS    print-practice  Practice sheet: the exact words that step A7 reads
++   PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
++   PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
++   PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
++   PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
++   PASS    print-check     Friday check: the rows and the written letters of step E5
++   PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
++   PASS    loops-sound     A1, A2, and A3 have a sound loop
++   PASS    loops-sight     A6 and D2 have the sight words of the week, in order
++   PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
++   PASS    loops-recall    Each day has 5 recall items, all taught to date
++   PASS    loops-minutes   The loop minutes fill the period; only loop steps change
++   PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
++   PASS    song-media      The song files named in the package exist
++   WARN    family-pictures The family-word pictures named in the package exist — no file: bed, table, sofa, box, chair, door, window
++   PASS    word-clips      The book word clips named in the package exist and match the word bank
++   WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: ant, den, dog, egg, elephant, men, net, pet, set, ten, bed, box, chair, door, sofa, table, window, me, of
++   WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
++   WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
++   PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
++   PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
++   PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
++   PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
++
++ st2/12 — Open Your Book!   []
++   PASS    schema          Package schema
++   PASS    key             URL key
++   PASS    scripts         Five scripts, one a day
++   PASS    minutes         Opening and steps fill the period
++   PASS    step-ids        Step ids
++   PASS    step-minutes    Every step in the period has minutes
++   PASS    moved           Steps moved to the next opening only in a 30-minute period
++   PASS    family          Family of 6 to 8 picture words
++   PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
++   PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
++   PASS    books           Books
++   PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 44)
++   PASS    song-frame      The frame 8 or more times in the song — exception: st2/12, 7 lines, PM decision 2026-11-09
++   WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 9: "Open your book! Read, read, read!" in the sheet, "Open your bag! Get your ruler!" in the lines
++   PASS    song-gestures   A gesture of the 24 on every song line
++   PASS    song-picture-refs imageOf names an earlier line with a picture
++   PASS    song-pictures   A picture for every song line (S9)
++   PASS    thai-lines      Thai notes have the English line counts
++   PASS    thai            Thai written (Daniel checks it)
++   PASS    review          Review strips
++   PASS    check           Friday check (E5)
++   PASS    check-answers   Friday check: each answer is one of the choices
++   PASS    home            Home card with 3 words
++   PASS    print-formation Letter box: the letter and the formation words of step A3
++   PASS    print-practice  Practice sheet: the exact words that step A7 reads
++   PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
++   PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
++   PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
++   PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
++   PASS    print-check     Friday check: the rows and the written letters of step E5
++   PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
++   PASS    loops-sound     A1, A2, and A3 have a sound loop
++   PASS    loops-sight     A6 and D2 have the sight words of the week, in order
++   PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
++   PASS    loops-recall    Each day has 5 recall items, all taught to date
++   PASS    loops-minutes   The loop minutes fill the period; only loop steps change
++   PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
++   PASS    song-media      The song files named in the package exist
++   WARN    family-pictures The family-word pictures named in the package exist — no file: book, bag, pencil, pen, crayon, eraser, ruler
++   PASS    word-clips      The book word clips named in the package exist and match the word bank
++   WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: apple, duck, had, ham, hat, hen, hippo, hop, hot, house, bag, book, crayon, eraser, pen, pencil, ruler, it, said, that
++   WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
++   WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
++   PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
++   PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
++   PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
++   PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
++
++ st2/13 — Look at Me!   []
++   PASS    schema          Package schema
++   PASS    key             URL key
++   PASS    scripts         Five scripts, one a day
++   PASS    minutes         Opening and steps fill the period
++   PASS    step-ids        Step ids
++   PASS    step-minutes    Every step in the period has minutes
++   PASS    moved           Steps moved to the next opening only in a 30-minute period
++   PASS    family          Family of 6 to 8 picture words
++   PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
++   PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
++   PASS    books           Books
++   PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 45; names: Pip)
++   PASS    song-frame      The frame 8 or more times in the song
++   PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
++   PASS    song-gestures   A gesture of the 24 on every song line
++   PASS    song-picture-refs imageOf names an earlier line with a picture
++   PASS    song-pictures   A picture for every song line (S9)
++   PASS    thai-lines      Thai notes have the English line counts
++   PASS    thai            Thai written (Daniel checks it)
++   PASS    review          Review strips
++   PASS    check           Friday check (E5)
++   PASS    check-answers   Friday check: each answer is one of the choices
++   PASS    home            Home card with 3 words
++   PASS    print-formation Letter box: the letter and the formation words of step A3
++   PASS    print-practice  Practice sheet: the exact words that step A7 reads
++   PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
++   PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
++   PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
++   PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
++   PASS    print-check     Friday check: the rows and the written letters of step E5
++   PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
++   PASS    loops-sound     A1, A2, and A3 have a sound loop
++   PASS    loops-sight     A6 and D2 have the sight words of the week, in order
++   PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
++   PASS    loops-recall    Each day has 5 recall items, all taught to date
++   PASS    loops-minutes   The loop minutes fill the period; only loop steps change
++   PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
++   PASS    song-media      The song files named in the package exist
++   WARN    family-pictures The family-word pictures named in the package exist — no file: run, jump, walk, clap, kick, throw, catch
++   PASS    word-clips      The book word clips named in the package exist and match the word bank
++   WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: dot, hop, hot, mop, not, pop, pot, top, catch, clap, jump, kick, run, throw, walk, do, for, like
++   WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
++   WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
++   PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
++   PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
++   PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
++   PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
++
++ st2/14 — Hot and Cold   []
++   PASS    schema          Package schema
++   PASS    key             URL key
++   PASS    scripts         Five scripts, one a day
++   PASS    minutes         Opening and steps fill the period
++   PASS    step-ids        Step ids
++   PASS    step-minutes    Every step in the period has minutes
++   PASS    moved           Steps moved to the next opening only in a 30-minute period
++   PASS    family          Family of 6 to 8 picture words
++   PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
++   PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
++   PASS    books           Books
++   PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 46; names: Pip)
++   PASS    song-frame      The frame 8 or more times in the song
++   WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 10: "It is rainy! Rain, rain, rain!" in the sheet, "It is fun! Fun, fun, fun!" in the lines
++   PASS    song-gestures   A gesture of the 24 on every song line
++   PASS    song-picture-refs imageOf names an earlier line with a picture
++   PASS    song-pictures   A picture for every song line (S9)
++   PASS    thai-lines      Thai notes have the English line counts
++   PASS    thai            Thai written (Daniel checks it)
++   PASS    review          Review strips
++   PASS    check           Friday check (E5)
++   PASS    check-answers   Friday check: each answer is one of the choices
++   PASS    home            Home card with 3 words
++   PASS    print-formation Letter box: the letter and the formation words of step A3
++   PASS    print-practice  Practice sheet: the exact words that step A7 reads
++   PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
++   PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
++   PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
++   PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
++   PASS    print-check     Friday check: the rows and the written letters of step E5
++   PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
++   PASS    loops-sound     A1, A2, and A3 have a sound loop
++   PASS    loops-sight     A6 and D2 have the sight words of the week, in order
++   PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
++   PASS    loops-recall    Each day has 5 recall items, all taught to date
++   PASS    loops-minutes   The loop minutes fill the period; only loop steps change
++   PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
++   PASS    song-media      The song files named in the package exist
++   WARN    family-pictures The family-word pictures named in the package exist — no file: sunny, cloudy, windy, rainy, hot, cold
++   PASS    word-clips      The book word clips named in the package exist and match the word bank
++   WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: face, fan, fat, fed, foot, hat, hot, octopus, pan, cloudy, cold, hot, rainy, sunny, windy, goes, you
++   WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
++   WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
++   PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
++   PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
++   PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
++   PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
++
++ st2/15 — Look, a Bus!   []
++   PASS    schema          Package schema
++   PASS    key             URL key
++   PASS    scripts         Five scripts, one a day
++   PASS    minutes         Opening and steps fill the period
++   PASS    step-ids        Step ids
++   PASS    step-minutes    Every step in the period has minutes
++   PASS    moved           Steps moved to the next opening only in a 30-minute period
++   PASS    family          Family of 6 to 8 picture words
++   PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
++   PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
++   PASS    books           Books
++   PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 47; names: Pip)
++   PASS    song-frame      The frame 8 or more times in the song
++   WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 1: "[]" in the sheet, "Look, a bus! Beep, beep, beep!" in the lines
++   PASS    song-gestures   A gesture of the 24 on every song line
++   PASS    song-picture-refs imageOf names an earlier line with a picture
++   PASS    song-pictures   A picture for every song line (S9)
++   PASS    thai-lines      Thai notes have the English line counts
++   PASS    thai            Thai written (Daniel checks it)
++   PASS    review          Review strips
++   PASS    check           Friday check (E5)
++   PASS    check-answers   Friday check: each answer is one of the choices
++   PASS    home            Home card with 3 words
++   PASS    print-formation Letter box: the letter and the formation words of step A3
++   PASS    print-practice  Practice sheet: the exact words that step A7 reads
++   PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
++   PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
++   PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
++   PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
++   PASS    print-check     Friday check: the rows and the written letters of step E5
++   PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
++   PASS    loops-sound     A1, A2, and A3 have a sound loop
++   PASS    loops-sight     A6 and D2 have the sight words of the week, in order
++   PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
++   PASS    loops-recall    Each day has 5 recall items, all taught to date
++   PASS    loops-minutes   The loop minutes fill the period; only loop steps change
++   PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
++   PASS    song-media      The song files named in the package exist
++   WARN    family-pictures The family-word pictures named in the package exist — no file: bus, car, bike, truck, train, boat, plane, helicopter
++   PASS    word-clips      The book word clips named in the package exist and match the word bank
++   WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: dog, fish, fog, gap, girl, goat, got, ox, peg, tag, bike, boat, bus, car, helicopter, plane, train, truck, his, my, no
++   WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
++   WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
++   PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
++   PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
++   PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
++   PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
++
++ st2/16 — Unit 2 Review   []
++   PASS    schema          Package schema
++   PASS    key             URL key
++   PASS    scripts         Five scripts, one a day
++   PASS    minutes         Opening and steps fill the period
++   PASS    step-ids        Step ids
++   PASS    step-minutes    Every step in the period has minutes
++   PASS    moved           Steps moved to the next opening only in a 30-minute period
++   PASS    family          Family of 6 to 8 picture words
++   PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
++   PASS    books           Books
++   PASS    thai-lines      Thai notes have the English line counts
++   PASS    thai            Thai written (Daniel checks it)
++   PASS    review          Review strips
++   PASS    block           Review block: five days with a review page each, every block week on days 1 to 4, the medley from the block songs (design §3.5)
++   PASS    benchmark       Benchmark: the 26-letter strip, the taught letters, the answers, the block decodables (design §3.5)
++   WARN    print-missing   The print block of the week — no print block
++   PASS    loops-recall    Each day has 5 recall items, all taught to date
++   PASS    loops-minutes   The loop minutes fill the period; only loop steps change
++   PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
++   PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
++   PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
++   PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
++   PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
++
++ Summary: 16 package(s), 0 failed check(s), 33 warning(s).
+
+ ❯ __tests__/storytime-unit2-word-keys.test.ts:228:85
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/28]⎯
+
+
+ Test Files  5 failed | 71 passed (76)
+      Tests  27 failed | 1843 passed (1870)
+   Start at  21:34:13
+   Duration  321.32s (transform 1.76s, setup 2.48s, import 7.88s, tests 291.44s, environment 12.46s)
+
