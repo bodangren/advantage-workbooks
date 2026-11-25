@@ -1,0 +1,1465 @@
+Green 5.0 retry 1 (keep-with-next), track storytime_l2_unit2_20261106
+Role base: bb0fa08d (Red retry 1). Phase base: c0c9b6e2.
+Implementation commit / final Green HEAD: bd4c687a3fc0e9157f683fe24d27b394bd4cf64b.
+Date: 2026-11-26. Thai filter first: 8 week copies outside the repo, 0 Thai chars.
+Only file changed: dashboard/lib/storytime/manual.ts. No test, content, or plan.md change.
+Fix: for units > 1, allow .st-opening to break inside so the heading page holds its start;
+the .st-day-title and .st-prep break-after: avoid rule stays. Unit 1 HTML stays byte-equal.
+
+=== Targeted Red command, before fix (exit 1) ===
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ❯ __tests__/storytime-teacher-keep-with-next.test.ts (3 tests | 1 failed) 9984ms
+     × unit 2 (weeks 9 to 16): no page holds only a day heading, alone or with the lesson-start box 5355ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-teacher-keep-with-next.test.ts > Storytime teacher book keep-with-next (Task 5.0) > unit 2 (weeks 9 to 16): no page holds only a day heading, alone or with the lesson-start box
+AssertionError: day-opening pages without a following box: page 85 (week-11-day-5); page 116 (week-12-day-5); page 176 (week-14-day-5); page 207 (week-15-day-5): expected [ 'page 85 (week-11-day-5)', …(3) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "page 85 (week-11-day-5)",
++   "page 116 (week-12-day-5)",
++   "page 176 (week-14-day-5)",
++   "page 207 (week-15-day-5)",
++ ]
+
+ ❯ __tests__/storytime-teacher-keep-with-next.test.ts:137:89
+    135|         expect(rendered.totalPages, 'unit 2 teacher book page count').…
+    136|         const names = orphanNames(rendered.orphans);
+    137|         expect(names, `day-opening pages without a following box: ${na…
+       |                                                                                         ^
+    138|     }, 600_000);
+    139|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  02:22:07
+   Duration  10.77s (transform 225ms, setup 38ms, import 328ms, tests 9.98s, environment 314ms)
+
+
+=== Targeted Red command, after fix (exit 0) ===
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  02:22:33
+   Duration  10.74s (transform 240ms, setup 38ms, import 353ms, tests 9.93s, environment 304ms)
+
+
+=== FR-6.7 snapshot tests, four files (exit 0) ===
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+Preparing worktree (detached HEAD 35729287)
+Updating files:   1% (180/13561)
+Updating files:   2% (272/13561)
+Updating files:   3% (407/13561)
+Updating files:   4% (543/13561)
+Updating files:   5% (679/13561)
+Updating files:   6% (814/13561)
+Updating files:   7% (950/13561)
+Updating files:   8% (1085/13561)
+Updating files:   9% (1221/13561)
+Updating files:   9% (1291/13561)
+Updating files:  10% (1357/13561)
+Updating files:  11% (1492/13561)
+Updating files:  12% (1628/13561)
+Updating files:  13% (1763/13561)
+Updating files:  14% (1899/13561)
+Updating files:  15% (2035/13561)
+Updating files:  16% (2170/13561)
+Updating files:  17% (2306/13561)
+Updating files:  18% (2441/13561)
+Updating files:  19% (2577/13561)
+Updating files:  20% (2713/13561)
+Updating files:  21% (2848/13561)
+Updating files:  21% (2970/13561)
+Updating files:  22% (2984/13561)
+Updating files:  23% (3120/13561)
+Updating files:  24% (3255/13561)
+Updating files:  25% (3391/13561)
+Updating files:  26% (3526/13561)
+Updating files:  27% (3662/13561)
+Updating files:  28% (3798/13561)
+Updating files:  29% (3933/13561)
+Updating files:  30% (4069/13561)
+Updating files:  30% (4196/13561)
+Updating files:  31% (4204/13561)
+Updating files:  32% (4340/13561)
+Updating files:  33% (4476/13561)
+Updating files:  34% (4611/13561)
+Updating files:  35% (4747/13561)
+Updating files:  36% (4882/13561)
+Updating files:  37% (5018/13561)
+Updating files:  38% (5154/13561)
+Updating files:  38% (5211/13561)
+Updating files:  39% (5289/13561)
+Updating files:  40% (5425/13561)
+Updating files:  41% (5561/13561)
+Updating files:  42% (5696/13561)
+Updating files:  43% (5832/13561)
+Updating files:  44% (5967/13561)
+Updating files:  45% (6103/13561)
+Updating files:  46% (6239/13561)
+Updating files:  47% (6374/13561)
+Updating files:  47% (6466/13561)
+Updating files:  48% (6510/13561)
+Updating files:  49% (6645/13561)
+Updating files:  50% (6781/13561)
+Updating files:  51% (6917/13561)
+Updating files:  52% (7052/13561)
+Updating files:  53% (7188/13561)
+Updating files:  54% (7323/13561)
+Updating files:  55% (7459/13561)
+Updating files:  56% (7595/13561)
+Updating files:  57% (7730/13561)
+Updating files:  58% (7866/13561)
+Updating files:  59% (8001/13561)
+Updating files:  60% (8137/13561)
+Updating files:  61% (8273/13561)
+Updating files:  62% (8408/13561)
+Updating files:  63% (8544/13561)
+Updating files:  64% (8680/13561)
+Updating files:  65% (8815/13561)
+Updating files:  66% (8951/13561)
+Updating files:  67% (9086/13561)
+Updating files:  68% (9222/13561)
+Updating files:  69% (9358/13561)
+Updating files:  70% (9493/13561)
+Updating files:  71% (9629/13561)
+Updating files:  72% (9764/13561)
+Updating files:  73% (9900/13561)
+Updating files:  74% (10036/13561)
+Updating files:  75% (10171/13561)
+Updating files:  76% (10307/13561)
+Updating files:  77% (10442/13561)
+Updating files:  78% (10578/13561)
+Updating files:  79% (10714/13561)
+Updating files:  80% (10849/13561)
+Updating files:  81% (10985/13561)
+Updating files:  82% (11121/13561)
+Updating files:  83% (11256/13561)
+Updating files:  84% (11392/13561)
+Updating files:  85% (11527/13561)
+Updating files:  86% (11663/13561)
+Updating files:  87% (11799/13561)
+Updating files:  88% (11934/13561)
+Updating files:  89% (12070/13561)
+Updating files:  90% (12205/13561)
+Updating files:  91% (12341/13561)
+Updating files:  92% (12477/13561)
+Updating files:  93% (12612/13561)
+Updating files:  94% (12748/13561)
+Updating files:  95% (12883/13561)
+Updating files:  96% (13019/13561)
+Updating files:  97% (13155/13561)
+Updating files:  98% (13290/13561)
+Updating files:  99% (13426/13561)
+Updating files:  99% (13493/13561)
+Updating files: 100% (13561/13561)
+Updating files: 100% (13561/13561), done.
+
+ Test Files  4 passed (4)
+      Tests  86 passed (86)
+   Start at  02:22:50
+   Duration  34.62s (transform 343ms, setup 137ms, import 693ms, tests 33.41s, environment 0ms)
+
+
+=== PROJECT_TESTS (exit 0) ===
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--unit must be a unit of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Unknown argument: --bogus
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "story" has no data from the approved sources (D12); the print build stops.
+The output folder "/tmp/opencode/storytime-covers-adv-lm3Rh1/Desktop/print-ready/storytime/proof-v3/l2u1" is inside "proof-v3" (version 3). A version 4 build writes to "/tmp/opencode/storytime-covers-adv-lm3Rh1/Desktop/print-ready/storytime/proof-v4" or to another folder.
+The output folder "/tmp/opencode/storytime-covers-adv-lm3Rh1/Desktop/print-ready/storytime/proof-v2/l2u1" is inside "proof-v2" (version 2). A version 3 build writes to "/tmp/opencode/storytime-covers-adv-lm3Rh1/Desktop/print-ready/storytime/proof-v3" or to another folder.
+The output folder "/tmp/opencode/storytime-covers-adv-lm3Rh1/Desktop/print-ready/storytime/proof/l2u1" is inside "proof" (version 1). A version 3 build writes to "/tmp/opencode/storytime-covers-adv-lm3Rh1/Desktop/print-ready/storytime/proof-v3" or to another folder.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+The output folder "/tmp/opencode/storytime-covers-PdTf4V/Desktop/print-ready/storytime/proof/l2u1" is inside "proof" (version 1). A version 3 build writes to "/tmp/opencode/storytime-covers-PdTf4V/Desktop/print-ready/storytime/proof-v3" or to another folder.
+Storytime Advantage, Level 1, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+Storytime Advantage, Level 2, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Preparing worktree (detached HEAD 35729287)
+Updating files:   1% (175/13561)
+Updating files:   2% (272/13561)
+Updating files:   3% (407/13561)
+Updating files:   4% (543/13561)
+Updating files:   5% (679/13561)
+Updating files:   6% (814/13561)
+Updating files:   7% (950/13561)
+Updating files:   8% (1085/13561)
+Updating files:   9% (1221/13561)
+Updating files:   9% (1270/13561)
+Updating files:  10% (1357/13561)
+Updating files:  11% (1492/13561)
+Updating files:  12% (1628/13561)
+Updating files:  13% (1763/13561)
+Updating files:  14% (1899/13561)
+Updating files:  15% (2035/13561)
+Updating files:  16% (2170/13561)
+Updating files:  17% (2306/13561)
+Updating files:  18% (2441/13561)
+Updating files:  19% (2577/13561)
+Updating files:  20% (2713/13561)
+Updating files:  20% (2843/13561)
+Updating files:  21% (2848/13561)
+Updating files:  22% (2984/13561)
+Updating files:  23% (3120/13561)
+Updating files:  24% (3255/13561)
+Updating files:  25% (3391/13561)
+Updating files:  26% (3526/13561)
+Updating files:  27% (3662/13561)
+Updating files:  28% (3798/13561)
+Updating files:  29% (3933/13561)
+Updating files:  30% (4069/13561)
+Updating files:  30% (4174/13561)
+Updating files:  31% (4204/13561)
+Updating files:  32% (4340/13561)
+Updating files:  33% (4476/13561)
+Updating files:  34% (4611/13561)
+Updating files:  35% (4747/13561)
+Updating files:  36% (4882/13561)
+Updating files:  37% (5018/13561)
+Updating files:  38% (5154/13561)
+Updating files:  38% (5187/13561)
+Updating files:  39% (5289/13561)
+Updating files:  40% (5425/13561)
+Updating files:  41% (5561/13561)
+Updating files:  42% (5696/13561)
+Updating files:  43% (5832/13561)
+Updating files:  44% (5967/13561)
+Updating files:  45% (6103/13561)
+Updating files:  46% (6239/13561)
+Updating files:  47% (6374/13561)
+Updating files:  47% (6433/13561)
+Updating files:  48% (6510/13561)
+Updating files:  49% (6645/13561)
+Updating files:  50% (6781/13561)
+Updating files:  51% (6917/13561)
+Updating files:  52% (7052/13561)
+Updating files:  53% (7188/13561)
+Updating files:  54% (7323/13561)
+Updating files:  55% (7459/13561)
+Updating files:  56% (7595/13561)
+Updating files:  57% (7730/13561)
+Updating files:  58% (7866/13561)
+Updating files:  59% (8001/13561)
+Updating files:  60% (8137/13561)
+Updating files:  61% (8273/13561)
+Updating files:  62% (8408/13561)
+Updating files:  63% (8544/13561)
+Updating files:  64% (8680/13561)
+Updating files:  65% (8815/13561)
+Updating files:  66% (8951/13561)
+Updating files:  67% (9086/13561)
+Updating files:  68% (9222/13561)
+Updating files:  69% (9358/13561)
+Updating files:  70% (9493/13561)
+Updating files:  71% (9629/13561)
+Updating files:  72% (9764/13561)
+Updating files:  73% (9900/13561)
+Updating files:  74% (10036/13561)
+Updating files:  75% (10171/13561)
+Updating files:  76% (10307/13561)
+Updating files:  77% (10442/13561)
+Updating files:  78% (10578/13561)
+Updating files:  79% (10714/13561)
+Updating files:  80% (10849/13561)
+Updating files:  81% (10985/13561)
+Updating files:  82% (11121/13561)
+Updating files:  83% (11256/13561)
+Updating files:  84% (11392/13561)
+Updating files:  85% (11527/13561)
+Updating files:  86% (11663/13561)
+Updating files:  87% (11799/13561)
+Updating files:  88% (11934/13561)
+Updating files:  89% (12070/13561)
+Updating files:  90% (12205/13561)
+Updating files:  91% (12341/13561)
+Updating files:  92% (12477/13561)
+Updating files:  93% (12612/13561)
+Updating files:  94% (12748/13561)
+Updating files:  95% (12883/13561)
+Updating files:  96% (13019/13561)
+Updating files:  97% (13155/13561)
+Updating files:  98% (13290/13561)
+Updating files:  99% (13426/13561)
+Updating files:  99% (13491/13561)
+Updating files: 100% (13561/13561)
+Updating files: 100% (13561/13561), done.
+the requested weeks contain a duplicate
+No approved draft: /tmp/storytime-adv-p3-kgsN0W/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf; /tmp/storytime-adv-p3-kgsN0W/drafts/Storytime-L2-W03-Teachers-Book-TH-draft.pdf
+requested week 30 is not loaded exactly once (loaded 0 of the level)
+--weeks must be a whole number from 1 to 32, got "../x"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+  --dry-run   Print the student-book page map the build would pass and stop before it writes
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines (" 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--version must be a whole number from 1 to 9007199254740991, got "0"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+  --dry-run   Print the student-book page map the build would pass and stop before it writes
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines (" 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+the teacher book is Thai only (spec P6): --lang must be th, got "en"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+  --dry-run   Print the student-book page map the build would pass and stop before it writes
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines (" 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--out must be a folder inside /tmp/storytime-adv-p3-vT7cFY/Desktop/print-ready/storytime, got "/tmp/storytime-adv-p3-vT7cFY/elsewhere"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+  --dry-run   Print the student-book page map the build would pass and stop before it writes
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+Page-number lines (" 2") are not compared. Each difference is listed with the week and the
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+No approved draft: /tmp/storytime-adv-p3-WYoLnI/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-cLzd1P/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-liXnQI/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops] [--share] [--book-pages]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+  --share   Print the draft parent-share moments
+  --book-pages   Print the unit page list of the student book, as the teacher-book build does (default off)
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+
+ Test Files  80 passed (80)
+      Tests  2002 passed (2002)
+   Start at  02:23:32
+   Duration  361.44s (transform 2.03s, setup 2.53s, import 8.48s, tests 330.99s, environment 12.41s)
+
+
+=== PROJECT_LINT (exit 0) ===
+
+=== PROJECT_CHECKS (exit 0) ===
+st2/1 — Hello!   [../content/storytime/l2/w01.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    published       Published only when approved and clean
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  PASS    family-pictures The family-word pictures named in the package exist
+  PASS    word-clips      The book word clips named in the package exist and match the word bank
+  PASS    practice-clips  The practice word clips named in the package exist and match the word bank
+  PASS    sentence-clips  The sentence clips named in the package exist and follow the book sentences
+  PASS    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    song-lead-in    The song video lead-in is set for each song video
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/2 — How Many?   [../content/storytime/l2/w02.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 10 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 34)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    published       Published only when approved and clean
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  PASS    family-pictures The family-word pictures named in the package exist
+  PASS    word-clips      The book word clips named in the package exist and match the word bank
+  PASS    practice-clips  The practice word clips named in the package exist and match the word bank
+  PASS    sentence-clips  The sentence clips named in the package exist and follow the book sentences
+  PASS    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/3 — Paint!   [../content/storytime/l2/w03.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 35)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    published       Published only when approved and clean
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  PASS    family-pictures The family-word pictures named in the package exist
+  PASS    word-clips      The book word clips named in the package exist and match the word bank
+  PASS    practice-clips  The practice word clips named in the package exist and match the word bank
+  PASS    sentence-clips  The sentence clips named in the package exist and follow the book sentences
+  PASS    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/4 — My Family   [../content/storytime/l2/w04.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 36)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    published       Published only when approved and clean
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  PASS    family-pictures The family-word pictures named in the package exist
+  PASS    word-clips      The book word clips named in the package exist and match the word bank
+  PASS    practice-clips  The practice word clips named in the package exist and match the word bank
+  PASS    sentence-clips  The sentence clips named in the package exist and follow the book sentences
+  PASS    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/5 — I Have Two   [../content/storytime/l2/w05.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 37)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    published       Published only when approved and clean
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  PASS    family-pictures The family-word pictures named in the package exist
+  PASS    word-clips      The book word clips named in the package exist and match the word bank
+  PASS    practice-clips  The practice word clips named in the package exist and match the word bank
+  PASS    sentence-clips  The sentence clips named in the package exist and follow the book sentences
+  PASS    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/6 — I Can See   [../content/storytime/l2/w06.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 38; names: Pip)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    published       Published only when approved and clean
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  PASS    family-pictures The family-word pictures named in the package exist
+  PASS    word-clips      The book word clips named in the package exist and match the word bank
+  PASS    practice-clips  The practice word clips named in the package exist and match the word bank
+  PASS    sentence-clips  The sentence clips named in the package exist and follow the book sentences
+  PASS    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/7 — Is It a Ball?   [../content/storytime/l2/w07.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 39; names: Pip)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    published       Published only when approved and clean
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  PASS    family-pictures The family-word pictures named in the package exist
+  PASS    word-clips      The book word clips named in the package exist and match the word bank
+  PASS    practice-clips  The practice word clips named in the package exist and match the word bank
+  PASS    sentence-clips  The sentence clips named in the package exist and follow the book sentences
+  PASS    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/8 — Unit 1 Review   [../content/storytime/l2/w08.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    block           Review block: five days with a review page each, every block week on days 1 to 4, the medley from the block songs (design §3.5)
+  PASS    benchmark       Benchmark: the 26-letter strip, the taught letters, the answers, the block decodables (design §3.5)
+  WARN    print-missing   The print block of the week — no print block
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/9 — Yum!   [../content/storytime/l2/w09.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 41; names: Pip)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  WARN    family-pictures The family-word pictures named in the package exist — no file: rice, egg, milk, banana, bread, juice, cake
+  WARN    word-clips      The book word clips named in the package exist and match the word bank — no clip: i, like, rice, yum, eggs, milk, bananas, bread, juice, cake, pip, likes, dad, has, a, mop, can, the, mat, sat, on, cannot, see, is, sad, tom
+  WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: dad, doll, dot, duck, mad, nod, octopus, pad, sad, tiger, banana, bread, cake, egg, juice, milk, rice, are, cannot, has
+  WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
+  WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/10 — Dress Up!   [../content/storytime/l2/w10.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 42)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  WARN    family-pictures The family-word pictures named in the package exist — no file: dress, skirt, T-shirt, trousers, socks, shoes, jacket, hat
+  WARN    word-clips      The book word clips named in the package exist and match the word bank — no clip: put, on, your, dress, skirt, t-shirt, trousers, socks, shoes, jacket, hat, pip, dad, has, a, pan, tan, man, run, tom, and, they, were, sad, mat, sat, the, too
+  WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: dad, man, pad, pan, sad, tan, dress, hat, jacket, shoes, skirt, socks, t-shirt, trousers, they, too, were
+  WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
+  WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/11 — Where Is Pip?   [../content/storytime/l2/w11.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 43; names: Pip)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  WARN    family-pictures The family-word pictures named in the package exist — no file: bed, table, sofa, box, chair, door, window
+  WARN    word-clips      The book word clips named in the package exist and match the word bank — no clip: where, is, sam, under, the, table, may, in, box, ben, bed, mia, pat, on, sofa, lily, chair, pip, here, tom, set, up, a, den, ten, men, see, me, mom, too, dad, sat, top, get, off
+  WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: ant, den, dog, egg, elephant, men, net, pet, set, ten, bed, box, chair, door, sofa, table, window, me, of
+  WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
+  WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/12 — Open Your Book!   [../content/storytime/l2/w12.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 44)
+  PASS    song-frame      The frame 8 or more times in the song — exception: st2/12, 7 lines, PM decision 2026-11-09
+  WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 9: "Open your book! Read, read, read!" in the sheet, "Open your bag! Get your ruler!" in the lines
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  WARN    family-pictures The family-word pictures named in the package exist — no file: book, bag, pencil, pen, crayon, eraser, ruler
+  WARN    word-clips      The book word clips named in the package exist and match the word bank — no clip: open, your, book, sam, may, ben, mia, pat, lily, nan, pip, dad, has, a, hat, is, hot, it, on, the, mat, hen, can, hop, sat, in, said, get, off, that
+  WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: apple, duck, had, ham, hat, hen, hippo, hop, hot, house, bag, book, crayon, eraser, pen, pencil, ruler, it, said, that
+  WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
+  WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/13 — Look at Me!   [../content/storytime/l2/w13.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 45; names: Pip)
+  PASS    song-frame      The frame 8 or more times in the song
+  PASS    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio)
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  WARN    family-pictures The family-word pictures named in the package exist — no file: run, jump, walk, clap, kick, throw, catch
+  WARN    word-clips      The book word clips named in the package exist and match the word bank — no clip: i, can, run, jump, kick, throw, catch, clap, hop, pip, tom, has, a, pot, for, on, top, he, is, like, it, mom, mat, do, not
+  WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: dot, hop, hot, mop, not, pop, pot, top, catch, clap, jump, kick, run, throw, walk, do, for, like
+  WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
+  WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/14 — Hot and Cold   [../content/storytime/l2/w14.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 46; names: Pip)
+  PASS    song-frame      The frame 8 or more times in the song
+  WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 10: "It is rainy! Rain, rain, rain!" in the sheet, "It is fun! Fun, fun, fun!" in the lines
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  WARN    family-pictures The family-word pictures named in the package exist — no file: sunny, cloudy, windy, rainy, hot, cold
+  WARN    word-clips      The book word clips named in the package exist and match the word bank — no clip: it, is, sunny, cloudy, windy, rainy, hot, cold, very, pip, too, dad, mom, has, a, fan, on, goes, the, not, sat, mat, for, you
+  WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: face, fan, fat, fed, foot, hat, hot, octopus, pan, cloudy, cold, hot, rainy, sunny, windy, goes, you
+  WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
+  WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/15 — Look, a Bus!   [../content/storytime/l2/w15.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    opening-pa      Sound game in the opening, one line a day (opening.pa)
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    decodable       Decodable: 90 percent or more of the words, no untaught word (phonics graph, program week 47; names: Pip)
+  PASS    song-frame      The frame 8 or more times in the song
+  WARN    song-sheet      The sung lines follow the lyric sheet (a generated song can differ: then the lines follow the audio) — line 1: "[Verse 1]" in the sheet, "Look, a bus! Beep, beep, beep!" in the lines
+  PASS    song-gestures   A gesture of the 24 on every song line
+  PASS    song-picture-refs imageOf names an earlier line with a picture
+  PASS    song-pictures   A picture for every song line (S9)
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    check           Friday check (E5)
+  PASS    check-answers   Friday check: each answer is one of the choices
+  PASS    home            Home card with 3 words
+  PASS    print-formation Letter box: the letter and the formation words of step A3
+  PASS    print-practice  Practice sheet: the exact words that step A7 reads
+  PASS    print-picture-word Practice sheet: each picture word names its own line and is a week word
+  PASS    print-practice-capital Practice sheet: each sentence of a line with a full stop starts with a capital letter
+  PASS    print-dictation Dictation lines: the letters, the words, and the trace of step C3
+  PASS    print-writing   Writing page: the trace text, the line, and the picture box of step D4
+  PASS    print-check     Friday check: the rows and the written letters of step E5
+  PASS    loops-blend     A4 has a blend drill; each drill sound is taught or in the opening game
+  PASS    loops-sound     A1, A2, and A3 have a sound loop
+  PASS    loops-sight     A6 and D2 have the sight words of the week, in order
+  PASS    loops-questions The read-along has who, what, and where questions with an answer on a page
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    song-media      The song files named in the package exist
+  PASS    book-audio      The book audio files named in the package exist
+  PASS    book-pictures   The book pictures named in the package exist
+  WARN    family-pictures The family-word pictures named in the package exist — no file: bus, car, bike, truck, train, boat, plane, helicopter
+  WARN    word-clips      The book word clips named in the package exist and match the word bank — no clip: look, a, bus, car, bike, truck, train, boat, plane, pip, on, has, tag, no, is, it, the, mat, not, in, pot, peg, got, his
+  WARN    practice-clips  The practice word clips named in the package exist and match the word bank — no clip: dog, fish, fog, gap, girl, goat, got, ox, peg, tag, bike, boat, bus, car, helicopter, plane, train, truck, his, my, no
+  WARN    sentence-clips  The sentence clips named in the package exist and follow the book sentences — no clips
+  WARN    readalong-sentence-clips The read-along sentence clips named in the package exist and follow the book sentences — no clips
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+st2/16 — Unit 2 Review   [../content/storytime/l2/w16.json]
+  PASS    schema          Package schema
+  PASS    key             URL key
+  PASS    scripts         Five scripts, one a day
+  PASS    minutes         Opening and steps fill the period
+  PASS    step-ids        Step ids
+  PASS    step-minutes    Every step in the period has minutes
+  PASS    moved           Steps moved to the next opening only in a 30-minute period
+  PASS    family          Family of 6 to 8 picture words
+  PASS    tricky          3 or fewer new tricky words (design §3.2, A6)
+  PASS    books           Books
+  PASS    thai-lines      Thai notes have the English line counts
+  PASS    thai            Thai written (Daniel checks it)
+  PASS    review          Review strips
+  PASS    block           Review block: five days with a review page each, every block week on days 1 to 4, the medley from the block songs (design §3.5)
+  PASS    benchmark       Benchmark: the 26-letter strip, the taught letters, the answers, the block decodables (design §3.5)
+  WARN    print-missing   The print block of the week — no print block
+  PASS    loops-recall    Each day has 5 recall items, all taught to date
+  PASS    loops-minutes   The loop minutes fill the period; only loop steps change
+  PASS    share-moment    Each day has a parent-share moment of 1 or 2 shots with a caption
+  PASS    sound-stage-mix No activity asks two sound positions (first, last, middle)
+  PASS    sound-stage-day1 The day-1 sound game holds no new sound and asks only a skill of an earlier stage
+  PASS    sound-stage-plan The week follows the sound stage plan (focus.paStage, positions, tags)
+  PASS    phoneme-audio   Every sound of the package has Daniel's recording (S22)
+
+Summary: 16 package(s), 0 failed check(s), 40 warning(s).
+
+=== Mutant: remove .st-opening { break-inside: auto; } (exit 1, Red caught 4 pages) ===
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ❯ __tests__/storytime-teacher-keep-with-next.test.ts (3 tests | 1 failed) 9743ms
+     × unit 2 (weeks 9 to 16): no page holds only a day heading, alone or with the lesson-start box 5260ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-teacher-keep-with-next.test.ts > Storytime teacher book keep-with-next (Task 5.0) > unit 2 (weeks 9 to 16): no page holds only a day heading, alone or with the lesson-start box
+AssertionError: day-opening pages without a following box: page 85 (week-11-day-5); page 116 (week-12-day-5); page 176 (week-14-day-5); page 207 (week-15-day-5): expected [ 'page 85 (week-11-day-5)', …(3) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "page 85 (week-11-day-5)",
++   "page 116 (week-12-day-5)",
++   "page 176 (week-14-day-5)",
++   "page 207 (week-15-day-5)",
++ ]
+
+ ❯ __tests__/storytime-teacher-keep-with-next.test.ts:137:89
+    135|         expect(rendered.totalPages, 'unit 2 teacher book page count').…
+    136|         const names = orphanNames(rendered.orphans);
+    137|         expect(names, `day-opening pages without a following box: ${na…
+       |                                                                                         ^
+    138|     }, 600_000);
+    139|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  02:30:07
+   Duration  10.54s (transform 238ms, setup 38ms, import 345ms, tests 9.74s, environment 310ms)
+
+
+Restored file sha256 4b599b3258807f81b2262c323e54bfd29669dcd079258b73c714ac9b3ec9b291,
+equal to the pre-mutant copy; targeted Red rerun exit 0 (3 of 3).
