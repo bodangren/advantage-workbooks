@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "storytime_l2_unit2_20261106",
+  "phase": "P1 and P3",
+  "phase_base_sha": {
+    "P1": "f1c041ec",
+    "P3": "4e32c3f6"
+  },
+  "role_base_sha": "b20ea9ab022c14dec5abb090214bcfc86b2191ad",
+  "audited_head_sha": "b20ea9ab022c14dec5abb090214bcfc86b2191ad",
+  "status": "fail",
+  "verdict": "fail",
+  "phase_verdicts": {
+    "P1": "fail",
+    "P3": "fail"
+  },
+  "summary": "The acceptance prerequisites are incomplete for both phases. The prior gate captures show the expected results, but this run cannot start the live acceptance gates.",
+  "blocking_findings": [
+    "F1 [Blocker] P1: Review A targets b1340f8c. Commits b14d15ee, f32de984 and a786df6a change the staged week files after that review. The test-only exception does not apply.",
+    "F2 [Blocker] P1 and P3: No Review B, Review C or adversarial result for either phase is present in the track run folder. P3 also has no current Review A result. UX_REQUIRED=never in plan.md line 36; the owner check is recorded.",
+    "F3 [Blocker] P1 (A5): plan.md line 196 still describes 21 FAIL rows as accepted. Line 194 and the prior acceptance result establish that only st2/12 song-frame was accepted. Correct the historical claim explicitly."
+  ],
+  "nonblocking_findings": [
+    "N1 [Major] P3: t36-p2-apply-check.txt reports 11 of 15 checks PASS. Its before/after comparison used the applied tree twice, as plan.md line 264 acknowledges. The separate stage captures support the FAIL-row change but cannot prove every failed apply check."
+  ],
+  "evidence": [
+    "git rev-parse HEAD returned b20ea9ab022c14dec5abb090214bcfc86b2191ad.",
+    "Phase base references come from phase-acceptance-p1-1f124ea0.json and plan.md line 254. The brief does not supply separate phase and role base SHA values.",
+    "The track run folder contains review-a-p1-b1340f8c.json, but no current phase review or adversarial result. git log confirms three draft content commits after that Review A result.",
+    "git show --stat a786df6a lists eight draft week files and five t36-p2 files only. No file in content/storytime/l2/ or dashboard/lib changed in that commit.",
+    "git show --stat b20ea9ab lists five gate captures and plan.md only.",
+    "A recursive Thai filter removed each th key and each string that contains a Thai character before displaying the approval records. All eight committed drafts have approval.thai status approved, date 2026-11-25, words Ok, and the source.",
+    "t36-p2-apply.txt records 16, 2, 28, 3, 2, 13, 20 and 17 entries for weeks 9 to 16, respectively. The total is 101.",
+    "The committed stage captures have 0 Thai characters. The before capture has 15 FAIL rows; the after capture has one, st2/12 song-frame (7 times). Both have 0 teaching-week print-missing warnings and 33 total warnings.",
+    "The committed targeted test captures report 11 and 72 passed tests; the project test capture reports 75 files and 1908 tests passed. The project checks capture reports 8 packages, 0 failed checks and 1 warning. The lint capture is empty.",
+    "The prior FAIL at 1f124ea0 cannot be superseded until the required reviews and the live acceptance gates finish.",
+    "A3, A4, A6 and A7 are outside this content and product test scope. A5 was checked against the reopened Phase 1 plan claims."
+  ],
+  "commands": [
+    "git rev-parse HEAD",
+    "git show --stat --oneline a786df6a",
+    "git show --stat --oneline b20ea9ab",
+    "git log --oneline b1340f8c..HEAD -- content/storytime/drafts/l2",
+    "git show b20ea9ab:<draft path> through a recursive Thai filter",
+    "Parse the existing t36-p2 gate captures with a Thai filter. No live gate command ran."
+  ],
+  "gates": {
+    "RED_TEST_COMMAND_U2K": {
+      "exit_code": null,
+      "capture_path": null,
+      "prior_reported_exit_code": 0,
+      "prior_capture_path": "measure/runs/storytime_l2_unit2_20261106/t36-p2-red-u2k.txt"
+    },
+    "RED_TEST_COMMAND_U2S": {
+      "exit_code": null,
+      "capture_path": null,
+      "prior_reported_exit_code": 0,
+      "prior_capture_path": "measure/runs/storytime_l2_unit2_20261106/t36-p2-red-u2s.txt"
+    },
+    "PROJECT_TESTS": {
+      "exit_code": null,
+      "capture_path": null,
+      "prior_reported_exit_code": 0,
+      "prior_capture_path": "measure/runs/storytime_l2_unit2_20261106/t36-p2-project-tests-r2.txt"
+    },
+    "PROJECT_LINT": {
+      "exit_code": null,
+      "capture_path": null,
+      "prior_reported_exit_code": 0,
+      "prior_capture_path": "measure/runs/storytime_l2_unit2_20261106/t36-p2-lint.txt"
+    },
+    "PROJECT_CHECKS": {
+      "exit_code": null,
+      "capture_path": null,
+      "prior_reported_exit_code": 0,
+      "prior_capture_path": "measure/runs/storytime_l2_unit2_20261106/t36-p2-checks.txt"
+    },
+    "STAGE_CHECKS": {
+      "exit_code": null,
+      "capture_path": null,
+      "prior_reported_exit_code": 1,
+      "prior_capture_path": "measure/runs/storytime_l2_unit2_20261106/t36-p2-stage.txt",
+      "prior_fail_rows": ["st2/12 song-frame"],
+      "prior_teaching_print_missing_warnings": 0
+    }
+  },
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/phase-acceptance-p1p3-b20ea9ab.json"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_audit",
+  "confidence": "high",
+  "route": "unknown"
+}
