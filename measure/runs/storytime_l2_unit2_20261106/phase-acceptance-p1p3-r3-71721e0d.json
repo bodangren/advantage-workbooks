@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "role": "measure-phase-acceptance",
+  "track": "storytime_l2_unit2_20261106",
+  "phase": "P1 and P3",
+  "phase_base_sha": {
+    "P1": "f1c041ece422273a3ebe3d754d011fec48d2a388",
+    "P3": "4e32c3f62720ec168cc09e1034488a619ad9e484"
+  },
+  "role_base_sha": "71721e0dccd84b12d264f71c0bcdd46e5b0f1178",
+  "audited_head_sha": "71721e0dccd84b12d264f71c0bcdd46e5b0f1178",
+  "status": "pass",
+  "verdict": "pass",
+  "phase_verdicts": {"P1": "pass", "P3": "pass"},
+  "summary": "Phases 1 and 3 pass at 71721e0d. All five live gates pass, and the eight published weeks retain both owner approval records.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "F1 withdrawn: review-a-p13-71721e0d.json targets the exact audited HEAD and passes both phases. Its scope explicitly excludes Phase 4.",
+    "F2 withdrawn in the prior run: plan.md line 267 records the risk-based gate scope. Review B, Review C, adversarial testing and UX browser review do not apply.",
+    "F3 withdrawn in the prior run: commit 328b110e corrects the accepted-row claim in plan.md line 196. The older Phase 1 PASS is explicitly withdrawn in line 202.",
+    "Task 1.1: commit 703849f and stage-baseline.txt record 8 packages, 0 failed checks, 1 warning, and equality with the live-level report.",
+    "Tasks 1.2 to 1.9: the eight staged content commits cc10fbf, fd5a067, 685dd11, 70e2b77, 6f16d0e, 4635431, 3529feb and bf2474b are ancestors. Each self-check records a passing week.",
+    "Task 1.10: d1822c6, aeb0198 and 3be286b contain the corrections. unit-read.md records the first and second reads, all findings, and their dispositions.",
+    "Task 1.11: the English r2 PDF exists and its SHA-256 equals the value in plan.md line 181. Commit 3be286b and the PM receipt identify it.",
+    "Task 1.12: cb2d1c0c records Daniel's English approval. The eight published files retain status approved, date 2026-11-07, words Approved, and the approval source.",
+    "Task 1.13: commit 6116bebf and songs-request.txt record seven source-equal lyric sheets, the manifest check, and the PM receipt.",
+    "Tasks 1.13a to 1.13c: the Red capture records 9 failures and 2 passes; 1306a1c2 changes exactly the three planned code files. The five named mutants in p1b-mutants-named-311c1d4a.txt all exit 1, and the restored implementation exits 0.",
+    "The current word-key pattern is shared by four schema records. The live caller collects individual bad rows, and the targeted tests cover hyphens, variants, bad inputs, row counts, and the unit 1 baseline.",
+    "Task 3.1: the seven Thai field commits are ancestors. t31b-pdf.txt records 238 pages and exit 0; t31b-contact-sheets.txt records 60 sheets and the plan records the writer check.",
+    "Task 3.1b: d8f6cee2 has 367 insertions and 0 deletions across eight drafts. The English pack has 40 rows and zero Thai characters; its recheck closes all five findings.",
+    "Both share review logs have 0 content/storytime references. All 40 published English captions equal their reviewed draft values. The live share-moment rows pass.",
+    "Task 3.2: ea96888 and the PM receipt in plan.md line 249 record the hand-off.",
+    "Tasks 3.3 and 3.5b: Daniel's answer Ok is recorded. All eight published files retain approved Thai records dated 2026-11-25, with words Ok and the original source.",
+    "Task 3.5: bd2f8e32 changes the sound-stage test; its Red capture records 24 failed and 48 passed tests. The current targeted gate passes all 72 tests, including the mutation cases.",
+    "Task 3.6: a786df6a changes only eight drafts and five evidence files. The 101 entry counts and separate before/after captures were verified in the preceding acceptance.",
+    "The published content comparison against 7b0ab12c shows 21 allowed media fields added to each teaching week and zero differences in week 16. No unexpected non-Thai value changes appear.",
+    "PROJECT_CHECKS exits 0 with 16 packages, 0 failed checks and 40 warnings. All 24 sound-stage rows, 16 Thai rows, and 8 share-moment rows pass. No teaching week has a print-missing warning.",
+    "PROJECT_TESTS exits 0 with 80 files and 2002 tests passed. Four lines that contained Thai characters were omitted from its capture.",
+    "Both targeted test gates and PROJECT_LINT exit 0. HEAD remains 71721e0d at the end of each gate.",
+    "STAGE_CHECKS does not apply after the move. The published-week check passes the previously accepted week 12 song-frame exception.",
+    "A5 is checked against the corrected plan and the live gate results. No Measure contract, filter or registry surface changed in the scoped task commits; A3, A4, A6 and A7 do not apply."
+  ],
+  "commands": [
+    "git rev-parse HEAD and git merge-base --is-ancestor for the phase bases and named task commits",
+    "git show --stat and scoped git diff of the task commits",
+    "Thai-filtered comparison of 7b0ab12c staged weeks and 71721e0d published weeks; check approval, stage and share records",
+    "THAI-filtered inspection of prior gate captures, review results, and the phase plan",
+    "SHA-256 of the English r2 PDF",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-word-keys.test.ts --maxWorkers=1'",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-sound-stage.test.ts --maxWorkers=1'",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx eslint lib/storytime scripts/storytime __tests__/storytime-unit2-*.test.ts --no-error-on-unmatched-pattern'",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && npx tsx scripts/storytime/check-weeks.ts --level 2 && npx tsc --noEmit'",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-*.test.ts __tests__/covers-*.test.ts __tests__/print-pdfx.test.ts'"
+  ],
+  "gates": {
+    "RED_TEST_COMMAND_U2K": {"exit_code": 0, "capture_path": "measure/runs/storytime_l2_unit2_20261106/pa13-r3-red-u2k.txt", "tests_passed": 11},
+    "RED_TEST_COMMAND_U2S": {"exit_code": 0, "capture_path": "measure/runs/storytime_l2_unit2_20261106/pa13-r3-red-u2s.txt", "tests_passed": 72},
+    "PROJECT_LINT": {"exit_code": 0, "capture_path": "measure/runs/storytime_l2_unit2_20261106/pa13-r3-lint.txt"},
+    "PROJECT_CHECKS": {"exit_code": 0, "capture_path": "measure/runs/storytime_l2_unit2_20261106/pa13-r3-checks.txt", "packages": 16, "failed_checks": 0, "warnings": 40, "teaching_print_missing_warnings": 0},
+    "PROJECT_TESTS": {"exit_code": 0, "capture_path": "measure/runs/storytime_l2_unit2_20261106/pa13-r3-project.txt", "files_passed": 80, "tests_passed": 2002},
+    "STAGE_CHECKS": {"applicable": false, "reason": "The published weeks replace the staged weeks."}
+  },
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/phase-acceptance-p1p3-r3-71721e0d.json",
+    "measure/runs/storytime_l2_unit2_20261106/pa13-r3-red-u2k.txt",
+    "measure/runs/storytime_l2_unit2_20261106/pa13-r3-red-u2s.txt",
+    "measure/runs/storytime_l2_unit2_20261106/pa13-r3-lint.txt",
+    "measure/runs/storytime_l2_unit2_20261106/pa13-r3-checks.txt",
+    "measure/runs/storytime_l2_unit2_20261106/pa13-r3-project.txt"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "unknown",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "PROJECT_CHECKS reports 16 packages and zero failed checks; both targeted test files pass."},
+    {"axis": "test_meaning", "score": 5, "evidence": "The failing-first captures and five named word-key mutants establish the behavior that the 83 current targeted tests check."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "Commit 1306a1c2 changes only the three planned code files, and a786df6a changes the eight planned drafts and evidence."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "All five gate captures hold exit 0 and the audited HEAD; the commit and approval checks establish both owner gates."}
+  ],
+  "reviewer_ratings": [
+    {"reviewer_role": "review-a", "reviewer_route": "unknown", "agreed": true, "score": 5, "evidence": "The independent current acceptance repeats the relevant data comparison and both targeted gates at 71721e0d."}
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "track": "storytime_l2_unit2_20261106",
+  "phase": "P1 and P3",
+  "phase_base_sha": {
+    "P1": "f1c041ece422273a3ebe3d754d011fec48d2a388",
+    "P3": "4e32c3f62720ec168cc09e1034488a619ad9e484"
+  },
+  "role_base_sha": "71721e0dccd84b12d264f71c0bcdd46e5b0f1178",
+  "audited_head_sha": "71721e0dccd84b12d264f71c0bcdd46e5b0f1178",
+  "status": "pass",
+  "verdict": "pass",
+  "phase_verdicts": {
+    "P1": "pass",
+    "P3": "pass"
+  },
+  "summary": "Phases 1 and 3 pass at the exact requested HEAD. The move and media commits preserve the approved text, Thai records, sound stage fields, and word-key behavior. The subsequent manual changes affect print layout only. Phase 4 remains escalated under the previous review; this result does not accept it.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "HEAD at role start and end is 71721e0dccd84b12d264f71c0bcdd46e5b0f1178. Both phase bases are ancestors of HEAD.",
+    "The only change from d41d887b to HEAD is the Phase 1 and 3 acceptance record. Its F1 concerns the missing exact-HEAD review, not a defect in either phase's deliverables.",
+    "A recursive JSON comparison of the eight weeks at the earlier reviewed head 7b0ab12c and the published files at HEAD gives zero unexpected field changes. For each teaching week, the only added fields are two book audio objects, two cover file paths, sixteen page image file paths, and one song audio field. Week 16 is identical.",
+    "The comparison tests the underlying JSON values before reporting only filtered paths and counts. It does not display Thai text. All approval values, including the complete Thai record, remain equal to the earlier reviewed values.",
+    "Phase 1: all eight text approval records remain approved. The English text, teaching content, song text, and opening game data remain unchanged apart from the specified media fields.",
+    "Phase 1: git diff b1340f8c..71721e0d is empty for word-clips.ts, schema.ts, check-weeks.ts, and sound-stages.ts. The previously reviewed hyphen-key implementation is unchanged.",
+    "The Phase 1 test changes update the published path, remove the unused count helper, and update stub types. The unit 1 baseline still requires exact row equality after filtering the later unit and the approved published-status row. It reads the required fixture directly, so a missing fixture fails.",
+    "Phase 3: each of weeks 9 to 16 has focus.paStage stage 2 with positions first and last, five opening.pa entries, and five opening.audio lists. The eight day-1 English lines remain distinct. Every Thai approval record has status approved, date 2026-11-25, words Ok, and the unchanged source.",
+    "The only change to the Phase 3 sound-stage test after bd2f8e32 is the published path. The checks and test assertions remain unchanged. The week 9 final-sound tag and week 11 medial-vowel exclusion remain covered by the test.",
+    "The independent heavy-run at HEAD passes all 265 tests in the four word-key, package-clip, practice-clip, and sound-stage test files. check-weeks reports 16 packages, zero failed checks, and 40 warnings. The command exits 0.",
+    "The Task 5.0 diff to manual.ts adds KEEP_WITH_NEXT_CSS and conditionally inserts it for later units. It changes no content data, approval field, or language selection. The Green retry evidence confirms the three layout tests pass. This review does not accept the Phase 5 print proof.",
+    "The plan permits the published-week gate after the move. The report has no FAIL row, including the previously accepted song-frame exception. No framework-wide scripts or registry changed in this review scope.",
+    "Graph caller queries returned no matches; git grep confirms the word-key and sound-stage check callers. No track test-strategy.md exists; the plan defines the gates.",
+    "The Thai filter ran first. The result contains zero Thai characters. No sound-stage change-list file or teacher HTML was opened."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse 71721e0d; git rev-parse f1c041ec; git rev-parse 4e32c3f6; git merge-base --is-ancestor for both bases",
+    "git diff --name-status f1c041ec..71721e0d and 4e32c3f6..71721e0d restricted to Phase 1 and 3 deliverable paths",
+    "git diff b1340f8c..71721e0d -- dashboard/lib/storytime/word-clips.ts dashboard/lib/storytime/schema.ts dashboard/scripts/storytime/check-weeks.ts dashboard/lib/storytime/sound-stages.ts",
+    "git diff b1340f8c..71721e0d -- word-key and practice-clip tests; git diff bd2f8e32..71721e0d -- sound-stage test",
+    "git diff a5c5794c..71721e0d -- dashboard/lib/storytime/manual.ts; git show 71721e0d:<plan and Green gate evidence>",
+    "Python recursive Thai-filtered JSON comparison of 7b0ab12c staged weeks to 71721e0d published weeks, with allowed-media-path comparison and structural counts",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-word-keys.test.ts __tests__/storytime-unit2-sound-stage.test.ts __tests__/storytime-package-clips.test.ts __tests__/storytime-package-practice-clips.test.ts && npx tsx scripts/storytime/check-weeks.ts --level 2' (exit 0; Thai-filtered output)",
+    "repo-graph callers graph.db; git grep for the actual word-key and sound-stage check callers; git rev-parse HEAD"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/review-a-p13-71721e0d.json"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "none",
+  "confidence": "high",
+  "route": "unknown",
+  "ratings": [
+    {"axis": "correctness", "score": 5, "evidence": "The eight-week comparison gives no unexpected changes, and check-weeks reports zero failed checks."},
+    {"axis": "test_meaning", "score": 5, "evidence": "The four targeted files pass 265 tests, including the word-key error cases and three sound-stage checks."},
+    {"axis": "scope_discipline", "score": 5, "evidence": "The content comparison identifies only allowed media fields, and the manual diff changes CSS only."},
+    {"axis": "evidence_quality", "score": 5, "evidence": "The exact HEAD, eight-week structure probe, and independent heavy-run establish both phase verdicts."}
+  ]
+}

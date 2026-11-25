@@ -1,0 +1,454 @@
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--unit must be a unit of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Unknown argument: --bogus
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+--level must be a level of the series (1 to 4).
+
+Builds the cover of one Storytime Advantage student book (spec FR-5):
+the front PNG, the back PNG, and the 2-page Chrome PDF (front, back), with --print the
+PDF/X-1a print file too. Run it under the heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-storytime-book-cover.ts --level <n> --unit <m> [--out <dir>] [--print] [--data <books.json>] [--version <n>]
+
+  --level     The level of the book, 1 to 4
+  --unit      The unit of the book, 1 to 4
+  --out       The output folder: front.png, back.png, cover.pdf, corner-mode.txt,
+              build-report.json. With --version 3 and no --out the default folder is
+              <print-ready>/storytime/proof-v3/<level><unit>.
+  --print     Also write the PDF/X-1a print file through scripts/print/make-pdfx.ts --keep-fonts
+  --data      The data file of the 16 books (default: content/storytime/covers/books.json)
+  --version   The version in the file name of the print file (default 1)
+
+A --version 3 --print build reads only the approved sources (D12): a panel field whose data
+comes only from draft weeks stops the build with an error, and no file is written.
+
+Exit code 1 when the data holds an error, when a picture file is missing, when a version 3
+print build lacks an approved panel field, or when the PDF/X checks fail. The build writes no
+deliverable in those cases.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "story" has no data from the approved sources (D12); the print build stops.
+The output folder "/tmp/opencode/storytime-covers-adv-ZgT1TD/Desktop/print-ready/storytime/proof-v3/l2u1" is inside "proof-v3" (version 3). A version 4 build writes to "/tmp/opencode/storytime-covers-adv-ZgT1TD/Desktop/print-ready/storytime/proof-v4" or to another folder.
+The output folder "/tmp/opencode/storytime-covers-adv-ZgT1TD/Desktop/print-ready/storytime/proof-v2/l2u1" is inside "proof-v2" (version 2). A version 3 build writes to "/tmp/opencode/storytime-covers-adv-ZgT1TD/Desktop/print-ready/storytime/proof-v3" or to another folder.
+The output folder "/tmp/opencode/storytime-covers-adv-ZgT1TD/Desktop/print-ready/storytime/proof/l2u1" is inside "proof" (version 1). A version 3 build writes to "/tmp/opencode/storytime-covers-adv-ZgT1TD/Desktop/print-ready/storytime/proof-v3" or to another folder.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+Level 2 Unit 1 (Storytime Advantage, Level 2, Unit 1, Student Book): the panel field "decodable" has no data from the approved sources (D12); the print build stops.
+The output folder "/tmp/opencode/storytime-covers-Qxc8Mz/Desktop/print-ready/storytime/proof/l2u1" is inside "proof" (version 1). A version 3 build writes to "/tmp/opencode/storytime-covers-Qxc8Mz/Desktop/print-ready/storytime/proof-v3" or to another folder.
+Storytime Advantage, Level 1, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 1, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 1, Student Book: the picture file is missing: content/storytime/covers/missing-cast.png
+Storytime Advantage, Level 2, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 2, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 3, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 1, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 2, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 3, Student Book: the row holds no panel with the five fields (D11).
+Storytime Advantage, Level 4, Unit 4, Student Book: the row holds no panel with the five fields (D11).
+Preparing worktree (detached HEAD 35729287)
+Updating files:   1% (182/13561)
+Updating files:   2% (272/13561)
+Updating files:   3% (407/13561)
+Updating files:   4% (543/13561)
+Updating files:   5% (679/13561)
+Updating files:   6% (814/13561)
+Updating files:   7% (950/13561)
+Updating files:   8% (1085/13561)
+Updating files:   9% (1221/13561)
+Updating files:   9% (1314/13561)
+Updating files:  10% (1357/13561)
+Updating files:  11% (1492/13561)
+Updating files:  12% (1628/13561)
+Updating files:  13% (1763/13561)
+Updating files:  14% (1899/13561)
+Updating files:  15% (2035/13561)
+Updating files:  16% (2170/13561)
+Updating files:  17% (2306/13561)
+Updating files:  18% (2441/13561)
+Updating files:  19% (2577/13561)
+Updating files:  20% (2713/13561)
+Updating files:  21% (2848/13561)
+Updating files:  22% (2984/13561)
+Updating files:  22% (3006/13561)
+Updating files:  23% (3120/13561)
+Updating files:  24% (3255/13561)
+Updating files:  25% (3391/13561)
+Updating files:  26% (3526/13561)
+Updating files:  27% (3662/13561)
+Updating files:  28% (3798/13561)
+Updating files:  29% (3933/13561)
+Updating files:  30% (4069/13561)
+Updating files:  31% (4204/13561)
+Updating files:  31% (4226/13561)
+Updating files:  32% (4340/13561)
+Updating files:  33% (4476/13561)
+Updating files:  34% (4611/13561)
+Updating files:  35% (4747/13561)
+Updating files:  36% (4882/13561)
+Updating files:  37% (5018/13561)
+Updating files:  38% (5154/13561)
+Updating files:  38% (5235/13561)
+Updating files:  39% (5289/13561)
+Updating files:  40% (5425/13561)
+Updating files:  41% (5561/13561)
+Updating files:  42% (5696/13561)
+Updating files:  43% (5832/13561)
+Updating files:  44% (5967/13561)
+Updating files:  45% (6103/13561)
+Updating files:  46% (6239/13561)
+Updating files:  47% (6374/13561)
+Updating files:  47% (6483/13561)
+Updating files:  48% (6510/13561)
+Updating files:  49% (6645/13561)
+Updating files:  50% (6781/13561)
+Updating files:  51% (6917/13561)
+Updating files:  52% (7052/13561)
+Updating files:  53% (7188/13561)
+Updating files:  54% (7323/13561)
+Updating files:  55% (7459/13561)
+Updating files:  56% (7595/13561)
+Updating files:  57% (7730/13561)
+Updating files:  58% (7866/13561)
+Updating files:  59% (8001/13561)
+Updating files:  60% (8137/13561)
+Updating files:  61% (8273/13561)
+Updating files:  62% (8408/13561)
+Updating files:  63% (8544/13561)
+Updating files:  64% (8680/13561)
+Updating files:  65% (8815/13561)
+Updating files:  66% (8951/13561)
+Updating files:  67% (9086/13561)
+Updating files:  68% (9222/13561)
+Updating files:  69% (9358/13561)
+Updating files:  70% (9493/13561)
+Updating files:  71% (9629/13561)
+Updating files:  72% (9764/13561)
+Updating files:  73% (9900/13561)
+Updating files:  74% (10036/13561)
+Updating files:  75% (10171/13561)
+Updating files:  76% (10307/13561)
+Updating files:  77% (10442/13561)
+Updating files:  78% (10578/13561)
+Updating files:  79% (10714/13561)
+Updating files:  80% (10849/13561)
+Updating files:  81% (10985/13561)
+Updating files:  82% (11121/13561)
+Updating files:  83% (11256/13561)
+Updating files:  84% (11392/13561)
+Updating files:  85% (11527/13561)
+Updating files:  86% (11663/13561)
+Updating files:  87% (11799/13561)
+Updating files:  88% (11934/13561)
+Updating files:  89% (12070/13561)
+Updating files:  90% (12205/13561)
+Updating files:  91% (12341/13561)
+Updating files:  92% (12477/13561)
+Updating files:  93% (12612/13561)
+Updating files:  94% (12748/13561)
+Updating files:  95% (12883/13561)
+Updating files:  96% (13019/13561)
+Updating files:  97% (13155/13561)
+Updating files:  98% (13290/13561)
+Updating files:  99% (13426/13561)
+Updating files:  99% (13493/13561)
+Updating files: 100% (13561/13561)
+Updating files: 100% (13561/13561), done.
+the requested weeks contain a duplicate
+No approved draft: /tmp/storytime-adv-p3-I9bfLZ/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf; /tmp/storytime-adv-p3-I9bfLZ/drafts/Storytime-L2-W03-Teachers-Book-TH-draft.pdf
+requested week 30 is not loaded exactly once (loaded 0 of the level)
+--weeks must be a whole number from 1 to 32, got "../x"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+  --dry-run   Print the student-book page map the build would pass and stop before it writes
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--version must be a whole number from 1 to 9007199254740991, got "0"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+  --dry-run   Print the student-book page map the build would pass and stop before it writes
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+the teacher book is Thai only (spec P6): --lang must be th, got "en"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+  --dry-run   Print the student-book page map the build would pass and stop before it writes
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+--out must be a folder inside /tmp/storytime-adv-p3-79uXNf/Desktop/print-ready/storytime, got "/tmp/storytime-adv-p3-79uXNf/elsewhere"
+
+Builds the PDF/X-1a print file of the Thai Storytime Advantage teacher book (spec FR-4):
+compileStorytimeManual (A4) in system Chrome with Paged.js (from node_modules), the text gate
+of each week against its approved draft, then make-pdfx.ts --keep-fonts --k-only. Run it under the
+heavy-job lock.
+
+Usage: npx tsx scripts/storytime/make-teacher-book-print.ts --level <n> --weeks <list> --lang th [--out <folder>] [--version <n>] [--loops] [--share]
+
+  --level     The Storytime level, a whole number from 1 to 4, e.g. 2
+  --weeks     The weeks of the book, each a whole number from 1 to 32, comma separated, e.g. 1
+  --lang      The book language: th only (spec P6; en exits 2)
+  --out       The output folder, an absolute path inside <home>/Desktop/print-ready/storytime/
+              (default: that folder)
+  --version   The version in the file name, a whole number of 1 or more (rule 12.2; default 1)
+  --drafts    The folder of the approved drafts (default ~/Desktop/primary-parity-progress/storytime/)
+  --loops     Print the draft teaching routines
+  --share     Print the draft parent-share moments
+  --dry-run   Print the student-book page map the build would pass and stop before it writes
+
+Output files in the folder:
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>_PDFX-1a.pdf   the print file
+  Storytime-Advantage-L<n>-U<u>-Teachers-Book-TH-v<n>-chrome.pdf    the Chrome PDF (text gate source)
+  text-gate-v<n>.txt                                                the text gate report
+  text-gate-v<n>-h1.md                                              the report with a reason class for each difference (A-48 H1)
+
+The text gate: for each week, the pdftotext -layout text of the Chrome PDF of that week (the
+build Chrome PDF when the book has one week) against Storytime-L<n>-W<NN>-Teachers-Book-TH-draft.pdf.
+draft line. A difference does not stop the build; the files and the report are written.
+
+Exit code 0 when every file is written, the text gate gives 0 differences, and the PDF/X
+checks pass. Exit code 1 when a week does not parse, a draft is missing, a page is not A4, a
+font is not embedded or is Type 3, the copy rule fails (CEFR, Pre-A1, Starters, Reading A-Z),
+the PDF/X checks fail, or the text gate gives a difference. Exit code 2 on an argument error,
+on --lang en, when an output file exists already (use a new --version), or when an output path
+is a symbolic link or resolves outside the print folder.
+No approved draft: /tmp/storytime-adv-p3-wnnmCg/drafts/Storytime-L2-W01-Teachers-Book-TH-draft.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-ILWELa/Desktop/print-ready/storytime/tb/Storytime-Advantage-L2-U1-Teachers-Book-TH-v1-chrome.pdf
+--out must not be a symbolic link: /tmp/storytime-b-p3-01-PCt1yZ/Desktop/print-ready/storytime/tb/text-gate-v1.txt
+Unknown argument: --unknown
+
+Makes the office-print PDF of a Storytime Advantage teacher's book: A4, laid out by Paged.js
+(from node_modules) in system Chrome (track storytime_week_package_20261022). It prints the check
+report of every week first.
+
+Usage: npx tsx scripts/storytime/make-manual-pdf.ts (--level <n> | --file <week.json>...) [--lang th|en] [--out <file.pdf>] [--loops] [--share] [--book-pages]
+
+  --level   Every week file of content/storytime/l<n>/
+  --file    One week file (repeat for more), e.g. a test week
+  --lang    The book language (default th)
+  --out     Output file (default ~/Desktop/print-ready/storytime/Storytime-Advantage-Level-<n>-Teachers-Book-<LANG>.pdf)
+  --loops   Print the draft teaching routines
+  --share   Print the draft parent-share moments
+  --book-pages   Print the unit page list of the student book, as the teacher-book build does (default off)
+
+Run it under the heavy-job lock: flock ~/Desktop/primary-parity-progress/heavy.lock npx tsx ...
+Exit code 1 when a week does not parse, a page is not A4, or a font is not embedded. A failed
+design check is reported, but the book is still made, so that a draft week can be read on paper.
+
+ Test Files  80 passed (80)
+      Tests  2002 passed (2002)
+   Start at  02:47:43
+   Duration  353.43s (transform 1.83s, setup 2.52s, import 8.22s, tests 323.36s, environment 12.30s)
+
+EXIT=0
+THAI_DROPPED_LINES=4
+HEAD=71721e0dccd84b12d264f71c0bcdd46e5b0f1178

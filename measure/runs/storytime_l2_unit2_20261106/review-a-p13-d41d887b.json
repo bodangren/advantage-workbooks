@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "phase": "P1/P3",
+  "phase_base_sha": "c9192a0672a577e0838b346e6fd81c5ff2846009",
+  "role_base_sha": "71721e0dccd84b12d264f71c0bcdd46e5b0f1178",
+  "audited_head_sha": "d41d887b8f37970a1286eaedfae9641c01896305",
+  "status": "inconclusive",
+  "summary": "Phase 1: not audited at the requested head. Phase 3: not audited at the requested head. The audited-head prerequisite failed because the checkout is already at the acceptance-record commit.",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "evidence": [
+    "The requested audited commit is d41d887b8f37970a1286eaedfae9641c01896305.",
+    "HEAD at role start is 71721e0dccd84b12d264f71c0bcdd46e5b0f1178.",
+    "The difference from the requested commit is one added file, measure/runs/storytime_l2_unit2_20261106/phase-acceptance-p1p3-r2-d41d887b.json.",
+    "Phase 3 base is 4e32c3f62720ec168cc09e1034488a619ad9e484. The earlier Phase 1 and 3 structural verdicts stay unchanged; this result does not extend them to a new audited head.",
+    "The first command verified the Thai filter. No week data was read."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse d41d887b",
+    "git log -4 --oneline; git diff --name-status d41d887b..HEAD",
+    "git rev-parse c9192a06; git rev-parse 4e32c3f6"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/review-a-p13-d41d887b.json"
+  ],
+  "test_strategy_violations": [],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "escalate_human",
+  "confidence": "high",
+  "route": "unknown"
+}
