@@ -5,6 +5,6 @@
 - [ ] Primary levels 5-9 workbook lessons (Quest 5, 6.1, 6.2, Adventure 7.1-9.3) and 50-article online banks per book (waits: Daniel level approval, Drive package sent)
 - [ ] Primary injector: lesson packages verified in the live Primary database (task C10) (waits: Daniel production database credential, read-only check)
 - [x] Origins 3.1 Teacher's Manual for the new Primary app, A4 PDF
-- [ ] Book covers from data: cover kit, web PNGs and PDF/X-1a print files
+- [ ] Book covers from data: cover kit, web PNGs and PDF/X-1a print files (levels 1-4 done; waits: Muse art spend for levels 5-9, Daniel Thai check of the Adventure series text)
 - [ ] Primary v2 workbook look (Chibi Quest) for levels 5-9 books
 - [ ] Print layout audit: fix vocabulary write-in column collapse in the primary template
