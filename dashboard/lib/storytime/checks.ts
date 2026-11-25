@@ -224,8 +224,8 @@ function reviewFactsFor(weekNo: number, level: number, w: StorytimeWeek, taught?
     const target = known.find((x) => x.meta.level === level && x.meta.week === weekNo);
     if (!target) {
         return {
-            graphemes: taught?.graphemes ?? LEVEL2_TAUGHT,
-            tricky: taught?.tricky ?? LEVEL2_TAUGHT,
+            graphemes: [...(taught?.graphemes ?? LEVEL2_TAUGHT)],
+            tricky: [...(taught?.tricky ?? LEVEL2_TAUGHT)],
             frames: REVIEW_FRAMES.map(stem),
             words: taught ? [] : incidentalWeekWords(w),
         };
