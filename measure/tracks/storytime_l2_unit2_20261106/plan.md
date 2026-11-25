@@ -295,7 +295,11 @@ _Blast radius (from `grep`, 2026-11-06): `readLevelWeeks` (`lib/storytime/files.
   - Escalated F8 and F9: tech-debt by default (cause class: a review of the test's own strength; the dry-run tests assert labels and not values, and the enriched snapshot runs HEAD modules on both roots; the independent dry run confirms the current values).
   - Late finding F17: tech-debt (Minor: the no-context fallback of the standalone review check still accepts a future sound when neither a taught set nor known weeks are given; both production callers give known weeks).
   - Done 2026-11-26: the done-when holds at 71721e0d (acceptance captures `pa13-r3-*.txt`): `PROJECT_CHECKS` exit 0 with 0 FAIL lines (16 packages); `PROJECT_TESTS` exit 0 (2002 tests); the card rows of `l2/print/u2/pictures.json` equal the card rows of the staged list (the whole list is equal, 229 rows); `git status --porcelain content/storytime/drafts` is empty. The picture SHA-256 values equal the Forge manifests (`t43-picture-copy.txt`). Evidence: automated. commit c72e98ef
-  - Phase 4 acceptance (Task 4.4) waits for the PM decision on the escalated findings F4, F8, F9, and F16 (default: tech debt).
+  - PM decision 2026-11-26 (parent orchestrator, word for word): "Default taken for the round-limit question: log the 4 open findings F4, F8, F9, F16 in measure/tech-debt.md". The 4 findings are in the track row of `measure/tech-debt.md` (written in Task 6.6, commit b47015c4; 50 lines, 0 Thai; no overflow to the archive). They do not block the Phase 4 acceptance.
+  - Late finding F4: tech-debt (PM decision 2026-11-26).
+  - Late finding F8: tech-debt (PM decision 2026-11-26).
+  - Late finding F9: tech-debt (PM decision 2026-11-26).
+  - Late finding F16: tech-debt (PM decision 2026-11-26).
 - [ ] Task 4.4: Measure - User Manual Verification 'Phase 4: Unit scope and the move' (Protocol in workflow.md). The phase has no owner gate of its own.
 
 ## Phase 5: Print build (2026-12-01 to 2026-12-08)
