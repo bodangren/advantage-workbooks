@@ -198,7 +198,7 @@ export async function main(argv: string[]): Promise<number> {
         const meta = (JSON.parse(fs.readFileSync(weekFile, 'utf8')) as { meta?: { unit?: number } }).meta;
         const unit = meta?.unit ?? 1;
         const rowsFile = unit === 1
-            ? path.join(pictureFolder, 'pictures.json')
+            ? path.join(path.dirname(pictureFolder), 'pictures.json')
             : path.join(STORYTIME_ROOT, `l${level}`, 'print', `u${unit}`, 'pictures.json');
         const count = await setBookPictures({ weekFile, pictureFolder, contentRoot: STORYTIME_ROOT, rowsFile });
         console.log(`set ${count} book pictures in ${path.relative(process.cwd(), weekFile)}`);
