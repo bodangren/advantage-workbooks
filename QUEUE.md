@@ -6,5 +6,5 @@
 - [ ] Primary injector: lesson packages verified in the live Primary database (task C10) (waits: Daniel production database credential, read-only check)
 - [x] Origins 3.1 Teacher's Manual for the new Primary app, A4 PDF
 - [ ] Book covers from data: cover kit, web PNGs and PDF/X-1a print files (levels 1-4 done; waits: Muse art spend for levels 5-9, Daniel Thai check of the Adventure series text)
-- [ ] Primary v2 workbook look (Chibi Quest) for levels 5-9 books
-- [ ] Print layout audit: fix vocabulary write-in column collapse in the primary template
+- [ ] Primary v2 workbook look (Chibi Quest) for levels 5-9 books (S1-S5, S8 done and Daniel accepted the proof; waits: S6 Quest 5 printer file needs Daniel's Quest 5 approval, the Quest 5 articles in the new database, and the Quest 5 cover)
+- [x] Print layout audit: fix vocabulary write-in column collapse in the primary template (fix a0acfc00; regression test added)

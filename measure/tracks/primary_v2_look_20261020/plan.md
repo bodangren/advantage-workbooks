@@ -168,6 +168,8 @@ _Story ref: spec.md#story-s5_
 ## Phase S6: Quest 5 printer file
 _Story ref: spec.md#story-s6_
 
+Staged 2026-11-25: S1 to S5 and S8 are done. S6 waits for its three preconditions (Daniel's approval of the Quest 5 content, the Quest 5 articles in the new database, the Quest 5 cover); the printer file has no date. S7 waits for the monorepo session through the PM. The close task waits for S6.
+
 - [ ] Task: Preconditions: Daniel approved the Quest 5 content (levels 5–9 track); the Quest 5 articles are in the new database (QR); the Quest 5 cover is ready (covers track)
 - [ ] Task: Tests (first): the project has 14 lessons, `look` `chibi-quest`, `article_url` `https://primary.reading-advantage.com/b/q5/<n>` for each lesson, and the fields `seriesName` 'Quest 5', `levelNumber` 5, and `cefrLevel` 'A1' (review A F10)
 - [ ] Task: Implement

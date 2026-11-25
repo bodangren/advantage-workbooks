@@ -19,7 +19,10 @@
 - [x] `npx vitest run` template-renderer, e2e-integration, workbook-document-wrapper (77 tests pass)
 - [x] ESLint: no TypeScript file changed
 
-## Open
+## Regression guard
+- [x] `dashboard/__tests__/vocab-table-write-in-column.test.ts` (7 tests, both looks): colgroup 42/58, fixed layout, write-in cell height, row keep; the chibi look sets no table rule of its own. One mutant (`table-layout: auto`) fails 2 tests (2026-11-25; test only, no product change)
+
+## Open (not part of the collapse fix; each needs a decision or a print preview by Daniel)
 - [ ] O1 Repeat table header on continuation pages (Paged.js hook)
 - [ ] O2 Empty Preface page (`sections/preface.ts`)
 - [ ] O3 Self-assessment page split (`sections/self-assessment.ts`)
