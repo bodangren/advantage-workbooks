@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "role": "measure-review-a-correctness",
+  "phase": "P1/P3/P4",
+  "phase_base_sha": "35729287dc615dd9688cb7ddb6179786c23b3f01",
+  "role_base_sha": "f33a49115d6991164c1ef2026f9bf91d29a394dd",
+  "audited_head_sha": "f33a49115d6991164c1ef2026f9bf91d29a394dd",
+  "status": "fail",
+  "summary": "Round 3 closes F2, F10, F11, F13, and F14. F3, F4, F8, and F9 remain partly closed. The 16 real weeks pass the independent content probe. The current production callers use the corrected paths, but the standalone review check, unknown-word check, and two test coverage gaps remain.",
+  "blocking_findings": [
+    "F3 [Blocker] partly closed | dashboard/lib/storytime/checks.ts:240-255: Both production callers now supply the known weeks, and all 941 real review cards pass with that input. However, the exported standalone check still gives the package's full taught set to a missing earlier week. The actual function accepts g on a week 15 sound card labeled week 1 when the caller supplies taught but not others. The complete-level call rejects the same card. Fix: distinguish an unverified teaching week from a verified pass. Supply the earlier teaching facts or report that the check cannot verify the card.",
+    "F4 [Blocker] partly closed | dashboard/lib/storytime/checks.ts:773-831,870-878: The new table fixes both positional examples and rejects an ordinary unknown word. All 58 real circle-picture items pass. However, pictureSoundFacts also accepts inherited object keys as facts. The actual function returns no problems for a /d/ item with dog, cat, constructor and answer dog, although constructor is absent from the table. The table also omits moon, a real picture-sort word of week 8, and has no middle facts for the week 16 picture-sort. Fix: require an own word-table entry, cover the declared picture-word domain and positions, and test unmatched distractors. The scope of picture-sort validation itself need not change."
+  ],
+  "nonblocking_findings": [
+    "F8 [Major] partly closed | dashboard/__tests__/storytime-unit2-r5.test.ts:336-373,409-452: The row loader now has a meaningful test, and the real card CLI dry run passes. The dry run returns before the loader and match report. The match test still assembles its own row list. The teacher test still compiles helper results rather than checking the maker's supplied page map. Fix: test the actual wired match and teacher-render inputs before rendering. Current source inspection confirms the intended wiring.",
+    "F9 [Major] partly closed | dashboard/__tests__/storytime-unit2-r5.test.ts:466-502: The enriched hash includes studentBookPages, A6 art references and filenames. It compares two runs of HEAD, not the phase base against HEAD. Thus a deterministic change in those inputs can still pass. The older phase-base worktree snapshot and byte comparisons remain valid for the outputs they cover. Fix: use the same enriched input measurement at 35729287 and HEAD, with production title and picture resolution options.",
+    "F15 [Minor] new, late, debt | dashboard/scripts/storytime/set-book-pictures.ts:48-65: The temporary copy changes the resolver's root-confinement contract to support a linked test tree. It also requires line-art files to exist on the linked path, although the app maker requests color files only. Keep the production confinement and color-only file contract; make the test root contain real input files instead. No incorrect delivered image was established at this head. Route to the debt or security review, not a new remediation round."
+  ],
+  "evidence": [
+    "F2 closed: check-storytime-pictures.ts:154-156 selects every expected row with --all-rows and retains the previous per-week class selection without the flag. Both targeted tests pass: strict mode names 36 absent card rows, and default mode skips the card class. The earlier Phase 2 multi-folder union contract stays valid.",
+    "F3 partly closed: taughtWeekWords at checks.ts:172-181 excludes distractors. The kind-specific sets at lines 218-225 reject the wrong card kind. check-weeks.ts:406 and make-manual-pdf.ts:108 both supply known weeks. The actual-function probe gives 941 real cards, zero problems, standaloneFutureLetter=true and completeFutureLetter=false.",
+    "F4 partly closed: the actual-function probe gives 58 circle-picture items, 10 picture-sort items, 49 distinct words, missing=[moon], and zero wrong-answer problems. phoneLastF=false and cityFirstK=false. An ordinary unknown word dqwux gives an explicit problem; unknownConstructor gives an empty problem list. The new all-real-item test at storytime-unit2-r5.test.ts:328 returns at week 8, so it does not itself exercise weeks 9 to 16; the independent probe and scope tests cover those weeks.",
+    "F8 partly closed: the new F10 cases exercise the production row loader. make-card-kit-pdf.ts:174,181 passes its actual rows to the match function. make-teacher-book-print.ts:190-191,229 supplies the unit page map to renderChromePdf, whose line 138 passes it to compileStorytimeManual. The tests do not yet bind the actual maker call arguments to their expected outputs.",
+    "F9 partly closed: the Green record reports all 157 targeted tests pass, including the nine-output phase-base snapshot. The enriched snapshot at r5.test.ts:496-502 proves sensitivity and repeatability, not equality to the base. The unit 1 committed weeks, pictures.json, pictures.md and step-map-u1.json have no diff from 35729287. The maker evidence reports no changed content after generation.",
+    "F10 closed: make-card-kit-pdf.ts:81-88 iterates units 1 through N and skips missing files. Its production caller uses that function at line 174. Both unit 3 and unit 4 row-order cases pass.",
+    "F11 closed: storytime-unit2-scope.test.ts:290-326 requires the review row for all 16 weeks and requires check-answers for teaching weeks only. Both targeted scope cases pass.",
+    "F13 closed: print-pictures.ts:51-54 reads the selected root only. The empty-card-input case passes with 193 book rows and no card rows. The corrected F1 fixture preserves the selected card input.",
+    "F14 closed for the routed path defect: set-book-pictures.ts:198-203 chooses the unit list from meta.unit and passes it to setBookPictures. The unit 1 path remains identical. The recorded F14 mutation is caught by the week 9 command test. The later concurrent content commit also contains the app pictures, but is outside this acceptance.",
+    "F15 late: the changed temporary copy path is at set-book-pictures.ts:48-65. The existing color resolver at picture-check.ts:616-631 tests existence and hash for the selected color file. The new copy path requires both files. No current wrong output was established.",
+    "Independent targeted heavy-run: r5 file 22 passed, one skipped; scope file two passed, 27 skipped; check-weeks gives 16 packages, zero failed checks and 40 warnings. F14 was excluded because the concurrent content build placed output files in the repository; its mirror fixture could link those outputs.",
+    "Round 3 Green evidence gives 157 targeted cases, 1987 project cases, exit 0 for lint and checks, and six caught mutants. The Red retry 5 evidence records 15 failing cases and the six named failing behavior classes. Retry 6 records 157 passed after the fixture correction. The plan claims and these committed captures agree.",
+    "The exact phase range contains the listed code, test, content and evidence changes. The unit 1 committed output files are unchanged. No framework-wide scripts or registry changed, and no track test-strategy.md exists.",
+    "The graph database returned no caller matches. Git grep established both checkStorytimeWeek production calls and the card row loader and setter call sites.",
+    "HEAD equaled f33a4911 at role start. Concurrent content commits advanced HEAD to c51a06c0 during review. No dashboard production or test code changed in that range. A filtered content comparison shows only books fields changed in weeks 9 to 15. The exact-commit probe uses f33a4911. The live targeted tests ran on unchanged code and unchanged teaching/check fields. This review does not accept the later head.",
+    "The first command verified the Thai filter. Week probes dropped th keys and Thai strings before use, with zero Thai characters in output. No sound-stage change-list file or teacher HTML was opened."
+  ],
+  "commands": [
+    "git rev-parse HEAD; git rev-parse f33a4911; git diff --name-status 35729287..f33a4911",
+    "git diff 7c2f6cba..f33a4911 -- dashboard/lib dashboard/scripts; git show f33a4911:<tests, plan and gate captures>",
+    "Python recursive Thai filter on the 16 committed week files piped to tsx -e; ES2022 transpilation of the actual reviewFactsFor, reviewCardTaught, pictureSoundFacts, pictureHasSound and wrongAnswers functions",
+    "HEAVY_MIN_AVAIL_MB=1500 HEAVY_PREFLIGHT_WAIT_S=5400 bash ~/Desktop/advantage-pr/scripts/jobs/heavy-run.sh -c 'cd dashboard && CI=true npx vitest run __tests__/storytime-unit2-r5.test.ts -t \"F2|F3|F4|F8|F10|F9|F13\" && CI=true npx vitest run __tests__/storytime-unit2-scope.test.ts -t \"published weeks\" && npx tsx scripts/storytime/check-weeks.ts --level 2' (exit 0; Thai-filtered output)",
+    "git diff --name-only 35729287..f33a4911 -- unit 1 week files, pictures.json, pictures.md and step-map-u1.json (no paths)",
+    "repo-graph callers graph.db and git grep for the changed production call sites",
+    "git rev-parse HEAD; git diff --name-status f33a4911..HEAD; filtered JSON comparison of committed and live week fields"
+  ],
+  "changed_files": [
+    "measure/runs/storytime_l2_unit2_20261106/review-a-p134-r3-f33a4911.json"
+  ],
+  "test_strategy_violations": [
+    "F8: the maker wiring lacks direct output assertions for the card match and teacher page map.",
+    "F9: the enriched snapshot has no phase-base comparator."
+  ],
+  "live_contract_violations": [],
+  "prod_wiring_violations": [],
+  "route_parity_violations": [],
+  "retry_recommendation": "retry_implementation",
+  "confidence": "high",
+  "route": "unknown",
+  "ratings": [
+    {"axis": "correctness", "score": 3, "evidence": "The exact-commit probe passes all 941 real review cards and 58 circle items, but the standalone future-letter and unknown-word cases still pass incorrectly."},
+    {"axis": "test_meaning", "score": 4, "evidence": "The 22 independent r5 cases pass, but the snapshot compares HEAD to HEAD at r5.test.ts:502."},
+    {"axis": "scope_discipline", "score": 4, "evidence": "The six round 3 fixes stay in the planned paths, except for the extra linked-folder adaptation at set-book-pictures.ts:48."},
+    {"axis": "evidence_quality", "score": 4, "evidence": "The exact committed data probe and targeted tests corroborate the recorded Green results."}
+  ]
+}
