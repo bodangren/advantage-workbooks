@@ -30,6 +30,9 @@ the same rule with the card rows. Every requested row with no job fails. A class
 the batch does not request prints one skip line before the summary line. The skip line reads
 "skip  <class> rows of week <N>: the batch holds no job for them".
 Skipped rows do not count in the summary. A skip line does not change the exit code.
+  --all-rows Requests every row of every requested week. This strict delivery gate keeps the
+            partial-batch contract above as its default: without the flag, a class with no job in
+            the batch is skipped. With the flag, every row is requested and a row with no job fails.
 Stage 1 is a measurement, never an approval (spec P7); it writes no file.
 
 Exit code 0 when every row passes, 1 when a row fails or a requested week does not load exactly
@@ -41,6 +44,7 @@ interface Args {
     batch: string;
     level: number;
     weeks: number[];
+    allRows: boolean;
 }
 
 /** Parses one whole-number value; throws on a value that is not a safe integer in range. */
@@ -55,15 +59,17 @@ function parseArgs(argv: string[]): Args {
     let batch: string | undefined;
     let level = 2;
     let weeks = [1];
+    let allRows = false;
     for (let i = 0; i < argv.length; i++) {
         const arg = argv[i];
         if (arg === '--batch') batch = argv[++i];
         else if (arg === '--level') level = wholeNumber(argv[++i], '--level', 1, 4);
         else if (arg === '--weeks') weeks = String(argv[++i] ?? '').split(',').map((week) => wholeNumber(week, `--weeks "${week}"`, 1, 32));
+        else if (arg === '--all-rows') allRows = true;
         else throw new Error(`unknown argument: ${arg}`);
     }
     if (!batch) throw new Error('a --batch folder is required');
-    return { batch: path.resolve(batch), level, weeks };
+    return { batch: path.resolve(batch), level, weeks, allRows };
 }
 
 /**
@@ -146,8 +152,10 @@ async function main(argv: string[]): Promise<number> {
     for (const row of bookRows) if (jobIds.has(row.id)) bookJobWeeks.add(row.week);
     for (const row of cardRows) if (jobIds.has(row.id)) cardJobWeeks.add(row.week);
     const jobWeeks = new Set<number>([...bookJobWeeks, ...cardJobWeeks]);
-    const requestedBookRows = bookRows.filter((row) => bookJobWeeks.has(row.week) || !jobWeeks.has(row.week));
-    const requestedCardRows = cardRows.filter((row) => cardJobWeeks.has(row.week) || !jobWeeks.has(row.week));
+    // The strict delivery gate asks for every row of the requested weeks, so a batch that holds
+    // only book jobs must name each missing card row (Review A F2). The default stays partial.
+    const requestedBookRows = args.allRows ? bookRows : bookRows.filter((row) => bookJobWeeks.has(row.week) || !jobWeeks.has(row.week));
+    const requestedCardRows = args.allRows ? cardRows : cardRows.filter((row) => cardJobWeeks.has(row.week) || !jobWeeks.has(row.week));
     const rows = [...requestedBookRows, ...requestedCardRows];
     if (!rows.length) {
         console.error(`no picture rows for level ${args.level} and weeks ${args.weeks.join(', ')}`);

@@ -103,7 +103,9 @@ async function main(argv: string[]): Promise<number> {
     const known = [2, 3, 4].flatMap((l) => readLevelWeeks(STORYTIME_ROOT, l)).flatMap((w) => (w.week ? [w.week] : []));
     const taught = (r: (typeof read)[number]) => (r.week ? taughtTo(known, r.week) : undefined);
     const graph = readPhonicsGraph();
-    console.log(formatPackageReports(read.map((r) => ({ ...checkStorytimeWeek(r.raw, taught(r), graph), file: path.relative(process.cwd(), r.file) }))));
+    // The known weeks let a review card use the kind-specific facts of its own teaching week
+    // instead of the taught set of the package (Review A F3).
+    console.log(formatPackageReports(read.map((r) => ({ ...checkStorytimeWeek(r.raw, taught(r), graph, known), file: path.relative(process.cwd(), r.file) }))));
     const broken = read.filter((r) => !r.week);
     if (broken.length) {
         console.error(`Not parsed: ${broken.map((r) => `${r.file} (${r.error})`).join('; ')}`);

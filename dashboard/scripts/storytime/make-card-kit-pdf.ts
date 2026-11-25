@@ -70,21 +70,20 @@ Exit code 2 on an argument error or an output folder outside the print folder; 1
 not parse, a page count misses the plan, or the PDF/X check fails.`;
 
 /**
- * Reads the picture list of a level.
- * @param level The Storytime level.
- * @returns The rows of `pictures.json`.
- */
-/**
- * The picture rows of the level: unit 1 from `print/pictures.json`, and later units from their
- * own list under `print/u<unit>/`.
+ * The picture rows of a level in unit order: unit 1 from `print/pictures.json`, then each later
+ * unit from `print/u<unit>/pictures.json`. An absent intermediate list is an empty list, so a kit
+ * can still match a picture of an earlier unit (Review A F10).
+ * @param root The content root of the storytime tree.
  * @param level The Storytime level.
  * @param unit The unit of the kit, from `meta.unit`.
- * @returns The rows of the level, unit 1 first.
+ * @returns The rows of units 1 to `unit`, in unit order.
  */
-function readPictureRows(level: number, unit: number): StorytimePictureRow[] {
-    const folder = path.join(STORYTIME_ROOT, `l${level}`, 'print');
+export function readPictureRows(root: string, level: number, unit: number): StorytimePictureRow[] {
+    const folder = path.join(root, `l${level}`, 'print');
     const files = [path.join(folder, 'pictures.json')];
-    if (unit !== 1) files.push(path.join(folder, `u${unit}`, 'pictures.json'));
+    for (let earlier = 2; earlier <= unit; earlier++) {
+        files.push(path.join(folder, `u${earlier}`, 'pictures.json'));
+    }
     return files.flatMap((file) => (fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) as StorytimePictureRow[] : []));
 }
 
@@ -172,7 +171,7 @@ async function main(argv: string[]): Promise<number> {
     }
     const kit = storytimeCardKit(parsed);
     const pictureFolder = path.join(STORYTIME_ROOT, `l${level}`, 'print', 'pictures');
-    const rows = readPictureRows(level, unit);
+    const rows = readPictureRows(STORYTIME_ROOT, level, unit);
     const { delivered, files, reasons } = storytimeDeliveredPictures(pictureFolder, rows);
 
     const a5Plan = storytimeCardPagePlan(kit.cards, 'A5');

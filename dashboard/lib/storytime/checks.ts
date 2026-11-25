@@ -10,11 +10,21 @@ const HEADINGS = Object.keys(NoteSchema.shape) as (keyof StorytimeNote)[];
 const GESTURE_SET = new Set<string>(GESTURES);
 const THAI = /[฀-๿]/;
 
-const check = (id: string, label: string, problems: string[], failStatus: CheckStatus = 'fail'): PackageCheck => ({
+/**
+ * Builds one report row. The problem strings stay on the row as an array as well as in the
+ * detail text, so a caller can name a specific problem (Review A F3 and F4).
+ * @param id The check id.
+ * @param label The check label.
+ * @param problems The problem strings, empty when the check passes.
+ * @param failStatus The status when a problem exists.
+ * @returns The report row with its problem strings.
+ */
+const check = (id: string, label: string, problems: string[], failStatus: CheckStatus = 'fail'): PackageCheck & { problems: string[] } => ({
     id,
     label,
     status: problems.length ? failStatus : 'pass',
     detail: problems.length ? problems.join('; ') : undefined,
+    problems,
 });
 
 /** Lower case, letters and digits only: "Hello, I am Nat!" and "hello i am nat" match. */
@@ -149,6 +159,8 @@ interface ReviewFacts {
     tricky: string[];
     frames: string[];
     words: string[];
+    /** False when the known weeks hold no teaching data for the card's week. */
+    known: boolean;
 }
 
 /**
@@ -160,10 +172,12 @@ interface ReviewFacts {
 function taughtWeekWords(w: StorytimeWeek): string[] {
     const items = w.check?.items ?? [];
     return [
-        ...items.flatMap((item) => [
-            ...(item.kind === 'circle-picture' ? item.pictures : item.kind === 'circle-word' ? item.words : []),
-            ...(typeof (item as { answer?: unknown }).answer === 'string' ? [(item as { answer: string }).answer] : []),
-        ]),
+        // Only the answer is taught. The other pictures and printed words are distractors.
+        ...items.flatMap((item) => {
+            if (item.kind === 'circle-picture' || item.kind === 'circle-word') return [item.answer];
+            if (item.kind === 'write-word') return [item.word];
+            return [];
+        }),
         ...(w.print?.practice ?? []).flatMap((line) => [line.pictureWord, ...(line.extraPictureWords ?? [])]),
     ].map(stem);
 }
@@ -194,17 +208,21 @@ function incidentalWeekWords(w: StorytimeWeek): string[] {
  * (Review A F3).
  * @param text The card text.
  * @param facts The teaching facts of the card's week.
+ * @param kind The card kind: sound, tricky, word, or frame.
  * @returns True when the card was taught by its week.
  */
-function reviewCardTaught(text: string, facts: ReviewFacts): boolean {
+function reviewCardTaught(text: string, facts: ReviewFacts, kind: string): boolean {
     const item = stem(text);
     if (!item) return true;
-    const graphemes = new Set(facts.graphemes.map(stem));
-    const tricky = new Set(facts.tricky.map(stem));
-    const frames = new Set(facts.frames.map(stem));
-    const words = new Set(facts.words.map(stem));
-    if (text.includes('___')) return frames.has(item);
-    return graphemes.has(item) || tricky.has(item) || words.has(item) || frames.has(item);
+    if (!facts.known) return false;
+    const sets = {
+        sound: new Set(facts.graphemes.map(stem)),
+        tricky: new Set(facts.tricky.map(stem)),
+        word: new Set(facts.words.map(stem)),
+        frame: new Set(facts.frames.map(stem)),
+    } as const;
+    if (kind in sets) return sets[kind as keyof typeof sets].has(item);
+    return Object.values(sets).some((set) => set.has(item));
 }
 
 /**
@@ -223,11 +241,17 @@ function reviewFactsFor(weekNo: number, level: number, w: StorytimeWeek, taught?
     const known = [...(others ?? []), w];
     const target = known.find((x) => x.meta.level === level && x.meta.week === weekNo);
     if (!target) {
+        // When the level is known, a missing teaching week is a data error, not permission to
+        // pass. Without other weeks, the static fallback keeps a lone check meaningful (F3).
+        if (others) {
+            return { graphemes: [], tricky: [], frames: [], words: [], known: false };
+        }
         return {
             graphemes: [...(taught?.graphemes ?? LEVEL2_TAUGHT)],
             tricky: [...(taught?.tricky ?? LEVEL2_TAUGHT)],
             frames: REVIEW_FRAMES.map(stem),
             words: taught ? [] : incidentalWeekWords(w),
+            known: true,
         };
     }
     const taughtAt = taughtTo(known, target);
@@ -240,6 +264,7 @@ function reviewFactsFor(weekNo: number, level: number, w: StorytimeWeek, taught?
             return x.meta.kind === 'review' ? frame.split(' / ') : [frame];
         }).map(stem))],
         words: [...new Set(before.flatMap(taughtWeekWords))],
+        known: true,
     };
 }
 
@@ -453,7 +478,7 @@ export function checkStorytimeWeek(input: unknown, taught?: TaughtSet, graph?: P
         for (const c of s.cards) {
             if (c.week > week) reviewProblems.push(`day ${s.day}: "${c.text}" is from week ${c.week}`);
             if (!factsByWeek.has(c.week)) factsByWeek.set(c.week, reviewFactsFor(c.week, level, w, taught, others));
-            if (!reviewCardTaught(c.text, factsByWeek.get(c.week)!)) reviewProblems.push(`day ${s.day}: "${c.text}" was not taught to week ${c.week}`);
+            if (!reviewCardTaught(c.text, factsByWeek.get(c.week)!, c.kind)) reviewProblems.push(`day ${s.day}: "${c.text}" was not taught to week ${c.week}`);
         }
     }
     checks.push(check('review', 'Review strips', reviewProblems));
@@ -731,50 +756,105 @@ function shareCheck(w: StorytimeWeek): PackageCheck {
 }
 
 /** The circle items whose answer is not one of their choices, and the sorts with a picture in two columns, as "item n: ..." lines. */
-/** The spellings that realize each level 2 phoneme. A sound in slashes names a phoneme, not a letter. */
-const PHONEME_SPELLINGS: Record<string, readonly string[]> = {
-    a: ['a'], d: ['d'], e: ['e'], f: ['f', 'ph', 'ff'], g: ['g'], h: ['h'],
-    k: ['c', 'k', 'ck'], m: ['m'], n: ['n'], o: ['o'], p: ['p'], s: ['s', 'ss'],
-    t: ['t'], z: ['z'],
+/** The explicit first and last phonemes of one picture word, with its rime when one is taught. */
+interface PictureSoundFacts {
+    first: string;
+    last: string;
+    middle?: string;
+    rime?: string;
+}
+
+/**
+ * The sound facts of every picture word used in the circle-picture and picture-sort items of
+ * weeks 1 to 16, plus the exception words of the review (Review A F4). A sound in slashes names a
+ * phoneme: city starts with /s/, phone starts with /f/ and ends with /n/, and knight starts with
+ * /n/. An unlisted word has no facts and cannot pass a sound item.
+ */
+const PICTURE_SOUNDS: Record<string, PictureSoundFacts> = {
+    ant: { first: 'a', last: 't' },
+    apple: { first: 'a', last: 'l' },
+    axe: { first: 'a', last: 's' },
+    bag: { first: 'b', last: 'g' },
+    bed: { first: 'b', last: 'd' },
+    bus: { first: 'b', last: 's' },
+    cat: { first: 'k', last: 't' },
+    city: { first: 's', last: 'i' },
+    cup: { first: 'k', last: 'p' },
+    dad: { first: 'd', last: 'd', rime: 'ad' },
+    dog: { first: 'd', last: 'g' },
+    doll: { first: 'd', last: 'l' },
+    dot: { first: 'd', last: 't', rime: 'ot' },
+    drum: { first: 'd', last: 'm' },
+    duck: { first: 'd', last: 'k' },
+    egg: { first: 'e', last: 'g' },
+    elephant: { first: 'e', last: 't' },
+    fan: { first: 'f', last: 'n', rime: 'an' },
+    fish: { first: 'f', last: 'sh' },
+    foot: { first: 'f', last: 't' },
+    girl: { first: 'g', last: 'l' },
+    goat: { first: 'g', last: 't' },
+    guitar: { first: 'g', last: 'r' },
+    hat: { first: 'h', last: 't' },
+    horse: { first: 'h', last: 's' },
+    house: { first: 'h', last: 's' },
+    knight: { first: 'n', last: 't' },
+    mango: { first: 'm', last: 'o' },
+    milk: { first: 'm', last: 'k' },
+    monkey: { first: 'm', last: 'i' },
+    mop: { first: 'm', last: 'p', rime: 'op' },
+    mouse: { first: 'm', last: 's' },
+    nest: { first: 'n', last: 't' },
+    net: { first: 'n', last: 't' },
+    nose: { first: 'n', last: 'z' },
+    octopus: { first: 'o', last: 's' },
+    ostrich: { first: 'o', last: 'ch' },
+    ox: { first: 'o', last: 's' },
+    pan: { first: 'p', last: 'n', rime: 'an' },
+    pear: { first: 'p', last: 'r' },
+    pen: { first: 'p', last: 'n' },
+    pencil: { first: 'p', last: 'l' },
+    pet: { first: 'p', last: 't' },
+    phone: { first: 'f', last: 'n' },
+    pig: { first: 'p', last: 'g' },
+    pot: { first: 'p', last: 't', rime: 'ot' },
+    sock: { first: 's', last: 'k' },
+    sofa: { first: 's', last: 'a' },
+    sun: { first: 's', last: 'n' },
+    table: { first: 't', last: 'l' },
+    ten: { first: 't', last: 'n' },
+    tiger: { first: 't', last: 'r' },
+    van: { first: 'v', last: 'n', rime: 'an' },
 };
 
-/** Explicit sound exceptions: a word whose sound is not its plain spelling (Review A F4). */
-const SOUND_EXCEPTIONS: Record<string, Record<string, boolean>> = {
-    phone: { f: true },
-    knight: { k: false },
-};
+/** The sound facts of one picture word, or undefined when the word is unknown. */
+function pictureSoundFacts(word: string): PictureSoundFacts | undefined {
+    return PICTURE_SOUNDS[word.toLowerCase().replace(/[^a-z]+/g, '')];
+}
 
 /**
  * Tells whether a picture word has the sound that a circle-picture item asks at its position.
- * A sound in slashes names a phoneme and is matched through its spellings and the explicit
- * exceptions; a sound with a leading dash is a rime.
+ * Only the explicit word table answers: no spelling guess and no position-free exception.
+ * A sound with a leading dash is a rime.
  * @param word The picture word.
  * @param sound The sound of the item.
  * @param position Where the word must hold the sound.
  * @returns True when the word holds the sound at the position.
  */
 function pictureHasSound(word: string, sound: string, position: 'first' | 'middle' | 'last'): boolean {
+    const facts = pictureSoundFacts(word);
+    if (!facts) return false;
     const token = sound.trim().replace(/^\/+|\/+$/g, '').toLowerCase();
     if (!token) return false;
-    const text = word.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
-    if (!text) return false;
-    const exception = SOUND_EXCEPTIONS[text]?.[token];
-    if (exception !== undefined) return exception;
     if (token.startsWith('-')) {
         const rime = token.slice(1);
         if (!rime) return false;
-        if (position === 'last') return text.endsWith(rime);
-        if (position === 'first') return text.startsWith(rime);
-        return text.includes(rime) && !text.startsWith(rime) && !text.endsWith(rime);
+        if (position === 'last') return facts.rime === rime || facts.last === rime;
+        if (position === 'first') return facts.first === rime;
+        return facts.middle === rime;
     }
-    const spellings = PHONEME_SPELLINGS[token] ?? [token];
-    if (position === 'last') return spellings.some((g) => text.endsWith(g));
-    if (position === 'first') {
-        // A silent-k word does not start with /k/, whatever its first letter spells.
-        if (token === 'k' && text.startsWith('kn')) return false;
-        return spellings.some((g) => text.startsWith(g));
-    }
-    return spellings.some((g) => text.includes(g) && !text.startsWith(g) && !text.endsWith(g));
+    if (position === 'first') return facts.first === token;
+    if (position === 'last') return facts.last === token;
+    return facts.middle === token;
 }
 
 function wrongAnswers(items: StorytimeCheckItem[]): string[] {
@@ -788,6 +868,8 @@ function wrongAnswers(items: StorytimeCheckItem[]): string[] {
         const choices = item.kind === 'circle-picture' ? item.pictures : item.words;
         const problems = choices.includes(item.answer) ? [] : [`item ${i + 1}: "${item.answer}" is not one of ${choices.join(', ')}`];
         if (item.kind === 'circle-picture') {
+            const unknown = item.pictures.filter((word) => !pictureSoundFacts(word));
+            if (unknown.length) problems.push(`item ${i + 1}: unknown picture word ${unknown.join(', ')}`);
             const position = item.position ?? 'first';
             const right = item.pictures.filter((word) => pictureHasSound(word, item.sound, position));
             if (right.length !== 1) problems.push(`item ${i + 1}: ${right.length} pictures have ${item.sound} at the ${position}`);

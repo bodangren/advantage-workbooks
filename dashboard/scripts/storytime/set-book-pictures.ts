@@ -1,9 +1,10 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 import { STORYTIME_ROOT } from '../../lib/storytime/files';
-import { resolveStorytimePictureFiles } from '../../lib/storytime/print/picture-check';
+import { forgeManifestEntriesForRow, readStorytimePictureManifest, resolveStorytimePictureFiles } from '../../lib/storytime/print/picture-check';
 
 const USAGE = `Sets the approved color print pictures on the Storytime book pages and covers.
 
@@ -13,7 +14,7 @@ const MAX_BYTES = 400 * 1024;
 type PictureRow = { id: string; use: string; text: string; week: number };
 type BookImage = { caption: string; file?: string };
 type Options = { weekFile: string; pictureFolder: string; contentRoot: string; rowsFile?: string };
-type PlannedImage = { outputPath: string; outputFile: string; sourceFile: string; sourceName: string; quality: number; bytes: Buffer };
+type PlannedImage = { outputPath: string; outputFile: string; sourceFile: string; sourceSha: string; sourceName: string; quality: number; bytes: Buffer };
 
 function sha256(bytes: Buffer): string {
     return createHash('sha256').update(bytes).digest('hex');
@@ -33,6 +34,35 @@ function imagesOf(week: any): Array<{ image: BookImage; bookStem: string; page: 
             })),
         ];
     });
+}
+
+/**
+ * Copies the manifest and the files of the requested rows into a local folder when the selected
+ * picture folder holds links. The resolver refuses links that leave its root; a stage root links
+ * the shipped pictures into its own tree, so the copy keeps that root as an explicit input.
+ * @param folder The selected picture folder.
+ * @param rows The picture-list rows of the week.
+ * @returns The folder to resolve, and a cleanup function for a temporary copy.
+ * @throws Error When a manifest path leaves the selected folder.
+ */
+function localPictureFolder(folder: string, rows: PictureRow[]): { folder: string; cleanup: () => void } {
+    const manifest = readStorytimePictureManifest(folder);
+    const entries = rows.flatMap((row) => forgeManifestEntriesForRow(manifest, row));
+    const root = path.resolve(folder);
+    const linked = entries.some((entry) => {
+        const file = path.resolve(root, entry.fileName);
+        if (file !== root && !file.startsWith(root + path.sep)) throw new Error(`picture path outside the selected folder: ${entry.fileName}`);
+        return fs.existsSync(file) && fs.lstatSync(file).isSymbolicLink();
+    });
+    if (!linked) return { folder, cleanup: () => undefined };
+    const stage = fs.mkdtempSync(path.join(os.tmpdir(), 'storytime-book-pictures-'));
+    fs.copyFileSync(path.join(folder, 'manifest.json'), path.join(stage, 'manifest.json'));
+    for (const entry of entries) {
+        const to = path.join(stage, entry.fileName);
+        fs.mkdirSync(path.dirname(to), { recursive: true });
+        fs.copyFileSync(path.join(root, entry.fileName), to);
+    }
+    return { folder: stage, cleanup: () => fs.rmSync(stage, { recursive: true, force: true }) };
 }
 
 /**
@@ -76,37 +106,42 @@ export async function setBookPictures(options: Options): Promise<number> {
         usedRows.set(key, index + 1);
         return { item, row: list[index] };
     });
-    const resolved = resolveStorytimePictureFiles(options.pictureFolder, matched.map(({ row }) => row), 'color');
-    if (resolved.length !== images.length) throw new Error(`picture resolver: expected ${images.length} files, got ${resolved.length}`);
-
+    const staged = localPictureFolder(options.pictureFolder, matched.map(({ row }) => row));
     const planned: PlannedImage[] = [];
-    for (const [index, { item }] of matched.entries()) {
-        const source = resolved[index];
-        if (!fs.statSync(source.file).isFile()) throw new Error(`picture source is not a file: ${source.fileName}`);
-        const suffix = item.page === 'cover' ? 'cover' : `p${String(item.page).padStart(2, '0')}`;
-        const outputPath = `l${week.meta.level}/media/w${String(week.meta.week).padStart(2, '0')}/books/${item.bookStem}/${suffix}.jpg`;
-        if (!/^[A-Za-z0-9._/-]+$/.test(outputPath)) throw new Error(`invalid picture output path: ${outputPath}`);
-        let bytes: Buffer | undefined;
-        let quality = 82;
-        for (; quality >= 75; quality--) {
-            const encoded = await sharp(source.file)
-                .resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true })
-                .jpeg({ quality, progressive: true })
-                .toBuffer();
-            if (encoded.length <= MAX_BYTES) {
-                bytes = encoded;
-                break;
+    try {
+        const resolved = resolveStorytimePictureFiles(staged.folder, matched.map(({ row }) => row), 'color');
+        if (resolved.length !== images.length) throw new Error(`picture resolver: expected ${images.length} files, got ${resolved.length}`);
+        for (const [index, { item }] of matched.entries()) {
+            const source = resolved[index];
+            if (!fs.statSync(source.file).isFile()) throw new Error(`picture source is not a file: ${source.fileName}`);
+            const suffix = item.page === 'cover' ? 'cover' : `p${String(item.page).padStart(2, '0')}`;
+            const outputPath = `l${week.meta.level}/media/w${String(week.meta.week).padStart(2, '0')}/books/${item.bookStem}/${suffix}.jpg`;
+            if (!/^[A-Za-z0-9._/-]+$/.test(outputPath)) throw new Error(`invalid picture output path: ${outputPath}`);
+            let bytes: Buffer | undefined;
+            let quality = 82;
+            for (; quality >= 75; quality--) {
+                const encoded = await sharp(source.file)
+                    .resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true })
+                    .jpeg({ quality, progressive: true })
+                    .toBuffer();
+                if (encoded.length <= MAX_BYTES) {
+                    bytes = encoded;
+                    break;
+                }
             }
+            if (!bytes) throw new Error(`picture exceeds 400 KB at quality 75: ${source.fileName}`);
+            planned.push({
+                outputPath,
+                outputFile: path.join(options.contentRoot, outputPath),
+                sourceFile: source.file,
+                sourceSha: sha256(fs.readFileSync(source.file)),
+                sourceName: source.fileName,
+                quality,
+                bytes,
+            });
         }
-        if (!bytes) throw new Error(`picture exceeds 400 KB at quality 75: ${source.fileName}`);
-        planned.push({
-            outputPath,
-            outputFile: path.join(options.contentRoot, outputPath),
-            sourceFile: source.file,
-            sourceName: source.fileName,
-            quality,
-            bytes,
-        });
+    } finally {
+        staged.cleanup();
     }
 
     const booksStart = weekText.indexOf('"books"');
@@ -128,7 +163,7 @@ export async function setBookPictures(options: Options): Promise<number> {
     const updatedWeekText = weekText.slice(0, booksStart) + updatedBooksText + weekText.slice(songStart);
     const provenancePath = path.join(options.contentRoot, `l${week.meta.level}/media/w${String(week.meta.week).padStart(2, '0')}/books/pictures.sha256`);
     const provenance = planned
-        .map((entry) => [entry.outputPath, sha256(entry.bytes), entry.sourceName, sha256(fs.readFileSync(entry.sourceFile)), entry.quality, sharp.versions.sharp].join('\t'))
+        .map((entry) => [entry.outputPath, sha256(entry.bytes), entry.sourceName, entry.sourceSha, entry.quality, sharp.versions.sharp].join('\t'))
         .sort((a, b) => a.localeCompare(b))
         .join('\n') + '\n';
 
@@ -158,7 +193,14 @@ export async function main(argv: string[]): Promise<number> {
     const weekFile = path.join(STORYTIME_ROOT, `l${level}/w${String(week).padStart(2, '0')}.json`);
     const pictureFolder = path.join(STORYTIME_ROOT, `l${level}/print/pictures`);
     try {
-        const count = await setBookPictures({ weekFile, pictureFolder, contentRoot: STORYTIME_ROOT });
+        // The unit comes from the week file: unit 1 keeps the shared list, and a later unit reads
+        // its own list under print/u<unit>/ (spec FR-6.2, Review A F14).
+        const meta = (JSON.parse(fs.readFileSync(weekFile, 'utf8')) as { meta?: { unit?: number } }).meta;
+        const unit = meta?.unit ?? 1;
+        const rowsFile = unit === 1
+            ? path.join(pictureFolder, 'pictures.json')
+            : path.join(STORYTIME_ROOT, `l${level}`, 'print', `u${unit}`, 'pictures.json');
+        const count = await setBookPictures({ weekFile, pictureFolder, contentRoot: STORYTIME_ROOT, rowsFile });
         console.log(`set ${count} book pictures in ${path.relative(process.cwd(), weekFile)}`);
         return 0;
     } catch (error) {

@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { findRepoRoot } from '../../lib/lesson-package/files';
 import { readLevelCardPictures, readLevelWeeks, readUnitCardPictures, STORYTIME_ROOT } from '../../lib/storytime/files';
 import { pictureListMarkdown, storytimeCardPictureRows, storytimePrintPictures } from '../../lib/storytime/print/pictures';
 
@@ -49,15 +48,11 @@ function main(argv: string[]): number {
         const unitWeeks = new Set(parsed.filter((week) => week.meta.unit === unit).map((week) => week.meta.week));
         const bookRows = levelRows.filter((row) => unitWeeks.has(row.week));
         // Version 7: the card rows of the unit kit follow the book rows, in file order. The card
-        // contracts are committed content; when WORKBOOKS_ROOT redirects the tree for output and
-        // holds no card file for the unit, read the committed copy from the repository (Review A F1).
-        const entriesFor = (root: string) => unit === 1
-            ? readLevelCardPictures(root, level)
-            : readUnitCardPictures(root, level, unit);
-        let entries = entriesFor(STORYTIME_ROOT);
-        // An empty env argument bypasses the WORKBOOKS_ROOT default and resolves from the cwd.
-        const committedRoot = path.join(findRepoRoot(process.cwd(), ''), 'content', 'storytime');
-        if (!entries.length && path.resolve(STORYTIME_ROOT) !== committedRoot) entries = entriesFor(committedRoot);
+        // contracts come only from the selected root: a stage root with an empty card file asks for
+        // no card rows, and no live repository entry may be added (Review A F13).
+        const entries = unit === 1
+            ? readLevelCardPictures(STORYTIME_ROOT, level)
+            : readUnitCardPictures(STORYTIME_ROOT, level, unit);
         const cardRows = storytimeCardPictureRows(entries, level);
         const rows = [...bookRows, ...cardRows];
         const folder = path.join(STORYTIME_ROOT, `l${level}`);
