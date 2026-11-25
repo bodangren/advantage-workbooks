@@ -6,6 +6,7 @@ Track: `primary_injector_20261001`
 
 - [x] Legacy, new, and Tutor field inventory → `docs/content-plans/primary-db-field-map.md` (from the code)
 - [~] JSON shapes of `sentences`, `words`, the translations, and the flashcard rows: from the code (types and generators); the read-only production samples wait for Daniel's decision on database access
+    - 2026-11-25 (queue item 6): the shapes are in `docs/content-plans/primary-db-field-map.md` v1.4. The read-only check of the live database needs the production credential, and the field map says an agent never reads that secret. It waits for Daniel's decision (gate). The bucket-only check of the 1500 objects in the 9 inject logs needs no secret and stays open.
 
 ## Phase 2: Contract and tests
 
