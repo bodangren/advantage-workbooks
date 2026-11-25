@@ -1,0 +1,41 @@
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.12 /home/daniebo/Desktop/Workbooks/dashboard
+
+ ❯ __tests__/storytime-teacher-keep-with-next.test.ts (3 tests | 1 failed) 9596ms
+     × unit 2 (weeks 9 to 16): no page holds only a day heading and the lesson-start box 5275ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  __tests__/storytime-teacher-keep-with-next.test.ts > Storytime teacher book keep-with-next (Task 5.0) > unit 2 (weeks 9 to 16): no page holds only a day heading and the lesson-start box
+AssertionError: day-opening pages without a following box: page 85 (week-11-day-5); page 116 (week-12-day-5); page 176 (week-14-day-5); page 207 (week-15-day-5): expected [ 'page 85 (week-11-day-5)', …(3) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "page 85 (week-11-day-5)",
++   "page 116 (week-12-day-5)",
++   "page 176 (week-14-day-5)",
++   "page 207 (week-15-day-5)",
++ ]
+
+ ❯ __tests__/storytime-teacher-keep-with-next.test.ts:131:89
+    129|         expect(rendered.totalPages, 'unit 2 teacher book page count').…
+    130|         const names = orphanNames(rendered.orphans);
+    131|         expect(names, `day-opening pages without a following box: ${na…
+       |                                                                                         ^
+    132|     }, 600_000);
+    133|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  01:52:00
+   Duration  10.35s (transform 220ms, setup 34ms, import 316ms, tests 9.60s, environment 299ms)
+
