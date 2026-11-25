@@ -1,0 +1,9 @@
+Task 4.1 retry 3 (Red, small; role base f10b34f2; phase base 35729287).
+
+Thai filter first: Thai-free copies of content/storytime/l2/w01..w16.json to a temp folder (Thai count of the output 0). The role read only the copies. This file holds 0 Thai characters.
+
+Fix (Green round 2 report green-4.2-r2-blocked-redretry.txt): the two F3 cases in dashboard/__tests__/storytime-unit2-phase4.test.ts took their template card from raw.review[0].cards[0] of w01.json, but w01 review day 1 holds 0 cards (day counts 0,4,5,0,0). Both cases now take the template from the first review day that holds cards (`raw.review.find((s) => s.cards.length)?.cards[0]`) and keep the intent: a week 1 card with a letter taught only later fails; a '___' card that matches no taught frame fails; the review row must exist.
+
+Green's uncommitted code under dashboard/lib and dashboard/scripts was present during the run and was not touched, staged, or reverted.
+
+Gate (one heavy-run, only the phase4 file): exit 0; 22 passed of 22. The 2 fixed F3 cases pass with Green's code present. ESLint on the file exits 0.
