@@ -35,8 +35,9 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [x] **Track: Print-ready PDF/X-1a for the printer: real fonts, no transparency, and a convert-and-check command.** *(Completed: 2026-10-02)*
   *Link: [./archive/print_ready_pdf_20261002/](./archive/print_ready_pdf_20261002/)*
 
-- [~] **Track: Print layout audit: vocabulary write-in column collapse and other Paged.js page-break defects in the primary template.** *(Created: 2026-10-01)*
-  *Link: [./tracks/print_layout_audit_20261001/](./tracks/print_layout_audit_20261001/)*
+- [x] **Track: Print layout audit: vocabulary write-in column collapse and other Paged.js page-break defects in the primary template.** *(Completed: 2026-11-26)*
+  *Link: [./archive/print_layout_audit_20261001/](./archive/print_layout_audit_20261001/)*
+  *Note: Closed by PM 2026-11-26: all tasks closed, fix in template a0acfc00 and regression test 8fac03e5*
 
 - [x] **Track: Lesson packages: one checked file per lesson with every asset (task C7 of the Origins 3.2 plan).** *(Completed: 2026-10-20)*
   *Link: [./archive/lesson_packages_20261001/](./archive/lesson_packages_20261001/)*
