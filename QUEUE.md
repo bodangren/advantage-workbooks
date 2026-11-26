@@ -1,4 +1,4 @@
-- [ ] Storytime L2 unit 1 week 1 (w01): confirm it is live for customers (ship 2026-11-25)
+- [x] Storytime L2 unit 1 week 1 (w01): live since 2026-11-26 (PM); read-only check 2026-11-27: the host answers and the week pages sit behind sign-in, so w01 content is not seen without a sign-in
 - [x] Storytime L2 unit 1 release-1 print files: student book, teacher book, readers, covers, card kit (PDF/X-1a) ready for the print order
 - [ ] Storytime L2 unit 2 (weeks 9 to 16): week texts, picture list, print-ready 2026-12-08 (Thai approved 11-25; proof v1 built; waits: PM print audit of proof v1, Daniel's proof approval, cover go, audio listen check, app clip go)
 - [ ] Storytime song videos w02 to w07: Forge cast re-render with slide motion for w04 and w07 (waits: Forge cast art)
