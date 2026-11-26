@@ -1,0 +1,11 @@
+{
+  "track_id": "reading_content_tags_20261127",
+  "type": "feature",
+  "status": "planned",
+  "created_at": "2026-11-27T00:00:00Z",
+  "updated_at": "2026-11-27T00:00:00Z",
+  "description": "Reading app upgrade content (QUEUE.md item 9; plan 2026-11-26-reading-app-upgrade-plan.md section 4.7, decision D3): the Primary package schema, the tag export, and the lesson checks accept the adult Reading ids AR and AL from the published key reading-objectives-l1-6.json; a question-bank lint for Reading article packages; the tag-only pass plan for printed Reading Advantage Origins 2; and the legacy library prune proposal.",
+  "estimated_tasks": 22,
+  "actual_tasks": 0,
+  "deviation_notes": "Planning only on 2026-11-27: no code run. Default taken by the PM order: the D3 key is published by Mastery on 2026-11-26, so item 9 does not wait. The tag fields (targetObjectives, supportingObjectives, glossedNodes, objectives per question) already exist in dashboard/lib/lesson-package/schema.ts; the work is the AR and AL id acceptance and the Reading bank rule."
+}
